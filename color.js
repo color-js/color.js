@@ -1,15 +1,38 @@
 {
 
 let _  = self.Color = class Color {
+	// Signatures:
+	// new Color(stringToParse)
+	// new Color(otherColor)
+	// new Color(coords, alpha) // defaults to sRGB
 	constructor(colorSpaceId, coords, alpha = 1) {
-		if (Array.isArray(colorSpaceId)) {
-			// No colorSpace provided, default to sRGB
-			[colorSpaceId, coords, alpha] = ["sRGB", colorSpaceId, coords];
+		if (arguments.length === 1) {
+			let color = arguments[0];
+			if (typeof arguments[0] === "string") {
+				// Just a string provided, parse
+				color = Color.parse(arguments[0]);
+			}
+
+			if (color instanceof Color) {
+				// Color provided, clone
+				this.colorSpaceId = color.colorSpaceId;
+				this.coords = color.coords;
+				this.alpha = color.alpha;
+			}
+
+
+		}
+		else {
+			if (Array.isArray(colorSpaceId)) {
+				// No colorSpace provided, default to sRGB
+				[colorSpaceId, coords, alpha] = ["sRGB", colorSpaceId, coords];
+			}
+
+			this.colorSpaceId = colorSpaceId.toLowerCase();
+			this.coords = coords;
+			this.alpha = 1;
 		}
 
-		this.colorSpaceId = colorSpaceId.toLowerCase();
-		this.coords = coords;
-		this.alpha = 1;
 	}
 
 	get colorSpace() {
