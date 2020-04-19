@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Matrix multiplication Tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<style>
+.matrix {
+	white-space: pre;
+	font-family: Consolas, Monaco, monospace;
+}
+</style>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="https://drafts.csswg.org/css-color-4/math.js"></script>
+<!-- <script src="https://drafts.csswg.org/css-color-4/conversions.js"></script> -->
+<!-- <script src="https://drafts.csswg.org/css-color-4/utilities.js"></script> -->
+<script src="multiply-matrices.js"></script>
+<script>
+let M_lin_sRGB_to_XYZ = [
+	[0.4124564, 0.3575761, 0.1804375],
+	[0.2126729, 0.7151522, 0.0721750],
+	[0.0193339, 0.1191920, 0.9503041]
+];
+
+let M_XYZ_to_lin_sRGB = [
+	[3.2404542, -1.5371385, -0.4985314],
+	[-0.9692660, 1.8760108, 0.0415560],
+	[0.0556434, -0.2040259, 1.0572252]
+];
+
+function matrixToString(M) {
+	if (Array.isArray(M)) {
+		if (Array.isArray(M[0])) {
+			return M.map(x => x.join("\t")).join("\n");
+		}
+		else {
+			return M.join("\t");
+		}
+	}
+
+	return M;
+}
+
+function matrixHTML(M) {
+	return `<div class="matrix">${matrixToString(M)}</div>`;
+}
+
+function refMultiply(A, B) {
+	return math.multiply(math.matrix(A), math.matrix(B)).valueOf()
+}
+
+function reftest(A, B) {
+	let ref, test;
+
+	try {
+		ref = matrixHTML(refMultiply(A, B))
+	}
+	catch (e) {
+		ref = e
+	}
+
+	try {
+		test = matrixHTML(multiplyMatrices(A, B))
+	}
+	catch (e) {
+		test = e
+	}
+
+	document.currentScript.after(
+		$.create("td", { innerHTML: ref }),
+		$.create("td", { innerHTML: test})
+	);
+}
+</script>
+
+</head>
+<body>
+
+<h1>Matrix multiplication Tests</h1>
+
+<section>
+	<h1>Basic 3x3 and vectors</h1>
+	<table class="reftest">
+		<thead>
+			<tr>
+				<th>math.js</th>
+				<th>multiplyMatrices()</th>
+			</tr>
+		</thead>
+		<tr title="3x3 matrix with vector">
+			<script>reftest(M_lin_sRGB_to_XYZ, [1, .5, 0])</script>
+		</tr>
+		<tr title="3x3 matrix with itself">
+			<script>
+				reftest(M_lin_sRGB_to_XYZ, M_lin_sRGB_to_XYZ);;
+			</script>
+		</tr>
+		<tr title="Vector with vector">
+			<script>
+				reftest([1, 2, 3], [1, .5, 0]);;
+			</script>
+		</tr>
+		<tr title="3x3 matrix with vector">
+			<script>
+				reftest(M_XYZ_to_lin_sRGB, [1, .5, 0]);;
+			</script>
+		</tr>
+		<tr title="3x3 matrix with itself">
+			<script>
+				reftest(M_XYZ_to_lin_sRGB, M_XYZ_to_lin_sRGB);;
+			</script>
+		</tr>
+		<tr title="3x3 matrix with other 3x3 matrix">
+			<script>
+				reftest(M_XYZ_to_lin_sRGB, M_lin_sRGB_to_XYZ);;
+			</script>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>Incorrect data</h1>
+
+	<table class="reftest">
+		<thead>
+			<tr>
+				<th>math.js</th>
+				<th>multiplyMatrices()</th>
+			</tr>
+		</thead>
+		<tr title="Incompatible dimensions (matrix &times; matrix)">
+			<script>
+				reftest([[1], [3]], [[1, 2], [3, 4]]);
+			</script>
+		</tr>
+		<tr title="Incompatible dimensions (vector &times; matrix)">
+			<script>
+				reftest([1, 2, 3], [[1, 2], [3, 4]]);
+			</script>
+		</tr>
+		<tr title="Different number of elements per row">
+			<script>
+				reftest([[1, 2], [3, 4, 5]], [[1, 2], [3, 4]]);
+			</script>
+		</tr>
+		<tr title="Empty vectors">
+			<script>
+				reftest([], []);
+			</script>
+		</tr>
+	</table>
+</section>
+
+</body>
+</html>
