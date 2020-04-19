@@ -43,6 +43,12 @@ let _  = self.Color = class Color {
 		return this.colorSpace.white || _.D50;
 	}
 
+	set white(value) {
+		// Custom white point
+		Object.defineProperty(this, "white", {value, writable: true});
+		// FIXME Should we do color adaptation of the current coords?
+	}
+
 	get XYZ() {
 		if (this.colorSpaceId.toLowerCase() === "xyz") {
 			return this.coords;
@@ -84,7 +90,7 @@ let _  = self.Color = class Color {
 
 		let M;
 
-		if (W1 === _.D50 && W2 === _.D65) {
+		if (W1 === _.D65 && W2 === _.D50) {
 			M = [
 				[ 1.0478112,  0.0228866, -0.0501270],
 				[ 0.0295424,  0.9904844, -0.0170491],
@@ -135,16 +141,26 @@ let _  = self.Color = class Color {
 		let space = _.spaces[id] = arguments[0];
 
 		Object.defineProperty(_.prototype, id, {
+			// Convert coords to coords from id
 			get() {
-				if ("fromLab" in space) {
-					return space.fromLab(this.Lab);
+				// Do we have a more specific conversion function?
+				// Avoids round-tripping to & from XYZ
+				let Id = this.colorSpaceId[0].toUpperCase() + this.colorSpaceId.slice(1);
+
+				if ("from" + Id in space) {
+					// No white point adaptation, we assume the custom function takes care of it
+					return space["from" + Id](this.coords);
 				}
 
-				let coords = space.fromXYZ(this.XYZ);
+				let XYZ = this.XYZ;
 
 				if (space.white !== this.white) {
-
+					// Different white point, perform white point adaptation
+					console.log(space.white, this.white);
+					XYZ = _.chromaticAdaptation(this.white, space.white, XYZ);
 				}
+
+				let coords = space.fromXYZ(XYZ);
 
 				return coords;
 			},
@@ -287,6 +303,7 @@ Color.space({
 		green: [0, 1],
 		blue: [0, 1]
 	},
+	white: _.D65,
 	// convert an array of sRGB values in the range 0.0 - 1.0
 	// to linear light (un-companded) form.
 	// https://en.wikipedia.org/wiki/SRGB
@@ -359,6 +376,7 @@ Color.space(Object.assign({}, Color.spaces.srgb, {
 Color.space(Object.assign({}, Color.spaces.srgb, {
 	id: "prophoto",
 	name: "ProPhoto",
+	white: _.D50,
 	toLinear(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
 		return RGB.map(function (val) {
