@@ -13,14 +13,11 @@ let _  = self.Color = class Color {
 				color = Color.parse(arguments[0]);
 			}
 
-			if (color instanceof Color) {
-				// Color provided, clone
+			if (color) {
 				this.colorSpaceId = color.colorSpaceId;
 				this.coords = color.coords;
 				this.alpha = color.alpha;
 			}
-
-
 		}
 		else {
 			if (Array.isArray(colorSpaceId)) {
@@ -30,9 +27,10 @@ let _  = self.Color = class Color {
 
 			this.colorSpaceId = colorSpaceId.toLowerCase();
 			this.coords = coords;
-			this.alpha = 1;
+			this.alpha = alpha;
 		}
 
+		this.alpha = this.alpha < 1? this.alpha : 1; // this also deals with NaN etc
 	}
 
 	get colorSpace() {
@@ -156,7 +154,6 @@ let _  = self.Color = class Color {
 
 				if (space.white !== this.white) {
 					// Different white point, perform white point adaptation
-					console.log(space.white, this.white);
 					XYZ = _.chromaticAdaptation(this.white, space.white, XYZ);
 				}
 
@@ -304,6 +301,7 @@ Color.space({
 		blue: [0, 1]
 	},
 	white: _.D65,
+
 	// convert an array of sRGB values in the range 0.0 - 1.0
 	// to linear light (un-companded) form.
 	// https://en.wikipedia.org/wiki/SRGB
@@ -328,6 +326,7 @@ Color.space({
 			return 12.92 * val;
 		});
 	},
+
 	toXYZ_M: [
 		[0.4124564,  0.3575761,  0.1804375],
 		[0.2126729,  0.7151522,  0.0721750],
@@ -350,6 +349,29 @@ Color.space({
 	},
 	fromXYZ(XYZ) {
 		return this.toGamma(multiplyMatrices(this.fromXYZ_M, XYZ));
+	},
+
+	parse: str => {
+		let previousColor = document.head.style.color;
+		document.head.style.color = "";
+		document.head.style.color = str;
+		let computed = getComputedStyle(document.head).color;
+		document.head.style.color = previousColor;
+
+		if (computed && /^rgba?(.+?)$/.test(computed)) {
+			let rgba = computed.match(/-?[\d.]+/g);
+
+			if (rgba) {
+				// Convert r, g, b to 0-1 range
+				rgba = rgba.map((c, i) => i < 3? c / 255 : +c);
+
+				return {
+					colorSpaceId: "srgb",
+					coords: rgba.slice(0, 3),
+					alpha: rgba[3]
+				};
+			}
+		}
 	}
 });
 
