@@ -138,6 +138,16 @@ let _  = self.Color = class Color {
 	static space({id, coords}) {
 		let space = _.spaces[id] = arguments[0];
 
+		// Make certain properties non-enumerable so that when other spaces extend this space they don't inherit them too
+		for (let prop of ["parse"]) {
+			Object.defineProperty(space, prop, {
+				value: space[prop],
+				writable: true,
+				enumerable: false,
+				configurable: true
+			});
+		}
+
 		Object.defineProperty(_.prototype, id, {
 			// Convert coords to coords from id
 			get() {
