@@ -138,6 +138,21 @@ let _  = self.Color = class Color {
 	static space({id, coords}) {
 		let space = _.spaces[id] = arguments[0];
 
+		if (space.fromLab && space.toLab && !space.fromXYZ && !space.toXYZ) {
+			// Using Lab as connection space, define from/to XYZ functions
+			Object.assign(space, {
+				// FIXME do we need white point adaptation here?
+				fromXYZ(XYZ) {
+					let Lab = Color.spaces.lab.fromXYZ(XYZ);
+					return this.fromLab(Lab);
+				},
+				toXYZ(coords) {
+					let Lab = this.toLab(coords);
+					return Color.spaces.lab.toXYZ(Lab);
+				}
+			});
+		}
+
 		// Make certain properties non-enumerable so that when other spaces extend this space they don't inherit them too
 		for (let prop of ["parse"]) {
 			Object.defineProperty(space, prop, {
@@ -274,14 +289,6 @@ Color.space({
 		hue: [],
 	},
 	white: _.D50,
-	fromXYZ(XYZ) {
-		let Lab = Color.spaces.lab.fromXYZ(XYZ);
-		return this.fromLab(Lab);
-	},
-	toXYZ(LCH) {
-		let Lab = this.toLab(LCH);
-		return Color.spaces.lab.toXYZ(Lab);
-	},
 	fromLab(Lab) {
 		// Convert to polar form
 		let hue = Math.atan2(Lab[2], Lab[1]) * 180 / Math.PI;
