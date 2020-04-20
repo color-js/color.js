@@ -5,7 +5,7 @@ let _  = self.Color = class Color {
 	// new Color(stringToParse)
 	// new Color(otherColor)
 	// new Color(coords, alpha) // defaults to sRGB
-	constructor(colorSpaceId, coords, alpha = 1) {
+	constructor (colorSpaceId, coords, alpha = 1) {
 		if (arguments.length === 1) {
 			let color = arguments[0];
 			if (typeof arguments[0] === "string") {
@@ -33,21 +33,21 @@ let _  = self.Color = class Color {
 		this.alpha = this.alpha < 1? this.alpha : 1; // this also deals with NaN etc
 	}
 
-	get colorSpace() {
+	get colorSpace () {
 		return _.spaces[this.colorSpaceId.toLowerCase()];
 	}
 
-	get white() {
+	get white () {
 		return this.colorSpace.white || _.D50;
 	}
 
-	set white(value) {
+	set white (value) {
 		// Custom white point
 		Object.defineProperty(this, "white", {value, writable: true});
 		// FIXME Should we do color adaptation of the current coords?
 	}
 
-	get XYZ() {
+	get XYZ () {
 		if (this.colorSpaceId.toLowerCase() === "xyz") {
 			return this.coords;
 		}
@@ -56,7 +56,7 @@ let _  = self.Color = class Color {
 		}
 	}
 
-	set XYZ(coords) {
+	set XYZ (coords) {
 		if (this.colorSpaceId.toLowerCase() === "xyz") {
 			this.coords = coords;
 		}
@@ -66,22 +66,22 @@ let _  = self.Color = class Color {
 	}
 
 	// 1976 DeltaE. 2.3 is the JND
-	deltaE(color) {
+	deltaE (color) {
 		let lab1 = this.lab;
 		let lab2 = color.lab;
 		return Math.sqrt([0, 1, 2].reduce((a, i) => a + (lab2[i] - lab1[i]) ** 2, 0));
 	}
 
-	luminance() {
+	luminance () {
 		return this.Y / this.white.Y;
 	}
 
-	contrast(color) {
+	contrast (color) {
 		return this.luminance / color.luminance;
 	}
 
 	// Adapt XYZ from white point W1 to W2
-	static chromaticAdaptation(W1, W2, XYZ) {
+	static chromaticAdaptation (W1, W2, XYZ) {
 		if (W1 === W2) {
 			return XYZ;
 		}
@@ -111,19 +111,40 @@ let _  = self.Color = class Color {
 		}
 	}
 
-	toString() {
+	toString () {
+		if (this.colorSpace && this.colorSpace.toString) {
+			return this.colorSpace.toString.call(this);
+		}
+		
 		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-		return `color(${this.colorSpaceId} ${this.coords.join(" ")}${strAlpha})`;
+		let id = this.colorSpace? this.colorSpace.cssId || this.colorSpace.id : "XYZ";
+		return `color(${id} ${this.coords.join(" ")}${strAlpha})`;
 	}
 
 	// CSS color to Color object
-	static parse(str) {
-		// First try colorspace-specific parsing
+	static parse (str) {
+		// First, try using the browser to parse
+		if (typeof document !== "undefined" && document.head) {
+			// We have a DOM, use it to parse colors
+			let previousColor = document.head.style.color;
+			document.head.style.color = "";
+			document.head.style.color = str;
+			let computed = getComputedStyle(document.head).color;
+			document.head.style.color = previousColor;
+
+			if (computed) {
+				str = computed;
+			}
+		}
+
+		let parsed = _.parseFunction(str);
+
+		// Try colorspace-specific parsing
 		for (let id in _.spaces) {
 			let space = _.spaces[id];
 
 			if (space.parse) {
-				let color = space.parse(str);
+				let color = space.parse(str, parsed);
 
 				if (color) {
 					return color;
@@ -131,8 +152,83 @@ let _  = self.Color = class Color {
 			}
 		}
 
-		// Parse generic color() function
-		// TODO
+		if (parsed) {
+			// It's a function
+			if (parsed.name.indexOf("rgb") === 0) {
+				let args = parsed.args.map((c, i) => i < 3 && !c.percentage? c / 255 : +c);
+
+				return {
+					colorSpaceId: "srgb",
+					coords: args.slice(0, 3),
+					alpha: args[3]
+				};
+			}
+			else if (parsed.name === "color") {
+				let colorSpaceId = parsed.args[0];
+
+				let space = Object.values(_.spaces).find(space => (space.cssId || space.id) === colorSpaceId);
+
+				if (space) {
+					let argCount = Object.keys(space.coords).length;
+
+					return {
+						colorSpaceId: space.id,
+						coords: args.slice(0, argCount),
+						alpha: args.slice(argCount)[0]
+					};
+				}
+				else {
+					throw new TypeError(`Color space ${colorSpaceId} not found. Missing a plugin?`);
+				}
+			}
+		}
+	}
+
+	static parseFunction (str) {
+		if (!str) {
+			return;
+		}
+
+		str = str.trim();
+
+		const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
+		const isNumberRegex = /^-?[\d.]+$/;
+		let parts = str.match(isFunctionRegex);
+
+		if (parts) {
+			// It is a function, parse args
+			let args = parts[2].match(/([-\w.]+(?:%|deg)?)/g);
+
+			args = args.map(arg => {
+				if (arg.indexOf("%") === arg.length - 1) {
+					// Convert percentages to 0-1 numbers
+					let n = new Number(+arg.slice(0, -1) / 100);
+					n.percentage = true;
+					return n;
+				}
+				else if (arg.indexOf("deg") === arg.length - 1) {
+					// Drop deg from degrees and convert to number
+					let n = new Number(+arg.slice(0, -3));
+					n.deg = true;
+					return n;
+				}
+				else if (isNumberRegex.test(arg)) {
+					// Convert numerical args to numbers
+					return +arg;
+				}
+
+				// Return everything else as-is
+				return arg;
+			});
+
+			return {
+				name: parts[1],
+				rawArgs: parts[2],
+				// An argument could be (as of css-color-4):
+				// a number, percentage, degrees (hue), ident (in color())
+				args
+			};
+		}
 	}
 
 	static space ({id, inherits}) {
@@ -234,6 +330,7 @@ _.defineCoordGetters("XYZ", ["X", "Y", "Z"]);
 _.spaces = {};
 _.D50 = new Color("XYZ", [0.96422, 1.00000, 0.82521]);
 _.D65 = new Color("XYZ", [0.95047, 1.00000, 1.08883]);
+_.D65.white = _.D65;
 
 Color.space({
 	id: "lab",
@@ -283,6 +380,22 @@ Color.space({
 
 		// Compute XYZ by scaling xyz by reference white
 		return xyz.map((value, i) => value * white[i]);
+	},
+	parse (str, parsed = _.parseFunction(str)) {
+		if (parsed && parsed.name === "lab") {
+			let L = parsed.args[0];
+
+			// Percentages in lab() don't translate to a 0-1 range, but a 0-100 range
+			if (L.percentage) {
+				parsed.args[0] = L * 100;
+			}
+
+			return {
+				colorSpaceId: "lab",
+				coords: parsed.args.slice(0, 3),
+				alpha: parsed.args.slice(3)[0]
+			};
+		}
 	}
 });
 
@@ -312,6 +425,22 @@ Color.space({
 			LCH[1] * Math.cos(LCH[2] * Math.PI / 180), // a
 			LCH[1] * Math.sin(LCH[2] * Math.PI / 180)  // b
 		];
+	},
+	parse (str, parsed = _.parseFunction(str)) {
+		if (parsed && parsed.name === "lch") {
+			let L = parsed.args[0];
+
+			// Percentages in lch() don't translate to a 0-1 range, but a 0-100 range
+			if (L.percentage) {
+				parsed.args[0] = L * 100;
+			}
+
+			return {
+				colorSpaceId: "lch",
+				coords: parsed.args.slice(0, 3),
+				alpha: parsed.args.slice(3)[0]
+			};
+		}
 	}
 });
 
@@ -373,28 +502,9 @@ Color.space({
 	fromXYZ(XYZ) {
 		return this.toGamma(multiplyMatrices(this.fromXYZ_M, XYZ));
 	},
-
-	parse: str => {
-		let previousColor = document.head.style.color;
-		document.head.style.color = "";
-		document.head.style.color = str;
-		let computed = getComputedStyle(document.head).color;
-		document.head.style.color = previousColor;
-
-		if (computed && /^rgba?(.+?)$/.test(computed)) {
-			let rgba = computed.match(/-?[\d.]+/g);
-
-			if (rgba) {
-				// Convert r, g, b to 0-1 range
-				rgba = rgba.map((c, i) => i < 3? c / 255 : +c);
-
-				return {
-					colorSpaceId: "srgb",
-					coords: rgba.slice(0, 3),
-					alpha: rgba[3]
-				};
-			}
-		}
+	toString () {
+		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
+		return `rgb(${this.coords.map(c => c * 100 + "%").join(" ")}${strAlpha})`;
 	}
 });
 
@@ -402,6 +512,7 @@ Color.space({
 	inherits: "srgb",
 	id: "p3",
 	name: "P3",
+	cssId: "display-p3",
 	// Gamma correction is the same as sRGB
 	// convert an array of display-p3 values to CIE XYZ
 	// using  D65 (no chromatic adaptation)
@@ -419,9 +530,11 @@ Color.space({
 	]
 });
 
-Color.space(Object.assign({}, Color.spaces.srgb, {
+Color.space({
+	inherits: "srgb",
 	id: "prophoto",
 	name: "ProPhoto",
+	cssId: "prophoto-rgb",
 	white: _.D50,
 	toLinear(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
@@ -461,6 +574,7 @@ Color.space({
 	inherits: "srgb",
 	id: "a98rgb",
 	name: "Adobe 98 RGB",
+	cssId: "a98-rgb",
 	toLinear(RGB) {
 		return RGB.map(val => Math.pow(val, 563/256));
 	},
