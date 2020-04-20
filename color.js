@@ -113,7 +113,7 @@ let _  = self.Color = class Color {
 
 	toString() {
 		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-		return `color(${this.colorSpaceId} ${this.coords.join(" ")} ${this}${strAlpha})`;
+		return `color(${this.colorSpaceId} ${this.coords.join(" ")}${strAlpha})`;
 	}
 
 	// CSS color to Color object
@@ -188,7 +188,7 @@ let _  = self.Color = class Color {
 			},
 			set(coords) {
 				if ("toLab" in space) {
-					return space.fromLab(this.Lab);
+					return space.fromLab(this.lab);
 				}
 
 				this.XYZ = space[id].toXYZ(coords);
@@ -197,10 +197,10 @@ let _  = self.Color = class Color {
 			enumerable: true
 		});
 
-		_.defineCoordGetters(Object.keys(coords));
+		_.defineCoordGetters(id, Object.keys(coords));
 	}
 
-	static defineCoordGetters(coordNames) {
+	static defineCoordGetters(id, coordNames) {
 		coordNames.forEach((coord, i) => {
 			Object.defineProperty(_.prototype, coord, {
 				get() {
@@ -223,7 +223,7 @@ let _  = self.Color = class Color {
 	}
 };
 
-_.defineCoordGetters(["X", "Y", "Z"]);
+_.defineCoordGetters("XYZ", ["X", "Y", "Z"]);
 
 _.spaces = {};
 _.D50 = new Color("XYZ", [0.96422, 1.00000, 0.82521]);
