@@ -135,8 +135,24 @@ let _  = self.Color = class Color {
 		// TODO
 	}
 
-	static space({id, coords}) {
+	static space ({id, inherits}) {
 		let space = _.spaces[id] = arguments[0];
+
+		if (inherits) {
+			const except = ["parse", "instanceProperties", "properties"];
+			let parentSpace = _.spaces[inherits];
+			for (let prop in parentSpace) {
+				if (!except.includes(prop)) {
+					space[prop] = parentSpace[prop]; // TODO copy descriptor instead
+				}
+			}
+		}
+
+		let coords = space.coords;
+
+		if (space.poperties) {
+			Object.assign(_.prototype, space.properties);  // TODO copy descriptor instead
+		}
 
 		if (space.fromLab && space.toLab && !space.fromXYZ && !space.toXYZ) {
 			// Using Lab as connection space, define from/to XYZ functions
@@ -150,16 +166,6 @@ let _  = self.Color = class Color {
 					let Lab = this.toLab(coords);
 					return Color.spaces.lab.toXYZ(Lab);
 				}
-			});
-		}
-
-		// Make certain properties non-enumerable so that when other spaces extend this space they don't inherit them too
-		for (let prop of ["parse"]) {
-			Object.defineProperty(space, prop, {
-				value: space[prop],
-				writable: true,
-				enumerable: false,
-				configurable: true
 			});
 		}
 
@@ -392,7 +398,8 @@ Color.space({
 	}
 });
 
-Color.space(Object.assign({}, Color.spaces.srgb, {
+Color.space({
+	inherits: "srgb",
 	id: "p3",
 	name: "P3",
 	// Gamma correction is the same as sRGB
@@ -410,7 +417,7 @@ Color.space(Object.assign({}, Color.spaces.srgb, {
 		[-0.8294889695615747,   1.7626640603183463,  0.023624685841943577],
 		[ 0.03584583024378447, -0.07617238926804182, 0.9568845240076872]
 	]
-}));
+});
 
 Color.space(Object.assign({}, Color.spaces.srgb, {
 	id: "prophoto",
@@ -448,9 +455,10 @@ Color.space(Object.assign({}, Color.spaces.srgb, {
 		[ -0.5446224939028347,   1.5082327413132781,    0.02053603239147973 ],
 		[  0.0,                  0.0,                   1.2119675456389454  ]
 	]
-}));
+});
 
-Color.space(Object.assign({}, Color.spaces.srgb, {
+Color.space({
+	inherits: "srgb",
 	id: "a98rgb",
 	name: "Adobe 98 RGB",
 	toLinear(RGB) {
@@ -475,9 +483,10 @@ Color.space(Object.assign({}, Color.spaces.srgb, {
 		[ -0.9692436362808795,     1.8759675015077202,    0.04155505740717557 ],
 		[  0.013444280632031142,  -0.11836239223101838,   1.0151749943912054  ]
 	]
-}));
+});
 
-Color.space(Object.assign({}, Color.spaces.srgb, {
+Color.space(Color.spaces.srgb, {
+	inherits: "srgb",
 	id: "rec2020",
 	name: "REC.2020",
 	α: 1.09929682680944,
@@ -518,6 +527,6 @@ Color.space(Object.assign({}, Color.spaces.srgb, {
 		[-0.6666843518324892,   1.6164812366349395,   0.01576854581391113],
 		[0.017639857445310783, -0.042770613257808524, 0.9421031212354738]
 	]
-}));
+});
 
 }
