@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Color parse tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<style>
+.matrix {
+	white-space: pre;
+	font-family: Consolas, Monaco, monospace;
+}
+</style>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../multiply-matrices.js"></script>
+<script src="../color.js"></script>
+<script>
+
+</script>
+
+</head>
+<body>
+
+<h1>Color parse Tests</h1>
+<p>These tests parse and then re-serialize different color formats.</p>
+
+<section>
+	<h1>sRGB colors</h1>
+	<table class="reftest" data-test="colorParse" data-columns="3">
+		<tr title="Color keyword">
+			<td>blue</td>
+			<td>rgb(0% 0% 100%)</td>
+		</tr>
+		<tr>
+			<td>transparent</td>
+			<td>rgb(0% 0% 0% / 0)</td>
+		</tr>
+		<tr title="Hex">
+			<td>#ff0066</td>
+			<td>rgb(100% 0% 40%)</td>
+		</tr>
+		<tr title="#rgba">
+			<td>#f068</td>
+			<td>rgb(100% 0% 40% / 0.533)</td>
+		</tr>
+		<tr title="rgba(% % % / a)">
+			<td>rgba(0% 50% 200% / 0.5)</td>
+			<td>rgb(0% 50% 200% / 0.5)</td>
+		</tr>
+		<tr title="rgba(n, n, n, a)">
+			<td>rgba(0, 127.5, 300, 0.5)</td>
+			<td>rgb(0% 50% 117.64705882352942% / 0.5)</td>
+		</tr>
+		<tr title="hsl(), commas">
+			<td>hsl(180, 50%, 50%)</td>
+			<td>rgb(25.098039215686274% 74.90196078431373% 74.90196078431373%)</td>
+		</tr>
+		<tr title="hsla(), degrees for hue, spaces and slash">
+			<td>hsl(0deg 0% 0% / .5)</td>
+			<td>rgb(0% 0% 0% / 0.5)</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>Lab and LCH colors</h1>
+
+	<table class="reftest" data-test="colorParse" data-columns="3">
+		<tr>
+			<td>lab(100% 0 0)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lab(100 -50 50)</td>
+			<td>lab(100% -50 50)</td>
+		</tr>
+		<tr>
+			<td>lch(100% 0 0)</td>
+			<td>lch(100% 0 0)</td>
+		</tr>
+		<tr>
+			<td>lch(100 50 50)</td>
+			<td>lch(100% 50 50)</td>
+		</tr>
+		<tr title="Hue over 360">
+			<td>lch(100 50 450)</td>
+			<td>lch(100% 50 450)</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>color()</h1>
+
+	<table class="reftest" data-test="colorParse" data-columns="3">
+		<tr>
+			<td>color(display-p3 0 .5 1)</td>
+			<td>color(display-p3 0 0.5 1)</td>
+		</tr>
+	</table>
+</section>
+
+<script>
+function colorParse(test, result, expected) {
+	var err;
+
+	try {
+		var color = new Color(test.textContent);
+		result.textContent = color + "";
+		result.color = color;
+
+		if (Test.equals(color + "", expected.textContent)) {
+			return true;
+		}
+	}
+	catch(e) {
+		result.textContent = result.color = err = e;
+	}
+
+	return err || false;
+}
+</script>
+
+</body>
+</html>

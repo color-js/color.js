@@ -11,6 +11,10 @@ let _  = self.Color = class Color {
 			if (typeof arguments[0] === "string") {
 				// Just a string provided, parse
 				color = Color.parse(arguments[0]);
+
+				if (!color) {
+					throw new TypeError(`Cannot parse ${arguments[0]}`);
+				}
 			}
 
 			if (color) {
@@ -112,10 +116,10 @@ let _  = self.Color = class Color {
 	}
 
 	toString () {
-		if (this.colorSpace && this.colorSpace.toString) {
+		if (this.colorSpace && this.colorSpace.hasOwnProperty("toString")) {
 			return this.colorSpace.toString.call(this);
 		}
-		
+
 		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
 		let id = this.colorSpace? this.colorSpace.cssId || this.colorSpace.id : "XYZ";
 		return `color(${id} ${this.coords.join(" ")}${strAlpha})`;
@@ -123,26 +127,29 @@ let _  = self.Color = class Color {
 
 	// CSS color to Color object
 	static parse (str) {
-		// First, try using the browser to parse
-		if (typeof document !== "undefined" && document.head) {
-			// We have a DOM, use it to parse colors
+		let parsed = _.parseFunction(str);
+		let isRGB = parsed && parsed.name.indexOf("rgb") === 0;
+
+		if ((!parsed || !isRGB) && typeof document !== "undefined" && document.head) {
+			// Use browser to parse when a DOM is available
+			// this is how we parse #hex or color names, or RGB transformations like hsl()
 			let previousColor = document.head.style.color;
 			document.head.style.color = "";
 			document.head.style.color = str;
-			let computed = getComputedStyle(document.head).color;
-			document.head.style.color = previousColor;
 
-			if (computed) {
-				str = computed;
+			if (document.head.style.color !== previousColor) {
+				let computed = getComputedStyle(document.head).color;
+				document.head.style.color = previousColor;
+
+				if (computed) {
+					str = computed;
+					parsed = _.parseFunction(computed);
+				}
 			}
 		}
 
-		let parsed = _.parseFunction(str);
-
 		// Try colorspace-specific parsing
-		for (let id in _.spaces) {
-			let space = _.spaces[id];
-
+		for (let space of Object.values(_.spaces)) {
 			if (space.parse) {
 				let color = space.parse(str, parsed);
 
@@ -152,9 +159,12 @@ let _  = self.Color = class Color {
 			}
 		}
 
+		// parsed might have changed, recalculate
+		isRGB = parsed && parsed.name.indexOf("rgb") === 0;
+
 		if (parsed) {
 			// It's a function
-			if (parsed.name.indexOf("rgb") === 0) {
+			if (isRGB) {
 				let args = parsed.args.map((c, i) => i < 3 && !c.percentage? c / 255 : +c);
 
 				return {
@@ -164,8 +174,7 @@ let _  = self.Color = class Color {
 				};
 			}
 			else if (parsed.name === "color") {
-				let colorSpaceId = parsed.args[0];
-
+				let colorSpaceId = parsed.args.shift();
 				let space = Object.values(_.spaces).find(space => (space.cssId || space.id) === colorSpaceId);
 
 				if (space) {
@@ -173,8 +182,8 @@ let _  = self.Color = class Color {
 
 					return {
 						colorSpaceId: space.id,
-						coords: args.slice(0, argCount),
-						alpha: args.slice(argCount)[0]
+						coords: parsed.args.slice(0, argCount),
+						alpha: parsed.args.slice(argCount)[0]
 					};
 				}
 				else {
@@ -238,7 +247,7 @@ let _  = self.Color = class Color {
 			const except = ["parse", "instanceProperties", "properties"];
 			let parentSpace = _.spaces[inherits];
 			for (let prop in parentSpace) {
-				if (!except.includes(prop)) {
+				if (!except.includes(prop) && !(prop in space)) {
 					space[prop] = parentSpace[prop]; // TODO copy descriptor instead
 				}
 			}
@@ -396,6 +405,10 @@ Color.space({
 				alpha: parsed.args.slice(3)[0]
 			};
 		}
+	},
+	toString() {
+		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
+		return `lab(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
 	}
 });
 
@@ -408,7 +421,7 @@ Color.space({
 		hue: [],
 	},
 	white: _.D50,
-	fromLab(Lab) {
+	fromLab (Lab) {
 		// Convert to polar form
 		let hue = Math.atan2(Lab[2], Lab[1]) * 180 / Math.PI;
 
@@ -418,7 +431,7 @@ Color.space({
 			(hue + 360) % 360 // Hue, in degrees [0 to 360)
 		];
 	},
-	toLab(LCH) {
+	toLab (LCH) {
 		// Convert from polar form
 		return [
 			LCH[0], // L is still L
@@ -441,6 +454,10 @@ Color.space({
 				alpha: parsed.args.slice(3)[0]
 			};
 		}
+	},
+	toString() {
+		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
+		return `lch(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
 	}
 });
 
