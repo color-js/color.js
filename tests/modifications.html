@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Color modification tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<style>
+.matrix {
+	white-space: pre;
+	font-family: Consolas, Monaco, monospace;
+}
+</style>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../multiply-matrices.js"></script>
+<script src="../color.js"></script>
+<script>
+
+</script>
+
+</head>
+<body>
+
+<h1>Color modification Tests</h1>
+<p>These tests parse different color formats and then print out the coordinates in various color spaces.</p>
+
+<section>
+	<h1>sRGB to LCH</h1>
+	<table class="reftest" data-test="fuzzyNumberTest">
+		<tr title="chroma = 13">
+			<td>
+				<script>
+					var slategray = new Color("slategray");
+					slategray.chroma = 13;
+					print(slategray.chroma);
+				</script>
+			</td>
+			<td>13</td>
+		</tr>
+		<tr title="chroma *= 1.2">
+			<td>
+				<script>
+					var slategray = new Color("slategray");
+					slategray.chroma *= 1.2;
+					print(slategray.chroma);
+				</script>
+			</td>
+			<td>13.480970445148008</td>
+		</tr>
+		<tr title="chroma *= 1.2 then print lch">
+			<td>
+				<script>
+					var slategray = new Color("slategray");
+					slategray.chroma *= 1.2;
+					print(slategray.lch);
+				</script>
+			</td>
+			<td>52.69726481080971,13.480970445148008,253.00052666481292</td>
+		</tr>
+	</table>
+</section>
+
+<script>
+function fuzzyNumberTest(test, ref) {
+	let decimals = 2;
+	test = test.textContent;
+	ref = ref.textContent;
+
+	if (test === ref) {
+		return true;
+	}
+
+	let nRegex = /(-?[\d.]+)/g;
+	let nRound = n => (+n).toFixed(decimals);
+
+	test = test.replace(nRegex, nRound);
+	ref = ref.replace(nRegex, nRound);
+	console.log(test, ref);
+	return Test.equals(test.trim(), ref.trim());
+}
+</script>
+
+</body>
+</html>

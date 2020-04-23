@@ -48,7 +48,7 @@ let _  = self.Color = class Color {
 	set white (value) {
 		// Custom white point
 		Object.defineProperty(this, "white", {value, writable: true});
-		// FIXME Should we do color adaptation of the current coords?
+		// ISSUE Should we do color adaptation of the current coords?
 	}
 
 	get XYZ () {
@@ -240,6 +240,7 @@ let _  = self.Color = class Color {
 		}
 	}
 
+	// Define a new color space
 	static space ({id, inherits}) {
 		let space = _.spaces[id] = arguments[0];
 
@@ -262,7 +263,7 @@ let _  = self.Color = class Color {
 		if (space.fromLab && space.toLab && !space.fromXYZ && !space.toXYZ) {
 			// Using Lab as connection space, define from/to XYZ functions
 			Object.assign(space, {
-				// FIXME do we need white point adaptation here?
+				// ISSUE do we need white point adaptation here?
 				fromXYZ(XYZ) {
 					let Lab = Color.spaces.lab.fromXYZ(XYZ);
 					return this.fromLab(Lab);
@@ -274,14 +275,18 @@ let _  = self.Color = class Color {
 			});
 		}
 
+		// Define getters and setters for color.colorSpaceId
+		// e.g. color.lch on *any* color gives us the lch coords
 		Object.defineProperty(_.prototype, id, {
-			// Convert coords to coords from id
+			// Convert coords to coords in another colorspace and return them
+			// Source colorspace: this.colorSpaceId
+			// Target colorspace: id
 			get() {
 				// Do we have a more specific conversion function?
 				// Avoids round-tripping to & from XYZ
 				let Id = this.colorSpaceId[0].toUpperCase() + this.colorSpaceId.slice(1);
 
-				if ("from" + Id in space) {
+				if (("from" + Id) in space) {
 					// No white point adaptation, we assume the custom function takes care of it
 					return space["from" + Id](this.coords);
 				}
@@ -297,21 +302,35 @@ let _  = self.Color = class Color {
 
 				return coords;
 			},
+			// Convert coords in another colorspace to internal coords and set them
+			// Target colorspace: this.colorSpaceId
+			// Source colorspace: id
 			set(coords) {
-				if ("toLab" in space) {
-					return space.fromLab(this.lab);
+				let Id = this.colorSpaceId[0].toUpperCase() + this.colorSpaceId.slice(1);
+
+				if (("to" + Id) in space) {
+					this[id] = space["to" + Id](coords);
+				}
+				else {
+					let XYZ = space.toXYZ(coords);
+
+					if (space.white !== this.white) {
+						// Different white point, perform white point adaptation
+						XYZ = _.chromaticAdaptation(space.white, this.white, XYZ);
+					}
+
+					this.XYZ = XYZ;
 				}
 
-				this.XYZ = space[id].toXYZ(coords);
 			},
 			configurable: true,
 			enumerable: true
 		});
 
-		_.defineCoordGetters(id, Object.keys(coords));
+		_.defineCoordAccessors(id, Object.keys(coords));
 	}
 
-	static defineCoordGetters(id, coordNames) {
+	static defineCoordAccessors(id, coordNames) {
 		coordNames.forEach((coord, i) => {
 			Object.defineProperty(_.prototype, coord, {
 				get() {
@@ -334,7 +353,7 @@ let _  = self.Color = class Color {
 	}
 };
 
-_.defineCoordGetters("XYZ", ["X", "Y", "Z"]);
+_.defineCoordAccessors("XYZ", ["X", "Y", "Z"]);
 
 _.spaces = {};
 _.D50 = new Color("XYZ", [0.96422, 1.00000, 0.82521]);

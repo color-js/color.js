@@ -3,20 +3,46 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Color.js</title>
+	<link rel="stylesheet" href="style.css">
 	<script src="multiply-matrices.js"></script>
 	<script src="color.js"></script>
 </head>
 <body>
+
+<header>
+	<h1>Color.js</h1>
+	<h2>A swiss army knife for all your color needs</h2>
+
+	<ul>
+		<li>Fully color space aware, not just using color spaces as output</li>
+		<li>Fully up to date with CSS Color 4</li>
+		<li>Readable, object-oriented API</li>
+		<li>Fully extensible with plugins</li>
+		<li>From Lea Verou (co-editor of CSS Color 5) and Chris Lilley (co-editor of CSS Color 3, 4, and 5 and ICC member)</li>
+	</ul>
+</header>
+
+<section>
+	<h1>Reading colors</h1>
+
+	<p>Any color your browser supports should work:</p>
+	<pre class="runnable"><code>
+		let slategray = new Color("slategray");
+		slategray.chroma *= 1.2; // saturate 20%
+	</code></pre>
+</section>
+
 
 <pre><code>
 	let blue = new Color("P3", [0, .5, 1]);
 	let blue = Color.parse("blue");
 	blue.lab // [l, a, b]
 	blue.lightness *= 1.2; // make 20% lighter
-	blue.to("a98rgb")
+	blue.a98rgb
 </code></pre>
 
-
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="index.js"></script>
 
 </body>
 </html>

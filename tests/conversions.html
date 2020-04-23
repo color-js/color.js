@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Color conversion tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<style>
+.matrix {
+	white-space: pre;
+	font-family: Consolas, Monaco, monospace;
+}
+</style>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../multiply-matrices.js"></script>
+<script src="../color.js"></script>
+<script>
+
+</script>
+
+</head>
+<body>
+
+<h1>Color conversion Tests</h1>
+<p>These tests parse different color formats and then print out the coordinates in various color spaces.</p>
+
+<section>
+	<h1>sRGB to LCH</h1>
+	<table class="reftest" data-test="colorConvertLCH" data-columns="3">
+		<tr>
+			<td>slategray</td>
+			<td>52.69726481080971, 11.234142037623341, 253.00052666481292</td>
+		</tr>
+	</table>
+</section>
+
+<script>
+function colorConvertLCH(...rest) {
+	return colorConvert("lch", ...rest);
+}
+
+function colorConvert(id, test, result, expected) {
+	var err;
+console.log(id, test, result, expected)
+	try {
+		var color = new Color(test.textContent);
+		let coords = color[id];
+		result.textContent = Array.isArray(coords)? coords.join(", ") : coords;
+		result.color = color;
+
+		if (Test.equals(result.textContent, expected.textContent)) {
+			return true;
+		}
+	}
+	catch(e) {
+		result.textContent = result.color = err = e;
+	}
+
+	return err || false;
+}
+</script>
+
+</body>
+</html>
