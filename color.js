@@ -167,7 +167,7 @@ let _  = self.Color = class Color {
 	/**
 	 * Generic toString() method, outputs a color(spaceId ...coords) function
 	 */
-	toString ({precision, colorSpaceId, format, commas} = {}) {
+	toString ({precision = 5, colorSpaceId, format, commas} = {}) {
 		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
 		let coords = this.coords;
 		let colorSpace = this.colorSpace;
@@ -181,14 +181,18 @@ let _  = self.Color = class Color {
 
 		if (precision !== undefined) {
 			coords = coords.map(n => {
-				let rounded = Math.round(n);
+				// Make sure precision doesn't actually round the integer part!
+				let rounded = Math.floor(n);
 				let integerDigits = (rounded + "").length;
 				return n.toPrecision(Math.max(integerDigits, precision));
 			});
 		}
 
-		if (format) {
+		if (typeof format === "function") {
 			coords = coords.map(format);
+		}
+		else if (_.util.isString(format)) {
+			// TODO handle string formats
 		}
 
 		return `color(${id} ${this.coords.join(commas? ", " : " ")}${strAlpha})`;
