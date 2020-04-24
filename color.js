@@ -8,12 +8,13 @@ let _  = self.Color = class Color {
 	constructor (colorSpaceId, coords, alpha = 1) {
 		if (arguments.length === 1) {
 			let color = arguments[0];
-			if (typeof arguments[0] === "string") {
+
+			if (_.util.isString(color)) {
 				// Just a string provided, parse
-				color = Color.parse(arguments[0]);
+				color = Color.parse(color);
 
 				if (!color) {
-					throw new TypeError(`Cannot parse ${arguments[0]}`);
+					throw new TypeError(`Cannot parse "${arguments[0]}" as a color`);
 				}
 			}
 
@@ -29,7 +30,7 @@ let _  = self.Color = class Color {
 				[colorSpaceId, coords, alpha] = ["sRGB", colorSpaceId, coords];
 			}
 
-			this.colorSpaceId = colorSpaceId.toLowerCase();
+			this.colorSpaceId = colorSpaceId;
 			this.coords = coords;
 			this.alpha = alpha;
 		}
@@ -38,7 +39,44 @@ let _  = self.Color = class Color {
 	}
 
 	get colorSpace () {
-		return _.spaces[this.colorSpaceId.toLowerCase()];
+		return _.spaces[this.colorSpaceId];
+	}
+
+	get colorSpaceId () {
+		return this._colorSpaceId;
+	}
+
+	// Handle dynamic changes of color space
+	set colorSpaceId (id) {
+		id = id.toLowerCase();
+		let newSpace = _.spaces[id];
+
+		if (id !== "xyz" && !newSpace) {
+			throw new TypeError(`No color space found with id = "${id}"`);
+		}
+
+		let previousColorSpaceId = this._colorSpaceId;
+
+		if (previousColorSpaceId && this.colorSpace) {
+			// We’re not setting this for the first time, need to:
+			// a) Convert coords
+			this.coords = this[id];
+
+			// b) Remove instance properties from previous color space
+			for (let prop in this.colorSpace.instance) {
+				if (this.hasOwnProperty(prop)) {
+					delete this[prop];
+				}
+			}
+		}
+
+		this._colorSpaceId = id;
+
+		if (id !== "xyz") {
+			// Add new instance properties from new color space
+			_.util.extend(this, this.colorSpace.instance);
+		}
+
 	}
 
 	get white () {
@@ -52,7 +90,7 @@ let _  = self.Color = class Color {
 	}
 
 	get XYZ () {
-		if (this.colorSpaceId.toLowerCase() === "xyz") {
+		if (this.colorSpaceId === "xyz") {
 			return this.coords;
 		}
 		else {
@@ -61,7 +99,7 @@ let _  = self.Color = class Color {
 	}
 
 	set XYZ (coords) {
-		if (this.colorSpaceId.toLowerCase() === "xyz") {
+		if (this.colorSpaceId === "xyz") {
 			this.coords = coords;
 		}
 		else {
@@ -81,7 +119,18 @@ let _  = self.Color = class Color {
 	}
 
 	contrast (color) {
-		return this.luminance / color.luminance;
+		return (this.luminance + .05) / (color.luminance + .05);
+	}
+
+	// Convert to colorSpace and return a new color
+	to (colorSpace) {
+		let id = colorSpace;
+
+		if (!_.util.isString(colorSpace)) {
+			id = colorSpace.id;
+		}
+
+		return new Color(id, this[id], this.alpha);
 	}
 
 	// Adapt XYZ from white point W1 to W2
@@ -115,14 +164,34 @@ let _  = self.Color = class Color {
 		}
 	}
 
-	toString () {
-		if (this.colorSpace && this.colorSpace.hasOwnProperty("toString")) {
-			return this.colorSpace.toString.call(this);
+	/**
+	 * Generic toString() method, outputs a color(spaceId ...coords) function
+	 */
+	toString ({precision, colorSpaceId, format, commas} = {}) {
+		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
+		let coords = this.coords;
+		let colorSpace = this.colorSpace;
+
+		if (colorSpaceId && colorSpaceId !== this.colorSpaceId) {
+			colorSpace = _.spaces[colorSpaceId];
+			coords = this[colorSpaceId];
 		}
 
-		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-		let id = this.colorSpace? this.colorSpace.cssId || this.colorSpace.id : "XYZ";
-		return `color(${id} ${this.coords.join(" ")}${strAlpha})`;
+		let id = colorSpace? colorSpace.cssId || colorSpace.id : "XYZ";
+
+		if (precision !== undefined) {
+			coords = coords.map(n => {
+				let rounded = Math.round(n);
+				let integerDigits = (rounded + "").length;
+				return n.toPrecision(Math.max(integerDigits, precision));
+			});
+		}
+
+		if (format) {
+			coords = coords.map(format);
+		}
+
+		return `color(${id} ${this.coords.join(commas? ", " : " ")}${strAlpha})`;
 	}
 
 	// CSS color to Color object
@@ -193,6 +262,11 @@ let _  = self.Color = class Color {
 		}
 	}
 
+	/**
+	 * Parse a CSS function, regardless of its name and arguments
+	 * @param String str String to parse
+	 * @return Object An object with {name, args, rawArgs}
+	 */
 	static parseFunction (str) {
 		if (!str) {
 			return;
@@ -245,11 +319,12 @@ let _  = self.Color = class Color {
 		let space = _.spaces[id] = arguments[0];
 
 		if (inherits) {
-			const except = ["parse", "instanceProperties", "properties"];
-			let parentSpace = _.spaces[inherits];
-			for (let prop in parentSpace) {
+			const except = ["id", "parse", "instance", "properties"];
+			let parent = _.spaces[inherits];
+
+			for (let prop in parent) {
 				if (!except.includes(prop) && !(prop in space)) {
-					space[prop] = parentSpace[prop]; // TODO copy descriptor instead
+					_.util.copyDescriptor(space, parent, prop);
 				}
 			}
 		}
@@ -257,7 +332,7 @@ let _  = self.Color = class Color {
 		let coords = space.coords;
 
 		if (space.poperties) {
-			Object.assign(_.prototype, space.properties);  // TODO copy descriptor instead
+			_.util.extend(_.prototype, space.properties);
 		}
 
 		if (space.fromLab && space.toLab && !space.fromXYZ && !space.toXYZ) {
@@ -360,6 +435,28 @@ _.D50 = new Color("XYZ", [0.96422, 1.00000, 0.82521]);
 _.D65 = new Color("XYZ", [0.95047, 1.00000, 1.08883]);
 _.D65.white = _.D65;
 
+_.util = {
+	isString: str => Object.prototype.toString.call(str) === "[object String]",
+
+	// Like Object.assign() but copies property descriptors (including symbols)
+	extend (target, ...sources) {
+		for (let source of sources) {
+			if (source) {
+				let descriptors = Object.getOwnPropertyDescriptors(source);
+				Object.defineProperties(target, descriptors);
+			}
+		}
+
+		return target;
+	},
+
+	copyDescriptor (target, source, prop) {
+		let descriptor = Object.getOwnPropertyDescriptor(source, prop);
+		Object.defineProperty(target, prop, descriptor);
+	}
+};
+
+
 Color.space({
 	id: "lab",
 	name: "Lab",
@@ -425,9 +522,11 @@ Color.space({
 			};
 		}
 	},
-	toString() {
-		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-		return `lab(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
+	instance: {
+		toString () {
+			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
+			return `lab(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
+		}
 	}
 });
 
@@ -474,9 +573,11 @@ Color.space({
 			};
 		}
 	},
-	toString() {
-		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-		return `lch(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
+	instance: {
+		toString() {
+			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
+			return `lch(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
+		}
 	}
 });
 
@@ -538,9 +639,11 @@ Color.space({
 	fromXYZ(XYZ) {
 		return this.toGamma(multiplyMatrices(this.fromXYZ_M, XYZ));
 	},
-	toString () {
-		let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-		return `rgb(${this.coords.map(c => c * 100 + "%").join(" ")}${strAlpha})`;
+	instance: {
+		toString () {
+			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
+			return `rgb(${this.coords.map(c => c * 100 + "%").join(" ")}${strAlpha})`;
+		}
 	}
 });
 
@@ -609,7 +712,7 @@ Color.space({
 Color.space({
 	inherits: "srgb",
 	id: "a98rgb",
-	name: "Adobe 98 RGB",
+	name: "Adobe 98 RGB compatible",
 	cssId: "a98-rgb",
 	toLinear(RGB) {
 		return RGB.map(val => Math.pow(val, 563/256));
@@ -635,14 +738,14 @@ Color.space({
 	]
 });
 
-Color.space(Color.spaces.srgb, {
+Color.space({
 	inherits: "srgb",
 	id: "rec2020",
 	name: "REC.2020",
 	α: 1.09929682680944,
 	β: 0.018053968510807,
 	toLinear(RGB) {
-		const α = this.α, β = this.β;
+		const {α, β} = this;
 
 		return RGB.map(function (val) {
 			if (val < β * 4.5 ) {
@@ -653,7 +756,7 @@ Color.space(Color.spaces.srgb, {
 		});
 	},
 	toGamma(RGB) {
-		const α = this.α, β = this.β;
+		const {α, β} = this;
 
 		return RGB.map(function (val) {
 			if (val > β ) {

@@ -1,0 +1,17 @@
+:root {
+	--gray: 220, 10%;
+}
+
+body {
+	font: 120%/1.5 Adobe Caslon Pro, Garamond, serif;
+	max-width: 90ch;
+	margin: auto;
+}
+
+body > header {
+
+}
+
+pre {
+	background: hsl(var(--gray), 90%);
+}
