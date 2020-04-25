@@ -339,19 +339,54 @@ export default class Color {
 			util.extend(_.prototype, space.properties);
 		}
 
-		if (space.fromLab && space.toLab && !space.fromXYZ && !space.toXYZ) {
-			// Using Lab as connection space, define from/to XYZ functions
-			Object.assign(space, {
-				// ISSUE do we need white point adaptation here?
-				fromXYZ(XYZ) {
-					let Lab = Color.spaces.lab.fromXYZ(XYZ);
-					return this.fromLab(Lab);
-				},
-				toXYZ(coords) {
-					let Lab = this.toLab(coords);
-					return Color.spaces.lab.toXYZ(Lab);
+		if (!space.fromXYZ && !space.toXYZ) {
+			// Using a different connection space, define from/to XYZ functions based on that
+
+			// What are we using as a connection space?
+			for (let prop in space) {
+				if (typeof space[prop] === "function") {
+					// Is the name of the form fromXxx or toXxx?
+					let Id = (prop.match(/^(?:from|to)([A-Z][a-zA-Z]+$)/) || [])[1];
+
+					if (Id && ("from" + Id) in space && ("to" + Id) in space) {
+						// This is a conversion function AND we have both from & to!
+						let space = _.spaces[Id.toLowerCase()];
+
+						if (space) {
+							// var used intentionally
+							var connectionSpace = space;
+							var fromConnection = "from" + Id;
+							var toConnection = "to" + Id;
+							break;
+						}
+					}
 				}
-			});
+			}
+
+			if (connectionSpace) {
+				// Define from/to XYZ functions based on the connection space
+
+				if (!connectionSpace.toXYZ || !connectionSpace.fromXYZ) {
+					throw new ReferenceError(`Connection space ${connectionSpace.name} for ${space.name} has no toXYZ()/fromXYZ() functions.`);
+				}
+
+				Object.assign(space, {
+					// ISSUE do we need white point adaptation here?
+					fromXYZ(XYZ) {
+						let newCoords = connectionSpace.fromXYZ(XYZ);
+						return this[fromConnection](newCoords);
+					},
+					toXYZ(coords) {
+						let newCoords = this[toConnection](coords);
+						return connectionSpace.toXYZ(newCoords);
+					}
+				});
+			}
+			else {
+				throw new ReferenceError(`No connection space found for ${space.name}.`);
+			}
+
+
 		}
 
 		// Define getters and setters for color.colorSpaceId
@@ -407,6 +442,8 @@ export default class Color {
 		});
 
 		_.defineCoordAccessors(id, Object.keys(coords));
+
+		return space;
 	}
 
 	static defineCoordAccessors(id, coordNames) {
