@@ -8,6 +8,10 @@ Color.defineSpace({
 		green: [0, 1],
 		blue: [0, 1]
 	},
+	ε: .000005,
+	inGamut(coords) {
+		return coords.every(c => c >= -this.ε && c <= 1 + this.ε);
+	},
 	white: Color.D65,
 
 	// convert an array of sRGB values in the range 0.0 - 1.0

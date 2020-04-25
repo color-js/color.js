@@ -8,6 +8,7 @@ Color.defineSpace({
 		a: [],
 		b: []
 	},
+	inGamut: coords => true,
 	// Assuming XYZ is relative to D50, convert to CIE Lab
 	// from CIE standard, which now defines these as a rational fraction
 	white: Color.D50,
@@ -81,6 +82,7 @@ Color.defineSpace({
 		chroma: [0, ],
 		hue: [],
 	},
+	inGamut: coords => true,
 	white: Color.D50,
 	fromLab (Lab) {
 		// Convert to polar form
@@ -114,6 +116,41 @@ Color.defineSpace({
 				coords: parsed.args.slice(0, 3),
 				alpha: parsed.args.slice(3)[0]
 			};
+		}
+	},
+	properties: {
+		// Moves a color within gamut by converting to LCH,
+		// holding the l and h steady, and adjusting the c via binary-search
+		// until the color is in gamut
+		forceInGamut() {
+			let lch = this.lch;
+			let c = lch[1];
+
+			if (this.space.inGamut(this.coords)) {
+				return this.coords;
+			}
+
+			let hiC = c;
+			let loC = 0;
+			const ε = .0001;
+			c /= 2;
+
+			// .0001 chosen fairly arbitrarily as "close enough"
+			while (hiC - loC > ε) {
+				var color = new Color("lch", lch);
+
+				if (this.space.inGamut(color[this.spaceId])) {
+					loC = c;
+				}
+				else {
+					hiC = c;
+				}
+
+				lch[1] = c = (hiC + loC) / 2;
+				console.log(lch);
+			}
+
+			return color[this.spaceId];
 		}
 	},
 	instance: {

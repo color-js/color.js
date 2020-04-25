@@ -8,6 +8,10 @@ Color.defineSpace({
 		saturationHSL: [0, 100],
 		lightnessHSL: [0, 100]
 	},
+	inGamut: coords => {
+		let rgb = this.toSRGB(coords);
+		return Color.spaces.srgb.inGamut(rgb);
+	},
 	white: Color.D65,
 
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
