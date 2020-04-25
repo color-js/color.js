@@ -5,7 +5,7 @@ export default class Color {
 	// new Color(stringToParse)
 	// new Color(otherColor)
 	// new Color(coords, alpha) // defaults to sRGB
-	constructor (colorSpaceId, coords, alpha = 1) {
+	constructor (spaceId, coords, alpha = 1) {
 		if (arguments.length === 1) {
 			let color = arguments[0];
 
@@ -19,18 +19,18 @@ export default class Color {
 			}
 
 			if (color) {
-				this.colorSpaceId = color.colorSpaceId;
+				this.spaceId = color.spaceId;
 				this.coords = color.coords;
 				this.alpha = color.alpha;
 			}
 		}
 		else {
-			if (Array.isArray(colorSpaceId)) {
-				// No colorSpace provided, default to sRGB
-				[colorSpaceId, coords, alpha] = ["sRGB", colorSpaceId, coords];
+			if (Array.isArray(spaceId)) {
+				// No color space provided, default to sRGB
+				[spaceId, coords, alpha] = ["sRGB", spaceId, coords];
 			}
 
-			this.colorSpaceId = colorSpaceId;
+			this.spaceId = spaceId;
 			this.coords = coords;
 			this.alpha = alpha;
 		}
@@ -38,16 +38,16 @@ export default class Color {
 		this.alpha = this.alpha < 1? this.alpha : 1; // this also deals with NaN etc
 	}
 
-	get colorSpace () {
-		return _.spaces[this.colorSpaceId];
+	get space () {
+		return _.spaces[this.spaceId];
 	}
 
-	get colorSpaceId () {
-		return this._colorSpaceId;
+	get spaceId () {
+		return this._spaceId;
 	}
 
 	// Handle dynamic changes of color space
-	set colorSpaceId (id) {
+	set spaceId (id) {
 		id = id.toLowerCase();
 		let newSpace = _.spaces[id];
 
@@ -55,55 +55,55 @@ export default class Color {
 			throw new TypeError(`No color space found with id = "${id}"`);
 		}
 
-		let previousColorSpaceId = this._colorSpaceId;
+		let previousColorSpaceId = this._spaceId;
 
-		if (previousColorSpaceId && this.colorSpace) {
+		if (previousColorSpaceId && this.space) {
 			// We’re not setting this for the first time, need to:
 			// a) Convert coords
 			this.coords = this[id];
 
 			// b) Remove instance properties from previous color space
-			for (let prop in this.colorSpace.instance) {
+			for (let prop in this.space.instance) {
 				if (this.hasOwnProperty(prop)) {
 					delete this[prop];
 				}
 			}
 		}
 
-		this._colorSpaceId = id;
+		this._spaceId = id;
 
 		if (id !== "xyz") {
 			// Add new instance properties from new color space
-			util.extend(this, this.colorSpace.instance);
+			util.extend(this, this.space.instance);
 		}
 
 	}
 
 	get white () {
-		return this.colorSpace.white || _.D50;
+		return this.space.white || _.D50;
 	}
 
 	set white (value) {
 		// Custom white point
 		Object.defineProperty(this, "white", {value, writable: true});
-		// ISSUE Should we do color adaptation of the current coords?
+		// We DO NOT do color adaptation of the current coords
 	}
 
 	get XYZ () {
-		if (this.colorSpaceId === "xyz") {
+		if (this.spaceId === "xyz") {
 			return this.coords;
 		}
 		else {
-			return this.colorSpace.toXYZ(this.coords);
+			return this.space.toXYZ(this.coords);
 		}
 	}
 
 	set XYZ (coords) {
-		if (this.colorSpaceId === "xyz") {
+		if (this.spaceId === "xyz") {
 			this.coords = coords;
 		}
 		else {
-			this.coords = this.colorSpace.fromXYZ(coords);
+			this.coords = this.space.fromXYZ(coords);
 		}
 	}
 
@@ -122,12 +122,12 @@ export default class Color {
 		return (this.luminance + .05) / (color.luminance + .05);
 	}
 
-	// Convert to colorSpace and return a new color
-	to (colorSpace) {
-		let id = colorSpace;
+	// Convert to color space and return a new color
+	to (space) {
+		let id = space;
 
-		if (!util.isString(colorSpace)) {
-			id = colorSpace.id;
+		if (!util.isString(space)) {
+			id = space.id;
 		}
 
 		return new Color(id, this[id], this.alpha);
@@ -136,7 +136,7 @@ export default class Color {
 	toJSON() {
 		// TODO return white point as well if custom
 		return {
-			colorSpaceId: this.colorSpaceId,
+			spaceId: this.spaceId,
 			coords: this.coords,
 			alpha: this.alpha
 		};
@@ -176,17 +176,17 @@ export default class Color {
 	/**
 	 * Generic toString() method, outputs a color(spaceId ...coords) function
 	 */
-	toString ({precision = 5, colorSpaceId, format, commas} = {}) {
+	toString ({precision = 5, spaceId, format, commas} = {}) {
 		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
 		let coords = this.coords;
-		let colorSpace = this.colorSpace;
+		let space = this.space;
 
-		if (colorSpaceId && colorSpaceId !== this.colorSpaceId) {
-			colorSpace = _.spaces[colorSpaceId];
-			coords = this[colorSpaceId];
+		if (spaceId && spaceId !== this.spaceId) {
+			space = _.spaces[spaceId];
+			coords = this[spaceId];
 		}
 
-		let id = colorSpace? colorSpace.cssId || colorSpace.id : "XYZ";
+		let id = space? space.cssId || space.id : "XYZ";
 
 		if (precision !== undefined) {
 			coords = coords.map(n => {
@@ -250,26 +250,26 @@ export default class Color {
 				let args = parsed.args.map((c, i) => i < 3 && !c.percentage? c / 255 : +c);
 
 				return {
-					colorSpaceId: "srgb",
+					spaceId: "srgb",
 					coords: args.slice(0, 3),
 					alpha: args[3]
 				};
 			}
 			else if (parsed.name === "color") {
-				let colorSpaceId = parsed.args.shift();
-				let space = Object.values(_.spaces).find(space => (space.cssId || space.id) === colorSpaceId);
+				let spaceId = parsed.args.shift();
+				let space = Object.values(_.spaces).find(space => (space.cssId || space.id) === spaceId);
 
 				if (space) {
 					let argCount = Object.keys(space.coords).length;
 
 					return {
-						colorSpaceId: space.id,
+						spaceId: space.id,
 						coords: parsed.args.slice(0, argCount),
 						alpha: parsed.args.slice(argCount)[0]
 					};
 				}
 				else {
-					throw new TypeError(`Color space ${colorSpaceId} not found. Missing a plugin?`);
+					throw new TypeError(`Color space ${spaceId} not found. Missing a plugin?`);
 				}
 			}
 		}
@@ -398,16 +398,16 @@ export default class Color {
 
 		}
 
-		// Define getters and setters for color.colorSpaceId
+		// Define getters and setters for color.spaceId
 		// e.g. color.lch on *any* color gives us the lch coords
 		Object.defineProperty(_.prototype, id, {
 			// Convert coords to coords in another colorspace and return them
-			// Source colorspace: this.colorSpaceId
+			// Source colorspace: this.spaceId
 			// Target colorspace: id
 			get() {
 				// Do we have a more specific conversion function?
 				// Avoids round-tripping to & from XYZ
-				let Id = this.colorSpaceId[0].toUpperCase() + this.colorSpaceId.slice(1);
+				let Id = this.spaceId[0].toUpperCase() + this.spaceId.slice(1);
 
 				if (("from" + Id) in space) {
 					// No white point adaptation, we assume the custom function takes care of it
@@ -426,10 +426,10 @@ export default class Color {
 				return coords;
 			},
 			// Convert coords in another colorspace to internal coords and set them
-			// Target colorspace: this.colorSpaceId
+			// Target colorspace: this.spaceId
 			// Source colorspace: id
 			set(coords) {
-				let Id = this.colorSpaceId[0].toUpperCase() + this.colorSpaceId.slice(1);
+				let Id = this.spaceId[0].toUpperCase() + this.spaceId.slice(1);
 
 				if (("to" + Id) in space) {
 					this[id] = space["to" + Id](coords);
@@ -459,7 +459,7 @@ export default class Color {
 		coordNames.forEach((coord, i) => {
 			Object.defineProperty(_.prototype, coord, {
 				get() {
-					if (coord in this.colorSpace.coords) {
+					if (coord in this.space.coords) {
 						return this.coords[i];
 					}
 					else {

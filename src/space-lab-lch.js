@@ -59,7 +59,7 @@ Color.defineSpace({
 			}
 
 			return {
-				colorSpaceId: "lab",
+				spaceId: "lab",
 				coords: parsed.args.slice(0, 3),
 				alpha: parsed.args.slice(3)[0]
 			};
@@ -110,7 +110,7 @@ Color.defineSpace({
 			}
 
 			return {
-				colorSpaceId: "lch",
+				spaceId: "lch",
 				coords: parsed.args.slice(0, 3),
 				alpha: parsed.args.slice(3)[0]
 			};
