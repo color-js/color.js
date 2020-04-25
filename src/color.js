@@ -142,37 +142,6 @@ export default class Color {
 		};
 	}
 
-	// Adapt XYZ from white point W1 to W2
-	static chromaticAdaptation (W1, W2, XYZ) {
-		if (W1 === W2) {
-			return XYZ;
-		}
-
-		let M;
-
-		if (W1 === _.D65 && W2 === _.D50) {
-			M = [
-				[ 1.0478112,  0.0228866, -0.0501270],
-				[ 0.0295424,  0.9904844, -0.0170491],
-				[-0.0092345,  0.0150436,  0.7521316]
-			];
-		}
-		else if (W1 === _.D50 && W2 === _.D65) {
-			M = [
-				[ 0.9555766, -0.0230393,  0.0631636],
-				[-0.0282895,  1.0099416,  0.0210077],
-				[ 0.0122982, -0.0204830,  1.3299098]
-			];
-		}
-
-		if (M) {
-			return util.multiplyMatrices(M, XYZ);
-		}
-		else {
-			throw new TypeError("Only white points D50 and D65 supported for now.");
-		}
-	}
-
 	/**
 	 * Generic toString() method, outputs a color(spaceId ...coords) function
 	 */
@@ -204,7 +173,38 @@ export default class Color {
 			// TODO handle string formats
 		}
 
-		return `color(${id} ${this.coords.join(commas? ", " : " ")}${strAlpha})`;
+		return `color(${id} ${coords.join(commas? ", " : " ")}${strAlpha})`;
+	}
+
+	// Adapt XYZ from white point W1 to W2
+	static chromaticAdaptation (W1, W2, XYZ) {
+		if (W1 === W2) {
+			return XYZ;
+		}
+
+		let M;
+
+		if (W1 === _.D65 && W2 === _.D50) {
+			M = [
+				[ 1.0478112,  0.0228866, -0.0501270],
+				[ 0.0295424,  0.9904844, -0.0170491],
+				[-0.0092345,  0.0150436,  0.7521316]
+			];
+		}
+		else if (W1 === _.D50 && W2 === _.D65) {
+			M = [
+				[ 0.9555766, -0.0230393,  0.0631636],
+				[-0.0282895,  1.0099416,  0.0210077],
+				[ 0.0122982, -0.0204830,  1.3299098]
+			];
+		}
+
+		if (M) {
+			return util.multiplyMatrices(M, XYZ);
+		}
+		else {
+			throw new TypeError("Only white points D50 and D65 supported for now.");
+		}
 	}
 
 	// CSS color to Color object
