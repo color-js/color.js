@@ -133,6 +133,15 @@ export default class Color {
 		return new Color(id, this[id], this.alpha);
 	}
 
+	toJSON() {
+		// TODO return white point as well if custom
+		return {
+			colorSpaceId: this.colorSpaceId,
+			coords: this.coords,
+			alpha: this.alpha
+		};
+	}
+
 	// Adapt XYZ from white point W1 to W2
 	static chromaticAdaptation (W1, W2, XYZ) {
 		if (W1 === W2) {
