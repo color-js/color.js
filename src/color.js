@@ -212,7 +212,20 @@ export default class Color {
 		let parsed = _.parseFunction(str);
 		let isRGB = parsed && parsed.name.indexOf("rgb") === 0;
 
-		if ((!parsed || !isRGB) && typeof document !== "undefined" && document.head) {
+		// Try colorspace-specific parsing
+		for (let space of Object.values(_.spaces)) {
+			if (space.parse) {
+				let color = space.parse(str, parsed);
+
+				if (color) {
+					return color;
+				}
+			}
+		}
+
+		if ((!parsed || !isRGB)
+		    && typeof document !== "undefined" && document.head // Do we have a DOM?
+		) {
 			// Use browser to parse when a DOM is available
 			// this is how we parse #hex or color names, or RGB transformations like hsl()
 			let previousColor = document.head.style.color;
@@ -226,17 +239,6 @@ export default class Color {
 				if (computed) {
 					str = computed;
 					parsed = _.parseFunction(computed);
-				}
-			}
-		}
-
-		// Try colorspace-specific parsing
-		for (let space of Object.values(_.spaces)) {
-			if (space.parse) {
-				let color = space.parse(str, parsed);
-
-				if (color) {
-					return color;
 				}
 			}
 		}
