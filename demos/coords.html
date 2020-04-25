@@ -97,18 +97,20 @@
 	<dd>[color.rec2020]</dd>
 </dl> -->
 <script type="module">
-	function makeColor(str) {
-		try {
-			return new Color(str);
-		}
-		catch(e) {
-			// throw e;
-			return null;
-		}
-	}
-
 	function update() {
-		let color = makeColor(colorStr.value);
+		try {
+			var color = new Color(colorStr.value);
+			colorStr.setCustomValidity("");
+		}
+		catch (e) {
+			if (e.message.indexOf("Cannot parse") > -1) {
+				colorStr.setCustomValidity(e);
+				return;
+			}
+			else {
+				throw e;
+			}
+		}
 
 		if (color) {
 			output.tBodies[0].textContent = "";
