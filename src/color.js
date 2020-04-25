@@ -296,13 +296,13 @@ export default class Color {
 			let args = parts[2].match(/([-\w.]+(?:%|deg)?)/g);
 
 			args = args.map(arg => {
-				if (arg.indexOf("%") === arg.length - 1) {
+				if (/%$/.test(arg)) {
 					// Convert percentages to 0-1 numbers
 					let n = new Number(+arg.slice(0, -1) / 100);
 					n.percentage = true;
 					return n;
 				}
-				else if (arg.indexOf("deg") === arg.length - 1) {
+				else if (/deg$/.test(arg)) {
 					// Drop deg from degrees and convert to number
 					let n = new Number(+arg.slice(0, -3));
 					n.deg = true;
