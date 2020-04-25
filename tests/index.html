@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" class="index">
+<head>
+
+<meta charset="UTF-8">
+<title>Mavo Tests</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css" />
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+
+</head>
+<body mv-app="tests" mv-source="https://api.github.com/repos/leaverou/color.js/contents/tests" mv-mode="read">
+
+<section>
+	<div class="mv-bar mv-ui mv-compact mv-tiny"></div>
+	<h1>Color.js Tests</h1>
+
+	<section>
+		<ul>
+			<li property="file" mv-multiple mv-if="ends(name, '.html') and name != 'index.html'" class="[if(name = selected, 'selected')]">
+				<meta property="id" content="[to(name, '.html')]">
+				<a target="test" property="name" mv-action="set(selected, name)">[id]</a>
+				<a href="[name]" class="new-tab" title="Open in new Tab" target="_blank">↗️</a>
+			</li>
+		</ul>
+	</section>
+</section>
+<iframe name="test" src="[first(name)]"></iframe>
+<meta property="selected" />
+
+<script src="https://get.mavo.io/mavo.js"></script>
+
+</body>
+</html>
