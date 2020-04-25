@@ -100,7 +100,7 @@ Color.defineSpace({
 			LCH[1] * Math.sin(LCH[2] * Math.PI / 180)  // b
 		];
 	},
-	parse (str, parsed = _.parseFunction(str)) {
+	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "lch") {
 			let L = parsed.args[0];
 
