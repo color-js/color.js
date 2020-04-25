@@ -346,7 +346,7 @@ export default class Color {
 
 		let coords = space.coords;
 
-		if (space.poperties) {
+		if (space.properties) {
 			util.extend(_.prototype, space.properties);
 		}
 
@@ -396,8 +396,6 @@ export default class Color {
 			else {
 				throw new ReferenceError(`No connection space found for ${space.name}.`);
 			}
-
-
 		}
 
 		// Define getters and setters for color.spaceId
@@ -409,7 +407,7 @@ export default class Color {
 			get() {
 				// Do we have a more specific conversion function?
 				// Avoids round-tripping to & from XYZ
-				let Id = util.capitalize(this.spaceId[0]);
+				let Id = util.capitalize(this.spaceId);
 
 				if (("from" + Id) in space) {
 					// No white point adaptation, we assume the custom function takes care of it
