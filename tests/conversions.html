@@ -14,8 +14,7 @@
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
-<script src="../multiply-matrices.js"></script>
-<script src="../color.js"></script>
+<script src="../color.js" type="module"></script>
 <script>
 
 </script>
@@ -43,7 +42,7 @@ function colorConvertLCH(...rest) {
 
 function colorConvert(id, test, result, expected) {
 	var err;
-console.log(id, test, result, expected)
+
 	try {
 		var color = new Color(test.textContent);
 		let coords = color[id];

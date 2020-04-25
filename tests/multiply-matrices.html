@@ -17,7 +17,10 @@
 <script src="https://drafts.csswg.org/css-color-4/math.js"></script>
 <!-- <script src="https://drafts.csswg.org/css-color-4/conversions.js"></script> -->
 <!-- <script src="https://drafts.csswg.org/css-color-4/utilities.js"></script> -->
-<script src="../multiply-matrices.js"></script>
+<script type="module">
+import multiplyMatrices from "../src/multiply-matrices.js";
+window.multiplyMatrices = multiplyMatrices;
+</script>
 <script>
 let M_lin_sRGB_to_XYZ = [
 	[0.4124564, 0.3575761, 0.1804375],
@@ -52,27 +55,31 @@ function refMultiply(A, B) {
 	return math.multiply(math.matrix(A), math.matrix(B)).valueOf()
 }
 
-function reftest(A, B) {
-	let ref, test;
+async function reftest(A, B) {
+	let script = document.currentScript;
 
-	try {
-		ref = matrixHTML(refMultiply(A, B))
-	}
-	catch (e) {
-		ref = e
-	}
+	$.ready().then(() => {
+		let ref, test;
 
-	try {
-		test = matrixHTML(multiplyMatrices(A, B))
-	}
-	catch (e) {
-		test = e
-	}
+		try {
+			ref = matrixHTML(refMultiply(A, B))
+		}
+		catch (e) {
+			ref = e
+		}
 
-	document.currentScript.after(
-		$.create("td", { innerHTML: ref }),
-		$.create("td", { innerHTML: test})
-	);
+		try {
+			test = matrixHTML(multiplyMatrices(A, B))
+		}
+		catch (e) {
+			test = e
+		}
+
+		script.after(
+			$.create("td", { innerHTML: ref }),
+			$.create("td", { innerHTML: test})
+		);
+	});
 }
 </script>
 
@@ -123,6 +130,8 @@ function reftest(A, B) {
 
 <section>
 	<h1>Incorrect data</h1>
+
+	<p>These are expected to fail, as multiplyMatrices does not dimension checking.The point of them is to see how it fails.</p>
 
 	<table class="reftest">
 		<thead>

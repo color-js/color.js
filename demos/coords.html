@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 <title>Coords</title>
 
-<script src="../multiply-matrices.js"></script>
-<script src="../color.js"></script>
+<script src="../color.js" type="module"></script>
 <style>
 	body {
 		font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
@@ -97,19 +96,19 @@
 	<dt>rec2020:</dt>
 	<dd>[color.rec2020]</dd>
 </dl> -->
-<script>
+<script type="module">
 	function makeColor(str) {
 		try {
 			return new Color(str);
 		}
 		catch(e) {
+			// throw e;
 			return null;
 		}
 	}
 
 	function update() {
 		let color = makeColor(colorStr.value);
-		console.log(color)
 
 		if (color) {
 			output.tBodies[0].textContent = "";
