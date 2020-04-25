@@ -21,4 +21,12 @@ export function copyDescriptor (target, source, prop) {
 	Object.defineProperty(target, prop, descriptor);
 }
 
+export function capitalize(str) {
+	if (!str) {
+		return str;
+	}
+
+	return str.toUpperCase() + str.slice(1);
+}
+
 export {multiplyMatrices};

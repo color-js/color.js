@@ -409,7 +409,7 @@ export default class Color {
 			get() {
 				// Do we have a more specific conversion function?
 				// Avoids round-tripping to & from XYZ
-				let Id = this.spaceId[0].toUpperCase() + this.spaceId.slice(1);
+				let Id = util.capitalize(this.spaceId[0]);
 
 				if (("from" + Id) in space) {
 					// No white point adaptation, we assume the custom function takes care of it
@@ -431,7 +431,7 @@ export default class Color {
 			// Target colorspace: this.spaceId
 			// Source colorspace: id
 			set(coords) {
-				let Id = this.spaceId[0].toUpperCase() + this.spaceId.slice(1);
+				let Id = util.capitalize(this.spaceId[0]);
 
 				if (("to" + Id) in space) {
 					this[id] = space["to" + Id](coords);
