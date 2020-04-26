@@ -5,8 +5,8 @@ Color.defineSpace({
 	name: "Lab",
 	coords: {
 		L: [0, 100],
-		a: [],
-		b: []
+		a: [-100, 100],
+		b: [-100, 100]
 	},
 	inGamut: coords => true,
 	// Assuming XYZ is relative to D50, convert to CIE Lab
@@ -67,9 +67,12 @@ Color.defineSpace({
 		}
 	},
 	instance: {
-		toString () {
-			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-			return `lab(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
+		toString ({precision, format} = {}) {
+			if (!format) {
+				format = (c, i) => i === 0? c + "%" : c;
+			}
+
+			return Color.prototype.toString.call(this, {name: "lab", precision, format});
 		}
 	}
 });
@@ -79,8 +82,8 @@ Color.defineSpace({
 	name: "LCH",
 	coords: {
 		lightness: [0, 100],
-		chroma: [0, ],
-		hue: [],
+		chroma: [0, 150],
+		hue: [0, 360],
 	},
 	inGamut: coords => true,
 	white: Color.D50,
@@ -122,7 +125,7 @@ Color.defineSpace({
 		// Moves a color within gamut by converting to LCH,
 		// holding the l and h steady, and adjusting the c via binary-search
 		// until the color is in gamut
-		forceInGamut() {
+		coordsInGamut() {
 			let lch = this.lch;
 
 			if (this.space.inGamut(this.coords)) {
@@ -153,9 +156,12 @@ Color.defineSpace({
 		}
 	},
 	instance: {
-		toString() {
-			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-			return `lch(${this.coords[0]}% ${this.coords[1]} ${this.coords[2]}${strAlpha})`;
+		toString ({precision, format} = {}) {
+			if (!format) {
+				format = (c, i) => i === 0? c + "%" : c;
+			}
+
+			return Color.prototype.toString.call(this, {name: "lch", precision, format});
 		}
 	}
 });

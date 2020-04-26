@@ -4,7 +4,7 @@ Color.defineSpace({
 	id: "hsl",
 	name: "HSL",
 	coords: {
-		hueHSL: [0, ],
+		hueHSL: [0, 360],
 		saturationHSL: [0, 100],
 		lightnessHSL: [0, 100]
 	},
@@ -70,9 +70,15 @@ Color.defineSpace({
 	},
 
 	instance: {
-		toString () {
-			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-			return `hsl(${this.coords[0]} ${this.coords[1]}% ${this.coords[2]}%${strAlpha})`;
+		toString ({precision, inGamut, commas, format} = {}) {
+			if (!format) {
+				format = (c, i) => i > 0? c + "%" : c;
+			}
+
+			return Color.prototype.toString.call(this, {
+				precision, inGamut, commas, format,
+				name: "hsl" + (commas && this.alpha < 1? "a" : "")
+			});
 		}
 	}
 });

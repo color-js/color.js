@@ -68,7 +68,7 @@ Color.defineSpace({
 			alpha = true, // include alpha in hex?
 			collapse = true // collapse to 3-4 digit hex when possible?
 		} = {}) {
-			let coords = this.to("srgb").forceInGamut();
+			let coords = this.to("srgb").coordsInGamut();
 
 			if (this.alpha < 1 && alpha) {
 				coords.push(this.alpha);
@@ -96,9 +96,15 @@ Color.defineSpace({
 	},
 	// Properties present only on sRGB colors
 	instance: {
-		toString () {
-			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
-			return `rgb(${this.coords.map(c => c * 100 + "%").join(" ")}${strAlpha})`;
+		toString ({precision, inGamut, commas, format = "%"} = {}) {
+			if (format === 255) {
+				format = c => c * 255;
+			}
+
+			return Color.prototype.toString.call(this, {
+				precision, inGamut, commas, format,
+				name: "rgb" + (commas && this.alpha < 1? "a" : "")
+			});
 		}
 	}
 });

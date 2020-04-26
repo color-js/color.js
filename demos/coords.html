@@ -49,11 +49,11 @@
 <output id="colorOutput"></output>
 <div class="inputs">
 	<label>
-		Color: <input id="colorStr" value="slategray" />
+		Color: <input id="colorStr" value="lime" />
 	</label>
 
 	<label>
-		Decimals: <input type="number" id="decimals" value="5">
+		Precision: <input type="number" id="precisionInput" value="4">
 	</label>
 </div>
 
@@ -119,17 +119,19 @@
 			for (let id in Color.spaces) {
 				let converted = color.to(id);
 
-				converted.coords = converted.coords.map(n => +n.toFixed(decimals.value));
+				// converted.coords = converted.coords.map(n => +n.toFixed(precisionInput.value));
 
 				if (id === "srgb" || id === "p3") {
 					colorOutput.style.background = converted;
 				}
 
+				let precision = precisionInput.value;
+
 				ret += `<tr>
 					<th>${id}</th>
-					<td>${converted.coords}</td>
-					<td>${converted}</td>
-					<td>${Color.prototype.toString.call(converted)}</td>
+					<td>${converted.coords.join(", ")}</td>
+					<td>${converted.toString({precision})}</td>
+					<td>${Color.prototype.toString.call(converted, {precision})}</td>
 				</tr>`;
 			}
 
@@ -138,7 +140,7 @@
 	}
 
 	colorStr.addEventListener("input", update);
-	decimals.addEventListener("input", update);
+	precisionInput.addEventListener("input", update);
 	update();
 </script>
 </body>

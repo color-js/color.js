@@ -28,7 +28,7 @@
 					print(() => {
 						var lime = new Color("P3", [0, 1, 0]);
 						var slime = lime.to("srgb");
-						return slime.forceInGamut();
+						return slime.coordsInGamut();
 					});
 				</script>
 			</td>
@@ -55,7 +55,7 @@ function fuzzyNumberTest(test, ref) {
 
 	return Test.equals(test.trim(), ref.trim());
 }
-// 
+//
 // $.ready().then(() => {
 // 	let lch = [86.61463159131704, 106.45657523304926, 136.0088599937244];
 // 	console.log(Color.convert(lch, "lch", "srgb"));

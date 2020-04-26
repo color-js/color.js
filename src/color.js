@@ -122,6 +122,24 @@ export default class Color {
 		return (this.luminance + .05) / (color.luminance + .05);
 	}
 
+	// Get formatted coords
+	getCoords ({inGamut, precision = 5} = {}) {
+		let coords = this.coords;
+
+		if (inGamut === true && !this.inGamut()) {
+			coords = this.coordsInGamut();
+		}
+
+		if (precision !== undefined) {
+			let coordRanges = this.space.coords? Object.values(this.space.coords) : [];
+
+			coords = coords.map((n, i) => util.toPrecision(n, precision, coordRanges[i]));
+
+		}
+
+		return coords;
+	}
+
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
@@ -151,36 +169,36 @@ export default class Color {
 
 	/**
 	 * Generic toString() method, outputs a color(spaceId ...coords) function
+	 * @param {Object} options
+	 * @param {number} options.precision - Significant digits
+	 * @param {boolean} options.commas - Whether to use commas to separate arguments or spaces (and a slash for alpha) [default: false]
+	 * @param {Function|String|Array} options.format - If function, maps all coordinates. Keywords tap to colorspace-specific formats (e.g. "hex")
+	 * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
+	 * @param {string} options.name - Function name [default: color]
 	 */
-	toString ({precision = 5, spaceId, format, commas} = {}) {
+	toString ({precision = 5, format, commas, inGamut, name = "color"} = {}) {
 		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
-		let coords = this.coords;
-		let space = this.space;
 
-		if (spaceId && spaceId !== this.spaceId) {
-			space = _.spaces[spaceId];
-			coords = this[spaceId];
-		}
+		let coords = this.getCoords({inGamut, precision});
 
-		let id = space? space.cssId || space.id : "XYZ";
-
-		if (precision !== undefined) {
-			coords = coords.map(n => {
-				// Make sure precision doesn't actually round the integer part!
-				let rounded = Math.floor(n);
-				let integerDigits = (rounded + "").length;
-				return n.toPrecision(Math.max(integerDigits, precision));
-			});
+		if (util.isString(format)) {
+			if (format === "%") {
+				format = c => c * 100 + "%";
+			}
 		}
 
 		if (typeof format === "function") {
 			coords = coords.map(format);
 		}
-		else if (util.isString(format)) {
-			// TODO handle string formats
+
+		let args = [...coords];
+
+		if (name === "color") {
+			// If output is a color() function, add colorspace id as first argument
+			args.unshift(this.space? this.space.cssId || this.space.id : "XYZ");
 		}
 
-		return `color(${id} ${coords.join(commas? ", " : " ")}${strAlpha})`;
+		return `${name}(${args.join(commas? ", " : " ")}${strAlpha})`;
 	}
 
 	// Adapt XYZ from white point W1 to W2
