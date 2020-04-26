@@ -346,6 +346,11 @@ export default class Color {
 
 		fromWhite = fromWhite || fromSpace.white;
 
+		if (fromId === toId && toSpace.white === fromWhite) {
+			// Same space, same white point, no change needed
+			return coords;
+		}
+
 		// Do we have a more specific conversion function?
 		// Avoids round-tripping to & from XYZ
 		let Id = util.capitalize(fromId);
