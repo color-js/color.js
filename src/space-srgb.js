@@ -62,6 +62,39 @@ Color.defineSpace({
 	fromXYZ(XYZ) {
 		return this.toGamma(util.multiplyMatrices(this.fromXYZ_M, XYZ));
 	},
+	// Properties added to Color.prototype
+	properties: {
+		toHex({
+			alpha = true, // include alpha in hex?
+			collapse = true // collapse to 3-4 digit hex when possible?
+		} = {}) {
+			let coords = this.to("srgb").forceInGamut();
+
+			if (this.alpha < 1 && alpha) {
+				coords.push(this.alpha);
+			}
+
+			coords = coords.map(c => Math.round(c * 255));
+
+			let collapsible = collapse && coords.every(c => c % 17 === 0);
+
+			let hex = coords.map(c => {
+				if (collapsible) {
+					return (c/17).toString(16);
+				}
+
+				return c.toString(16).padStart(2, "0");
+			}).join("");
+
+			return "#" + hex;
+		},
+
+		get hex() {
+			// ISSUE force in gamut?
+			return this.toHex();
+		}
+	},
+	// Properties present only on sRGB colors
 	instance: {
 		toString () {
 			let strAlpha = this.alpha < 1? ` / ${this.alpha}` : "";
