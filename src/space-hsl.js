@@ -8,7 +8,7 @@ Color.defineSpace({
 		saturationHSL: [0, 100],
 		lightnessHSL: [0, 100]
 	},
-	inGamut: coords => {
+	inGamut(coords) {
 		let rgb = this.toSRGB(coords);
 		return Color.spaces.srgb.inGamut(rgb);
 	},
