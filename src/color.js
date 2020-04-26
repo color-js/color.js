@@ -122,6 +122,13 @@ export default class Color {
 		return (this.luminance + .05) / (color.luminance + .05);
 	}
 
+	/**
+	 * @return {Boolean} Is the color in gamut?
+	 */
+	inGamut() {
+		return this.space.inGamut && this.space.inGamut(this.coords);
+	}
+
 	// Convert to color space and return a new color
 	to (space) {
 		let id = space;

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Gamut mapping tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../color.js" type="module"></script>
+<script>
+
+</script>
+
+</head>
+<body>
+
+<h1>Gamut mapping Tests</h1>
+<p>These tests check how coords are shrunk to smaller gamuts.</p>
+
+<section>
+	<h1>P3 lime to sRGB</h1>
+	<table class="reftest" data-test="fuzzyNumberTest">
+		<tr>
+			<td>
+				<script>
+					print(() => {
+						var lime = new Color("P3", [0, 1, 0]);
+						var slime = lime.to("srgb");
+						return slime.forceInGamut();
+					});
+				</script>
+			</td>
+			<td>0, 0.9839 0.1619</td>
+		</tr>
+	</table>
+</section>
+
+<script>
+function fuzzyNumberTest(test, ref) {
+	let decimals = 2;
+	test = test.textContent;
+	ref = ref.textContent;
+
+	if (test === ref) {
+		return true;
+	}
+
+	let nRegex = /(-?[\d.]+)/g;
+	let nRound = n => (+n).toFixed(decimals);
+
+	test = test.replace(nRegex, nRound);
+	ref = ref.replace(nRegex, nRound);
+
+	return Test.equals(test.trim(), ref.trim());
+}
+// 
+// $.ready().then(() => {
+// 	let lch = [86.61463159131704, 106.45657523304926, 136.0088599937244];
+// 	console.log(Color.convert(lch, "lch", "srgb"));
+// 	console.log(Color.convert(lch, "lch", "srgb", Color.D50));
+// 	console.log(Color.convert(lch, "lch", "srgb", Color.D65));
+// });
+
+
+</script>
+
+</body>
+</html>

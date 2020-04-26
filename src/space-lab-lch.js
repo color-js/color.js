@@ -124,33 +124,32 @@ Color.defineSpace({
 		// until the color is in gamut
 		forceInGamut() {
 			let lch = this.lch;
-			let c = lch[1];
 
 			if (this.space.inGamut(this.coords)) {
 				return this.coords;
 			}
 
-			let hiC = c;
+			let hiC = lch[1];
 			let loC = 0;
-			const ε = .0001;
-			c /= 2;
+			const ε = .0001; // .0001 chosen fairly arbitrarily as "close enough"
+			lch[1] /= 2;
+			let coords;
 
-			// .0001 chosen fairly arbitrarily as "close enough"
 			while (hiC - loC > ε) {
-				var color = new Color("lch", lch);
+				// FIXME does not take into account custom white point in this (different from color space default)
+				coords = Color.convert(lch, "lch", this.spaceId);
 
-				if (this.space.inGamut(color[this.spaceId])) {
-					loC = c;
+				if (this.space.inGamut(coords)) {
+					loC = lch[1];
 				}
 				else {
-					hiC = c;
+					hiC = lch[1];
 				}
 
-				lch[1] = c = (hiC + loC) / 2;
-				console.log(lch);
+				lch[1] = (hiC + loC) / 2;
 			}
 
-			return color[this.spaceId];
+			return coords;
 		}
 	},
 	instance: {
