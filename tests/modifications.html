@@ -5,12 +5,6 @@
 <meta charset="UTF-8">
 <title>Color modification tests</title>
 <link rel="stylesheet" href="https://test.mavo.io/style.css" />
-<style>
-.matrix {
-	white-space: pre;
-	font-family: Consolas, Monaco, monospace;
-}
-</style>
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
@@ -83,7 +77,7 @@ function fuzzyNumberTest(test, ref) {
 
 	test = test.replace(nRegex, nRound);
 	ref = ref.replace(nRegex, nRound);
-	
+
 	return Test.equals(test.trim(), ref.trim());
 }
 </script>
