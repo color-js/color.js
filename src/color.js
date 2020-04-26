@@ -133,7 +133,7 @@ export default class Color {
 		return new Color(id, this[id], this.alpha);
 	}
 
-	toJSON() {
+	toJSON () {
 		// TODO return white point as well if custom
 		return {
 			spaceId: this.spaceId,
@@ -329,6 +329,35 @@ export default class Color {
 		}
 	}
 
+	// One-off convert between color spaces
+	static convert (coords, fromId, toId, fromWhite) {
+		fromId = fromId.toLowerCase();
+		toId = toId.toLowerCase();
+
+		let fromSpace = _.spaces[fromId];
+		let toSpace = _.spaces[toId];
+
+		fromWhite = fromWhite || fromSpace.white;
+
+		// Do we have a more specific conversion function?
+		// Avoids round-tripping to & from XYZ
+		let Id = util.capitalize(fromId);
+
+		if (("from" + Id) in toSpace) {
+			// No white point adaptation, we assume the custom function takes care of it
+			return space["from" + Id](coords);
+		}
+
+		let XYZ = fromId === "xyz"? coords : fromSpace.toXYZ(coords);
+
+		if (toSpace.white !== fromWhite) {
+			// Different white point, perform white point adaptation
+			XYZ = _.chromaticAdaptation(fromWhite, toSpace.white, XYZ);
+		}
+
+		return toSpace.fromXYZ(XYZ);
+	}
+
 	// Define a new color space
 	static defineSpace ({id, inherits}) {
 		let space = _.spaces[id] = arguments[0];
@@ -405,25 +434,7 @@ export default class Color {
 			// Source colorspace: this.spaceId
 			// Target colorspace: id
 			get() {
-				// Do we have a more specific conversion function?
-				// Avoids round-tripping to & from XYZ
-				let Id = util.capitalize(this.spaceId);
-
-				if (("from" + Id) in space) {
-					// No white point adaptation, we assume the custom function takes care of it
-					return space["from" + Id](this.coords);
-				}
-
-				let XYZ = this.XYZ;
-
-				if (space.white !== this.white) {
-					// Different white point, perform white point adaptation
-					XYZ = _.chromaticAdaptation(this.white, space.white, XYZ);
-				}
-
-				let coords = space.fromXYZ(XYZ);
-
-				return coords;
+				return _.convert(this.coords, this.spaceId, space.id, this.white);
 			},
 			// Convert coords in another colorspace to internal coords and set them
 			// Target colorspace: this.spaceId
