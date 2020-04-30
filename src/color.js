@@ -48,7 +48,6 @@ export default class Color {
 
 	// Handle dynamic changes of color space
 	set spaceId (id) {
-		id = id.toLowerCase();
 		let newSpace = _.space(id);
 
 		if (!newSpace) {
@@ -88,6 +87,7 @@ export default class Color {
 
 	// 1976 DeltaE. 2.3 is the JND
 	deltaE (color) {
+		color = _.get(color);
 		let lab1 = this.lab;
 		let lab2 = color.lab;
 		return Math.sqrt([0, 1, 2].reduce((a, i) => a + (lab2[i] - lab1[i]) ** 2, 0));
@@ -126,7 +126,11 @@ export default class Color {
 		return this.space.inGamut && this.space.inGamut(this.coords);
 	}
 
-	// Convert to color space and return a new color
+	/**
+	 * Convert to color space and return a new color
+	 * @param {Object|string} space - Color space object or id
+	 * @returns {Color}
+	 */
 	to (space) {
 		let id = space;
 
@@ -135,6 +139,83 @@ export default class Color {
 		}
 
 		return new Color(id, this[id], this.alpha);
+	}
+
+	/**
+	 * Interpolate to color2 and return a function that takes a 0-1 percentage
+	 * @returns {Function}
+	 */
+	range (color2, {space, outputSpace}) {
+		let color1 = this;
+		color2 = _.get(color2);
+
+		if (!space) {
+			// If colors in the same space, interpolation happens in that, otherwise Lab
+			if (color1.space === color2.space || !_.spaces.lab) {
+				space = color1.space;
+			}
+			else {
+				space = _.spaces.lab;
+			}
+		}
+
+		outputSpace = outputSpace || color1.space || space;
+
+		color1 = color1.to(space);
+		color2 = color2.to(space);
+
+		let range = color1.coords.map((coord, i) => color2.coords[i] - coord);
+		let alphaRange = color2.alpha - color1.alpha;
+
+		return p => {
+			let coords = color1.coords.map((coord, i) => coord + range[i] * p);
+			let alpha = color1.alpha + alphaRange * p;
+			let ret = new Color(space, coords, alpha);
+
+			return outputSpace !== space? ret.to(outputSpace) : ret;
+		};
+	}
+
+	/**
+	 * Interpolate to color2 and return an array of colors
+	 * @returns {Array[Color]}
+	 */
+	steps (color2, {space, outputSpace, delta, steps = 2, maxSteps = 1000} = {}) {
+		color2 = _.get(color2);
+		let range = this.range(color2, {space, outputSpace});
+
+		let ret = [];
+
+		if (steps === 1) {
+			ret = [{p: .5, color: range(.5)}];
+		}
+		else {
+			let step = 1 / (steps - 1);
+			ret = Array.from({length: steps}, (_, i) => {
+				let p = i * step;
+				return {p, color: range(p)};
+			});
+		}
+
+
+		if (delta > 0) {
+			// Iteratively add intermediate stops until deltaE between any
+			// consecutive colors is smaller than maxDelta
+			for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
+				let prev = ret[i - 1];
+				let cur = ret[i];
+
+				if (prev.color.deltaE(cur.color) > delta) {
+					let p = (cur.p + prev.p) / 2;
+					ret.splice(i, 0, {p, color: range(p)});
+					i--;
+				}
+			}
+		}
+
+		ret = ret.map(a => a.color);
+
+		return ret;
 	}
 
 	toJSON () {
@@ -369,6 +450,31 @@ export default class Color {
 		}
 
 		return toSpace.fromXYZ(XYZ);
+	}
+
+	/**
+	 * Get a color from the argument passed
+	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
+	 */
+	static get (color, ...args) {
+		if (color instanceof Color) {
+			return color;
+		}
+
+		return new Color(color, ...args);
+	}
+
+	/**
+	 * Return a color space object from an id or color space object
+	 * Mainly used internally, so that functions can easily accept either
+	 */
+	static space (space) {
+		if (util.isString(space)) {
+			// It's a color space id
+			return _.spaces[space.toLowerCase()];
+		}
+
+		return space;
 	}
 
 	// Define a new color space
