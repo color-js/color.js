@@ -145,7 +145,7 @@ export default class Color {
 	 * Interpolate to color2 and return a function that takes a 0-1 percentage
 	 * @returns {Function}
 	 */
-	range (color2, {space, outputSpace}) {
+	range (color2, {space, outputSpace} = {}) {
 		let color1 = this;
 		color2 = _.get(color2);
 
@@ -174,6 +174,24 @@ export default class Color {
 
 			return outputSpace !== space? ret.to(outputSpace) : ret;
 		};
+	}
+
+	/**
+	 * Return an intermediate color between two colors
+	 * Signatures: color.mix(color, p, options)
+	 *             color.mix(color, options)
+	 *             color.mix(color)
+	 */
+	mix (color, p = .5, o = {}) {
+		if (util.type(p) === "object") {
+			[p, o] = [.5, p];
+		}
+
+		let {space, outputSpace} = o;
+
+		color = _.get(color);
+		let range = this.range(color, {space, outputSpace});
+		return range(p);
 	}
 
 	/**
