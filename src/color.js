@@ -613,4 +613,23 @@ _.D50 = new Color("XYZ", [0.96422, 1.00000, 0.82521]);
 _.D65 = new Color("XYZ", [0.95047, 1.00000, 1.08883]);
 _.D65.white = _.D65;
 
+// Define static versions of all instance methods
+for (let prop of Object.getOwnPropertyNames(_.prototype)) {
+	let descriptor = Object.getOwnPropertyDescriptor(_.prototype, prop);
+
+	if (descriptor.get || descriptor.set) {
+		continue; // avoid accessors
+	}
+
+	let method = descriptor.value;
+
+	if (typeof method === "function" && !_[prop]) {
+		// We have a function, and no static version already
+		_[prop] = function(color, ...args) {
+			color = _.get(color);
+			return color[prop](...args);
+		};
+	}
+}
+
 export {util};
