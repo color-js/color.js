@@ -12,7 +12,7 @@ Color.defineSpace({
 		let rgb = this.toSRGB(coords);
 		return Color.spaces.srgb.inGamut(rgb);
 	},
-	white: Color.D65,
+	white: Color.whites.D65,
 
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
 	fromSRGB(rgb) {

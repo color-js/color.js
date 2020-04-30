@@ -5,7 +5,7 @@ Color.defineSpace({
 	id: "prophoto",
 	name: "ProPhoto",
 	cssId: "prophoto-rgb",
-	white: Color.D50,
+	white: Color.whites.D50,
 	toLinear(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
 		return RGB.map(function (val) {

@@ -11,11 +11,11 @@ Color.defineSpace({
 	inGamut: coords => true,
 	// Assuming XYZ is relative to D50, convert to CIE Lab
 	// from CIE standard, which now defines these as a rational fraction
-	white: Color.D50,
+	white: Color.whites.D50,
 	ε: 216/24389,  // 6^3/29^3
 	κ: 24389/27,   // 29^3/3^3
 	fromXYZ(XYZ) {
-		const κ = this.κ, ε = this.ε, white = this.white.coords;
+		const κ = this.κ, ε = this.ε, white = this.white;
 
 		// compute xyz, which is XYZ scaled relative to reference white
 		let xyz = XYZ.map((value, i) => value / white[i]);
@@ -32,7 +32,7 @@ Color.defineSpace({
 	toXYZ(Lab) {
 		// Convert Lab to D50-adapted XYZ
 		// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-		const κ = this.κ, ε = this.ε, white = this.white.coords;
+		const κ = this.κ, ε = this.ε, white = this.white;
 
 		// compute f, starting with the luminance-related term
 		let f = [];

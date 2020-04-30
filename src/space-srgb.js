@@ -12,7 +12,7 @@ Color.defineSpace({
 	inGamut(coords) {
 		return coords.every(c => c >= -this.ε && c <= 1 + this.ε);
 	},
-	white: Color.D65,
+	white: Color.whites.D65,
 
 	// convert an array of sRGB values in the range 0.0 - 1.0
 	// to linear light (un-companded) form.

@@ -76,13 +76,7 @@ export default class Color {
 	}
 
 	get white () {
-		return this.space.white || _.D50;
-	}
-
-	set white (value) {
-		// Custom white point
-		Object.defineProperty(this, "white", {value, writable: true});
-		// We DO NOT do color adaptation of the current coords
+		return this.space.white || _.whites.D50;
 	}
 
 	// 1976 DeltaE. 2.3 is the JND
@@ -94,7 +88,7 @@ export default class Color {
 	}
 
 	luminance () {
-		return this.Y / this.white.Y;
+		return this.Y / this.white[1];
 	}
 
 	contrast (color) {
@@ -237,7 +231,6 @@ export default class Color {
 	}
 
 	toJSON () {
-		// TODO return white point as well if custom
 		return {
 			spaceId: this.spaceId,
 			coords: this.coords,
@@ -281,8 +274,8 @@ export default class Color {
 
 	// Adapt XYZ from white point W1 to W2
 	static chromaticAdaptation (W1, W2, XYZ) {
-		W1 = W1 || _.D50;
-		W2 = W2 || _.D50;
+		W1 = W1 || _.whites.D50;
+		W2 = W2 || _.whites.D50;
 
 		if (W1 === W2) {
 			return XYZ;
@@ -290,14 +283,14 @@ export default class Color {
 
 		let M;
 
-		if (W1 === _.D65 && W2 === _.D50) {
+		if (W1 === _.whites.D65 && W2 === _.whites.D50) {
 			M = [
 				[ 1.0478112,  0.0228866, -0.0501270],
 				[ 0.0295424,  0.9904844, -0.0170491],
 				[-0.0092345,  0.0150436,  0.7521316]
 			];
 		}
-		else if (W1 === _.D50 && W2 === _.D65) {
+		else if (W1 === _.whites.D50 && W2 === _.whites.D65) {
 			M = [
 				[ 0.9555766, -0.0230393,  0.0631636],
 				[-0.0282895,  1.0099416,  0.0210077],
@@ -309,7 +302,6 @@ export default class Color {
 			return util.multiplyMatrices(M, XYZ);
 		}
 		else {
-			debugger;
 			throw new TypeError("Only white points D50 and D65 supported for now.");
 		}
 	}
@@ -437,17 +429,15 @@ export default class Color {
 	}
 
 	// One-off convert between color spaces
-	static convert (coords, fromId, toId, fromWhite) {
-		fromId = fromId.toLowerCase();
-		toId = toId.toLowerCase();
+	static convert (coords, fromSpace, toSpace) {
+		fromSpace = _.space(fromSpace);
+		toSpace = _.space(toSpace);
 
-		let fromSpace = _.spaces[fromId];
-		let toSpace = _.spaces[toId];
+		let fromId = fromSpace.id;
+		let toId = toSpace.id;
 
-		fromWhite = fromWhite || fromSpace.white;
-
-		if (fromId === toId && toSpace.white === fromWhite) {
-			// Same space, same white point, no change needed
+		if (fromSpace === toSpace) {
+			// Same space, no change needed
 			return coords;
 		}
 
@@ -462,9 +452,9 @@ export default class Color {
 
 		let XYZ = fromSpace.toXYZ(coords);
 
-		if (toSpace.white !== fromWhite) {
+		if (toSpace.white !== fromSpace.white) {
 			// Different white point, perform white point adaptation
-			XYZ = _.chromaticAdaptation(fromWhite, toSpace.white, XYZ);
+			XYZ = _.chromaticAdaptation(fromSpace.white, toSpace.white, XYZ);
 		}
 
 		return toSpace.fromXYZ(XYZ);
@@ -571,7 +561,7 @@ export default class Color {
 			// Source colorspace: this.spaceId
 			// Target colorspace: id
 			get() {
-				return _.convert(this.coords, this.spaceId, id, this.white);
+				return _.convert(this.coords, this.spaceId, id);
 			},
 			// Convert coords in another colorspace to internal coords and set them
 			// Target colorspace: this.spaceId
@@ -627,9 +617,10 @@ _.defineSpace({
 	fromXYZ: coords => coords
 });
 
-_.D50 = new Color("XYZ", [0.96422, 1.00000, 0.82521]);
-_.D65 = new Color("XYZ", [0.95047, 1.00000, 1.08883]);
-_.D65.white = _.D65;
+_.whites = {
+	D50: [0.96422, 1.00000, 0.82521],
+	D65: [0.95047, 1.00000, 1.08883],
+};
 
 // Define static versions of all instance methods
 for (let prop of Object.getOwnPropertyNames(_.prototype)) {
