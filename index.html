@@ -12,14 +12,17 @@
 
 <header>
 	<h1>Color.js</h1>
-	<h2>A swiss army knife for all your color needs</h2>
+	<h2>Let's get serious about color</h2>
+
+	<nav>
+		<a href="tests/">Tests</a>
+	</nav>
 
 	<ul>
-		<li>Fully color space aware, not just using color spaces as output</li>
+		<li>Fully color space aware</li>
 		<li>Fully up to date with CSS Color 4</li>
 		<li>Readable, object-oriented API</li>
 		<li>Fully extensible</li>
-		<li>From Lea Verou (co-editor of CSS Color 5) and Chris Lilley (co-editor of CSS Color 3, 4, and 5)</li>
 	</ul>
 </header>
 
@@ -34,11 +37,16 @@
 
 	<p>Pass a color space id and coordinates:</p>
 	<pre class="runnable"><code>
-		let lime = new Color("P3", [0, 1, 0]);
+		let limer = new Color("P3", [0, 1, 0]);
+		limer.spaceId = "srgb"; // Convert to sRGB
+		limer + ""; // Output
 	</code></pre>
 </section>
 
-
+<footer>
+	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)
+	and <a href="https://svgees.us">Chris Lilley</a> (co-editor of CSS Color 3, 4, and 5)
+</footer>
 
 <script src="js/prism.js"></script>
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
