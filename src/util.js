@@ -6,7 +6,18 @@ import multiplyMatrices from "./multiply-matrices.js";
  * @returns {boolean}
  */
 export function isString (str) {
-	return Object.prototype.toString.call(str) === "[object String]";
+	return type(str) === "string";
+}
+
+/**
+ * Determine the internal JavaScript [[Class]] of an object.
+ * @param {*} o - Value to check
+ * @returns {string}
+ */
+export function type (o) {
+	let str = Object.prototype.toString.call(o);
+
+	return (str.match(/^\[object\s+(.*?)\]$/)[1] || "").toLowerCase();
 }
 
 /**
@@ -60,7 +71,7 @@ export function toPrecision(n, precision, range = [0, 1]) {
 	precision = +precision;
 	let digits = ((range[1] || range[0] || 1) + "").length;
 	let decimals = precision + 1 - digits;
-	
+
 	return +n.toFixed(decimals);
 }
 
