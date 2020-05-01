@@ -11,6 +11,7 @@
 		font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
 		max-width: fit-content;
 		margin: 1em auto;
+		padding: 0 2em;
 	}
 
 	input {
@@ -33,6 +34,12 @@
 		font-family: Consolas, Monaco, monospace;
 	}
 
+	td:nth-child(3):hover,
+	td:nth-child(4):hover {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
 	tr:nth-child(even) {
 		background: rgba(0,0,0,.05);
 	}
@@ -42,14 +49,16 @@
 		top: 0; left: 0; right: 0;
 		width: 100%;
 		height: 2em;
+		--red-stripe-stops: transparent calc(50% - .05em), red 0 calc(50% + .05em), transparent 0;
+		--error-background: linear-gradient(to bottom right, var(--red-stripe-stops)), linear-gradient(to top right, var(--red-stripe-stops)) gray;
 	}
 </style>
 </head>
-<body mv-app>
+<body>
 <output id="colorOutput"></output>
 <div class="inputs">
 	<label>
-		Color: <input id="colorStr" value="lime" />
+		Color: <input id="colorInput" value="lime" />
 	</label>
 
 	<label>
@@ -71,40 +80,24 @@
 	</tbody>
 </table>
 
-<!-- <dl>
-	<dt>XYZ:</dt>
-	<dd>[color.XYZ]</dd>
-
-	<dt>Lab:</dt>
-	<dd>[color.lab]</dd>
-
-	<dt>LCH:</dt>
-	<dd>[color.lch]</dd>
-
-	<dt>sRGB:</dt>
-	<dd>[color.srgb]</dd>
-
-	<dt>display-p3:</dt>
-	<dd>[color.p3]</dd>
-
-	<dt>a98-rgb:</dt>
-	<dd>[color.a98rgb]</dd>
-
-	<dt>ProPhoto:</dt>
-	<dd>[color.prophoto]</dd>
-
-	<dt>rec2020:</dt>
-	<dd>[color.rec2020]</dd>
-</dl> -->
 <script type="module">
-	function update() {
+	window.update = function update(colorStr) {
+		if (colorStr && !(colorStr instanceof Event)) {
+			colorInput.value = colorStr;
+		}
+		else {
+			colorStr = colorInput.value;
+		}
+
 		try {
-			var color = new Color(colorStr.value);
-			colorStr.setCustomValidity("");
+			var color = new Color(colorStr);
+			colorInput.setCustomValidity("");
+			history.pushState(null, "", `?color=${encodeURIComponent(colorInput.value)}`)
 		}
 		catch (e) {
 			if (e.message.indexOf("Cannot parse") > -1) {
-				colorStr.setCustomValidity(e);
+				colorInput.setCustomValidity(e);
+				colorOutput.style.background = "var(--error-background)";
 				return;
 			}
 			else {
@@ -118,8 +111,7 @@
 
 			for (let id in Color.spaces) {
 				let converted = color.to(id);
-
-				// converted.coords = converted.coords.map(n => +n.toFixed(precisionInput.value));
+				let space = Color.spaces[id];
 
 				if (id === "srgb" || id === "p3") {
 					colorOutput.style.background = converted;
@@ -128,10 +120,10 @@
 				let precision = precisionInput.value;
 
 				ret += `<tr>
-					<th>${id}</th>
+					<th>${space.name}</th>
 					<td>${converted.coords.join(", ")}</td>
-					<td>${converted.toString({precision})}</td>
-					<td>${Color.prototype.toString.call(converted, {precision})}</td>
+					<td onclick="update(colorInput.value = this.textContent)">${converted.toString({precision})}</td>
+					<td onclick="update(colorInput.value = this.textContent)">${Color.prototype.toString.call(converted, {precision})}</td>
 				</tr>`;
 			}
 
@@ -139,9 +131,11 @@
 		}
 	}
 
-	colorStr.addEventListener("input", update);
+	colorInput.addEventListener("input", update);
 	precisionInput.addEventListener("input", update);
-	update();
+
+	let colorStr = new URL(location).searchParams.get("color");
+	update(colorStr);
 </script>
 </body>
 </html>
