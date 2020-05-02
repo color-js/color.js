@@ -6,10 +6,10 @@ Color.defineSpace({
 	name: "Adobe 98 RGB compatible",
 	cssId: "a98-rgb",
 	toLinear(RGB) {
-		return RGB.map(val => Math.pow(val, 563/256));
+		return RGB.map(val => Math.pow(Math.abs(val), 563/256)*Math.sign(val));
 	},
 	toGamma(RGB) {
-		return RGB.map(val => Math.pow(val, 256/563));
+		return RGB.map(val => Math.pow(Math.abs(val), 256/563)*Math.sign(val));
 	},
 	// convert an array of linear-light a98-rgb values to CIE XYZ
 	// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
