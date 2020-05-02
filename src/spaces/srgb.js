@@ -1,4 +1,4 @@
-import Color, {util} from "./color.js";
+import Color, {util} from "./../color.js";
 
 Color.defineSpace({
 	id: "srgb",

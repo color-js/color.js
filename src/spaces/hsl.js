@@ -1,4 +1,4 @@
-import Color from "./space-srgb.js";
+import Color from "./srgb.js";
 
 Color.defineSpace({
 	id: "hsl",
