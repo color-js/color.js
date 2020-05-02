@@ -4,9 +4,9 @@ Color.defineSpace({
 	id: "hsl",
 	name: "HSL",
 	coords: {
-		hueHSL: [0, 360],
-		saturationHSL: [0, 100],
-		lightnessHSL: [0, 100]
+		hue: [0, 360],
+		saturation: [0, 100],
+		lightness: [0, 100]
 	},
 	inGamut(coords) {
 		let rgb = this.toSRGB(coords);

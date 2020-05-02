@@ -586,7 +586,10 @@ export default class Color {
 
 	static defineCoordAccessors(id, coordNames) {
 		coordNames.forEach((coord, i) => {
-			Object.defineProperty(_.prototype, coord, {
+			let exists = coord in _.prototype;
+			let prop = exists? id + "_" + coord : coord;
+
+			Object.defineProperty(_.prototype, prop, {
 				get() {
 					if (coord in this.space.coords) {
 						return this.coords[i];
