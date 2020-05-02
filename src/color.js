@@ -144,6 +144,7 @@ export default class Color {
 	range (color2, {space, outputSpace} = {}) {
 		let color1 = this;
 		color2 = _.get(color2);
+		space = _.space(space);
 
 		if (!space) {
 			// If colors in the same space, interpolation happens in that, otherwise Lab
@@ -478,12 +479,16 @@ export default class Color {
 	 * Mainly used internally, so that functions can easily accept either
 	 */
 	static space (space) {
-		if (util.isString(space)) {
+		let type = util.type(space);
+
+		if (type === "string") {
 			// It's a color space id
 			return _.spaces[space.toLowerCase()];
 		}
-
-		return space;
+		else if (type === "object") {
+			return space;
+		}
+		// ISSUE else throw?
 	}
 
 	// Define a new color space
