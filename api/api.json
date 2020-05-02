@@ -1,0 +1,76 @@
+{
+	"className": [
+		{
+			"name": "Color",
+			"filename": "color.js",
+			"description": "Represents a color.",
+			"member": [
+				{
+					"name": "new Color",
+					"static": false,
+					"role": "constructor",
+					"description": "Creates a new color object",
+					"argument": [
+						{
+							"name": "colorSpace",
+							"optional": false,
+							"type": "String|Object",
+							"description": "Color space id or object"
+						},
+						{
+							"name": "coords",
+							"optional": false,
+							"type": "Array",
+							"description": "Color coordinates in its color space"
+						},
+						{
+							"name": "alpha",
+							"optional": true,
+							"type": "Number"
+						}
+					]
+				},
+				{
+					"name": "space",
+					"type": "Object",
+					"static": false,
+					"role": "accessor",
+					"description": "Color space object for the current color.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "spaceId",
+					"type": "String",
+					"static": false,
+					"role": "accessor",
+					"description": "Color space id for the current color, e.g. \"srgb\". Can be used to set the color space, which also transforms the coords accordingly.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "deltaE",
+					"static": false,
+					"role": "function",
+					"description": "DeltaE 1976 distance between the current color and another color",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Color",
+							"description": "The color to calculate DeltaE distance from."
+						}
+					],
+					"returnType": "Number",
+					"returnDescription": "Distance. 2.3 is the \"Just Noticeable Difference\""
+				}
+			]
+		}
+	]
+}
