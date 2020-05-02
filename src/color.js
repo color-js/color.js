@@ -102,7 +102,7 @@ export default class Color {
 		let coords = this.coords;
 
 		if (inGamut === true && !this.inGamut()) {
-			coords = this.coordsInGamut();
+			coords = this.toGamut().coords;
 		}
 
 		if (precision !== undefined) {
@@ -118,7 +118,7 @@ export default class Color {
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
-	inGamut({space = this.space} = {}) {
+	inGamut ({space = this.space} = {}) {
 		return _.inGamut(space, this.coords);
 	}
 
@@ -156,7 +156,7 @@ export default class Color {
 	 * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
 	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
 	 */
-	toGamut({method = "lch.chroma", space = this.space, inPlace} = {}) {
+	toGamut ({method = "lch.chroma", space = this.space, inPlace} = {}) {
 		space = _.space(space);
 
 		if (this.inGamut(space)) {
@@ -228,16 +228,24 @@ export default class Color {
 	/**
 	 * Convert to color space and return a new color
 	 * @param {Object|string} space - Color space object or id
+	 * @param {Object} options
+	 * @param {boolean} options.inGamut - Whether to force resulting color in gamut
 	 * @returns {Color}
 	 */
-	to (space) {
+	to (space, {inGamut} = {}) {
 		let id = space;
 
 		if (!util.isString(space)) {
 			id = space.id;
 		}
 
-		return new Color(id, this[id], this.alpha);
+		let color = new Color(id, this[id], this.alpha);
+
+		if (inGamut) {
+			color.inGamut({inPlace: true});
+		}
+
+		return color;
 	}
 
 	/**

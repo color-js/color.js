@@ -64,7 +64,7 @@ Color.defineSpace({
 			alpha = true, // include alpha in hex?
 			collapse = true // collapse to 3-4 digit hex when possible?
 		} = {}) {
-			let coords = this.to("srgb").coordsInGamut();
+			let coords = this.to("srgb", {inGamut: true}).coords;
 
 			if (this.alpha < 1 && alpha) {
 				coords.push(this.alpha);
