@@ -1,0 +1,61 @@
+body {
+	background: hsl(152.32 0% 46.63%); /* lab(50% 0 0) */
+	font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
+	width: fit-content;
+	width: 40em;
+	max-width: 90vw;
+	margin: 1em auto;
+	color: white;
+}
+
+input {
+	font: inherit;
+	font-size: 150%;
+	padding: 0 .2em;
+	box-sizing: border-box;
+}
+
+.inputs input {
+	width: 100%;
+	border: 5px solid var(--color);
+	border-right-width: 1em;
+	background: hsla(0 0% 100% / .5);
+	color: black;
+}
+
+.inputs label {
+	display: block;
+}
+
+#output {
+	margin-top: 1em;
+}
+
+[property="gradient"] {
+	background: linear-gradient(to right, var(--steps));
+	padding: 2em;
+	color: black;
+}
+
+[property="gradient"] details {
+	padding: .5em;
+	background: hsl(0 0% 100% / .5);
+}
+
+	[property="gradient"] details input,
+	[property="gradient"] details textarea {
+		background: hsl(0 0% 100% / .5);
+		border: 1px solid white;
+	}
+
+	input[type=number] {
+		width: 3em;
+	}
+
+	textarea {
+		display: block;
+		margin-top: .5em;
+		width: 100%;
+		font: 80%/1.4 Consolas, Monaco, monospace;
+		height: 7em;
+	}
