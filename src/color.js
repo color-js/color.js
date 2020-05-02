@@ -1,5 +1,7 @@
 import * as util from "./util.js";
 
+const ε = .000005;
+
 export default class Color {
 	// Signatures:
 	// new Color(stringToParse)
@@ -104,9 +106,9 @@ export default class Color {
 		}
 
 		if (precision !== undefined) {
-			let coordRanges = this.space.coords? Object.values(this.space.coords) : [];
+			let bounds = this.space.coords? Object.values(this.space.coords) : [];
 
-			coords = coords.map((n, i) => util.toPrecision(n, precision, coordRanges[i]));
+			coords = coords.map((n, i) => util.toPrecision(n, precision, bounds[i]));
 
 		}
 
@@ -116,9 +118,110 @@ export default class Color {
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
-	inGamut() {
-		if (this.space.inGamut) {
-			return this.space.inGamut(this.coords);
+	inGamut({space = this.space} = {}) {
+		return _.inGamut(space, this.coords);
+	}
+
+	static inGamut (space, coords) {
+		space = _.space(space);
+
+		if (space.inGamut) {
+			return space.inGamut(coords);
+		}
+		else {
+			if (!space.coords) {
+				return true;
+			}
+
+			// No color-space specific inGamut() function, just check if coords are within reference range
+			let bounds = Object.values(space.coords);
+
+			return coords.every((c, i) => {
+				let [min, max] = bounds[i];
+
+				return (min === undefined || c >= min - ε)
+				    && (max === undefined || c <= max + ε);
+			});
+		}
+	}
+
+	/**
+	 * Force coordinates in gamut of a certain color space and return the result
+	 * @param {Object} options
+	 * @param {string} options.method - How to force into gamut.
+	 *        If "clip", coordinates are just clipped to their reference range.
+	 *        If in the form [colorSpaceId].[coordName], that coordinate is reduced
+	 *        until the color is in gamut. Please note that this may produce nonsensical
+	 *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
+	 * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
+	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
+	 */
+	toGamut({method = "lch.chroma", space = this.space, inPlace} = {}) {
+		space = _.space(space);
+
+		if (this.inGamut(space)) {
+			return this;
+		}
+
+		let coords = Color.convert(this.coords, this.space, space);
+
+		if (method === "clip") {
+			// Dumb coord clipping
+			let bounds = Object.values(space.coords);
+
+			coords = coords.map((c, i) => {
+				let [min, max] = bounds[i];
+
+				if (min !== undefined) {
+					c = Math.max(min, c);
+				}
+
+				if (max !== undefined) {
+					c = Math.min(c, max);
+				}
+
+				return c;
+			});
+		}
+		else if (method.indexOf(".") > 0) {
+			// Reduce a coordinate of a certain color space until the color is in gamut
+			let [spaceId, coord] = method.split(".");
+			let mapSpace = _.space(spaceId);
+
+			if (!mapSpace) {
+				throw new ReferenceError(`No color space found with id = "${spaceId}"`);
+			}
+
+			let min = mapSpace.coords[coord][0];
+			let i = Object.keys(mapSpace.coords).indexOf(coord);
+
+			let mapCoords = this[spaceId];
+
+			let low = min;
+			let high = mapCoords[i];
+
+			mapCoords[i] /= 2;
+
+			while (high - low > ε) {
+				coords = Color.convert(mapCoords, mapSpace, space);
+
+				if (Color.inGamut(space, coords)) {
+					low = mapCoords[i];
+				}
+				else {
+					high = mapCoords[i];
+				}
+
+				mapCoords[i] = (high + low) / 2;
+			}
+		}
+
+		if (inPlace) {
+			this.coords = coords;
+			return this;
+		}
+		else {
+			return new Color(this.spaceId, coords, this.alpha);
 		}
 	}
 

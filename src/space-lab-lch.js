@@ -121,40 +121,6 @@ Color.defineSpace({
 			};
 		}
 	},
-	properties: {
-		// Moves a color within gamut by converting to LCH,
-		// holding the l and h steady, and adjusting the c via binary-search
-		// until the color is in gamut
-		coordsInGamut() {
-			let lch = this.lch;
-
-			if (this.space.inGamut(this.coords)) {
-				return this.coords;
-			}
-
-			let hiC = lch[1];
-			let loC = 0;
-			const ε = .0001; // .0001 chosen fairly arbitrarily as "close enough"
-			lch[1] /= 2;
-			let coords;
-
-			while (hiC - loC > ε) {
-				// FIXME does not take into account custom white point in this (different from color space default)
-				coords = Color.convert(lch, "lch", this.spaceId);
-
-				if (this.space.inGamut(coords)) {
-					loC = lch[1];
-				}
-				else {
-					hiC = lch[1];
-				}
-
-				lch[1] = (hiC + loC) / 2;
-			}
-
-			return coords;
-		}
-	},
 	instance: {
 		toString ({precision, format} = {}) {
 			if (!format) {

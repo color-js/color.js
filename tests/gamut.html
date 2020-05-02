@@ -22,17 +22,48 @@
 <section>
 	<h1>P3 lime to sRGB</h1>
 	<table class="reftest" data-test="fuzzyNumberTest">
-		<tr>
+		<tr title="Using chroma reduction">
 			<td>
 				<script>
 					print(() => {
 						var lime = new Color("P3", [0, 1, 0]);
 						var slime = lime.to("srgb");
-						return slime.coordsInGamut();
+						return slime.toGamut().coords;
 					});
 				</script>
 			</td>
-			<td>0, 0.9839 0.1619</td>
+			<td>
+				-0.000005221689607550206 0.9838829193480104 0.16187708981499607
+			</td>
+		</tr>
+		<tr title="Using HSL saturation reduction">
+			<td>
+				<script>
+					print(() => {
+						var lime = new Color("P3", [0, 1, 0]);
+						var slime = lime.to("srgb");
+						return slime.toGamut({method: "hsl.saturation"}).coords;
+					});
+				</script>
+			</td>
+			<td>
+				-0.000005221689607550206 0.9838829193480104 0.16187708981499607
+			</td>
+		</tr>
+		<tr title="Using clipping">
+			<td>
+				<script>
+					print(() => {
+						var lime = new Color("P3", [0, 1, 0]);
+						var slime = lime.to("srgb");
+						return slime.toGamut({method: "clip"}).coords;
+					});
+				</script>
+			</td>
+
+			<td>
+				0 1 0
+			</td>
 		</tr>
 	</table>
 </section>
