@@ -5,7 +5,7 @@ export default class Color {
 	// new Color(stringToParse)
 	// new Color(otherColor)
 	// new Color(coords, alpha) // defaults to sRGB
-	constructor (spaceId, coords, alpha = 1) {
+	constructor (spaceId = "sRGB", coords = [0, 0, 0], alpha = 1) {
 		if (arguments.length === 1) {
 			let color = arguments[0];
 
@@ -117,7 +117,9 @@ export default class Color {
 	 * @return {Boolean} Is the color in gamut?
 	 */
 	inGamut() {
-		return this.space.inGamut && this.space.inGamut(this.coords);
+		if (this.space.inGamut) {
+			return this.space.inGamut(this.coords);
+		}
 	}
 
 	/**
@@ -434,7 +436,6 @@ export default class Color {
 		toSpace = _.space(toSpace);
 
 		let fromId = fromSpace.id;
-		let toId = toSpace.id;
 
 		if (fromSpace === toSpace) {
 			// Same space, no change needed

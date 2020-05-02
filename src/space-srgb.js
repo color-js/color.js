@@ -96,7 +96,7 @@ Color.defineSpace({
 	},
 	// Properties present only on sRGB colors
 	instance: {
-		toString ({precision, inGamut, commas, format = "%"} = {}) {
+		toString ({precision, inGamut = true, commas, format = "%"} = {}) {
 			if (format === 255) {
 				format = c => c * 255;
 			}
