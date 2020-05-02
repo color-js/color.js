@@ -257,7 +257,7 @@ export default class Color {
 
 		if (util.isString(format)) {
 			if (format === "%") {
-				format = c => c * 100 + "%";
+				format = c => c.toLocaleString("en-US", {style: "percent", maximumSignificantDigits: precision});
 			}
 		}
 
