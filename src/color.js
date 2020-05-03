@@ -1,4 +1,5 @@
 import * as util from "./util.js";
+import Hooks from "./hooks.js";
 
 const ε = .000005;
 
@@ -423,6 +424,14 @@ export default class Color {
 	// CSS color to Color object
 	static parse (str) {
 		let parsed = _.parseFunction(str);
+
+		let env = {str, parsed};
+		_.hooks.run("parse-start", env);
+
+		if (env.color) {
+			return env.color;
+		}
+
 		let isRGB = parsed && parsed.name.indexOf("rgb") === 0;
 
 		// Try colorspace-specific parsing
@@ -723,6 +732,13 @@ export default class Color {
 
 let _  = Color;
 
+_.hooks = new Hooks();
+
+_.whites = {
+	D50: [0.96422, 1.00000, 0.82521],
+	D65: [0.95047, 1.00000, 1.08883],
+};
+
 _.spaces = {};
 
 _.defineSpace({
@@ -736,11 +752,6 @@ _.defineSpace({
 	toXYZ: coords => coords,
 	fromXYZ: coords => coords
 });
-
-_.whites = {
-	D50: [0.96422, 1.00000, 0.82521],
-	D65: [0.95047, 1.00000, 1.08883],
-};
 
 // Define static versions of all instance methods
 for (let prop of Object.getOwnPropertyNames(_.prototype)) {

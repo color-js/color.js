@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Color modification tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../color.js" type="module"></script>
+<script>
+
+</script>
+
+</head>
+<body>
+
+<h1>Color modification Tests</h1>
+<p>These tests modify one or more coordinates and check the result.</p>
+
+<section>
+	<h1>sRGB to LCH</h1>
+	<table class="reftest" data-test="fuzzyNumbers">
+		<tr title="parse-start">
+			<td>
+				<script>
+					print(() => {
+						Color.hooks.add("parse-start", env => {
+							if (env.str === "foo") {
+								return env.color = {spaceId: "sRGB", coords: [1, .5, .5]};
+							}
+						});
+
+						return new Color("foo").toJSON();
+					});
+				</script>
+			</td>
+			<td>{ "spaceId": "srgb", "coords": [ 1, 0.5, 0.5 ], "alpha": 1 }</td>
+		</tr>
+	</table>
+</section>
+
+</body>
+</html>

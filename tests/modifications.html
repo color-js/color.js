@@ -21,7 +21,7 @@
 
 <section>
 	<h1>sRGB to LCH</h1>
-	<table class="reftest" data-test="fuzzyNumberTest">
+	<table class="reftest" data-test="fuzzyNumbers">
 		<tr title="chroma = 13">
 			<td>
 				<script>
@@ -47,40 +47,20 @@
 			</td>
 			<td>13.480970445148008</td>
 		</tr>
-		<tr title="chroma *= 1.2 then print lch">
+		<tr title="chroma *= 1.25 then print lch">
 			<td>
 				<script>
 					print(() => {
 						var slategray = new Color("slategray");
-						slategray.chroma *= 1.2;
+						slategray.chroma *= 1.25;
 						return slategray.lch;
 					});
 				</script>
 			</td>
-			<td>52.69726481080971 13.480970445148008 253.00052666481292</td>
+			<td>52.69726799102946 14.04267594002497 253.0004426214531</td>
 		</tr>
 	</table>
 </section>
-
-<script defer>
-function fuzzyNumberTest(test, ref) {
-	let decimals = 2;
-	test = test.textContent;
-	ref = ref.textContent;
-
-	if (test === ref) {
-		return true;
-	}
-
-	let nRegex = /(-?[\d.]+)/g;
-	let nRound = n => (+n).toFixed(decimals);
-
-	test = test.replace(nRegex, nRound);
-	ref = ref.replace(nRegex, nRound);
-
-	return Test.equals(test.trim(), ref.trim());
-}
-</script>
 
 </body>
 </html>
