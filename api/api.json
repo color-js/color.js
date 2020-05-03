@@ -27,7 +27,8 @@
 							"optional": true,
 							"type": "Number"
 						}
-					]
+					],
+					"name": " "
 				},
 				{
 					"name": "coords",
