@@ -1,0 +1,140 @@
+{
+	"className": [
+		{
+			"name": "Color",
+			"filename": "color.js",
+			"description": "Represents a color.",
+			"member": [
+				{
+					"name": "new Color",
+					"static": false,
+					"role": "constructor",
+					"description": "Creates a new color object",
+					"argument": [
+						{
+							"name": "colorSpace",
+							"optional": false,
+							"type": "String|Object",
+							"description": "Color space id or object"
+						},
+						{
+							"name": "coords",
+							"optional": false,
+							"type": "Array",
+							"description": "Color coordinates in its color space"
+						},
+						{
+							"name": "alpha",
+							"optional": true,
+							"type": "Number"
+						}
+					]
+				},
+				{
+					"name": "coords",
+					"type": "Array",
+					"static": false,
+					"role": "property",
+					"description": "Coordinates of the color in its color space",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "alpha",
+					"type": "Number",
+					"static": false,
+					"role": "property",
+					"description": "Alpha transparency. Defaults to 1.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "space",
+					"type": "Object",
+					"static": false,
+					"role": "accessor",
+					"description": "Color space object for the current color.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "spaceId",
+					"type": "String",
+					"static": false,
+					"role": "accessor",
+					"description": "Color space id for the current color, e.g. \"srgb\". Can be used to set the color space, which also transforms the coords accordingly.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "white",
+					"type": "Array",
+					"static": false,
+					"role": "accessor",
+					"description": "White point of the color's color space. Equivalent to `this.space.white`. Defaults to `Color.whites.D50`.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "luminance",
+					"static": false,
+					"role": "function",
+					"description": "Relative luminance.",
+					"argument": [
+						{
+							"optional": false
+						}
+					],
+					"returnType": "Number",
+					"returnDescription": "The relative luminance of the color"
+				},
+				{
+					"name": "deltaE",
+					"static": false,
+					"role": "function",
+					"description": "DeltaE 1976 distance between the current color and another color",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Color",
+							"description": "The color to calculate DeltaE distance from."
+						}
+					],
+					"returnType": "Number",
+					"returnDescription": "Distance. 2.3 is the \"Just Noticeable Difference\""
+				},
+				{
+					"name": "inGamut",
+					"static": false,
+					"role": "function",
+					"description": "Is the color in gamut for a given color space?",
+					"argument": [
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Options object. The options supported are:\n- **space**: The color space whose gamut we're checking against. Defaults to the current color space."
+						}
+					],
+					"returnType": "Boolean"
+				}
+			]
+		}
+	]
+}
