@@ -167,7 +167,8 @@
 							"description": "Options object. Options:\n- `method`: How to force into gamut. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"lch.chroma\"`.\n- `space`: Color space whose gamut we are mapping to. Defaults to the current color space.\n- `inPlace`: If true, modifies the current color instead of returning a new one. Defaults to false."
 						}
 					],
-					"returnType": "Color"
+					"returnType": "Color",
+					"description": "Map color to a color that is within a color space's gamut."
 				},
 				{
 					"name": "toGamut",
@@ -187,6 +188,25 @@
 						}
 					],
 					"returnType": "Color"
+				},
+				{
+					"name": "to",
+					"static": false,
+					"role": "function",
+					"description": "Convert the color to another color space and return the result as a new color.\nNote that you don't need this to convert the current color to another color space, just set [Color#spaceId](#Color#spaceId) or [Color#space](#Color#space).",
+					"argument": [
+						{
+							"name": "space",
+							"optional": false,
+							"description": "Color space to convert to."
+						},
+						{
+							"name": "options",
+							"optional": false,
+							"type": "Object",
+							"description": "Options object.\n- `inGamut`: Whether to also force the coordinates of the new color to be in gamut of its color space"
+						}
+					]
 				}
 			]
 		}
