@@ -732,6 +732,7 @@ export default class Color {
 
 let _  = Color;
 
+_.util = util;
 _.hooks = new Hooks();
 
 _.whites = {
