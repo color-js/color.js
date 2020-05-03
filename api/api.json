@@ -274,6 +274,164 @@
 					],
 					"returnType": "Array",
 					"returnDescription": "Array of colors"
+				},
+				{
+					"name": "toJSON",
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "toString",
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "chromaticAdaptation",
+					"static": true,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "parse",
+					"static": true,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "parseFunction",
+					"static": true,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "convert",
+					"static": true,
+					"role": "function",
+					"description": "One-off convert between color spaces.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "get",
+					"static": true,
+					"role": "function",
+					"description": "Get a Color object from the argument passed. Basically gets us the same result as `new Color(color)` but doesn't clone an existing color object",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "space",
+					"static": true,
+					"role": "function",
+					"description": "Return a color space object from an id or color space object. Mainly used internally, so that functions can easily accept either.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "defineSpace",
+					"static": true,
+					"role": "function",
+					"description": "Define a new color space",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "spaces",
+					"type": "Object",
+					"static": true,
+					"role": "property",
+					"description": "All registered color spaces",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "hooks",
+					"type": "Hooks",
+					"static": true,
+					"role": "property",
+					"description": "[Hooks](#Hooks) object to facilitate creating and using extension points in the code. ",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				},
+				{
+					"name": "whites",
+					"type": "Object",
+					"static": true,
+					"role": "property",
+					"description": "All registered white points.",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Color.util",
+			"member": [
+				{
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Hooks",
+			"member": [
+				{
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
 				}
 			]
 		}
