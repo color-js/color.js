@@ -8,12 +8,12 @@
 				{
 					"static": false,
 					"role": "constructor",
-					"description": "Creates a new color object",
+					"description": "Create a new color object.",
 					"argument": [
 						{
 							"name": "colorSpace",
 							"optional": false,
-							"type": "String|Object",
+							"type": "ColorSpace",
 							"description": "Color space id or object"
 						},
 						{
@@ -29,6 +29,34 @@
 						}
 					],
 					"name": " "
+				},
+				{
+					"name": " ",
+					"static": false,
+					"role": "constructor",
+					"description": "Create a new color object.",
+					"argument": [
+						{
+							"name": "str",
+							"optional": false,
+							"type": "string",
+							"description": "String representation of color. See [`Color.parse()`](#Color.parse) for what's accepted."
+						}
+					]
+				},
+				{
+					"name": " ",
+					"static": false,
+					"role": "constructor",
+					"description": "Create a new color object.",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Object",
+							"description": "Any object with a `coords` property, and optionally `spaceId` and `alpha`. Another color instance works too, and effectively clones the object."
+						}
+					]
 				},
 				{
 					"name": "coords",
