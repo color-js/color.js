@@ -133,6 +133,60 @@
 						}
 					],
 					"returnType": "Boolean"
+				},
+				{
+					"name": "inGamut",
+					"static": true,
+					"role": "function",
+					"description": "Is the color in gamut for a given color space?",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Color|Object|String",
+							"description": "Color"
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Same as color.inGamut()"
+						}
+					],
+					"returnType": "Boolean"
+				},
+				{
+					"name": "toGamut",
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"name": "options",
+							"optional": false,
+							"type": "Object",
+							"description": "Options object. Options:\n- `method`: How to force into gamut. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"lch.chroma\"`.\n- `space`: Color space whose gamut we are mapping to. Defaults to the current color space.\n- `inPlace`: If true, modifies the current color instead of returning a new one. Defaults to false."
+						}
+					],
+					"returnType": "Color"
+				},
+				{
+					"name": "toGamut",
+					"static": true,
+					"role": "function",
+					"description": "Static version of color.toGamut()",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false
+						},
+						{
+							"name": "options",
+							"optional": false,
+							"type": "Object",
+							"description": "Same as color.toGamut()"
+						}
+					],
+					"returnType": "Color"
 				}
 			]
 		}
