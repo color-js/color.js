@@ -162,7 +162,7 @@
 					"argument": [
 						{
 							"name": "options",
-							"optional": false,
+							"optional": true,
 							"type": "Object",
 							"description": "Options object. Options:\n- `method`: How to force into gamut. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"lch.chroma\"`.\n- `space`: Color space whose gamut we are mapping to. Defaults to the current color space.\n- `inPlace`: If true, modifies the current color instead of returning a new one. Defaults to false."
 						}
@@ -182,7 +182,7 @@
 						},
 						{
 							"name": "options",
-							"optional": false,
+							"optional": true,
 							"type": "Object",
 							"description": "Same as color.toGamut()"
 						}
@@ -202,9 +202,64 @@
 						},
 						{
 							"name": "options",
-							"optional": false,
+							"optional": true,
 							"type": "Object",
 							"description": "Options object.\n- `inGamut`: Whether to also force the coordinates of the new color to be in gamut of its color space"
+						}
+					]
+				},
+				{
+					"name": "range",
+					"static": false,
+					"role": "function",
+					"description": "Interpolate to another color and return a function that takes a 0-1 percentage and returns a color in the range.",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Color",
+							"description": "Color to interpolate to."
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Options object.\n- `space`\n- `outputSpace`"
+						}
+					],
+					"returnType": "Function"
+				},
+				{
+					"name": "mix",
+					"static": false,
+					"role": "function",
+					"description": "Return an intermediate color between two colors",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Color"
+						},
+						{
+							"name": "p",
+							"optional": true,
+							"type": "Number"
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Options object.\n- `space`\n- `outputSpace`"
+						}
+					],
+					"returnType": "Color"
+				},
+				{
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false
 						}
 					]
 				}
