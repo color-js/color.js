@@ -264,7 +264,7 @@
 						},
 						{
 							"name": "options.inGamut",
-							"optional": false,
+							"optional": true,
 							"type": "boolean",
 							"description": "Whether to also force the coordinates of the new color to be in gamut of its color space"
 						}
@@ -292,13 +292,13 @@
 						},
 						{
 							"name": "options.space",
-							"optional": false,
+							"optional": true,
 							"type": "ColorSpace",
 							"description": "The color space to interpolate in."
 						},
 						{
 							"name": "options.outputSpace",
-							"optional": false,
+							"optional": true,
 							"type": "ColorSpace",
 							"description": "The color space of the output. Defaults to the current color's color space."
 						}
@@ -330,13 +330,13 @@
 						},
 						{
 							"name": "options.space",
-							"optional": false,
+							"optional": true,
 							"type": "ColorSpace",
 							"description": "The color space to interpolate in."
 						},
 						{
 							"name": "options.outputSpace",
-							"optional": false,
+							"optional": true,
 							"type": "ColorSpace",
 							"description": "The color space of the output. Defaults to the current color's color space."
 						}
@@ -359,6 +359,36 @@
 							"optional": true,
 							"type": "Object",
 							"description": "- space, \n- outputSpace, \n- delta, \n- steps = 2, \n- maxSteps = 1000"
+						},
+						{
+							"name": "options.space",
+							"optional": true,
+							"type": "ColorSpace",
+							"description": "The color space to interpolate in."
+						},
+						{
+							"name": "options.outputSpace",
+							"optional": true,
+							"type": "ColorSpace",
+							"description": "The color space of the output. Defaults to the current color's color space."
+						},
+						{
+							"name": "options.delta",
+							"optional": true,
+							"type": "Number",
+							"description": "Max deltaE between consecutive steps."
+						},
+						{
+							"name": "options.steps",
+							"optional": true,
+							"type": "Number",
+							"description": "Number of steps. Note that if the `delta` parameter is also provided, the returned steps may be more."
+						},
+						{
+							"name": "options.maxSteps",
+							"optional": true,
+							"type": "Number",
+							"description": "Maximum number of steps to return. This only makes sense if a max `delta` is used."
 						}
 					],
 					"returnType": "Array",
@@ -372,7 +402,10 @@
 						{
 							"optional": false
 						}
-					]
+					],
+					"description": "Returns an object literal that can be serialized to JSON and then parsed and fed back to the Color constructor",
+					"returnType": "Object",
+					"returnDescription": "Object with `spaceId`, `coords`, and `alpha` properties, so it can be used to recreate the same color."
 				},
 				{
 					"name": "toString",
@@ -380,9 +413,32 @@
 					"role": "function",
 					"argument": [
 						{
-							"optional": false
+							"optional": false,
+							"name": "options",
+							"type": "Object"
+						},
+						{
+							"name": "options.precision",
+							"optional": true,
+							"type": "Number",
+							"description": "Number of significant digits to round to. Defaults to 5."
+						},
+						{
+							"name": "options.format",
+							"optional": false,
+							"type": "Function | string",
+							"description": "If function, maps all coordinates. If \"%\", formats numbers in the 0-1 range as percentages. Keywords or other values tap into colorspace-specific formats (e.g. \"hex\")."
+						},
+						{
+							"name": "options.commas",
+							"optional": false,
+							"type": "boolean",
+							"description": "Whether to use commas to separate arguments or spaces (and a slash for alpha) [default: false]"
 						}
-					]
+					],
+					"description": "Serializes the color to a string",
+					"returnType": "string",
+					"returnDescription": "Serialized color"
 				},
 				{
 					"name": "chromaticAdaptation",
@@ -432,31 +488,57 @@
 					"role": "function",
 					"argument": [
 						{
-							"optional": false
+							"optional": false,
+							"name": "str",
+							"type": "string",
+							"description": "String to parse"
 						}
-					]
+					],
+					"description": "Parse a functional notation and return an object. Used internally by [`Color.parse()`](#Color.parse)",
+					"returnType": "Object",
+					"returnDescription": "An object with `name` (function name), `args` (Array) and `rawArgs` (string) properties."
 				},
 				{
 					"name": "convert",
 					"static": true,
 					"role": "function",
-					"description": "One-off convert between color spaces.",
+					"description": "One-off convert coordinates between color spaces.",
 					"argument": [
 						{
-							"optional": false
+							"optional": false,
+							"name": "coords",
+							"type": "Array",
+							"description": "Coordinates to convert."
+						},
+						{
+							"name": "fromSpace",
+							"optional": false,
+							"type": "ColorSpace",
+							"description": "Color space to convert from."
+						},
+						{
+							"name": "toSpace",
+							"optional": false,
+							"type": "ColorSpace",
+							"description": "Color space to convert to."
 						}
-					]
+					],
+					"returnType": "Array",
+					"returnDescription": "Converted coordinates"
 				},
 				{
 					"name": "get",
 					"static": true,
 					"role": "function",
-					"description": "Get a Color object from the argument passed. Basically gets us the same result as `new Color(color)` but doesn't clone an existing color object",
+					"description": "Get a Color object from the argument passed. Basically gets us the same result as `new Color(color)` but doesn't clone an existing color object. Mainly used internally, by functions that accept color arguments.",
 					"argument": [
 						{
-							"optional": false
+							"optional": false,
+							"name": "color",
+							"type": "Color | string | Object"
 						}
-					]
+					],
+					"returnType": "Color"
 				},
 				{
 					"name": "space",
@@ -465,7 +547,9 @@
 					"description": "Return a color space object from an id or color space object. Mainly used internally, so that functions can easily accept either.",
 					"argument": [
 						{
-							"optional": false
+							"optional": false,
+							"name": "spaceOrId",
+							"type": "Object | string"
 						}
 					]
 				},
@@ -476,7 +560,10 @@
 					"description": "Define a new color space",
 					"argument": [
 						{
-							"optional": false
+							"optional": false,
+							"name": "space",
+							"type": "Object",
+							"description": "Object with color space details."
 						}
 					]
 				},
