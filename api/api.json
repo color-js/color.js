@@ -255,13 +255,25 @@
 					"returnType": "Color"
 				},
 				{
+					"name": "steps",
 					"static": false,
 					"role": "function",
+					"description": "Interpolate to another color and return an array of colors",
 					"argument": [
 						{
-							"optional": false
+							"name": "color",
+							"optional": false,
+							"type": "Color"
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "- space, \n- outputSpace, \n- delta, \n- steps = 2, \n- maxSteps = 1000"
 						}
-					]
+					],
+					"returnType": "Array",
+					"returnDescription": "Array of colors"
 				}
 			]
 		}
