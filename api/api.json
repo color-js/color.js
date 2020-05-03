@@ -260,9 +260,17 @@
 							"name": "options",
 							"optional": true,
 							"type": "Object",
-							"description": "Options object.\n- `inGamut`: Whether to also force the coordinates of the new color to be in gamut of its color space"
+							"description": "Options object."
+						},
+						{
+							"name": "options.inGamut",
+							"optional": false,
+							"type": "boolean",
+							"description": "Whether to also force the coordinates of the new color to be in gamut of its color space"
 						}
-					]
+					],
+					"returnType": "Color",
+					"returnDescription": "The new color, or the current color, adjusted to fit in the specified gamut."
 				},
 				{
 					"name": "range",
@@ -280,10 +288,23 @@
 							"name": "options",
 							"optional": true,
 							"type": "Object",
-							"description": "Options object.\n- `space`\n- `outputSpace`"
+							"description": "Options object."
+						},
+						{
+							"name": "options.space",
+							"optional": false,
+							"type": "ColorSpace",
+							"description": "The color space to interpolate in."
+						},
+						{
+							"name": "options.outputSpace",
+							"optional": false,
+							"type": "ColorSpace",
+							"description": "The color space of the output. Defaults to the current color's color space."
 						}
 					],
-					"returnType": "Function"
+					"returnType": "Function",
+					"returnDescription": "Function that takes a 0-1 parameter and returns a color in that place in the range"
 				},
 				{
 					"name": "mix",
@@ -305,7 +326,19 @@
 							"name": "options",
 							"optional": true,
 							"type": "Object",
-							"description": "Options object.\n- `space`\n- `outputSpace`"
+							"description": "Options object."
+						},
+						{
+							"name": "options.space",
+							"optional": false,
+							"type": "ColorSpace",
+							"description": "The color space to interpolate in."
+						},
+						{
+							"name": "options.outputSpace",
+							"optional": false,
+							"type": "ColorSpace",
+							"description": "The color space of the output. Defaults to the current color's color space."
 						}
 					],
 					"returnType": "Color"
