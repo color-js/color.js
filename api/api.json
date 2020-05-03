@@ -299,9 +299,25 @@
 					"name": "chromaticAdaptation",
 					"static": true,
 					"role": "function",
+					"description": "Adapt a XYZ coordinates from one white point to another. Only supports D50 and D65 out of the box. but you can add support for more white points by importing the CAT module.",
 					"argument": [
 						{
-							"optional": false
+							"name": "W1",
+							"optional": false,
+							"type": "Array",
+							"description": "White point to adapt from"
+						},
+						{
+							"name": "W2",
+							"optional": false,
+							"type": "Array",
+							"description": "White point to adapt to"
+						},
+						{
+							"name": "XYZ",
+							"optional": false,
+							"type": "Array",
+							"description": "XYZ coordinates to adapt"
 						}
 					]
 				},
@@ -309,11 +325,17 @@
 					"name": "parse",
 					"static": true,
 					"role": "function",
+					"description": "Parse a string as a color. Understands all [CSS Color 4](https://w3.org/TR/css-color-4) functions. Uses the DOM if present to parse hex colors and color names, so that will not not available in non-DOM environments such as Node.js.",
 					"argument": [
 						{
-							"optional": false
+							"name": "str",
+							"optional": false,
+							"type": "string",
+							"description": "String to parse as a color. "
 						}
-					]
+					],
+					"returnType": "Object",
+					"returnDescription": "An object with properties `spaceId`, `coords`, `alpha` that can be then passed to the `Color` constructor to create a new color."
 				},
 				{
 					"name": "parseFunction",
