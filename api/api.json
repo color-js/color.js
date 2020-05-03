@@ -6,7 +6,6 @@
 			"description": "Represents a color.",
 			"member": [
 				{
-					"name": "new Color",
 					"static": false,
 					"role": "constructor",
 					"description": "Creates a new color object",
