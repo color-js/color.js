@@ -3,7 +3,7 @@
 }
 
 body {
-	font: 120%/1.5 Adobe Caslon Pro, Garamond, serif;
+	font: 120%/1.5 Helvetica Neue, sans-serif;
 	max-width: 90ch;
 	margin: auto;
 }
@@ -14,4 +14,8 @@ body > header {
 
 pre {
 	background: hsl(var(--gray), 90%);
+}
+
+a:not(:hover):not(:focus) {
+	text-decoration: none;
 }

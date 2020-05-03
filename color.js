@@ -8,7 +8,6 @@ import "./src/spaces/prophoto.js";
 import "./src/spaces/rec2020.js";
 
 window.Color = window.Color || Color;
-Color.util = util;
 
 export default Color;
 export {util};
