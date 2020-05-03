@@ -86,7 +86,6 @@ Color.defineSpace({
 		},
 
 		get hex() {
-			// ISSUE force in gamut?
 			return this.toHex();
 		}
 	},
@@ -95,6 +94,9 @@ Color.defineSpace({
 		toString ({precision, inGamut = true, commas, format = "%"} = {}) {
 			if (format === 255) {
 				format = c => c * 255;
+			}
+			else if (format === "hex") {
+				return this.toHex();
 			}
 
 			return Color.prototype.toString.call(this, {
