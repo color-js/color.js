@@ -536,7 +536,7 @@
 			"member": [
 				{
 					"name": "add",
-					"static": true,
+					"static": false,
 					"role": "function",
 					"description": "Schedule a callback to be executed at a certain point in the source code.",
 					"argument": [
@@ -560,7 +560,7 @@
 				},
 				{
 					"name": "run",
-					"static": true,
+					"static": false,
 					"role": "function",
 					"description": "Creates a hook for plugin authors to be able to add code to.",
 					"argument": [
