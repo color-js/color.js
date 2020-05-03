@@ -129,7 +129,12 @@
 							"name": "options",
 							"optional": true,
 							"type": "Object",
-							"description": "Options object. The options supported are:\n- **space**: The color space whose gamut we're checking against. Defaults to the current color space."
+							"description": "Options object."
+						},
+						{
+							"name": "options.space",
+							"optional": true,
+							"description": "The color space whose gamut we're checking against. Defaults to the current color space."
 						}
 					],
 					"returnType": "Boolean"
