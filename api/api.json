@@ -408,28 +408,151 @@
 			]
 		},
 		{
-			"name": "Color.util",
+			"name": "util",
+			"filename": "util.js",
+			"description": "Collection of utility functions. Available on `Color.util`, or as separate exports.",
 			"member": [
 				{
-					"static": false,
+					"name": "isString",
+					"static": true,
 					"role": "function",
+					"description": "Check if a value is a string (including a String object)",
 					"argument": [
 						{
-							"optional": false
+							"name": "str",
+							"optional": false,
+							"description": "Value to check"
+						}
+					],
+					"returnType": "boolean",
+					"returnDescription": "true if value is a string, false otherwise."
+				},
+				{
+					"name": "type",
+					"static": false,
+					"role": "function",
+					"description": "Determine the internal JavaScript [[Class]] of an object.",
+					"argument": [
+						{
+							"name": "o",
+							"optional": false,
+							"description": "Value to check"
+						}
+					],
+					"returnType": "string",
+					"returnDescription": "The internal [[Class]] of o, lowercased."
+				},
+				{
+					"name": "extend",
+					"static": false,
+					"role": "function",
+					"description": "Like [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) but copies property descriptors (including symbols)",
+					"argument": [
+						{
+							"name": "target",
+							"optional": false,
+							"type": "Object",
+							"description": " Object to copy to"
+						},
+						{
+							"name": "...sources",
+							"optional": false,
+							"type": "...Object",
+							"description": "Object(s) to copy from"
+						}
+					],
+					"returnType": "Object",
+					"returnDescription": "target (which has now acquired new properties)"
+				},
+				{
+					"name": "copyDescriptor",
+					"static": false,
+					"role": "function",
+					"description": "Copy a single descriptor from one object to another.",
+					"argument": [
+						{
+							"name": "target",
+							"optional": false,
+							"type": "Object",
+							"description": "Object to copy to"
+						},
+						{
+							"name": "source",
+							"optional": false,
+							"type": "Object",
+							"description": "Object to copy from"
+						},
+						{
+							"name": "property",
+							"optional": false,
+							"type": "string",
+							"description": "Name of property"
 						}
 					]
+				},
+				{
+					"name": "capitalize",
+					"static": false,
+					"role": "function",
+					"description": "Uppercase the first letter of a string",
+					"argument": [
+						{
+							"name": "str",
+							"optional": false,
+							"type": "string",
+							"description": "String to capitalize"
+						}
+					],
+					"returnDescription": "Capitalized string"
 				}
 			]
 		},
 		{
 			"name": "Hooks",
+			"filename": "hooks.js",
+			"description": "**This is for plugin authors. If you're not interested in writing plugins for Color.js, you can skip this.**\nHooks afford extensibility far beyond what can be achieved by overriding properties and methods, or using functions. Hooks allow plugin authors to change how Color.js’ internal code works, by adding custom callbacks to predefined points in the execution.\nYou can find available hooks by searching the source code for `Color.hooks.run(` or `_.hooks.run(` in color.js.\nIf you need a hook that is not present, we typically accept pull requests for new hooks pretty easily!",
 			"member": [
 				{
-					"static": false,
+					"name": "add",
+					"static": true,
 					"role": "function",
+					"description": "Schedule a callback to be executed at a certain point in the source code.",
 					"argument": [
 						{
-							"optional": false
+							"name": "name",
+							"optional": false,
+							"description": "Name of hook to add the callback to."
+						},
+						{
+							"name": "callback",
+							"optional": false,
+							"description": "Code to run at the given hook. The callback will be called with (typically) the same context as the calling code, and a single object as its only argument (typically called `env`) with writeable properties for various aspects of the calling environment."
+						},
+						{
+							"name": "first",
+							"optional": true,
+							"type": "boolean",
+							"description": "Whether to prepend instead of append this callback to any existing callbacks on the same hook. Defaults to false."
+						}
+					]
+				},
+				{
+					"name": "run",
+					"static": true,
+					"role": "function",
+					"description": "Creates a hook for plugin authors to be able to add code to.",
+					"argument": [
+						{
+							"name": "name",
+							"optional": false,
+							"type": "string",
+							"description": "Name of the hook to create. By convention, it's in the form `[class name]-[function name]-[location in function body]`. Class name can be omitted if it's in `color.js`. Location in function body is typically things like \"start\", \"end\", or e.g. \"before-conversion\", \"after-init\" etc."
+						},
+						{
+							"name": "env",
+							"optional": false,
+							"type": "Object",
+							"description": "Object with properties to be passed to the hook's callback. This will also be used as the function context, unless it has a `context` property, then that is used as the function context."
 						}
 					]
 				}
