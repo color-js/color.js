@@ -104,6 +104,39 @@
 					"returnDescription": "The relative luminance of the color"
 				},
 				{
+					"name": "contrast",
+					"static": false,
+					"role": "function",
+					"description": "Calculates WCAG 2.1 color contrast between this color and another one.",
+					"argument": [
+						{
+							"name": "color2",
+							"optional": false,
+							"type": "Color"
+						}
+					],
+					"returnType": "Number"
+				},
+				{
+					"name": "contrast",
+					"static": true,
+					"role": "function",
+					"description": "Static version of `color.contrast()`.",
+					"argument": [
+						{
+							"name": "color1",
+							"optional": false,
+							"type": "Color"
+						},
+						{
+							"name": "color2",
+							"optional": false,
+							"type": "Color"
+						}
+					],
+					"returnType": "Number"
+				},
+				{
 					"name": "deltaE",
 					"static": false,
 					"role": "function",
