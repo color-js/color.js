@@ -627,7 +627,7 @@
 				},
 				{
 					"name": "type",
-					"static": false,
+					"static": true,
 					"role": "function",
 					"description": "Determine the internal JavaScript [[Class]] of an object.",
 					"argument": [
@@ -642,7 +642,7 @@
 				},
 				{
 					"name": "extend",
-					"static": false,
+					"static": true,
 					"role": "function",
 					"description": "Like [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) but copies property descriptors (including symbols)",
 					"argument": [
@@ -664,7 +664,7 @@
 				},
 				{
 					"name": "copyDescriptor",
-					"static": false,
+					"static": true,
 					"role": "function",
 					"description": "Copy a single descriptor from one object to another.",
 					"argument": [
@@ -690,7 +690,7 @@
 				},
 				{
 					"name": "capitalize",
-					"static": false,
+					"static": true,
 					"role": "function",
 					"description": "Uppercase the first letter of a string",
 					"argument": [
@@ -701,7 +701,57 @@
 							"description": "String to capitalize"
 						}
 					],
-					"returnDescription": "Capitalized string"
+					"returnDescription": "Capitalized string",
+					"returnType": "string"
+				},
+				{
+					"name": "toPrecision",
+					"static": false,
+					"role": "function",
+					"description": "Round a number to a certain number of significant digits based on a range.",
+					"argument": [
+						{
+							"name": "n",
+							"optional": false,
+							"type": "Number",
+							"description": "The number to round"
+						},
+						{
+							"name": "precision",
+							"optional": false,
+							"type": "Number",
+							"description": "Number of significant digits"
+						},
+						{
+							"name": "range",
+							"optional": true,
+							"type": "Array",
+							"description": "Range to base number of decimals on"
+						}
+					],
+					"returnType": "Number"
+				},
+				{
+					"name": "multiplyMatrices",
+					"static": true,
+					"role": "function",
+					"description": "Multiply two matrices or vectors. Matrices are specified as multi-dimensional arrays, where every `A[i][j]` is the i-th column and j-th row. Does not do any dimension checking; it's a \"garbage in, garbage out\" function.",
+					"argument": [
+						{
+							"name": "A",
+							"optional": false,
+							"type": "Array",
+							"description": "First matrix"
+						},
+						{
+							"name": "B",
+							"optional": false,
+							"type": "Array",
+							"description": "Second matrix"
+						}
+					],
+					"returnType": "Array",
+					"returnDescription": "Result"
 				}
 			]
 		},
