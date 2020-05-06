@@ -758,7 +758,13 @@
 						}
 					],
 					"returnType": "Number"
-				},
+				}
+			]
+		},
+		{
+			"name": "util",
+			"filename": "multiply-matrices.js",
+			"member": [
 				{
 					"name": "multiplyMatrices",
 					"static": true,
