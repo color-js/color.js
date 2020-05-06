@@ -45,6 +45,11 @@ export default class Color {
 		return _.spaces[this.spaceId];
 	}
 
+	set space (value) {
+		// Setting spaceId works with color space objects too
+		return this.spaceId = value;
+	}
+
 	get spaceId () {
 		return this._spaceId;
 	}
