@@ -96,7 +96,7 @@ Color.defineSpace({
 				format = c => c * 255;
 			}
 			else if (format === "hex") {
-				return this.toHex();
+				return this.toHex(arguments[0]);
 			}
 
 			return Color.prototype.toString.call(this, {
