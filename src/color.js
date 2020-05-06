@@ -733,6 +733,29 @@ export default class Color {
 			});
 		});
 	}
+
+	// Define static versions of all instance methods
+	static statify(names = []) {
+		names = names || Object.getOwnPropertyNames(_.prototype);
+
+		for (let prop of Object.getOwnPropertyNames(_.prototype)) {
+			let descriptor = Object.getOwnPropertyDescriptor(_.prototype, prop);
+
+			if (descriptor.get || descriptor.set) {
+				continue; // avoid accessors
+			}
+
+			let method = descriptor.value;
+
+			if (typeof method === "function" && !(prop in _)) {
+				// We have a function, and no static version already
+				_[prop] = function(color, ...args) {
+					color = _.get(color);
+					return color[prop](...args);
+				};
+			}
+		}
+	}
 };
 
 let _  = Color;
@@ -759,23 +782,6 @@ _.defineSpace({
 	fromXYZ: coords => coords
 });
 
-// Define static versions of all instance methods
-for (let prop of Object.getOwnPropertyNames(_.prototype)) {
-	let descriptor = Object.getOwnPropertyDescriptor(_.prototype, prop);
-
-	if (descriptor.get || descriptor.set) {
-		continue; // avoid accessors
-	}
-
-	let method = descriptor.value;
-
-	if (typeof method === "function" && !_[prop]) {
-		// We have a function, and no static version already
-		_[prop] = function(color, ...args) {
-			color = _.get(color);
-			return color[prop](...args);
-		};
-	}
-}
+_.statify();
 
 export {util};
