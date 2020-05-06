@@ -40,9 +40,9 @@
 		</label>
 	</div>
 
-	<details property="className" open="[!collapse.classes or $hash = name]" mv-multiple id="[name]">
+	<details property="className" open="[!collapse.classes or $hash = name]" mv-multiple id="[name]-[filename]">
 		<summary>
-			<h2><a href="#[name]" property="name" mv-attribute="none">Mavo</a></h2>
+			<h2><a href="#[name]-[filename]" property="name" mv-attribute="none">Mavo</a></h2>
 			<p class="[if(!parent, 'hide-on-read')] inherits">
 				Inherits from <a href="#[parent]" property="parent" mv-attribute="none"></a>
 			</p>
@@ -111,11 +111,13 @@
 		</details>
 	</details>
 
-	<ul id="toc">
-		<li mv-multiple="toc" mv-value="className" mv-group>
-			<a href="#[name]">[name]</a>
-		</li>
-	</ul>
+	<aside id="contents">
+        <ul id="toc">
+    		<li mv-multiple="toc" mv-value="className" mv-group>
+    			<a href="#[name]-[filename]">[name] ([filename])</a>
+    		</li>
+    	</ul>
+    </aside>
 </section>
 <script src="api.js"></script>
 </body>
