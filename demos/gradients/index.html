@@ -15,11 +15,11 @@
 
 <div class="inputs">
 	<label>
-		Color 1: <input property type="text" id="colorStr1" mv-default="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
+		Color 1: <input property type="text" id="colorStr1" value="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
 	</label>
 
 	<label>
-		Color 2: <input type="text" property id="colorStr2" mv-default="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
+		Color 2: <input type="text" property id="colorStr2" value="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
 	</label>
 
 	<label>
@@ -29,7 +29,7 @@
 
 	Output space: <span property="outputSpace" mv-edit="#space" mv-default="[color1.spaceId]"></span>
 
-	<a href="?color1=[colorStr1]&color2=[colorStr2]">Permalink</a>
+	<a href="?color1=[encodeURIComponent(colorStr1)]&color2=[encodeURIComponent(colorStr2)]">Permalink</a>
 
 	<meta property="color1" content="[getColor(colorStr1)]">
 	<meta property="color2" content="[getColor(colorStr2)]">
