@@ -10,17 +10,17 @@ body {
 
 input {
 	font: inherit;
-	font-size: 150%;
-	padding: 0 .2em;
 	box-sizing: border-box;
 }
 
-.inputs input {
+.inputs input[type="text"] {
 	width: 100%;
 	border: 5px solid var(--color);
-	border-right-width: 1em;
+	border-right-width: 2em;
 	background: hsla(0 0% 100% / .5);
 	color: black;
+	font-size: 150%;
+	padding: 0 .2em;
 }
 
 .inputs label {
@@ -32,7 +32,7 @@ input {
 }
 
 [property="gradient"] {
-	background: linear-gradient(to right, var(--steps));
+	background: var(--gradient);
 	padding: 2em;
 	color: black;
 }
@@ -50,6 +50,8 @@ input {
 
 	input[type=number] {
 		width: 3em;
+		padding: 0 .2em;
+		font-weight: bold;
 	}
 
 	textarea {
@@ -59,3 +61,18 @@ input {
 		font: 80%/1.4 Consolas, Monaco, monospace;
 		height: 7em;
 	}
+
+[property="step"] {
+	padding: .4em;
+	background: var(--color);
+	font-weight: bold;
+	font-size: 90%;
+}
+
+	[property="step"] code {
+		font-family: Consolas, Monaco, monospace;
+	}
+
+meta[property][mv-mode="edit"] {
+	display: none;
+}

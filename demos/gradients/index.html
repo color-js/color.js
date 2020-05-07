@@ -11,15 +11,20 @@
 <script src="../../color.js" type="module"></script>
 
 </head>
-<body mv-app mv-mode="edit">
+<body mv-app mv-storage="local" mv-autosave mv-mode="edit">
 
 <div class="inputs">
 	<label>
-		Color 1: <input property id="colorStr1" value="lime" style="--color: [color1 & '']" />
+		Color 1: <input property type="text" id="colorStr1" value="hsl(90 50% 45%)" style="--color: [color1 & '']" />
 	</label>
 
 	<label>
-		Color 2: <input property id="colorStr2" value="aqua" style="--color: [color2 & '']" />
+		Color 2: <input type="text" property id="colorStr2" value="hsl(210 80% 55%)" style="--color: [color2 & '']" />
+	</label>
+
+	<label>
+		<input type="checkbox" property="showGradient" checked>
+		Gradient?
 	</label>
 
 	<meta property="color1" content="[getColor(colorStr1)]">
@@ -27,36 +32,30 @@
 </div>
 
 <div id="output">
-	<article property="gradient" mv-multiple style="--steps:[stepsStr]">
-		<details>
+	<article property="gradient" mv-multiple style="--gradient:[cssGradient]">
+		<details open>
 			<summary>
-				<span property="space" mv-edit="#space" mv-default="lab"></span> interpolation,
-				[if(numSteps, numSteps & " steps,")] [if (delta > 0, delta & " max ΔE,")]
-				[count(step)] resulting steps
+				<span property="space" mv-edit="#space" mv-default="lch"></span> interpolation,
+				<label><input type="number" property="numSteps" value="10" min="2" /> steps</label>
+				<input type="number" property="delta" value="" min="0" /> max ΔE
+				<em>(<span property="stepCount">[count(step)]</span> resulting steps)</em>
 			</summary>
-
-			<label>
-				Interpolate in
-			</label>
-
-			<label>
-				Steps: <input type="number" property="numSteps" value="10" min="2" />
-			</label>
-
-			<label>
-				DeltaE: <input type="number" property="delta" value="" min="0" />
-			</label>
 
 			<div>
 				Colors:
+				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, delta: delta, space: space, outputSpace: space)))" mv-multiple="step" style="--color: [outputColor & ''];">
+					<code>[color & ""]</code> &rarr; <code>[outputColor & ""]</code>
+					<meta property="color" />
+					<meta property="outputColor" content="[color.to(color1.space)]" />
 
-				<div mv-value="color1.steps(color2, group(steps: numSteps, delta: delta, space: space))" mv-multiple="step">
-					[step & ""]
+					<span mv-if="$previous.color">ΔE [color.deltaE($previous.color)]</span>
+					<meta property="gradientStep" content="[if(showGradient, outputColor & '', outputColor & ' 0 ' & (($index + 1) * (100 / stepCount)) & '%')]" />
 				</div>
 			</div>
 
 			<label>
-				<textarea property="stepsStr">[join(step ', ')]</textarea>
+				CSS gradient:
+				<textarea property="cssGradient">linear-gradient(to right, [join(step.gradientStep ', ')])</textarea>
 			</label>
 		</details>
 	</article>
@@ -71,6 +70,14 @@
 	window.ColorSpaces = Object.values(Color.spaces).map(s => {
 		return {id: s.id, name: s.name}
 	});
+
+	// Map steps to objects with a color property
+	// because Mavo fiddles with object data
+	window.colorSteps = function(steps) {
+		return steps.map(c => {
+			return {color: c}
+		});
+	}
 
 	// Just to swallow errors
 	window.getColor = function(str) {
