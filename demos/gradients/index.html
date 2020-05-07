@@ -15,17 +15,21 @@
 
 <div class="inputs">
 	<label>
-		Color 1: <input property type="text" id="colorStr1" value="hsl(90 50% 45%)" style="--color: [color1 & '']" />
+		Color 1: <input property type="text" id="colorStr1" mv-default="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
 	</label>
 
 	<label>
-		Color 2: <input type="text" property id="colorStr2" value="hsl(210 80% 55%)" style="--color: [color2 & '']" />
+		Color 2: <input type="text" property id="colorStr2" mv-default="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
 	</label>
 
 	<label>
 		<input type="checkbox" property="showGradient" checked>
 		Gradient?
 	</label>
+
+	Output space: <span property="outputSpace" mv-edit="#space" mv-default="[color1.spaceId]"></span>
+
+	<a href="?color1=[colorStr1]&color2=[colorStr2]">Permalink</a>
 
 	<meta property="color1" content="[getColor(colorStr1)]">
 	<meta property="color2" content="[getColor(colorStr2)]">
@@ -43,10 +47,10 @@
 
 			<div>
 				Colors:
-				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, delta: delta, space: space, outputSpace: space)))" mv-multiple="step" style="--color: [outputColor & ''];">
+				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, delta: delta, space: space, outputSpace: outputSpace)))" mv-multiple="step" style="--color: [outputColor & ''];">
 					<code>[color & ""]</code> &rarr; <code>[outputColor & ""]</code>
 					<meta property="color" />
-					<meta property="outputColor" content="[color.to(color1.space)]" />
+					<meta property="outputColor" content="[color.to(outputSpace)]" />
 
 					<span mv-if="$previous.color">ΔE [color.deltaE($previous.color)]</span>
 					<meta property="gradientStep" content="[if(showGradient, outputColor & '', outputColor & ' 0 ' & (($index + 1) * (100 / stepCount)) & '%')]" />
