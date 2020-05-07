@@ -36,21 +36,19 @@ Color.defineSpace({
 
 		return [h, s, l * 100];
 	},
-	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
+	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
 	toSRGB(hsl) {
 		let [h, s, l] = hsl;
 		s /= 100;
 		l /= 100;
-		let C = (1 - Math.abs(2 * l - 1)) * s;
-		let X = C * (1 - Math.abs((h / 60) % 2 - 1));
-		let i = Math.ceil(h / 60);
-		let rgb = [0, 0, 0];
-		if (i >= 1 && i <= 6) {
-			rgb[(i === 1 || i === 6)? 0 : (i === 2 || i === 3)? 1 : 2] = C;
-			rgb[(i === 2 || i === 5)? 0 : (i === 1 || i === 4)? 1 : 2] = X;
+
+		function f(n) {
+			let k = (n + h/30) % 12;
+			let a = s * Math.min(l, 1 - l);
+			return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
 		}
 
-		return rgb.map(c => c + l - C/2);
+		return [f(0), f(8), f(4)];
 	},
 
 	parse(str, parsed = Color.parseFunction(str)) {
