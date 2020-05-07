@@ -8,14 +8,14 @@ Color.defineSpace({
 		saturation: [0, 100],
 		lightness: [0, 100]
 	},
-	inGamut(coords) {
+	inGamut (coords) {
 		let rgb = this.toSRGB(coords);
-		return Color.spaces.srgb.inGamut(rgb);
+		return Color.inGamut("srgb", rgb);
 	},
 	white: Color.whites.D65,
 
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
-	fromSRGB(rgb) {
+	fromSRGB (rgb) {
 		let max = Math.max.apply(Math, rgb);
 		let min = Math.min.apply(Math, rgb);
 		let [r, g, b] = rgb;
@@ -37,7 +37,7 @@ Color.defineSpace({
 		return [h, s, l * 100];
 	},
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
-	toSRGB(hsl) {
+	toSRGB (hsl) {
 		let [h, s, l] = hsl;
 		s /= 100;
 		l /= 100;
@@ -51,7 +51,7 @@ Color.defineSpace({
 		return [f(0), f(8), f(4)];
 	},
 
-	parse(str, parsed = Color.parseFunction(str)) {
+	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && /^hsla?$/.test(parsed.name)) {
 			let hsl = parsed.args;
 
@@ -68,13 +68,14 @@ Color.defineSpace({
 	},
 
 	instance: {
-		toString ({precision, inGamut, commas, format} = {}) {
+		toString ({precision, commas, format} = {}) {
 			if (!format) {
 				format = (c, i) => i > 0? c + "%" : c;
 			}
 
 			return Color.prototype.toString.call(this, {
-				precision, inGamut, commas, format,
+				inGamut: true, // hsl() out of gamut makes no sense
+				precision, commas, format,
 				name: "hsl" + (commas && this.alpha < 1? "a" : "")
 			});
 		}
