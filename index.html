@@ -30,7 +30,7 @@
 	<div id="features">
 		<article>
 			<h4>Fully color space aware</h3>
-			<p>Each color belongs to a color space; color spaces are not just used for interpolation.</p>
+			<p>Color spaces are first-class citizens, not just used for interpolation! Each color belongs to a color space; operations are color space agnostic.</p>
 		</article>
 		<article>
 			<h4>Up to date with CSS Color 4</h3>
@@ -38,7 +38,7 @@
 		</article>
 		<article>
 			<h4>Readable, object-oriented API</h3>
-			<p>Color objects, or static Color.something() functions — your choice!</p>
+			<p>Color objects for multiple operations on the same color, and static Color.something() functions for one-off calculations</p>
 		</article>
 		<article>
 			<h4>Modular & Extensible</h3>
@@ -51,7 +51,7 @@
 	<section>
 		<h2>Reading colors</h2>
 
-		<p>Any CSS Color 4 color should work:</p>
+		<p>Any color from CSS Color Level 4 should work:</p>
 		<pre><code>
 			// Any CSS color should work
 			let color = new Color("slategray");
@@ -89,6 +89,9 @@
 		<pre><code>
 			color.space = "srgb"; // Convert to sRGB
 			color.spaceId = "srgb"; // Same
+			color.space = "sRGB"; // Capitalization doesn't matter
+			color.space = Color.spaces.srgb; // Same
+			color.spaceId = Color.spaces.srgb; // Same
 		</code></pre>
 	</section>
 

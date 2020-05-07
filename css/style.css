@@ -35,7 +35,7 @@
 }
 
 body {
-	font: 120%/1.5 var(--font-body);
+	font: 300 120%/1.5 var(--font-body);
 	margin: 0;
 }
 
@@ -102,13 +102,14 @@ main {
 		color: hsl(220, 10%, 48%);
 		font-family: var(--font-sans);
 		font-weight: 700;
+		letter-spacing: -.03em;
 	}
 
 	.logo h2 {
 		grid-row: 2;
 		margin: 0;
 		font-style: italic;
-		font-size: 56%;
+		font-size: 54%;
 		font-weight: 800;
 		color: hsl(220, 10%, 30%);
 	}
@@ -126,7 +127,8 @@ main {
 	#features {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		grid-gap: 1rem 0;
+		grid-gap: 1.5rem 0;
+		align-items: start;
 	}
 }
 
