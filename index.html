@@ -21,26 +21,32 @@
 
 	<ul>
 		<li>Fully color space aware</li>
-		<li>Fully up to date with CSS Color 4</li>
+		<li>Up to date with CSS Color 4</li>
 		<li>Readable, object-oriented API</li>
-		<li>Fully extensible</li>
+		<li>Modular & Extensible</li>
 	</ul>
 </header>
 
 <section>
 	<h1>Reading colors</h1>
 
-	<p>Any color your browser supports should work:</p>
+	<p>Any CSS Color 4 color should work<span title="Except hwb">*</span>:</p>
 	<pre class="runnable"><code>
 		let slategray = new Color("slategray");
+
+		// You can use properties to modify coordinates
+		// of any other color space (in this case LCH chroma) and convert back
 		slategray.chroma *= 1.2; // saturate 20%
+
+		// Output in P3
+		slategray.to("p3").toString({precision: 3}); // color(display-p3 0.442 0.501 0.572)
 	</code></pre>
 
 	<p>Pass a color space id and coordinates:</p>
 	<pre class="runnable"><code>
-		let limer = new Color("P3", [0, 1, 0]);
+		let limer = new Color("p3", [0, 1, 0]);
 		limer.spaceId = "srgb"; // Convert to sRGB
-		limer + ""; // Output
+		limer + ""; // rgb(0% 98.388% 16.188%)
 	</code></pre>
 </section>
 
