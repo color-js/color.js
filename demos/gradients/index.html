@@ -15,11 +15,11 @@
 
 <div class="inputs">
 	<label>
-		Color 1: <input property type="text" id="colorStr1" value="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
+		Color 1: <input property type="text" id="colorStr1" mv-default="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
 	</label>
 
 	<label>
-		Color 2: <input type="text" property id="colorStr2" value="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
+		Color 2: <input type="text" property id="colorStr2" mv-default="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
 	</label>
 
 	<label>
@@ -47,7 +47,7 @@
 
 			<div>
 				Colors:
-				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, delta: delta, space: space, outputSpace: outputSpace)))" mv-multiple="step" style="--color: [outputColor & ''];">
+				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, delta: delta, space: space, outputSpace: space)))" mv-multiple="step" style="--color: [outputColor & ''];">
 					<code>[color & ""]</code> &rarr; <code>[outputColor & ""]</code>
 					<meta property="color" />
 					<meta property="outputColor" content="[color.to(outputSpace)]" />
