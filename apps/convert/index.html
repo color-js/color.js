@@ -4,6 +4,7 @@
 
 <meta charset="UTF-8">
 <title>Convert</title>
+<link rel="shortcut icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"></svg>'>
 <link rel="stylesheet" href="style.css">
 <script src="../../color.js" type="module"></script>
 
@@ -34,57 +35,6 @@
 	</tbody>
 </table>
 
-<script type="module">
-	window.update = function update() {
-		try {
-			var color = new Color(colorInput.value);
-			colorInput.setCustomValidity("");
-			history.pushState(null, "", `?color=${encodeURIComponent(colorInput.value)}&precision=${encodeURIComponent(precisionInput.value)}`)
-		}
-		catch (e) {
-			if (e.message.indexOf("Cannot parse") > -1) {
-				colorInput.setCustomValidity(e);
-				colorOutput.style.background = "var(--error-background)";
-				return;
-			}
-			else {
-				throw e;
-			}
-		}
-
-		if (color) {
-			output.tBodies[0].textContent = "";
-			let ret = "";
-
-			for (let id in Color.spaces) {
-				let converted = color.to(id);
-				let space = Color.spaces[id];
-
-				if (id === "srgb" || id === "p3") {
-					colorOutput.style.background = converted;
-				}
-
-				let precision = precisionInput.value;
-
-				ret += `<tr>
-					<th>${space.name}</th>
-					<td>${converted.coords.join(", ")}</td>
-					<td onclick="update(colorInput.value = this.textContent)">${converted.toString({precision})}</td>
-					<td onclick="update(colorInput.value = this.textContent)">${Color.prototype.toString.call(converted, {precision})}</td>
-				</tr>`;
-			}
-
-			output.tBodies[0].innerHTML = ret;
-		}
-	}
-
-	colorInput.addEventListener("input", update);
-	precisionInput.addEventListener("input", update);
-
-	colorInput.value = new URL(location).searchParams.get("color") || colorInput.value;
-	precisionInput.value = new URL(location).searchParams.get("precision") || precisionInput.value;
-
-	update();
-</script>
+<script type="module" src="convert.js"></script>
 </body>
 </html>
