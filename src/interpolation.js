@@ -65,29 +65,41 @@ let methods = {
 
 		let ret = [];
 
-		if (steps === 1) {
+		let totalDelta = this.deltaE(color2);
+		let actualSteps = delta > 0? Math.max(steps, Math.ceil(totalDelta / delta) + 1) : steps;
+
+		if (maxSteps !== undefined) {
+			actualSteps = Math.min(actualSteps, maxSteps);
+		}
+
+		if (actualSteps === 1) {
 			ret = [{p: .5, color: range(.5)}];
 		}
 		else {
-			let step = 1 / (steps - 1);
-			ret = Array.from({length: steps}, (_, i) => {
+			let step = 1 / (actualSteps - 1);
+			ret = Array.from({length: actualSteps}, (_, i) => {
 				let p = i * step;
 				return {p, color: range(p)};
 			});
 		}
 
-
 		if (delta > 0) {
-			// Iteratively add intermediate stops until deltaE between any
-			// consecutive colors is smaller than maxDelta
-			for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
-				let prev = ret[i - 1];
-				let cur = ret[i];
+			// Iterate over all stops and find max delta
+			let maxDelta = ret.reduce((acc, cur, i) => i === 0? 0 : Math.max(acc, cur.color.deltaE(ret[i - 1].color)), 0);
 
-				if (prev.color.deltaE(cur.color) > delta) {
+			while (maxDelta > delta) {
+				// Insert intermediate stops and measure maxDelta again
+				maxDelta = 0;
+
+				for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
+					let prev = ret[i - 1];
+					let cur = ret[i];
+
 					let p = (cur.p + prev.p) / 2;
+					let color = range(p);
+					maxDelta = Math.max(maxDelta, color.deltaE(prev.color), color.deltaE(cur.color));
 					ret.splice(i, 0, {p, color: range(p)});
-					i--;
+					i++;
 				}
 			}
 		}
