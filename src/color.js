@@ -614,9 +614,10 @@ export default class Color {
 	}
 
 	static defineCoordAccessors(id, coordNames) {
+		let clashes = coordNames.some(coord => coord in _.prototype);
+
 		coordNames.forEach((coord, i) => {
-			let exists = coord in _.prototype;
-			let prop = exists? id + "_" + coord : coord;
+			let prop = clashes? id + "_" + coord : coord;
 
 			Object.defineProperty(_.prototype, prop, {
 				get() {
