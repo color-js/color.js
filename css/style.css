@@ -27,10 +27,15 @@
 
 	--page-width: 60rem;
 
-	--gradient: linear-gradient(to right,
-		hsl(0 80% 50%), hsl(30.244 100.001% 38.747%), hsl(45.158 100.002% 33.831%), hsl(62.603 100.002% 29.985%), hsl(90 50% 45%),
-		hsl(90 50% 45%), hsl(160.164 100.001% 34.002%), hsl(179.604 100.002% 32.145%), hsl(192.195 100.001% 37.999%), hsl(210 65.455% 55%)
-	)
+	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
+	           300% 0 / 150% .3em fixed;
+	--rainbow-scroll: rainbow-scroll 10s linear infinite both;
+}
+
+@keyframes rainbow-scroll {
+	from {
+		background-position-x: 0;
+	}
 }
 
 @media (max-width: 20rem) {
@@ -66,14 +71,15 @@ body > header {
 	display: flex;
 	flex-flow: column;
 	padding-bottom: 1rem;
-	background: var(--gradient) top / 100% .3em no-repeat
+	background: var(--rainbow)
 	 hsl(var(--gray), 96%);
 }
 
 body > footer {
 	padding: 1rem 0 1.3rem;
-	background: var(--gradient) bottom / 100% .3em no-repeat
+	background: var(--rainbow)
 		hsl(var(--gray), 20%);
+	background-position: bottom;
 	color: white;
 }
 
@@ -86,6 +92,8 @@ body > footer {
 	--padding: calc((100vw - var(--page-width)) / 2);
 	padding-left: var(--padding);
 	padding-right: var(--padding);
+	animation: var(--rainbow-scroll);
+	background-repeat: repeat-x;
 }
 
 main {
@@ -194,7 +202,8 @@ pre[class*="language-"] {
 @supports (-webkit-background-clip: text) {
 	body > header nav a,
 	main h2 {
-		background: var(--gradient) fixed;
+		background: var(--rainbow);
+		animation: var(--rainbow-scroll);
 		-webkit-background-clip: text;
 		color: transparent;
 	}
