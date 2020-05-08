@@ -4,55 +4,9 @@
 
 <meta charset="UTF-8">
 <title>Convert</title>
-
+<link rel="stylesheet" href="style.css">
 <script src="../../color.js" type="module"></script>
-<style>
-	body {
-		font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
-		max-width: fit-content;
-		margin: 1em auto;
-		padding: 0 2em;
-	}
 
-	input {
-		font: inherit;
-		font-size: 150%;
-		width: 100%;
-		padding: 0 .2em;
-		box-sizing: border-box;
-	}
-
-	.inputs {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		grid-gap: 1em;
-		margin: 3em 0;
-	}
-
-	td {
-		padding: .3em .5em;
-		font-family: Consolas, Monaco, monospace;
-	}
-
-	td:nth-child(3):hover,
-	td:nth-child(4):hover {
-		cursor: pointer;
-		text-decoration: underline;
-	}
-
-	tr:nth-child(even) {
-		background: rgba(0,0,0,.05);
-	}
-
-	#colorOutput {
-		position: absolute;
-		top: 0; left: 0; right: 0;
-		width: 100%;
-		height: 2em;
-		--red-stripe-stops: transparent calc(50% - .05em), red 0 calc(50% + .05em), transparent 0;
-		--error-background: linear-gradient(to bottom right, var(--red-stripe-stops)), linear-gradient(to top right, var(--red-stripe-stops)) gray;
-	}
-</style>
 </head>
 <body>
 <output id="colorOutput"></output>
@@ -81,18 +35,11 @@
 </table>
 
 <script type="module">
-	window.update = function update(colorStr) {
-		if (colorStr && !(colorStr instanceof Event)) {
-			colorInput.value = colorStr;
-		}
-		else {
-			colorStr = colorInput.value;
-		}
-
+	window.update = function update() {
 		try {
-			var color = new Color(colorStr);
+			var color = new Color(colorInput.value);
 			colorInput.setCustomValidity("");
-			history.pushState(null, "", `?color=${encodeURIComponent(colorInput.value)}`)
+			history.pushState(null, "", `?color=${encodeURIComponent(colorInput.value)}&precision=${encodeURIComponent(precisionInput.value)}`)
 		}
 		catch (e) {
 			if (e.message.indexOf("Cannot parse") > -1) {
@@ -134,8 +81,10 @@
 	colorInput.addEventListener("input", update);
 	precisionInput.addEventListener("input", update);
 
-	let colorStr = new URL(location).searchParams.get("color");
-	update(colorStr);
+	colorInput.value = new URL(location).searchParams.get("color") || colorInput.value;
+	precisionInput.value = new URL(location).searchParams.get("precision") || precisionInput.value;
+
+	update();
 </script>
 </body>
 </html>
