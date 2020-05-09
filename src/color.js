@@ -171,25 +171,7 @@ export default class Color {
 
 		let coords = Color.convert(this.coords, this.space, space);
 
-		if (method === "clip") {
-			// Dumb coord clipping
-			let bounds = Object.values(space.coords);
-
-			coords = coords.map((c, i) => {
-				let [min, max] = bounds[i];
-
-				if (min !== undefined) {
-					c = Math.max(min, c);
-				}
-
-				if (max !== undefined) {
-					c = Math.min(c, max);
-				}
-
-				return c;
-			});
-		}
-		else if (method.indexOf(".") > 0) {
+		if (method.indexOf(".") > 0) {
 			// Reduce a coordinate of a certain color space until the color is in gamut
 			let [spaceId, coord] = method.split(".");
 			let mapSpace = _.space(spaceId);
@@ -220,6 +202,27 @@ export default class Color {
 
 				mapCoords[i] = (high + low) / 2;
 			}
+		}
+
+		if (method === "clip" // Dumb coord clipping
+		    || !Color.inGamut(space, coords) // finish off smarter gamut mapping with clip to get rid of ε, see #17
+		) {
+
+			let bounds = Object.values(space.coords);
+
+			coords = coords.map((c, i) => {
+				let [min, max] = bounds[i];
+
+				if (min !== undefined) {
+					c = Math.max(min, c);
+				}
+
+				if (max !== undefined) {
+					c = Math.min(c, max);
+				}
+
+				return c;
+			});
 		}
 
 		if (inPlace) {
