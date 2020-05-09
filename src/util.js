@@ -81,10 +81,6 @@ export function parseCoord(coord) {
 		let [spaceId, coordName] = coord.split(".");
 		let space = Color.space(spaceId);
 
-		if (!space) {
-			throw new ReferenceError(`No color space found with id = "${spaceId}"`);
-		}
-
 		if (!(coordName in space.coords)) {
 			throw new ReferenceError(`Color space "${space.name}" has no "${coordName}" coordinate.`);
 		}

@@ -58,10 +58,6 @@ export default class Color {
 	set spaceId (id) {
 		let newSpace = _.space(id);
 
-		if (!newSpace) {
-			throw new TypeError(`No color space found with id = "${id}"`);
-		}
-
 		id = newSpace.id;
 
 		if (this.space && newSpace && this.space !== newSpace) {
@@ -535,7 +531,13 @@ export default class Color {
 
 		if (type === "string") {
 			// It's a color space id
-			return _.spaces[space.toLowerCase()];
+			let ret = _.spaces[space.toLowerCase()];
+
+			if (!ret) {
+				throw new TypeError(`No color space found with id = "${id}"`);
+			}
+
+			return ret;
 		}
 		else if (type === "object") {
 			return space;

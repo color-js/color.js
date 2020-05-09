@@ -8,10 +8,13 @@ let methods = {
 	range (color2, {space, outputSpace} = {}) {
 		let color1 = this;
 		color2 = Color.get(color2);
-		space = Color.space(space);
 
-		if (!space) {
+		if (space) {
+			space = Color.space(space);
+		}
+		else {
 			// If colors in the same space, interpolation happens in that, otherwise Lab
+			// ISSUE as many colors are defined in sRGB, this may be a poor default, see #21
 			if (color1.space === color2.space || !Color.spaces.lab) {
 				space = color1.space;
 			}
