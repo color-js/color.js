@@ -87,6 +87,30 @@ export default class Color {
 		return this.space.white || _.whites.D50;
 	}
 
+	// Set properties and return current instance
+	set (prop, value) {
+		if (arguments.length === 1 && util.type(arguments[0]) === "object") {
+			// Argument is an object literal
+			let object = arguments[0];
+			for (let p in object) {
+				this.set(p, object[p]);
+			}
+		}
+		else {
+			let props = prop.split(".");
+			let lastProp = props.pop();
+			let obj = props.reduceRight((acc, cur) => {
+				return acc && acc[cur];
+			}, this);
+
+			if (obj) {
+				obj[lastProp] = value;
+			}
+		}
+
+		return this;
+	}
+
 	// 1976 DeltaE. 2.3 is the JND
 	deltaE (color) {
 		color = _.get(color);

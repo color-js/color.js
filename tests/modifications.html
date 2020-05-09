@@ -22,7 +22,7 @@
 <section>
 	<h1>sRGB to LCH</h1>
 	<table class="reftest" data-test="fuzzyNumbers">
-		<tr title="chroma = 13">
+		<tr title="color.chroma = 13">
 			<td>
 				<script>
 					print(() => {
@@ -33,6 +33,42 @@
 				</script>
 			</td>
 			<td>13</td>
+		</tr>
+		<tr title="color.set('chroma', 13)">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.set('chroma', 13)
+						return color.chroma
+					});
+				</script>
+			</td>
+			<td>13</td>
+		</tr>
+		<tr title="color.set({chroma: 13, lightness: 40})">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.set({chroma: 13, lightness: 40})
+						return color.chroma + ' ' + color.lightness
+					});
+				</script>
+			</td>
+			<td>13 40</td>
+		</tr>
+		<tr title="color.set('coords.0', 1)">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.set('coords.0', 1);
+						return color.coords[0]
+					});
+				</script>
+			</td>
+			<td>1</td>
 		</tr>
 		<tr title="chroma *= 1.2">
 			<td>
