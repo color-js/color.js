@@ -20,7 +20,7 @@ function update() {
 			let [key, value] = pair;
 			let [newKey, newValue] = newParams[i];
 
-			return newValue && newValue.indexOf(value) === 0
+			return newValue && newValue.indexOf(value) === 0;
 		});
 
 		let title = newParams[0][1] + " convert";
