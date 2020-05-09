@@ -173,17 +173,12 @@ export default class Color {
 
 		if (method.indexOf(".") > 0) {
 			// Reduce a coordinate of a certain color space until the color is in gamut
-			let [spaceId, coord] = method.split(".");
-			let mapSpace = _.space(spaceId);
+			let [mapSpace, coordName] = util.parseCoord(method);
 
-			if (!mapSpace) {
-				throw new ReferenceError(`No color space found with id = "${spaceId}"`);
-			}
+			let min = mapSpace.coords[coordName][0];
+			let i = Object.keys(mapSpace.coords).indexOf(coordName);
 
-			let min = mapSpace.coords[coord][0];
-			let i = Object.keys(mapSpace.coords).indexOf(coord);
-
-			let mapCoords = this[spaceId];
+			let mapCoords = this[mapSpace.id];
 
 			let low = min;
 			let high = mapCoords[i];
@@ -205,7 +200,8 @@ export default class Color {
 		}
 
 		if (method === "clip" // Dumb coord clipping
-		    || !Color.inGamut(space, coords) // finish off smarter gamut mapping with clip to get rid of ε, see #17
+		    // finish off smarter gamut mapping with clip to get rid of ε, see #17
+		    || !Color.inGamut(space, coords)
 		) {
 
 			let bounds = Object.values(space.coords);

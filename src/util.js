@@ -75,4 +75,22 @@ export function toPrecision(n, precision, range = [0, 1]) {
 	return +n.toFixed(decimals);
 }
 
+export function parseCoord(coord) {
+	if (coord.indexOf(".") > 0) {
+		// Reduce a coordinate of a certain color space until the color is in gamut
+		let [spaceId, coordName] = coord.split(".");
+		let space = Color.space(spaceId);
+
+		if (!space) {
+			throw new ReferenceError(`No color space found with id = "${spaceId}"`);
+		}
+
+		if (!(coordName in space.coords)) {
+			throw new ReferenceError(`Color space "${space.name}" has no "${coordName}" coordinate.`);
+		}
+
+		return [space, coordName];
+	}
+}
+
 export {multiplyMatrices};
