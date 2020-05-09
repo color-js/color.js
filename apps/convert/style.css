@@ -1,5 +1,6 @@
 body {
 	font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
+	width: 90vw;
 	max-width: fit-content;
 	margin: 1em auto;
 	padding: 0 2em;
