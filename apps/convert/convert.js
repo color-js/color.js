@@ -57,8 +57,8 @@ function update() {
 			ret += `<tr>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
-				<td onclick="update(colorInput.value = this.textContent)">${converted.toString({precision})}</td>
-				<td onclick="update(colorInput.value = this.textContent)">${Color.prototype.toString.call(converted, {precision})}</td>
+				<td>${converted.toString({precision})}</td>
+				<td>${Color.prototype.toString.call(converted, {precision})}</td>
 			</tr>`;
 		}
 
@@ -80,3 +80,11 @@ function updateFromURL() {
 updateFromURL();
 
 addEventListener("popstate", updateFromURL);
+
+document.body.addEventListener("click", evt => {
+	if (evt.target.matches("td:nth-child(3), td:nth-child(4)")) {
+		// Color cell
+		colorInput.value = evt.target.textContent;
+		update();
+	}
+})
