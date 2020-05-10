@@ -42,7 +42,7 @@ export default class Color {
 	}
 
 	get space () {
-		return _.spaces[this.spaceId];
+		return Color.spaces[this.spaceId];
 	}
 
 	set space (value) {
@@ -56,7 +56,7 @@ export default class Color {
 
 	// Handle dynamic changes of color space
 	set spaceId (id) {
-		let newSpace = _.space(id);
+		let newSpace = Color.space(id);
 
 		id = newSpace.id;
 
@@ -80,7 +80,7 @@ export default class Color {
 	}
 
 	get white () {
-		return this.space.white || _.whites.D50;
+		return this.space.white || Color.whites.D50;
 	}
 
 	// Set properties and return current instance
@@ -109,7 +109,7 @@ export default class Color {
 
 	// 1976 DeltaE. 2.3 is the JND
 	deltaE (color) {
-		color = _.get(color);
+		color = Color.get(color);
 		let lab1 = this.lab;
 		let lab2 = color.lab;
 		return Math.sqrt([0, 1, 2].reduce((a, i) => a + (lab2[i] - lab1[i]) ** 2, 0));
@@ -145,11 +145,11 @@ export default class Color {
 	 * @return {Boolean} Is the color in gamut?
 	 */
 	inGamut ({space = this.space} = {}) {
-		return _.inGamut(space, this.coords);
+		return Color.inGamut(space, this.coords);
 	}
 
 	static inGamut (space, coords) {
-		space = _.space(space);
+		space = Color.space(space);
 
 		if (space.inGamut) {
 			return space.inGamut(coords);
@@ -182,8 +182,8 @@ export default class Color {
 	 * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
 	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
 	 */
-	toGamut ({method = _.defaults.gamutMapping, space = this.space, inPlace} = {}) {
-		space = _.space(space);
+	toGamut ({method = Color.defaults.gamutMapping, space = this.space, inPlace} = {}) {
+		space = Color.space(space);
 
 		if (this.inGamut(space)) {
 			return this;
@@ -317,8 +317,8 @@ export default class Color {
 
 	// Adapt XYZ from white point W1 to W2
 	static chromaticAdaptation (W1, W2, XYZ) {
-		W1 = W1 || _.whites.D50;
-		W2 = W2 || _.whites.D50;
+		W1 = W1 || Color.whites.D50;
+		W2 = W2 || Color.whites.D50;
 
 		if (W1 === W2) {
 			return XYZ;
@@ -326,14 +326,14 @@ export default class Color {
 
 		let M;
 
-		if (W1 === _.whites.D65 && W2 === _.whites.D50) {
+		if (W1 === Color.whites.D65 && W2 === Color.whites.D50) {
 			M = [
 				[ 1.0478112,  0.0228866, -0.0501270],
 				[ 0.0295424,  0.9904844, -0.0170491],
 				[-0.0092345,  0.0150436,  0.7521316]
 			];
 		}
-		else if (W1 === _.whites.D50 && W2 === _.whites.D65) {
+		else if (W1 === Color.whites.D50 && W2 === Color.whites.D65) {
 			M = [
 				[ 0.9555766, -0.0230393,  0.0631636],
 				[-0.0282895,  1.0099416,  0.0210077],
@@ -351,10 +351,10 @@ export default class Color {
 
 	// CSS color to Color object
 	static parse (str) {
-		let parsed = _.parseFunction(str);
+		let parsed = Color.parseFunction(str);
 
 		let env = {str, parsed};
-		_.hooks.run("parse-start", env);
+		Color.hooks.run("parse-start", env);
 
 		if (env.color) {
 			return env.color;
@@ -363,7 +363,7 @@ export default class Color {
 		let isRGB = parsed && parsed.name.indexOf("rgb") === 0;
 
 		// Try colorspace-specific parsing
-		for (let space of Object.values(_.spaces)) {
+		for (let space of Object.values(Color.spaces)) {
 			if (space.parse) {
 				let color = space.parse(str, parsed);
 
@@ -388,7 +388,7 @@ export default class Color {
 
 				if (computed) {
 					str = computed;
-					parsed = _.parseFunction(computed);
+					parsed = Color.parseFunction(computed);
 				}
 			}
 		}
@@ -409,7 +409,7 @@ export default class Color {
 			}
 			else if (parsed.name === "color") {
 				let spaceId = parsed.args.shift();
-				let space = Object.values(_.spaces).find(space => (space.cssId || space.id) === spaceId);
+				let space = Object.values(Color.spaces).find(space => (space.cssId || space.id) === spaceId);
 
 				if (space) {
 					let argCount = Object.keys(space.coords).length;
@@ -481,8 +481,8 @@ export default class Color {
 
 	// One-off convert between color spaces
 	static convert (coords, fromSpace, toSpace) {
-		fromSpace = _.space(fromSpace);
-		toSpace = _.space(toSpace);
+		fromSpace = Color.space(fromSpace);
+		toSpace = Color.space(toSpace);
 
 		let fromId = fromSpace.id;
 
@@ -504,7 +504,7 @@ export default class Color {
 
 		if (toSpace.white !== fromSpace.white) {
 			// Different white point, perform white point adaptation
-			XYZ = _.chromaticAdaptation(fromSpace.white, toSpace.white, XYZ);
+			XYZ = Color.chromaticAdaptation(fromSpace.white, toSpace.white, XYZ);
 		}
 
 		return toSpace.fromXYZ(XYZ);
@@ -531,7 +531,7 @@ export default class Color {
 
 		if (type === "string") {
 			// It's a color space id
-			let ret = _.spaces[space.toLowerCase()];
+			let ret = Color.spaces[space.toLowerCase()];
 
 			if (!ret) {
 				throw new TypeError(`No color space found with id = "${id}"`);
@@ -547,11 +547,11 @@ export default class Color {
 
 	// Define a new color space
 	static defineSpace ({id, inherits}) {
-		let space = _.spaces[id] = arguments[0];
+		let space = Color.spaces[id] = arguments[0];
 
 		if (inherits) {
 			const except = ["id", "parse", "instance", "properties"];
-			let parent = _.spaces[inherits];
+			let parent = Color.spaces[inherits];
 
 			for (let prop in parent) {
 				if (!except.includes(prop) && !(prop in space)) {
@@ -563,7 +563,7 @@ export default class Color {
 		let coords = space.coords;
 
 		if (space.properties) {
-			util.extend(_.prototype, space.properties);
+			util.extend(Color.prototype, space.properties);
 		}
 
 		if (!space.fromXYZ && !space.toXYZ) {
@@ -577,7 +577,7 @@ export default class Color {
 
 					if (Id && ("from" + Id) in space && ("to" + Id) in space) {
 						// This is a conversion function AND we have both from & to!
-						let space = _.spaces[Id.toLowerCase()];
+						let space = Color.spaces[Id.toLowerCase()];
 
 						if (space) {
 							// var used intentionally
@@ -618,12 +618,12 @@ export default class Color {
 
 		// Define getters and setters for color[spaceId]
 		// e.g. color.lch on *any* color gives us the lch coords
-		Object.defineProperty(_.prototype, id, {
+		Object.defineProperty(Color.prototype, id, {
 			// Convert coords to coords in another colorspace and return them
 			// Source colorspace: this.spaceId
 			// Target colorspace: id
 			get () {
-				let ret = _.convert(this.coords, this.spaceId, id);
+				let ret = Color.convert(this.coords, this.spaceId, id);
 
 				if (!self.Proxy) {
 					return ret;
@@ -654,7 +654,7 @@ export default class Color {
 							obj[i] = value;
 
 							// Update color.coords
-							this.coords = _.convert(obj, id, this.spaceId);
+							this.coords = Color.convert(obj, id, this.spaceId);
 
 							return value;
 						}
@@ -668,7 +668,7 @@ export default class Color {
 			// Target colorspace: this.spaceId
 			// Source colorspace: id
 			set (coords) {
-				this.coords = _.convert(coords, id, this.spaceId);
+				this.coords = Color.convert(coords, id, this.spaceId);
 			},
 			configurable: true,
 			enumerable: true
@@ -682,15 +682,15 @@ export default class Color {
 	// If `long` is provided, it's added to Color.shortcuts as well, otherwise it's assumed to be already there
 	static defineShortcut(prop, obj = Color.prototype, long) {
 		if (long) {
-			 _.shortcuts[prop] = long;
+			Color.shortcuts[prop] = long;
 		}
 
 		Object.defineProperty(obj, prop, {
 			get () {
-				return util.value(this, _.shortcuts[prop]);
+				return util.value(this, Color.shortcuts[prop]);
 			},
 			set (value) {
-				return util.value(this, _.shortcuts[prop], value);
+				return util.value(this, Color.shortcuts[prop], value);
 			},
 			configurable: true,
 			enumerable: true
@@ -699,10 +699,10 @@ export default class Color {
 
 	// Define static versions of all instance methods
 	static statify(names = []) {
-		names = names || Object.getOwnPropertyNames(_.prototype);
+		names = names || Object.getOwnPropertyNames(Color.prototype);
 
-		for (let prop of Object.getOwnPropertyNames(_.prototype)) {
-			let descriptor = Object.getOwnPropertyDescriptor(_.prototype, prop);
+		for (let prop of Object.getOwnPropertyNames(Color.prototype)) {
+			let descriptor = Object.getOwnPropertyDescriptor(Color.prototype, prop);
 
 			if (descriptor.get || descriptor.set) {
 				continue; // avoid accessors
@@ -710,10 +710,10 @@ export default class Color {
 
 			let method = descriptor.value;
 
-			if (typeof method === "function" && !(prop in _)) {
+			if (typeof method === "function" && !(prop in Color)) {
 				// We have a function, and no static version already
-				_[prop] = function(color, ...args) {
-					color = _.get(color);
+				Color[prop] = function(color, ...args) {
+					color = Color.get(color);
 					return color[prop](...args);
 				};
 			}
@@ -721,19 +721,17 @@ export default class Color {
 	}
 };
 
-let _  = Color;
+Color.util = util;
+Color.hooks = new Hooks();
 
-_.util = util;
-_.hooks = new Hooks();
-
-_.whites = {
+Color.whites = {
 	D50: [0.96422, 1.00000, 0.82521],
 	D65: [0.95047, 1.00000, 1.08883],
 };
 
-_.spaces = {};
+Color.spaces = {};
 
-_.defineSpace({
+Color.defineSpace({
 	id: "xyz",
 	name: "XYZ",
 	coords: {
@@ -749,21 +747,21 @@ _.defineSpace({
 // These will be available as getters and setters on EVERY color instance.
 // They refer to LCH by default, but can be set to anything
 // and you can add more by calling Color.defineShortcut()
-_.shortcuts = {
+Color.shortcuts = {
 	"lightness": "lch.lightness",
 	"chroma": "lch.chroma",
 	"hue": "lch.hue",
 };
 
-for (let prop in _.shortcuts) {
-	_.defineShortcut(prop);
+for (let prop in Color.shortcuts) {
+	Color.defineShortcut(prop);
 }
 
 // Global defaults one may want to configure
-_.defaults = {
+Color.defaults = {
 	gamutMapping: "lch.chroma"
 };
 
-_.statify();
+Color.statify();
 
 export {util};
