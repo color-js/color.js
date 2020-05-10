@@ -95,7 +95,7 @@ export default class Color {
 		else {
 			if (typeof value === "function") {
 				let current = util.value(this, prop);
-				
+
 				util.value(this, prop, value.call(this, current));
 			}
 			else {
@@ -758,6 +758,8 @@ _.shortcuts = {
 for (let prop in _.shortcuts) {
 	_.defineShortcut(prop);
 }
+
+_.defaults = {};
 
 _.statify();
 
