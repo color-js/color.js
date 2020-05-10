@@ -39,6 +39,9 @@ let vars = {
 	"color-red-light": colors.red.lighten(),
 	"color-green-light": colors.green.lighten(),
 	"color-blue-light": colors.blue.lighten(),
+	"color-red-green": colors.red.mix(colors.green, interpolationOptions),
+	"color-green-blue": colors.green.mix(colors.blue, interpolationOptions),
+	"color-blue-red": colors.blue.mix(colors.red, interpolationOptions),
 };
 
 $.create("style", {

@@ -119,7 +119,7 @@ pre[class*="language-"] {
 
 .token.function,
 .token.class-name {
-	color: #DD4A68;
+	color: var(--color-blue-red, var(--color-red));
 }
 
 .token.regex,
