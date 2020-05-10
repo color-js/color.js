@@ -721,15 +721,29 @@ export default class Color {
 	}
 };
 
-Color.util = util;
-Color.hooks = new Hooks();
+Object.assign(Color, {
+	util,
+	hooks: new Hooks(),
+	whites: {
+		D50: [0.96422, 1.00000, 0.82521],
+		D65: [0.95047, 1.00000, 1.08883],
+	},
+	spaces: {},
 
-Color.whites = {
-	D50: [0.96422, 1.00000, 0.82521],
-	D65: [0.95047, 1.00000, 1.08883],
-};
+	// These will be available as getters and setters on EVERY color instance.
+	// They refer to LCH by default, but can be set to anything
+	// and you can add more by calling Color.defineShortcut()
+	shortcuts: {
+		"lightness": "lch.lightness",
+		"chroma": "lch.chroma",
+		"hue": "lch.hue",
+	},
 
-Color.spaces = {};
+	// Global defaults one may want to configure
+	defaults: {
+		gamutMapping: "lch.chroma"
+	}
+});
 
 Color.defineSpace({
 	id: "xyz",
@@ -744,24 +758,11 @@ Color.defineSpace({
 	fromXYZ: coords => coords
 });
 
-// These will be available as getters and setters on EVERY color instance.
-// They refer to LCH by default, but can be set to anything
-// and you can add more by calling Color.defineShortcut()
-Color.shortcuts = {
-	"lightness": "lch.lightness",
-	"chroma": "lch.chroma",
-	"hue": "lch.hue",
-};
-
 for (let prop in Color.shortcuts) {
 	Color.defineShortcut(prop);
 }
 
-// Global defaults one may want to configure
-Color.defaults = {
-	gamutMapping: "lch.chroma"
-};
-
+// Make static methods for all instance methods
 Color.statify();
 
 export {util};
