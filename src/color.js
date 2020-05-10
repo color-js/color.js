@@ -93,7 +93,15 @@ export default class Color {
 			}
 		}
 		else {
-			util.value(this, prop, value);
+			if (typeof value === "function") {
+				let current = util.value(this, prop);
+				
+				util.value(this, prop, value.call(this, current));
+			}
+			else {
+				util.value(this, prop, value);
+			}
+
 		}
 
 		return this;

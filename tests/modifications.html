@@ -131,6 +131,19 @@
 			</td>
 			<td>13.480970445148008</td>
 		</tr>
+		<tr title='color.set("chroma", c => c * 1.2)'>
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.set("chroma", c => c * 1.2);
+						return color.chroma;
+					});
+
+				</script>
+			</td>
+			<td>13.480970445148008</td>
+		</tr>
 		<tr title="chroma *= 1.25 then print lch">
 			<td>
 				<script>
