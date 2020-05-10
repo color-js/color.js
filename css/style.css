@@ -9,17 +9,9 @@
 	--font-body: var(--font-sans);
 	--font-headings: var(--font-serif);
 
-	--color-red-hs: 0 80%;
-	--color-green-hs: 90 50%;
-	--color-blue-hs: 210 80%;
-
-	--color-red: hsl(var(--color-red-hs) 50%);
-	--color-green: hsl(var(--color-green-hs) 45%);
-	--color-blue: hsl(var(--color-blue-hs) 55%);
-
-	--color-red-light: hsl(var(--color-red-hs) 80%);
-	--color-green-light: hsl(var(--color-green-hs) 75%);
-	--color-blue-light: hsl(var(--color-blue-hs) 80%);
+	--color-red: hsl(0 80% 50%);
+	--color-green: hsl(90 50% 45%);
+	--color-blue: hsl(210 80% 55%);
 
 	--color-accent1: var(--color-red);
 	--color-accent2: var(--color-green);
@@ -180,6 +172,7 @@ body > header nav {
 		flex: 1;
 		padding: .6em;
 		font-weight: 800;
+		text-align: center;
 	}
 
 	body > header nav a:hover {

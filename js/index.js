@@ -35,8 +35,13 @@ let vars = {
 		...colors.red.steps(colors.green, interpolationOptions),
 		...colors.green.steps(colors.blue, interpolationOptions),
 		...colors.blue.steps(colors.red, interpolationOptions)
-	]
+	],
+	"color-red-light": colors.red.lighten(),
+	"color-green-light": colors.green.lighten(),
+	"color-blue-light": colors.blue.lighten(),
 };
 
-let sheet = $.create("style", {inside: document.head}).sheet;
-sheet.insertRule(`:root {${Object.entries(vars).map((name, value) => `--color-${name}: ${value}`)}}`);
+$.create("style", {
+	inside: document.head,
+	textContent: `:root {${Object.entries(vars).map(pair => `--${pair[0]}: ${pair[1]}`).join(";\n")}}`
+});
