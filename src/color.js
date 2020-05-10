@@ -182,7 +182,7 @@ export default class Color {
 	 * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
 	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
 	 */
-	toGamut ({method = "lch.chroma", space = this.space, inPlace} = {}) {
+	toGamut ({method = _.defaults.gamutMapping, space = this.space, inPlace} = {}) {
 		space = _.space(space);
 
 		if (this.inGamut(space)) {
@@ -759,7 +759,10 @@ for (let prop in _.shortcuts) {
 	_.defineShortcut(prop);
 }
 
-_.defaults = {};
+// Global defaults one may want to configure
+_.defaults = {
+	gamutMapping: "lch.chroma"
+};
 
 _.statify();
 
