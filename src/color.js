@@ -93,15 +93,7 @@ export default class Color {
 			}
 		}
 		else {
-			let props = prop.split(".");
-			let lastProp = props.pop();
-			let obj = props.reduceRight((acc, cur) => {
-				return acc && acc[cur];
-			}, this);
-
-			if (obj) {
-				obj[lastProp] = value;
-			}
+			util.value(this, prop, value);
 		}
 
 		return this;
@@ -116,7 +108,7 @@ export default class Color {
 	}
 
 	luminance () {
-		return this.Y / this.white[1];
+		return this.xyz.Y / this.white[1];
 	}
 
 	contrast (color) {
@@ -614,53 +606,86 @@ export default class Color {
 			}
 		}
 
-		// Define getters and setters for color.spaceId
+		let coordNames = Object.keys(coords);
+
+		// Define getters and setters for color[spaceId]
 		// e.g. color.lch on *any* color gives us the lch coords
 		Object.defineProperty(_.prototype, id, {
 			// Convert coords to coords in another colorspace and return them
 			// Source colorspace: this.spaceId
 			// Target colorspace: id
-			get() {
-				return _.convert(this.coords, this.spaceId, id);
+			get () {
+				let ret = _.convert(this.coords, this.spaceId, id);
+
+				if (!self.Proxy) {
+					return ret;
+				}
+
+				// Enable color.spaceId.coordName syntax
+				return new Proxy(ret, {
+					has: (obj, property) => {
+						return coordNames.includes(property) || Reflect.has(obj, property);
+					},
+					get: (obj, property, receiver) => {
+						let i = coordNames.indexOf(property);
+
+						if (i > -1) {
+							return obj[i];
+						}
+
+						return Reflect.get(obj, property, receiver);
+					},
+					set: (obj, property, value, receiver) => {
+						let i = coordNames.indexOf(property);
+
+						if (property > -1) { // Is property a numerical index?
+							i = property; // next if will take care of modifying the color
+						}
+
+						if (i > -1) {
+							obj[i] = value;
+
+							// Update color.coords
+							this.coords = _.convert(obj, id, this.spaceId);
+
+							return value;
+						}
+
+						return Reflect.set(obj, property, value, receiver);
+					},
+
+				});
 			},
 			// Convert coords in another colorspace to internal coords and set them
 			// Target colorspace: this.spaceId
 			// Source colorspace: id
-			set(coords) {
+			set (coords) {
 				this.coords = _.convert(coords, id, this.spaceId);
 			},
 			configurable: true,
 			enumerable: true
 		});
 
-		_.defineCoordAccessors(id, Object.keys(coords));
-
 		return space;
 	}
 
-	static defineCoordAccessors(id, coordNames) {
-		let clashes = coordNames.some(coord => coord in _.prototype);
+	// Define a shortcut property, e.g. color.lightness instead of color.lch.lightness
+	// Shorcut is looked up on Color.shortcuts at calling time
+	// If `long` is provided, it's added to Color.shortcuts as well, otherwise it's assumed to be already there
+	static defineShortcut(prop, obj = Color.prototype, long) {
+		if (long) {
+			 _.shortcuts[prop] = long;
+		}
 
-		coordNames.forEach((coord, i) => {
-			let prop = clashes? id + "_" + coord : coord;
-
-			Object.defineProperty(_.prototype, prop, {
-				get() {
-					if (coord in this.space.coords) {
-						return this.coords[i];
-					}
-					else {
-						return this[id][i];
-					}
-				},
-				set(value) {
-					let coords = this[id];
-					coords[i] = value;
-					this[id] = coords;
-				},
-				configurable: true,
-				enumerable: true
-			});
+		Object.defineProperty(obj, prop, {
+			get () {
+				return util.value(this, _.shortcuts[prop]);
+			},
+			set (value) {
+				return util.value(this, _.shortcuts[prop], value);
+			},
+			configurable: true,
+			enumerable: true
 		});
 	}
 
@@ -708,9 +733,23 @@ _.defineSpace({
 		Y: [],
 		Z: []
 	},
+	inGamut: coords => true,
 	toXYZ: coords => coords,
 	fromXYZ: coords => coords
 });
+
+// These will be available as getters and setters on EVERY color instance.
+// They refer to LCH by default, but can be set to anything
+// and you can add more by calling Color.defineShortcut()
+_.shortcuts = {
+	"lightness": "lch.lightness",
+	"chroma": "lch.chroma",
+	"hue": "lch.hue",
+};
+
+for (let prop in _.shortcuts) {
+	_.defineShortcut(prop);
+}
 
 _.statify();
 

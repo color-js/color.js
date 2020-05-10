@@ -89,4 +89,24 @@ export function parseCoord(coord) {
 	}
 }
 
+export function value(obj, prop, value) {
+	let props = prop.split(".");
+	let lastProp = props.pop();
+
+	obj = props.reduceRight((acc, cur) => {
+		return acc && acc[cur];
+	}, obj);
+
+	if (obj) {
+		if (value === undefined) {
+			// Get
+			return obj[lastProp];
+		}
+		else {
+			// Set
+			return obj[lastProp] = value;
+		}
+	}
+}
+
 export {multiplyMatrices};

@@ -26,9 +26,33 @@
 			<td>
 				<script>
 					print(() => {
-						var slategray = new Color("slategray");
-						slategray.chroma = 13;
-						return slategray.chroma
+						var color = new Color("slategray");
+						color.chroma = 13;
+						return color.chroma
+					});
+				</script>
+			</td>
+			<td>13</td>
+		</tr>
+		<tr title="color.lch.chroma = 13">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.lch.chroma = 13;
+						return color.chroma
+					});
+				</script>
+			</td>
+			<td>13</td>
+		</tr>
+		<tr title="color.lch[1] = 13">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.lch[1] = 13;
+						return color.chroma
 					});
 				</script>
 			</td>
@@ -70,13 +94,37 @@
 			</td>
 			<td>1</td>
 		</tr>
+		<tr title="color.set('lch.1', 13)">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.set('lch.1', 13);
+						return color.chroma;
+					});
+				</script>
+			</td>
+			<td>13</td>
+		</tr>
+		<tr title="color.set('lch.chroma', 13)">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						color.set('lch.chroma', 13);
+						return color.chroma;
+					});
+				</script>
+			</td>
+			<td>13</td>
+		</tr>
 		<tr title="chroma *= 1.2">
 			<td>
 				<script>
 					print(() => {
-						var slategray = new Color("slategray");
-						slategray.chroma *= 1.2;
-						return slategray.chroma;
+						var color = new Color("slategray");
+						color.chroma *= 1.2;
+						return color.chroma;
 					});
 
 				</script>
@@ -87,9 +135,9 @@
 			<td>
 				<script>
 					print(() => {
-						var slategray = new Color("slategray");
-						slategray.chroma *= 1.25;
-						return slategray.lch;
+						var color = new Color("slategray");
+						color.chroma *= 1.25;
+						return color.lch;
 					});
 				</script>
 			</td>

@@ -29,6 +29,45 @@
 	</table>
 </section>
 
+<section>
+	<h1>Get coordinates</h1>
+	<table class="reftest" data-test="fuzzyNumbers">
+		<tr title="color.chroma">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						return color.chroma
+					});
+				</script>
+			</td>
+			<td>11.234142037623341</td>
+		</tr>
+		<tr title="color.lch[1]">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						return color.lch[1];
+					});
+				</script>
+			</td>
+			<td>11.234142037623341</td>
+		</tr>
+		<tr title="color.lch.chroma">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						return color.lch.chroma;
+					});
+				</script>
+			</td>
+			<td>11.234142037623341</td>
+		</tr>
+	</table>
+</section>
+
 <script>
 function colorConvertLCH(...rest) {
 	return colorConvert("lch", ...rest);
