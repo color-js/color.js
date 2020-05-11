@@ -2,7 +2,7 @@
 
 ## Commit messages
 
-- If working on a color spaces, please prefix your commit with `[spaces/SPACE_ID]`
+- If working on a color space, please prefix your commit with `[spaces/SPACE_ID]`
 - If working on a demo app, please prefix your commit with `[apps/APP_ID]`
 - If working on a module other than color.js, please prefix your commit with `[modulename]` e.g. `[interpolation]`
 
