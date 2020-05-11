@@ -55,6 +55,7 @@
 		<pre><code>
 			// Any CSS color should work
 			let color = new Color("slategray");
+			let color = new Color("hwb(60 30% 40% /50");
 			let color = new Color("color(display-p3 0 1 0)");
 			let color = new Color("lch(50% 80 30)");
 		</code></pre>
@@ -66,6 +67,7 @@
 		<p>You can use properties to modify coordinates
 		of any other color space (in this case LCH chroma) and convert back
 		<pre><code>
+			let color = new Color("color(display-p3 02 0.3 0)");
 			color.chroma *= 1.2; // saturate 20%
 		</code></pre>
 	</section>
