@@ -56,7 +56,7 @@ Color.defineSpace({
 			return {
 				spaceId: "hwb",
 				coords: hwb.slice(0, 3),
-				alpha: hsl[3]
+				alpha: hwb[3]
 			};
 		}
     },
