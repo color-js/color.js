@@ -46,7 +46,19 @@ Color.defineSpace({
     },
 
     parse (str, parsed = Color.parseFunction(str)) {
-        // TODO
+        if (parsed && /^hwba?$/.test(parsed.name)) {
+			let hwb = parsed.args;
+
+			 // white and black percentages are converted to [0, 1] by parseFunction
+			hwb[1] *= 100;
+			hwb[2] *= 100;
+
+			return {
+				spaceId: "hwb",
+				coords: hwb.slice(0, 3),
+				alpha: hsl[3]
+			};
+		}
     },
 
     instance: {
