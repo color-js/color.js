@@ -2,12 +2,12 @@ import Color, {util} from "./color.js";
 
 Color.CATs = {};
 
-Color.defineCAT = function({id, toCone_M, fromCone_M}) {
+Color.defineCAT = function ({id, toCone_M, fromCone_M}) {
     // Use id, toCone_M, fromCone_M like variables
     Color.CATs[id] = arguments[0];
 };
 
-Color.adapt = function(W1, W2, id) {
+Color.adapt = function (W1, W2, id) {
     // adapt from a source whitepoint or illuminant W1
     // to a destination whitepoint or illuminant W2,
     // using the given chromatic adaptation transform (CAT)
