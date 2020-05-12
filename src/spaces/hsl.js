@@ -1,4 +1,4 @@
-import Color from "./srgb.js";
+import Color, {util} from "./srgb.js";
 
 Color.defineSpace({
 	id: "hsl",
@@ -87,3 +87,6 @@ Color.defineSpace({
 		}
 	}
 });
+
+export default Color;
+export {util};
