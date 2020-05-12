@@ -21,28 +21,33 @@ Color.defineSpace({
     white: Color.whites.D65,
 
     fromSRGB (rgb) {
-        let [r, g, b] = rgb;
-        // TODO
+        let h = Color.spaces.hsl.fromSRGB(rgb)[0];
+        // calculate white and black
+        let w = Math.min(...rgb);
+        let b = 1 - Math.max(...rgb);
+        w *= 100;
+        b *= 100;
+        return [h, w, b];;
     },
 
     toSRGB (hwb) {
         let [h, w, b] = hwb;
+        // now convert percentages to [0..1]
+        w /=100;
+        b /= 100;
         // normalize so white plus black is no larger than 100
         let sum = w + b;
-        if (sum > 100) {
+        if (sum > 1) {
             w /= sum;
             b /= sum;
         }
         // from https://drafts.csswg.org/css-color-4/#hwb-to-rgb
         let rgb = Color.spaces.hsl.toSRGB([h, 100, 50]);
-        // now convert percentages to [0..1]
-        w /=100;
-        b /= 100;
         for(var i = 0; i < 3; i++) {
             rgb[i] *= (1 - w - b);
             rgb[i] += w;
-          }
-          return rgb;
+        }
+        return rgb;
     },
 
     parse (str, parsed = Color.parseFunction(str)) {
@@ -62,8 +67,17 @@ Color.defineSpace({
     },
 
     instance: {
-		toString ({precision, commas, format} = {}) {
-            // TODO
+		toString ({precision, format} = {}) {
+            if (!format) {
+				format = (c, i) => i > 0? c + "%" : c;
+			}
+
+			return Color.prototype.toString.call(this, {
+				inGamut: true, // hwb() out of gamut makes no sense
+                precision, commas: false,  // never commas
+                format,
+				name: "hwb"
+			});
         }
     }
 });

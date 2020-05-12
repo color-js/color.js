@@ -39,6 +39,8 @@ Color.defineSpace({
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
 	toSRGB (hsl) {
 		let [h, s, l] = hsl;
+		while (h < 0) {h += 360};
+		while (h >= 360) {h -= 360}
 		s /= 100;
 		l /= 100;
 
