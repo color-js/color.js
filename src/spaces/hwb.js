@@ -1,5 +1,5 @@
 import Color from "./srgb.js";
-import * as hsl from "./hsl.js";
+// import * as hsl from "./hsl.js";
 
 // The Hue, Whiteness Blackness (HWB) colorspace
 // See https://drafts.csswg.org/css-color-4/#the-hwb-notation
@@ -27,20 +27,20 @@ Color.defineSpace({
 
     toSRGB (hwb) {
         let [h, w, b] = hwb;
-        // convert percentages to [0..1]
-        w /=100;
-        b /= 100;
-        // normalize so white plus black is no larger than 1
+        // normalize so white plus black is no larger than 100
         let sum = w + b;
-        if (sum > 1) {
+        if (sum > 100) {
             w /= sum;
             b /= sum;
         }
         // from https://drafts.csswg.org/css-color-4/#hwb-to-rgb
-        let rgb = hsl.toSRGB(h, 1, 0.5);
+        let rgb = Color.spaces.hsl.toSRGB([h, 100, 50]);
+        // now convert percentages to [0..1]
+        w /=100;
+        b /= 100;
         for(var i = 0; i < 3; i++) {
-            rgb[i] *= (1 - white - black);
-            rgb[i] += white;
+            rgb[i] *= (1 - w - b);
+            rgb[i] += w;
           }
           return rgb;
     },
