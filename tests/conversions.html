@@ -9,8 +9,29 @@
 <script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
+<script src="../src/spaces/hwb.js" type="module"></script>
 <script>
-
+function colorConvertHWBtosRGB() {
+	let td = document.currentScript.parentNode.previousElementSibling;
+	print(() => {
+		var color = new Color(td.textContent);
+		return color.to("srgb").coords.join(", ");
+	});
+}
+function colorConvertsRGBtoHWB() {
+	let td = document.currentScript.parentNode.previousElementSibling;
+	print(() => {
+		var color = new Color(td.textContent);
+		return color.to("hwb");
+	});
+}
+function colorConvertsRGBtoHSL() {
+	let td = document.currentScript.parentNode.previousElementSibling;
+	print(() => {
+		var color = new Color(td.textContent);
+		return color.to("hsl");
+	});
+}
 </script>
 
 </head>
@@ -31,10 +52,110 @@
 
 <section>
 	<h1>HWB to sRGB</h1>
-	<table class="reftest" data-test="colorConvertHWB" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
 		<tr>
 			<td>hwb(0 20% 40%)</td>
+			<td>
+				<script>
+				colorConvertHWBtosRGB();
+				</script>
+			</td>
 			<td><!--#993333--> 0.6, 0.2, 0.2</td>
+		</tr>
+		<tr>
+			<td>hwb(90 30% 5%)</td>
+			<td>
+				<script>
+				colorConvertHWBtosRGB();
+				</script>
+			</td>
+			<td>0.625, 0.950, 0.300 </td>
+		</tr>
+		<tr>
+			<!-- angles can be outside [0 to 360) -->
+			<td>hwb(720 20% 40%)</td>
+			<td>
+				<script>
+				colorConvertHWBtosRGB();
+				</script>
+			</td>
+			<td><!--#993333--> 0.6, 0.2, 0.2</td>
+		</tr>
+		<tr>
+			<td>hwb(-270 30% 5%)</td>
+			<td>
+				<script>
+				colorConvertHWBtosRGB();
+				</script>
+			</td>
+			<td>0.625, 0.950, 0.300 </td>
+		</tr>
+		<tr>
+			<!-- white and black normalize to less than 100% -->
+			<td>hwb(0 40% 80%)</td>
+			<td>
+				<script>
+				colorConvertHWBtosRGB();
+				</script>
+			</td>
+			<td><!--#993333--> 0.3333333, 0.3333333, 0.3333333</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>sRGB to HWB</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+		<tr>
+			<td>rgb(60% 20% 20%)</td>
+			<td>
+				<script>
+					colorConvertsRGBtoHWB();
+				</script>
+			</td>
+			<td>hwb(0 20% 40%)</td>
+		</tr>
+		<tr>
+			<td>black</td>
+			<td>
+				<script>
+					colorConvertsRGBtoHWB();
+				</script>
+			</td>
+			<td>hwb(0 0% 100%)</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>
+				<script>
+					colorConvertsRGBtoHWB();
+				</script>
+			</td>
+			<td>hwb(0 100% 0%)</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>sRGB to HSL</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+		<tr>
+			<td>black</td>
+			<td>
+				<script>
+					colorConvertsRGBtoHSL();
+				</script>
+			</td>
+			<td>hsl(0 0% 0%)</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>
+				<script>
+					colorConvertsRGBtoHSL();
+				</script>
+			</td>
+			<td>hsl(0 0% 100%)</td>
 		</tr>
 	</table>
 </section>
@@ -81,10 +202,6 @@
 <script>
 function colorConvertLCH(...rest) {
 	return colorConvert("lch", ...rest);
-}
-
-function colorConvertHWB(...rest) {
-	return colorConvert("hwb", ...rest);
 }
 
 function colorConvert(id, test, result, expected) {
