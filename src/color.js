@@ -325,6 +325,13 @@ export default class Color {
 		return `${name}(${args.join(commas? ", " : " ")}${strAlpha})`;
 	}
 
+	equals (color) {
+		color = Color.get(color);
+		return this.spaceId === color.spaceId
+		       && this.alpha === color.alpha
+		       && this.coords.every((c, i) => c === color.coords[i]);
+	}
+
 	// Adapt XYZ from white point W1 to W2
 	static chromaticAdaptation (W1, W2, XYZ) {
 		W1 = W1 || Color.whites.D50;
