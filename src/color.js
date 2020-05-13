@@ -107,12 +107,14 @@ export default class Color {
 		return this;
 	}
 
-	lighten(amount = .2) {
-		return this.set("lightness", c => c * (1 + amount));
+	lighten(amount = .2, {inPlace} = {}) {
+		let ret = inPlace? this : new Color(this);
+		return ret.set("lightness", c => c * (1 + amount));
 	}
 
-	darken(amount = .2) {
-		return this.set("lightness", c => c * (1 - amount));
+	darken(amount = .2, {inPlace} = {}) {
+		let ret = inPlace? this : new Color(this);
+		return ret.set("lightness", c => c * (1 - amount));
 	}
 
 	// 1976 DeltaE. 2.3 is the JND
