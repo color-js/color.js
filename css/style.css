@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap');
+@import url('prism.css');
+@import url('color-notebook.css');
 
 :root {
 	--gray: 220, 10%;
 
 	--font-sans: Public Sans, Helvetica Neue, sans-serif;
 	--font-serif: Playfair Display, serif;
+	--font-monospace: Consolas, Monaco, monospace;
 	--font-body: var(--font-sans);
 	--font-headings: var(--font-serif);
 
@@ -21,7 +24,7 @@
 
 	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
 	           300% 0 / 150% .3em fixed;
-	--rainbow-scroll: rainbow-scroll 10s linear infinite both;
+	--rainbow-scroll: rainbow-scroll 10s linear 2 both;
 }
 
 @keyframes rainbow-scroll {

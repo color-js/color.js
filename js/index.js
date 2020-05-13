@@ -1,6 +1,9 @@
 let $ = Bliss;
 let $$ = $.$;
 
+
+import {} from "./color-notebook.js";
+
 $$("pre.runnable > code").forEach(code => {
 	let pre = code.parentNode;
 	let text = code.textContent;
