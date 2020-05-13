@@ -556,10 +556,11 @@ export default class Color {
 
 			return ret;
 		}
-		else if (type === "object") {
+		else if (space && type === "object") {
 			return space;
 		}
-		// ISSUE else throw?
+
+		throw new TypeError(`${space} is not a valid color space`);
 	}
 
 	// Define a new color space
