@@ -24,13 +24,17 @@ let methods = {
 		let range = color1.coords.map((coord, i) => color2.coords[i] - coord);
 		let alphaRange = color2.alpha - color1.alpha;
 
-		return p => {
+		let ret = p => {
 			let coords = color1.coords.map((coord, i) => coord + range[i] * p);
 			let alpha = color1.alpha + alphaRange * p;
 			let ret = new Color(space, coords, alpha);
 
 			return outputSpace !== space? ret.to(outputSpace) : ret;
 		};
+
+		ret.colorRange = true;
+
+		return ret;
 	},
 
 	/**
@@ -56,10 +60,17 @@ let methods = {
 	 * @returns {Array[Color]}
 	 */
 	steps (color2, {space, outputSpace, delta, steps = 2, maxSteps = 1000} = {}) {
-		color2 = Color.get(color2);
-		let range = this.range(color2, {space, outputSpace});
-
+		let range;
 		let ret = [];
+
+		if (typeof color2 === "function" && color2.colorRange) {
+			// Color range already provided
+			[range, color2] = [color2, color2(1)];
+		}
+		else {
+			color2 = Color.get(color2);
+			range = this.range(color2, {space, outputSpace});
+		}
 
 		let totalDelta = this.deltaE(color2);
 		let actualSteps = delta > 0? Math.max(steps, Math.ceil(totalDelta / delta) + 1) : steps;
@@ -85,6 +96,7 @@ let methods = {
 
 			while (maxDelta > delta) {
 				// Insert intermediate stops and measure maxDelta again
+				// We need to do this for all pairs, otherwise the midpoint shifts
 				maxDelta = 0;
 
 				for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
@@ -104,6 +116,18 @@ let methods = {
 
 		return ret;
 	}
+};
+
+Color.steps = function(color, ...args) {
+	if (typeof color === "function" && color.colorRange) {
+		// Color.steps(range, options)
+		return color(0).steps(color, ...args);
+	}
+	else {
+		color = Color.get(color);
+	}
+
+	return color.steps(...args);
 };
 
 Object.assign(Color.defaults, {
