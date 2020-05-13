@@ -673,7 +673,7 @@ export default class Color {
 							// Update color.coords
 							this.coords = Color.convert(obj, id, this.spaceId);
 
-							return value;
+							return true;
 						}
 
 						return Reflect.set(obj, property, value, receiver);
