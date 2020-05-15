@@ -208,7 +208,8 @@ export default class Color {
 			let min = mapSpace.coords[coordName][0];
 			let i = Object.keys(mapSpace.coords).indexOf(coordName);
 
-			let mapCoords = this[mapSpace.id];
+			// arr.slice() clones the coords so we can tweak without affecting the original color
+			let mapCoords = this[mapSpace.id].slice();
 
 			let low = min;
 			let high = mapCoords[i];
@@ -436,7 +437,7 @@ export default class Color {
 					let alpha = parsed.rawArgs.indexOf("/") > 0? parsed.args.pop() : 1;
 					let coords = Array(argCount).fill(0);
 					coords.forEach((_, i) => coords[i] = parsed.args[i] || 0);
-					
+
 					return {spaceId: space.id, coords, alpha};
 				}
 				else {
