@@ -19,7 +19,8 @@
 }
 
 .cn-wrapper .cn-string,
-.cn-wrapper .cn-number {
+.cn-wrapper .cn-number,
+.cn-wrapper .cn-object {
 	padding: .2em 0;
 }
 

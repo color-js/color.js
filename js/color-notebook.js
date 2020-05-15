@@ -9,92 +9,101 @@ import Color, {util} from "../color.js";
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 const outputSpace = supportsP3? "p3" : "srgb";
-const varDeclaration = /\b(?:let|var)\s*([\w]+)\s*=/;
+const codes = new WeakMap();
 
 function evaluate(pre) {
 	let wrapper = pre.closest(".cn-wrapper");
 	let results = $(".cn-results", wrapper);
-	let value = pre.textContent;
+
+	// Create a clone so we can take advantage of Prism's parsing to tweak the code
+	// Bonus: Comment this out to debug what's going on!
+	pre = pre.cloneNode(true);
 
 	// Remove comments
-	value = value.replace(/\s*\/\/.+$/gm, "").trim();
+	$$(".comment").forEach(comment => comment.remove());
 
-	// Remove last semicolon
-	value = value.replace(/;$/, "").trim();
+	// Replace variable declarations with proxperty creation on env
+	// This is so we can evaluate line by line, because eval() in strict mode has its own scope
+	let walker = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
+	let variables = new Set();
+	let node; // skip pre
+	let nextVariable;
+
+	while (node = walker.nextNode()) {
+		let text = node.textContent.trim();
+		let parent = node.parentNode;
+		let inRoot = parent.matches("code");
+
+		if (nextVariable && inRoot) {
+			variables.add(text);
+			nextVariable = false;
+		}
+		else if (parent.matches(".token.keyword") && (text === "var" || text === "let")) {
+			nextVariable = true; // next token is the variable name
+			node.textContent = "";
+		}
+
+		if ((inRoot || parent.matches(".token.function")) && variables.has(text)) {
+			node.textContent = "env." + text;
+		}
+	}
+
+	let value = pre.textContent.trim().replace(/\s+$/m, "");
+
+	if (codes.get(pre) === value) {
+		// We've already evaluated this
+		return;
+	}
+
+	codes.set(pre, value);
 
 	// Split by semicolon
-	let lines = value.split(/\s*;\s*/);
+	let lines = value.trim().split(/\s*;\s*/);
 
-	var variable;
-	var colors = {};
-	var code = "";
+	// Remove last line if empty
+	if (!lines[lines.length - 1]) {
+		lines.pop();
+	}
+
+	let variable;
+	let env = {};
 
 	// CLear previous results
 	results.textContent = "";
 
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i];
-		code += line + ";";
 		let ret;
 
 		try {
-			ret = eval(code);
+			ret = eval(line);
 		}
 		catch (e) {
-			ret = e;
-			// console.log(ret, line);
-		}
-
-		if (ret instanceof Error) {
 			continue;
 		}
 
-		if (ret === undefined) {
-			// var foo returns undefined, print it out
-			variable = line.match(varDeclaration);
+		let lineColors = [];
 
-			if (variable) {
-				variable = variable[1];
-
-				try {
-					ret = eval(code + variable);
-				}
-				catch (e) {
-					// console.log(e, variable);
-				}
-
-				if (ret instanceof Color) {
-					colors[variable] = ret;
+		if (!(ret instanceof Color)) {
+			for (let variable of variables) {
+				if (line.indexOf("env." + variable) > -1 && env[variable] instanceof Color) {
+					// console.log(env[variable], variable);
+					lineColors.push(env[variable]);
 				}
 			}
 		}
 
-		let changedColors = {};
+		let color = lineColors.pop();
 
-		// Have any colors changed?
-		for (let variable in colors) {
-			let previous = colors[variable];
-
-			if (previous instanceof Color) {
-				let current = colors[variable] = eval(code + ";" + variable);
-
-				if (current instanceof Color && !previous.equals(current)) {
-					changedColors[variable] = current;
-				}
-			}
-
-		}
-
-		let result = serialize(ret, changedColors);
+		let result = serialize(ret, color);
 
 		if (result) {
 			results.append(result);
 		}
 	}
-
 }
 
-function serialize(ret, changedColors) {
+function serialize(ret, color) {
 	var color, element;
 
 	if (ret instanceof Color) {
@@ -135,9 +144,6 @@ function serialize(ret, changedColors) {
 		});
 	}
 	else if (["number", "string", "undefined"].includes(typeof ret)) {
-		// We don't have a color, but maybe previous color changed?
-		color = Object.values(changedColors).pop();
-
 		if (typeof ret === "number") {
 			element = $.create({
 				className: "cn-number",
@@ -150,6 +156,13 @@ function serialize(ret, changedColors) {
 				textContent: `"${ret}"`
 			});
 		}
+	}
+	else if (ret && typeof ret === "object") {
+		let keys = Object.keys(ret);
+		element = $.create({
+			className: "cn-object",
+			textContent: `Object {${keys.slice(0, 3).join(", ") + (keys.length > 3? ", ..." : "")}}`
+		});
 	}
 
 	if (color) {
@@ -187,6 +200,10 @@ $$(".language-js pre, .language-javascript pre, pre.language-js, pre.language-ja
 
 	evaluate(pre);
 
-	let observer = new MutationObserver(_ => evaluate(pre));
+	let observer = new MutationObserver(_ => {
+		observer.disconnect();
+		evaluate(pre);
+		observer.observe(pre, {subtree: true, childList: true});
+	});
 	observer.observe(pre, {subtree: true, childList: true});
 });
