@@ -1,0 +1,25 @@
+{
+  "name": "color.js",
+  "version": "0.0.1",
+  "description": "Color space agnostic color manipulation library",
+  "main": "color.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "open tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeaVerou/color.js.git"
+  },
+  "keywords": [
+    "color"
+  ],
+  "author": "Lea Verou, Chris Lilley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeaVerou/color.js/issues"
+  },
+  "homepage": "https://colorjs.io"
+}
