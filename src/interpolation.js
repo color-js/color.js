@@ -18,8 +18,8 @@ let methods = {
 
 		outputSpace = outputSpace? Color.space(outputSpace) : color1.space || space;
 
-		color1 = color1.to(space);
-		color2 = color2.to(space);
+		color1 = color1.to(space).toGamut();
+		color2 = color2.to(space).toGamut();
 
 		let range = color1.coords.map((coord, i) => color2.coords[i] - coord);
 		let alphaRange = color2.alpha - color1.alpha;
@@ -29,10 +29,14 @@ let methods = {
 			let alpha = color1.alpha + alphaRange * p;
 			let ret = new Color(space, coords, alpha);
 
-			return outputSpace !== space? ret.to(outputSpace) : ret;
+			if (outputSpace !== space) {
+				ret = ret.to(outputSpace);
+			}
+
+			return ret;
 		};
 
-		ret.colorRange = true;
+		ret.colorRange = true; // make ranges programmatically detectible
 
 		return ret;
 	},
