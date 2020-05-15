@@ -47,6 +47,6 @@
 		color: white;
 	}
 
-	.cn-wrapper .cn-array .cn-swatch {
+	.cn-wrapper .cn-array > * {
 		display: inline-block;
 	}

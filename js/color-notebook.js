@@ -121,14 +121,14 @@ function serialize(ret, color) {
 		return $.create({
 			className: "cn-range",
 			style: {
-				"--stops": Color.steps(ret, {steps: 10})
+				"--stops": Color.steps(ret, {steps: 5, delta: 4})
 			}
 		});
 	}
 	else if (Array.isArray(ret)) {
-		let colors = ret.map(serialize);
+		let colors = ret.map(c => serialize(c));
 
-		if (ret.length > 2) {
+		if (ret.length > 2 && ret[0] instanceof Color) {
 			// Don't print out color if too many
 			colors.forEach(c => {
 				c.textContent = "";
