@@ -11,7 +11,7 @@ const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)"
 const outputSpace = supportsP3? "p3" : "srgb";
 const codes = new WeakMap();
 
-function evaluate(pre) {
+function evaluate (pre) {
 	let wrapper = pre.closest(".cn-wrapper");
 	let results = $(".cn-results", wrapper);
 
@@ -82,20 +82,23 @@ function evaluate(pre) {
 			continue;
 		}
 
-		let lineColors = [];
+		// Which variables are used in the current line?
+		let lineVariables = [];
 
-		if (!(ret instanceof Color)) {
-			for (let variable of variables) {
-				if (line.indexOf("env." + variable) > -1 && env[variable] instanceof Color) {
-					// console.log(env[variable], variable);
-					lineColors.push(env[variable]);
-				}
+		for (let variable of variables) {
+			if (line.indexOf("env." + variable) > -1) {
+				lineVariables.push(variable);
 			}
 		}
 
-		let color = lineColors.pop();
+		let color;
 
-		let result = serialize(ret, color);
+		if (!(ret instanceof Color)) {
+			// If result is not a color, get last color variable
+			color = lineVariables.reverse().find(c => env[c] instanceof Color);
+		}
+
+		let result = serialize(ret, env[color]);
 
 		if (result) {
 			results.append(result);
@@ -165,7 +168,7 @@ function serialize(ret, color) {
 		});
 	}
 
-	if (color) {
+	if (color instanceof Color) {
 		if (!element) {
 			element = $.create({className: "void"});
 		}
