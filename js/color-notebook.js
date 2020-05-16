@@ -291,7 +291,7 @@ let intersectionObserver = new IntersectionObserver(entries => {
 		}
 
 		let pre = entry.target;
-		console.log("init", pre);
+		
 		intersectionObserver.unobserve(pre);
 
 		$.create("div", {
