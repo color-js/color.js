@@ -191,7 +191,11 @@ function evaluate (pre) {
 
 	// Add a class to the first token to mark that we've evaluated this
 	// so that we don't do it again unless the contents are overwritten
-	$(".token", originalPre).classList.add("cn-evaluated");
+	let firstToken = $(".token", originalPre);
+
+	if (firstToken) {
+		firstToken.classList.add("cn-evaluated");
+	}
 }
 
 function serialize(ret, color) {
@@ -291,7 +295,7 @@ let intersectionObserver = new IntersectionObserver(entries => {
 		}
 
 		let pre = entry.target;
-		
+
 		intersectionObserver.unobserve(pre);
 
 		$.create("div", {
