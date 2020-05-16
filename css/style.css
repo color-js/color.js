@@ -192,7 +192,9 @@ main h2 {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-	background: hsl(var(--gray), 97%);
+	background: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .02) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
+	background-color: hsl(var(--gray), 98%);
+
 }
 
 @supports (-webkit-background-clip: text) {
