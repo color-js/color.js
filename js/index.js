@@ -4,22 +4,6 @@ let $$ = $.$;
 
 import {} from "./color-notebook.js";
 
-$$("pre.runnable > code").forEach(code => {
-	let pre = code.parentNode;
-	let text = code.textContent;
-	text = text.replace(/let (\w+)/g, "window.$1");
-
-	let fun = Function(`return (()=>{${text}})()`);
-
-	$.create("button", {
-		textContent: "▶",
-		onclick: evt => {
-			console.log(fun());
-		},
-		inside: pre
-	});
-});
-
 let root = document.documentElement;
 let cs = getComputedStyle(root);
 let colors = {
@@ -30,21 +14,23 @@ let colors = {
 
 let supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 let interpolationOptions = {steps: 5, space: "lch", outputSpace: supportsP3? "p3" : "hsl"};
-
-
+let redGreen = colors.red.range(colors.green, interpolationOptions);
+let greenBlue = colors.green.range(colors.blue, interpolationOptions);
+let blueRed = colors.blue.range(colors.red, interpolationOptions);
 
 let vars = {
 	"gradient-steps": [
-		...colors.red.steps(colors.green, interpolationOptions),
-		...colors.green.steps(colors.blue, interpolationOptions),
-		...colors.blue.steps(colors.red, interpolationOptions)
+		...Color.steps(redGreen, interpolationOptions),
+		...Color.steps(greenBlue, interpolationOptions),
+		...Color.steps(blueRed, interpolationOptions)
 	],
 	"color-red-light": colors.red.lighten(),
 	"color-green-light": colors.green.lighten(),
 	"color-blue-light": colors.blue.lighten(),
-	"color-red-green": colors.red.mix(colors.green, interpolationOptions),
-	"color-green-blue": colors.green.mix(colors.blue, interpolationOptions),
-	"color-blue-red": colors.blue.mix(colors.red, interpolationOptions),
+
+	"color-red-green": redGreen(.5),
+	"color-green-blue": greenBlue(.5),
+	"color-blue-red": blueRed(.5),
 };
 
 $.create("style", {
