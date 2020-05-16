@@ -80,6 +80,10 @@
 		display: inline-block;
 	}
 
+	.cn-wrapper .cn-array > .cn-color:hover {
+		transform: scale(4);
+	}
+
 [data-varname] {
 	background: var(--color);
 	box-shadow: 0 0 0 .1em var(--color);
