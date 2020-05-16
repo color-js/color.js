@@ -37,16 +37,28 @@
 	font: bold 65%/1 var(--font-monospace);
 }
 
-.cn-wrapper .cn-swatch {
+.cn-wrapper .cn-color {
 	padding: .5em;
 	border-radius: .2em;
 	background: var(--color);
+	white-space: nowrap;
 }
 
-	.cn-wrapper .cn-swatch.dark {
+	.cn-wrapper .cn-color.dark {
 		color: white;
 	}
 
 	.cn-wrapper .cn-array > * {
 		display: inline-block;
+	}
+
+[data-varname] {
+	background: var(--color);
+	box-shadow: 0 0 0 .1em var(--color);
+	border-radius: .01em;
+}
+
+	[data-varname].dark {
+		color: white;
+		text-shadow: none;
 	}

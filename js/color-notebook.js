@@ -11,28 +11,52 @@ const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)"
 const outputSpace = supportsP3? "p3" : "srgb";
 const codes = new WeakMap();
 
+Prism.hooks.add("before-sanity-check", env => {
+	if ($(".token", env.element)) {
+		// Already highlighted, abort
+		env.code = "";
+	}
+});
+
+function walk(pre, callback, filter) {
+	let walker = document.createTreeWalker(pre, filter);
+	let node;
+
+	while (node = walker.nextNode()) {
+		let ret = callback(node);
+
+		if (ret !== undefined) {
+			return ret;
+		}
+	}
+}
+
 function evaluate (pre) {
-	let wrapper = pre.closest(".cn-wrapper");
-	let results = $(".cn-results", wrapper);
+	if ($(".cn-evaluated.token", pre)) {
+		// Already evaluated
+		return;
+	}
 
 	// Create a clone so we can take advantage of Prism's parsing to tweak the code
 	// Bonus: Comment this out to debug what's going on!
+	let originalPre = pre;
 	pre = pre.cloneNode(true);
 
-	// Remove comments
-	$$(".comment").forEach(comment => comment.remove());
-
-	// Replace variable declarations with proxperty creation on env
+	// Replace variable declarations with property creation on env
 	// This is so we can evaluate line by line, because eval() in strict mode has its own scope
-	let walker = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
+
 	let variables = new Set();
-	let node; // skip pre
 	let nextVariable;
 
-	while (node = walker.nextNode()) {
+	walk(pre, (node) => {
 		let text = node.textContent.trim();
 		let parent = node.parentNode;
 		let inRoot = parent.matches("code");
+
+		if (!text) {
+			// Whitespace node
+			return;
+		}
 
 		if (nextVariable && inRoot) {
 			variables.add(text);
@@ -44,9 +68,10 @@ function evaluate (pre) {
 		}
 
 		if ((inRoot || parent.matches(".token.function")) && variables.has(text)) {
-			node.textContent = "env." + text;
+			// node.textContent = "env." + text;
+			node.textContent = node.textContent.replace(text, "env.$&");
 		}
-	}
+	}, NodeFilter.SHOW_TEXT);
 
 	let value = pre.textContent.trim().replace(/\s+$/m, "");
 
@@ -57,6 +82,64 @@ function evaluate (pre) {
 
 	codes.set(pre, value);
 
+	let varNodes = new Set();
+	let semicolons = [];
+	let line = 0;
+	let varLines = [];
+
+	// Wrap the variables so we can find them easily later
+	walk(originalPre, (node) => {
+		let text = node.textContent.trim();
+		let parent = node.parentNode;
+		let inRoot = parent.matches("code");
+
+		if (inRoot && variables.has(text)) {
+			// TODO get whitespace outside
+			node.line = line;
+			varNodes.add(node);
+		}
+		else if (parent.matches(".token.punctuation") && text === ";") {
+			semicolons.push(parent);
+			line++;
+		}
+	}, NodeFilter.SHOW_TEXT);
+
+	for (let node of varNodes) {
+		let wholeText = node.textContent;
+		let text = wholeText.trim();
+		let line = node.line;
+		varLines[line] = varLines[line] || new Set();
+
+		if (text !== wholeText) {
+			// There is whitespace
+			let start = wholeText.indexOf(text);
+			let end = start + text.length;
+
+			if (start > 0) {
+				// Whitespace in the beginning
+				node.splitText(start);
+				node = node.nextSibling;
+			}
+
+			if (end < wholeText.length) {
+				// Whitespace in the end
+				node.splitText(text.length);
+			}
+		}
+
+		let wrappedNode = $.create("span", {
+			className: "variable",
+			"data-varname": text,
+			"data-line": line,
+			textContent: node.textContent
+		});
+
+		node.replaceWith(wrappedNode);
+
+		// Associate variable nodes with lines so we know which line is relevant
+		varLines[line].add(wrappedNode);
+	}
+
 	// Split by semicolon
 	let lines = value.trim().split(/\s*;\s*/);
 
@@ -65,8 +148,9 @@ function evaluate (pre) {
 		lines.pop();
 	}
 
-	let variable;
 	let env = {};
+	let wrapper = originalPre.closest(".cn-wrapper");
+	let results = $(".cn-results", wrapper);
 
 	// CLear previous results
 	results.textContent = "";
@@ -82,28 +166,32 @@ function evaluate (pre) {
 			continue;
 		}
 
-		// Which variables are used in the current line?
-		let lineVariables = [];
+		// Update variables in the current line
+		let lineVars = varLines[i];
 
-		for (let variable of variables) {
-			if (line.indexOf("env." + variable) > -1) {
-				lineVariables.push(variable);
+		if (lineVars && lineVars.size > 0) {
+			for (let node of lineVars) {
+				let variable = node.textContent;
+				let value = env[variable];
+
+				if (value instanceof Color) {
+					node.style.setProperty("--color", value.to(outputSpace));
+					node.classList.add(value.luminance() > .5? "light" : "dark");
+				}
+				// TODO do something nice with other types :)
 			}
 		}
 
-		let color;
-
-		if (!(ret instanceof Color)) {
-			// If result is not a color, get last color variable
-			color = lineVariables.reverse().find(c => env[c] instanceof Color);
-		}
-
-		let result = serialize(ret, env[color]);
+		let result = serialize(ret);
 
 		if (result) {
 			results.append(result);
 		}
 	}
+
+	// Add a class to the first token to mark that we've evaluated this
+	// so that we don't do it again unless the contents are overwritten
+	$(".token", originalPre).classList.add("cn-evaluated");
 }
 
 function serialize(ret, color) {
@@ -173,7 +261,7 @@ function serialize(ret, color) {
 			element = $.create({className: "void"});
 		}
 
-		element.classList.add("cn-swatch", (color.luminance() > .5? "light" : "dark"));
+		element.classList.add("cn-color", color.luminance() > .5? "light" : "dark");
 
 		let str = element.dataset.title = color.toString({inGamut: false});
 
