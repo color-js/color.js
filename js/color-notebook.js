@@ -282,19 +282,37 @@ function serialize(ret, color) {
 	return element;
 }
 
-$$(".language-js pre, .language-javascript pre, pre.language-js, pre.language-javascript").forEach(pre => {
-	$.create("div", {
-		className: "cn-wrapper",
-		around: pre.parentNode.closest(".prism-live") || pre,
-		contents: {className: "cn-results"}
-	});
+let intersectionObserver = new IntersectionObserver(entries => {
+	for (let entry of entries) {
+		if (entry.intersectionRatio === 0) {
+			// IntersectionObserver callback fires immediately for no reason
+			// so we need to guard against this
+			continue;
+		}
 
-	evaluate(pre);
+		let pre = entry.target;
+		console.log("init", pre);
+		intersectionObserver.unobserve(pre);
 
-	let observer = new MutationObserver(_ => {
-		observer.disconnect();
+		$.create("div", {
+			className: "cn-wrapper",
+			around: pre.parentNode.closest(".prism-live") || pre,
+			contents: {className: "cn-results"}
+		});
+
 		evaluate(pre);
+
+		let observer = new MutationObserver(_ => {
+			observer.disconnect();
+			evaluate(pre);
+			observer.observe(pre, {subtree: true, childList: true});
+		});
 		observer.observe(pre, {subtree: true, childList: true});
-	});
-	observer.observe(pre, {subtree: true, childList: true});
+
+
+	}
+});
+
+$$(".language-js pre, .language-javascript pre, pre.language-js, pre.language-javascript").forEach(pre => {
+	intersectionObserver.observe(pre);
 });
