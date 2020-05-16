@@ -7,9 +7,9 @@ import {} from "./color-notebook.js";
 let root = document.documentElement;
 let cs = getComputedStyle(root);
 let colors = {
-	red: new Color(cs.getPropertyValue("--color-red")),
-	green: new Color(cs.getPropertyValue("--color-green")),
-	blue: new Color(cs.getPropertyValue("--color-blue"))
+	red: new Color("--color-red"),
+	green: new Color("--color-green"),
+	blue: new Color("--color-blue")
 };
 
 let supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");

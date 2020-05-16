@@ -2,39 +2,61 @@ import * as util from "./util.js";
 import Hooks from "./hooks.js";
 
 const ε = .000005;
+const hasDOM = typeof document !== "undefined";
 
 export default class Color {
 	// Signatures:
 	// new Color(stringToParse)
 	// new Color(otherColor)
 	// new Color(coords, alpha) // defaults to sRGB
-	constructor (spaceId = "sRGB", coords = [0, 0, 0], alpha = 1) {
-		if (arguments.length === 1) {
-			let color = arguments[0];
+	// new Color(CSS variable [, root])
+	constructor (...args) {
+		let str, color;
 
-			if (util.isString(color)) {
-				// Just a string provided, parse
-				color = Color.parse(color);
+		// new Color(color)
+		// new Color({spaced, coords})
+		if (args[0] && typeof args[0] === "object" && args[0].spaceId && args[0].coords) {
+			color = args[0];
+		}
+		else if (util.isString(args[0])) {
+			// new Color("--foo" [, root])
+			if (hasDOM && args[0].indexOf("--") === 0) {
+				// CSS variable
+				let root = arguments[1] && arguments[1].nodeType === 1? arguments[1] : document.documentElement;
+				str = getComputedStyle(root).getPropertyValue(arguments[0]);
+			}
+			 // new Color(string)
+			else if (args.length === 1) {
+				str = args[0];
+			}
+
+			if (str) {
+				color = Color.parse(str);
 
 				if (!color) {
-					throw new TypeError(`Cannot parse "${arguments[0]}" as a color`);
+					throw new TypeError(`Cannot parse "${str}" as a color`);
 				}
 			}
-
-			if (color) {
-				this.spaceId = color.spaceId;
-				this.coords = color.coords;
-				this.alpha = color.alpha;
-			}
 		}
-		else {
-			if (Array.isArray(spaceId)) {
+
+		if (color) {
+			this.spaceId = color.spaceId;
+			this.coords = color.coords;
+			this.alpha = color.alpha;
+		}
+		else { // default signature new Color([ColorSpace,] array [, alpha])
+			let spaceId, coords, alpha;
+
+			if (Array.isArray(args[0])) {
 				// No color space provided, default to sRGB
-				[spaceId, coords, alpha] = ["sRGB", spaceId, coords];
+				[spaceId, coords, alpha] = ["sRGB", ...args];
+			}
+			else {
+				[spaceId, coords, alpha] = args;
 			}
 
-			this.spaceId = spaceId;
-			this.coords = coords;
+			this.spaceId = spaceId || "sRGB";
+			this.coords = coords || [0, 0, 0];
 			this.alpha = alpha;
 		}
 
@@ -391,9 +413,7 @@ export default class Color {
 			}
 		}
 
-		if ((!parsed || !isRGB)
-		    && typeof document !== "undefined" && document.head // Do we have a DOM?
-		) {
+		if ((!parsed || !isRGB) && hasDOM && document.head) {
 			// Use browser to parse when a DOM is available
 			// this is how we parse #hex or color names, or RGB transformations like hsl()
 			let previousColor = document.head.style.color;
