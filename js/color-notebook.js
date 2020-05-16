@@ -186,6 +186,21 @@ function evaluate (pre) {
 
 		if (result) {
 			results.append(result);
+
+			// Make result line up with its line if there's space
+			let semicolon = semicolons[i];
+
+			if (semicolon) {
+
+				let offset = semicolon.offsetTop - result.offsetTop
+				// Prevent overly tall results (e.g. long arrays of colors)
+				// to make the entire code area super tall
+				             - Math.max(0, result.offsetHeight - 30);
+
+				if (offset > 5) {
+					result.style.marginTop = offset + "px";
+				}
+			}
 		}
 	}
 

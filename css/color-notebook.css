@@ -1,5 +1,13 @@
 .cn-wrapper {
+	position: relative;
 	display: flex;
+	--transparency: ;
+}
+
+@supports (background: conic-gradient(red, white)) {
+	.cn-wrapper {
+		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .02) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
+	}
 }
 
 .cn-wrapper .cn-results:empty {
@@ -11,11 +19,12 @@
 	flex-flow: column;
 	max-width: 20em;
 	margin-left: .5em;
+	padding-top: .5em;
 	font: bold 65%/1 var(--font-monospace);
 }
 
 	.cn-wrapper .cn-results:not(:empty) > * {
-		margin-top: .5em;
+		margin-bottom: .5em;
 	}
 
 .cn-wrapper > pre,
@@ -23,23 +32,31 @@
 	flex: 1;
 }
 
-.cn-wrapper .cn-string,
-.cn-wrapper .cn-number,
-.cn-wrapper .cn-object {
-	padding: .2em 0;
+.cn-wrapper > .cn-string,
+.cn-wrapper > .cn-number {
+	font-size: 120%;
 }
 
+.cn-wrapper .cn-color,
 .cn-wrapper .cn-range {
-	padding: .5em;
-	height: 1em;
+	padding: .4em;
 	border-radius: .2em;
-	background: linear-gradient(to right, var(--stops));
-	font: bold 65%/1 var(--font-monospace);
+	transition: .3s .15s transform;
+	transform-origin: right;
+}
+
+	.cn-wrapper .cn-color:hover,
+	.cn-wrapper .cn-range:hover {
+		transform: scale(2);
+	}
+
+.cn-wrapper .cn-range {
+	height: 1em;
+	background: linear-gradient(to right, var(--stops, transparent, transparent)), var(--transparency);
+	background-color: hsl(var(--gray), 90%);
 }
 
 .cn-wrapper .cn-color {
-	padding: .5em;
-	border-radius: .2em;
 	background: var(--color);
 	white-space: nowrap;
 }
