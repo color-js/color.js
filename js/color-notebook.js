@@ -219,6 +219,10 @@ function evaluate (pre) {
 function serialize(ret, color) {
 	var color, element;
 
+	if (ret === undefined) {
+		return;
+	}
+
 	if (ret instanceof Color) {
 		color = ret;
 
@@ -256,19 +260,23 @@ function serialize(ret, color) {
 			contents
 		});
 	}
-	else if (["number", "string", "undefined"].includes(typeof ret)) {
-		if (typeof ret === "number") {
-			element = $.create({
-				className: "cn-number",
-				textContent: util.toPrecision(ret, 3) + ""
-			});
-		}
-		else if (typeof ret === "string") {
-			element = $.create({
-				className: "cn-string",
-				textContent: `"${ret}"`
-			});
-		}
+	else if (typeof ret === "number") {
+		element = $.create({
+			className: "cn-number",
+			textContent: util.toPrecision(ret, 3) + ""
+		});
+	}
+	else if (typeof ret === "boolean") {
+		element = $.create({
+			className: "cn-boolean",
+			textContent: ret
+		});
+	}
+	else if (typeof ret === "string") {
+		element = $.create({
+			className: "cn-string",
+			textContent: `"${ret}"`
+		});
 	}
 	else if (ret && typeof ret === "object") {
 		let keys = Object.keys(ret);

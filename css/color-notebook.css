@@ -33,8 +33,9 @@
 }
 
 .cn-wrapper > .cn-string,
-.cn-wrapper > .cn-number {
-	font-size: 120%;
+.cn-wrapper > .cn-number,
+.cn-wrapper > .cn-boolean {
+	padding: .3em 0;
 }
 
 .cn-wrapper .cn-color,
