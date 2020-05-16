@@ -48,6 +48,7 @@
 
 	.cn-wrapper .cn-color:hover,
 	.cn-wrapper .cn-range:hover {
+		z-index: 1;
 		transform: scale(2);
 	}
 
@@ -58,12 +59,21 @@
 }
 
 .cn-wrapper .cn-color {
+	position: relative;
 	background: var(--color);
 	white-space: nowrap;
 }
 
 	.cn-wrapper .cn-color.dark {
 		color: white;
+	}
+
+	.cn-wrapper .cn-color.out-of-gamut {
+		box-shadow: 0 0 .1em .02em var(--out-of-gamut-color, red);
+	}
+
+	.cn-wrapper .cn-color.light.out-of-gamut {
+		--out-of-gamut-color: #b00;
 	}
 
 	.cn-wrapper .cn-array > * {

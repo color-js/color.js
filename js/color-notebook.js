@@ -8,7 +8,7 @@ let $ = Bliss, $$ = $.$;
 import Color, {util} from "../color.js";
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
-const outputSpace = supportsP3? "p3" : "srgb";
+const outputSpace = Color.space(supportsP3? "p3" : "srgb");
 const codes = new WeakMap();
 
 Prism.hooks.add("before-sanity-check", env => {
@@ -297,6 +297,21 @@ function serialize(ret, color) {
 
 		if (element.textContent !== str) {
 			element.title = str;
+		}
+
+		let outOfGamut = [];
+
+		if (!color.inGamut()) {
+			outOfGamut.push(color.space.name);
+		}
+
+		if (outputSpace !== color.space && !color.inGamut(outputSpace)) {
+			outOfGamut.push(outputSpace.name);
+		}
+
+		if (outOfGamut.length > 0) {
+			element.classList.add("out-of-gamut");
+			element.title += ` (out of ${outOfGamut.join(", ")} gamut)`;
 		}
 
 		$.set(element, {
