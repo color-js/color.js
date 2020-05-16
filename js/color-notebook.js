@@ -42,6 +42,9 @@ function evaluate (pre) {
 	let originalPre = pre;
 	pre = pre.cloneNode(true);
 
+	// Remove comments
+	$$(".comment", pre).forEach(comment => comment.remove());
+
 	// Replace variable declarations with property creation on env
 	// This is so we can evaluate line by line, because eval() in strict mode has its own scope
 
