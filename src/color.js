@@ -177,7 +177,8 @@ export default class Color {
 	 * @return {Boolean} Is the color in gamut?
 	 */
 	inGamut ({space = this.space} = {}) {
-		return Color.inGamut(space, this.coords);
+		space = Color.space(space);
+		return Color.inGamut(space, this[space.id]);
 	}
 
 	static inGamut (space, coords) {
