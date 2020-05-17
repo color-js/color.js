@@ -305,7 +305,7 @@ function serialize(ret, color) {
 			outOfGamut.push(color.space.name);
 		}
 
-		if (outputSpace !== color.space && !color.inGamut(outputSpace)) {
+		if (outputSpace !== color.space && !color.inGamut({space: outputSpace})) {
 			outOfGamut.push(outputSpace.name);
 		}
 
