@@ -16,6 +16,7 @@ Color.defineSpace({
 
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
 	fromSRGB (rgb) {
+		rgb = rgb.map(c => c * 100);
 		let max = Math.max.apply(Math, rgb);
 		let min = Math.min.apply(Math, rgb);
 		let [r, g, b] = rgb;
@@ -25,7 +26,7 @@ Color.defineSpace({
 		if (d !== 0) {
 			s = d * 100 / (100 - Math.abs(2 * l - 100));
 
-			switch (max){
+			switch (max) {
 				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
 				case g: h = (b - r) / d + 2; break;
 				case b: h = (r - g) / d + 4;
@@ -34,7 +35,7 @@ Color.defineSpace({
 			h = h * 60;
 		}
 
-		return [h, s, l * 100];
+		return [h, s, l];
 	},
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
 	toSRGB (hsl) {
