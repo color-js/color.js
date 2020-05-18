@@ -235,7 +235,13 @@ function serialize(ret, color) {
 		return $.create({
 			className: "cn-range",
 			style: {
-				"--stops": Color.steps(ret, {steps: 5, delta: 4})
+				"--stops": Color.steps(ret, {steps: 5, delta: 4}).map(color => {
+					if (!CSS.supports("color", color)) {
+						return color.to(outputSpace);
+					}
+
+					return color;
+				})
 			}
 		});
 	}
