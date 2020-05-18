@@ -21,12 +21,12 @@ let methods = {
 		color1 = color1.to(space).toGamut();
 		color2 = color2.to(space).toGamut();
 
-		let range = color1.coords.map((coord, i) => color2.coords[i] - coord);
-		let alphaRange = color2.alpha - color1.alpha;
-
 		let ret = p => {
-			let coords = color1.coords.map((coord, i) => coord + range[i] * p);
-			let alpha = color1.alpha + alphaRange * p;
+			let coords = color1.coords.map((start, i) => {
+				let end = color2.coords[i];
+				return interpolate(start, end, p);
+			});
+			let alpha = interpolate(color1.alpha, color2.alpha, p);
 			let ret = new Color(space, coords, alpha);
 
 			if (outputSpace !== space) {
@@ -133,6 +133,19 @@ Color.steps = function(color, ...args) {
 
 	return color.steps(...args);
 };
+
+// Helper
+function interpolate(start, end, p) {
+	if (isNaN(start)) {
+		return end;
+	}
+
+	if (isNaN(end)) {
+		return start;
+	}
+
+	return start + (end - start) * p;
+}
 
 Object.assign(Color.defaults, {
 	interpolationSpace: "lab"
