@@ -156,7 +156,7 @@ export default class Color {
 	}
 
 	// Get formatted coords
-	getCoords ({inGamut, precision = 5} = {}) {
+	getCoords ({inGamut, precision = Color.defaults.precision} = {}) {
 		let coords = this.coords;
 
 		if (inGamut === true && !this.inGamut()) {
@@ -324,14 +324,20 @@ export default class Color {
 	 * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
 	 * @param {string} options.name - Function name [default: color]
 	 */
-	toString ({precision = 5, format, commas, inGamut, name = "color"} = {}) {
+	toString ({precision = Color.defaults.precision, format, commas, inGamut, name = "color"} = {}) {
 		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
 
 		let coords = this.getCoords({inGamut, precision});
 
 		if (util.isString(format)) {
 			if (format === "%") {
-				format = c => c.toLocaleString("en-US", {style: "percent", maximumSignificantDigits: precision});
+				let options = {style: "percent"};
+
+				if (Number.isInteger(precision) && precision <= 21) {
+					options.maximumSignificantDigits = precision;
+				}
+
+				format = c => c.toLocaleString("en-US",  options);
 			}
 		}
 
@@ -783,7 +789,8 @@ Object.assign(Color, {
 
 	// Global defaults one may want to configure
 	defaults: {
-		gamutMapping: "lch.chroma"
+		gamutMapping: "lch.chroma",
+		precision: 5
 	}
 });
 
