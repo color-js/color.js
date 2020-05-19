@@ -148,7 +148,7 @@ export default class Color {
 			if (isNaN(lab1[i]) || isNaN(lab2[i])) {
 				return 0;
 			}
-			
+
 			return a + (lab2[i] - lab1[i]) ** 2;
 		}, 0));
 	}
@@ -334,6 +334,10 @@ export default class Color {
 		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
 
 		let coords = this.getCoords({inGamut, precision});
+
+		// Convert NaN to zeros to have a chance at a valid CSS color
+		// Also convert -0 to 0
+		coords = coords.map(c => c? c : 0);
 
 		if (util.isString(format)) {
 			if (format === "%") {
