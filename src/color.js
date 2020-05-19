@@ -144,7 +144,13 @@ export default class Color {
 		color = Color.get(color);
 		let lab1 = this.lab;
 		let lab2 = color.lab;
-		return Math.sqrt([0, 1, 2].reduce((a, i) => a + (lab2[i] - lab1[i]) ** 2, 0));
+		return Math.sqrt([0, 1, 2].reduce((a, i) => {
+			if (isNaN(lab1[i]) || isNaN(lab2[i])) {
+				return 0;
+			}
+			
+			return a + (lab2[i] - lab1[i]) ** 2;
+		}, 0));
 	}
 
 	luminance () {
