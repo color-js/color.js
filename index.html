@@ -148,9 +148,15 @@
 		let limewhite = lime.range(white, {space: "lch"});
 		let limewhite2 = lime.range(white2, {space: "lch"});
 
+		// Two kinds of fade out to transparent
 		lime.range(new Color("transparent"));
 		lime.range(new Color(lime.space, [NaN, NaN, NaN], 0), {space: lime.space});
+		</code></pre>
 
+		<p>You can use the <code>progression</code> parameter to customize the progression and make it non-linear:</p>
+		<pre class="prism-live"><code>
+			let r = Color.range("lch(50 50 0)", "lch(90 50 20)");
+			let r = Color.range("lch(50 50 0)", "lch(90 50 20)", {progression: p => p ** 3});
 		</code></pre>
 
 		<p>Interpolation by discrete steps:</p>

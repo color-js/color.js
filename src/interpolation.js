@@ -5,7 +5,7 @@ let methods = {
 	 * Interpolate to color2 and return a function that takes a 0-1 percentage
 	 * @returns {Function}
 	 */
-	range (color2, {space, outputSpace} = {}) {
+	range (color2, {space, outputSpace, progression} = {}) {
 		let color1 = this;
 		color2 = Color.get(color2);
 
@@ -22,6 +22,7 @@ let methods = {
 		color2 = color2.to(space).toGamut();
 
 		let ret = p => {
+			p = progression? progression(p) : p;
 			let coords = color1.coords.map((start, i) => {
 				let end = color2.coords[i];
 				return interpolate(start, end, p);
