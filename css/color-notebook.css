@@ -6,7 +6,7 @@
 
 @supports (background: conic-gradient(red, white)) {
 	.cn-wrapper {
-		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .02) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
+		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .03) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
 	}
 }
 
@@ -25,6 +25,7 @@
 
 	.cn-wrapper .cn-results:not(:empty) > * {
 		margin-bottom: .5em;
+		min-width: 10em;
 	}
 
 .cn-wrapper > pre,
@@ -55,7 +56,6 @@
 .cn-wrapper .cn-range {
 	height: 1em;
 	background: linear-gradient(to right, var(--stops, transparent, transparent)), var(--transparency);
-	background-color: hsl(var(--gray), 90%);
 }
 
 .cn-wrapper .cn-color {
