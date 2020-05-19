@@ -17,20 +17,40 @@
 .cn-wrapper .cn-results:not(:empty) {
 	display: flex;
 	flex-flow: column;
-	max-width: 20em;
 	margin-left: .5em;
 	padding-top: .5em;
-	font: bold 65%/1 var(--font-monospace);
+	font: bold 65%/1 var(--font-monospace, monospace);
+}
+
+
+@media (max-width: 900px) {
+	.cn-wrapper .cn-results:not(:empty),
+	.cn-wrapper > pre,
+	.cn-wrapper > .prism-live {
+		transition: .4s width;
+	}
+
+	.cn-wrapper .cn-results:not(:empty) {
+		width: 2em;
+		overflow: hidden;
+	}
+
+	.cn-wrapper .cn-results:not(:empty):hover,
+	.cn-wrapper .cn-results:not(:empty):focus,
+	.cn-wrapper .cn-results:not(:empty):active {
+		width: auto;
+	}
 }
 
 	.cn-wrapper .cn-results:not(:empty) > * {
 		margin-bottom: .5em;
-		min-width: 10em;
+		width: 10rem;
 	}
 
 .cn-wrapper > pre,
 .cn-wrapper > .prism-live {
 	flex: 1;
+	width: 0;
 }
 
 .cn-wrapper > .cn-string,
