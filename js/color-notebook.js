@@ -230,7 +230,8 @@ function serialize(ret, color) {
 			textContent: ret.toString({precision: 2})
 		});
 	}
-	else if (ret instanceof Function && ret.colorRange) {
+	else if (ret instanceof Function && ret.rangeArgs) {
+		console.log(Color.steps(ret, {steps: 5, delta: 4}));
 		// Range function?
 		return $.create({
 			className: "cn-range",

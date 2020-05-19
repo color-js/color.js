@@ -1,45 +1,8 @@
 import Color, {util} from "./color.js";
 
 let methods = {
-	/**
-	 * Interpolate to color2 and return a function that takes a 0-1 percentage
-	 * @returns {Function}
-	 */
-	range (color2, {space, outputSpace, progression} = {}) {
-		let color1 = this;
-		color2 = Color.get(color2);
-
-		if (space) {
-			space = Color.space(space);
-		}
-		else {
-			space = Color.spaces[Color.defaults.interpolationSpace] || color1.space;
-		}
-
-		outputSpace = outputSpace? Color.space(outputSpace) : color1.space || space;
-
-		color1 = color1.to(space).toGamut();
-		color2 = color2.to(space).toGamut();
-
-		let ret = p => {
-			p = progression? progression(p) : p;
-			let coords = color1.coords.map((start, i) => {
-				let end = color2.coords[i];
-				return interpolate(start, end, p);
-			});
-			let alpha = interpolate(color1.alpha, color2.alpha, p);
-			let ret = new Color(space, coords, alpha);
-
-			if (outputSpace !== space) {
-				ret = ret.to(outputSpace);
-			}
-
-			return ret;
-		};
-
-		ret.colorRange = true; // make ranges programmatically detectible
-
-		return ret;
+	range (...args) {
+		return Color.range(this, ...args);
 	},
 
 	/**
@@ -64,75 +27,125 @@ let methods = {
 	 * Interpolate to color2 and return an array of colors
 	 * @returns {Array[Color]}
 	 */
-	steps (color2, {space, outputSpace, delta, steps = 2, maxSteps = 1000} = {}) {
-		let range;
-		let ret = [];
-
-		if (typeof color2 === "function" && color2.colorRange) {
-			// Color range already provided
-			[range, color2] = [color2, color2(1)];
-		}
-		else {
-			color2 = Color.get(color2);
-			range = this.range(color2, {space, outputSpace});
-		}
-
-		let totalDelta = this.deltaE(color2);
-		let actualSteps = delta > 0? Math.max(steps, Math.ceil(totalDelta / delta) + 1) : steps;
-
-		if (maxSteps !== undefined) {
-			actualSteps = Math.min(actualSteps, maxSteps);
-		}
-
-		if (actualSteps === 1) {
-			ret = [{p: .5, color: range(.5)}];
-		}
-		else {
-			let step = 1 / (actualSteps - 1);
-			ret = Array.from({length: actualSteps}, (_, i) => {
-				let p = i * step;
-				return {p, color: range(p)};
-			});
-		}
-
-		if (delta > 0) {
-			// Iterate over all stops and find max delta
-			let maxDelta = ret.reduce((acc, cur, i) => i === 0? 0 : Math.max(acc, cur.color.deltaE(ret[i - 1].color)), 0);
-
-			while (maxDelta > delta) {
-				// Insert intermediate stops and measure maxDelta again
-				// We need to do this for all pairs, otherwise the midpoint shifts
-				maxDelta = 0;
-
-				for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
-					let prev = ret[i - 1];
-					let cur = ret[i];
-
-					let p = (cur.p + prev.p) / 2;
-					let color = range(p);
-					maxDelta = Math.max(maxDelta, color.deltaE(prev.color), color.deltaE(cur.color));
-					ret.splice(i, 0, {p, color: range(p)});
-					i++;
-				}
-			}
-		}
-
-		ret = ret.map(a => a.color);
-
-		return ret;
+	steps (...args) {
+		return Color.steps(this, ...args);
 	}
 };
 
-Color.steps = function(color, ...args) {
-	if (typeof color === "function" && color.colorRange) {
-		// Color.steps(range, options)
-		return color(0).steps(color, ...args);
-	}
-	else {
-		color = Color.get(color);
+Color.steps = function(color1, color2, options = {}) {
+	let range;
+
+	if (isRange(color1)) {
+		// Tweaking existing range
+		[range, options] = [color1, color2];
+		[color1, color2] = range.rangeArgs.colors;
 	}
 
-	return color.steps(...args);
+	let {delta, steps = 2, maxSteps = 1000, ...rangeOptions} = options;
+
+	if (!range) {
+		color1 = Color.get(color1);
+		color2 = Color.get(color2);
+		range = Color.range(color1, color2, rangeOptions);
+	}
+
+	let totalDelta = this.deltaE(color2);
+	let actualSteps = delta > 0? Math.max(steps, Math.ceil(totalDelta / delta) + 1) : steps;
+	let ret = [];
+
+	if (maxSteps !== undefined) {
+		actualSteps = Math.min(actualSteps, maxSteps);
+	}
+
+	if (actualSteps === 1) {
+		ret = [{p: .5, color: range(.5)}];
+	}
+	else {
+		let step = 1 / (actualSteps - 1);
+		ret = Array.from({length: actualSteps}, (_, i) => {
+			let p = i * step;
+			return {p, color: range(p)};
+		});
+	}
+
+	if (delta > 0) {
+		// Iterate over all stops and find max delta
+		let maxDelta = ret.reduce((acc, cur, i) => i === 0? 0 : Math.max(acc, cur.color.deltaE(ret[i - 1].color)), 0);
+
+		while (maxDelta > delta) {
+			// Insert intermediate stops and measure maxDelta again
+			// We need to do this for all pairs, otherwise the midpoint shifts
+			maxDelta = 0;
+
+			for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
+				let prev = ret[i - 1];
+				let cur = ret[i];
+
+				let p = (cur.p + prev.p) / 2;
+				let color = range(p);
+				maxDelta = Math.max(maxDelta, color.deltaE(prev.color), color.deltaE(cur.color));
+				ret.splice(i, 0, {p, color: range(p)});
+				i++;
+			}
+		}
+	}
+
+	ret = ret.map(a => a.color);
+
+	return ret;
+};
+
+/**
+ * Interpolate to color2 and return a function that takes a 0-1 percentage
+ * @returns {Function}
+ */
+Color.range = function(color1, color2, options = {}) {
+	if (isRange(color1)) {
+		// Tweaking existing range
+		let [range, options] = [color1, color2];
+		return Color.range(...range.rangeArgs.colors, {...range.rangeArgs.options, ...options});
+	}
+
+	let {space, outputSpace, progression} = options;
+
+	color1 = Color.get(color1);
+	color2 = Color.get(color2);
+
+	let rangeArgs = {colors: [color1, color2], options};
+
+	if (space) {
+		space = Color.space(space);
+	}
+	else {
+		space = Color.spaces[Color.defaults.interpolationSpace] || color1.space;
+	}
+
+	outputSpace = outputSpace? Color.space(outputSpace) : color1.space || space;
+
+	color1 = color1.to(space).toGamut();
+	color2 = color2.to(space).toGamut();
+
+	return Object.assign(p => {
+		p = progression? progression(p) : p;
+		let coords = color1.coords.map((start, i) => {
+			let end = color2.coords[i];
+			return interpolate(start, end, p);
+		});
+		let alpha = interpolate(color1.alpha, color2.alpha, p);
+		let ret = new Color(space, coords, alpha);
+
+		if (outputSpace !== space) {
+			ret = ret.to(outputSpace);
+		}
+
+		return ret;
+	}, {
+		rangeArgs
+	});
+};
+
+export function isRange (val) {
+	return util.type(val) === "function" && val.rangeArgs;
 };
 
 // Helper
