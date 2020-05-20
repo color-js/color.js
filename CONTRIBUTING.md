@@ -1,5 +1,16 @@
 # Contribution guidelines
 
+## Getting up and running with build tools
+
+We use gulp for processing CSS and HTML for the website, and Rollup.js for bundling Color.js.
+
+1. [Install npm](https://www.npmjs.com/get-npm) if you don't already have it
+2. `cd` to the project directory and run `npm install` to install local modules
+3. Done! Now run `npx gulp` to build Color.js and `npx gulp` to build the website.
+
+Run `npx gulp watch` before you start working on the website to have gulp run automatically.
+
+
 ## Commit messages
 
 - If working on a color space, please prefix your commit with `[spaces/SPACE_ID]`
