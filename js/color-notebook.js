@@ -231,7 +231,6 @@ function serialize(ret, color) {
 		});
 	}
 	else if (ret instanceof Function && ret.rangeArgs) {
-		console.log(Color.steps(ret, {steps: 5, delta: 4}));
 		// Range function?
 		return $.create({
 			className: "cn-range",
