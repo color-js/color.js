@@ -2,7 +2,7 @@ let $ = Bliss;
 let $$ = $.$;
 
 
-import {} from "./color-notebook.js";
+import {} from "../notebook/color-notebook.js";
 
 let root = document.documentElement;
 let cs = getComputedStyle(root);
