@@ -99,34 +99,35 @@ main {
 body > header nav {
 	order: 0;
 	display: flex;
-	justify-content: stretch
-}
+	justify-content: stretch;
 
-body > header nav h1 {
-		margin: 0
-	}
+	& h1 {
+		margin: 0;
 
-body > header nav h1 img {
+		& img {
 			height: 2.15em;
 			margin-bottom: -1.5em;
 			margin-left: -.5em;
 		}
+	}
 
-body > header nav a {
+	& a {
 		text-align: center;
 	}
 
-body > header nav a:not(.logo) {
+	& a:not(.logo) {
 		flex: 1;
 		padding: .6em;
-		font-weight: 800
-	}
+		font-weight: 800;
 
-body > header nav a:not(.logo):hover {
+
+		&:hover {
 			-webkit-background-clip: initial;
 			color: white;
 			text-decoration: none;
 		}
+	}
+}
 
 
 main h2 {

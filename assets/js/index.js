@@ -1,6 +1,9 @@
 let $ = Bliss;
 let $$ = $.$;
 
+$$("pre > code.language-js, pre > code.language-javascript").forEach(code => {
+	new Prism.Live(code.parentNode);
+});
 
 import {} from "../../notebook/color-notebook.js";
 

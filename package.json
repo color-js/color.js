@@ -24,10 +24,13 @@
 	"homepage": "https://colorjs.io",
 	"devDependencies": {
 		"gulp": "^4.0.2",
+		"gulp-file-include": "^2.2.2",
 		"gulp-postcss": "^8.0.0",
 		"gulp-rename": "^2.0.0",
 		"postcss-nesting": "^7.0.1",
 		"rollup": "^2.10.5",
-		"rollup-plugin-terser": "^5.3.0"
-	}
+		"rollup-plugin-terser": "^5.3.0",
+		"showdown": "^1.9.1"
+	},
+	"dependencies": {}
 }

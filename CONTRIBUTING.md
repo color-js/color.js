@@ -6,9 +6,9 @@ We use gulp for processing CSS and HTML for the website, and Rollup.js for bundl
 
 1. [Install npm](https://www.npmjs.com/get-npm) if you don't already have it
 2. `cd` to the project directory and run `npm install` to install local modules
-3. Done! Now run `npx gulp` to build Color.js and `npx gulp` to build the website.
+3. Done! Now run `npx gulp` to build.
 
-Run `npx gulp watch` before you start working on the website to have gulp run automatically.
+Run `npx gulp watch` before you start working on the website to have gulp run automatically as you edit files.
 
 
 ## Commit messages

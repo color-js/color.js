@@ -364,6 +364,9 @@ let intersectionObserver = new IntersectionObserver(entries => {
 	}
 });
 
+$$("pre > code.language-js, pre > code.language-javascript").forEach(code => {
+	intersectionObserver.observe(code.parentNode);
+});
 $$(".language-js pre, .language-javascript pre, pre.language-js, pre.language-javascript").forEach(pre => {
 	intersectionObserver.observe(pre);
 });
