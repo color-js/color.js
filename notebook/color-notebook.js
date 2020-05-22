@@ -166,22 +166,24 @@ function evaluate (pre) {
 			ret = eval(line);
 		}
 		catch (e) {
-			continue;
+			ret = e;
 		}
 
-		// Update variables in the current line
-		let lineVars = varLines[i];
+		if (!(ret instanceof Error)) {
+			// Update variables in the current line
+			let lineVars = varLines[i];
 
-		if (lineVars && lineVars.size > 0) {
-			for (let node of lineVars) {
-				let variable = node.textContent;
-				let value = env[variable];
+			if (lineVars && lineVars.size > 0) {
+				for (let node of lineVars) {
+					let variable = node.textContent;
+					let value = env[variable];
 
-				if (value instanceof Color) {
-					node.style.setProperty("--color", value.to(outputSpace));
-					node.classList.add(lightOrDark(value));
+					if (value instanceof Color) {
+						node.style.setProperty("--color", value.to(outputSpace));
+						node.classList.add(lightOrDark(value));
+					}
+					// TODO do something nice with other types :)
 				}
-				// TODO do something nice with other types :)
 			}
 		}
 
@@ -221,6 +223,14 @@ function serialize(ret, color) {
 
 	if (ret === undefined) {
 		return;
+	}
+
+	if (ret instanceof Error) {
+		return $.create({
+			className: "cn-error",
+			textContent: ret.name,
+			title: ret + ""
+		});
 	}
 
 	if (ret instanceof Color) {
@@ -351,9 +361,13 @@ let intersectionObserver = new IntersectionObserver(entries => {
 
 		$.create("div", {
 			className: "cn-wrapper",
-			around: pre.parentNode.closest(".prism-live") || pre,
+			around: pre,
 			contents: {className: "cn-results"}
 		});
+
+		if (typeof Prism !== "undefined" && Prism.Live) {
+			pre.live = new Prism.Live(pre);
+		}
 
 		evaluate(pre);
 
@@ -368,9 +382,17 @@ let intersectionObserver = new IntersectionObserver(entries => {
 	}
 });
 
-$$("pre > code.language-js, pre > code.language-javascript").forEach(code => {
-	intersectionObserver.observe(code.parentNode);
-});
-$$(".language-js pre, .language-javascript pre, pre.language-js, pre.language-javascript").forEach(pre => {
+let pres = $$(".language-js, .language-javascript").flatMap(el => {
+	let ret = $$("pre:not([class*='language-']) > code:not([class*='language-'])", el);
+	let ancestor =  el.closest("pre > code");
+
+	if (ancestor) {
+		ret.push(ancestor);
+	}
+
+	return ret;
+}).map(code => code.parentNode);
+
+for (let pre of pres) {
 	intersectionObserver.observe(pre);
-});
+}

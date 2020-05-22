@@ -2,14 +2,22 @@
 	position: relative;
 	display: flex;
 	--transparency: transparent
+
 }
 
 @supports (background: conic-gradient(red, white)) {
 
 .cn-wrapper {
 		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .05) 0 50%) 0 0 / 1.5em 1.5em content-box border-box
+
 }
 	}
+
+.cn-wrapper > pre,
+.cn-wrapper > .prism-live {
+	flex: 1;
+	width: 0;
+}
 
 .cn-wrapper .cn-results:empty {
 	display: none;
@@ -20,8 +28,14 @@
 	flex-flow: column;
 	margin-left: .5em;
 	padding-top: .5em;
-	font: bold 65%/1 var(--font-monospace, monospace);
+	font: bold 65%/1 var(--font-monospace, monospace)
 }
+
+.cn-wrapper .cn-results:not(:empty) > * {
+		margin-bottom: .5em;
+		min-width: 10rem;
+		max-width: 15rem;
+	}
 
 @media (max-width: 900px) {
 	.cn-wrapper .cn-results:not(:empty),
@@ -32,33 +46,35 @@
 
 	.cn-wrapper .cn-results:not(:empty) {
 		width: 2em;
-		overflow: hidden;
+		overflow: hidden
 	}
+
 		.cn-wrapper .cn-results:not(:empty):hover,
 		.cn-wrapper .cn-results:not(:empty):focus,
+		.cn-wrapper .cn-results:not(:empty):focus-within,
 		.cn-wrapper .cn-results:not(:empty):active {
 			width: auto;
 			overflow: visible;
 		}
 }
 
-.cn-wrapper .cn-results:not(:empty) > * {
-		margin-bottom: .5em;
-		min-width: 10rem;
-		max-width: 15rem;
-	}
-
-.cn-wrapper > pre,
-.cn-wrapper > .prism-live {
-	flex: 1;
-	width: 0;
-}
-
-.cn-wrapper > .cn-string,
-.cn-wrapper > .cn-number,
-.cn-wrapper > .cn-boolean {
+.cn-wrapper .cn-string,
+.cn-wrapper .cn-number,
+.cn-wrapper .cn-boolean,
+.cn-wrapper .cn-error {
 	padding: .3em 0;
+	line-height: 1.2;
 }
+
+.cn-wrapper .cn-error {
+	color: var(--color-red)
+}
+
+.cn-wrapper .cn-error::before {
+		content: "⚠️";
+		margin-right: .1em;
+		filter: invert() brightness(2) saturate(.7) hue-rotate(130deg);
+	}
 
 .cn-wrapper .cn-color,
 .cn-wrapper .cn-range {
@@ -81,7 +97,7 @@
 .cn-wrapper .cn-color {
 	position: relative;
 	background: linear-gradient(var(--color), var(--color)), var(--transparency);
-	white-space: nowrap;
+	white-space: nowrap
 }
 
 .cn-wrapper .cn-color.dark {
@@ -89,12 +105,12 @@
 	}
 
 .cn-wrapper .cn-color.out-of-gamut {
-		box-shadow: 0 0 .1em .02em var(--out-of-gamut-color, red);
+		box-shadow: 0 0 .1em .02em var(--out-of-gamut-color, red)
 	}
 
-.cn-wrapper .cn-color.light.out-of-gamut {
-		--out-of-gamut-color: #b00;
-	}
+.cn-wrapper .cn-color.out-of-gamut.light {
+			--out-of-gamut-color: #b00;
+		}
 
 .cn-wrapper .cn-array > * {
 		display: inline-block;

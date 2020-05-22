@@ -57,7 +57,7 @@
 		<h2>Reading colors</h2>
 
 		<p>Any color from CSS Color Level 4 should work:</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("slategray");
 			let color2 = new Color("hwb(60 30% 40%)");
 			let color3 = new Color("color(display-p3 0 1 0)");
@@ -75,7 +75,7 @@
 
 		<p>You can use properties to modify coordinates
 		of any color space and convert back
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("slategray");
 			color.lightness = 80; // LCH coords available directly on colors
 			color.chroma *= 1.2; // saturate 20%
@@ -83,7 +83,7 @@
 		</code></pre>
 
 		<p>Chaining-style modifications are also supported:</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("lch(50% 50 10)");
 			color = color.set({
 				hue: h => h + 180,
@@ -96,20 +96,20 @@
 		<h2>Converting between color spaces & stringifying</h2>
 
 		<p>Output in any color space</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("slategray");
 			color + ""; // default stringification
 			color.to("p3").toString({precision: 3});
 		</code></pre>
 
 		<p>Clip to gamut or don't</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("p3", [0, 1, 0]);
 			color.to("srgb").toString({inGamut: false})
 		</code></pre>
 
 		<p>Change color space:</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("slategray");
 			color.space = "srgb"; // Convert to sRGB
 			color.spaceId = "srgb"; // Same
@@ -123,7 +123,7 @@
 		<h2>Interpolation</h2>
 
 		<p>Get a function that accepts a percentage:</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("p3", [0, 1, 0]);
 			let redgreen = color.range("red", {
 				space: "lch", // interpolation space
@@ -133,7 +133,7 @@
 		</code></pre>
 
 		<p>Interpolation by discrete steps:</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("p3", [0, 1, 0]);
 			color.steps("red", {
 				space: "lch",
@@ -144,14 +144,14 @@
 		</code></pre>
 
 		<p>Shortcut for specific points in the range:</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			let color = new Color("p3", [0, 1, 0]);
 			let redgreen = color.mix("red", .5, {space: "lch", outputSpace: "srgb"});
 			let reddishGreen = color.mix("red", .25, {space: "lch", outputSpace: "srgb"});
 		</code></pre>
 
 		<p>Static syntax  (every color method has a static one too):</p>
-		<pre class="prism-live"><code>
+		<pre><code>
 			Color.mix("color(display-p3 0 1 0)", "red", .5);
 		</code></pre>
 
