@@ -111,3 +111,18 @@ let colorP3 = color.to("p3");
 color;
 colorP3;
 ```
+
+Sometimes, when converting to a color space with a smaller gamut, the resulting coordinates may be out of gamut.
+You can test for that with `color.inGamut()` and get gamut mapped coordinates with `color.toGamut()`:
+
+
+```js
+let funkyLime = new Color("p3", [0, 1, 0]);
+let boringLime = funkyLime.to("srgb");
+boringLime.coords;
+boringLime.inGamut();
+boringLime.toGamut();
+```
+
+Note that `color.toString()` returns gamut mapped coordinates by default.
+You can turn this off, via the `{inGamut: false}` option.
