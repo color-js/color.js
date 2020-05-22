@@ -10,6 +10,11 @@ We use gulp for processing CSS and HTML for the website, and Rollup.js for bundl
 
 Run `npx gulp watch` before you start working on the website to have gulp run automatically as you edit files.
 
+Or, for individual tasks:
+
+- `gulp md` to convert Markdown files to HTML pages
+- `gulp css` to process PostCSS files (`*.src.css` in our repo)
+- `gulp bundle` to create Color.js bundles in `dist/`
 
 ## Commit messages
 
