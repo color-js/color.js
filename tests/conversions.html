@@ -11,27 +11,21 @@
 <script src="../color.js" type="module"></script>
 <script src="../src/spaces/hwb.js" type="module"></script>
 <script>
-function colorConvertHWBtosRGB() {
-	let td = document.currentScript.parentNode.previousElementSibling;
-	print(() => {
-		var color = new Color(td.textContent);
-		return color.to("srgb").coords.join(", ");
-	});
+function convertTo(spaceId) {
+	return function() {
+		let td = document.currentScript.parentNode.previousElementSibling;
+
+		print(() => {
+			let color = new Color(td.textContent);
+			return color.to(spaceId).coords.join(", ");
+		});
+	}
 }
-function colorConvertsRGBtoHWB() {
-	let td = document.currentScript.parentNode.previousElementSibling;
-	print(() => {
-		var color = new Color(td.textContent);
-		return color.to("hwb");
-	});
-}
-function colorConvertsRGBtoHSL() {
-	let td = document.currentScript.parentNode.previousElementSibling;
-	print(() => {
-		var color = new Color(td.textContent);
-		return color.to("hsl");
-	});
-}
+
+let convertToSRGB = convertTo("sRGB");
+let convertToHWB = convertTo("hwb");
+let convertToHSL = convertTo("hsl");
+
 </script>
 
 </head>
@@ -56,18 +50,14 @@ function colorConvertsRGBtoHSL() {
 		<tr>
 			<td>hwb(0 20% 40%)</td>
 			<td>
-				<script>
-				colorConvertHWBtosRGB();
-				</script>
+				<script>convertToSRGB();</script>
 			</td>
 			<td><!--#993333--> 0.6, 0.2, 0.2</td>
 		</tr>
 		<tr>
 			<td>hwb(90 30% 5%)</td>
 			<td>
-				<script>
-				colorConvertHWBtosRGB();
-				</script>
+				<script>convertToSRGB();</script>
 			</td>
 			<td>0.625, 0.950, 0.300 </td>
 		</tr>
@@ -75,18 +65,14 @@ function colorConvertsRGBtoHSL() {
 			<!-- angles can be outside [0 to 360) -->
 			<td>hwb(720 20% 40%)</td>
 			<td>
-				<script>
-				colorConvertHWBtosRGB();
-				</script>
+				<script>convertToSRGB();</script>
 			</td>
 			<td><!--#993333--> 0.6, 0.2, 0.2</td>
 		</tr>
 		<tr>
 			<td>hwb(-270 30% 5%)</td>
 			<td>
-				<script>
-				colorConvertHWBtosRGB();
-				</script>
+				<script>convertToSRGB();</script>
 			</td>
 			<td>0.625, 0.950, 0.300 </td>
 		</tr>
@@ -94,9 +80,7 @@ function colorConvertsRGBtoHSL() {
 			<!-- white and black normalize to less than 100% -->
 			<td>hwb(0 40% 80%)</td>
 			<td>
-				<script>
-				colorConvertHWBtosRGB();
-				</script>
+				<script>convertToSRGB();</script>
 			</td>
 			<td><!--#993333--> 0.3333333, 0.3333333, 0.3333333</td>
 		</tr>
@@ -110,28 +94,28 @@ function colorConvertsRGBtoHSL() {
 			<td>rgb(60% 20% 20%)</td>
 			<td>
 				<script>
-					colorConvertsRGBtoHWB();
+					convertToHWB();
 				</script>
 			</td>
-			<td>hwb(0 20% 40%)</td>
+			<td>0, 20, 40</td>
 		</tr>
 		<tr>
 			<td>black</td>
 			<td>
 				<script>
-					colorConvertsRGBtoHWB();
+					convertToHWB();
 				</script>
 			</td>
-			<td>hwb(0 0% 100%)</td>
+			<td>0, 0, 100</td>
 		</tr>
 		<tr>
 			<td>white</td>
 			<td>
 				<script>
-					colorConvertsRGBtoHWB();
+					convertToHWB();
 				</script>
 			</td>
-			<td>hwb(0 100% 0%)</td>
+			<td>0, 100, 0</td>
 		</tr>
 	</table>
 </section>
@@ -143,19 +127,19 @@ function colorConvertsRGBtoHSL() {
 			<td>black</td>
 			<td>
 				<script>
-					colorConvertsRGBtoHSL();
+					convertToHSL();
 				</script>
 			</td>
-			<td>hsl(0 0% 0%)</td>
+			<td>0, 0, 0</td>
 		</tr>
 		<tr>
 			<td>white</td>
 			<td>
 				<script>
-					colorConvertsRGBtoHSL();
+					convertToHSL();
 				</script>
 			</td>
-			<td>hsl(0 0% 100%)</td>
+			<td>0, 0, 100</td>
 		</tr>
 	</table>
 </section>
