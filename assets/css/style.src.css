@@ -4,7 +4,7 @@
 @import url('../../notebook/color-notebook.css');
 
 :root {
-	--gray: 220, 10%;
+	--gray: 220 10%;
 
 	--font-sans: Public Sans, Helvetica Neue, sans-serif;
 	--font-serif: Playfair Display, serif;
@@ -68,14 +68,31 @@ a {
 body > header {
 	display: flex;
 	flex-flow: column;
-	background: var(--rainbow)
-	 hsl(var(--gray), 96%);
+	--bg: var(--gray) 96%;
+	background: linear-gradient(hsl(var(--bg) / .85), hsl(var(--bg) / .8)) 0 .3em / 100% 2.6em no-repeat fixed,
+		var(--rainbow)
+		hsl(var(--bg));
+	background-size: 100% 2.3em, 150% 2.6em;
+
+	& > h1,
+	& > hgroup > h1 {
+		margin: 0;
+		color: hsl(220, 10%, 48%);
+		font-family: var(--font-sans);
+		font-weight: 700;
+		letter-spacing: -.03em;
+	}
+
+	& > h1 {
+		margin: .5em 0;
+		font-size: 300%;
+	}
 }
 
 body > footer {
 	padding: 1rem 0 1.3rem;
-	background: var(--rainbow)
-		hsl(var(--gray), 20%);
+	background: var(--rainbow),
+		hsl(var(--gray) 20%);
 	background-position: bottom;
 	color: white;
 }
@@ -147,7 +164,7 @@ main h2 {
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
 	background: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .02) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
-	background-color: hsl(var(--gray), 98%);
+	background-color: hsl(var(--gray) 98%);
 }
 
 pre[class*="language-"] {
@@ -163,4 +180,8 @@ pre[class*="language-"] {
 		-webkit-background-clip: text;
 		color: transparent;
 	}
+}
+
+.read-more::before {
+	content: "▸ ";
 }

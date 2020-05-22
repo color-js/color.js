@@ -35,11 +35,13 @@
 		.cn-wrapper .cn-results:not(:empty):focus,
 		.cn-wrapper .cn-results:not(:empty):active {
 			width: auto;
+			overflow: visible;
 		}
 }
 .cn-wrapper .cn-results:not(:empty) > * {
 		margin-bottom: .5em;
-		width: 10rem;
+		min-width: 10rem;
+		max-width: 15rem;
 	}
 .cn-wrapper > pre,
 .cn-wrapper > .prism-live {

@@ -36,13 +36,15 @@
 		&:focus,
 		&:active {
 			width: auto;
+			overflow: visible;
 		}
 	}
 }
 
 	& .cn-results:not(:empty) > * {
 		margin-bottom: .5em;
-		width: 10rem;
+		min-width: 10rem;
+		max-width: 15rem;
 	}
 
 & > pre,

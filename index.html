@@ -61,6 +61,8 @@
 			// CSS variables work too!
 			let colorjsBlue = new Color("--color-blue");
 		</code></pre>
+
+		<p class="read-more"><a href="docs/the-color-object">Read more about color objects</a>
 	</section>
 
 	<section>
@@ -125,41 +127,6 @@
 			redgreen(.5); // midpoint
 		</code></pre>
 
-		<p>Range interpolates between the colors at the time of its creation.
-		If you change the colors afterwards, it will not be affected:</p>
-
-		<pre class="prism-live"><code>
-			let color = new Color("red");
-			let color2 = new Color("black");
-			let gradient = color.range(color2);
-			color.coords[1] = 1;
-			color2.coords[2] = 1;
-			gradient(.5);
-			gradient = color.range(color2);
-			gradient(.5);
-		</code></pre>
-
-
-		<p>Interpolating between a coordinate and <code>NaN</code> keeps that coordinate constant.
-		This is useful for achromatic transitions:</p>
-		<pre class="prism-live"><code>
-		let lime = new Color("p3", [0, 1, 0]);
-		let white = new Color("lch", [100, 0, 0]);
-		let white2 = new Color("lch", [100, 0, NaN]);
-		let limewhite = lime.range(white, {space: "lch"});
-		let limewhite2 = lime.range(white2, {space: "lch"});
-
-		// Two kinds of fade out to transparent
-		lime.range(new Color("transparent"));
-		lime.range(new Color(lime.space, [NaN, NaN, NaN], 0), {space: lime.space});
-		</code></pre>
-
-		<p>You can use the <code>progression</code> parameter to customize the progression and make it non-linear:</p>
-		<pre class="prism-live"><code>
-			let r = new Color("lch(50 50 0)").range("lch(90 50 20)");
-			Color.range(r, {progression: p => p ** 3});
-		</code></pre>
-
 		<p>Interpolation by discrete steps:</p>
 		<pre class="prism-live"><code>
 			let color = new Color("p3", [0, 1, 0]);
@@ -182,6 +149,8 @@
 		<pre class="prism-live"><code>
 			Color.mix("color(display-p3 0 1 0)", "red", .5);
 		</code></pre>
+
+		<p class="read-more"><a href="docs/interpolation">Read more about interpolation</a>
 	</section>
 </main>
 
