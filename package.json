@@ -23,6 +23,8 @@
 	},
 	"homepage": "https://colorjs.io",
 	"devDependencies": {
+		"babel-eslint": "^10.1.0",
+		"eslint": "^7.0.0",
 		"gulp": "^4.0.2",
 		"gulp-file-include": "^2.2.2",
 		"gulp-postcss": "^8.0.0",
