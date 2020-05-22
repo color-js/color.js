@@ -40,6 +40,9 @@
 }
 
 body {
+	display: flex;
+	flex-flow: column;
+	align-items: stretch;
 	font: 300 120%/1.5 var(--font-body);
 	margin: 0;
 }
@@ -88,10 +91,15 @@ body > footer {
 	padding-right: var(--padding);
 	animation: var(--rainbow-scroll);
 	background-repeat: repeat-x;
+
+	@supports (width: max(1px, 1em)) {
+		--padding: max(1em, (100vw - var(--page-width)) / 2);
+	}
 }
 
 main {
-	max-width: var(--page-width);
+	width: var(--page-width);
+	max-width: calc(100vw - 2em);
 	margin: auto;
 	padding: 1em;
 }
@@ -107,7 +115,7 @@ body > header nav {
 		& img {
 			height: 2.15em;
 			margin-bottom: -1.5em;
-			margin-left: -.5em;
+			margin-left: -.3em;
 		}
 	}
 
