@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Color.js Docs</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+@@include('_head.html')
+
+<script src="https://get.mavo.io/mavo.js" async></script>
+
+</head>
+
+<body>
+
+@@include('_header.html', {
+"title": "Color.js Docs"
+})
+<main>
+
+
+<section mv-app="docs" mv-source="https://api.github.com/repos/leaverou/color.js/contents/docs" mv-mode="read">
+	<div class="mv-bar mv-ui"></div>
+	<ul>
+		<li property="file" mv-multiple hidden="[ext = 'html']">
+			<a href="[name]">[readable(id)]</a>
+			<meta property="ext" content="[from(name, '.')]">
+			<meta property="id" content="[to(name, '.')]">
+		</li>
+	</ul>
+
+</section>
+
+</main>
+
+@@include('_footer.html')
+</body>
+</html>

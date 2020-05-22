@@ -1,4 +1,4 @@
-# Creating Colors
+# The Color Object
 
 The first part to many Color.js operations is creating a Color object.
 There are many ways to do so.

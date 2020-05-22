@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Demos &bull; Color.js</title>
+
+<meta charset="UTF-8">
+<title>Color.js Docs</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
 <meta name="viewport" content="width=device-width" />
 <link rel="shortcut icon" href="../logo.svg">
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <script src="../color.js" type="module"></script>
 
+
+<script src="https://get.mavo.io/mavo.js" async></script>
+
 </head>
-<body class="language-js">
+
+<body>
+
 <header>
 	<nav>
 		<a href=".." class="logo"><h1 class="logo"><img src="../logo.svg" alt="Color.js"></h1></a>
@@ -21,15 +29,26 @@
 <a href="https://github.com/LeaVerou/color.js/issues/new">File bug</a>
 
 	</nav>
-	<h1>Demos</h1>
+	<h1>Color.js Docs</h1>
 </header>
 
 <main>
-<ul>
-<li><a href="coords">Coords</a></li>
-<li><a href="gradients">Gradients</a></li>
-</ul>
+
+
+<section mv-app="docs" mv-source="https://api.github.com/repos/leaverou/color.js/contents/docs" mv-mode="read">
+	<div class="mv-bar mv-ui"></div>
+	<ul>
+		<li property="file" mv-multiple hidden="[ext = 'html']">
+			<a href="[name]">[readable(id)]</a>
+			<meta property="ext" content="[from(name, '.')]">
+			<meta property="id" content="[to(name, '.')]">
+		</li>
+	</ul>
+
+</section>
+
 </main>
+
 
 <footer>
 	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)

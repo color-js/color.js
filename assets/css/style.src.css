@@ -45,6 +45,7 @@ body {
 	align-items: stretch;
 	font: 300 120%/1.5 var(--font-body);
 	margin: 0;
+	min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -86,6 +87,7 @@ body > header {
 	& > h1 {
 		margin: .5em 0;
 		font-size: 300%;
+		font-weight: 600;
 	}
 }
 
@@ -115,6 +117,7 @@ body > footer {
 }
 
 main {
+	flex: 1;
 	width: var(--page-width);
 	max-width: calc(100vw - 2em);
 	margin: auto;
