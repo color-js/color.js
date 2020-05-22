@@ -34,7 +34,7 @@ let color3 = new Color("color(display-p3 0 1 0)");
 let color4 = new Color("lch(50% 80 30)");</code></pre>
 <p>You can even use CSS variables, optionally with a DOM element against which they will be resolved (defaults to document root):</p>
 <pre><code class="js language-js">new Color("--color-blue");
-new Color("--color-green", document.querySelector("html"));</code></pre>
+new Color("--color-green", document.querySelector("h1"));</code></pre>
 <h2 id="color-space-and-coordinates">Color space and coordinates</h2>
 <p>Internally, every Color object is stored this way, so this is the most low level way to create a Color object.</p>
 <pre><code class="js language-js">let lime = new Color("sRGB", [0, 1, 0], .5); // optional alpha
@@ -47,8 +47,9 @@ new Color("LCH", [50, 30, 180]);
 // Color space objects work too
 new Color(Color.spaces.lch, [50, 30, 180]);</code></pre>
 <p>The exact ranges for these coordinates are up to the color space definition.</p>
-<p>You can also pass another color, or an object literal with <code>spaceId</code>, <code>coords</code>, and optionally <code>alpha</code> properties:</p>
-<pre><code class="js language-js">let red = new Color({spaceId: "lab", coords: [50, 50, 50]});
+<p>You can also pass another color, or an object literal with <code>spaceId</code>/<code>space</code>, <code>coords</code>, and optionally <code>alpha</code> properties:</p>
+<pre><code class="js language-js">let red = new Color({space: "lab", coords: [50, 50, 50]});
+let red = new Color({spaceId: "lab", coords: [50, 50, 50]});
 let redClone = new Color(red);</code></pre>
 <h2 id="color-object-properties">Color object properties</h2>
 <p>The three basic properties of a color object are its color space, its coordinates, and its alpha:</p>

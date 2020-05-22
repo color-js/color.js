@@ -16,7 +16,7 @@ You can even use CSS variables, optionally with a DOM element against which they
 
 ```js
 new Color("--color-blue");
-new Color("--color-green", document.querySelector("html"));
+new Color("--color-green", document.querySelector("h1"));
 ```
 
 ## Color space and coordinates
@@ -37,9 +37,10 @@ new Color(Color.spaces.lch, [50, 30, 180]);
 
 The exact ranges for these coordinates are up to the color space definition.
 
-You can also pass another color, or an object literal with `spaceId`, `coords`, and optionally `alpha` properties:
+You can also pass another color, or an object literal with `spaceId`/`space`, `coords`, and optionally `alpha` properties:
 
 ```js
+let red = new Color({space: "lab", coords: [50, 50, 50]});
 let red = new Color({spaceId: "lab", coords: [50, 50, 50]});
 let redClone = new Color(red);
 ```

@@ -14,8 +14,9 @@ export default class Color {
 		let str, color;
 
 		// new Color(color)
-		// new Color({spaced, coords})
-		if (args[0] && typeof args[0] === "object" && args[0].spaceId && args[0].coords) {
+		// new Color({spaceId, coords})
+		// new Color({space, coords})
+		if (args[0] && typeof args[0] === "object" && (args[0].space || args[0].spaceId) && args[0].coords) {
 			color = args[0];
 		}
 		else if (util.isString(args[0])) {
@@ -40,7 +41,13 @@ export default class Color {
 		}
 
 		if (color) {
-			this.spaceId = color.spaceId;
+			if ("spaceId" in color) {
+				this.spaceId = color.spaceId;
+			}
+			else {
+				this.space = color.space;
+			}
+
 			this.coords = color.coords;
 			this.alpha = color.alpha;
 		}
