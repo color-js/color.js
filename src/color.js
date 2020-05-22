@@ -305,11 +305,8 @@ export default class Color {
 	 * @returns {Color}
 	 */
 	to (space, {inGamut} = {}) {
-		let id = space;
-
-		if (!util.isString(space)) {
-			id = space.id;
-		}
+		space = Color.space(space);
+		let id = space.id;
 
 		let color = new Color(id, this[id], this.alpha);
 
