@@ -1,13 +1,13 @@
 .cn-wrapper {
 	position: relative;
 	display: flex;
-	--transparency: 
+	--transparency: transparent
 }
 
 @supports (background: conic-gradient(red, white)) {
 
 .cn-wrapper {
-		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .03) 0 50%) 0 0 / 1.5em 1.5em content-box border-box
+		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .05) 0 50%) 0 0 / 1.5em 1.5em content-box border-box
 }
 	}
 
@@ -80,7 +80,7 @@
 
 .cn-wrapper .cn-color {
 	position: relative;
-	background: var(--color);
+	background: linear-gradient(var(--color), var(--color)), var(--transparency);
 	white-space: nowrap;
 }
 

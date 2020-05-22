@@ -7,7 +7,7 @@ There are many ways to do so.
 
 ```js
 let color = new Color("slategray");
-let color2 = new Color("hwb(60 30% 40%)");
+let color2 = new Color("hwb(60 30% 40% / .1)");
 let color3 = new Color("color(display-p3 0 1 0)");
 let color4 = new Color("lch(50% 80 30)");
 ```

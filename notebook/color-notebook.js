@@ -179,7 +179,7 @@ function evaluate (pre) {
 
 				if (value instanceof Color) {
 					node.style.setProperty("--color", value.to(outputSpace));
-					node.classList.add(value.luminance() > .5? "light" : "dark");
+					node.classList.add(lightOrDark(value));
 				}
 				// TODO do something nice with other types :)
 			}
@@ -297,7 +297,7 @@ function serialize(ret, color) {
 			element = $.create({className: "void"});
 		}
 
-		element.classList.add("cn-color", color.luminance() > .5? "light" : "dark");
+		element.classList.add("cn-color", lightOrDark(color));
 
 		let str = element.dataset.title = color.toString({inGamut: false});
 
@@ -331,6 +331,10 @@ function serialize(ret, color) {
 	}
 
 	return element;
+}
+
+function lightOrDark(color) {
+	return color.luminance() > .5 || color.alpha < .5? "light" : "dark"
 }
 
 let intersectionObserver = new IntersectionObserver(entries => {
