@@ -28,6 +28,12 @@ Color.defineSpace({
 			w *= 100;
 			b *= 100;
 			return [h, w, b];
+		},
+
+		hsv (hsv) {
+			let [h, s, v] = hsv;
+
+			return [h, v * (100 - s) / 100, 100 - v];
 		}
 	},
 
