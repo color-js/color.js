@@ -217,6 +217,10 @@ export default class Color {
 			let bounds = Object.values(space.coords);
 
 			return coords.every((c, i) => {
+				if (Number.isNaN(c)) {
+					return true;
+				}
+
 				let [min, max] = bounds[i];
 
 				return (min === undefined || c >= min - ε)
@@ -559,6 +563,9 @@ export default class Color {
 			// Same space, no change needed
 			return coords;
 		}
+
+		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
+		coords = coords.map(c => Number.isNaN(c)? 0 : c);
 
 		// Do we have a more specific conversion function?
 		// Avoids round-tripping to & from XYZ
