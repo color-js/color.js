@@ -175,12 +175,22 @@ export default class Color {
 		}, 0));
 	}
 
-	luminance () {
+	// Relative luminance
+	get luminance () {
 		return this.xyz.Y / this.white[1];
 	}
 
+	// WCAG 2.0 contrast https://www.w3.org/TR/WCAG20-TECHS/G18.html
 	contrast (color) {
-		return (this.luminance + .05) / (color.luminance + .05);
+		color = Color.get(color);
+		let L1 = this.luminance;
+		let L2 = color.luminance;
+
+		if (L2 > L1) {
+			[L1, L2] = [L2, L1];
+		}
+
+		return (L1 + .05) / (L2 + .05);
 	}
 
 	// Get formatted coords

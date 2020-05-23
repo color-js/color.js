@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Contrast tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../color.js" type="module"></script>
+<script src="../src/deltaE2000.js" type="module"></script>
+<script>
+function contrastTest(...args) {
+	let td2 = document.currentScript.parentNode.previousElementSibling;
+	let td1 = td2.previousElementSibling;
+
+	print(() => {
+		let color1 = new Color(td1.textContent);
+		let color2 = new Color(td2.textContent);
+
+		return color1.contrast(color2, ...args);
+	});
+}
+
+</script>
+
+</head>
+<body>
+
+<h1>Contrast Tests</h1>
+
+<section>
+	<h1>sRGB</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4">
+		<tr>
+			<td>white</td>
+			<td>black</td>
+			<td>
+				<script>contrastTest();</script>
+			</td>
+			<td>21</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>white</td>
+			<td>
+				<script>contrastTest();</script>
+			</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>#ffe</td>
+			<td>white</td>
+			<td>
+				<script>contrastTest();</script>
+			</td>
+			<td>1.008442</td>
+		</tr>
+		<tr>
+			<td>#ffe</td>
+			<td>white</td>
+			<td>
+				<script>contrastTest();</script>
+			</td>
+			<td>1.008442</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>LCH</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4">
+		<tr>
+			<td>lch(50% 0 0)</td>
+			<td>white</td>
+			<td>
+				<script>contrastTest();</script>
+			</td>
+			<td>4.4836</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>With NaN</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4">
+		<tr>
+			<td>lch(50% 0 NaN)</td>
+			<td>white</td>
+			<td>
+				<script>contrastTest();</script>
+			</td>
+			<td>4.4836</td>
+		</tr>
+	</table>
+</section>
+
+</body>
+</html>
