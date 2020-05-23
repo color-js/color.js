@@ -87,6 +87,151 @@ function deltaTest(...args) {
 			</td>
 			<td>7.324</td>
 		</tr>
+		<!-- test data and five sig figs expected results from
+		"The CIEDE2000 Color-Difference Formula: Implementation Notes,
+		Supplementary Test Data, and Mathematical Observations,",
+		G. Sharma, W. Wu, E. N. Dalal, Color Research and Application,
+		vol. 30. No. 1, pp. 21-30, February 2005.
+		http://www2.ece.rochester.edu/~gsharma/ciede2000/
+		-->
+		<tr>
+			<td>lab(50% 2.6772 -79.7751)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>2.0425</td>
+		</tr>
+		<tr>
+			<td>lab(50% 3.1571 -77.2803)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>2.8615</td>
+		</tr>
+		<tr>
+			<td>lab(50% 2.8361 -74.0200)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>3.4412</td>
+		</tr>
+		<tr>
+			<td>lab(50% -1.3802 -84.2814)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr>
+			<td>lab(50% -1.1848 -84.8006)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+
+		<tr>
+			<td>lab(50% -0.9009 -85.5211)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr>
+			<td>lab(50% 0 0)</td>
+			<td>lab(50% -1 2)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>2.3669</td>
+		</tr>
+		<tr>
+			<td>lab(50% -1 2)</td>
+			<td>lab(50% 0 0)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>2.3669</td>
+		</tr>
+		<tr>
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0009)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>7.1792</td>
+		</tr>
+		<tr>
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0010)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>7.1792</td>
+		</tr>
+		<tr>
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0011)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>7.1795</td>
+		</tr>
+		<tr>
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0012)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>7.1795</td>
+		<!--
+			<tr>
+			<td>lab()</td>
+			<td>lab()</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lab()</td>
+			<td>lab()</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lab()</td>
+			<td>lab()</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lab()</td>
+			<td>lab()</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lab()</td>
+			<td>lab()</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td></td>
+		</tr>
+		-->
 	</table>
 </section>
 
