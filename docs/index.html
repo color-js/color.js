@@ -38,8 +38,8 @@
 <section mv-app="docs" mv-source="https://api.github.com/repos/leaverou/color.js/contents/docs" mv-mode="read">
 	<div class="mv-bar mv-ui"></div>
 	<ul>
-		<li property="file" mv-multiple hidden="[ext = 'html']">
-			<a href="[name]">[readable(id)]</a>
+		<li property="file" mv-multiple hidden="[ext != 'md']">
+			<a href="[id].html">[readable(id)]</a>
 			<meta property="ext" content="[from(name, '.')]">
 			<meta property="id" content="[to(name, '.')]">
 		</li>
