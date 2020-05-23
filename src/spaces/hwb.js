@@ -19,8 +19,8 @@ Color.defineSpace({
 	},
     white: Color.whites.D65,
 
-    fromSRGB (rgb) {
-        let h = Color.spaces.hsl.fromSRGB(rgb)[0];
+	fromSrgb (rgb) {
+		let h = Color.spaces.hsl.fromSrgb(rgb)[0];
         // calculate white and black
         let w = Math.min(...rgb);
         let b = 1 - Math.max(...rgb);
@@ -29,7 +29,7 @@ Color.defineSpace({
         return [h, w, b];;
     },
 
-    toSRGB (hwb) {
+	toSrgb (hwb) {
         let [h, w, b] = hwb;
         // now convert percentages to [0..1]
         w /=100;
@@ -41,7 +41,7 @@ Color.defineSpace({
             b /= sum;
         }
         // from https://drafts.csswg.org/css-color-4/#hwb-to-rgb
-        let rgb = Color.spaces.hsl.toSRGB([h, 100, 50]);
+		let rgb = Color.spaces.hsl.toSrgb([h, 100, 50]);
         for(var i = 0; i < 3; i++) {
             rgb[i] *= (1 - w - b);
             rgb[i] += w;

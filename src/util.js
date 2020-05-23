@@ -58,7 +58,7 @@ export function capitalize(str) {
 		return str;
 	}
 
-	return str.toUpperCase() + str.slice(1);
+	return str[0].toUpperCase() + str.slice(1);
 }
 
 /**

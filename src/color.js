@@ -566,7 +566,7 @@ export default class Color {
 
 		if (("from" + Id) in toSpace) {
 			// No white point adaptation, we assume the custom function takes care of it
-			return space["from" + Id](coords);
+			return toSpace["from" + Id](coords);
 		}
 
 		let XYZ = fromSpace.toXYZ(coords);
