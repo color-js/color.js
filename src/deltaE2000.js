@@ -19,7 +19,7 @@ import Color, {util} from "./color.js";
 // DeltaE200 is also discontinuous; in case this
 // matters to you, use deltaE CMC instead.
 
-export function deltaE2000 (color, sample, {kL = 1, kC = 1, kH = 1}) {
+Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	// Given this color as the reference
 	// and the function parameter as the sample,
 	// calculate deltaE 2000.
@@ -154,13 +154,4 @@ export function deltaE2000 (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	dE += RT * (ΔC / (kC * SC)) * (ΔH / (kH * SH));
 	return Math.sqrt(dE);
 	// Yay!!!
-
 }
-
-Color.hooks.add("deltaE", function(env) {
-	let {method, context, ...args} = env;
-
-	if (method === "2000") {
-		return env.deltaE = deltaE2000(this, env.color, args);
-	}
-});

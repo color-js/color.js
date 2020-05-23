@@ -155,12 +155,9 @@ export default class Color {
 
 	deltaE (color, {method = Color.defaults.deltaE, ...rest} = {}) {
 		color = Color.get(color);
-		let env = {context: this, color, method, ...rest};
 
-		Color.hooks.run("deltaE", env);
-
-		if ("deltaE" in env) {
-			return env.deltaE;
+		if (Color.deltaEs[method]) {
+			return Color.deltaEs[method](this, color, {...rest});
 		}
 
 		// 1976 DeltaE. 2.3 is the JND
@@ -835,7 +832,9 @@ Object.assign(Color, {
 		gamutMapping: "lch.chroma",
 		precision: 5,
 		deltaE: "76", // Default deltaE method
-	}
+	},
+
+	deltaEs: {}
 });
 
 Color.defineSpace({
