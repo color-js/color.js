@@ -344,7 +344,7 @@ function serialize(ret, color) {
 }
 
 function lightOrDark(color) {
-	return color.luminance() > .5 || color.alpha < .5? "light" : "dark"
+	return color.luminance > .5 || color.alpha < .5? "light" : "dark"
 }
 
 let intersectionObserver = new IntersectionObserver(entries => {

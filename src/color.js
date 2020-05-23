@@ -180,6 +180,10 @@ export default class Color {
 		return this.xyz.Y / this.white[1];
 	}
 
+	set luminance (value) {
+		this.xyz.Y = value * this.white[1];
+	}
+
 	// WCAG 2.0 contrast https://www.w3.org/TR/WCAG20-TECHS/G18.html
 	contrast (color) {
 		color = Color.get(color);
