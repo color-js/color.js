@@ -68,6 +68,13 @@ export default class Color {
 		}
 
 		this.alpha = this.alpha < 1? this.alpha : 1; // this also deals with NaN etc
+
+		// Convert "NaN" to NaN
+		for (let i = 0; i < this.coords.length; i++) {
+			if (this.coords[i] === "NaN") {
+				this.coords[i] = NaN;
+			}
+		}
 	}
 
 	get space () {
