@@ -121,7 +121,7 @@
 				{
 					"name": "luminance",
 					"static": false,
-					"role": "function",
+					"role": "accessor",
 					"description": "Relative luminance.",
 					"argument": [
 						{
@@ -129,7 +129,8 @@
 						}
 					],
 					"returnType": "Number",
-					"returnDescription": "The relative luminance of the color"
+					"returnDescription": "The relative luminance of the color",
+					"type": "Number"
 				},
 				{
 					"name": "contrast",
@@ -168,13 +169,25 @@
 					"name": "deltaE",
 					"static": false,
 					"role": "function",
-					"description": "DeltaE 1976 distance between the current color and another color",
+					"description": "DeltaE 1976 distance between the current color and another color. Plugins can add other methods.",
 					"argument": [
 						{
 							"name": "color",
 							"optional": false,
 							"type": "Color",
 							"description": "The color to calculate DeltaE distance from."
+						},
+						{
+							"name": "options",
+							"optional": false,
+							"type": "Object",
+							"description": "Options object"
+						},
+						{
+							"name": "options.method",
+							"optional": false,
+							"type": "String",
+							"description": "Method, e.g. \"76\" or \"2000\""
 						}
 					],
 					"returnType": "Number",
@@ -536,19 +549,37 @@
 							"name": "options",
 							"optional": true,
 							"type": "Object",
-							"description": "Options object."
+							"description": "Options object. Options are the same as `color.range()`."
+						}
+					],
+					"returnType": "Color"
+				},
+				{
+					"name": "mix",
+					"static": true,
+					"role": "function",
+					"description": "Return an intermediate color between two colors",
+					"argument": [
+						{
+							"name": "color1",
+							"optional": false,
+							"type": "Color"
 						},
 						{
-							"name": "options.space",
-							"optional": true,
-							"type": "ColorSpace",
-							"description": "The color space to interpolate in."
+							"name": "color2",
+							"optional": false,
+							"type": "Color"
 						},
 						{
-							"name": "options.outputSpace",
+							"name": "p",
 							"optional": true,
-							"type": "ColorSpace",
-							"description": "The color space of the output. Defaults to the current color's color space."
+							"type": "Number"
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Options object. Options are the same as `color.mix()`."
 						}
 					],
 					"returnType": "Color"
@@ -582,6 +613,34 @@
 							"optional": true,
 							"type": "ColorSpace",
 							"description": "The color space of the output. Defaults to the current color's color space."
+						},
+						{
+							"name": "options.progression",
+							"optional": true,
+							"type": "Function",
+							"description": "Function that takes a 0-1 parameter and returns a 0-1 number to control the progression and allow for non-linear interpolation. E.g. for a 2.2 gamma use `x => x ** 2.2`."
+						}
+					],
+					"returnType": "Function",
+					"returnDescription": "Function that takes a 0-1 parameter and returns a color in that place in the range"
+				},
+				{
+					"name": "range",
+					"static": true,
+					"role": "function",
+					"description": "Interpolate to another color and return a function that takes a 0-1 percentage and returns a color in the range.",
+					"argument": [
+						{
+							"name": "color",
+							"optional": false,
+							"type": "Color",
+							"description": "Color to interpolate to."
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Options object. Same as `color.range()`."
 						}
 					],
 					"returnType": "Function",
@@ -602,7 +661,7 @@
 							"name": "options",
 							"optional": true,
 							"type": "Object",
-							"description": "- space, \n- outputSpace, \n- delta, \n- steps = 2, \n- maxSteps = 1000"
+							"description": "Options object. In addition to the options listed here, it also supports all the options of `color.range()`."
 						},
 						{
 							"name": "options.space",
@@ -633,6 +692,54 @@
 							"optional": true,
 							"type": "Number",
 							"description": "Maximum number of steps to return. This only makes sense if a max `delta` is used."
+						}
+					],
+					"returnType": "Array",
+					"returnDescription": "Array of colors"
+				},
+				{
+					"name": "steps",
+					"static": true,
+					"role": "function",
+					"description": "Interpolate to another color and return an array of colors",
+					"argument": [
+						{
+							"name": "color1",
+							"optional": false,
+							"type": "Color"
+						},
+						{
+							"name": "color2",
+							"optional": false,
+							"type": "Color"
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Same as `color.steps()`."
+						}
+					],
+					"returnType": "Array",
+					"returnDescription": "Array of colors"
+				},
+				{
+					"name": "steps",
+					"static": true,
+					"role": "function",
+					"description": "Interpolate to another color and return an array of colors",
+					"argument": [
+						{
+							"name": "range",
+							"optional": false,
+							"type": "Function",
+							"description": "Function returned by `color.range()`."
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object",
+							"description": "Same as `color.steps()`."
 						}
 					],
 					"returnType": "Array",
