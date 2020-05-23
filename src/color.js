@@ -590,11 +590,9 @@ export default class Color {
 
 		// Do we have a more specific conversion function?
 		// Avoids round-tripping to & from XYZ
-		let Id = util.capitalize(fromId);
-
-		if (("from" + Id) in toSpace) {
+		if (toSpace.from && toSpace.from[fromId]) {
 			// No white point adaptation, we assume the custom function takes care of it
-			return toSpace["from" + Id](coords);
+			return toSpace.from[fromId](coords);
 		}
 
 		let XYZ = fromSpace.toXYZ(coords);
@@ -666,43 +664,38 @@ export default class Color {
 
 		if (!space.fromXYZ && !space.toXYZ) {
 			// Using a different connection space, define from/to XYZ functions based on that
+			let connectionSpace;
 
 			// What are we using as a connection space?
-			for (let prop in space) {
-				if (typeof space[prop] === "function") {
-					// Is the name of the form fromXxx or toXxx?
-					let Id = (prop.match(/^(?:from|to)([A-Z][a-zA-Z]+$)/) || [])[1];
+			if (space.from && space.to) {
+				let from = new Set(Object.keys(space.from));
+				let to = new Set(Object.keys(space.to));
 
-					if (Id && ("from" + Id) in space && ("to" + Id) in space) {
-						// This is a conversion function AND we have both from & to!
-						let space = Color.spaces[Id.toLowerCase()];
-
-						if (space) {
-							// var used intentionally
-							var connectionSpace = space;
-							var fromConnection = "from" + Id;
-							var toConnection = "to" + Id;
-							break;
-						}
+				// Find spaces we can both convert to and from
+				let candidates = [...from].filter(id => {
+					if (to.has(id)) {
+						// Of those, only keep those that have fromXYZ and toXYZ
+						let space = Color.spaces[id];
+						return space && space.fromXYZ && space.toXYZ;
 					}
+				});
+
+				if (candidates.length > 0) {
+					// Great, we found connection spaces! Pick the first one
+					connectionSpace = Color.spaces[candidates[0]];
 				}
 			}
 
 			if (connectionSpace) {
 				// Define from/to XYZ functions based on the connection space
-
-				if (!connectionSpace.toXYZ || !connectionSpace.fromXYZ) {
-					throw new ReferenceError(`Connection space ${connectionSpace.name} for ${space.name} has no toXYZ()/fromXYZ() functions.`);
-				}
-
 				Object.assign(space, {
 					// ISSUE do we need white point adaptation here?
 					fromXYZ(XYZ) {
 						let newCoords = connectionSpace.fromXYZ(XYZ);
-						return this[fromConnection](newCoords);
+						return this.from[connectionSpace.id](newCoords);
 					},
 					toXYZ(coords) {
-						let newCoords = this[toConnection](coords);
+						let newCoords = this.to[connectionSpace.id](coords);
 						return connectionSpace.toXYZ(newCoords);
 					}
 				});

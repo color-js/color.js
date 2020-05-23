@@ -87,32 +87,36 @@ Color.defineSpace({
 	},
 	inGamut: coords => true,
 	white: Color.D50,
-	fromLab (Lab) {
-		// Convert to polar form
-		let [L, a, b] = Lab;
-		let hue;
-		const ε = 0.0005;
+	from: {
+		lab (Lab) {
+			// Convert to polar form
+			let [L, a, b] = Lab;
+			let hue;
+			const ε = 0.0005;
 
-		if (Math.abs(a) < ε && Math.abs(b) < ε) {
-			hue = NaN;
-		}
-		else {
-			hue = Math.atan2(b, a) * 180 / Math.PI;
-		}
+			if (Math.abs(a) < ε && Math.abs(b) < ε) {
+				hue = NaN;
+			}
+			else {
+				hue = Math.atan2(b, a) * 180 / Math.PI;
+			}
 
-		return [
-			L, // L is still L
-			Math.sqrt(a ** 2 + b ** 2), // Chroma
-			(hue + 360) % 360 // Hue, in degrees [0 to 360)
-		];
+			return [
+				L, // L is still L
+				Math.sqrt(a ** 2 + b ** 2), // Chroma
+				(hue + 360) % 360 // Hue, in degrees [0 to 360)
+			];
+		}
 	},
-	toLab (LCH) {
-		// Convert from polar form
-		return [
-			LCH[0], // L is still L
-			LCH[1] * Math.cos(LCH[2] * Math.PI / 180), // a
-			LCH[1] * Math.sin(LCH[2] * Math.PI / 180)  // b
-		];
+	to: {
+		lab (LCH) {
+			// Convert from polar form
+			return [
+				LCH[0], // L is still L
+				LCH[1] * Math.cos(LCH[2] * Math.PI / 180), // a
+				LCH[1] * Math.sin(LCH[2] * Math.PI / 180)  // b
+			];
+		}
 	},
 	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "lch") {
