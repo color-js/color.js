@@ -152,7 +152,7 @@ export default class Color {
 
 		Color.hooks.run("deltaE", env);
 
-		if (env.deltaE) {
+		if ("deltaE" in env) {
 			return env.deltaE;
 		}
 
