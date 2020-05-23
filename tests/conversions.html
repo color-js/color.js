@@ -25,6 +25,7 @@ function convertTo(spaceId) {
 let convertToSRGB = convertTo("sRGB");
 let convertToHWB = convertTo("hwb");
 let convertToHSL = convertTo("hsl");
+let convertToLCH = convertTo("lch");
 
 </script>
 
@@ -36,10 +37,27 @@ let convertToHSL = convertTo("hsl");
 
 <section>
 	<h1>sRGB to LCH</h1>
-	<table class="reftest" data-test="colorConvertLCH" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
 		<tr>
 			<td>slategray</td>
+			<td>
+				<script>convertToLCH();</script>
+			</td>
 			<td>52.69726481080971, 11.234142037623341, 253.00052666481292</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>
+				<script>convertToLCH();</script>
+			</td>
+			<td>100, 0, NaN</td>
+		</tr>
+		<tr>
+			<td>black</td>
+			<td>
+				<script>convertToLCH();</script>
+			</td>
+			<td>0, 0, NaN</td>
 		</tr>
 	</table>
 </section>
@@ -106,7 +124,7 @@ let convertToHSL = convertTo("hsl");
 					convertToHWB();
 				</script>
 			</td>
-			<td>0, 0, 100</td>
+			<td>NaN, 0, 100</td>
 		</tr>
 		<tr>
 			<td>white</td>
@@ -115,7 +133,7 @@ let convertToHSL = convertTo("hsl");
 					convertToHWB();
 				</script>
 			</td>
-			<td>0, 100, 0</td>
+			<td>NaN, 100, 0</td>
 		</tr>
 	</table>
 </section>
@@ -130,7 +148,7 @@ let convertToHSL = convertTo("hsl");
 					convertToHSL();
 				</script>
 			</td>
-			<td>0, 0, 0</td>
+			<td>NaN, 0, 0</td>
 		</tr>
 		<tr>
 			<td>white</td>
@@ -139,7 +157,7 @@ let convertToHSL = convertTo("hsl");
 					convertToHSL();
 				</script>
 			</td>
-			<td>0, 0, 100</td>
+			<td>NaN, 0, 100</td>
 		</tr>
 	</table>
 </section>
@@ -182,32 +200,6 @@ let convertToHSL = convertTo("hsl");
 		</tr>
 	</table>
 </section>
-
-<script>
-function colorConvertLCH(...rest) {
-	return colorConvert("lch", ...rest);
-}
-
-function colorConvert(id, test, result, expected) {
-	var err;
-
-	try {
-		var color = new Color(test.textContent);
-		let coords = color[id];
-		result.textContent = Array.isArray(coords)? coords.join(", ") : coords;
-		result.color = color;
-
-		if (Test.equals(result.textContent, expected.textContent)) {
-			return true;
-		}
-	}
-	catch(e) {
-		result.textContent = result.color = err = e;
-	}
-
-	return err || false;
-}
-</script>
 
 </body>
 </html>

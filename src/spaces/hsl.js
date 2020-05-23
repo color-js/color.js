@@ -20,7 +20,7 @@ Color.defineSpace({
 		let max = Math.max.apply(Math, rgb);
 		let min = Math.min.apply(Math, rgb);
 		let [r, g, b] = rgb;
-		let [h, s, l] = [0, 0, (min + max)/2];
+		let [h, s, l] = [NaN, 0, (min + max)/2];
 		let d = max - min;
 
 		if (d !== 0) {

@@ -89,11 +89,20 @@ Color.defineSpace({
 	white: Color.D50,
 	fromLab (Lab) {
 		// Convert to polar form
-		let hue = Math.atan2(Lab[2], Lab[1]) * 180 / Math.PI;
+		let [L, a, b] = Lab;
+		let hue;
+		const ε = 0.0005;
+
+		if (Math.abs(a) < ε && Math.abs(b) < ε) {
+			hue = NaN;
+		}
+		else {
+			hue = Math.atan2(b, a) * 180 / Math.PI;
+		}
 
 		return [
-			Lab[0], // L is still L
-			Math.sqrt(Lab[1] ** 2 + Lab[2] ** 2), // Chroma
+			L, // L is still L
+			Math.sqrt(a ** 2 + b ** 2), // Chroma
 			(hue + 360) % 360 // Hue, in degrees [0 to 360)
 		];
 	},
