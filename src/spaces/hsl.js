@@ -9,7 +9,7 @@ Color.defineSpace({
 		lightness: [0, 100]
 	},
 	inGamut (coords) {
-		let rgb = this.toSRGB(coords);
+		let rgb = this.toSrgb(coords);
 		return Color.inGamut("srgb", rgb);
 	},
 	white: Color.whites.D65,
