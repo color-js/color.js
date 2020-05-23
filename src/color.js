@@ -146,9 +146,17 @@ export default class Color {
 		return ret.set("lightness", c => c * (1 - amount));
 	}
 
-	// 1976 DeltaE. 2.3 is the JND
-	deltaE (color) {
+	deltaE (color, {method = Color.defaults.deltaE, ...rest} = {}) {
 		color = Color.get(color);
+		let env = {context: this, color, method, ...rest};
+
+		Color.hooks.run("deltaE", env);
+
+		if (env.deltaE) {
+			return env.deltaE;
+		}
+
+		// 1976 DeltaE. 2.3 is the JND
 		let lab1 = this.lab;
 		let lab2 = color.lab;
 		return Math.sqrt([0, 1, 2].reduce((a, i) => {
@@ -804,7 +812,8 @@ Object.assign(Color, {
 	// Global defaults one may want to configure
 	defaults: {
 		gamutMapping: "lch.chroma",
-		precision: 5
+		precision: 5,
+		deltaE: "76", // Default deltaE method
 	}
 });
 

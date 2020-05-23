@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>DeltaE tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+
+<script src="../color.js" type="module"></script>
+<script src="../src/deltaE2000.js" type="module"></script>
+<script>
+function deltaTest(...args) {
+	let td2 = document.currentScript.parentNode.previousElementSibling;
+	let td1 = td2.previousElementSibling;
+
+	print(() => {
+		let color1 = new Color(td1.textContent);
+		let color2 = new Color(td2.textContent);
+		return color1.deltaE(color2, ...args);
+	});
+}
+
+</script>
+
+</head>
+<body>
+
+<h1>DeltaE Tests</h1>
+<p>These tests test the various Delta E algorithms.</p>
+
+<section>
+	<h1>DeltaE 76</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+		<tr>
+			<td>white</td>
+			<td>black</td>
+			<td>
+				<script>deltaTest();</script>
+			</td>
+			<td>100</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest();</script>
+			</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td>#ffe</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest();</script>
+			</td>
+			<td>8.439</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>DeltaE 2000</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+		<tr>
+			<td>white</td>
+			<td>black</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>100</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td>#ffe</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>7.324</td>
+		</tr>
+	</table>
+</section>
+
+</body>
+</html>

@@ -15,11 +15,11 @@ import Color, {util} from "./color.js";
 // and is recommended by the CIE and Idealliance
 // especially for color differences less than 10 deltaE76
 // but is wicked complicated
-// and many implementatins have small errors!
+// and many implementations have small errors!
 // DeltaE200 is also discontinuous; in case this
-// matters to you, use deltaECMC instead.
+// matters to you, use deltaE CMC instead.
 
-Color.prototype.deltaE2000 = function (sample) {
+export function deltaE2000 (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	// Given this color as the reference
 	// and the function parameter as the sample,
 	// calculate deltaE 2000.
@@ -30,10 +30,9 @@ Color.prototype.deltaE2000 = function (sample) {
 	// are all 1, as sadly seems typical.
 	// kL should be increased for lightness texture or noise
 	// and kC increased for chroma noise
-	const kL = kC = kH = 1;
 
-	let [L1, a1, b1] = this.lab;
-	let C1 = this.chroma;
+	let [L1, a1, b1] = color.lab;
+	let C1 = color.chroma;
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 
@@ -47,12 +46,12 @@ Color.prototype.deltaE2000 = function (sample) {
 
 	// scale a axes by asymmetry factor
 	// this by the way is why there is no Lab2000 colorspace
-	adash1 = (1 + G) * a1;
-	adash2 = (1 + G) * a2;
+	let adash1 = (1 + G) * a1;
+	let adash2 = (1 + G) * a2;
 
 	// calculate new Chroma from scaled a and original b axes
-	Cdash1 = Math.sqrt(adash1 ** 2 + b1 ** 2);
-	Cdash2 = Math.sqrt(adash2 ** 2 + b2 ** 2);
+	let Cdash1 = Math.sqrt(adash1 ** 2 + b1 ** 2);
+	let Cdash2 = Math.sqrt(adash2 ** 2 + b2 ** 2);
 
 	// calculate new hues, with zero hue for true neutrals
 	// and in degrees, not radians
@@ -74,7 +73,7 @@ Color.prototype.deltaE2000 = function (sample) {
 	let ΔL = L2 - L1;
 	let ΔC = Cdash2 - Cdash1;
 
-   // Hue difference, getting the sign correct
+	// Hue difference, getting the sign correct
 	let hdiff = h2 - h1;
 	let hsum = h1 + h2;
 	let habs = Math.abs(hdiff);
@@ -124,7 +123,7 @@ Color.prototype.deltaE2000 = function (sample) {
 	// SL Lightness crispening factor
 	// a background with L=50 is assumed
 	let lsq = (Ldash - 50) ** 2;
-	let SL = 1 + ((0.015 *Lsq) / Math.sqrt(20 + lsq));
+	let SL = 1 + ((0.015 * lsq) / Math.sqrt(20 + lsq));
 
 	// SC Chroma factor, similar to those in CMC and deltaE 94 formulae
 	let SC = 1 + 0.045 * Cdash;
@@ -156,4 +155,12 @@ Color.prototype.deltaE2000 = function (sample) {
 	return Math.sqrt(dE);
 	// Yay!!!
 
-};
+}
+
+Color.hooks.add("deltaE", function(env) {
+	let {method, context, ...args} = env;
+
+	if (method === "2000") {
+		return env.deltaE = deltaE2000(this, env.color, args);
+	}
+});
