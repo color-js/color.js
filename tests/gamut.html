@@ -142,6 +142,24 @@ function gamutTest(toSpace, args) {
 				rgb(0% 100% 100%)
 			</td>
 		</tr>
+		<tr title="Using chroma reduction">
+			<td>color(display-p3 1 0 1)</td>
+			<td>
+				<script>gamutTest("srgb");</script>
+			</td>
+			<td>
+				rgb(100% 0% 100%)
+			</td>
+		</tr>
+		<tr title="Using HSL saturation reduction">
+			<td>color(display-p3 1 0 1)</td>
+			<td>
+				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+			</td>
+			<td>
+				rgb(100% 0% 100%)
+			</td>
+		</tr>
 	</table>
 </section>
 
