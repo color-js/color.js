@@ -5,12 +5,22 @@
 <meta charset="UTF-8">
 <title>Gamut mapping tests</title>
 <link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="style.css" />
+
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
 <script>
+function gamutTest(toSpace, args) {
+	let td = document.currentScript.parentNode.previousElementSibling;
 
+	print(() => {
+		let color = new Color(td.textContent);
+		let color2 = color.to(toSpace);
+		return color2.toString({inGamut: args, precision: null});
+	});
+}
 </script>
 
 </head>
@@ -20,82 +30,122 @@
 <p>These tests check how coords are shrunk to smaller gamuts.</p>
 
 <section>
-	<h1>P3 lime to sRGB</h1>
-	<table class="reftest" data-test="fuzzyNumberTest">
+	<h1>P3 primaries to sRGB</h1>
+	<table class="reftest" data-test="fuzzyNumbers1" data-columns="3" data-colors="1,2,3">
 		<tr title="Using chroma reduction">
+			<td>color(display-p3 1 0 0)</td>
 			<td>
-				<script>
-					print(() => {
-						var lime = new Color("P3", [0, 1, 0]);
-						var slime = lime.to("srgb");
-						return slime.toGamut().coords;
-					});
-				</script>
+				<script>gamutTest("srgb");</script>
 			</td>
 			<td>
-				0 0.9838829193480104 0.16187708981499607
+				rgb(100% 0% 0%)
 			</td>
 		</tr>
 		<tr title="Using HSL saturation reduction">
+			<td>color(display-p3 1 0 0)</td>
 			<td>
-				<script>
-					print(() => {
-						var lime = new Color("P3", [0, 1, 0]);
-						var slime = lime.to("srgb");
-						return slime.toGamut({method: "hsl.saturation"}).coords;
-					});
-				</script>
+				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
 			</td>
 			<td>
-				0 1 0
+				rgb(100% 0% 0%)
 			</td>
 		</tr>
 		<tr title="Using clipping">
+			<td>color(display-p3 1 0 0)</td>
 			<td>
-				<script>
-					print(() => {
-						var lime = new Color("P3", [0, 1, 0]);
-						var slime = lime.to("srgb");
-						return slime.toGamut({method: "clip"}).coords;
-					});
-				</script>
+				<script>gamutTest("srgb", {method: "clip"});</script>
 			</td>
 
 			<td>
-				0 1 0
+				rgb(100% 0% 0%)
+			</td>
+		</tr>
+		<tr title="Using chroma reduction">
+			<td>color(display-p3 0 1 0)</td>
+			<td>
+				<script>gamutTest("srgb");</script>
+			</td>
+			<td>
+				rgb(0% 98.38829193480104% 16.187708981499607%)
+			</td>
+		</tr>
+		<tr title="Using HSL saturation reduction">
+			<td>color(display-p3 0 1 0)</td>
+			<td>
+				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+			</td>
+			<td>
+				rgb(0% 100% 0%)
+			</td>
+		</tr>
+		<tr title="Using clipping">
+			<td>color(display-p3 0 1 0)</td>
+			<td>
+				<script>gamutTest("srgb", {method: "clip"});</script>
+			</td>
+
+			<td>
+				rgb(0% 100% 0%)
+			</td>
+		</tr>
+		<tr title="Using chroma reduction">
+			<td>color(display-p3 0 0 1)</td>
+			<td>
+				<script>gamutTest("srgb");</script>
+			</td>
+			<td>
+				rgb(0% 0% 100%)
+			</td>
+		</tr>
+		<tr title="Using HSL saturation reduction">
+			<td>color(display-p3 0 0 1)</td>
+			<td>
+				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+			</td>
+			<td>
+				rgb(0% 0% 100%)
+			</td>
+		</tr>
+		<tr title="Using chroma reduction">
+			<td>color(display-p3 1 1 0)</td>
+			<td>
+				<script>gamutTest("srgb");</script>
+			</td>
+			<td>
+				rgb(100% 100% 0%)
+			</td>
+		</tr>
+		<tr title="Using HSL saturation reduction">
+			<td>color(display-p3 1 1 0)</td>
+			<td>
+				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+			</td>
+			<td>
+				rgb(100% 100% 0%)
+			</td>
+		</tr>
+		<tr title="Using chroma reduction">
+			<td>color(display-p3 0 1 1)</td>
+			<td>
+				<script>gamutTest("srgb");</script>
+			</td>
+			<td>
+				rgb(0% 100% 100%)
+			</td>
+		</tr>
+		<tr title="Using HSL saturation reduction">
+			<td>color(display-p3 0 1 1)</td>
+			<td>
+				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+			</td>
+			<td>
+				rgb(0% 100% 100%)
 			</td>
 		</tr>
 	</table>
 </section>
 
-<script>
-function fuzzyNumberTest(test, ref) {
-	let decimals = 2;
-	test = test.textContent;
-	ref = ref.textContent;
-
-	if (test === ref) {
-		return true;
-	}
-
-	let nRegex = /(-?[\d.]+)/g;
-	let nRound = n => (+n).toFixed(decimals);
-
-	test = test.replace(nRegex, nRound);
-	ref = ref.replace(nRegex, nRound);
-
-	return Test.equals(test.trim(), ref.trim());
-}
-//
-// $.ready().then(() => {
-// 	let lch = [86.61463159131704, 106.45657523304926, 136.0088599937244];
-// 	console.log(Color.convert(lch, "lch", "srgb"));
-// 	console.log(Color.convert(lch, "lch", "srgb", Color.D50));
-// 	console.log(Color.convert(lch, "lch", "srgb", Color.D65));
-// });
-
-
-</script>
+<script src="index.js"></script>
 
 </body>
 </html>

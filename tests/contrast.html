@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>Contrast tests</title>
 <link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="style.css" />
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
@@ -32,7 +33,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>sRGB</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="4">
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
 		<tr>
 			<td>white</td>
 			<td>black</td>
@@ -70,7 +71,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>LCH</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="4">
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
 		<tr>
 			<td>lch(50% 0 0)</td>
 			<td>white</td>
@@ -84,7 +85,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>With NaN</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="4">
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
 		<tr>
 			<td>lch(50% 0 NaN)</td>
 			<td>white</td>
@@ -96,5 +97,6 @@ function contrastTest(...args) {
 	</table>
 </section>
 
+<script src="index.js"></script>
 </body>
 </html>

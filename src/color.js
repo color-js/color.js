@@ -198,15 +198,14 @@ export default class Color {
 	getCoords ({inGamut, precision = Color.defaults.precision} = {}) {
 		let coords = this.coords;
 
-		if (inGamut === true && !this.inGamut()) {
-			coords = this.toGamut().coords;
+		if (inGamut && !this.inGamut()) {
+			coords = this.toGamut(inGamut === true? undefined : inGamut).coords;
 		}
 
-		if (precision !== undefined) {
+		if (precision !== undefined && precision !== null) {
 			let bounds = this.space.coords? Object.values(this.space.coords) : [];
 
 			coords = coords.map((n, i) => util.toPrecision(n, precision, bounds[i]));
-
 		}
 
 		return coords;
@@ -380,13 +379,16 @@ export default class Color {
 
 		if (util.isString(format)) {
 			if (format === "%") {
-				let options = {style: "percent"};
+				let maximumSignificantDigits = precision;
 
-				if (Number.isInteger(precision) && precision <= 21) {
-					options.maximumSignificantDigits = precision;
+				if (!Number.isInteger(precision) || precision > 21) {
+					maximumSignificantDigits = 21;
 				}
 
-				format = c => c.toLocaleString("en-US",  options);
+				format = c => c.toLocaleString("en-US", {
+					style: "percent",
+					maximumSignificantDigits
+				});
 			}
 		}
 

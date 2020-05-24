@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>Color parse tests</title>
 <link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="style.css" />
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
@@ -21,7 +22,7 @@
 
 <section>
 	<h1>sRGB colors</h1>
-	<table class="reftest" data-test="colorParse" data-columns="3">
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
 		<tr title="Color keyword">
 			<td>blue</td>
 			<td>{"spaceId":"srgb","coords":[0,0,1],"alpha":1}</td>
@@ -52,7 +53,7 @@
 <section>
 	<h1>Lab and LCH colors</h1>
 
-	<table class="reftest" data-test="colorParse" data-columns="3">
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
 		<tr>
 			<td>lab(100% 0 0)</td>
 			<td>{"spaceId":"lab","coords":[100,0,0],"alpha":1}</td>
@@ -79,7 +80,7 @@
 <section>
 	<h1>color()</h1>
 
-	<table class="reftest" data-test="colorParse" data-columns="3">
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
 		<tr>
 			<td>color(display-p3 0 .5 1)</td>
 			<td>{"spaceId":"p3","coords":[0,0.5,1],"alpha":1}</td>
@@ -117,7 +118,7 @@
 <section>
 	<h1>hsl()</h1>
 
-	<table class="reftest" data-test="colorParse" data-columns="3">
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
 		<tr title="hsl(), commas">
 			<td>hsl(180, 50%, 50%)</td>
 			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
@@ -157,6 +158,7 @@ function colorParse(test, result, expected) {
 	return err || false;
 }
 </script>
+<script src="index.js"></script>
 
 </body>
 </html>

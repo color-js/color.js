@@ -5,9 +5,10 @@
 <meta charset="UTF-8">
 <title>DeltaE tests</title>
 <link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="style.css" />
+
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
-
 <script src="../color.js" type="module"></script>
 <script src="../src/deltaE2000.js" type="module"></script>
 <script>
@@ -21,7 +22,6 @@ function deltaTest(...args) {
 		return color1.deltaE(color2, ...args);
 	});
 }
-
 </script>
 
 </head>
@@ -32,7 +32,7 @@ function deltaTest(...args) {
 
 <section>
 	<h1>DeltaE 76</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -48,14 +48,6 @@ function deltaTest(...args) {
 				<script>deltaTest();</script>
 			</td>
 			<td>0</td>
-		</tr>
-		<tr  title="off-white">
-			<td>#ffe</td>
-			<td>white</td>
-			<td>
-				<script>deltaTest();</script>
-			</td>
-			<td>8.439</td>
 		</tr>
 		<tr  title="barely off-white">
 			<td>#fffffe</td>
@@ -116,7 +108,8 @@ function deltaTest(...args) {
 		G. Sharma, W. Wu, E. N. Dalal, <em>Color Research and Application</em>,
 		vol. <strong>30</strong>. No. 1, pp. 21-30, February 2005.
 		<a href="http://www2.ece.rochester.edu/~gsharma/ciede2000/">http://www2.ece.rochester.edu/~gsharma/ciede2000/</a></p>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -132,14 +125,6 @@ function deltaTest(...args) {
 				<script>deltaTest({method: "2000"});</script>
 			</td>
 			<td>0</td>
-		</tr>
-		<tr title="off-white">
-			<td>#ffe</td>
-			<td>white</td>
-			<td>
-				<script>deltaTest({method: "2000"});</script>
-			</td>
-			<td>7.3240</td>
 		</tr>
 		<tr  title="barely off-white">
 			<td>#fffffe</td>
@@ -435,6 +420,8 @@ function deltaTest(...args) {
 		</tr>
 	</table>
 </section>
+
+<script src="index.js"></script>
 
 </body>
 </html>
