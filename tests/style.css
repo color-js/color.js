@@ -1,0 +1,7 @@
+td[style*="--color:"] {
+	background: var(--color, inherit);
+}
+
+td.dark {
+	color: white;
+}

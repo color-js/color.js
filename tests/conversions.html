@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>Color conversion tests</title>
 <link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="style.css" />
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
@@ -37,7 +38,7 @@ let convertToLCH = convertTo("lch");
 
 <section>
 	<h1>sRGB to LCH</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
 		<tr>
 			<td>slategray</td>
 			<td>
@@ -64,7 +65,7 @@ let convertToLCH = convertTo("lch");
 
 <section>
 	<h1>HWB to sRGB</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers6" data-columns="3" data-colors="1">
 		<tr>
 			<td>hwb(0 20% 40%)</td>
 			<td>
@@ -107,7 +108,7 @@ let convertToLCH = convertTo("lch");
 
 <section>
 	<h1>sRGB to HWB</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers6" data-columns="3" data-colors="1">
 		<tr>
 			<td>rgb(60% 20% 20%)</td>
 			<td>
@@ -140,7 +141,7 @@ let convertToLCH = convertTo("lch");
 
 <section>
 	<h1>sRGB to HSL</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="3">
+	<table class="reftest" data-test="fuzzyNumbers6" data-columns="3" data-colors="1">
 		<tr>
 			<td>black</td>
 			<td>
@@ -201,5 +202,6 @@ let convertToLCH = convertTo("lch");
 	</table>
 </section>
 
+<script src="index.js"></script>
 </body>
 </html>

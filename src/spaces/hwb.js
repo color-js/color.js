@@ -79,16 +79,17 @@ Color.defineSpace({
 	 },
 
 	 instance: {
-		toString ({precision, format} = {}) {
+		toString ({format, commas, inGamut, ...rest} = {}) {
 				if (!format) {
 				format = (c, i) => i > 0? c + "%" : c;
 			}
 
 			return Color.prototype.toString.call(this, {
 				inGamut: true, // hwb() out of gamut makes no sense
-					 precision, commas: false,  // never commas
-					 format,
-				name: "hwb"
+				commas: false,  // never commas
+				format,
+				name: "hwb",
+				...rest
 			});
 		  }
 	 }

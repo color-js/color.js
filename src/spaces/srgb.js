@@ -91,7 +91,7 @@ Color.defineSpace({
 	},
 	// Properties present only on sRGB colors
 	instance: {
-		toString ({precision, inGamut = true, commas, format = "%"} = {}) {
+		toString ({inGamut = true, commas, format = "%", ...rest} = {}) {
 			if (format === 255) {
 				format = c => c * 255;
 			}
@@ -100,8 +100,9 @@ Color.defineSpace({
 			}
 
 			return Color.prototype.toString.call(this, {
-				precision, inGamut, commas, format,
-				name: "rgb" + (commas && this.alpha < 1? "a" : "")
+				inGamut, commas, format,
+				name: "rgb" + (commas && this.alpha < 1? "a" : ""),
+				...rest
 			});
 		}
 	}
