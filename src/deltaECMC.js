@@ -46,11 +46,8 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// due to roundoff error it is possible that, for zero a and b,
 	// ΔC > Δa + Δb is 0, rusulting in attempting
 	// to take the square root of a negative number
-	if (H2 < 0) {
-		H2 = 0;
-	}
-	let ΔH = Math.sqrt(H2);
-	console.log({ΔH});
+
+	// let ΔH = Math.sqrt(H2); we never actually use the root, it gets squared again!!
 
 	// positional corrections to the lack of uniformity of CIELAB
 	// These are all trying to make JND ellipsoids more like spheres
@@ -88,7 +85,7 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// Finally calculate the deltaE, term by term as root sume of squares
 	let dE = (ΔL / (l * SL)) ** 2;
 	dE += (ΔC / (c * SC)) ** 2;
-	dE += (ΔH / SH) ** 2;
+	dE += (H2 / (SH ** 2));
 	return Math.sqrt(dE);
 	// Yay!!!
 }
