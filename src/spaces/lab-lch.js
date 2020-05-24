@@ -67,12 +67,12 @@ Color.defineSpace({
 		}
 	},
 	instance: {
-		toString ({precision, format} = {}) {
+		toString ({format, ...rest} = {}) {
 			if (!format) {
 				format = (c, i) => i === 0? c + "%" : c;
 			}
 
-			return Color.prototype.toString.call(this, {name: "lab", precision, format});
+			return Color.prototype.toString.call(this, {name: "lab", format, ...rest});
 		}
 	}
 });
@@ -135,12 +135,12 @@ Color.defineSpace({
 		}
 	},
 	instance: {
-		toString ({precision, format} = {}) {
+		toString ({format, ...rest} = {}) {
 			if (!format) {
 				format = (c, i) => i === 0? c + "%" : c;
 			}
 
-			return Color.prototype.toString.call(this, {name: "lch", precision, format});
+			return Color.prototype.toString.call(this, {name: "lch", format, ...rest});
 		}
 	}
 });

@@ -79,15 +79,16 @@ Color.defineSpace({
 	},
 
 	instance: {
-		toString ({precision, commas, format} = {}) {
+		toString ({precision, commas, format, inGamut, ...rest} = {}) {
 			if (!format) {
 				format = (c, i) => i > 0? c + "%" : c;
 			}
 
 			return Color.prototype.toString.call(this, {
 				inGamut: true, // hsl() out of gamut makes no sense
-				precision, commas, format,
-				name: "hsl" + (commas && this.alpha < 1? "a" : "")
+				commas, format,
+				name: "hsl" + (commas && this.alpha < 1? "a" : ""),
+				...rest
 			});
 		}
 	}
