@@ -364,7 +364,12 @@ export default class Color {
 	 * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
 	 * @param {string} options.name - Function name [default: color]
 	 */
-	toString ({precision = Color.defaults.precision, format, commas, inGamut, name = "color"} = {}) {
+	toString ({
+		precision = Color.defaults.precision,
+		format, commas, inGamut,
+		name = "color",
+		fallback
+	} = {}) {
 		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
 
 		let coords = this.getCoords({inGamut, precision});
@@ -396,7 +401,47 @@ export default class Color {
 			args.unshift(this.space? this.space.cssId || this.space.id : "XYZ");
 		}
 
-		return `${name}(${args.join(commas? ", " : " ")}${strAlpha})`;
+		let ret = `${name}(${args.join(commas? ", " : " ")}${strAlpha})`;
+
+		if (fallback) {
+			// Return a CSS string that's actually supported by the current browser
+			// Return as a String object, so we can also hang the color object on it
+			// in case it's different than this. That way third party code can use that
+			// for e.g. computing text color, indicating out of gamut etc
+
+			if (!hasDOM || !self.CSS || CSS.supports("color", ret)) {
+				ret = new String(ret);
+				ret.color = this;
+				return ret;
+			}
+
+			let fallbacks = Array.isArray(fallback)? fallback.slice() : Color.defaults.fallbackSpaces;
+
+			for (let i = 0, fallbackSpace; fallbackSpace = fallbacks[i]; i++) {
+				if (Color.spaces[fallbackSpace]) {
+					let color = this.to(fallbackSpace);
+					ret = color.toString({precision});
+
+					if (CSS.supports("color", ret)) {
+						ret = new String(ret);
+						ret.color = color;
+						return ret;
+					}
+					else if (fallbacks === Color.defaults.fallbackSpaces) {
+						// Drop this space from the default fallbacks since it's not supported
+						fallbacks.splice(i, 1);
+						i--;
+					}
+				}
+			}
+
+			// None of the fallbacks worked, return in the most conservative form possible
+			let color = this.to("srgb");
+			ret = new String(color.toString({commas: true}));
+			ret.color = color;
+		}
+
+		return ret;
 	}
 
 	equals (color) {
@@ -832,6 +877,7 @@ Object.assign(Color, {
 		gamutMapping: "lch.chroma",
 		precision: 5,
 		deltaE: "76", // Default deltaE method
+		fallbackSpaces: ["p3", "srgb"]
 	},
 
 	deltaEs: {}
