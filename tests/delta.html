@@ -101,6 +101,69 @@ function deltaTest(...args) {
 </section>
 
 <section>
+	<h1>DeltaE CMC(2:1)</h1>
+	<p>Brilliant Yellow test data by BYK-Gardner GmbH.</p>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
+		<tr title="100% L = 100">
+			<td>white</td>
+			<td>black</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>100</td>
+		</tr>
+		<tr title="0%L = 0">
+			<td>white</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>0</td>
+		</tr>
+		<tr  title="barely off-white">
+			<td>#fffffe</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>0.4966</td>
+		</tr>
+		<tr  title="Pythagoream 3,4,5 triangle">
+			<td>lab(50% 30 40)</td>
+			<td>lab(50% 0 0)</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>50</td>
+		</tr>
+		<tr title="Brilliant Yellow with Hue error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.46% 8.88 96.49)</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>1.6364</td>
+		</tr>
+		<tr title="Brilliant Yellow with low Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.52% 5.75 93.09)</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>0.8770</td>
+		</tr>
+		<tr title="Brilliant Yellow with high Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.37% 5.86 99.42)</td>
+			<td>
+				<script>deltaTest({method: "CMC"});</script>
+			</td>
+			<td>1.0221</td>
+		</tr>
+	</table>
+</section>
+
+<section>
 	<h1>DeltaE 2000</h1>
 	<p>Includes test data and five significant figures expected results from
 		<cite>The CIEDE2000 Color-Difference Formula: Implementation Notes,
