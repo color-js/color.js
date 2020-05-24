@@ -24,20 +24,20 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 	// we don't need H2 as ΔH is calculated from Δa, Δb and ΔC
-	console.log({L1, a1, b1});
-	console.log({L2, a2, b2});
+	// console.log({L1, a1, b1});
+	// console.log({L2, a2, b2});
 
 	// Lightness and Chroma differences
 	// These are (color - sample), unlike deltaE2000
 	let ΔL = L1 - L2;
 	let ΔC = C1 - C2;
-	console.log({ΔL});
-	console.log({ΔC});
+	// console.log({ΔL});
+	// console.log({ΔC});
 
 	let Δa = a1 - a2;
 	let Δb = b1 - b2;
-	console.log({Δa});
-	console.log({Δb});
+	// console.log({Δa});
+	// console.log({Δb});
 
 	// weighted Hue difference, less for larger Chroma difference
 	const π = Math.PI;
