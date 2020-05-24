@@ -68,6 +68,26 @@
 	</table>
 </section>
 
+<section>
+	<h1>P3 yellow to sRGB</h1>
+	<table class="reftest" data-test="fuzzyNumberTest">
+		<tr title="Using chroma reduction">
+			<td>
+				<script>
+					print(() => {
+						var yellow = new Color("P3", [1, 1, 0]);
+						var paler = yellow.to("srgb");
+						return paler.toGamut().coords;
+					});
+				</script>
+			</td>
+			<td>
+				0 0.9838829193480104 0.16187708981499607
+			</td>
+		</tr>
+	</table>
+</section>
+
 <script>
 function fuzzyNumberTest(test, ref) {
 	let decimals = 2;
