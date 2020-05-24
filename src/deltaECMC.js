@@ -24,20 +24,25 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 	// we don't need H2 as ΔH is calculated from Δa, Δb and ΔC
+	console.log({L2, a2, b2});
 
 	// Lightness and Chroma differences
 	// These are (color - sample), unlike deltaE2000
 	let ΔL = L1 - L2;
 	let ΔC = C1 - C2;
+	console.log({ΔL});
+	console.log({ΔC});
 
 	let Δa = a1 - a2;
 	let Δb = b1 - b2;
+	console.log({Δa});
+	console.log({Δb});
 
 	// weighted Hue difference, less for larger Chroma difference
 	const π = Math.PI;
 	const d2r = π / 180;
-	let ΔH = Math.sqrt(Δa ** 2 + Δb ** 2 - ΔC ** 2);
-	// console.log({ΔH});
+	let ΔH = Math.sqrt((Δa ** 2) + (Δb ** 2) - (ΔC ** 2));
+	console.log({ΔH});
 
 	// positional corrections to the lack of uniformity of CIELAB
 	// These are all trying to make JND ellipsoids more like spheres
@@ -50,7 +55,7 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// console.log({SL});
 
 	// SC Chroma factor
-	let SC = (0.0638 * C1 / (1 + 0.0131 * C1)) + 0.638;
+	let SC = ((0.0638 * C1) / (1 + 0.0131 * C1)) + 0.638;
 	// console.log({SC});
 
 	// Cross term T for blue non-linearity
