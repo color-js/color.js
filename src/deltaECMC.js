@@ -24,6 +24,7 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 	// we don't need H2 as ΔH is calculated from Δa, Δb and ΔC
+	console.log({L1, a1, b1});
 	console.log({L2, a2, b2});
 
 	// Lightness and Chroma differences
@@ -41,7 +42,14 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// weighted Hue difference, less for larger Chroma difference
 	const π = Math.PI;
 	const d2r = π / 180;
-	let ΔH = Math.sqrt((Δa ** 2) + (Δb ** 2) - (ΔC ** 2));
+	let H2 = (Δa ** 2) + (Δb ** 2) - (ΔC ** 2);
+	// due to roundoff error it is possible that, for zero a and b,
+	// ΔC > Δa + Δb is 0, rusulting in attempting
+	// to take the square root of a negative number
+	if (H2 < 0) {
+		H2 = 0;
+	}
+	let ΔH = Math.sqrt(H2);
 	console.log({ΔH});
 
 	// positional corrections to the lack of uniformity of CIELAB
@@ -60,6 +68,10 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 
 	// Cross term T for blue non-linearity
 	let T;
+	if ( Number.isNaN(H1)) {
+		H1 = 0;
+	}
+
 	if (H1 >= 164 && H1 <= 345) {
 		T = 0.56 + Math.abs(0.2 * Math.cos((H1 + 168) * d2r));
 	} else {
