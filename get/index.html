@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Get Color.js</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+<meta name="viewport" content="width=device-width" />
+<link rel="shortcut icon" href="../logo.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<script src="../color.js" type="module"></script>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://get.mavo.io/mavo.js" async></script>
+
+</head>
+
+<body class="language-js">
+
+<header>
+	<nav>
+		<a href=".." class="logo"><h1 class="logo"><img src="../logo.svg" alt="Color.js"></h1></a>
+		<a href="../get/">Get<span class="wide"> Color.js</span></a>
+<a href="../docs/">Docs</a>
+<a href="../api/">API</a>
+<a href="../apps/">Demos</a>
+<a href="../tests/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+	<h1>Get Color.js</h1>
+</header>
+
+<main>
+
+<p>Create a custom bundle that is tailored to your needs.</p>
+
+<section mv-app="colorBundler" mv-storage="modules.json" mv-plugins="markdown">
+
+<fieldset id="core">
+	<legend>Core modules</legend>
+
+	<ul>
+		<li property="core">
+			<label>
+				<input type="checkbox" property="include" checked disabled>
+				<span property="name">Color.js core</span>
+				<meta property="id">
+				<meta property="importStatement" content='import Color, {util} from "https://colorjs.io/src/color.js";'>
+			</label>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="spaces">
+	<legend>Color spaces</legend>
+
+	<ul>
+		<li mv-multiple property="space">
+			<label>
+				<input type="checkbox" property="include" disabled="[false]">
+				<a property="url"><strong property="name">Lab & LCH</strong></a>
+				<meta property="id">
+				<meta property="importStatement" content='import "https://colorjs.io/src/spaces/[id].js";'>
+			</label>
+			<div property class="description" mv-markdown></div>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="optional">
+	<legend>Optional modules</legend>
+
+	<ul>
+		<li mv-multiple property="optional">
+			<label>
+				<input type="checkbox" property="include">
+				<a property="url"><strong property="name">Interpolation</strong></a>
+				<meta property="id">
+				<meta property="importStatement" content='import "https://colorjs.io/src/[id].js";'>
+			</label>
+			<div property class="description" mv-markdown></div>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="format">
+	<legend>Global or ES6 module?</legend>
+
+	<ul>
+		<li>
+			<label>
+				<input type="radio" property name="format" value="iife" disabled>
+				(Coming soon) Global <code>Color</code> variable
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="radio" name="format" value="esm" checked>
+				ES6 Module
+			</label>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="link-vs-embed">
+	<legend>Link or Download</legend>
+
+	<ul>
+		<li>
+			<label>
+				<input type="radio" property name="link" value="link" checked>
+				Import modules from colorjs.io at runtime
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="radio" property name="link" value="embed" disabled>
+				(Coming soon) Bundle module source in downloaded file
+			</label>
+		</li>
+	</ul>
+</fieldset>
+
+<pre id="bundle" class="cn-ignore language-none"><code>
+	[join(importStatement where include, '\n')]
+</code></pre>
+
+<a href="#" download="color.js">Download</a>
+
+</section>
+
+</main>
+
+
+<footer>
+	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)
+	and <a href="https://svgees.us">Chris Lilley</a> (co-editor of CSS Color 3, 4, and 5; W3C representative to ICC)
+
+	<nav>
+		<a href="../get/">Get<span class="wide"> Color.js</span></a>
+<a href="../docs/">Docs</a>
+<a href="../api/">API</a>
+<a href="../apps/">Demos</a>
+<a href="../tests/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+</footer>
+
+<script src="../assets/js/prism.js"></script>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://live.prismjs.com/src/prism-live.js?load=javascript" async></script>
+<script src="../assets/js/index.js" type="module"></script>
+
+<script src="index.js" type="module"></script>
+</body>
+</html>

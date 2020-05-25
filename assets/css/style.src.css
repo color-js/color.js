@@ -23,8 +23,8 @@
 	--page-width: 60rem;
 
 	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
-	           300% 0 / 150% .3em fixed;
-	--rainbow-scroll: rainbow-scroll 10s linear 2 both;
+	           150vw 0 / 150vw .3em fixed;
+	--rainbow-scroll: rainbow-scroll 20s linear 2 both;
 }
 
 @keyframes rainbow-scroll {
@@ -56,24 +56,64 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
 	color: var(--color-blue);
-}
 
-	a:not(:hover):not(:focus) {
+	&:not(:hover):not(:focus) {
 		text-decoration: none;
 	}
 
-	a:active {
+	&:active {
 		color: var(--color-red);
 	}
+}
+
+fieldset {
+	border: 1px solid hsl(var(--gray) 80%);
+	border-radius: .2em;
+
+	& legend {
+		font: 700 120%/1 var(--font-headings);
+	}
+}
+
+body > header,
+body > footer {
+	--padding: calc((100vw - var(--page-width)) / 2);
+	padding-left: var(--padding);
+	padding-right: var(--padding);
+	animation: var(--rainbow-scroll);
+
+	@supports (width: max(1px, 1em)) {
+		--padding: max(1em, (100vw - var(--page-width)) / 2);
+	}
+
+	& nav {
+		& a {
+			text-align: center;
+		}
+
+		& a:not(.logo) {
+			flex: 1;
+			padding: .6em;
+			font-weight: 800;
+
+			&:hover {
+				-webkit-background-clip: initial;
+				color: white;
+				text-decoration: none;
+			}
+		}
+	}
+}
 
 body > header {
 	display: flex;
 	flex-flow: column;
 	--bg: var(--gray) 96%;
-	background: linear-gradient(hsl(var(--bg) / .85), hsl(var(--bg) / .8)) 0 .3em / 100% 2.6em no-repeat fixed,
+	background: linear-gradient(hsl(var(--bg) / .85), hsl(var(--bg) / .8)) 0 .3em no-repeat fixed,
 		var(--rainbow)
 		hsl(var(--bg));
-	background-size: 100% 2.3em, 150% 2.6em;
+	background-size: 100% 2.3em, 150vw 2.6em;
+	background-repeat: no-repeat, repeat-x;
 
 	& > h1,
 	& > hgroup > h1 {
@@ -89,30 +129,53 @@ body > header {
 		font-size: 300%;
 		font-weight: 600;
 	}
+
+	& nav {
+		display: flex;
+		justify-content: stretch;
+		order: 0;
+
+		& .footer {
+			display: none;
+		}
+
+		@media (max-width: 800px) {
+			& .wide {
+				display: none;
+			}
+		}
+
+		& h1 {
+			margin: 0;
+
+			& img {
+				height: 2.15em;
+				margin-bottom: -1.5em;
+				margin-left: -.3em;
+			}
+		}
+	}
 }
 
 body > footer {
-	padding: 1rem 0 1.3rem;
+	padding-top: 1rem;
 	background: var(--rainbow),
 		hsl(var(--gray) 20%);
-	background-position: bottom;
+	animation: var(--rainbow-scroll);
+	background-position-y: bottom;
+	background-repeat: repeat-x;
 	color: white;
-}
 
-	body > footer a {
+	& a {
 		color: var(--color-blue-light)
 	}
 
-body > header,
-body > footer {
-	--padding: calc((100vw - var(--page-width)) / 2);
-	padding-left: var(--padding);
-	padding-right: var(--padding);
-	animation: var(--rainbow-scroll);
-	background-repeat: repeat-x;
+	& nav {
+		margin-top: 1rem;
 
-	@supports (width: max(1px, 1em)) {
-		--padding: max(1em, (100vw - var(--page-width)) / 2);
+		& a {
+			display: inline-block;
+		}
 	}
 }
 
@@ -122,46 +185,12 @@ main {
 	max-width: calc(100vw - 2em);
 	margin: auto;
 	padding: 1em;
-}
 
-body > header nav {
-	order: 0;
-	display: flex;
-	justify-content: stretch;
-
-	& h1 {
-		margin: 0;
-
-		& img {
-			height: 2.15em;
-			margin-bottom: -1.5em;
-			margin-left: -.3em;
-		}
+	& h2 {
+		font-size: 250%;
+		line-height: 1.2;
+		color: var(--color-red);
 	}
-
-	& a {
-		text-align: center;
-	}
-
-	& a:not(.logo) {
-		flex: 1;
-		padding: .6em;
-		font-weight: 800;
-
-
-		&:hover {
-			-webkit-background-clip: initial;
-			color: white;
-			text-decoration: none;
-		}
-	}
-}
-
-
-main h2 {
-	font-size: 250%;
-	line-height: 1.2;
-	color: var(--color-red);
 }
 
 :not(pre) > code[class*="language-"],
@@ -177,6 +206,7 @@ pre[class*="language-"] {
 
 @supports (-webkit-background-clip: text) {
 	body > header nav a,
+	body > footer nav a,
 	main h2 {
 		background: var(--rainbow);
 		animation: var(--rainbow-scroll);

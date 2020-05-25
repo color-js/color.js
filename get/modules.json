@@ -1,0 +1,98 @@
+{
+	"space": [
+		{
+			"name": "Lab & LCH",
+			"id": "lab-lch",
+			"include": true,
+			"mandatory": true,
+			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space",
+			"description": "Perceptually uniform CIE color spaces. LCH is the polar form, Lab the cartesian form."
+		},
+		{
+			"name": "sRGB",
+			"id": "srgb",
+			"include": true,
+			"mandatory": true,
+			"url": "https://en.wikipedia.org/wiki/SRGB",
+			"description": "The color space of all CSS colors before CSS Color Level 4."
+		},
+		{
+			"name": "Display P3",
+			"id": "p3",
+			"include": true,
+			"dependencies": ["srgb"],
+			"url": "https://en.wikipedia.org/wiki/DCI-P3#Display_P3",
+			"description": "The color space of most commercial wide gamut screens today. 50% largeer gamut (by volume) than sRGB."
+		},
+		{
+			"name": "Adobe® RGB Compatible",
+			"id": "a98rgb",
+			"dependencies": ["srgb"],
+			"url": "https://en.wikipedia.org/wiki/Adobe_RGB_color_space",
+			"description": "Wide gamut RGB color space, encompassed roughly 50% of visible colors."
+		},
+		{
+			"name": "REC.2020",
+			"id": "rec2020",
+			"dependencies": ["srgb"],
+			"url": "https://en.wikipedia.org/wiki/Rec._2020",
+			"description": "Very wide gamut RGB color space"
+		},
+		{
+			"name": "ProPhoto",
+			"id": "prophoto",
+			"dependencies": ["srgb"],
+			"url": "https://en.wikipedia.org/wiki/ProPhoto_RGB_color_space",
+			"description": "Very wide gamut RGB color space with primaries outside the range of human vision. Includes 90% of visible colors."
+		},
+
+		{
+			"name": "HSL",
+			"id": "hsl",
+			"include": true,
+			"dependencies": ["srgb"],
+			"url": "https://en.wikipedia.org/wiki/HSL_and_HSV",
+			"description": "Polar transformation of sRGB, supported as early as CSS Color Level 3."
+		},
+		{
+			"name": "HWB",
+			"id": "hwb",
+			"dependencies": ["hsl"],
+			"url": "https://en.wikipedia.org/wiki/HWB_color_model",
+			"description": "Another polar transformation of sRGB with hue, whiteness, blackness coordinates."
+		},
+		{
+			"name": "HSV",
+			"id": "hsv",
+			"dependencies": ["hsl"],
+			"url": "https://en.wikipedia.org/wiki/HSL_and_HSV",
+			"description": "Another polar transformation of sRGB, supported in Adobe CS software."
+		}
+	],
+	"optional": [
+		{
+			"name": "Interpolation",
+			"id": "interpolation",
+			"include": true,
+			"url": "../docs/interpolation.html",
+			"description": "Interpolate between colors, create ranges and scales."
+		},
+		{
+			"name": "DeltaE CMC",
+			"id": "deltaECMC",
+			"url": "https://en.wikipedia.org/wiki/Color_difference#CMC_l:c_(1984)",
+			"description": "DeltaE CMC, a color difference metric of intermediate complexity and intermediate accuracy."
+		},
+		{
+			"name": "DeltaE 2000",
+			"id": "deltaE2000",
+			"url": "https://en.wikipedia.org/wiki/Color_difference#CIEDE2000",
+			"description": "DeltaE 2000, the gold standard in deltaE as of present, but also the most complex. Especially good for small color differences."
+		},
+		{
+			"name": "Chromatic adaptation",
+			"id": "CATs",
+			"description": "Color.js core only suppoorts chromatic adaptation between D50 and D65 using the Bradford method. This module supports chromatic adaptation between arbitrary illuminants (with 9 presets) using Bradford, Van Kries, CAT02, or CAT16."
+		}
+	]
+}

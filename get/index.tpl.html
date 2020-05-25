@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Get Color.js</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+@@include('_head.html')
+<link rel="stylesheet" href="style.css">
+
+<script src="https://get.mavo.io/mavo.js" async></script>
+
+</head>
+
+<body class="language-js">
+
+@@include('_header.html', {
+"title": "Get Color.js"
+})
+<main>
+
+<p>Create a custom bundle that is tailored to your needs.</p>
+
+<section mv-app="colorBundler" mv-storage="modules.json" mv-plugins="markdown">
+
+<fieldset id="core">
+	<legend>Core modules</legend>
+
+	<ul>
+		<li property="core">
+			<label>
+				<input type="checkbox" property="include" checked disabled>
+				<span property="name">Color.js core</span>
+				<meta property="id">
+				<meta property="importStatement" content='import Color, {util} from "https://colorjs.io/src/color.js";'>
+			</label>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="spaces">
+	<legend>Color spaces</legend>
+
+	<ul>
+		<li mv-multiple property="space">
+			<label>
+				<input type="checkbox" property="include" disabled="[false]">
+				<a property="url"><strong property="name">Lab & LCH</strong></a>
+				<meta property="id">
+				<meta property="importStatement" content='import "https://colorjs.io/src/spaces/[id].js";'>
+			</label>
+			<div property class="description" mv-markdown></div>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="optional">
+	<legend>Optional modules</legend>
+
+	<ul>
+		<li mv-multiple property="optional">
+			<label>
+				<input type="checkbox" property="include">
+				<a property="url"><strong property="name">Interpolation</strong></a>
+				<meta property="id">
+				<meta property="importStatement" content='import "https://colorjs.io/src/[id].js";'>
+			</label>
+			<div property class="description" mv-markdown></div>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="format">
+	<legend>Global or ES6 module?</legend>
+
+	<ul>
+		<li>
+			<label>
+				<input type="radio" property name="format" value="iife" disabled>
+				(Coming soon) Global <code>Color</code> variable
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="radio" name="format" value="esm" checked>
+				ES6 Module
+			</label>
+		</li>
+	</ul>
+</fieldset>
+
+<fieldset id="link-vs-embed">
+	<legend>Link or Download</legend>
+
+	<ul>
+		<li>
+			<label>
+				<input type="radio" property name="link" value="link" checked>
+				Import modules from colorjs.io at runtime
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="radio" property name="link" value="embed" disabled>
+				(Coming soon) Bundle module source in downloaded file
+			</label>
+		</li>
+	</ul>
+</fieldset>
+
+<pre id="bundle" class="cn-ignore language-none"><code>
+	[join(importStatement where include, '\n')]
+</code></pre>
+
+<a href="#" download="color.js">Download</a>
+
+</section>
+
+</main>
+
+@@include('_footer.html')
+<script src="index.js" type="module"></script>
+</body>
+</html>

@@ -390,7 +390,7 @@ let pres = $$(".language-js, .language-javascript").flatMap(el => {
 		ret.push(ancestor);
 	}
 
-	return ret;
+	return ret.filter(code => !code.matches(".cn-ignore, .cn-ignore *"));
 }).map(code => code.parentNode);
 
 for (let pre of pres) {
