@@ -50,8 +50,10 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// trying instead the equation from Industrial Color Physics
 	// By Georg A. Klein
 
-	let ΔH = ((a1 * b2) - (a2 * b1)) / Math.sqrt(0.5 * ((C2 * C1) + (a2 * a1) + (b2 * b1)));
-	console.log({ΔH});
+	// let ΔH = ((a1 * b2) - (a2 * b1)) / Math.sqrt(0.5 * ((C2 * C1) + (a2 * a1) + (b2 * b1)));
+	// console.log({ΔH});
+	// This gives the same result to 12 decimal places
+	// except it sometimes NaNs when trying to root a negative number
 
 	// let ΔH = Math.sqrt(H2); we never actually use the root, it gets squared again!!
 
@@ -91,8 +93,8 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// Finally calculate the deltaE, term by term as root sume of squares
 	let dE = (ΔL / (l * SL)) ** 2;
 	dE += (ΔC / (c * SC)) ** 2;
-	// dE += (H2 / (SH ** 2));
-	dE += (ΔH / SH)  ** 2;
+	dE += (H2 / (SH ** 2));
+	// dE += (ΔH / SH)  ** 2;
 	return Math.sqrt(dE);
 	// Yay!!!
 }
