@@ -24,8 +24,8 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 	// we don't need H2 as ΔH is calculated from Δa, Δb and ΔC
-	// console.log({L1, a1, b1});
-	// console.log({L2, a2, b2});
+	console.log({L1, a1, b1});
+	console.log({L2, a2, b2});
 
 	// Lightness and Chroma differences
 	// These are (color - sample), unlike deltaE2000
@@ -44,8 +44,16 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	const d2r = π / 180;
 	let H2 = (Δa ** 2) + (Δb ** 2) - (ΔC ** 2);
 	// due to roundoff error it is possible that, for zero a and b,
-	// ΔC > Δa + Δb is 0, rusulting in attempting
+	// ΔC > Δa + Δb is 0, resulting in attempting
 	// to take the square root of a negative number
+
+	// trying instead the equation from Industrial Color Physics
+	// By Georg A. Klein
+
+	// let ΔH = ((a1 * b2) - (a2 * b1)) / Math.sqrt(0.5 * ((C2 * C1) + (a2 * a1) + (b2 * b1)));
+	// console.log({ΔH});
+	// This gives the same result to 12 decimal places
+	// except it sometimes NaNs when trying to root a negative number
 
 	// let ΔH = Math.sqrt(H2); we never actually use the root, it gets squared again!!
 
@@ -86,6 +94,7 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	let dE = (ΔL / (l * SL)) ** 2;
 	dE += (ΔC / (c * SC)) ** 2;
 	dE += (H2 / (SH ** 2));
+	// dE += (ΔH / SH)  ** 2;
 	return Math.sqrt(dE);
 	// Yay!!!
 }
