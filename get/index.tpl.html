@@ -88,14 +88,14 @@
 	<ul>
 		<li>
 			<label>
-				<input type="radio" property name="format" value="iife" disabled>
-				(Coming soon) Global <code>Color</code> variable
+				<input type="radio" name="format" value="esm" checked>
+				ES6 Module only
 			</label>
 		</li>
 		<li>
 			<label>
-				<input type="radio" name="format" value="esm" checked>
-				ES6 Module
+				<input type="radio" property name="format" value="iife">
+				Global <code>Color</code> variable
 			</label>
 		</li>
 	</ul>
@@ -121,11 +121,31 @@
 </fieldset>
 
 <pre id="bundle" class="cn-ignore language-none"><code>
-	[join(importStatement where include, '\n')]
+[join(importStatement where include, '\n')]
+[if(format = "iife", 'window.Color = window.Color || Color;', '')]
+// Re-export
+export default Color; export {util};
 </code></pre>
 
 <a href="#" download="color.js">Download</a>
 
+</section>
+
+<section class="cn-ignore">
+	<h2>How to use</h2>
+
+	<p>The following assume your downloaded file is in the same directory as the JS/HTML file using it.
+		If not, adjust the path accordingly.</p>
+
+	<p>If using client-side, include in your page via:</p>
+
+	<pre class="language-markup"><code>
+		&lt;script src="color.js" type="module">&lt;/script>
+	</code></pre>
+
+	<p>Or, include in your JS via:</p>
+
+	<pre><code>import Color, {util} from "./color.js"</code></pre>
 </section>
 
 </main>
