@@ -6,6 +6,7 @@ import "./spaces/lab-lch.js";
 import "./spaces/srgb.js";
 import "./spaces/hsl.js";
 import "./spaces/hwb.js";
+import "./spaces/hsv.js";
 import "./spaces/p3.js";
 import "./spaces/a98rgb.js";
 import "./spaces/prophoto.js";
@@ -13,6 +14,8 @@ import "./spaces/rec2020.js";
 
 // Import optional modules
 import "./interpolation.js";
+import "./deltaECMC.js";
+import "./deltaE2000.js";
 
 // Re-export everything
 export default Color;
