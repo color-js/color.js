@@ -326,6 +326,10 @@ export default class Color {
 		}
 	}
 
+	clone () {
+		return new Color(this);
+	}
+
 	/**
 	 * Convert to color space and return a new color
 	 * @param {Object|string} space - Color space object or id
