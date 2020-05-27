@@ -23,13 +23,21 @@ let vars = {
 		...Color.steps(greenBlue, interpolationOptions),
 		...Color.steps(blueRed, interpolationOptions)
 	],
-	"color-red-light": colors.red.lighten(),
-	"color-green-light": colors.green.lighten(),
-	"color-blue-light": colors.blue.lighten(),
+	"color-red-light": colors.red.clone().set({lightness: 80}),
+	"color-green-light": colors.green.clone().set({lightness: 80}),
+	"color-blue-light": colors.blue.clone().set({lightness: 80}),
+	
+	"color-red-lighter": colors.red.clone().set({lightness: 94}),
+	"color-green-lighter": colors.green.clone().set({lightness: 95}),
+	"color-blue-lighter": colors.blue.clone().set({lightness: 94}),
 
 	"color-red-green": redGreen(.5),
 	"color-green-blue": greenBlue(.5),
 	"color-blue-red": blueRed(.5),
+
+	"color-red-green-light": redGreen(.5).set({lightness: 94}),
+	"color-green-blue-light": greenBlue(.5).set({lightness: 94}),
+	"color-blue-red-light": blueRed(.5).set({lightness: l => 94}),
 };
 
 $.create("style", {

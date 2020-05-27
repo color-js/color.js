@@ -174,11 +174,16 @@ body > footer a {
 	}
 
 body > footer nav {
+		display: flex;
+		flex-wrap: wrap;
 		margin-top: 1rem
 	}
 
-body > footer nav a {
-			display: inline-block;
+@media (max-width: 600px) {
+
+body > footer nav {
+			flex-flow: column
+	}
 		}
 
 main {
@@ -219,4 +224,51 @@ pre[class*="language-"] {
 
 .read-more::before {
 	content: "▸ ";
+}
+
+.warning,
+.tip,
+.note {
+	position: relative;
+	background: var(--color-light);
+	padding: .8em 1em;
+	border-left: .3em solid var(--color)
+}
+
+.warning::before, .tip::before, .note::before {
+		content: var(--label) ": ";
+		color: var(--color);
+		text-transform: uppercase;
+		font-size: 85%;
+		font-weight: 700;
+	}
+
+.warning::after, .tip::after, .note::after {
+		content: var(--emoji);
+		position: absolute;
+		top: -.7em;
+		left: -.6em;
+		font-size: 200%;
+		text-shadow: .02em .05em .1em rgb(0 0 0 /.2);
+	}
+
+.warning {
+	--color-light: var(--color-red-lighter);
+	--color: var(--color-red);
+	--label: "Warning";
+	--emoji: "⚠️";
+}
+
+.note {
+	--color-light: var(--color-blue-lighter);
+	--color: var(--color-blue);
+	--label: "Tip";
+	--emoji: "💡";
+}
+
+.tip {
+	--color-light: var(--color-green-lighter);
+	--color: var(--color-green);
+	--label: "Note";
+	--emoji: "👉🏼";
 }
