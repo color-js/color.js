@@ -35,6 +35,16 @@ They give you a function that accepts a percentage as a 0 - 1 number:</p>
         outputSpace: "srgb"
     });
     redgreen(.5); // midpoint</code></pre>
+<p>The <code>space</code> parameter controls the color space interpolation occurs in and defaults to Lab.
+The interpolation space can make a big difference in the result:</p>
+<pre><code class="js language-js">let c1 = new Color("rebeccapurple");
+let c2 = new Color("lch", [85, 100, 85]);
+c1.range(c2); // lab
+c1.range(c2, {space: "lch"});
+c1.range(c2, {space: "srgb"}); // gamma corrected sRGB
+c1.range(c2, {space: "xyz"}); // XYZ, same result as linear RGB
+c1.range(c2, {space: "hsl"});
+c1.range(c2, {space: "hwb"});</code></pre>
 <p>Range interpolates between colors as they were at the time of its creation.
 If you change the colors afterwards, it will not be affected:</p>
 <pre><code class="js language-js">    let color = new Color("red");
@@ -59,7 +69,7 @@ lime.range(new Color(lime.space, [NaN, NaN, NaN], 0), {space: lime.space});</cod
 <p>You can use the <code>progression</code> parameter to customize the progression and make it non-linear:</p>
 <pre><code class="js language-js">    let r = new Color("lch(50 50 0)").range("lch(90 50 20)");
     Color.range(r, {progression: p =&gt; p ** 3});</code></pre>
-<p>Note that you can use <code>Color.range(rangeFunction)</code> to modify a range after it has been created.
+<p>Note that you can use <code>Color.range(rangeFunction)</code> to modify a range after it has been created, as you can see in the example above.
 This produces a new range, and leaves the old one unaffected.</p>
 <h2 id="interpolation-by-discrete-steps">Interpolation by discrete steps</h2>
 <p><a href="../api/#Color#steps"><code>color.steps()</code></a> and <a href="../api/#Color.steps"><code>Color.steps()</code></a> give you an array of discrete steps.</p>

@@ -14,6 +14,20 @@ They give you a function that accepts a percentage as a 0 - 1 number:
 	redgreen(.5); // midpoint
 ```
 
+The `space` parameter controls the color space interpolation occurs in and defaults to Lab.
+The interpolation space can make a big difference in the result:
+
+```js
+let c1 = new Color("rebeccapurple");
+let c2 = new Color("lch", [85, 100, 85]);
+c1.range(c2); // lab
+c1.range(c2, {space: "lch"});
+c1.range(c2, {space: "srgb"}); // gamma corrected sRGB
+c1.range(c2, {space: "xyz"}); // XYZ, same result as linear RGB
+c1.range(c2, {space: "hsl"});
+c1.range(c2, {space: "hwb"});
+```
+
 Range interpolates between colors as they were at the time of its creation.
 If you change the colors afterwards, it will not be affected:
 
@@ -49,7 +63,7 @@ You can use the `progression` parameter to customize the progression and make it
 	Color.range(r, {progression: p => p ** 3});
 ```
 
-Note that you can use `Color.range(rangeFunction)` to modify a range after it has been created.
+Note that you can use `Color.range(rangeFunction)` to modify a range after it has been created, as you can see in the example above.
 This produces a new range, and leaves the old one unaffected.
 
 ## Interpolation by discrete steps

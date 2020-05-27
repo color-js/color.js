@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Color manipulation &bull; Color.js</title>
+<meta name="viewport" content="width=device-width" />
+<link rel="shortcut icon" href="../logo.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<script src="../color.js" type="module"></script>
+
+</head>
+<body class="language-js">
+<header>
+	<nav>
+		<a href=".." class="logo"><h1 class="logo"><img src="../logo.svg" alt="Color.js"></h1></a>
+		<a href="../get/">Get<span class="wide"> Color.js</span></a>
+<a href="../docs/">Docs</a>
+<a href="../api/">API</a>
+<a href="../apps/">Demos</a>
+<a href="../tests/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+	<h1>Color manipulation</h1>
+</header>
+
+<main>
+<h2 id="by-color-coordinates">By color coordinates</h2>
+<p>We've seen in the <a href="the-color-object">previous section</a> how we can manipulate a color
+by directly manipulating coordinates in any of the color spaces supported.
+LCH coordinates are particularly useful for this so they are available directly on color objects:</p>
+<pre><code class="js language-js">let color = new Color("rebeccapurple");
+let color = new Color("rebeccapurple");
+color.lightness *= 1.2;
+color.chroma = 40;
+color.hue += 30;</code></pre>
+<p>You can also use <a href="../api/#Color#set"><code>color.set()</code></a> to set multiple coordinates at once.
+In addition, it returns the color itself, so further methods can be called on it:</p>
+<pre><code class="js language-js">let color = new Color("lch(50% 50 10)");
+color = color.set({
+    hue: h =&gt; h + 180, // relative modification!
+    chroma: 60,
+    "hwb.whiteness": w =&gt; w * 1.2
+}).lighten();</code></pre>
+<h2 id="gamuts-and-gamut-mapping">Gamuts and gamut mapping</h2>
+<p><a href="https://en.wikipedia.org/wiki/Gamut">Color Gamut</a> is the range of colors a given color space can produce.
+Some color spaces (e.g. Lab, LCH, Ja<sub>z</sub>b<sub>z</sub>, CAM16) are mathematical models that encompass all visible color.
+Others however cannot produce all visible color without <em>values out of range</em>.
+For example. all the RGB spaces (sRGB, P3, Adobe® RGB, ProPhoto, REC.2020) have a gamut that is smaller than all visible color.
+Therefore, there are colors that are perfectly normal, but cannot be represented by certain color spaces.
+For example, the P3 lime (<code>color(display-p3 0 1 0)</code>) is outside of the gamut of sRGB.
+In addition, colors that are <strong>not visible to humans</strong> can sometimes be represented by some color spaces!
+Most notably, ProPhoto's primaries (pure red, pure green, pure blue) are <strong>outside the gamut of human vision</strong>.</p>
+<p>The process of transforming a color outside of a given gamut to a color that is as close as possible but is <em>inside gamut</em> is called <em>gamut mapping</em>.</p>
+<p>So how does Color.js handle all this?</p>
+<p>Color.js does not do clipping by default, as this is lossy: If you convert from a larger color space to a smaller one and then back, you need to be able to get your original color (possibly with some roundoff error due to the calculations).</p>
+<p>You can call <a href="../api/#Color#inGamut"><code>color.inGamut()</code></a> to check if the current color is in gamut of its own color space, or you can pass a different color space to check against:</p>
+<pre><code class="js language-js">let lime = new Color("p3", [0, 1, 0]);
+lime.inGamut();
+lime.inGamut({space: "srgb"});
+let sRGB_lime = lime.to("srgb");
+sRGB_lime.inGamut();</code></pre>
+</main>
+
+<footer>
+	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)
+	and <a href="https://svgees.us">Chris Lilley</a> (co-editor of CSS Color 3, 4, and 5; W3C representative to ICC)
+
+	<nav>
+		<a href="../get/">Get<span class="wide"> Color.js</span></a>
+<a href="../docs/">Docs</a>
+<a href="../api/">API</a>
+<a href="../apps/">Demos</a>
+<a href="../tests/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+</footer>
+
+<script src="../assets/js/prism.js"></script>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://live.prismjs.com/src/prism-live.js?load=javascript" async></script>
+<script src="../assets/js/index.js" type="module"></script>
+
+</body>
+</html>
