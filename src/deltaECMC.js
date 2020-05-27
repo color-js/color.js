@@ -24,8 +24,8 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 	// we don't need H2 as ΔH is calculated from Δa, Δb and ΔC
-	console.log({L1, a1, b1});
-	console.log({L2, a2, b2});
+	// console.log({L1, a1, b1});
+	// console.log({L2, a2, b2});
 
 	// Lightness and Chroma differences
 	// These are (color - sample), unlike deltaE2000
