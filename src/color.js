@@ -143,14 +143,20 @@ export default class Color {
 		return this;
 	}
 
-	lighten(amount = .2, {inPlace} = {}) {
-		let ret = inPlace? this : new Color(this);
-		return ret.set("lightness", c => c * (1 + amount));
+	lighten (amount = .25) {
+		let ret = new Color(this);
+		let lightness = ret.lightness;
+		ret.lightness = lightness * (1 + amount);
+
+		return ret;
 	}
 
-	darken(amount = .2, {inPlace} = {}) {
-		let ret = inPlace? this : new Color(this);
-		return ret.set("lightness", c => c * (1 - amount));
+	darken (amount = .25) {
+		let ret = new Color(this);
+		let lightness = ret.lightness;
+		ret.lightness = lightness * (1 - amount);
+
+		return ret;
 	}
 
 	deltaE (color, {method = Color.defaults.deltaE, ...rest} = {}) {
