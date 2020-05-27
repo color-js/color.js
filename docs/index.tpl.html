@@ -4,10 +4,10 @@
 
 <meta charset="UTF-8">
 <title>Color.js Docs</title>
-<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+<!-- <link rel="stylesheet" href="https://get.mavo.io/mavo.css"> -->
 @@include('_head.html')
 
-<script src="https://get.mavo.io/mavo.js" async></script>
+<!-- <script src="https://get.mavo.io/mavo.js" async></script> -->
 
 </head>
 
@@ -18,8 +18,11 @@
 })
 <main>
 
+<nav style="display: flex; flex-flow: column;">
+	@@include('_docs-nav.html')
+</nav>
 
-<section mv-app="docs" mv-source="https://api.github.com/repos/leaverou/color.js/contents/docs" mv-mode="read">
+<!-- <section mv-app="docs" mv-source="https://api.github.com/repos/leaverou/color.js/contents/docs" mv-mode="read">
 	<div class="mv-bar mv-ui"></div>
 	<ul>
 		<li property="file" mv-multiple hidden="[ext != 'md']">
@@ -28,8 +31,7 @@
 			<meta property="id" content="[to(name, '.')]">
 		</li>
 	</ul>
-
-</section>
+</section> -->
 
 </main>
 
