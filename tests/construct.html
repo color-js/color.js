@@ -9,9 +9,7 @@
 <script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
-<script>
-
-</script>
+<script src="../src/spaces/rec2100.js" type="module"></script>
 
 </head>
 <body>
@@ -20,7 +18,7 @@
 <p>These tests check that the various constructor signatures work.</p>
 
 <section>
-	<h1>P3 lime to sRGB</h1>
+	<h1>Basic constructors</h1>
 	<table class="reftest" data-test="fuzzyNumbers">
 		<tr title="new Color(spaceId, coords)">
 			<td>
@@ -104,9 +102,20 @@
 				{ "spaceId": "p3", "coords": [ 0, 1, 0 ], "alpha": 1 }
 			</td>
 		</tr>
-
+		<tr title="new Color(spaceId, coords)">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("rec2100-pq", [0.34, 0.34, 0.34]);
+						return color.toJSON();
+					});
+				</script>
+			</td>
+			<td>
+				{ "spaceId": "rec2100-pq", "coords": [ 0.34, 0.34, 0.34 ], "alpha": 1 }
+			</td>
+		</tr>
 	</table>
-</section>
 
 
 </body>

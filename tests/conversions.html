@@ -11,6 +11,8 @@
 
 <script src="../color.js" type="module"></script>
 <script src="../src/spaces/hwb.js" type="module"></script>
+<script src="../src/spaces/rec2100.js" type="module"></script>
+
 <script>
 function convertTo(spaceId) {
 	return function() {
@@ -27,6 +29,8 @@ let convertToSRGB = convertTo("sRGB");
 let convertToHWB = convertTo("hwb");
 let convertToHSL = convertTo("hsl");
 let convertToLCH = convertTo("lch");
+let convertToXYZ = convertTo("xyz");
+let convertTo2100PQ = convertTo("rec2100pq");
 
 </script>
 
@@ -159,6 +163,93 @@ let convertToLCH = convertTo("lch");
 				</script>
 			</td>
 			<td>NaN, 0, 100</td>
+		</tr>
+	</table>
+</section>
+<!-- 0.000000730 -->
+<section>
+	<h1>rec2100pq to XYZ and back</h1>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
+		<tr>
+			<td>color(rec2100pq 0.34 0.34 0.34)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>NaN, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(xyz 0.1128525900459332 0.1170429720372096 0.09660550374381076)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td>0.34, 0.34, 0.34</td>
+		</tr>
+		<tr>
+			<td>white</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td>0.5422, 0.5422, 0.5422</td>
+		</tr>
+		<tr>
+			<td>color(display-p3 1 0 0)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>color(display-p3 0 1 0)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>color(display-p3 0 0 1)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>color(rec2020 1 0 0)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td>0.5422, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 0 1 0)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td>0, 0.5422, 0</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 0 0 1)</td>
+			<td>
+				<script>
+					convertTo2100PQ();
+				</script>
+			</td>
+			<td>0, 0, 0.5422</td>
 		</tr>
 	</table>
 </section>
