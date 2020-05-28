@@ -1,4 +1,4 @@
-import Color from "./srgb.js";
+import Color, {util} from "./srgb.js";
 
 Color.defineSpace({
 	inherits: "srgb",
@@ -43,3 +43,6 @@ Color.defineSpace({
 		[0.017639857445310783, -0.042770613257808524, 0.9421031212354738]
 	]
 });
+
+export default Color;
+export {util};
