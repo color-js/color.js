@@ -12,6 +12,7 @@
 <script src="../color.js" type="module"></script>
 <script src="../src/spaces/hwb.js" type="module"></script>
 <script src="../src/spaces/rec2100.js" type="module"></script>
+<script src="../src/spaces/jzazbz.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -31,6 +32,7 @@ let convertToHSL = convertTo("hsl");
 let convertToLCH = convertTo("lch");
 let convertToXYZ = convertTo("xyz");
 let convertTo2100PQ = convertTo("rec2100pq");
+let convertToJzazbz = convertTo("jzazbz");
 
 </script>
 
@@ -255,6 +257,93 @@ let convertTo2100PQ = convertTo("rec2100pq");
 </section>
 
 <section>
+	<h1>Jzazbz</h1>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
+		<tr>
+			<td>color(jzazbz 0.5 0 0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>NaN, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(jzazbz 1 0 0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>NaN, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(jzazbz 0.5 -0.0 0.5)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>NaN, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(xyz 0 0 0)</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(xyz 100 100 100)</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(jzazbz 0.9322751331242214 -0.049529685593350636 0.21795256408214825)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>1, 1, 0</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 1 0 0)</td>
+			<td>
+				<script>
+					convertToJzazbzQ();
+				</script>
+			</td>
+			<td>0.5422, 0, 0</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 0 1 0)</td>
+			<td>
+				<script>
+					convertToJzazbzQ();
+				</script>
+			</td>
+			<td>0, 0.5422, 0</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 0 0 1)</td>
+			<td>
+				<script>
+					convertToJzazbzQ();
+				</script>
+			</td>
+			<td>0, 0, 0.5422</td>
+		</tr>
+	</table>
+</section>
+
+<section>
 	<h1>Get coordinates</h1>
 	<table class="reftest" data-test="fuzzyNumbers">
 		<tr title="color.chroma">
@@ -285,6 +374,28 @@ let convertTo2100PQ = convertTo("rec2100pq");
 					print(() => {
 						var color = new Color("slategray");
 						return color.lch.chroma;
+					});
+				</script>
+			</td>
+			<td>11.234142037623341</td>
+		</tr>
+		<tr title="color.jzazbz.jz">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						return color.jzazbz.jz
+					});
+				</script>
+			</td>
+			<td>11.234142037623341</td>
+		</tr>
+		<tr title="color.jzazbz.jz">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("color(jzazbz 0.54 0 0)");
+						return color.jzazbz.jz
 					});
 				</script>
 			</td>

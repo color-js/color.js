@@ -34,7 +34,7 @@ Color.defineSpace({
 			let x = Math.max(val * Yw / 10000, 0); 	// absolute luminance of peak white is 10,000 cd/m².
 			let num = (c1 + (c2 * (x ** n)));
 			let denom = (1 + (c3 * (x ** n)));
-			console.log({x, num, denom});
+			// console.log({x, num, denom});
 			return ((num / denom)  ** m);
 		});
 	}
