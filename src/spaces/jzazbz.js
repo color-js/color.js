@@ -11,7 +11,7 @@ Color.defineSpace({
     },
     inGamut: coords => true,
 	// Note that XYZ is relative to D65
-	white: Color.whites.D56,
+	white: Color.whites.D65,
 	b: 1.15,
 	g: 0.66,
 	Yw: 140,	// absolute luminance of media white, cd/m²
@@ -29,6 +29,7 @@ Color.defineSpace({
 		[ -0.2015100,  1.120649,  0.0531008 ],
 		[ -0.0166008,  0.264800,  0.6684799 ]
 	],
+	// XYZtoCone_M inverted
 	ConetoXYZ_M: [
 		[  1.9242264357876067,  -1.0047923125953657,  0.037651404030618   ],
 		[  0.35031676209499907,  0.7264811939316552, -0.06538442294808501 ],
@@ -39,6 +40,7 @@ Color.defineSpace({
 		[  3.524000, -4.066708,  0.542708 ],
 		[  0.199076,  1.096799, -1.295875 ]
 	],
+	// ConetoIab_M inverted
 	IabtoCone_M: [
 		[ 1,                   0.1386050432715393,   0.05804731615611886 ],
 		[ 0.9999999999999999, -0.1386050432715393,  -0.05804731615611886 ],
@@ -49,13 +51,20 @@ Color.defineSpace({
 		const {Yw, b, g, n, p, c1, c2, c3, d, d0, XYZtoCone_M, ConetoIab_M} = this;
 
 		// First make XYZ absolute, not relative to media white
+		// Maximum luminance in PQ is 10,000 cd/m²
+		// Relative XYZ has Y=1 for media white
+		// Slideset for SMPTE Webcast "PQ and HLG
+		// Presented by the BBC" says PQ media white is 140 cd/m²
+
 		let [ Xa, Ya, Za ] = XYZ.map (function (val) {
-			return (Math.max(val * 10000 / Yw), 0);
+			return Math.max(val * Yw, 0);
 		});
+		console.log({Xa, Ya, Za});
+
 
 		// modify X and Y
 		let Xm = (b * Xa) - ((b - 1) * Za);
-		let Ym = (b * Ya) - ((g - 1) * Za);
+		let Ym = (g * Ya) - ((g - 1) * Xa);
 		console.log({Xm, Ym, Za});
 
 		// move to LMS cone domain
@@ -64,10 +73,10 @@ Color.defineSpace({
 
 		// PQ-encode LMS
 		let PQLMS = LMS.map (function (val) {
-			let num = (c1 + (c2 * (val ** n)));
-			let denom = (1 + (c3 * (val ** n)));
+			let num = c1 + (c2 * ((val / 10000) ** n));
+			let denom = 1 + (c3 * ((val / 10000) ** n));
 			console.log({val, num, denom});
-			return ((num / denom)  ** p);
+			return (num / denom)  ** p;
 		});
 		console.log({PQLMS});
 
@@ -76,7 +85,7 @@ Color.defineSpace({
 		console.log({Iz, az, bz});
 
 		let Jz = ((1 + d) * Iz) / (1 + (d * Iz)) - d0;
-		return ([Jz, az, bz]);
+		return [Jz, az, bz];
 
     },
     toXYZ(Jzazbz) {
@@ -84,7 +93,7 @@ Color.defineSpace({
 		const {Yw, b, g, ninv, pinv, c1, c2, c3, d, d0, ConetoXYZ_M, IabtoCone_M} = this;
 
 		let [Jz, az, bz] = Jzazbz;
-		let Iz = (Jz + d0) / (1 + d - (d * (Jz + d0)));
+		let Iz = (Jz + d0) / (1 + d - d * (Jz + d0));
 		console.log({Iz});
 
 		// bring into LMS cone domain
@@ -95,10 +104,9 @@ Color.defineSpace({
 		let LMS = PQLMS.map(function (val){
 			let num = (c1 - (val ** pinv));
 			let denom = (c3 * (val ** pinv)) - c2;
-			let x = (num / denom) ** ninv;
+			let x = 10000 * ((num / denom) ** ninv);
 			console.log({x, num, denom})
-			return (x * 10000 / Yw); 	// luminance relative to diffuse white,
-										// [0, 70 or so].
+			return (x); 	// luminance relative to diffuse white, [0, 70 or so].
 		});
 		console.log({LMS});
 
@@ -108,9 +116,9 @@ Color.defineSpace({
 
 		// restore standard XYZ, relative to media white
 		let Xa = (Xm + ((b -1) * Za)) / b;
-		let Ya = (Ym = ((g -1) * Xa)) / g;
+		let Ya = (Ym + ((g -1) * Xa)) / g;
 		return [ Xa, Ya, Za ].map (function (val) {
-			return (val * Yw / 10000);
+			return (val / Yw);
 		});
     },
 	parse (str, parsed = Color.parseFunction(str)) {

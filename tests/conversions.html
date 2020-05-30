@@ -70,6 +70,19 @@ let convertToJzazbz = convertTo("jzazbz");
 </section>
 
 <section>
+	<h1>sRGB to (D50) XYZ</h1>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
+	<tr>
+		<td>white</td>
+		<td>
+			<script>convertToXYZ();</script>
+		</td>
+		<td>0.96422, 1.00000, 0.82521</td>
+	</tr>
+	</table>
+</section>
+
+<section>
 	<h1>HWB to sRGB</h1>
 	<table class="reftest" data-test="fuzzyNumbers6" data-columns="3" data-colors="1">
 		<tr>
@@ -259,44 +272,62 @@ let convertToJzazbz = convertTo("jzazbz");
 <section>
 	<h1>Jzazbz</h1>
 	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
-		<tr>
+		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 0.5 0 0)</td>
 			<td>
 				<script>
 					convertToXYZ();
 				</script>
 			</td>
-			<td>NaN, 0, 0</td>
+			<td>11.581   12.177   13.249</td>
 		</tr>
-		<tr>
+		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 1 0 0)</td>
 			<td>
 				<script>
 					convertToXYZ();
 				</script>
 			</td>
-			<td>NaN, 0, 0</td>
+			<td>69.872   73.466   79.933</td>
 		</tr>
-		<tr>
-			<td>color(jzazbz 0.5 -0.0 0.5)</td>
+		<tr title="Jzazbz to XYZ">
+			<td>color(jzazbz 0.1 -0.05 0.05)</td>
 			<td>
 				<script>
 					convertToXYZ();
 				</script>
 			</td>
-			<td>NaN, 0, 0</td>
+			<td>0.15735   0.25067   0.10866</td>
 		</tr>
-		<tr>
+		<tr title="XYZ to Jzazbz">
 			<td>color(xyz 0 0 0)</td>
 			<td>
 				<script>
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0, 0, 0</td>
+			<td>0.0, 0.0, 0.0</td>
 		</tr>
-		<tr>
-			<td>color(xyz 100 100 100)</td>
+		<tr title="XYZ of D50 to Jzazbz">
+			<td>color(xyz 0.96422, 1.00000, 0.82521)</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0.1916354   0.0062007   0.0264856</td>
+		</tr>
+		<tr title="XYZ of D65 to Jzazbz">
+			<td>color(xyz 0.95047, 1.00000, 1.08883)</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0.191574425,  -0.000143343,  -0.000088186</td>
+		</tr>
+		<tr title="rec2020 to Jzazbz">
+			<td>color(rec2020 1 1 1)</td>
 			<td>
 				<script>
 					convertToJzazbz();
@@ -304,7 +335,7 @@ let convertToJzazbz = convertTo("jzazbz");
 			</td>
 			<td>0, 0, 0</td>
 		</tr>
-		<tr>
+		<tr title="Jzazbz to sRGB">
 			<td>color(jzazbz 0.9322751331242214 -0.049529685593350636 0.21795256408214825)</td>
 			<td>
 				<script>
@@ -313,32 +344,50 @@ let convertToJzazbz = convertTo("jzazbz");
 			</td>
 			<td>1, 1, 0</td>
 		</tr>
-		<tr>
+		<tr  title="sRGB to Jzazbz">
+			<td>#FFFF80</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0.9448423187788841, -0.028401083558958096, 0.14333351436456354</td>
+		</tr>
+		<tr  title="rec2020 to Jzazbz">
 			<td>color(rec2020 1 0 0)</td>
 			<td>
 				<script>
-					convertToJzazbzQ();
+					convertToJzazbz();
 				</script>
 			</td>
 			<td>0.5422, 0, 0</td>
 		</tr>
-		<tr>
+		<tr  title="rec2020 to Jzazbz">
 			<td>color(rec2020 0 1 0)</td>
 			<td>
 				<script>
-					convertToJzazbzQ();
+					convertToJzazbz();
 				</script>
 			</td>
 			<td>0, 0.5422, 0</td>
 		</tr>
-		<tr>
+		<tr title="rec2020 to Jzazbz">
 			<td>color(rec2020 0 0 1)</td>
 			<td>
 				<script>
-					convertToJzazbzQ();
+					convertToJzazbz();
 				</script>
 			</td>
 			<td>0, 0, 0.5422</td>
+		</tr>
+		<tr  title="rec2100 18% gray to Jzazbz">
+			<td>color(rec2100pq 0.34 0.34 0.34)</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0.34, 0, 0</td>
 		</tr>
 	</table>
 </section>
@@ -379,27 +428,27 @@ let convertToJzazbz = convertTo("jzazbz");
 			</td>
 			<td>11.234142037623341</td>
 		</tr>
-		<tr title="color.jzazbz.jz">
+		<tr title="color.jzazbz.Jz">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						return color.jzazbz.jz
+						return color.jzazbz.Jz
 					});
 				</script>
 			</td>
-			<td>11.234142037623341</td>
+			<td>0.1203</td>
 		</tr>
-		<tr title="color.jzazbz.jz">
+		<tr title="color.jzazbz.Jz">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("color(jzazbz 0.54 0 0)");
-						return color.jzazbz.jz
+						return color.jzazbz.Jz
 					});
 				</script>
 			</td>
-			<td>11.234142037623341</td>
+			<td>0.54</td>
 		</tr>
 	</table>
 </section>
