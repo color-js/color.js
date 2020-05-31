@@ -56,33 +56,35 @@ Color.defineSpace({
 		// Slideset for SMPTE Webcast "PQ and HLG
 		// Presented by the BBC" says PQ media white is 140 cd/m²
 
+		// console.log({XYZ});
+
 		let [ Xa, Ya, Za ] = XYZ.map (function (val) {
 			return Math.max(val * Yw, 0);
 		});
-		console.log({Xa, Ya, Za});
+		// console.log({Xa, Ya, Za});
 
 
 		// modify X and Y
 		let Xm = (b * Xa) - ((b - 1) * Za);
 		let Ym = (g * Ya) - ((g - 1) * Xa);
-		console.log({Xm, Ym, Za});
+		// console.log({Xm, Ym, Za});
 
 		// move to LMS cone domain
 		let LMS = util.multiplyMatrices(XYZtoCone_M, [ Xm, Ym, Za ]);
-		console.log({LMS});
+		// console.log({LMS});
 
 		// PQ-encode LMS
 		let PQLMS = LMS.map (function (val) {
 			let num = c1 + (c2 * ((val / 10000) ** n));
 			let denom = 1 + (c3 * ((val / 10000) ** n));
-			console.log({val, num, denom});
+			// console.log({val, num, denom});
 			return (num / denom)  ** p;
 		});
-		console.log({PQLMS});
+		// console.log({PQLMS});
 
 		// almost there, calculate Iz az bz
 		let [ Iz, az, bz] = util.multiplyMatrices(ConetoIab_M, PQLMS);
-		console.log({Iz, az, bz});
+		// console.log({Iz, az, bz});
 
 		let Jz = ((1 + d) * Iz) / (1 + (d * Iz)) - d0;
 		return [Jz, az, bz];
@@ -94,25 +96,25 @@ Color.defineSpace({
 
 		let [Jz, az, bz] = Jzazbz;
 		let Iz = (Jz + d0) / (1 + d - d * (Jz + d0));
-		console.log({Iz});
+		// console.log({Iz});
 
 		// bring into LMS cone domain
 		let PQLMS = util.multiplyMatrices(IabtoCone_M, [ Iz, az, bz ]);
-		console.log({PQLMS});
+		// console.log({PQLMS});
 
 		// convert from PQ-coded to linear-light
 		let LMS = PQLMS.map(function (val){
 			let num = (c1 - (val ** pinv));
 			let denom = (c3 * (val ** pinv)) - c2;
 			let x = 10000 * ((num / denom) ** ninv);
-			console.log({x, num, denom})
+			// console.log({x, num, denom})
 			return (x); 	// luminance relative to diffuse white, [0, 70 or so].
 		});
-		console.log({LMS});
+		// console.log({LMS});
 
 		// modified abs XYZ
 		let [ Xm, Ym, Za ] = util.multiplyMatrices(ConetoXYZ_M, LMS);
-		console.log({Xm, Ym, Za});
+		// console.log({sXm, Ym, Za});
 
 		// restore standard XYZ, relative to media white
 		let Xa = (Xm + ((b -1) * Za)) / b;
