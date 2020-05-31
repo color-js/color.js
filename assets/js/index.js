@@ -26,7 +26,7 @@ let vars = {
 	"color-red-light": colors.red.clone().set({lightness: 80}),
 	"color-green-light": colors.green.clone().set({lightness: 80}),
 	"color-blue-light": colors.blue.clone().set({lightness: 80}),
-	
+
 	"color-red-lighter": colors.red.clone().set({lightness: 94}),
 	"color-green-lighter": colors.green.clone().set({lightness: 95}),
 	"color-blue-lighter": colors.blue.clone().set({lightness: 94}),

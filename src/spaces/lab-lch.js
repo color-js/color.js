@@ -1,4 +1,5 @@
 import Color from "./../color.js";
+import * as angles from "../angles.js";
 
 Color.defineSpace({
 	id: "lab",
@@ -15,7 +16,7 @@ Color.defineSpace({
 	ε: 216/24389,  // 6^3/29^3
 	κ: 24389/27,   // 29^3/3^3
 	fromXYZ(XYZ) {
-		const κ = this.κ, ε = this.ε, white = this.white;
+		const {κ, ε, white} = this;
 
 		// compute xyz, which is XYZ scaled relative to reference white
 		let xyz = XYZ.map((value, i) => value / white[i]);
@@ -32,7 +33,7 @@ Color.defineSpace({
 	toXYZ(Lab) {
 		// Convert Lab to D50-adapted XYZ
 		// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-		const κ = this.κ, ε = this.ε, white = this.white;
+		const {κ, ε, white} = this;
 
 		// compute f, starting with the luminance-related term
 		let f = [];
@@ -83,7 +84,7 @@ Color.defineSpace({
 	coords: {
 		lightness: [0, 100],
 		chroma: [0, 150],
-		hue: [0, 360],
+		hue: angles.range,
 	},
 	inGamut: coords => true,
 	white: Color.D50,
@@ -104,7 +105,7 @@ Color.defineSpace({
 			return [
 				L, // L is still L
 				Math.sqrt(a ** 2 + b ** 2), // Chroma
-				(hue + 360) % 360 // Hue, in degrees [0 to 360)
+				angles.constrain(hue) // Hue, in degrees [0 to 360)
 			];
 		}
 	},

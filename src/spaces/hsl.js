@@ -1,10 +1,11 @@
 import Color, {util} from "./srgb.js";
+import * as angles from "../angles.js";
 
 Color.defineSpace({
 	id: "hsl",
 	name: "HSL",
 	coords: {
-		hue: [0, 360],
+		hue: angles.range,
 		saturation: [0, 100],
 		lightness: [0, 100]
 	},
@@ -95,4 +96,4 @@ Color.defineSpace({
 });
 
 export default Color;
-export {util};
+export {util, angles};

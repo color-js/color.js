@@ -1,4 +1,5 @@
 import Color, {util} from "./color.js";
+import * as angles from "./angles.js";
 
 let methods = {
 	range (...args) {
@@ -108,8 +109,9 @@ Color.range = function(color1, color2, options = {}) {
 
 	let {space, outputSpace, progression} = options;
 
-	color1 = Color.get(color1);
-	color2 = Color.get(color2);
+	// Make sure we're working on copies of these colors
+	color1 = new Color(color1);
+	color2 = new Color(color2);
 
 	let rangeArgs = {colors: [color1, color2], options};
 
@@ -120,10 +122,22 @@ Color.range = function(color1, color2, options = {}) {
 		space = Color.spaces[Color.defaults.interpolationSpace] || color1.space;
 	}
 
-	outputSpace = outputSpace? Color.space(outputSpace) : color1.space || space;
+	outputSpace = outputSpace? Color.space(outputSpace) : (color1.space || space);
 
 	color1 = color1.to(space).toGamut();
 	color2 = color2.to(space).toGamut();
+
+	// Handle hue interpolation
+	// See https://github.com/w3c/csswg-drafts/issues/4735#issuecomment-635741840
+	if (space.coords.hue && space.coords.hue.isAngle && options.hue) {
+		let arc = options.hue = options.hue || "shorter";
+
+		[color1[space.id].hue, color2[space.id].hue] = angles.adjust(arc, [color1[space.id].hue, color2[space.id].hue]);
+
+		if (options.hue) {
+			// console.log(options.hue, angleDiff, color2[space.id].hue - color1[space.id].hue);
+		}
+	}
 
 	return Object.assign(p => {
 		p = progression? progression(p) : p;
@@ -133,7 +147,7 @@ Color.range = function(color1, color2, options = {}) {
 		});
 		let alpha = interpolate(color1.alpha, color2.alpha, p);
 		let ret = new Color(space, coords, alpha);
-
+// console.log(coords, outputSpace, space);
 		if (outputSpace !== space) {
 			ret = ret.to(outputSpace);
 		}

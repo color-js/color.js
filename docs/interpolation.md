@@ -15,6 +15,7 @@ They give you a function that accepts a percentage as a 0 - 1 number:
 ```
 
 The `space` parameter controls the color space interpolation occurs in and defaults to Lab.
+Colors do not need to be in that space, they will be converted for interpolation.
 The interpolation space can make a big difference in the result:
 
 ```js
@@ -26,6 +27,21 @@ c1.range(c2, {space: "srgb"}); // gamma corrected sRGB
 c1.range(c2, {space: "xyz"}); // XYZ, same result as linear RGB
 c1.range(c2, {space: "hsl"});
 c1.range(c2, {space: "hwb"});
+```
+
+Note that for color spaces with a hue angle there are multiple ways to interpolate, which can produce drastically different results.
+The `hue` argument is inspired by [the hue-adjuster in CSS Color 5](https://drafts.csswg.org/css-color-5/#hue-adjuster).
+
+```js
+let c1 = new Color("rebeccapurple");
+c1.lch;
+let c2 = new Color("lch", [85, 85, 85 + 720]);
+c1.range(c2, {space: "lch", hue: "longer"});
+c1.range(c2, {space: "lch", hue: "shorter"});
+c1.range(c2, {space: "lch", hue: "increasing"});
+c1.range(c2, {space: "lch", hue: "decreasing"});
+c1.range(c2, {space: "lch", hue: "raw"});
+c1.range(c2, {space: "lch"}); // default is "shorter"
 ```
 
 Range interpolates between colors as they were at the time of its creation.

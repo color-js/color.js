@@ -1,4 +1,4 @@
-import Color from "./hsl.js";
+import Color, {angles} from "./hsl.js";
 
 // The Hue, Whiteness Blackness (HWB) colorspace
 // See https://drafts.csswg.org/css-color-4/#the-hwb-notation
@@ -9,7 +9,7 @@ Color.defineSpace({
 	id: "hwb",
 	name: "HWB",
 	coords: {
-		hue: [0, 360],
+		hue: angles.range,
 		whiteness: [0, 100],
 		blackness: [0, 100]
 	},
