@@ -16,7 +16,7 @@
 
 	<section>
 		<ul>
-			<li property="file" mv-multiple hidden="[name = 'index.html']" class="[if(name = selected, 'selected')]">
+			<li property="file" mv-multiple hidden="[name = 'index.html' or to(name, '.html') = '']" class="[if(name = selected, 'selected')]">
 				<input type="checkbox" property="toRun" checked="[name != 'index.html']">
 				<meta property="id" content="[to(name, '.html')]">
 				<a target="test" property="name" mv-action="set(selected, name)">[id]</a>
