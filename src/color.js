@@ -683,7 +683,7 @@ export default class Color {
 			let ret = Color.spaces[space.toLowerCase()];
 
 			if (!ret) {
-				throw new TypeError(`No color space found with id = "${id}"`);
+				throw new TypeError(`No color space found with id = "${space}"`);
 			}
 
 			return ret;
