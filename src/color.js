@@ -333,7 +333,7 @@ export default class Color {
 	}
 
 	clone () {
-		return new Color(this);
+		return new Color(this.spaceId, this.coords.slice(), this.alpha);
 	}
 
 	/**
