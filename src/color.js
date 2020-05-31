@@ -48,7 +48,7 @@ export default class Color {
 				this.space = color.space;
 			}
 
-			this.coords = color.coords;
+			this.coords = color.coords.slice();
 			this.alpha = color.alpha;
 		}
 		else { // default signature new Color([ColorSpace,] array [, alpha])
