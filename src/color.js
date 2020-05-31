@@ -903,6 +903,7 @@ Color.defineSpace({
 		Y: [],
 		Z: []
 	},
+	white: Color.whites.D50,
 	inGamut: coords => true,
 	toXYZ: coords => coords,
 	fromXYZ: coords => coords
