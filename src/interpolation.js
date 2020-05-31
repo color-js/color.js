@@ -129,14 +129,10 @@ Color.range = function(color1, color2, options = {}) {
 
 	// Handle hue interpolation
 	// See https://github.com/w3c/csswg-drafts/issues/4735#issuecomment-635741840
-	if (space.coords.hue && space.coords.hue.isAngle && options.hue) {
+	if (space.coords.hue && space.coords.hue.isAngle) {
 		let arc = options.hue = options.hue || "shorter";
 
 		[color1[space.id].hue, color2[space.id].hue] = angles.adjust(arc, [color1[space.id].hue, color2[space.id].hue]);
-
-		if (options.hue) {
-			// console.log(options.hue, angleDiff, color2[space.id].hue - color1[space.id].hue);
-		}
 	}
 
 	return Object.assign(p => {
@@ -147,7 +143,7 @@ Color.range = function(color1, color2, options = {}) {
 		});
 		let alpha = interpolate(color1.alpha, color2.alpha, p);
 		let ret = new Color(space, coords, alpha);
-// console.log(coords, outputSpace, space);
+
 		if (outputSpace !== space) {
 			ret = ret.to(outputSpace);
 		}
