@@ -8,6 +8,7 @@
 
 <script src="../color.js" type="module"></script>
 
+<link rel="stylesheet" href="../assets/css/docs.css" />
 </head>
 <body class="language-js">
 <header>
@@ -26,6 +27,14 @@
 </header>
 
 <main>
+<aside id="toc">
+<ul>
+<li><a href="the-color-object.html">The Color object</a></li>
+<li><a href="manipulation.html">Color manipulation</a></li>
+<li><a href="interpolation.html">Interpolation</a></li>
+
+</ul>
+</aside>
 <h2 id="by-color-coordinates">By color coordinates</h2>
 <p>We've seen in the <a href="the-color-object">previous section</a> how we can manipulate a color
 by directly manipulating coordinates in any of the color spaces supported.
@@ -82,6 +91,7 @@ sRGB_yellow.toGamut();
 sRGB_yellow.toGamut({method: "clip"});
 sRGB_yellow.toGamut({method: "hsl.saturation"});</code></pre>
 </main>
+
 
 <footer>
 	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)

@@ -8,6 +8,7 @@
 
 <script src="../color.js" type="module"></script>
 
+<link rel="stylesheet" href="../assets/css/docs.css" />
 </head>
 <body class="language-js">
 <header>
@@ -26,6 +27,14 @@
 </header>
 
 <main>
+<aside id="toc">
+<ul>
+<li><a href="the-color-object.html">The Color object</a></li>
+<li><a href="manipulation.html">Color manipulation</a></li>
+<li><a href="interpolation.html">Interpolation</a></li>
+
+</ul>
+</aside>
 <p>The first part to many Color.js operations is creating a Color object.
 There are many ways to do so.</p>
 <h2 id="passing-a-css-color-string">Passing a CSS color string</h2>
@@ -101,6 +110,7 @@ boringLime.toGamut();</code></pre>
 <p>Note that <a href="../api/#Color#toString"><code>color.toString()</code></a> returns gamut mapped coordinates by default.
 You can turn this off, via the <code>{inGamut: false}</code> option.</p>
 </main>
+
 
 <footer>
 	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)

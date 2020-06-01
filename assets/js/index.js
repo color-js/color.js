@@ -4,7 +4,6 @@ let $$ = $.$;
 import {} from "../../notebook/color-notebook.js";
 
 let root = document.documentElement;
-let cs = getComputedStyle(root);
 let colors = {
 	red: new Color("--color-red"),
 	green: new Color("--color-green"),
@@ -37,10 +36,21 @@ let vars = {
 
 	"color-red-green-light": redGreen(.5).set({lightness: 94}),
 	"color-green-blue-light": greenBlue(.5).set({lightness: 94}),
-	"color-blue-red-light": blueRed(.5).set({lightness: l => 94}),
+	"color-blue-red-light": blueRed(.5).set({lightness: 94}),
 };
 
 $.create("style", {
 	inside: document.head,
-	textContent: `:root {${Object.entries(vars).map(pair => `--${pair[0]}: ${pair[1]}`).join(";\n")}}`
+	textContent: `:root {
+		${Object.entries(vars).map(pair => `--${pair[0]}: ${pair[1]}`).join(";\n")};
+		--scrolltop: ${root.scrollTop};
+	}`
 });
+
+document.addEventListener("scroll", evt => {
+	root.style.setProperty("--scrolltop", root.scrollTop);
+}, {passive: true});
+
+if (location.pathname.indexOf("/docs/") > 0 && window.toc) {
+	import("./docs.js");
+}

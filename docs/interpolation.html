@@ -8,6 +8,7 @@
 
 <script src="../color.js" type="module"></script>
 
+<link rel="stylesheet" href="../assets/css/docs.css" />
 </head>
 <body class="language-js">
 <header>
@@ -26,6 +27,14 @@
 </header>
 
 <main>
+<aside id="toc">
+<ul>
+<li><a href="the-color-object.html">The Color object</a></li>
+<li><a href="manipulation.html">Color manipulation</a></li>
+<li><a href="interpolation.html">Interpolation</a></li>
+
+</ul>
+</aside>
 <h2 id="ranges">Ranges</h2>
 <p><a href="../api/#Color#range"><code>color.range()</code></a> and <a href="../api/#Color.range"><code>Color.range()</code></a> are at the core of Color.js’ interpolation engine.
 They give you a function that accepts a percentage as a 0 - 1 number:</p>
@@ -100,6 +109,7 @@ This produces a new range, and leaves the old one unaffected.</p>
 <p>Static syntax, for one-off mixing:</p>
 <pre><code class="js language-js">    Color.mix("color(display-p3 0 1 0)", "red", .5);</code></pre>
 </main>
+
 
 <footer>
 	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)

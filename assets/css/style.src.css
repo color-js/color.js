@@ -21,6 +21,11 @@
 	--color-accent3: var(--color-blue);
 
 	--page-width: 60rem;
+	--page-margin: calc((100vw - var(--page-width)) / 2);
+
+	@supports (width: max(1px, 1rem)) {
+		--page-margin: max(1rem, (100vw - var(--page-width)) / 2);
+	}
 
 	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
 	           150vw 0 / 150vw .3em fixed;
@@ -77,14 +82,12 @@ fieldset {
 
 body > header,
 body > footer {
-	--padding: calc((100vw - var(--page-width)) / 2);
-	padding-left: var(--padding);
-	padding-right: var(--padding);
+
+	padding-left: var(--page-margin);
+	padding-right: var(--page-margin);
 	animation: var(--rainbow-scroll);
 
-	@supports (width: max(1px, 1em)) {
-		--padding: max(1em, (100vw - var(--page-width)) / 2);
-	}
+
 
 	& nav {
 		& a {
@@ -187,11 +190,34 @@ main {
 	max-width: calc(100vw - 2em);
 	margin: auto;
 	padding: 1em;
+	padding-top: 0;
 
 	& h2 {
+		position: relative;
 		font-size: 250%;
 		line-height: 1.2;
 		color: var(--color-red);
+
+		& > a {
+
+			color: inherit;
+
+			&[href^="#"] {
+				&:hover {
+					text-decoration: underline;
+					text-decoration-color: var(--color-blue-light);
+
+					&::before {
+						content: "#";
+						position: absolute;
+						top: 0;
+						right: 100%;
+						color: var(--color-blue-light);
+						font-weight: 900;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -203,7 +229,7 @@ pre[class*="language-"] {
 
 pre[class*="language-"] {
 	flex: 1;
-	max-width: calc(100vw - 2 * var(--padding, 1rem));
+	max-width: calc(100vw - 2 * var(--page-margin, 1rem));
 }
 
 @supports (-webkit-background-clip: text) {

@@ -73,20 +73,28 @@ function gulpShowdown(options = {}) {
 		});
 
 		let html = converter.makeHtml(text);
+		let isDocs = file.path.indexOf("/docs/") > -1;
 
 		html = `<!DOCTYPE html>
 <html>
 <head>
 <title>${title} &bull; Color.js</title>
 @@include('_head.html')
+${isDocs? '<link rel="stylesheet" href="@@webRoot/assets/css/docs.css" />' : ""}
 </head>
 <body class="language-js">
 @@include('_header.html', {
 	"title": "${title}"
 })
 <main>
+${isDocs? `<aside id="toc">
+<ul>
+@@include('_docs-nav.html')
+</ul>
+</aside>` : ""}
 ${html}
 </main>
+
 @@include('_footer.html')
 </body>
 </html>`;

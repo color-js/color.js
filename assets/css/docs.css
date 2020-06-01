@@ -1,0 +1,53 @@
+main {
+	position: relative;
+}
+
+#toc {
+	font-size: 75%
+}
+
+#toc > ul {
+		padding: 0;
+		list-style: none;
+	}
+
+@media (min-width: 1480px) {
+
+#toc {
+		position: fixed;
+		top: 11rem;
+		right: calc(var(--page-width) + var(--page-margin) + 1em);
+		width: fit-content;
+		max-width: calc(var(--page-margin) - 1em);
+		margin-left: 1em
+}
+
+		@supports (top: max(1em, 1px)) {
+
+#toc {
+			top: max(0em, 11rem - var(--scrolltop) * 1px)
+}
+		}
+	}
+
+@media (max-width: 1480px), (max-height: 30rem) {
+
+#toc {
+		/* Hide all but next, current, prev */
+}
+			#toc > ul > li:not(.next):not(.current):not(.previous) {
+				display: none;
+			}
+	}
+
+#toc ul ul {
+		list-style: square
+	}
+
+#toc .previous[aria-label]::before, #toc .current[aria-label]::before, #toc .next[aria-label]::before {
+			content: attr(aria-label) ": ";
+			font-size: 85%;
+			font-weight: 600;
+			opacity: .5;
+			text-transform: uppercase;
+		}
