@@ -1,4 +1,5 @@
 import Color, {util} from "./../color.js";
+import * as angles from "../angles.js";
 
 Color.defineSpace({
 	id: "jzazbz",
@@ -152,11 +153,11 @@ Color.defineSpace({
 	from: {
 		jzazbz (jzazbz) {
 			// Convert to polar form
-			let [Jz, az, bz] = Lab;
+			let [Jz, az, bz] = jzazbz;
 			let hue;
 			const ε = 0.000005; // chromatic components much smaller than a,b
 
-			if (Math.abs(a) < ε && Math.abs(b) < ε) {
+			if (Math.abs(az) < ε && Math.abs(bz) < ε) {
 				hue = NaN;
 			}
 			else {
@@ -171,12 +172,13 @@ Color.defineSpace({
 		}
 	},
 	to: {
-		jzazbz (jzazbz) {
+		jzazbz (jzczhz) {
 			// Convert from polar form
+debugger;
 			return [
-				jzazbz[0], // Jz is still Jz
-				jzazbz[1] * Math.cos(jzazbz[2] * Math.PI / 180), // az
-				jzazbz[1] * Math.sin(jzazbz[2] * Math.PI / 180)  // bz
+				jzczhz[0], // Jz is still Jz
+				jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
+				jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180)  // bz
 			];
 		}
 	},

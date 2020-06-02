@@ -33,6 +33,7 @@ let convertToLCH = convertTo("lch");
 let convertToXYZ = convertTo("xyz");
 let convertTo2100PQ = convertTo("rec2100pq");
 let convertToJzazbz = convertTo("jzazbz");
+let convertToJzCzHz = convertTo("jzczhz");
 
 </script>
 
@@ -397,6 +398,57 @@ let convertToJzazbz = convertTo("jzazbz");
 				</script>
 			</td>
 			<td>0.34, 0, 0</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>JzCzHz</h1>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
+		<tr title="Jzazbz to JzCzHz">
+			<td>color(jzazbz 0.5 0 0)</td>
+			<td>
+				<script>
+					convertToJzCzHz();
+				</script>
+			</td>
+			<td>0.5, 0, NaN</td>
+		</tr>
+		<tr title="Jzazbz to JzCzHz, ε">
+			<td>color(jzazbz 0.2 0.000004 -0.000003)</td>
+			<td>
+				<script>
+					convertToJzCzHz();
+				</script>
+			</td>
+			<td>0.2, 0.000005, NaN</td>
+		</tr>
+		<tr title="Jzazbz to JzCzHz, ε">
+			<td>color(jzazbz 0.2 0.000005 -0.000005)</td>
+			<td>
+				<script>
+					convertToJzCzHz();
+				</script>
+			</td>
+			<td>0.2, 0.00000707, 315</td>
+		</tr>
+		<tr title="Jzazbz to JzCzHz">
+			<td>color(jzazbz 0.1 -0.05 0.05)</td>
+			<td>
+				<script>
+					convertToJzCzHz();
+				</script>
+			</td>
+			<td>0.1, 0.07071, 135</td>
+		</tr>
+		<tr title="JzCzHz to Jzazbz">
+			<td>color(jzazbz 0.1 0.07071, 135)</td>
+			<td>
+				<script>
+					convertToJzazbz();
+				</script>
+			</td>
+			<td>0.1, -0.05 0.05</td>
 		</tr>
 	</table>
 </section>
