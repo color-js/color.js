@@ -139,5 +139,73 @@ Color.defineSpace({
 	}
 });
 
+Color.defineSpace({
+	id: "jzczhz",
+	name: "JzCzHz",
+	coords: {
+		Jz: [0, 1],
+		chroma: [0, 1],
+		hue: angles.range,
+	},
+	inGamut: coords => true,
+	white: Color.D65,
+	from: {
+		jzazbz (jzazbz) {
+			// Convert to polar form
+			let [Jz, az, bz] = Lab;
+			let hue;
+			const ε = 0.000005; // chromatic components much smaller than a,b
+
+			if (Math.abs(a) < ε && Math.abs(b) < ε) {
+				hue = NaN;
+			}
+			else {
+				hue = Math.atan2(bz, az) * 180 / Math.PI;
+			}
+
+			return [
+				Jz, // Jz is still Jz
+				Math.sqrt(az ** 2 + bz ** 2), // Chroma
+				angles.constrain(hue) // Hue, in degrees [0 to 360)
+			];
+		}
+	},
+	to: {
+		jzazbz (jzazbz) {
+			// Convert from polar form
+			return [
+				jzazbz[0], // Jz is still Jz
+				jzazbz[1] * Math.cos(jzazbz[2] * Math.PI / 180), // az
+				jzazbz[1] * Math.sin(jzazbz[2] * Math.PI / 180)  // bz
+			];
+		}
+	},
+	parse (str, parsed = Color.parseFunction(str)) {
+		if (parsed && parsed.name === "jzczhz") {
+			let Jz = parsed.args[0];
+
+			// Percentages in lch() don't translate to a 0-1 range, but a 0-100 range
+			// if (L.percentage) {
+			// 	parsed.args[0] = L * 100;
+			// }
+
+			return {
+				spaceId: "jzczhz",
+				coords: parsed.args.slice(0, 3),
+				alpha: parsed.args.slice(3)[0]
+			};
+		}
+	},
+	instance: {
+		toString ({format, ...rest} = {}) {
+			// if (!format) {
+			// 	format = (c, i) => i === 0? c + "%" : c;
+			// }
+
+			return Color.prototype.toString.call(this, {name: "jzczhz", format, ...rest});
+		}
+	}
+});
+
 export default Color;
 export {util};
