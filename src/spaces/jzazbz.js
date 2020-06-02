@@ -174,7 +174,7 @@ Color.defineSpace({
 	to: {
 		jzazbz (jzczhz) {
 			// Convert from polar form
-debugger;
+			debugger;
 			return [
 				jzczhz[0], // Jz is still Jz
 				jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
@@ -186,11 +186,6 @@ debugger;
 		if (parsed && parsed.name === "jzczhz") {
 			let Jz = parsed.args[0];
 
-			// Percentages in lch() don't translate to a 0-1 range, but a 0-100 range
-			// if (L.percentage) {
-			// 	parsed.args[0] = L * 100;
-			// }
-
 			return {
 				spaceId: "jzczhz",
 				coords: parsed.args.slice(0, 3),
@@ -198,15 +193,7 @@ debugger;
 			};
 		}
 	},
-	instance: {
-		toString ({format, ...rest} = {}) {
-			// if (!format) {
-			// 	format = (c, i) => i === 0? c + "%" : c;
-			// }
 
-			return Color.prototype.toString.call(this, {name: "jzczhz", format, ...rest});
-		}
-	}
 });
 
 export default Color;
