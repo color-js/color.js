@@ -174,7 +174,7 @@ Color.defineSpace({
 	to: {
 		jzazbz (jzczhz) {
 			// Convert from polar form
-			debugger;
+			// debugger;
 			return [
 				jzczhz[0], // Jz is still Jz
 				jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
