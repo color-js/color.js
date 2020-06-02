@@ -3,7 +3,8 @@
 ## Ranges
 
 `color.range()` and `Color.range()` are at the core of Color.js’ interpolation engine.
-They give you a function that accepts a percentage as a 0 - 1 number:
+They give you a function that accepts a  number and returns a color.
+For numbers in the range 0 to 1, the function _interpolates_; for numbers outside that range, the function _extrapolates_ (and thus, may not return the results you expect):
 
 ```js
 	let color = new Color("p3", [0, 1, 0]);
@@ -13,6 +14,8 @@ They give you a function that accepts a percentage as a 0 - 1 number:
 	});
 	redgreen(.5); // midpoint
 ```
+
+Percentages (0 to 100%) should be converted to numbers (0 to 1).
 
 The `space` parameter controls the color space interpolation occurs in and defaults to Lab.
 Colors do not need to be in that space, they will be converted for interpolation.
