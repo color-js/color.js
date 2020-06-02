@@ -554,7 +554,7 @@ export default class Color {
 				};
 			}
 			else if (parsed.name === "color") {
-				let spaceId = parsed.args.shift();
+				let spaceId = parsed.args.shift().toLowerCase();
 				let space = Object.values(Color.spaces).find(space => (space.cssId || space.id) === spaceId);
 
 				if (space) {
@@ -618,7 +618,8 @@ export default class Color {
 			});
 
 			return {
-				name: parts[1],
+				name: parts[1].toLowerCase(),
+				rawName: parts[1],
 				rawArgs: parts[2],
 				// An argument could be (as of css-color-4):
 				// a number, percentage, degrees (hue), ident (in color())
