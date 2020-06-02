@@ -12,6 +12,8 @@
 <script src="../color.js" type="module"></script>
 <script src="../src/deltaE2000.js" type="module"></script>
 <script src="../src/deltaECMC.js" type="module"></script>
+<script src="../src/spaces/jzazbz.js" type="module"></script>
+<script src="../src/deltaEJz.js" type="module"></script>
 <script>
 function deltaTest(...args) {
 	let td2 = document.currentScript.parentNode.previousElementSibling;
@@ -525,6 +527,43 @@ function deltaTest(...args) {
 	</table>
 </section>
 
+<section>
+	<h1>DeltaE Jz</h1>
+	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
+		<tr title="100% L = 100">
+			<td>white</td>
+			<td>black</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0.19355</td>
+		</tr>
+		<tr title="0%L = 0">
+			<td>white</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0</td>
+		</tr>
+		<tr  title="barely off-white">
+			<td>#fffffe</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0.0007575</td>
+		</tr>
+		<tr  title="Pythagoream 3,4,5 triangle">
+			<td>color(jzazbz 0.1 0.03 0.04)</td>
+			<td>color(jzazbz 0.1 0 0)</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0.05</td>
+		</tr>
+	</table>
+</section>
 <script src="index.js"></script>
 
 </body>

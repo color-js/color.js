@@ -197,4 +197,4 @@ Color.defineSpace({
 });
 
 export default Color;
-export {util};
+export {util, angles};

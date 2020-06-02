@@ -1,4 +1,4 @@
-import Color, {util} from "./color.js";
+import Color from "./spaces/jzazbz.js";
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in Lab
 
@@ -26,8 +26,15 @@ Color.deltaEs["Jz"] = function (color, sample) {
     // console.log({ΔC});
 
 	// length of chord for ΔH
+	if (Number.isNaN(Hz1)) {
+		Hz1 = 0;
+	}
+	if (Number.isNaN(Hz2)) {
+		Hz2 = 0;
+	}
 	let Δh = Hz1 - Hz2;
-	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * sin(Δh * Math.PI / 180);
+	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * Math.sin(Δh * Math.PI / 180);
 	// console.log({ΔH});
 
 	return Math.sqrt(ΔJ ** 2 + ΔC ** 2 + ΔH ** 2);
+};
