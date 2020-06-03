@@ -71,7 +71,7 @@ lime.inGamut();
 lime.inGamut({space: "srgb"});
 let sRGB_lime = lime.to("srgb");
 sRGB_lime.inGamut();</code></pre>
-<p><p class="note" markdown="1"> that while the coordinates remain unchanged, the string representation of a Color object is after gamut mapping, unless you explicitly turn that off:</p>
+<p>Note that while the coordinates remain unchanged, the string representation of a Color object is after gamut mapping, unless you explicitly turn that off:</p>
 <pre><code class="js language-js">let lime = new Color("p3", [0, 1, 0]).to("srgb");
 lime.coords;
 lime.toString();

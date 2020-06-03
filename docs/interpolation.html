@@ -58,7 +58,7 @@ c1.range(c2, {space: "srgb"}); // gamma corrected sRGB
 c1.range(c2, {space: "xyz"}); // XYZ, same result as linear RGB
 c1.range(c2, {space: "hsl"});
 c1.range(c2, {space: "hwb"});</code></pre>
-<p><p class="note" markdown="1"> that for color spaces with a hue angle there are multiple ways to interpolate, which can produce drastically different results.
+<p>Note that for color spaces with a hue angle there are multiple ways to interpolate, which can produce drastically different results.
 The <code>hue</code> argument is inspired by <a href="https://drafts.csswg.org/css-color-5/#hue-adjuster">the hue-adjuster in CSS Color 5</a>.</p>
 <pre><code class="js language-js">let c1 = new Color("rebeccapurple");
 c1.lch;
@@ -93,7 +93,7 @@ lime.range(new Color(lime.space, [NaN, NaN, NaN], 0), {space: lime.space});</cod
 <p>You can use the <code>progression</code> parameter to customize the progression and make it non-linear:</p>
 <pre><code class="js language-js">    let r = new Color("lch(50 50 0)").range("lch(90 50 20)");
     Color.range(r, {progression: p =&gt; p ** 3});</code></pre>
-<p><p class="note" markdown="1"> that you can use <code>Color.range(rangeFunction)</code> to modify a range after it has been created, as you can see in the example above.
+<p>Note that you can use <code>Color.range(rangeFunction)</code> to modify a range after it has been created, as you can see in the example above.
 This produces a new range, and leaves the old one unaffected.</p>
 <h2 id="interpolation-by-discrete-steps">Interpolation by discrete steps</h2>
 <p><code>color.steps()</code> and <code>Color.steps()</code> give you an array of discrete steps.</p>

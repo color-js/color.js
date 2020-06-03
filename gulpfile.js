@@ -54,7 +54,7 @@ showdown.extension("apiLinks", () => [
 showdown.extension("apiLinks", () => [
 	{
 		type: "lang",
-		regex: /^\s*(Tip|Warning|Note)/gm,
+		regex: /^\s*(Tip|Warning|Note):\s+/gm,
 		replace: ($0, className, funcName) => {
 			return `<p class="${className.toLowerCase()}" markdown="1">`;
 		}

@@ -86,7 +86,7 @@ color;</code></pre>
 color.srgb.green;
 color.srgb.green = .5;
 color;</code></pre>
-<p><p class="note" markdown="1"> that unless we explicitly change a color's color space, it remains in the same color space it was when it was created.
+<p>Note that unless we explicitly change a color's color space, it remains in the same color space it was when it was created.
 Manipulating coordinates of other color spaces do not change a color's space, it is just internally converted to another space and then back to its own.
 To convert a color to a different color space, you need to change its <code>space</code> or <code>spaceId</code> properties.
 Both accept either a color space object, or an id:</p>
@@ -108,7 +108,7 @@ let boringLime = funkyLime.to("srgb");
 boringLime.coords;
 boringLime.inGamut();
 boringLime.toGamut();</code></pre>
-<p><p class="note" markdown="1"> that <code>color.toString()</code> returns gamut mapped coordinates by default.
+<p>Note that <code>color.toString()</code> returns gamut mapped coordinates by default.
 You can turn this off, via the <code>{inGamut: false}</code> option.
 You can read more about gamut mapping in the <a href="manipulation.html#gamut-mapping">Gamut mapping</a> section.</p>
 </main>

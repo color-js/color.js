@@ -108,9 +108,23 @@ If you don't know how many steps you need, this is what the `delta` parameter is
 
 ```js
 let r = Color.range("rebeccapurple", "gold");
-let stops = Color.steps(r, {steps: 5, delta: 3});
+let stops = Color.steps(r, {steps: 5, delta: 4});
 let gradient = `linear-gradient(to right, ${stops.join(", ")})`;
 document.querySelector("#test").style.background = gradient;
 ```
 
 Play with the parameters above to see what gradient is produced, or use the [gradients demo app](/apps/gradients)!
+
+Note that in the example above, `color.toString()` is called implicitly with no params due to `array.join()`.
+You can also map the colors to strings yourself:
+
+<div id="test2" style="width: 100%; height: 2em"></div>
+
+```js
+let r = Color.range("rebeccapurple", "gold");
+let stops = Color.steps(r, {steps: 10});
+let gradient = `linear-gradient(to right, ${
+	stops.map(c => c.toString({precision: 2})).join(", ")
+})`;
+document.querySelector("#test2").style.background = gradient;
+```
