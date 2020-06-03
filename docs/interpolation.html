@@ -37,13 +37,15 @@
 </aside>
 <h2 id="ranges">Ranges</h2>
 <p><a href="../api/#Color#range"><code>color.range()</code></a> and <a href="../api/#Color.range"><code>Color.range()</code></a> are at the core of Color.js’ interpolation engine.
-They give you a function that accepts a percentage as a 0 - 1 number:</p>
+They give you a function that accepts a  number and returns a color.
+For numbers in the range 0 to 1, the function <em>interpolates</em>; for numbers outside that range, the function <em>extrapolates</em> (and thus, may not return the results you expect):</p>
 <pre><code class="js language-js">    let color = new Color("p3", [0, 1, 0]);
     let redgreen = color.range("red", {
         space: "lch", // interpolation space
         outputSpace: "srgb"
     });
     redgreen(.5); // midpoint</code></pre>
+<p>Percentages (0 to 100%) should be converted to numbers (0 to 1).</p>
 <p>The <code>space</code> parameter controls the color space interpolation occurs in and defaults to Lab.
 Colors do not need to be in that space, they will be converted for interpolation.
 The interpolation space can make a big difference in the result:</p>

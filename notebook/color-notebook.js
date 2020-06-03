@@ -237,7 +237,7 @@ function serialize(ret, color) {
 		color = ret;
 
 		element = $.create({
-			textContent: ret.toString({precision: 2})
+			textContent: ret.toString({precision: 3, inGamut: false})
 		});
 	}
 	else if (ret instanceof Function && ret.rangeArgs) {
@@ -311,10 +311,6 @@ function serialize(ret, color) {
 
 		let str = element.dataset.title = color.toString({inGamut: false});
 
-		if (element.textContent !== str) {
-			element.title = str;
-		}
-
 		let outOfGamut = [];
 
 		if (!color.inGamut()) {
@@ -327,7 +323,7 @@ function serialize(ret, color) {
 
 		if (outOfGamut.length > 0) {
 			element.classList.add("out-of-gamut");
-			element.title += ` (out of ${outOfGamut.join(", ")} gamut)`;
+			element.title = outOfGamut.map(s => `out of ${s} gamut`).join(", ");
 		}
 
 		$.set(element, {
