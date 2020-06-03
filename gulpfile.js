@@ -51,6 +51,16 @@ showdown.extension("apiLinks", () => [
 	}
 ]);
 
+showdown.extension("apiLinks", () => [
+	{
+		type: "lang",
+		regex: /^\s*(Tip|Warning|Note)/gm,
+		replace: ($0, className, funcName) => {
+			return `<p class="${className.toLowerCase()}" markdown="1">`;
+		}
+	}
+]);
+
 // Loosely inspired from https://github.com/xieranmaya/gulp-showdown (unmaintained)
 function gulpShowdown(options = {}) {
 	let defaultOptions = {

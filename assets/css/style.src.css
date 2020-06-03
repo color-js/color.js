@@ -271,6 +271,10 @@ pre[class*="language-"] {
 		font-size: 200%;
 		text-shadow: .02em .05em .1em rgb(0 0 0 /.2);
 	}
+
+	& code:not(.foo) {
+		background: hsl(0 0% 100% / .5);
+	}
 }
 
 .warning {
@@ -280,14 +284,14 @@ pre[class*="language-"] {
 	--emoji: "⚠️";
 }
 
-.note {
+.tip {
 	--color-light: var(--color-blue-lighter);
 	--color: var(--color-blue);
 	--label: "Tip";
 	--emoji: "💡";
 }
 
-.tip {
+.note {
 	--color-light: var(--color-green-lighter);
 	--color: var(--color-green);
 	--label: "Note";
