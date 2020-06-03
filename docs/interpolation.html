@@ -32,11 +32,12 @@
 <li><a href="the-color-object.html">The Color object</a></li>
 <li><a href="manipulation.html">Color manipulation</a></li>
 <li><a href="interpolation.html">Interpolation</a></li>
+<li><a href="output.html">Output</a></li>
 
 </ul>
 </aside>
 <h2 id="ranges">Ranges</h2>
-<p><a href="../api/#Color#range"><code>color.range()</code></a> and <a href="../api/#Color.range"><code>Color.range()</code></a> are at the core of Color.js’ interpolation engine.
+<p><code>color.range()</code> and <code>Color.range()</code> are at the core of Color.js’ interpolation engine.
 They give you a function that accepts a  number and returns a color.
 For numbers in the range 0 to 1, the function <em>interpolates</em>; for numbers outside that range, the function <em>extrapolates</em> (and thus, may not return the results you expect):</p>
 <pre><code class="js language-js">    let color = new Color("p3", [0, 1, 0]);
@@ -57,7 +58,7 @@ c1.range(c2, {space: "srgb"}); // gamma corrected sRGB
 c1.range(c2, {space: "xyz"}); // XYZ, same result as linear RGB
 c1.range(c2, {space: "hsl"});
 c1.range(c2, {space: "hwb"});</code></pre>
-<p>Note that for color spaces with a hue angle there are multiple ways to interpolate, which can produce drastically different results.
+<p><p class="note" markdown="1"> that for color spaces with a hue angle there are multiple ways to interpolate, which can produce drastically different results.
 The <code>hue</code> argument is inspired by <a href="https://drafts.csswg.org/css-color-5/#hue-adjuster">the hue-adjuster in CSS Color 5</a>.</p>
 <pre><code class="js language-js">let c1 = new Color("rebeccapurple");
 c1.lch;
@@ -92,10 +93,10 @@ lime.range(new Color(lime.space, [NaN, NaN, NaN], 0), {space: lime.space});</cod
 <p>You can use the <code>progression</code> parameter to customize the progression and make it non-linear:</p>
 <pre><code class="js language-js">    let r = new Color("lch(50 50 0)").range("lch(90 50 20)");
     Color.range(r, {progression: p =&gt; p ** 3});</code></pre>
-<p>Note that you can use <code>Color.range(rangeFunction)</code> to modify a range after it has been created, as you can see in the example above.
+<p><p class="note" markdown="1"> that you can use <code>Color.range(rangeFunction)</code> to modify a range after it has been created, as you can see in the example above.
 This produces a new range, and leaves the old one unaffected.</p>
 <h2 id="interpolation-by-discrete-steps">Interpolation by discrete steps</h2>
-<p><a href="../api/#Color#steps"><code>color.steps()</code></a> and <a href="../api/#Color.steps"><code>Color.steps()</code></a> give you an array of discrete steps.</p>
+<p><code>color.steps()</code> and <code>Color.steps()</code> give you an array of discrete steps.</p>
 <pre><code class="js language-js">    let color = new Color("p3", [0, 1, 0]);
     color.steps("red", {
         space: "lch",

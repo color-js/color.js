@@ -32,6 +32,7 @@
 <li><a href="the-color-object.html">The Color object</a></li>
 <li><a href="manipulation.html">Color manipulation</a></li>
 <li><a href="interpolation.html">Interpolation</a></li>
+<li><a href="output.html">Output</a></li>
 
 </ul>
 </aside>
@@ -44,7 +45,7 @@ let color = new Color("rebeccapurple");
 color.lightness *= 1.2;
 color.chroma = 40;
 color.hue += 30;</code></pre>
-<p>You can also use <a href="../api/#Color#set"><code>color.set()</code></a> to set multiple coordinates at once.
+<p>You can also use <code>color.set()</code> to set multiple coordinates at once.
 In addition, it returns the color itself, so further methods can be called on it:</p>
 <pre><code class="js language-js">let color = new Color("lch(50% 50 10)");
 color = color.set({
@@ -64,18 +65,18 @@ Most notably, ProPhoto's primaries (pure red, pure green, pure blue) are <strong
 <p>The process of transforming a color outside of a given gamut to a color that is as close as possible but is <em>inside gamut</em> is called <em>gamut mapping</em> and is the subject of <a href="https://www.google.com/books/edition/Color_Gamut_Mapping/Yy0uK3pvfRMC?hl=en&gbpv=1&printsec=frontcover">entire books</a>.</p>
 <p>So how does Color.js handle all this?</p>
 <p><strong>Color.js does not do gamut mapping by default</strong>, as this is lossy: If you convert from a larger color space to a smaller one and then back, you need to be able to get your original color (possibly with some roundoff error due to the calculations).</p>
-<p>You can call <a href="../api/#Color#inGamut"><code>color.inGamut()</code></a> to check if the current color is in gamut of its own color space, or you can pass a different color space to check against:</p>
+<p>You can call <code>color.inGamut()</code> to check if the current color is in gamut of its own color space, or you can pass a different color space to check against:</p>
 <pre><code class="js language-js">let lime = new Color("p3", [0, 1, 0]);
 lime.inGamut();
 lime.inGamut({space: "srgb"});
 let sRGB_lime = lime.to("srgb");
 sRGB_lime.inGamut();</code></pre>
-<p>Note that while the coordinates remain unchanged, the string representation of a Color object is after gamut mapping, unless you explicitly turn that off:</p>
+<p><p class="note" markdown="1"> that while the coordinates remain unchanged, the string representation of a Color object is after gamut mapping, unless you explicitly turn that off:</p>
 <pre><code class="js language-js">let lime = new Color("p3", [0, 1, 0]).to("srgb");
 lime.coords;
 lime.toString();
 lime.toString({inGamut: false});</code></pre>
-<p>If you want gamut mapped coordinates, you can use <a href="../api/#Color#toGamut"><code>color.toGamut()</code></a>, which by default returns a new color that is within gamut (if you want to mutate your own color instead you can use <code>{inPlace: true}</code>).
+<p>If you want gamut mapped coordinates, you can use <code>color.toGamut()</code>, which by default returns a new color that is within gamut (if you want to mutate your own color instead you can use <code>{inPlace: true}</code>).
 You can also pass a different color space whose gamut you are mapping to via the <code>space</code> parameter.</p>
 <pre><code class="js language-js">let lime = new Color("p3", [0, 1, 0]);
 let sRGB_lime = lime.to("srgb");

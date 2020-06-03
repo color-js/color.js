@@ -126,3 +126,4 @@ boringLime.toGamut();
 
 Note that `color.toString()` returns gamut mapped coordinates by default.
 You can turn this off, via the `{inGamut: false}` option.
+You can read more about gamut mapping in the [Gamut mapping](manipulation.html#gamut-mapping) section.

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Output &bull; Color.js</title>
+<meta name="viewport" content="width=device-width" />
+<link rel="shortcut icon" href="../logo.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<script src="../color.js" type="module"></script>
+
+<link rel="stylesheet" href="../assets/css/docs.css" />
+</head>
+<body class="language-js">
+<header>
+	<nav>
+		<a href=".." class="logo"><h1 class="logo"><img src="../logo.svg" alt="Color.js"></h1></a>
+		<a href="../get/">Get<span class="wide"> Color.js</span></a>
+<a href="../docs/">Docs</a>
+<a href="../api/">API</a>
+<a href="../apps/">Demos</a>
+<a href="../tests/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+	<h1>Output</h1>
+</header>
+
+<main>
+<aside id="toc">
+<ul>
+<li><a href="the-color-object.html">The Color object</a></li>
+<li><a href="manipulation.html">Color manipulation</a></li>
+<li><a href="interpolation.html">Interpolation</a></li>
+<li><a href="output.html">Output</a></li>
+
+</ul>
+</aside>
+<p>Eventually, no matter what your calculations are, you will want to display some kind of output, most likely on a web page,
+frequently in CSS. This page is all about that.</p>
+<h2 id="getting-a-string-representation-of-a-color">Getting a string representation of a color</h2>
+<p><code>color.toString()</code> is a swiss army knife for many of your serialization needs.
+In fact, you may have used it without knowing, since Javascript calls it implicitly with no params when you coerce an object to a string:</p>
+<pre><code class="js language-js">let magenta = new Color("srgb", [1, 0, .4]);
+"I love " + magenta;</code></pre>
+<p>While this may suffice for some uses, in many cases you will want to provide parameters to customize the result.
+Here are a few examples.</p>
+<h3 id="disable-gamut-mapping">Disable gamut mapping</h3>
+<pre><code class="js language-js">let funkyMagenta = new Color("p3", [1, 0, .4]);
+funkyMagenta = funkyMagenta.to("srgb");
+funkyMagenta.toString(); // gamut mapping by default
+funkyMagenta.toString({inGamut: false}); // disable gamut mapping</code></pre>
+<p><p class="note" markdown="1"> that you cannot disable gamut mapping in `certain color spaces whose conversion math doesn't make sense for out of gamut values.
+These are typically the polar forms of gamma-corrected sRGB (HSL, HWB, HSV etc).</p>
+<h3 id="change-precision">Change precision</h3>
+<p>By default, values are rounded to 5 significant digits.
+You can change that with the <code>precision</code> parameter:</p>
+<pre><code class="js language-js">let pink = new Color("lch", [70, 50, 350]);
+pink = pink.to("srgb");
+pink.toString();
+pink.toString({precision: 1});
+pink.toString({precision: 2});
+pink.toString({precision: 3});
+pink.toString({precision: 21});</code></pre>
+<p><p class="tip" markdown="1">: Building an app that needs high precision? You can change the default precision of 5 globally by setting <code>Color.defaults.precision</code>!</p>
+<h3 id="get-a-css-color-value-that-is-actually-supported-by-the-current-browser">Get a CSS color value that is actually supported by the current browser</h3>
+<p>When using sRGB or HSL, you can just use the output of <code>color.toString()</code> directly in CSS.
+However, with many color spaces, and most browsers, this is not the case yet.</p>
+<p>One way to go about with this is to check if the value is supported and convert it if not:</p>
+<pre><code class="js language-js">let green = new Color("lch", [80, 80, 120]);
+let cssColor = green.toString();
+if (!CSS.supports("color", cssColor))
+    cssColor = green.to("srgb").toString();</code></pre>
+<p>This works fairly well, but the browser may support a wider gamut than sRGB, and it forces everything into sRGB.
+An iterative approach may be better:</p>
+<pre><code class="js language-js">let green = new Color("lch", [80, 80, 120]);
+let cssColor = green.toString();
+if (!CSS.supports("color", cssColor))
+    cssColor = green.to("p3").toString();
+if (!CSS.supports("color", cssColor))
+    cssColor = green.to("srgb").toString();
+cssColor;</code></pre>
+<p>As of June 2020, <code>cssColor</code> will be sRGB in Chrome and Firefox, and P3 in Safari, providing access to 50% more colors than sRGB!</p>
+<p>So, this works, but the process is a little tedious. Thankfully, Color.js has got your back!
+Simply use the <code>fallback</code> parameter.
+If set to <code>true</code> it will use the default set of fallbacks (P3, then sRGB), but you can also provide your own.
+Let's rewrite the example above using the <code>fallback</code> parameter!</p>
+<pre><code class="js language-js">let green = new Color("lch", [80, 80, 120]);
+let cssColor = green.toString({fallback: true});
+let cssColor2 = green.toString({fallback: ["p3", "hsl"]});</code></pre>
+<p><p class="tip" markdown="1">: You can change the default set of fallbacks by setting <code>Color.defaults.fallbackSpaces</code>.</p>
+<p>What if you want access to the converted color? For example, you may want to indicate whether it was in gamut or not.
+You can access the <code>color</code> property on the returned value:</p>
+<pre><code class="js language-js">let green = new Color("lch", [80, 90, 120]);
+let cssColor = green.toString({fallback: true});
+cssColor.color.inGamut();</code></pre>
+<p><p class="note" markdown="1">: While <code>color.toString()</code> returns a primitive string in most cases, when <code>fallback</code> is used it returns a <code>String</code> object
+so that it can have a property (primitives in Javascript cannot have properties).</p>
+<h2 id="creating-a-css-gradient-from-a-range">Creating a CSS gradient from a range</h2>
+<p>When working with <a href="interpolation">ranges</a>, you may often need to display the range as a CSS gradient.
+The trick here is to grab as many steps as you need via <code>color.steps()</code>, then use them as gradient color stops.
+If you don't know how many steps you need, this is what the <code>delta</code> parameter is for, as it lets you specify the maximum allowed deltaE between consecutive colors.</p>
+<div id="test" style="width: 100%; height: 2em"></div>
+<pre><code class="js language-js">let r = Color.range("rebeccapurple", "gold");
+let stops = Color.steps(r, {steps: 5, delta: 3});
+let gradient = `linear-gradient(to right, ${stops.join(", ")})`;
+document.querySelector("#test").style.background = gradient;</code></pre>
+<p>Play with the parameters above to see what gradient is produced, or use the <a href="/apps/gradients">gradients demo app</a>!</p>
+</main>
+
+
+<footer>
+	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 5)
+	and <a href="https://svgees.us">Chris Lilley</a> (co-editor of CSS Color 3, 4, and 5; W3C representative to ICC)
+
+	<nav>
+		<a href="../get/">Get<span class="wide"> Color.js</span></a>
+<a href="../docs/">Docs</a>
+<a href="../api/">API</a>
+<a href="../apps/">Demos</a>
+<a href="../tests/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+</footer>
+
+<script src="../assets/js/prism.js"></script>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://live.prismjs.com/src/prism-live.js?load=javascript" async></script>
+<script src="../assets/js/index.js" type="module"></script>
+
+</body>
+</html>
