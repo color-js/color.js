@@ -70,7 +70,7 @@ function evaluate (pre) {
 			node.textContent = "";
 		}
 
-		if ((inRoot || parent.matches(".token.function")) && variables.has(text)) {
+		if ((inRoot || parent.matches(".token.function, .token.template-string .interpolation")) && variables.has(text)) {
 			// node.textContent = "env." + text;
 			node.textContent = node.textContent.replace(text, "env.$&");
 		}
@@ -160,6 +160,7 @@ function evaluate (pre) {
 
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i];
+		console.log(line);
 		let ret;
 
 		try {
@@ -288,7 +289,7 @@ function serialize(ret, color) {
 			textContent: ret
 		});
 	}
-	else if (typeof ret === "string") {
+	else if (util.isString(ret)) {
 		element = $.create({
 			className: "cn-string",
 			textContent: `"${ret}"`
