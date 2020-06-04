@@ -94,7 +94,7 @@ This produces a new range, and leaves the old one unaffected.
 	color.steps("red", {
 		space: "lch",
 		outputSpace: "srgb",
-		delta: 3, // max deltaE between consecutive steps (optional)
+		maxDeltaE: 3, // max deltaE between consecutive steps (optional)
 		steps: 10 // min number of steps
 	});
 ```

@@ -108,9 +108,11 @@ If you don't know how many steps you need, this is what the `delta` parameter is
 
 ```js
 let r = Color.range("hsl(330 90% 50%)", "hotpink");
-let stops = Color.steps(r, {steps: 5, delta: 3});
+let stops = Color.steps(r, {steps: 5, maxDeltaE: 3});
 let element = document.querySelector("#test");
-element.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
+element.style.background = `linear-gradient(to right, ${
+	stops.join(", ")
+})`;
 ```
 
 Play with the parameters above to see what gradient is produced, or use the [gradients demo app](/apps/gradients)!

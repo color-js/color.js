@@ -246,7 +246,7 @@ function serialize(ret, color) {
 		return $.create({
 			className: "cn-range",
 			style: {
-				"--stops": Color.steps(ret, {steps: 5, delta: 4}).map(color => {
+				"--stops": Color.steps(ret, {steps: 5, maxDeltaE: 4}).map(color => {
 					if (!CSS.supports("color", color)) {
 						return color.to(outputSpace);
 					}

@@ -47,7 +47,7 @@
 
 			<div>
 				Colors:
-				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, delta: delta, space: space, outputSpace: space)))" mv-multiple="step" style="--color: [outputColor & ''];">
+				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, maxDeltaE: delta, space: space, outputSpace: space)))" mv-multiple="step" style="--color: [outputColor & ''];">
 					<code>[color & ""]</code> &rarr; <code>[outputColor & ""]</code>
 					<meta property="color" />
 					<meta property="outputColor" content="[color.to(outputSpace)]" />

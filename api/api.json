@@ -676,7 +676,7 @@
 							"description": "The color space of the output. Defaults to the current color's color space."
 						},
 						{
-							"name": "options.delta",
+							"name": "options.maxDeltaE",
 							"optional": true,
 							"type": "Number",
 							"description": "Max deltaE between consecutive steps."
@@ -685,13 +685,13 @@
 							"name": "options.steps",
 							"optional": true,
 							"type": "Number",
-							"description": "Number of steps. Note that if the `delta` parameter is also provided, the returned steps may be more."
+							"description": "Number of steps. Note that if the `maxDeltaE` parameter is also provided, the returned steps may be more."
 						},
 						{
 							"name": "options.maxSteps",
 							"optional": true,
 							"type": "Number",
-							"description": "Maximum number of steps to return. This only makes sense if a max `delta` is used."
+							"description": "Maximum number of steps to return. This only makes sense if `maxDeltaE` is used."
 						}
 					],
 					"returnType": "Array",

@@ -42,7 +42,7 @@ Color.steps = function(color1, color2, options = {}) {
 		[color1, color2] = range.rangeArgs.colors;
 	}
 
-	let {delta, steps = 2, maxSteps = 1000, ...rangeOptions} = options;
+	let {maxDeltaE, steps = 2, maxSteps = 1000, ...rangeOptions} = options;
 
 	if (!range) {
 		color1 = Color.get(color1);
@@ -51,7 +51,7 @@ Color.steps = function(color1, color2, options = {}) {
 	}
 
 	let totalDelta = this.deltaE(color2);
-	let actualSteps = delta > 0? Math.max(steps, Math.ceil(totalDelta / delta) + 1) : steps;
+	let actualSteps = maxDeltaE > 0? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1) : steps;
 	let ret = [];
 
 	if (maxSteps !== undefined) {
@@ -69,11 +69,11 @@ Color.steps = function(color1, color2, options = {}) {
 		});
 	}
 
-	if (delta > 0) {
-		// Iterate over all stops and find max delta
+	if (maxDeltaE > 0) {
+		// Iterate over all stops and find max deltaE
 		let maxDelta = ret.reduce((acc, cur, i) => i === 0? 0 : Math.max(acc, cur.color.deltaE(ret[i - 1].color)), 0);
 
-		while (maxDelta > delta) {
+		while (maxDelta > maxDeltaE) {
 			// Insert intermediate stops and measure maxDelta again
 			// We need to do this for all pairs, otherwise the midpoint shifts
 			maxDelta = 0;

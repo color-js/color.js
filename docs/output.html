@@ -102,9 +102,11 @@ The trick here is to grab as many steps as you need via <code>color.steps()</cod
 If you don't know how many steps you need, this is what the <code>delta</code> parameter is for, as it lets you specify the maximum allowed deltaE between consecutive colors.</p>
 <div id="test" style="width: 100%; height: 2em"></div>
 <pre><code class="js language-js">let r = Color.range("hsl(330 90% 50%)", "hotpink");
-let stops = Color.steps(r, {steps: 5, delta: 3});
+let stops = Color.steps(r, {steps: 5, maxDeltaE: 3});
 let element = document.querySelector("#test");
-element.style.background = `linear-gradient(to right, ${stops.join(", ")})`;</code></pre>
+element.style.background = `linear-gradient(to right, ${
+    stops.join(", ")
+})`;</code></pre>
 <p>Play with the parameters above to see what gradient is produced, or use the <a href="/apps/gradients">gradients demo app</a>!</p>
 <p>Note that in the example above, <code>color.toString()</code> is called implicitly with no params due to <code>array.join()</code>.
 You can also map the colors to strings yourself:</p>
