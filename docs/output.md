@@ -107,10 +107,10 @@ If you don't know how many steps you need, this is what the `delta` parameter is
 <div id="test" style="width: 100%; height: 2em"></div>
 
 ```js
-let r = Color.range("rebeccapurple", "gold");
-let stops = Color.steps(r, {steps: 5, delta: 4});
-let gradient = `linear-gradient(to right, ${stops.join(", ")})`;
-document.querySelector("#test").style.background = gradient;
+let r = Color.range("hsl(330 90% 50%)", "hotpink");
+let stops = Color.steps(r, {steps: 5, delta: 3});
+let element = document.querySelector("#test");
+element.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
 ```
 
 Play with the parameters above to see what gradient is produced, or use the [gradients demo app](/apps/gradients)!
@@ -123,8 +123,8 @@ You can also map the colors to strings yourself:
 ```js
 let r = Color.range("rebeccapurple", "gold");
 let stops = Color.steps(r, {steps: 10});
-let gradient = `linear-gradient(to right, ${
+let element = document.querySelector("#test2");
+element.style.background = `linear-gradient(to right, ${
 	stops.map(c => c.toString({precision: 2})).join(", ")
 })`;
-document.querySelector("#test2").style.background = gradient;
 ```
