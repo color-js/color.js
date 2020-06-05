@@ -160,7 +160,6 @@ function evaluate (pre) {
 
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i];
-		console.log(line);
 		let ret;
 
 		try {
