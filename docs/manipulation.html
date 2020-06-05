@@ -68,7 +68,7 @@ Most notably, ProPhoto's primaries (pure red, pure green, pure blue) are <strong
 <p>You can call <code>color.inGamut()</code> to check if the current color is in gamut of its own color space, or you can pass a different color space to check against:</p>
 <pre><code class="js language-js">let lime = new Color("p3", [0, 1, 0]);
 lime.inGamut();
-lime.inGamut({space: "srgb"});
+lime.inGamut("srgb");
 let sRGB_lime = lime.to("srgb");
 sRGB_lime.inGamut();</code></pre>
 <p>Note that while the coordinates remain unchanged, the string representation of a Color object is after gamut mapping, unless you explicitly turn that off:</p>

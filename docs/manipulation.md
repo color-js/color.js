@@ -48,7 +48,7 @@ You can call `color.inGamut()` to check if the current color is in gamut of its 
 ```js
 let lime = new Color("p3", [0, 1, 0]);
 lime.inGamut();
-lime.inGamut({space: "srgb"});
+lime.inGamut("srgb");
 let sRGB_lime = lime.to("srgb");
 sRGB_lime.inGamut();
 ```

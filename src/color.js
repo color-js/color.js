@@ -220,7 +220,7 @@ export default class Color {
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
-	inGamut ({space = this.space} = {}) {
+	inGamut (space = this.space) {
 		space = Color.space(space);
 		return Color.inGamut(space, this[space.id]);
 	}
@@ -350,7 +350,7 @@ export default class Color {
 		let color = new Color(id, this[id], this.alpha);
 
 		if (inGamut) {
-			color.inGamut({inPlace: true});
+			color.toGamut({inPlace: true});
 		}
 
 		return color;
