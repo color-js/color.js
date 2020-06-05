@@ -264,6 +264,10 @@ export default class Color {
 	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
 	 */
 	toGamut ({method = Color.defaults.gamutMapping, space = this.space, inPlace} = {}) {
+		if (util.isString(arguments[0])) {
+			space = arguments[0];
+		}
+		
 		space = Color.space(space);
 
 		if (this.inGamut(space)) {
