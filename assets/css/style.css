@@ -22,21 +22,22 @@
 
 	--page-width: 60rem;
 	--page-margin: calc((100vw - var(--page-width)) / 2);
+
+
+
+	--rainbow-width: 150vw;
+	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
+	           var(--rainbow-width) 0 / var(--rainbow-width) .3em fixed;
+	--rainbow-scroll: rainbow-scroll 20s linear 2 both
 }
 
 @supports (width: max(1px, 1rem)) {
 
 :root {
 		--page-margin: max(1rem, (100vw - var(--page-width)) / 2);
+		--rainbow-width: max(150vw, 900px)
 }
 	}
-
-:root {
-
-	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
-	           150vw 0 / 150vw .3em fixed;
-	--rainbow-scroll: rainbow-scroll 20s linear 2 both;
-}
 
 @keyframes rainbow-scroll {
 	from {
@@ -56,8 +57,15 @@ body {
 	align-items: stretch;
 	font: 300 120%/1.5 var(--font-body);
 	margin: 0;
-	min-height: 100vh;
+	min-height: 100vh
 }
+
+@media (max-width: 600px) {
+
+body {
+		font-size: 100%
+}
+	}
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: var(--font-headings);
@@ -117,7 +125,7 @@ body > header {
 	background: linear-gradient(hsl(var(--bg) / .85), hsl(var(--bg) / .8)) 0 .3em no-repeat fixed,
 		var(--rainbow)
 		hsl(var(--bg));
-	background-size: 100% 2.3em, 150vw 2.6em;
+	background-size: 100% 2.3em, var(--rainbow-width) 2.6em;
 	background-repeat: no-repeat, repeat-x
 }
 
@@ -232,8 +240,15 @@ pre[class*="language-"] {
 
 pre[class*="language-"] {
 	flex: 1;
-	max-width: calc(100vw - 2 * var(--page-margin, 1rem));
+	max-width: calc(100vw - 2 * var(--page-margin, 1rem))
 }
+
+@media (max-width: 600px) {
+
+pre[class*="language-"] {
+		font-size: 80%
+}
+	}
 
 @supports (-webkit-background-clip: text) {
 	body > header nav a,

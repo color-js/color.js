@@ -8,14 +8,10 @@ body > header {
 	display: grid;
 	grid-gap: .3em 0;
 	grid-template-columns: minmax(1em, auto) 1fr;
-	font-size: 200%;
+	font-size: 200%
 }
 
-	.logo h1 {
-		grid-row: 1;
-	}
-
-	.logo h2 {
+.logo h2 {
 		grid-row: 2;
 		margin: 0;
 		font-style: italic;
@@ -24,7 +20,7 @@ body > header {
 		color: hsl(220, 10%, 30%);
 	}
 
-	.logo img {
+.logo img {
 		grid-row: 1 / span 2;
 		height: 3em;
 	}
