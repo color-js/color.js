@@ -96,19 +96,19 @@ color;
 color.space = Color.spaces.prophoto;
 color;</code></pre>
 <p>Often, we want to keep our color intact, but also convert it to another color space.
-This is exactly what <code>color.to()</code> is for:</p>
+This is exactly what <a href="../api/#Color#to"><code>color.to()</code></a> is for:</p>
 <pre><code class="js language-js">let color = new Color("srgb", [0, 1, 0]);
 let colorP3 = color.to("p3");
 color;
 colorP3;</code></pre>
 <p>Sometimes, when converting to a color space with a smaller gamut, the resulting coordinates may be out of gamut.
-You can test for that with <code>color.inGamut()</code> and get gamut mapped coordinates with <code>color.toGamut()</code>:</p>
+You can test for that with <a href="../api/#Color#inGamut"><code>color.inGamut()</code></a> and get gamut mapped coordinates with <a href="../api/#Color#toGamut"><code>color.toGamut()</code></a>:</p>
 <pre><code class="js language-js">let funkyLime = new Color("p3", [0, 1, 0]);
 let boringLime = funkyLime.to("srgb");
 boringLime.coords;
 boringLime.inGamut();
 boringLime.toGamut();</code></pre>
-<p>Note that <code>color.toString()</code> returns gamut mapped coordinates by default.
+<p>Note that <a href="../api/#Color#toString"><code>color.toString()</code></a> returns gamut mapped coordinates by default.
 You can turn this off, via the <code>{inGamut: false}</code> option.
 You can read more about gamut mapping in the <a href="manipulation.html#gamut-mapping">Gamut mapping</a> section.</p>
 </main>

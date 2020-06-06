@@ -39,32 +39,10 @@ function transfob( _transform ) {
 	return transform;
 };
 
-// TODO read api/api.json to see what to linkify
-// TODO extract into separate file to share between build tools and client-side
-showdown.extension("apiLinks", () => [
-	{
-		type: "lang",
-		regex: /`([Cc]olor).(\w+)\(\)`/g,
-		replace: ($0, className, funcName) => {
-			return `<a href="@@webRoot/api/#Color${className === "Color"? "." : "#"}${funcName}">${$0}</a>`;
-		}
-	}
-]);
-
-showdown.extension("apiLinks", () => [
-	{
-		type: "lang",
-		regex: /^\s*(Tip|Warning|Note):\s+/gm,
-		replace: ($0, className, funcName) => {
-			return `<p class="${className.toLowerCase()}" markdown="1">`;
-		}
-	}
-]);
-
 // Loosely inspired from https://github.com/xieranmaya/gulp-showdown (unmaintained)
 function gulpShowdown(options = {}) {
 	let defaultOptions = {
-		extensions: ["apiLinks"]
+		extensions: ["apiLinks", "callouts"]
 		// headerLevelStart: 2
 	};
 
@@ -114,7 +92,16 @@ ${html}
 	});
 }
 
-gulp.task("md", function() {
+gulp.task("md", async function() {
+	const {default: extensions} = await import("./assets/js/showdown-extensions.mjs");
+
+	for (let id in extensions) {
+		console.log(extensions[id]);
+		showdown.extension(id, () => [
+			extensions[id]
+		]);
+	}
+
 	return gulp.src(globs.md)
 	.pipe(gulpShowdown())
 	.pipe(fileinclude({
