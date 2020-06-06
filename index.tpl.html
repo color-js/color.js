@@ -24,11 +24,20 @@
 	<div id="features">
 		<article>
 			<h4>Fully color space aware</h3>
-			<p>Color spaces are first-class citizens, not just used for interpolation! Each color belongs to a color space; operations are color space agnostic.</p>
+			<p>Each color belongs to a color space; operations are color space agnostic.
+				Modules for a wide variety of color spaces, including Lab/LCH, sRGB and friends (HSL/HSV/HWB), Display P3, J<sub>z</sub>a<sub>z</sub>b<sub>z</sub>, REC.2100 and more.</p>
+		</article>
+		<article>
+			<h4>Doesn't gloss over color science</h3>
+			<p>Actual gamut mapping instead of naïve clipping,
+				multiple <a href="docs/deltae.html">DeltaE</a> methods (76, CMC, 2000, J<sub>z</sub>),
+				multiple chromatic adaptation methods (von Kries, Bradford, CAT02, CAT16),
+				all with sensible defaults
+			</p>
 		</article>
 		<article>
 			<h4>Up to date with CSS Color 4</h3>
-			<p>Every CSS Color 4 format & color space supported, whether your browser supports it or not.</p>
+			<p>Every CSS Color 4 format & color space supported for both <a href="docs/the-color-object.html">input</a> and <a href="docs/output.html">output</a>, whether your browser supports it or not.</p>
 		</article>
 		<article>
 			<h4>Readable, object-oriented API</h3>
