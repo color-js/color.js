@@ -96,7 +96,6 @@ gulp.task("md", async function() {
 	const {default: extensions} = await import("./assets/js/showdown-extensions.mjs");
 
 	for (let id in extensions) {
-		console.log(extensions[id]);
 		showdown.extension(id, () => [
 			extensions[id]
 		]);
