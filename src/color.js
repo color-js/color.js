@@ -1,7 +1,7 @@
 import * as util from "./util.js";
 import Hooks from "./hooks.js";
 
-const ε = .000005;
+const ε = .000075;
 const hasDOM = typeof document !== "undefined";
 
 export default class Color {
@@ -220,12 +220,12 @@ export default class Color {
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
-	inGamut (space = this.space) {
+	inGamut (space = this.space, options) {
 		space = Color.space(space);
-		return Color.inGamut(space, this[space.id]);
+		return Color.inGamut(space, this[space.id], options);
 	}
 
-	static inGamut (space, coords) {
+	static inGamut (space, coords, {epsilon = ε} = {}) {
 		space = Color.space(space);
 
 		if (space.inGamut) {
@@ -246,8 +246,8 @@ export default class Color {
 
 				let [min, max] = bounds[i];
 
-				return (min === undefined || c >= min - ε)
-				    && (max === undefined || c <= max + ε);
+				return (min === undefined || c >= min - epsilon)
+				    && (max === undefined || c <= max + epsilon);
 			});
 		}
 	}
@@ -267,16 +267,16 @@ export default class Color {
 		if (util.isString(arguments[0])) {
 			space = arguments[0];
 		}
-		
+
 		space = Color.space(space);
 
-		if (this.inGamut(space)) {
+		if (this.inGamut(space, {epsilon: 0})) {
 			return this;
 		}
 
 		let coords = Color.convert(this.coords, this.space, space);
 
-		if (method.indexOf(".") > 0) {
+		if (method.indexOf(".") > 0 && !this.inGamut(space)) {
 			// Reduce a coordinate of a certain color space until the color is in gamut
 			let [mapSpace, coordName] = util.parseCoord(method);
 
@@ -304,10 +304,10 @@ export default class Color {
 				mapCoords[i] = (high + low) / 2;
 			}
 		}
-
+console.log(coords, !Color.inGamut(space, coords, {epsilon: 0}));
 		if (method === "clip" // Dumb coord clipping
 		    // finish off smarter gamut mapping with clip to get rid of ε, see #17
-		    || !Color.inGamut(space, coords)
+		    || !Color.inGamut(space, coords, {epsilon: 0})
 		) {
 
 			let bounds = Object.values(space.coords);
