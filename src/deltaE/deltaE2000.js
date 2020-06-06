@@ -1,25 +1,17 @@
-import Color, {util} from "./color.js";
-// More accurate color-difference formulae
-// than the simple 1976 Euclidean distance in Lab
-
-// CMC by the Color Measurement Committee of the
-// Bradford Society of Dyeists and Colorsts, 1994.
-// Uses LCH rather than Lab,
-// with different weights for L, C and H differences
-// A nice increase in accuracy for modest increase in complexity
-
-// deltaE94 did not significantly improve on CMC
-// so is not implemented here.
+import Color from "../color.js";
 
 // deltaE2000 is a statistically significant improvement
 // and is recommended by the CIE and Idealliance
 // especially for color differences less than 10 deltaE76
 // but is wicked complicated
 // and many implementations have small errors!
-// DeltaE200 is also discontinuous; in case this
-// matters to you, use deltaE CMC instead.
+// DeltaE2000 is also discontinuous; in case this
+// matters to you, use deltaECMC instead.
 
-Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
+Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
+	let color = this;
+	sample = Color.get(sample);
+
 	// Given this color as the reference
 	// and the function parameter as the sample,
 	// calculate deltaE 2000.
@@ -35,8 +27,6 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	let C1 = color.chroma;
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
-	// console.log({L1, a1, b1});
-	// console.log({L2, a2, b2});
 
 	let Cbar = (C1 + C2)/2; // mean Chroma
 
@@ -45,7 +35,6 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	let C7 = Math.pow(Cbar, 7);
 	const Gfactor = Math.pow(25, 7);
 	let G = 0.5 * (1 - Math.sqrt(C7/(C7+Gfactor)));
-	// console.log({G});
 
 	// scale a axes by asymmetry factor
 	// this by the way is why there is no Lab2000 colorspace
@@ -63,15 +52,16 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	const d2r = π / 180;
 	let h1 = (adash1 === 0 && b1 === 0)? 0: Math.atan2(b1, adash1);
 	let h2 = (adash2 === 0 && b2 === 0)? 0: Math.atan2(b2, adash2);
+
 	if (h1 < 0) {
 		h1 += 2 * π;
 	}
 	if (h2 < 0) {
 		h2 += 2 * π;
 	}
+
 	h1 *= r2d;
 	h2 *= r2d;
-	// console.log({h1, h2});
 
 	// Lightness and Chroma differences; sign matters
 	let ΔL = L2 - L1;
@@ -96,13 +86,11 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 		Δh = hdiff + 360;
 	}
 	else {
-		console.log("the unthinkable has happened")
+		console.log("the unthinkable has happened");
 	}
-	// console.log({Δh});
 
 	// weighted Hue difference, more for larger Chroma
 	let ΔH = 2 * Math.sqrt(Cdash2 * Cdash1) * Math.sin(Δh * d2r / 2);
-	// console.log({ΔH});
 
 	// calculate mean Lightness and Chroma
 	let Ldash = (L1 + L2)/2;
@@ -117,15 +105,14 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 		hdash = hsum;   // which should be zero
 	}
 	else if (habs <= 180) {
-		hdash = hsum/2;
+		hdash = hsum / 2;
 	}
 	else if (hsum < 360) {
-		hdash = (hsum + 360)/2;
+		hdash = (hsum + 360) / 2;
 	}
 	else {
-		hdash = (hsum - 360)/2;
+		hdash = (hsum - 360) / 2;
 	}
-	// console.log({hdash});
 
 	// positional corrections to the lack of uniformity of CIELAB
 	// These are all trying to make JND ellipsoids more like spheres
@@ -134,24 +121,20 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	// a background with L=50 is assumed
 	let lsq = (Ldash - 50) ** 2;
 	let SL = 1 + ((0.015 * lsq) / Math.sqrt(20 + lsq));
-	// console.log({SL});
 
 	// SC Chroma factor, similar to those in CMC and deltaE 94 formulae
 	let SC = 1 + 0.045 * Cdash;
-	// console.log({SC});
 
 	// Cross term T for blue non-linearity
 	let T = 1;
-	T -= (0.17 * Math.cos((	 hdash - 30)  * d2r));
-	T += (0.24 * Math.cos(  2 * hdash		* d2r));
+	T -= (0.17 * Math.cos((     hdash - 30)  * d2r));
+	T += (0.24 * Math.cos(  2 * hdash        * d2r));
 	T += (0.32 * Math.cos(((3 * hdash) + 6)  * d2r));
 	T -= (0.20 * Math.cos(((4 * hdash) - 63) * d2r));
-	// console.log({T});
 
 	// SH Hue factor depends on Chroma,
 	// as well as adjusted hue angle like deltaE94.
 	let SH = 1 + 0.015 * Cdash * T;
-	// console.log({SH});
 
 	// RT Hue rotation term compensates for rotation of JND ellipses
 	// and Munsell constant hue lines
@@ -159,9 +142,7 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	// (Hue 225 to 315)
 	let Δθ = 30 * Math.exp(-1 * (((hdash - 275)/25) ** 2));
 	let RC = 2 * Math.sqrt(Cdash7/(Cdash7 + Gfactor));
-	// console.log({RC});
 	let RT = -1 * Math.sin(2 * Δθ * d2r) * RC;
-	// console.log({RT});
 
 	// Finally calculate the deltaE, term by term as root sume of squares
 	let dE = (ΔL / (kL * SL)) ** 2;
@@ -170,4 +151,6 @@ Color.deltaEs["2000"] = function (color, sample, {kL = 1, kC = 1, kH = 1}) {
 	dE += RT * (ΔC / (kC * SC)) * (ΔH / (kH * SH));
 	return Math.sqrt(dE);
 	// Yay!!!
-}
+};
+
+Color.statify(["deltaE2000"]);

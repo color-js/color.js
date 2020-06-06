@@ -1,4 +1,4 @@
-import Color, {util} from "./color.js";
+import Color from "../color.js";
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in Lab
 
@@ -8,8 +8,10 @@ import Color, {util} from "./color.js";
 // with different weights for L, C and H differences
 // A nice increase in accuracy for modest increase in complexity
 
+Color.prototype.deltaECMC = function (sample, {l = 2, c = 1} = {}) {
+	let color = this;
+	sample = Color.get(sample);
 
-Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE CMC.
@@ -79,7 +81,8 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 
 	if (H1 >= 164 && H1 <= 345) {
 		T = 0.56 + Math.abs(0.2 * Math.cos((H1 + 168) * d2r));
-	} else {
+	}
+	else {
 		T = 0.36 + Math.abs(0.4 * Math.cos((H1 + 35) * d2r));
 	}
 	// console.log({T});
@@ -97,4 +100,6 @@ Color.deltaEs["CMC"] = function (color, sample, {l = 2, c = 1}) {
 	// dE += (ΔH / SH)  ** 2;
 	return Math.sqrt(dE);
 	// Yay!!!
-}
+};
+
+Color.statify(["deltaECMC"]);

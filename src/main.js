@@ -14,8 +14,9 @@ import "./spaces/rec2020.js";
 
 // Import optional modules
 import "./interpolation.js";
-import "./deltaECMC.js";
-import "./deltaE2000.js";
+import "./deltaE/deltaECMC.js";
+import "./deltaE/deltaE2000.js";
+import "./deltaE/deltaEJz.js";
 
 // Re-export everything
 export default Color;

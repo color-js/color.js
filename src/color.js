@@ -162,13 +162,20 @@ export default class Color {
 	deltaE (color, {method = Color.defaults.deltaE, ...rest} = {}) {
 		color = Color.get(color);
 
-		if (Color.deltaEs[method]) {
-			return Color.deltaEs[method](this, color, {...rest});
+		if (this["deltaE" + method]) {
+			return this["deltaE" + method](color, rest);
 		}
 
-		// 1976 DeltaE. 2.3 is the JND
+		return this.deltaE76(color);
+	}
+
+	// 1976 DeltaE. 2.3 is the JND
+	deltaE76 (color) {
+		color = Color.get(color);
+
 		let lab1 = this.lab;
 		let lab2 = color.lab;
+
 		return Math.sqrt([0, 1, 2].reduce((a, i) => {
 			if (isNaN(lab1[i]) || isNaN(lab2[i])) {
 				return 0;
@@ -304,7 +311,7 @@ export default class Color {
 				mapCoords[i] = (high + low) / 2;
 			}
 		}
-console.log(coords, !Color.inGamut(space, coords, {epsilon: 0}));
+
 		if (method === "clip" // Dumb coord clipping
 		    // finish off smarter gamut mapping with clip to get rid of ε, see #17
 		    || !Color.inGamut(space, coords, {epsilon: 0})
@@ -901,9 +908,7 @@ Object.assign(Color, {
 		precision: 5,
 		deltaE: "76", // Default deltaE method
 		fallbackSpaces: ["p3", "srgb"]
-	},
-
-	deltaEs: {}
+	}
 });
 
 Color.defineSpace({
