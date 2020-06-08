@@ -51,6 +51,6 @@ document.addEventListener("scroll", evt => {
 	root.style.setProperty("--scrolltop", root.scrollTop);
 }, {passive: true});
 
-if (location.pathname.indexOf("/docs/") > 0 && window.toc) {
+if (location.pathname.indexOf("/docs/") > -1 && window.toc) {
 	import("./docs.js");
 }
