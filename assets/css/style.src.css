@@ -34,6 +34,11 @@
 		--page-margin: max(1rem, (100vw - var(--page-width)) / 2);
 		--rainbow-width: max(150vw, 900px)
 	}
+
+	@supports (-moz-margin-start: 0) {
+		/* Firefox does terribly with this effect */
+		--rainbow-scroll: initial;
+	}
 }
 
 @keyframes rainbow-scroll {
@@ -244,7 +249,7 @@ pre[class*="language-"] {
 	}
 }
 
-@supports (-webkit-background-clip: text) {
+@supports (-webkit-background-clip: text) and (not (-moz-margin-start: 0)) {
 	body > header nav a,
 	body > footer nav a,
 	main h2 {

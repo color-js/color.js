@@ -39,6 +39,14 @@
 }
 	}
 
+@supports (-moz-margin-start: 0) {
+
+:root {
+		/* Firefox does terribly with this effect */
+		--rainbow-scroll: initial
+}
+	}
+
 @keyframes rainbow-scroll {
 	from {
 		background-position-x: 0;
@@ -250,7 +258,7 @@ pre[class*="language-"] {
 }
 	}
 
-@supports (-webkit-background-clip: text) {
+@supports (-webkit-background-clip: text) and (not (-moz-margin-start: 0)) {
 	body > header nav a,
 	body > footer nav a,
 	main h2 {
