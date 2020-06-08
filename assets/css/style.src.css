@@ -113,12 +113,22 @@ body > footer {
 			font-weight: 800;
 
 			&:hover {
+				background: var(--rainbow);
 				-webkit-background-clip: initial;
 				color: white;
 				text-decoration: none;
 			}
 		}
 	}
+}
+
+[mv-app="colorNotebook"] h1,
+body > header > h1 {
+	margin: 0;
+	color: hsl(220, 10%, 48%);
+	font: 600 300% var(--font-sans);
+	letter-spacing: -.03em;
+	margin: .5em 0;
 }
 
 body > header {
@@ -130,21 +140,6 @@ body > header {
 		hsl(var(--bg));
 	background-size: 100% 2.3em, var(--rainbow-width) 2.6em;
 	background-repeat: no-repeat, repeat-x;
-
-	& > h1,
-	& > hgroup > h1 {
-		margin: 0;
-		color: hsl(220, 10%, 48%);
-		font-family: var(--font-sans);
-		font-weight: 700;
-		letter-spacing: -.03em;
-	}
-
-	& > h1 {
-		margin: .5em 0;
-		font-size: 300%;
-		font-weight: 600;
-	}
 
 	& nav {
 		display: flex;
@@ -230,6 +225,43 @@ main {
 					}
 				}
 			}
+		}
+	}
+
+	& > footer {
+		margin-top: 2rem;
+		display: flex;
+
+		& .edit-page {
+			margin-left: auto;
+		}
+	}
+}
+
+.edit-page {
+	font-weight: 700;
+	color: hsl(var(--gray) 60%);
+
+	&::before {
+		content: "✏️";
+		display: inline-block;
+		vertical-align: .4em;
+		width: .8em;
+		height: .8em;
+		border: .1em solid;
+		border-radius: .15em;
+		margin-right: .5em;
+		background: var(--color-blue-lighter);
+		line-height: .2;
+		text-indent: -.45em;
+	}
+
+	&:not(:hover):not(:focus) {
+		text-decoration: none;
+
+		&::before {
+			filter: grayscale();
+			background: white;
 		}
 	}
 }

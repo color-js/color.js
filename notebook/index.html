@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Demos &bull; Color.js</title>
+
+<meta charset="UTF-8">
+<title>Color Notebook</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
 <meta name="viewport" content="width=device-width" />
 <link rel="shortcut icon" href="../logo.svg">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -9,8 +12,12 @@
 <script src="../color.js" type="module"></script>
 
 
+
+
 </head>
+
 <body class="language-js">
+
 <header>
 	<nav>
 		<a href=".." class="logo"><h1 class="logo"><img src="../logo.svg" alt="Color.js"></h1></a>
@@ -23,21 +30,20 @@
 <a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
 
 	</nav>
-	<h1>Demos</h1>
+	<h1>Color Notebook</h1>
 </header>
 
-<main>
+<main mv-app="colorNotebook" mv-plugins="markdown">
 
-<ul>
-<li><a href="convert">Convert</a></li>
-<li><a href="gradients">Gradients</a></li>
-</ul>
+<div property="content" mv-markdown-options="" mv-default='
+## Title
 
-<footer>
-	<a href="../notebook/index.html?storage=https://github.com/leaverou/color.js/apps/index.md" class="edit-page" target="_blank">
-		Edit this page on Color Notebook
-	</a>
-</footer>
+```js
+let color = new Color("red");
+```'>
+
+</div>
+
 </main>
 
 
@@ -62,5 +68,7 @@
 <script src="https://live.prismjs.com/src/prism-live.js?load=javascript" async></script>
 <script src="../assets/js/index.js" type="module"></script>
 
+<script src="https://get.mavo.io/mavo.js" ></script>
+<script src="repl.js" type="module"></script>
 </body>
 </html>

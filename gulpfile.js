@@ -63,6 +63,8 @@ function gulpShowdown(options = {}) {
 		let html = converter.makeHtml(text);
 		let isDocs = file.path.indexOf("/docs/") > -1;
 
+		let relativePath = file.path.replace(__dirname, "");
+
 		html = `<!DOCTYPE html>
 <html>
 <head>
@@ -81,6 +83,12 @@ ${isDocs? `<aside id="toc">
 </ul>
 </aside>` : ""}
 ${html}
+
+<footer>
+	<a href="@@webRoot/notebook/index.html?storage=https://github.com/leaverou/color.js${relativePath}" class="edit-page" target="_blank">
+		Edit this page on Color Notebook
+	</a>
+</footer>
 </main>
 
 @@include('_footer.html')

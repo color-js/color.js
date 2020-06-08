@@ -11,6 +11,14 @@ body > header {
 	font-size: 200%
 }
 
+.logo h1 {
+		margin: 0;
+		color: hsl(var(--gray) 48%);
+		font-family: var(--font-sans);
+		font-weight: 700;
+		letter-spacing: -.03em;
+	}
+
 .logo h2 {
 		grid-row: 2;
 		margin: 0;

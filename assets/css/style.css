@@ -121,10 +121,20 @@ body > header nav a:not(.logo), body > footer nav a:not(.logo) {
 		}
 
 body > header nav a:not(.logo):hover, body > footer nav a:not(.logo):hover {
+				background: var(--rainbow);
 				-webkit-background-clip: initial;
 				color: white;
 				text-decoration: none;
 			}
+
+[mv-app="colorNotebook"] h1,
+body > header > h1 {
+	margin: 0;
+	color: hsl(220, 10%, 48%);
+	font: 600 300% var(--font-sans);
+	letter-spacing: -.03em;
+	margin: .5em 0;
+}
 
 body > header {
 	display: flex;
@@ -136,21 +146,6 @@ body > header {
 	background-size: 100% 2.3em, var(--rainbow-width) 2.6em;
 	background-repeat: no-repeat, repeat-x
 }
-
-body > header > h1,
-	body > header > hgroup > h1 {
-		margin: 0;
-		color: hsl(220, 10%, 48%);
-		font-family: var(--font-sans);
-		font-weight: 700;
-		letter-spacing: -.03em;
-	}
-
-body > header > h1 {
-		margin: .5em 0;
-		font-size: 300%;
-		font-weight: 600;
-	}
 
 body > header nav {
 		display: flex;
@@ -239,6 +234,43 @@ main h2 > a[href^="#"]:hover::before {
 						color: var(--color-blue-light);
 						font-weight: 900;
 					}
+
+main > footer {
+		margin-top: 2rem;
+		display: flex
+	}
+
+main > footer .edit-page {
+			margin-left: auto;
+		}
+
+.edit-page {
+	font-weight: 700;
+	color: hsl(var(--gray) 60%)
+}
+
+.edit-page::before {
+		content: "✏️";
+		display: inline-block;
+		vertical-align: .4em;
+		width: .8em;
+		height: .8em;
+		border: .1em solid;
+		border-radius: .15em;
+		margin-right: .5em;
+		background: var(--color-blue-lighter);
+		line-height: .2;
+		text-indent: -.45em;
+	}
+
+.edit-page:not(:hover):not(:focus) {
+		text-decoration: none
+	}
+
+.edit-page:not(:hover):not(:focus)::before {
+			filter: grayscale();
+			background: white;
+		}
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {

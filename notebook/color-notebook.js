@@ -18,7 +18,7 @@ Prism.hooks.add("before-sanity-check", env => {
 	}
 });
 
-function walk(pre, callback, filter) {
+export function walk(pre, callback, filter) {
 	let walker = document.createTreeWalker(pre, filter);
 	let node;
 
@@ -31,7 +31,7 @@ function walk(pre, callback, filter) {
 	}
 }
 
-function evaluate (pre) {
+export function evaluate (pre) {
 	if ($(".cn-evaluated.token", pre)) {
 		// Already evaluated
 		return;
@@ -218,7 +218,7 @@ function evaluate (pre) {
 	}
 }
 
-function serialize(ret, color) {
+export function serialize(ret, color) {
 	var color, element;
 
 	if (ret === undefined) {
@@ -353,42 +353,50 @@ let intersectionObserver = new IntersectionObserver(entries => {
 
 		let pre = entry.target;
 
-		intersectionObserver.unobserve(pre);
+		init(pre);
+	}
+});
 
+export function init (pre) {
+	intersectionObserver.unobserve(pre);
+
+	if (!pre.closest(".cn-wrapper")) {
 		$.create("div", {
 			className: "cn-wrapper",
 			around: pre,
 			contents: {className: "cn-results"}
 		});
+	}
 
-		if (typeof Prism !== "undefined" && Prism.Live) {
-			pre.live = new Prism.Live(pre);
+	if (typeof Prism !== "undefined" && Prism.Live && !pre.live) {
+		pre.live = new Prism.Live(pre);
+	}
+
+	evaluate(pre);
+
+	let observer = new MutationObserver(_ => {
+		observer.disconnect();
+		evaluate(pre);
+		observer.observe(pre, {subtree: true, childList: true});
+	});
+	observer.observe(pre, {subtree: true, childList: true});
+}
+
+export function initAll(container = document) {
+	let pres = $$(".language-js, .language-javascript", container).flatMap(el => {
+		let ret = $$("pre:not([class*='language-']) > code:not([class*='language-'])", el);
+		let ancestor =  el.closest("pre > code");
+
+		if (ancestor) {
+			ret.push(ancestor);
 		}
 
-		evaluate(pre);
+		return ret.filter(code => !code.matches(".cn-ignore, .cn-ignore *"));
+	}).map(code => code.parentNode);
 
-		let observer = new MutationObserver(_ => {
-			observer.disconnect();
-			evaluate(pre);
-			observer.observe(pre, {subtree: true, childList: true});
-		});
-		observer.observe(pre, {subtree: true, childList: true});
-
-
+	for (let pre of pres) {
+		intersectionObserver.observe(pre);
 	}
-});
-
-let pres = $$(".language-js, .language-javascript").flatMap(el => {
-	let ret = $$("pre:not([class*='language-']) > code:not([class*='language-'])", el);
-	let ancestor =  el.closest("pre > code");
-
-	if (ancestor) {
-		ret.push(ancestor);
-	}
-
-	return ret.filter(code => !code.matches(".cn-ignore, .cn-ignore *"));
-}).map(code => code.parentNode);
-
-for (let pre of pres) {
-	intersectionObserver.observe(pre);
 }
+
+initAll();
