@@ -1,2 +1,8 @@
 dist/
 node_modules/
+
+# Ignore generated HTML files
+*.html
+!*.tpl.html
+!tests/*.html
+!templates/*.html
