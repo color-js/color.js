@@ -25,7 +25,7 @@
 
 <pre><code>import Color from "https://colorjs.io/dist/color.esm.js";</code></pre>
 
-<p class="warning">For the above to work, your <code class="language-markup">&lt;script></code> element needs <code>type="module"</code></p>
+<p class="warning">To be able to use <code>import</code> statements in your JS, your <code class="language-markup">&lt;script></code> element needs <code>type="module"</code></p>
 
 Or, if you'd rather just have <code>Color</code> as a global variable, the classic way, just include the following script in your HTML:
 
@@ -39,13 +39,12 @@ Or, if you'd rather just have <code>Color</code> as a global variable, the class
 
 <pre><code>npm install colorjsio</code></pre>
 
-<h2>Predefined bundles</h2>
-
-<p>TBD</p>
-
 <h2>Custom bundle</h2>
 
 <p>Or, create a custom bundle that is tailored to your needs.</p>
+
+<p class="warning">This is a work in progress and doesn't fully work yet.
+	Right now it can generate import statements, but not an actual bundle.</p>
 
 <section mv-app="colorBundler" mv-storage="modules.json" mv-plugins="markdown">
 
@@ -58,7 +57,7 @@ Or, if you'd rather just have <code>Color</code> as a global variable, the class
 				<input type="checkbox" property="include" checked disabled>
 				<span property="name">Color.js core</span>
 				<meta property="id">
-				<meta property="importStatement" content='import Color, {util} from "https://colorjs.io/src/color.js";'>
+				<meta property="importStatement" content='import Color from "https://colorjs.io/src/color.js";'>
 			</label>
 		</li>
 	</ul>
@@ -139,7 +138,7 @@ Or, if you'd rather just have <code>Color</code> as a global variable, the class
 [join(importStatement where include, '\n')]
 [if(format = "iife", 'window.Color = window.Color || Color;', '')]
 // Re-export
-export default Color; export {util};
+export default Color;
 </code></pre>
 
 <a href="#" download="color.js">Download</a>
@@ -147,7 +146,7 @@ export default Color; export {util};
 </section>
 
 <section class="cn-ignore">
-	<h2>How to use</h2>
+	<h2>How to use your custom bundle</h2>
 
 	<p>The following assume your downloaded file is in the same directory as the JS/HTML file using it.
 		If not, adjust the path accordingly.</p>
@@ -160,7 +159,9 @@ export default Color; export {util};
 
 	<p>Or, include in your JS via:</p>
 
-	<pre><code>import Color, {util} from "./color.js"</code></pre>
+	<pre><code>import Color from "./color.js"</code></pre>
+
+	<p class="warning">To be able to use <code>import</code> statements in your JS, your <code class="language-markup">&lt;script></code> element needs <code>type="module"</code></p>
 </section>
 
 </main>

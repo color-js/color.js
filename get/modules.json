@@ -67,6 +67,12 @@
 			"dependencies": ["hsl"],
 			"url": "https://en.wikipedia.org/wiki/HSL_and_HSV",
 			"description": "Another polar transformation of sRGB, supported in Adobe CS software."
+		},
+		{
+			"name": "Jzazbz & JzCzHz",
+			"id": "jzazbz",
+			"url": "http://www.color.org/events/prague/MuhammadSafdar2017.pdf",
+			"description": "Color space that improves on Lab, with much better perceptual uniformity."
 		}
 	],
 	"optional": [
