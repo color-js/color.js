@@ -34,13 +34,27 @@
 	<h1>Get Color.js</h1>
 </header>
 
-<main>
+<main class="cn-ignore">
+
+<h2>Quick use</h2>
+
+<p>If you just want to play around ASAP, the quickest way is to import the entire library, either as a module in your JS:</p>
+
+<pre><code>import Color from "https://colorjs.io/dist/color.esm.js";</code></pre>
+
+<p class="warning">For the above to work, your <code class="language-markup">&lt;script></code> element needs <code>type="module"</code></p>
+
+Or, if you'd rather just have <code>Color</code> as a global variable, the classic way, just include the following script in your HTML:
+
+<pre class="language-markup"><code>&lt;script src="https://colorjs.io/dist/color.js">&lt;/script></code></pre>
+
+<p class="tip">You can also add <code>.min</code> right before the <code>.js</code> extension to get a minified file.
 
 <h2>Via npm</h2>
 
 <p>Run:</p>
 
-<pre class="cn-ignore"><code>npm install colorjsio</code></pre>
+<pre><code>npm install colorjsio</code></pre>
 
 <h2>Predefined bundles</h2>
 
@@ -92,7 +106,8 @@
 				<input type="checkbox" property="include">
 				<a property="url"><strong property="name">Interpolation</strong></a>
 				<meta property="id">
-				<meta property="importStatement" content='import "https://colorjs.io/src/[id].js";'>
+				<meta property="path">
+				<meta property="importStatement" content='import "https://colorjs.io/src/[if(path, path & &apos;/&apos;)][id].js";'>
 			</label>
 			<div property class="description" mv-markdown></div>
 		</li>

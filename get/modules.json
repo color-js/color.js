@@ -80,14 +80,23 @@
 		{
 			"name": "DeltaE CMC",
 			"id": "deltaECMC",
+			"path": "deltaE",
 			"url": "https://en.wikipedia.org/wiki/Color_difference#CMC_l:c_(1984)",
 			"description": "DeltaE CMC, a color difference metric of intermediate complexity and intermediate accuracy."
 		},
 		{
 			"name": "DeltaE 2000",
 			"id": "deltaE2000",
+			"path": "deltaE",
 			"url": "https://en.wikipedia.org/wiki/Color_difference#CIEDE2000",
 			"description": "DeltaE 2000, the gold standard in deltaE as of present, but also the most complex. Especially good for small color differences."
+		},
+		{
+			"name": "DeltaE Jz",
+			"id": "deltaEJz",
+			"path": "deltaE",
+			"url": "http://www.color.org/events/prague/MuhammadSafdar2017.pdf",
+			"description": "DeltaE based on the Jzazbz color space."
 		},
 		{
 			"name": "Chromatic adaptation",
