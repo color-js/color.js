@@ -1,4 +1,5 @@
 import Color from "../spaces/jzazbz.js";
+import "../spaces/jzczhz.js";
 
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in Lab

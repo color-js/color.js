@@ -1,12 +1,21 @@
 {
 	"space": [
 		{
-			"name": "Lab & LCH",
-			"id": "lab-lch",
+			"name": "Lab",
+			"id": "lab",
 			"include": true,
 			"mandatory": true,
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space",
-			"description": "Perceptually uniform CIE color spaces. LCH is the polar form, Lab the cartesian form."
+			"description": "Perceptually uniform CIE color space."
+		},
+		{
+			"name": "LCH",
+			"id": "lch",
+			"include": true,
+			"mandatory": true,
+			"dependencies": ["lab"],
+			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_representation:_CIELCh_or_CIEHLC",
+			"description": "LCH is the polar form of Lab"
 		},
 		{
 			"name": "sRGB",
@@ -69,10 +78,17 @@
 			"description": "Another polar transformation of sRGB, supported in Adobe CS software."
 		},
 		{
-			"name": "Jzazbz & JzCzHz",
+			"name": "Jzazbz",
 			"id": "jzazbz",
 			"url": "http://www.color.org/events/prague/MuhammadSafdar2017.pdf",
 			"description": "Color space that improves on Lab, with much better perceptual uniformity."
+		},
+		{
+			"name": "JzCzHz",
+			"id": "jzczhz",
+			"dependencies": ["jzazbz"],
+			"url": "http://www.color.org/events/prague/MuhammadSafdar2017.pdf",
+			"description": "Polar form of Jzazbz."
 		}
 	],
 	"optional": [

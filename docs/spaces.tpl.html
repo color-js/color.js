@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Supported color spaces &bull; Color.js</title>
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+@@include('_head.html')
+
+<script src="https://get.mavo.io/mavo.js" async></script>
+
+</head>
+
+<body>
+
+@@include('_header.html', {
+"title": "Supported color spaces"
+})
+<main>
+
+<aside id="toc">
+	<ul>
+		@@include('_docs-nav.html')
+	</ul>
+</aside>
+
+<section mv-app="colorSpaces" mv-storage="../get/modules.json">
+
+	<article mv-multiple property="space">
+		<h2 id="[id]"><span property="name"></span></h2>
+
+		<div class="file">Defined in <code>src/spaces/<span property="id"></span>.js</code></div>
+
+		<div property class="description" mv-markdown-options></div>
+
+		<a property="url" class="read-more">Learn more about [name]</a>
+	</article>
+
+</section>
+
+</main>
+
+@@include('_footer.html')
+</body>
+</html>
