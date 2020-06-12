@@ -11,7 +11,7 @@ Color.defineSpace({
 		hue: angles.range,
 	},
 	inGamut: coords => true,
-	white: Color.D50,
+	white: Color.whites.D50,
 	from: {
 		lab (Lab) {
 			// Convert to polar form
