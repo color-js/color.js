@@ -6,8 +6,8 @@
 <title>Supported color spaces &bull; Color.js</title>
 <link rel="stylesheet" href="https://get.mavo.io/mavo.css">
 @@include('_head.html')
+<link rel="stylesheet" href="@@webRoot/assets/css/docs.css" />
 
-<script src="https://get.mavo.io/mavo.js" async></script>
 
 </head>
 
@@ -27,11 +27,47 @@
 <section mv-app="colorSpaces" mv-storage="../get/modules.json">
 
 	<article mv-multiple property="space">
-		<h2 id="[id]"><span property="name"></span></h2>
+		<header>
+			<h2 id="[id]"><span property="name"	></span></h2>
 
-		<div class="file">Defined in <code>src/spaces/<span property="id"></span>.js</code></div>
+			<div class="file"><code>src/spaces/<span property="id"></span>.js</code></div>
+		</header>
 
 		<div property class="description" mv-markdown-options></div>
+
+		<dl class="meta">
+			<dt>White point:</dt>
+			<dd><strong property="whitePoint"></strong></dd>
+
+			<dt>Coordinates:</dt>
+			<dd>
+				<table>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Ref. range</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr mv-multiple property="coord">
+							<th property="name"></th>
+							<td>
+								<span property="min"></span>
+								&ndash;
+								<span property="max"></span>
+								<meta property="codeExample" content="color.[space.id].[name] = [random(min, max)];">
+								<meta property="randomCoord" content="[random(min, max)]">
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+			</dd>
+		</dl>
+
+		<pre><code mv-expressions="{{ }}">let color = new Color("{{ space.id }}", [{{randomCoord}}]);
+{{ join(codeExample, "\n") }}
+color.toString();</code></pre>
 
 		<a property="url" class="read-more">Learn more about [name]</a>
 	</article>
@@ -41,5 +77,7 @@
 </main>
 
 @@include('_footer.html')
+<script src="https://get.mavo.io/mavo.js"></script>
+
 </body>
 </html>

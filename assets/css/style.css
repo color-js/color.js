@@ -102,6 +102,64 @@ fieldset legend {
 		font: 700 120%/1 var(--font-headings);
 	}
 
+table {
+	width: 100%;
+	border: 5px solid transparent;
+	border-radius: .2em;
+	border-spacing: 0;
+	border-collapse: collapse;
+	background: var(--rainbow);
+	animation: var(--rainbow-scroll)
+}
+
+table th,
+	table td {
+		text-align: left;
+		padding: .2em .4em;
+	}
+
+table thead th {
+			color: white;
+			font-size: 80%;
+		}
+
+table tbody th,
+		table tbody td {
+			background: hsla(0 0% 100% / .95);
+			border: 1px solid transparent;
+		}
+
+table tbody tr:nth-of-type(even) td,
+			table tbody tr:nth-of-type(even) th {
+				background: hsla(0 0% 100% / .8);
+			}
+
+dl {
+	display: grid;
+	grid-gap: 0 .3em
+}
+
+dl dt {
+		grid-column: 1;
+		opacity: .75;
+	}
+
+dl dd {
+		grid-column: 2;
+		margin: 0;
+	}
+
+figure {
+	width: fit-content
+}
+
+figure figcaption {
+		margin-top: .5em;
+		font-size: 70%;
+		color: hsl(var(--gray) 35%);
+		text-align: center;
+	}
+
 body > header,
 body > footer {
 

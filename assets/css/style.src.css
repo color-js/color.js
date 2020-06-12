@@ -93,6 +93,70 @@ fieldset {
 	}
 }
 
+table {
+	width: 100%;
+	border: 5px solid transparent;
+	border-radius: .2em;
+	border-spacing: 0;
+	border-collapse: collapse;
+	background: var(--rainbow);
+	animation: var(--rainbow-scroll);
+
+	& th,
+	& td {
+		text-align: left;
+		padding: .2em .4em;
+	}
+
+	& thead {
+		& th {
+			color: white;
+			font-size: 80%;
+		}
+	}
+
+	& tbody {
+		& th,
+		& td {
+			background: hsla(0 0% 100% / .95);
+			border: 1px solid transparent;
+		}
+
+		& tr:nth-of-type(even) {
+			& td,
+			& th {
+				background: hsla(0 0% 100% / .8);
+			}
+		}
+	}
+}
+
+dl {
+	display: grid;
+	grid-gap: 0 .3em;
+
+	& dt {
+		grid-column: 1;
+		opacity: .75;
+	}
+
+	& dd {
+		grid-column: 2;
+		margin: 0;
+	}
+}
+
+figure {
+	width: fit-content;
+
+	& figcaption {
+		margin-top: .5em;
+		font-size: 70%;
+		color: hsl(var(--gray) 35%);
+		text-align: center;
+	}
+}
+
 body > header,
 body > footer {
 

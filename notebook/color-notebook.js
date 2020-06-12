@@ -179,8 +179,11 @@ export function evaluate (pre) {
 					let value = env[variable];
 
 					if (value instanceof Color) {
-						node.style.setProperty("--color", value.to(outputSpace));
-						node.classList.add(lightOrDark(value));
+						try {
+							node.style.setProperty("--color", value.to(outputSpace));
+							node.classList.add(lightOrDark(value));
+						}
+						catch (e) {}
 					}
 					// TODO do something nice with other types :)
 				}

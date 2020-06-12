@@ -31,7 +31,7 @@
 			"include": true,
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/DCI-P3#Display_P3",
-			"description": "The color space of most commercial wide gamut screens today. 50% largeer gamut (by volume) than sRGB."
+			"description": "The color space of most commercial wide gamut screens today. 50% larger gamut (by volume) than sRGB."
 		},
 		{
 			"name": "Adobe® RGB Compatible",

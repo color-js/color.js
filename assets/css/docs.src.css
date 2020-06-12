@@ -49,3 +49,56 @@ main {
 		}
 	}
 }
+
+[mv-app="colorSpaces"] {
+	& [property="space"] {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-gap: 0 1em;
+		margin: 1em 0;
+
+		& > * {
+			grid-column: 1;
+		}
+
+		& > header {
+			grid-column: 1 / span 2;
+			display: flex;
+			align-items: center;
+
+			& h2 {
+				margin: 0 auto 0 0;
+			}
+
+			& .file {
+				font-style: italic;
+				opacity: .6;
+			}
+		}
+
+		& [property="description"] {
+			margin: .5em 0;
+		}
+
+		& dl {
+			min-width: 10em;
+			margin: 0;
+			grid-row: 2 / span 3;
+			grid-column: 2;
+			background: hsl(var(--gray) 95%);
+			border-radius: .2em;
+			padding: 1em;
+
+			& dt {
+				margin-top: .5em;
+				font-size: 80%;
+			}
+
+			& dd {
+				grid-column: 1;
+			}
+		}
+	}
+
+
+}
