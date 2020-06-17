@@ -8,8 +8,9 @@ Color.defineSpace({
 	white: Color.whites.D50,
 	toLinear(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
+		const Et2 = 16/512;
 		return RGB.map(function (val) {
-			if (val < 0.031248) {
+			if (val <= Et2) {
 				return val / 16;
 			}
 
@@ -17,8 +18,9 @@ Color.defineSpace({
 		});
 	},
 	toGamma(RGB) {
+		const Et = 1/512;
 		return RGB.map(function (val) {
-			if (val > 0.001953) {
+			if (val >= Et) {
 				return Math.pow(val, 1/1.8);
 			}
 
