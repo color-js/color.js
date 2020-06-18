@@ -35,7 +35,7 @@ For example. all the RGB spaces (sRGB, P3, Adobe® RGB, ProPhoto, REC.2020) have
 Therefore, there are colors that are perfectly normal, but cannot be represented by certain color spaces.
 For example, the P3 lime (`color(display-p3 0 1 0)`) is outside of the gamut of sRGB.
 In addition, colors that are **not visible to humans** can sometimes be represented by some color spaces!
-Most notably, ProPhoto's primaries (pure red, pure green, pure blue) are **outside the gamut of human vision**!
+Most notably, two of ProPhoto's three primaries (pure green, pure blue) are **outside the gamut of human vision**!
 
 The process of transforming a color outside of a given gamut to a color that is as close as possible but is *inside gamut* is called *gamut mapping* and is the subject of [entire books](https://www.google.com/books/edition/Color_Gamut_Mapping/Yy0uK3pvfRMC?hl=en&gbpv=1&printsec=frontcover).
 
