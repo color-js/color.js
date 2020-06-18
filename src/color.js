@@ -500,7 +500,10 @@ export default class Color {
 			];
 		}
 
-		if (M) {
+		let env = {W1, W2, XYZ, M};
+		Color.hooks.run("chromatic-adaptation-end", env);
+
+		if (env.M) {
 			return util.multiplyMatrices(M, XYZ);
 		}
 		else {
