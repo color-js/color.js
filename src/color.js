@@ -486,6 +486,7 @@ export default class Color {
 		let M;
 
 		if (W1 === Color.whites.D65 && W2 === Color.whites.D50) {
+			// Linear Bradford CAT
 			M = [
 				[ 1.0478112,  0.0228866, -0.0501270],
 				[ 0.0295424,  0.9904844, -0.0170491],
@@ -507,7 +508,7 @@ export default class Color {
 			return util.multiplyMatrices(M, XYZ);
 		}
 		else {
-			throw new TypeError("Only white points D50 and D65 supported for now.");
+			throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
 		}
 	}
 
