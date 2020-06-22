@@ -68,27 +68,6 @@
 				</script>
 			</td>
 		</tr>
-		<!-- <tr title="Hunt &amp; Pointer worked example">
-			<td>
-				<script>
-					print(() => {
-						let M = Color.adapt([98.88, 90.00, 32.03], [100, 100, 100] "CAT02");
-						return M;
-						});
-				</script>
-			</td>
-			<td>
-				<script>
-					print(() => {
-						return [
-						[ 1.0478112,  0.0228866, -0.0501270],
-						[ 0.0295424,  0.9904844, -0.0170491],
-						[-0.0092345,  0.0150436,  0.7521316]
-					];
-					});
-				</script>
-			</td>
-		</tr> -->
 	</table>
 </section>
 
@@ -231,6 +210,118 @@
 				</script>
 			</td>
 		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>CAT02 and CAT16, D50 ⇔ D65</h1>
+	<p>These test the fully adapted CAT02 and CAT16 adaptations from CATs.js, interconverting between D50 and D65.</p>
+	<table class="reftest" data-test="fuzzyNumbers">
+		<tr title="CAT02 D50 to D65">
+			<td>
+				<script>
+					print(() => {
+						let M = Color.adapt(Color.whites.D50, Color.whites.D65, "CAT02");
+						return M;
+						});
+				</script>
+			</td>
+			<td>
+				<script>
+					print(() => {
+						return [
+							[ 0.9599435, -0.0292880,  0.0656334],
+							[-0.0211745,  0.9988615,  0.0261212],
+							[ 0.0013700,  0.0044344,  1.3124836]
+						];
+					});
+				</script>
+			</td>
+		</tr>
+		<tr title="CAT02 D65 to D50">
+			<td>
+				<script>
+					print(() => {
+						let M = Color.adapt(Color.whites.D65, Color.whites.D50, "CAT02");
+						return M;
+						});
+				</script>
+			</td>
+			<td>
+				<script>
+					print(() => {
+						return [
+							[ 1.0424827,  0.0308012, -0.0527444],
+							[ 0.0221295,  1.0018823, -0.0210462],
+							[-0.0011630, -0.0034170,  0.7620404]
+						];
+					});
+				</script>
+			</td>
+		</tr>
+		<tr title="CAT16 D50 to D65">
+			<td>
+				<script>
+					print(() => {
+						let M = Color.adapt(Color.whites.D50, Color.whites.D65, "CAT16");
+						return M;
+						});
+				</script>
+			</td>
+			<td>
+				<script>
+					print(() => {
+						return [
+							[ 0.9894962, -0.0399233,  0.0439904],
+							[-0.0053910,  1.0066456, -0.0017541],
+							[-0.0004037,  0.0150564,  1.3016843]
+						];
+					});
+				</script>
+			</td>
+		</tr>
+		<tr title="CAT16 D65 to D50">
+			<td>
+				<script>
+					print(() => {
+						let M = Color.adapt(Color.whites.D65, Color.whites.D50, "CAT16");
+						return M;
+						});
+				</script>
+			</td>
+			<td>
+				<script>
+					print(() => {
+						return [
+							[ 1.0108226,  0.0405991, -0.0341060],
+							[ 0.0054139,  0.99359563, 0.0011560],
+							[ 0.0002508, -0.01148016, 0.7682115]
+						];
+					});
+				</script>
+			</td>
+		</tr>
+		<!-- <tr title="Hunt &amp; Pointer worked example">
+			<td>
+				<script>
+					print(() => {
+						let M = Color.adapt([98.88, 90.00, 32.03], [100, 100, 100] "CAT02");
+						return M;
+						});
+				</script>
+			</td>
+			<td>
+				<script>
+					print(() => {
+						return [
+						[ 1.0478112,  0.0228866, -0.0501270],
+						[ 0.0295424,  0.9904844, -0.0170491],
+						[-0.0092345,  0.0150436,  0.7521316]
+					];
+					});
+				</script>
+			</td>
+		</tr> -->
 	</table>
 </section>
 
