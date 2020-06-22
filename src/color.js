@@ -475,7 +475,7 @@ export default class Color {
 	}
 
 	// Adapt XYZ from white point W1 to W2
-	static chromaticAdaptation (W1, W2, XYZ, options) {
+	static chromaticAdaptation (W1, W2, XYZ, options = {}) {
 		W1 = W1 || Color.whites.D50;
 		W2 = W2 || Color.whites.D50;
 
