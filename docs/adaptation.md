@@ -4,7 +4,7 @@
 
 Ideally, the color of something
 (a colored patch on screen, or a physical object)
-is determined with a **spectrophotometer**.
+is determined with a __spectrophotometer__.
 The amount of light at every wavelength
 (in practice, a group of wavelengths
 at 5nm, 10nm, or even 20nm spacing)
@@ -13,22 +13,30 @@ is measured.
 For colors on screen, the white is also measured.
 For physical colors, the light which is illuminating the object
 (the amount of illuminant light at each wavelength)
-must also be measured. Objects looks different under different lights.
+must also be measured.
 
 The spectrophotometer can then calculate the XYZ and Lab or LCH values.
 
-As long as we retain the original spectral data,
-we can then calculate _what the object would have looked like_
+Objects measure very differently under different lights.
+They also look different, but much less so
+(this is called _color constancy_).
+The process whereby our eyes change from seeing one color as white,
+to seeing another color as white,
+and finding that most objects look similar to what they did before,
+is called __chromatic adaptation__.
+
+As long as we retain the original measured spectral data,
+we can calculate _what the object would have looked like_
 under any other illuminant.
 
 Often though we don't have the spectral data;
 either it wasn't saved,
-or the color was measured by a **colorimeter**
+or the color was measured by a __colorimeter__
 which just passes the light through three filters
 and directly reads out in XYZ.
 
 If you have a color measured under one illuminant,
-the **corresponding color** is another color which
+the __corresponding color__ is another color which
 _looks the same_ under a second illuminant.
 
 Chromatic adaptation is a way of _predicting_
@@ -38,14 +46,20 @@ the corresponding color.
 
 To save the trouble of measuring illuminant spectra all the time,
 _standard illuminants_ exist.
+
 For example, Illuminant A is the orangeish light
 produced by a tungsten electric lightbulb
 (specifically, one with a filament temperature of 2,856K).
+
 Illuminant C, an early attempt to simulate natural daylight,
 is Illuminant A with a specific blue filter.
-(it is rarely used nowadays, but there is a lot of experimental data measured with it).
+(it is rarely used nowadays,
+but there is a lot of experimental data measured with it
+so it is useful to adapt _from_).
+
 Illuminant D65 represents the light in the shade (no direct sunlight) at noon,
 and has a color temperature of 6500K.
+
 Illuminant D50 is similar but represents direct sunlight at noon.
 Illuminant F2 is a particular type of fluorescent lamp, and so on.
 
