@@ -39,7 +39,7 @@ If you have a color measured under one illuminant,
 the __corresponding color__ is another color which
 _looks the same_ under a second illuminant.
 
-Chromatic adaptation is a way of _predicting_
+A chromatic adaptation transform is a way of _predicting_
 the corresponding color.
 
 ## Illuminants
