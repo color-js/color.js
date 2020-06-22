@@ -475,7 +475,7 @@ export default class Color {
 	}
 
 	// Adapt XYZ from white point W1 to W2
-	static chromaticAdaptation (W1, W2, XYZ) {
+	static chromaticAdaptation (W1, W2, XYZ, options) {
 		W1 = W1 || Color.whites.D50;
 		W2 = W2 || Color.whites.D50;
 
@@ -483,29 +483,32 @@ export default class Color {
 			return XYZ;
 		}
 
-		let M;
+		let env = {W1, W2, XYZ, options};
 
-		if (W1 === Color.whites.D65 && W2 === Color.whites.D50) {
-			// Linear Bradford CAT
-			M = [
-				[ 1.0478112,  0.0228866, -0.0501270],
-				[ 0.0295424,  0.9904844, -0.0170491],
-				[-0.0092345,  0.0150436,  0.7521316]
-			];
-		}
-		else if (W1 === Color.whites.D50 && W2 === Color.whites.D65) {
-			M = [
-				[ 0.9555766, -0.0230393,  0.0631636],
-				[-0.0282895,  1.0099416,  0.0210077],
-				[ 0.0122982, -0.0204830,  1.3299098]
-			];
+		Color.hooks.run("chromatic-adaptation-start", env);
+
+		if (!env.M) {
+			if (env.W1 === Color.whites.D65 && env.W2 === Color.whites.D50) {
+				// Linear Bradford CAT
+				env.M = [
+					[ 1.0478112,  0.0228866, -0.0501270],
+					[ 0.0295424,  0.9904844, -0.0170491],
+					[-0.0092345,  0.0150436,  0.7521316]
+				];
+			}
+			else if (env.W1 === Color.whites.D50 && env.W2 === Color.whites.D65) {
+				env.M = [
+					[ 0.9555766, -0.0230393,  0.0631636],
+					[-0.0282895,  1.0099416,  0.0210077],
+					[ 0.0122982, -0.0204830,  1.3299098]
+				];
+			}
 		}
 
-		let env = {W1, W2, XYZ, M};
 		Color.hooks.run("chromatic-adaptation-end", env);
 
 		if (env.M) {
-			return util.multiplyMatrices(M, XYZ);
+			return util.multiplyMatrices(env.M, env.XYZ);
 		}
 		else {
 			throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
