@@ -17,12 +17,9 @@ Color.adapt = function (W1, W2, id) {
 	// using the given chromatic adaptation transform (CAT)
 	// debugger;
 	let method = Color.CATs[id];
-	let src = util.multiplyMatrices(method.toCone_M, W1);
-	let dest = util.multiplyMatrices(method.toCone_M, W2);
-	// console.log({method, src, dest});
 
-	let [ρs, γs, βs] = src;
-	let [ρd, γd, βd] = dest;
+	let [ρs, γs, βs] = util.multiplyMatrices(method.toCone_M, W1);
+	let [ρd, γd, βd] = util.multiplyMatrices(method.toCone_M, W2);
 
 	// all practical illuminants have non-zero XYZ so no division by zero can occur below
 	let scale = [
@@ -30,9 +27,12 @@ Color.adapt = function (W1, W2, id) {
 		[0,        γd/γs,  0      ],
 		[0,        0,      βd/βs  ]
 	];
+	// console.log({scale});
 
-	let from = util.multiplyMatrices(scale, method.toCone_M);
-	return	util.multiplyMatrices(from, method.fromCone_M);
+	let scaled_cone_M = util.multiplyMatrices(scale, method.toCone_M);
+	let adapt_M	= util.multiplyMatrices(method.fromCone_M, scaled_cone_M);
+	// console.log({scaled_cone_M, adapt_M});
+	return adapt_M
 };
 
 Color.defineCAT({
@@ -111,7 +111,7 @@ Object.assign(Color.whites, {
 	D75: [0.94972, 1.00000, 1.22638],
 
 	// The F series of illuminants represent flourescent lights
-	F2:  [0.99186, 1.00000, 67.393],
+	F2:  [0.99186, 1.00000, 0.67393],
 	F7:  [0.95041, 1.00000, 1.08747],
 	F11: [1.00962, 1.00000, 0.64350]
 });
