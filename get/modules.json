@@ -6,7 +6,7 @@
 			"include": true,
 			"mandatory": true,
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space",
-			"description": "A CIE color space with good perceptually uniformity, Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between to points in Lab is a good first approximation to how different the two colors look."
+			"description": "A CIE color space with good perceptually uniformity, Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between to points in Lab is a good first approximation to how different the two colors look. Commercial color-measuring instruments report values in Lab, and it is used as an intermediate space for gamut mapping and colorspace interconversion."
 		},
 		{
 			"name": "LCH",
@@ -45,14 +45,14 @@
 			"id": "rec2020",
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/Rec._2020",
-			"description": "A very wide gamut RGB color space used in 4k and 8k UHDTV. It is currently difficult to make a screen which displays the entire REC.2020 gamut; current movies broadcast in theis format do not use the full gamut, although they do use a little more than P3."
+			"description": "A very wide gamut RGB color space used in 4k and 8k UHDTV. It is currently difficult to make a screen which displays the entire REC.2020 gamut; current movies broadcast in this colorspace do not use the full gamut, although they do use a little more than P3."
 		},
 		{
 			"name": "ProPhoto",
 			"id": "prophoto",
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/ProPhoto_RGB_color_space",
-			"description": "Very wide gamut RGB color space with primaries outside the range of human vision. Designed to avoid hue shifts when sigmoid (contrast-changing) functions are applied directly to the RGB channels, so it is popular as an authoring space for digital photography. Includes 90% of visible colors, but also encodes values that are not physically realizable colors. Requires gamut mapping before display."
+			"description": "Very wide gamut RGB color space with primaries outside the range of human vision. Designed to avoid hue shifts when sigmoid (contrast-changing) functions are applied directly to the RGB channels, so it is popular as an authoring space for digital photography. Includes 90% of visible colors, but also encodes many values that are not physically realizable colors. Requires gamut mapping before display."
 		},
 
 		{
