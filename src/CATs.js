@@ -111,7 +111,7 @@ Object.assign(Color.whites, {
 	D75: [0.94972, 1.00000, 1.22638],
 
 	// Equal-energy illuminant, used in two-stage CAT16
-	E:   [1.00000, 1.00000, 1.00000]
+	E:   [1.00000, 1.00000, 1.00000],
 
 	// The F series of illuminants represent flourescent lights
 	F2:  [0.99186, 1.00000, 0.67393],
