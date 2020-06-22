@@ -158,7 +158,7 @@ It has since been superceeded by later models
 which are more accurate,
 easier to calculate,
 and more numerically stable.
-We haven't implemented CAT97s.
+We therefore haven't implemented CAT97s.
 
 ### CAT02
 
@@ -167,11 +167,12 @@ and the result of a lot of numerical optimization
 to give the best predictive accuracy
 on a large dataset of corresponding colors,
 CAT02 has entirely replaced CAT97s.
-Like the Braqdford method,
-and optimized, sharpened set of cone resonses is used.
+Like the Bradford method,
+an optimized, sharpened set of cone responses is used.
 
 CAT02 also allows for _partial adaptation_ to the new whitepoint.
-When the illumination changes, our eyes become 60% adapted in a couple of seconds
+When the illumination changes, Fairchild &amp; Reniff measured that
+our eyes become 60% adapted in a couple of seconds
 and are 95% adapted after 90 seconds.
 Because it is difficult to measure the state of adaptation,
 we implemented the simplified, fully adapted CAT02 transform.
