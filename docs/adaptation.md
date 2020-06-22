@@ -198,3 +198,30 @@ in the latter, colors are first adapted to an equal-energy white
 and then to the destination white in a second step.
 We have only implemented the one-stage CAT.
 
+## Using CATs
+
+By default, only linear Bradford is available
+and only two whitepoints are supported:
+D65, as used by most RGB colorspaces,
+and D50, as used by Lab, LCH, XYZ
+and also ProPhoto RGB and most CMYK colorspaces.
+Attempting to use another whitepoint or a different method will give an error.
+
+```js
+let color1 = new Color("p3" 0.22 0.63 0.42); // D65 white
+let color2 = new Color("prophoto" 0.15 0.54 0.21); //D50 white
+color1.lch;
+// linear Bradford was used to adapt to D50 before conversion to Lab
+color2.lch;
+// no CAT was needed, whitepoints the same
+```
+
+The optional CATs.js module
+uses an extension hook to add
+a number of other standard illuminants,
+and several other CAT methods.
+Because these are all one-stage linear transformations,
+the choice of source whitepoint, destination whitepoint,
+and CAT method produces a single matrix transform,
+which our code will automatically use
+whenever the source and destination colorspaces have different whitepoints.
