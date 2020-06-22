@@ -6,7 +6,7 @@
 			"include": true,
 			"mandatory": true,
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space",
-			"description": "Perceptually uniform CIE color space."
+			"description": "A CIE color space with good perceptually uniformity, Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between to points in Lab is a good first approximation to how different the two colors look."
 		},
 		{
 			"name": "LCH",
@@ -15,7 +15,7 @@
 			"mandatory": true,
 			"dependencies": ["lab"],
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_representation:_CIELCh_or_CIEHLC",
-			"description": "LCH is the polar form of Lab"
+			"description": "LCH is the polar form of Lab. Instead of juggling a and b, you specify a Hue angle (starting from the positive a axis) and a Chroma, or colorfulness, which is zero for neutral greys and increases as a color becomes more saturated."
 		},
 		{
 			"name": "sRGB",
@@ -23,7 +23,7 @@
 			"include": true,
 			"mandatory": true,
 			"url": "https://en.wikipedia.org/wiki/SRGB",
-			"description": "The color space of all CSS colors before CSS Color Level 4."
+			"description": "The color space of all CSS colors before CSS Color Level 4, sRGB is derived from the definition of HDTV. Most screens can display all, or very nearly all, sRGB colors but there are many visible colors which lie outside the sRGB gamut."
 		},
 		{
 			"name": "Display P3",
@@ -31,28 +31,28 @@
 			"include": true,
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/DCI-P3#Display_P3",
-			"description": "The color space of most commercial wide gamut screens today. 50% larger gamut (by volume) than sRGB."
+			"description": "The color space of most commercial wide gamut screens today. 50% larger gamut (by volume) than sRGB. CSS Color level 4 allowed these colors to be used in stylesheets for the first time. It is derived from a digital cinema projector standard, DCI-P3 but the transfer curve, whitepoint and viewing conditions are the same as for sRGB."
 		},
 		{
 			"name": "Adobe® RGB Compatible",
 			"id": "a98rgb",
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/Adobe_RGB_color_space",
-			"description": "Wide gamut RGB color space, encompassed roughly 50% of visible colors."
+			"description": "Another wide gamut RGB color space, encompassed roughly 50% of visible colors, and popular in digital photography. The name `Adobe® (1998) RGB' is trademarked, but a colorspace which is 100% identical can be described as `compatible` as long as it uses a different name."
 		},
 		{
 			"name": "REC.2020",
 			"id": "rec2020",
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/Rec._2020",
-			"description": "Very wide gamut RGB color space"
+			"description": "A very wide gamut RGB color space used in 4k and 8k UHDTV. It is currently difficult to make a screen which displays the entire REC.2020 gamut; current movies broadcast in theis format do not use the full gamut, although they do use a little more than P3."
 		},
 		{
 			"name": "ProPhoto",
 			"id": "prophoto",
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/ProPhoto_RGB_color_space",
-			"description": "Very wide gamut RGB color space with primaries outside the range of human vision. Includes 90% of visible colors."
+			"description": "Very wide gamut RGB color space with primaries outside the range of human vision. Designed to avoid hue shifts when sigmoid (contrast-changing) functions are applied directly to the RGB channels, so it is popular as an authoring space for digital photography. Includes 90% of visible colors, but also encodes values that are not physically realizable colors. Requires gamut mapping before display."
 		},
 
 		{
@@ -61,27 +61,27 @@
 			"include": true,
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/HSL_and_HSV",
-			"description": "Polar transformation of sRGB, supported as early as CSS Color Level 3."
+			"description": "Polar transformation of sRGB, supported as early as CSS Color Level 3. Beware the perceptually non-uniform hue, and don't compare the lightness of colors with different hue."
 		},
 		{
 			"name": "HWB",
 			"id": "hwb",
 			"dependencies": ["hsl"],
 			"url": "https://en.wikipedia.org/wiki/HWB_color_model",
-			"description": "Another polar transformation of sRGB with hue, whiteness, blackness coordinates."
+			"description": "Another polar transformation of sRGB with hue, whiteness, and blackness coordinates."
 		},
 		{
 			"name": "HSV",
 			"id": "hsv",
 			"dependencies": ["hsl"],
 			"url": "https://en.wikipedia.org/wiki/HSL_and_HSV",
-			"description": "Another polar transformation of sRGB, supported in Adobe CS software."
+			"description": "Yet another polar transformation of sRGB, supported in Adobe CS software."
 		},
 		{
 			"name": "Jzazbz",
 			"id": "jzazbz",
 			"url": "http://www.color.org/events/prague/MuhammadSafdar2017.pdf",
-			"description": "Color space that improves on Lab, with much better perceptual uniformity."
+			"description": "A color space that improves on Lab, with much better perceptual uniformity, and also supports High Dynamic Range (HDR), or very bright colors brighter than a paper white. The transfer function is derived from Dolby PQ, which is defined in REC.2100 and used for HDR UHDTV."
 		},
 		{
 			"name": "JzCzHz",
@@ -123,7 +123,7 @@
 		{
 			"name": "Chromatic adaptation",
 			"id": "CATs",
-			"description": "Color.js core only suppoorts chromatic adaptation between D50 and D65 using the Bradford method. This module supports chromatic adaptation between arbitrary illuminants (with 9 presets) using Bradford, Van Kries, CAT02, or CAT16."
+			"description": "Color.js core only supports chromatic adaptation between D50 and D65 using the linear Bradford method. This module supports chromatic adaptation between arbitrary illuminants (with 9 presets) using Bradford, Van Kries, CAT02, or CAT16."
 		}
 	]
 }
