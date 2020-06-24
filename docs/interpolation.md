@@ -17,7 +17,8 @@ For numbers in the range 0 to 1, the function _interpolates_; for numbers outsid
 
 Percentages (0 to 100%) should be converted to numbers (0 to 1).
 
-The `space` parameter controls the color space interpolation occurs in and defaults to Lab.
+The `space` parameter controls the [color space](spaces.html)
+interpolation occurs in, and defaults to Lab.
 Colors do not need to be in that space, they will be converted for interpolation.
 The interpolation space can make a big difference in the result:
 
@@ -48,7 +49,7 @@ c1.range(c2, {space: "lch"}); // default is "shorter"
 ```
 
 Range interpolates between colors as they were at the time of its creation.
-If you change the colors afterwards, it will not be affected:
+If you change the colors afterwards, the range will not be affected:
 
 ```js
 	let color = new Color("red");
@@ -99,7 +100,13 @@ This produces a new range, and leaves the old one unaffected.
 	});
 ```
 
+By default, the deltaE76 function is used.
+
 ## Mixing colors
+
+Interpolation can be used to create color mixtures,
+in any desired proportion,
+between two colors.
 
 Shortcut for specific points in the range:
 ```js
