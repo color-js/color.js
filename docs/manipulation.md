@@ -29,10 +29,11 @@ color = color.set({
 ## Gamut mapping
 
 [Color Gamut](https://en.wikipedia.org/wiki/Gamut) is the range of colors a given color space can produce.
-Some color spaces (e.g. Lab, LCH, Ja<sub>z</sub>b<sub>z</sub>, CAM16) are mathematical models that encompass all visible color.
+Some color spaces (e.g. Lab, LCH, Ja<sub>z</sub>b<sub>z</sub>, CAM16) are mathematical models that encompass all visible color
+and thus, do not have a fixed gamut.
 Others however cannot produce all visible color without *values out of range*.
 For example. all the RGB spaces (sRGB, P3, Adobe® RGB, ProPhoto, REC.2020) have a gamut that is smaller than all visible color.
-Therefore, there are colors that are perfectly normal, but cannot be represented by certain color spaces.
+Therefore, there are visible colors that cannot be represented by certain color spaces.
 For example, the P3 lime (`color(display-p3 0 1 0)`) is outside of the gamut of sRGB.
 In addition, colors that are **not visible to humans** can sometimes be represented by some color spaces!
 Most notably, two of ProPhoto's three primaries (pure green, pure blue) are **outside the gamut of human vision**!
@@ -53,7 +54,7 @@ let sRGB_lime = lime.to("srgb");
 sRGB_lime.inGamut();
 ```
 
-Note that while the coordinates remain unchanged, the string representation of a Color object is after gamut mapping, unless you explicitly turn that off:
+Note that while the coordinates remain unchanged, the string representation of a Color object is, by default, _after_ gamut mapping, unless you explicitly turn that off:
 
 ```js
 let lime = new Color("p3", [0, 1, 0]).to("srgb");
