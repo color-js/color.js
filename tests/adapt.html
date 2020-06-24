@@ -325,5 +325,32 @@
 	</table>
 </section>
 
+<section>
+	<h1>CAT16, C to D50</h1>
+	<p>This tests the fully adapted CAT16 adaptation from CATs.js, Illuminant C to D50.</p>
+	<table class="reftest" data-test="fuzzyNumbers">
+		<tr title="CAT02 D50 to D65">
+			<td>
+				<script>
+					print(() => {
+						let M = Color.adapt(Color.whites.C, Color.whites.D50, "CAT16");
+						return M;
+						});
+				</script>
+			</td>
+			<td>
+				<script>
+					print(() => {
+						return [
+							[ 1.0059635,  0.0270676, -0.0418130],
+							[ 0.0037323,  0.9940963,  0.0018973],
+							[ 0.0004538, -0.0145289,  0.7098704]
+						];
+					});
+				</script>
+			</td>
+		</tr>
+	</table>
+</section>
 </body>
 </html>
