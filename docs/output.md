@@ -102,7 +102,7 @@ so that it can have a property (primitives in Javascript cannot have properties)
 
 When working with [ranges](interpolation), you may often need to display the range as a CSS gradient.
 The trick here is to grab as many steps as you need via `color.steps()`, then use them as gradient color stops.
-If you don't know how many steps you need, this is what the `delta` parameter is for, as it lets you specify the maximum allowed deltaE between consecutive colors.
+If you don't know how many steps you need, this is what the `maxDeltaE` parameter is for, as it lets you specify the maximum allowed deltaE between consecutive colors.
 
 <div id="test" style="width: 100%; height: 2em"></div>
 
