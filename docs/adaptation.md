@@ -188,15 +188,17 @@ TODO how is this better than CAT02.
 CAT16 gives somewhat better predictions that CAT02,
 particularly with vivid non-white illuminants.
 
-CAT16 has been criticized by Smet &amp Ma
+CAT16, as originally published, has been criticized by Smet & Ma
 for incorrectly scaling by a reference white luminance,
 which is usually but not always 1.0.
-Our implementation omits this scaling.
+Our implementation omits this scaling,
+which is becoming recommended practice.
 
 CAT16 defines both a one-stage and a two-stage CAT;
 in the latter, colors are first adapted to an equal-energy white
 and then to the destination white in a second step.
-We have only implemented the one-stage CAT.
+We have only implemented the one-stage CAT,
+which gived idential results for full adaptation.
 
 ## Using CATs
 
