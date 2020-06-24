@@ -1,6 +1,6 @@
 # Chromatic adaptation
 
-## What does it do?
+## Measuring, and predicting, colors
 
 Ideally, the color of something
 (a colored patch on screen, or a physical object)
