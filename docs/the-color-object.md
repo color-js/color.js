@@ -39,7 +39,8 @@ new Color("LCH", [50, 30, 180]);
 new Color(Color.spaces.lch, [50, 30, 180]);
 ```
 
-The exact ranges for these coordinates are up to the color space definition.
+The exact ranges for these coordinates are up to the
+[color space](spaces.html) definition.
 
 You can also pass another color, or an object literal with `spaceId`/`space`, `coords`, and optionally `alpha` properties:
 
