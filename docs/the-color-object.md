@@ -1,6 +1,10 @@
 # The Color Object
 
-The first part to many Color.js operations is creating a Color object.
+The first part to many Color.js operations is creating a Color object,
+which represents a specific color,
+in a particular colorspace,
+and has methods to convert the color to other spaces
+or to manipulate it..
 There are many ways to do so.
 
 ## Passing a CSS color string
@@ -102,7 +106,9 @@ color.space = Color.spaces.prophoto;
 color;
 ```
 
-Often, we want to keep our color intact, but also convert it to another color space.
+Often, we want to keep our color intact,
+but also convert it to another color space,
+creating a new Color object.
 This is exactly what `color.to()` is for:
 
 ```js
