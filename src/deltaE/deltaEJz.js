@@ -25,11 +25,17 @@ Color.prototype.deltaEJz = function (sample) {
 	let ΔC = Cz1 - Cz2;
 
 	// length of chord for ΔH
-	if (Number.isNaN(Hz1)) {
+	if ((Number.isNaN(Hz1)) && (Number.isNaN(Hz2))) {
+		// both undefined hues
 		Hz1 = 0;
-	}
-	if (Number.isNaN(Hz2)) {
 		Hz2 = 0;
+	} else
+	if (Number.isNaN(Hz1)) {
+		// one undefined, set to the defined hue
+		Hz1 = Hz2;
+	} else
+	if (Number.isNaN(Hz2)) {
+		Hz2 = Hz1;
 	}
 
 	let Δh = Hz1 - Hz2;
