@@ -198,8 +198,12 @@ export function evaluate (pre) {
 			// Make result line up with its line if there's space
 			let semicolon = semicolons[i];
 
-			if (semicolon) {
+			if (!semicolon && isLastLine) {
+				// Last line often doesn't have a semicolon
+				semicolon = originalPre.lastElementChild.lastElementChild;
+			}
 
+			if (semicolon) {
 				let offset = semicolon.offsetTop - result.offsetTop
 				// Prevent overly tall results (e.g. long arrays of colors)
 				// to make the entire code area super tall
