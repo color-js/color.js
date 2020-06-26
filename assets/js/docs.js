@@ -1,4 +1,4 @@
-import * as notebook from "../../notebook/color-notebook.js";
+import Notebook from "../../notebook/color-notebook.js";
 
 let $ = Bliss;
 let $$ = $.$;
@@ -120,9 +120,11 @@ if (location.pathname.indexOf("/spaces") > -1) {
 		return Mavo.defer(500);
 	}).then(() => {
 		$$("pre:not([class])").forEach(pre => {
+			// Add class now to avoid race conditions where Prism highlights before expressions resolve
 			pre.classList.add("language-javascript");
 			Prism.highlightElement(pre);
-			notebook.init(pre);
+
+			Notebook.create(pre);
 		});
 	});
 
