@@ -5,7 +5,9 @@ let $$ = $.$;
 
 // Wrap toc links in a list
 let ul = $("#toc > ul");
-let current = $$("#toc > ul > li > a").find(a => a.pathname === location.pathname);
+let current = $$("#toc > ul > li > a").find(a => {
+	return a.pathname.replace(/\.html|$/i, "") === location.pathname.replace(/\.html|$/i, "");
+});
 
 if (current) {
 	current = current.parentNode; // <li>
