@@ -124,13 +124,17 @@ table thead th {
 		}
 
 table tbody th,
-		table tbody td {
+		table tbody td,
+		table tfoot th,
+		table tfoot td {
 			background: hsla(0 0% 100% / .95);
 			border: 1px solid transparent;
 		}
 
 table tbody tr:nth-of-type(even) td,
-			table tbody tr:nth-of-type(even) th {
+			table tbody tr:nth-of-type(even) th,
+			table tfoot tr:nth-of-type(even) td,
+			table tfoot tr:nth-of-type(even) th {
 				background: hsla(0 0% 100% / .8);
 			}
 
