@@ -179,7 +179,8 @@ body > header nav a, body > footer nav a {
 body > header nav a:not(.logo), body > footer nav a:not(.logo) {
 			flex: 1;
 			padding: .6em;
-			font-weight: 800
+			font-weight: 800;
+			white-space: nowrap
 		}
 
 body > header nav a:not(.logo):hover, body > footer nav a:not(.logo):hover {

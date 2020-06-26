@@ -176,6 +176,7 @@ body > footer {
 			flex: 1;
 			padding: .6em;
 			font-weight: 800;
+			white-space: nowrap;
 
 			&:hover {
 				background: var(--rainbow);
