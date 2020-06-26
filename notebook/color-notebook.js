@@ -160,6 +160,7 @@ export function evaluate (pre) {
 
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i];
+		let isLastLine = i === lines.length - 1;
 		let ret;
 
 		try {
