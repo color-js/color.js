@@ -100,6 +100,30 @@ function deltaTest(...args) {
 			</td>
 			<td>27.4089</td>
 		</tr>
+		<tr title="Brilliant Yellow with Hue error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.46% 8.88 96.49)</td>
+			<td>
+				<script>deltaTest();</script>
+			</td>
+			<td>3.1849</td>
+		</tr>
+		<tr title="Brilliant Yellow with low Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.52% 5.75 93.09)</td>
+			<td>
+				<script>deltaTest();</script>
+			</td>
+			<td>2.9225</td>
+		</tr>
+		<tr title="Brilliant Yellow with high Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.37% 5.86 99.42)</td>
+			<td>
+				<script>deltaTest();</script>
+			</td>
+			<td>3.4242</td>
+		</tr>
 	</table>
 </section>
 
@@ -524,6 +548,30 @@ function deltaTest(...args) {
 			</td>
 			<td>0.9082</td>
 		</tr>
+		<tr title="Brilliant Yellow with Hue error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.46% 8.88 96.49)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>1.6743</td>
+		</tr>
+		<tr title="Brilliant Yellow with low Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.52% 5.75 93.09)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>0.5887</td>
+		</tr>
+		<tr title="Brilliant Yellow with high Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.37% 5.86 99.42)</td>
+			<td>
+				<script>deltaTest({method: "2000"});</script>
+			</td>
+			<td>0.6395</td>
+		</tr>
 	</table>
 </section>
 
@@ -593,6 +641,30 @@ function deltaTest(...args) {
 				<script>deltaTest({method: "Jz"});</script>
 			</td>
 			<td>0.04848435</td>
+		</tr>
+		<tr title="Brilliant Yellow with Hue error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.46% 8.88 96.49)</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0.00760321</td>
+		</tr>
+		<tr title="Brilliant Yellow with low Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.52% 5.75 93.09)</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0.00204053</td>
+		</tr>
+		<tr title="Brilliant Yellow with high Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.37% 5.86 99.42)</td>
+			<td>
+				<script>deltaTest({method: "Jz"});</script>
+			</td>
+			<td>0.00219895</td>
 		</tr>
 	</table>
 </section>
