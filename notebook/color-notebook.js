@@ -92,7 +92,8 @@ export default class Notebook {
 				return;
 			}
 
-			if (nextVariable && inRoot) {
+			if (nextVariable && (inRoot || parent.matches(".token.constant"))) {
+				// Variables with ALL_CAPS are highlighted as constants
 				variables.add(text);
 				nextVariable = false;
 			}
@@ -101,7 +102,7 @@ export default class Notebook {
 				node.textContent = "";
 			}
 
-			if ((inRoot || parent.matches(".token.function, .token.template-string .interpolation")) && variables.has(text)) {
+			if ((inRoot || parent.matches(".token.function, .token.template-string .interpolation, .token.constant")) && variables.has(text)) {
 				// node.textContent = "env." + text;
 				node.textContent = node.textContent.replace(text, "env.$&");
 			}
