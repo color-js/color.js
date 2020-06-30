@@ -6,15 +6,15 @@ Color.defineSpace({
     name: "Jzazbz",
     coords: {
 		Jz: [0, 1],
-		az: [-1, 1],
-		bz: [-1, 1]
+		az: [-0.5, 0.5],
+		bz: [-0.5, 0.5]
     },
     inGamut: coords => true,
 	// Note that XYZ is relative to D65
 	white: Color.whites.D65,
 	b: 1.15,
 	g: 0.66,
-	Yw: 140,	// absolute luminance of media white, cd/m²
+	Yw: 203,	// absolute luminance of media white, cd/m² per BT.2048
 	n:2610 / (2 ** 14),
 	ninv: (2 ** 14) / 2610,
 	c1: 3424 / (2 ** 12),
@@ -55,6 +55,8 @@ Color.defineSpace({
 		// Relative XYZ has Y=1 for media white
 		// Slideset for SMPTE Webcast "PQ and HLG
 		// Presented by the BBC" says PQ media white is 140 cd/m²
+		// citing Dolby. However,
+		// BT.2048 says 203 at PQ 58
 
 		// console.log({XYZ});
 
