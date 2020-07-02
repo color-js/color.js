@@ -20,6 +20,7 @@ import "./interpolation.js";
 import "./deltaE/deltaECMC.js";
 import "./deltaE/deltaE2000.js";
 import "./deltaE/deltaEJz.js";
+import "./CATs.js";
 
 // Re-export everything
 export default Color;

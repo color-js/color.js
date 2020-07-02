@@ -2,8 +2,16 @@ import Color, {util} from "./color.js";
 
 Color.CATs = {};
 
+Color.hooks.add("chromatic-adaptation-start", env => {
+	if (env.options.method) {
+		env.M = Color.adapt(env.W1, env.W2, env.options.method);
+	}
+});
+
 Color.hooks.add("chromatic-adaptation-end", env => {
-	env.M = Color.adapt(env.W1, env.W2, env.id);
+	if (!env.M) {
+		env.M = Color.adapt(env.W1, env.W2, env.options.method);
+	}
 });
 
 Color.defineCAT = function ({id, toCone_M, fromCone_M}) {
@@ -11,7 +19,7 @@ Color.defineCAT = function ({id, toCone_M, fromCone_M}) {
 	Color.CATs[id] = arguments[0];
 };
 
-Color.adapt = function (W1, W2, id) {
+Color.adapt = function (W1, W2, id = "Bradford") {
 	// adapt from a source whitepoint or illuminant W1
 	// to a destination whitepoint or illuminant W2,
 	// using the given chromatic adaptation transform (CAT)
@@ -32,7 +40,7 @@ Color.adapt = function (W1, W2, id) {
 	let scaled_cone_M = util.multiplyMatrices(scale, method.toCone_M);
 	let adapt_M	= util.multiplyMatrices(method.fromCone_M, scaled_cone_M);
 	// console.log({scaled_cone_M, adapt_M});
-	return adapt_M
+	return adapt_M;
 };
 
 Color.defineCAT({
