@@ -8,13 +8,22 @@ let $ = Bliss, $$ = $.$;
 import Color, {util} from "../color.js";
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
-const outputSpace = Color.space(supportsP3? "p3" : "srgb");
+const outputSpace = supportsP3? "p3" : "srgb";
 const codes = new WeakMap();
 
 Prism.hooks.add("before-sanity-check", env => {
 	if ($(".token", env.element)) {
 		// Already highlighted, abort
 		env.code = "";
+	}
+});
+
+
+Prism.hooks.add("complete", env => {
+	let pre = env.element.closest("pre");
+
+	if (pre.notebook && pre.notebook.initialized) {
+		pre.notebook.eval();
 	}
 });
 
@@ -31,7 +40,7 @@ export default class Notebook {
 			return false;
 		}
 
-		$.create("div", {
+		this.wrapper = $.create("div", {
 			className: "cn-wrapper",
 			around: this.pre,
 			contents: {className: "cn-results"}
@@ -42,25 +51,38 @@ export default class Notebook {
 			this.pre.live = new Prism.Live(this.pre);
 		}
 
-		this.eval();
-
-		this.observe();
-
-		return this.initialized = true;
-	}
-
-	observe () {
-		this.observer = this.observer || new MutationObserver(_ => {
-			this.observer.takeRecords();
-			this.observer.disconnect();
-			this.eval();
-			this.observe();
+		this.sandbox = $.create("iframe", {
+			srcdoc: `<script src="../color.js" type=module></script>
+			<style>:root {--color-red: hsl(0 80% 50%); --color-green: hsl(90 50% 45%); --color-blue: hsl(210 80% 55%)}</style>`,
+			sandbox: "allow-scripts allow-same-origin",
+			inside: document.body,
+			hidden: true
 		});
 
-		this.observer.observe(this.pre, {subtree: true, childList: true});
+		this.initialized = true;
+
+		this.eval();
+
+		return true;
 	}
 
-	eval () {
+	async reloadSandbox () {
+		this.sandbox.classList.remove("ready");
+		this.sandbox.contentWindow.location.reload();
+		await new Promise(r => this.sandbox.addEventListener("load", r, {once: true}));
+		let win = this.sandbox.contentWindow;
+
+		if (win.document.readyState !== "complete") {
+			await new Promise(r => win.addEventListener("load", r, {once: true}));
+		}
+
+		this.sandbox.classList.add("ready");
+		this.sandbox.classList.remove("dirty");
+
+		return win;
+	}
+
+	async eval () {
 		let pre = this.pre;
 
 		if ($(".cn-evaluated.token", pre)) {
@@ -179,11 +201,19 @@ export default class Notebook {
 		let lines = value.trim().split(/\s*;\s*/);
 
 		// Remove last line if empty
-		if (!lines[lines.length - 1]) {
+		if (["", "\u200b"].includes(lines[lines.length - 1])) {
 			lines.pop();
 		}
 
+		if (!this.sandbox.matches(".ready:not(.dirty)")) {
+			await this.reloadSandbox();
+		}
+
+		this.sandbox.classList.add("dirty");
+
+		let win = this.sandbox.contentWindow;
 		let env = {};
+
 		let wrapper = originalPre.closest(".cn-wrapper");
 		let results = $(".cn-results", wrapper);
 
@@ -196,13 +226,14 @@ export default class Notebook {
 			let ret;
 
 			try {
-				ret = eval(line);
+				win.env = env;
+				ret = win.eval(line);
 			}
 			catch (e) {
 				ret = e;
 			}
 
-			if (!(ret instanceof Error)) {
+			if (!(ret instanceof win.Error)) {
 				// Update variables in the current line
 				let lineVars = varLines[i];
 
@@ -211,7 +242,7 @@ export default class Notebook {
 						let variable = node.textContent;
 						let value = env[variable];
 
-						if (value instanceof Color) {
+						if (value instanceof win.Color) {
 							try {
 								node.style.setProperty("--color", value.to(outputSpace));
 								node.classList.add(lightOrDark(value));
@@ -223,7 +254,14 @@ export default class Notebook {
 				}
 			}
 
-			let result = serialize(ret);
+			let result;
+
+			try {
+				result = serialize(ret, undefined, win);
+			}
+			catch (e) {
+
+			}
 
 			if (result) {
 				results.append(result);
@@ -256,6 +294,9 @@ export default class Notebook {
 		if (firstToken) {
 			firstToken.classList.add("cn-evaluated");
 		}
+
+		// Clean up after ourselves
+		await this.reloadSandbox();
 	}
 
 	static create (pre) {
@@ -280,14 +321,15 @@ export function walk(pre, callback, filter) {
 	}
 }
 
-export function serialize(ret, color) {
+export function serialize(ret, color, win = window) {
 	var color, element;
+	let Color = win.Color;
 
 	if (ret === undefined) {
 		return;
 	}
 
-	if (ret instanceof Error) {
+	if (ret instanceof win.Error) {
 		return $.create({
 			className: "cn-error",
 			textContent: ret.name,
@@ -302,7 +344,7 @@ export function serialize(ret, color) {
 			textContent: ret.toString({precision: 3, inGamut: false})
 		});
 	}
-	else if (ret instanceof Function && ret.rangeArgs) {
+	else if (typeof ret === "function" && ret.rangeArgs) {
 		// Range function?
 		return $.create({
 			className: "cn-range",
@@ -318,7 +360,7 @@ export function serialize(ret, color) {
 		});
 	}
 	else if (Array.isArray(ret)) {
-		let colors = ret.map(c => serialize(c));
+		let colors = ret.map(c => serialize(c, undefined, win));
 
 		if (ret.length > 2 && ret[0] instanceof Color) {
 			// Don't print out color if too many
@@ -379,8 +421,8 @@ export function serialize(ret, color) {
 			outOfGamut.push(color.space.name);
 		}
 
-		if (outputSpace !== color.space && !color.inGamut(outputSpace)) {
-			outOfGamut.push(outputSpace.name);
+		if (outputSpace !== color.spaceId && !color.inGamut(outputSpace)) {
+			outOfGamut.push(Color.space(outputSpace).name);
 		}
 
 		if (outOfGamut.length > 0) {
@@ -433,7 +475,7 @@ export function initAll(container = document) {
 	}).map(code => code.parentNode);
 
 	for (let pre of pres) {
-		new Notebook(pre);
+		Notebook.create(pre);
 	}
 }
 
