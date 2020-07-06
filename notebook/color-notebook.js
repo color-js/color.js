@@ -52,11 +52,17 @@ export default class Notebook {
 		}
 
 		this.sandbox = $.create("iframe", {
-			srcdoc: `<script src="../color.js" type=module></script>
+			srcdoc: `<script type=module>
+			import Color from "https://colorjs.io/color.js";
+
+			window.runLine = function (line, env) {
+				return eval(line);
+			}
+			</script>
 			<style>:root {--color-red: hsl(0 80% 50%); --color-green: hsl(90 50% 45%); --color-blue: hsl(210 80% 55%)}</style>`,
-			sandbox: "allow-scripts allow-same-origin",
+			// sandbox: "allow-scripts allow-same-origin",
 			inside: document.body,
-			hidden: true
+			// hidden: true
 		});
 
 		this.initialized = true;
@@ -67,8 +73,11 @@ export default class Notebook {
 	}
 
 	async reloadSandbox () {
-		this.sandbox.classList.remove("ready");
-		this.sandbox.contentWindow.location.reload();
+		if (this.sandbox.contentWindow?.document.readyState === "complete") {
+			this.sandbox.classList.remove("ready", "dirty");
+			this.sandbox.contentWindow.location.reload();
+		}
+
 		await new Promise(r => this.sandbox.addEventListener("load", r, {once: true}));
 		let win = this.sandbox.contentWindow;
 
@@ -77,7 +86,6 @@ export default class Notebook {
 		}
 
 		this.sandbox.classList.add("ready");
-		this.sandbox.classList.remove("dirty");
 
 		return win;
 	}
@@ -226,8 +234,7 @@ export default class Notebook {
 			let ret;
 
 			try {
-				win.env = env;
-				ret = win.eval(line);
+				ret = win.runLine(line, env);
 			}
 			catch (e) {
 				ret = e;
