@@ -22,7 +22,7 @@ Prism.hooks.add("before-sanity-check", env => {
 Prism.hooks.add("complete", env => {
 	let pre = env.element.closest("pre");
 
-	if (pre.notebook && pre.notebook.initialized) {
+	if (pre?.notebook?.initialized) {
 		pre.notebook.eval();
 	}
 });
