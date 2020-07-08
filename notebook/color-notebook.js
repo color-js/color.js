@@ -56,13 +56,24 @@ export default class Notebook {
 			import Color from "https://colorjs.io/color.js";
 
 			window.runLine = function (line, env) {
-				return eval(line);
+				let doc = {
+					documentElement: document.documentElement,
+					head: document.head,
+					querySelector: parent.document.querySelector.bind(parent.document),
+					querySelectorAll: parent.document.querySelector.bind(parent.documentAll)
+				};
+				{
+					let parent, window, location, self;
+					let document = doc;
+
+					return eval(line);
+				}
 			}
 			</script>
 			<style>:root {--color-red: hsl(0 80% 50%); --color-green: hsl(90 50% 45%); --color-blue: hsl(210 80% 55%)}</style>`,
 			// sandbox: "allow-scripts allow-same-origin",
 			inside: document.body,
-			// hidden: true
+			hidden: true
 		});
 
 		this.initialized = true;
