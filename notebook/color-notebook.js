@@ -59,7 +59,7 @@ export default class Notebook {
 
 		this.sandbox = $.create("iframe", {
 			srcdoc: `<script type=module>
-			import Color from "https://colorjs.io/color.js";
+			import Color from "/color.js";
 
 			window.runLine = function (line, env) {
 				let doc = {
