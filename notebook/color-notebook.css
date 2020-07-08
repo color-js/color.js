@@ -67,7 +67,8 @@
 }
 
 .cn-wrapper .cn-error {
-	color: var(--color-red)
+	color: var(--color-red);
+	cursor: help
 }
 
 .cn-wrapper .cn-error::before {

@@ -62,6 +62,7 @@
 
 & .cn-error {
 	color: var(--color-red);
+	cursor: help;
 
 	&::before {
 		content: "⚠️";

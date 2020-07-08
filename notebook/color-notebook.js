@@ -368,7 +368,8 @@ export function serialize(ret, color, win = window) {
 		return $.create({
 			className: "cn-error",
 			textContent: ret.name,
-			title: ret + ""
+			title: ret + ". Click to see error in the console.",
+			onclick: _ => console.error(ret)
 		});
 	}
 
