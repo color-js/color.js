@@ -84,6 +84,8 @@ export default class Notebook {
 
 		this.initialized = true;
 
+		Notebook.intersectionObserver.unobserve(this.pre);
+
 		this.eval();
 
 		return true;
@@ -477,7 +479,7 @@ export function serialize(ret, color, win = window) {
 }
 
 function lightOrDark(color) {
-	return color.luminance > .5 || color.alpha < .5? "light" : "dark"
+	return color.luminance > .5 || color.alpha < .5? "light" : "dark";
 }
 
 Notebook.all = new Set();
@@ -493,10 +495,6 @@ Notebook.intersectionObserver = new IntersectionObserver(entries => {
 		let pre = entry.target;
 
 		pre?.notebook.init();
-
-		if (pre.notebook?.initialized) {
-			Notebook.intersectionObserver.disconnect(pre);
-		}
 	}
 });
 
