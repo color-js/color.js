@@ -1,4 +1,4 @@
-import * as notebook from "./color-notebook.js";
+import Notebook, {initAll} from "./color-notebook.js";
 import extensions from "../assets/js/showdown-extensions.mjs";
 
 let container = $("[property=content]");
@@ -7,19 +7,32 @@ document.addEventListener("mv-markdown-render", function(evt) {
 	container.dirty = false;
 
 	requestAnimationFrame(() => {
-		notebook.initAll(evt.target);
+		initAll(evt.target);
 	});
 });
 
 
-
-container.addEventListener("input", evt => container.dirty = true);
-
 let editObserver = new Mavo.Observer(container, "mv-mode", () => {
-	if (container.getAttribute("mv-mode") === "edit" && container.dirty) {
+	if (container.getAttribute("mv-mode") === "edit") {
+		// TODO ask whether to sync changes
 		// Update code snippets with actual contents
 		let node = Mavo.Node.get(container);
-		console.log($$("textarea", container));
+		let value = node.value;
+		// This approach will fail when a) we have duplicate code in multiple snippets
+		// b) when we have empty code areas
+
+		for (let notebook of Notebook.all) {
+			if (notebook?.edited) {
+				value = value.replace("```js\n" + notebook.initialCode + "\n```", "```js\n" + notebook.code + "\n```");
+			}
+
+			notebook.destroy();
+		}
+
+		if (node.value !== value
+			&& confirm("You have edited the code snippets, do you want to transfer these changes to your Markdown?")) {
+			node.value = value;
+		}
 
 	}
 });

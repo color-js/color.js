@@ -31,8 +31,14 @@ export default class Notebook {
 	constructor (pre) {
 		this.pre = pre;
 		this.pre.notebook = this;
+		this.initialCode = this.pre.textContent;
+		Notebook.all.add(this);
 
 		Notebook.intersectionObserver.observe(this.pre);
+	}
+
+	get edited () {
+		return this.initialCode !== this.code;
 	}
 
 	init () {
@@ -108,6 +114,8 @@ export default class Notebook {
 			// Already evaluated
 			return;
 		}
+
+		this.code = this.pre.textContent;
 
 		// Create a clone so we can take advantage of Prism's parsing to tweak the code
 		// Bonus: Comment this out to debug what's going on!
@@ -317,6 +325,13 @@ export default class Notebook {
 		await this.reloadSandbox();
 	}
 
+	destroy () {
+		this.sandbox.remove();
+		Notebook.intersectionObserver.disconnect(this.pre);
+		this.wrapper = this.sandbox = this.pre = null;
+		Notebook.all.delete(this);
+	}
+
 	static create (pre) {
 		if (pre.notebook) {
 			return pre.notebook;
@@ -465,6 +480,8 @@ function lightOrDark(color) {
 	return color.luminance > .5 || color.alpha < .5? "light" : "dark"
 }
 
+Notebook.all = new Set();
+
 Notebook.intersectionObserver = new IntersectionObserver(entries => {
 	for (let entry of entries) {
 		if (entry.intersectionRatio === 0) {
@@ -476,6 +493,10 @@ Notebook.intersectionObserver = new IntersectionObserver(entries => {
 		let pre = entry.target;
 
 		pre?.notebook.init();
+
+		if (pre.notebook?.initialized) {
+			Notebook.intersectionObserver.disconnect(pre);
+		}
 	}
 });
 
