@@ -281,45 +281,45 @@ export default class Color {
 			return this;
 		}
 
-		let coords = Color.convert(this.coords, this.space, space);
+		// 3 spaces:
+		// this.space: current color space
+		// space: space whose gamut we are mapping to
+		// mapSpace: space with the coord we're reducing
+		let color = this.to(space);
 
 		if (method.indexOf(".") > 0 && !this.inGamut(space)) {
 			// Reduce a coordinate of a certain color space until the color is in gamut
 			let [mapSpace, coordName] = util.parseCoord(method);
 
+			let mappedColor = color.to(mapSpace);
 			let min = mapSpace.coords[coordName][0];
-			let i = Object.keys(mapSpace.coords).indexOf(coordName);
-
-			// arr.slice() clones the coords so we can tweak without affecting the original color
-			let mapCoords = this[mapSpace.id].slice();
 
 			let low = min;
-			let high = mapCoords[i];
+			let high = mappedColor[coordName];
 
-			mapCoords[i] /= 2;
+			color[coordName] /= 2;
 
 			while (high - low > ε) {
-				coords = Color.convert(mapCoords, mapSpace, space);
-
-				if (Color.inGamut(space, coords)) {
-					low = mapCoords[i];
+				if (color.inGamut(space)) {
+					low = mappedColor[coordName];
 				}
 				else {
-					high = mapCoords[i];
+					high = mappedColor[coordName];
 				}
 
-				mapCoords[i] = (high + low) / 2;
+				mappedColor[coordName] = (high + low) / 2;
 			}
+
+			color = mappedColor.to(space);
 		}
 
 		if (method === "clip" // Dumb coord clipping
 		    // finish off smarter gamut mapping with clip to get rid of ε, see #17
-		    || !Color.inGamut(space, coords, {epsilon: 0})
+		    || !color.inGamut(space, {epsilon: 0})
 		) {
-
 			let bounds = Object.values(space.coords);
 
-			coords = coords.map((c, i) => {
+			color.coords = color.coords.map((c, i) => {
 				let [min, max] = bounds[i];
 
 				if (min !== undefined) {
@@ -334,12 +334,16 @@ export default class Color {
 			});
 		}
 
+		if (space.id !== this.spaceId) {
+			color = color.to(this.space);
+		}
+
 		if (inPlace) {
-			this.coords = coords;
+			this.coords = color.coords;
 			return this;
 		}
 		else {
-			return new Color(this.spaceId, coords, this.alpha);
+			return color;
 		}
 	}
 
