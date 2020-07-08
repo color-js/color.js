@@ -58,6 +58,10 @@
 		}
 }
 
+.cn-wrapper .cn-value {
+	cursor: pointer;
+}
+
 .cn-wrapper .cn-string,
 .cn-wrapper .cn-number,
 .cn-wrapper .cn-boolean,

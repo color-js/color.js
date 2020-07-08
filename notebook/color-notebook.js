@@ -373,17 +373,26 @@ export function serialize(ret, color, win = window) {
 		});
 	}
 
+	let template = {
+		title: "Click to see value in the console",
+		events: {
+			click: _ => console.log(ret)
+		}
+	};
+
 	if (ret instanceof Color) {
 		color = ret;
 
 		element = $.create({
+			...template,
 			textContent: ret.toString({precision: 3, inGamut: false})
 		});
 	}
 	else if (typeof ret === "function" && ret.rangeArgs) {
 		// Range function?
 		return $.create({
-			className: "cn-range",
+			...template,
+			className: "cn-value cn-range",
 			style: {
 				"--stops": Color.steps(ret, {steps: 5, maxDeltaE: 4}).map(color => {
 					if (!CSS.supports("color", color)) {
@@ -412,24 +421,28 @@ export function serialize(ret, color, win = window) {
 		contents.push("]");
 
 		return $.create({
-			className: "cn-array",
+			...template,
+			className: "cn-value cn-array",
 			contents
 		});
 	}
 	else if (typeof ret === "number") {
 		element = $.create({
+			...template,
 			className: "cn-number",
 			textContent: util.toPrecision(ret, 3) + ""
 		});
 	}
 	else if (typeof ret === "boolean") {
 		element = $.create({
+			...template,
 			className: "cn-boolean",
 			textContent: ret
 		});
 	}
 	else if (util.isString(ret)) {
 		element = $.create({
+			...template,
 			className: "cn-string",
 			textContent: `"${ret}"`
 		});
@@ -437,10 +450,13 @@ export function serialize(ret, color, win = window) {
 	else if (ret && typeof ret === "object") {
 		let keys = Object.keys(ret);
 		element = $.create({
+			...template,
 			className: "cn-object",
 			textContent: `Object {${keys.slice(0, 3).join(", ") + (keys.length > 3? ", ..." : "")}}`
 		});
 	}
+
+	element.classList.add("cn-value");
 
 	if (color instanceof Color) {
 		if (!element) {
