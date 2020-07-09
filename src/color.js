@@ -304,6 +304,13 @@ export default class Color {
 					low = mappedColor[coordName];
 				}
 				else {
+					let clipped = mappedColor.toGamut({space, method: "clip"});
+					let deltaE = mappedColor.deltaE(clipped, {method: "2000"});
+					if (deltaE < 2) {
+						// We've found the boundary
+						break;
+					}
+
 					high = mappedColor[coordName];
 				}
 
