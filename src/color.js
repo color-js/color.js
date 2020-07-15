@@ -311,7 +311,7 @@ export default class Color {
 					error = color.deltaE(mappedColor, {method: "2000"});
 					if (deltaE - 2 < ε) {
 						low = mappedColor[coordName];
-						console.log(++i, "in", mappedColor.chroma, mappedColor.srgb, error);
+						// console.log(++i, "in", mappedColor.chroma, mappedColor.srgb, error);
 					}
 					else {
 						// console.log(++i, "out", mappedColor.chroma, mappedColor.srgb, clipped.srgb, deltaE, error);
