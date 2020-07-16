@@ -63,7 +63,7 @@ export default class Color {
 			}
 
 			this.spaceId = spaceId || "sRGB";
-			this.coords = coords || [0, 0, 0];
+			this.coords = coords? coords.slice() : [0, 0, 0];
 			this.alpha = alpha;
 		}
 
@@ -369,7 +369,7 @@ export default class Color {
 	}
 
 	clone () {
-		return new Color(this.spaceId, this.coords.slice(), this.alpha);
+		return new Color(this.spaceId, this.coords, this.alpha);
 	}
 
 	/**
