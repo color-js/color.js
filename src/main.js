@@ -12,6 +12,7 @@ import "./spaces/p3.js";
 import "./spaces/a98rgb.js";
 import "./spaces/prophoto.js";
 import "./spaces/rec2020.js";
+import "./spaces/absxyzd65.js";
 import "./spaces/jzazbz.js";
 import "./spaces/jzczhz.js";
 
