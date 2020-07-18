@@ -47,6 +47,6 @@ Color.defineSpace({
 		// Then adapt to D50
 		const W1 = Color.whites.D65;
 		const W2 = Color.whites.D50;
-		return Color.chromaticAdaptation(W1, W2, AbsXYZ);
+		return Color.chromaticAdaptation(W1, W2, XYZ);
 	}
 });
