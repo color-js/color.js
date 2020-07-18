@@ -70,7 +70,7 @@ export function capitalize(str) {
 export function toPrecision(n, precision, range = [0, 1]) {
 	precision = +precision;
 	let digits = ((range[1] || range[0] || 1) + "").length;
-	let decimals = precision + 1 - digits;
+	let decimals = Math.max(0, precision + 1 - digits);
 
 	return +n.toFixed(decimals);
 }
