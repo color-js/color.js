@@ -36,7 +36,9 @@ Color.defineSpace({
     },
     toXYZ (AbsXYZ) {
 
-		// First convert to mdia-white relative XYZ
+		// First convert to media-white relative XYZ
+
+		const {Yw} = this;
 
 		let XYZ = AbsXYZ.map (function (val) {
 			return Math.max(val / Yw, 0);
