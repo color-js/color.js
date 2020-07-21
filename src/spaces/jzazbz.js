@@ -14,7 +14,6 @@ Color.defineSpace({
 	white: Color.whites.D65,
 	b: 1.15,
 	g: 0.66,
-	Yw: 203,	// absolute luminance of media white, cd/m² per BT.2048
 	n:2610 / (2 ** 14),
 	ninv: (2 ** 14) / 2610,
 	c1: 3424 / (2 ** 12),
@@ -48,21 +47,16 @@ Color.defineSpace({
 	],
     fromXYZ (XYZ) {
 
-		const {Yw, b, g, n, p, c1, c2, c3, d, d0, XYZtoCone_M, ConetoIab_M} = this;
+		const {b, g, n, p, c1, c2, c3, d, d0, XYZtoCone_M, ConetoIab_M} = this;
 
 		// First make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²
 		// Relative XYZ has Y=1 for media white
-		// Slideset for SMPTE Webcast "PQ and HLG
-		// Presented by the BBC" says PQ media white is 140 cd/m²
-		// citing Dolby. However,
-		// BT.2048 says 203 at PQ 58
+		// BT.2048 says media white Y=203 at PQ 58
 
 		// console.log({XYZ});
 
-		let [ Xa, Ya, Za ] = XYZ.map (function (val) {
-			return Math.max(val * Yw, 0);
-		});
+		let [ Xa, Ya, Za ] = Color.spaces.absxyzd65.fromXYZ(XYZ);
 		// console.log({Xa, Ya, Za});
 
 
@@ -94,7 +88,7 @@ Color.defineSpace({
     },
     toXYZ(Jzazbz) {
 
-		const {Yw, b, g, ninv, pinv, c1, c2, c3, d, d0, ConetoXYZ_M, IabtoCone_M} = this;
+		const {b, g, ninv, pinv, c1, c2, c3, d, d0, ConetoXYZ_M, IabtoCone_M} = this;
 
 		let [Jz, az, bz] = Jzazbz;
 		let Iz = (Jz + d0) / (1 + d - d * (Jz + d0));
@@ -118,12 +112,10 @@ Color.defineSpace({
 		let [ Xm, Ym, Za ] = util.multiplyMatrices(ConetoXYZ_M, LMS);
 		// console.log({sXm, Ym, Za});
 
-		// restore standard XYZ, relative to media white
+		// restore standard D50 relative XYZ, relative to media white
 		let Xa = (Xm + ((b -1) * Za)) / b;
 		let Ya = (Ym + ((g -1) * Xa)) / g;
-		return [ Xa, Ya, Za ].map (function (val) {
-			return (val / Yw);
-		});
+		return Color.spaces.absxyzd65.toXYZ([ Xa, Ya, Za ]);
     },
 	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "jzabz") {
