@@ -280,7 +280,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToXYZ();
 				</script>
 			</td>
-			<td>11.581   12.177   13.249</td>
+			<td>8.335759078708826, 8.439231888034406, 5.259832522341852</td>
 		</tr>
 		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 1 0 0)</td>
@@ -289,7 +289,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToXYZ();
 				</script>
 			</td>
-			<td>69.872   73.466   79.933</td>
+			<td>50.29071277126775, 50.917338263221815, 31.73416719597243</td>
 		</tr>
 		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 0.1 -0.05 0.05)</td>
@@ -298,7 +298,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToXYZ();
 				</script>
 			</td>
-			<td>0.15735   0.25067   0.10866</td>
+			<td>0.1204092,  0.1738844,  0.0451467</td>
 		</tr>
 		<tr title="XYZ to Jzazbz">
 			<td>color(xyz 0 0 0)</td>
@@ -316,7 +316,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.1916354   0.0062007   0.0264856</td>
+			<td>0.2230353,  -0.0079138,  -0.0305407</td>
 		</tr>
 		<tr title="XYZ of D65 to Jzazbz">
 			<td>color(xyz 0.95047, 1.00000, 1.08883)</td>
@@ -325,7 +325,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.191574425,  -0.000143343,  -0.000088186</td>
+			<td>0.225288  -0.016988  -0.062262</td>
 		</tr>
 		<tr title="sRGB white (D65) to Jzazbz">
 			<td>white</td>
@@ -334,7 +334,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.191574425,  -0.000143343,  -0.000088186</td>
+			<td>0.2230353,  -0.0079138,  -0.0305407</td>
 		</tr>
 		<tr title="rec2020 to Jzazbz">
 			<td>color(rec2020 1 1 1)</td>
@@ -343,16 +343,16 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.191574425,  -0.000143343,  -0.000088186</td>
+			<td>0.2230353,  -0.0079138,  -0.0305407</td>
 		</tr>
 		<tr title="Jzazbz to sRGB">
-			<td>color(jzazbz 0.9322751331242214 -0.049529685593350636 0.21795256408214825)</td>
+			<td>color(jzazbz 0.2230353  -0.0079138  -0.0305407)</td>
 			<td>
 				<script>
 					convertToSRGB();
 				</script>
 			</td>
-			<td>1, 1, 0</td>
+			<td>1, 1, 1</td>
 		</tr>
 		<tr  title="sRGB to Jzazbz">
 			<td>#FFFF80</td>
@@ -361,7 +361,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.183065  -0.015660   0.084673</td>
+			<td>0.210814,  -0.023619,   0.071656</td>
 		</tr>
 		<tr  title="rec2020 to Jzazbz">
 			<td>color(rec2020 1 0 0)</td>
@@ -370,7 +370,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.5422, 0, 0</td>
+			<td>0.15093,   0.16361,   0.13138</td>
 		</tr>
 		<tr  title="rec2020 to Jzazbz">
 			<td>color(rec2020 0 1 0)</td>
@@ -379,7 +379,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0, 0.5422, 0</td>
+			<td>0.15941  -0.21897   0.14726</td>
 		</tr>
 		<tr title="rec2020 to Jzazbz">
 			<td>color(rec2020 0 0 1)</td>
@@ -388,9 +388,9 @@ let convertToJzCzHz = convertTo("jzczhz");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0, 0, 0.5422</td>
+			<td>0.104274  -0.081669  -0.218051</td>
 		</tr>
-		<tr  title="rec2100 18% gray to Jzazbz">
+		<!-- <tr  title="rec2100 18% gray to Jzazbz">
 			<td>color(rec2100pq 0.34 0.34 0.34)</td>
 			<td>
 				<script>
@@ -398,12 +398,13 @@ let convertToJzCzHz = convertTo("jzczhz");
 				</script>
 			</td>
 			<td>0.34, 0, 0</td>
-		</tr>
+		</tr> -->
 	</table>
 </section>
 
 <section>
 	<h1>JzCzHz</h1>
+	<p>Conversions tested against published Matlab code.</p>
 	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
 		<tr title="Jzazbz to JzCzHz">
 			<td>color(jzazbz 0.5 0 0)</td>
