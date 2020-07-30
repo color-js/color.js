@@ -13,6 +13,7 @@
 <script src="../src/spaces/hwb.js" type="module"></script>
 <script src="../src/spaces/rec2100.js" type="module"></script>
 <script src="../src/spaces/jzazbz.js" type="module"></script>
+<script src="../src/spaces/ictcp.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -34,6 +35,7 @@ let convertToXYZ = convertTo("xyz");
 let convertTo2100PQ = convertTo("rec2100pq");
 let convertToJzazbz = convertTo("jzazbz");
 let convertToJzCzHz = convertTo("jzczhz");
+let convertToICtCp = convertTo("ICtCp");
 
 </script>
 
@@ -469,6 +471,93 @@ let convertToJzCzHz = convertTo("jzczhz");
 			</td>
 			<td>0.1, 0.1, -0.08</td>
 		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>ICtCp</h1>
+	<table class="reftest" data-test="fuzzyNumbers3" data-columns="3" data-colors="1">
+		<tr title="XYZ to ICtCp">
+			<td>color(xyz 0 0 0)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.0, 0.0, 0.0</td>
+		</tr>
+		<tr title="XYZ of D50 to ICtCp">
+			<td>color(xyz 0.96422, 1.00000, 0.82521)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.5820 0.0344 0.0001</td>
+		</tr>
+		<!-- <tr title="XYZ of D65 to ICtCp">
+			<td>color(xyz 0.95047, 1.00000, 1.08883)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.225288  -0.016988  -0.062262</td>
+		</tr> -->
+		<tr title="sRGB white (D65) to ICtCp">
+			<td>white</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.5820 0.0344 0.0001</td>
+		</tr>
+		<tr title="rec2020 white to ICtCp">
+			<td>color(rec2020 1 1 1)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.5820 0.0344 0.0001</td>
+		</tr>
+		<tr  title="rec2020 red to ICtCp">
+			<td>color(rec2020 1 0 0)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.4413 -0.1164 0.3985</td>
+		</tr>
+		<tr  title="rec2020 green to ICtCp">
+			<td>color(rec2020 0 1 0)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.5305 -0.4247 -0.1219</td>
+		</tr>
+		<tr title="rec2020 blue to ICtCp">
+			<td>color(rec2020 0 0 1)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.3687  0.2746  -0.2406</td>
+		</tr>
+		<!-- <tr  title="rec2100 18% gray to ICtCp">
+			<td>color(rec2100pq 0.34 0.34 0.34)</td>
+			<td>
+				<script>
+					convertToICtCp();
+				</script>
+			</td>
+			<td>0.34, 0, 0</td>
+		</tr> -->
 	</table>
 </section>
 
