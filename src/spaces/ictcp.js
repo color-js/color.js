@@ -10,7 +10,16 @@ Color.defineSpace({
 	// Measuring the Distinguishable Colors of HDR and WCG Displays"
 	// https://professional.dolby.com/siteassets/pdfs/dolby-vision-measuring-perceptual-color-volume-v7.1.pdf
 	id: "ictcp",
-    name: "ICTCP",
+	name: "ICTCP",
+	// From BT.2100-2 page 7:
+	// During production, signal values are expected to exceed the
+	// range E′ = [0.0 : 1.0]. This provides processing headroom and avoids
+	// signal degradation during cascaded processing. Such values of E′,
+	// below 0.0 or exceeding 1.0, should not be clipped during production
+	// and exchange.
+	// Values below 0.0 should not be clipped in reference displays (even
+	// though they represent “negative” light) to allow the black level of
+	// the signal (LB) to be properly set using test signals known as “PLUGE”
     coords: {
 		I: [0, 1],			// Constant luminance
 		CT: [-0.5, 0.5],	// Full BT.2020 gamut in range [-0.5, 0.5]
@@ -24,9 +33,6 @@ Color.defineSpace({
 	c3: 2392 / 128,
 	m1: 2610 / 16384,
 	m2: 2523 / 32,
-	ic1: 4096 / 3424,
-	ic2: 128 / 2413,
-	ic3: 128 / 2392,
 	im1: 16384 / 2610,
 	im2: 32 / 2523,
 	// The matrix below includes the crosstalk components
@@ -93,7 +99,7 @@ Color.defineSpace({
 	},
 	toXYZ (ICpCt) {
 
-		const {LMStoXYZ_M, IPTtoLMS_M, c1, c2, c3, m1, m2} = this;
+		const {LMStoXYZ_M, IPTtoLMS_M, c1, c2, c3, im1, im2} = this;
 
 		let PQLMS = util.multiplyMatrices(IPTtoLMS_M, ICpCt);
 
