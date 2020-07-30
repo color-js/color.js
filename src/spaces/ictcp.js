@@ -52,7 +52,7 @@ Color.defineSpace({
 	LMStoIPT_M: [
 		[ 0.5,     0.5,     0     ],
 		[ 1.6137, -3.3234,  1.7097],
-		[ 4.3781  -4.2455  -0.1325]
+		[ 4.3781, -4.2455, -0.1325]
 	],
 	// inverted matrices
 	IPTtoLMS_M: [
@@ -73,6 +73,7 @@ Color.defineSpace({
 	fromXYZ (XYZ) {
 
 		const {XYZtoLMS_M, LMStoIPT_M, c1, c2, c3, m1, m2} = this;
+		// console.log ({c1, c2, c3, m1, m2});
 
 		// Make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²
@@ -85,14 +86,17 @@ Color.defineSpace({
 
 		// move to LMS cone domain
 		let LMS = util.multiplyMatrices(XYZtoLMS_M, [ Xa, Ya, Za ]);
+		// console.log({LMS});
 
 		// apply the PQ EOTF
+		// we can't ever be dividing by zero because of the "1 +" in the denominator
 		let PQLMS = LMS.map (function (val) {
 			let num = c1 + (c2 * ((val / 10000) ** m1));
 			let denom = 1 + (c3 * ((val / 10000) ** m1));
-			// console.log({val, num, denom});
+			console.log({val, num, denom});
 			return (num / denom)  ** m2;
 		});
+		// console.log({PQLMS});
 
 		// LMS to IPT, with rotation for Y'C'bC'r compatibility
 		return util.multiplyMatrices(LMStoIPT_M, PQLMS);
@@ -103,10 +107,11 @@ Color.defineSpace({
 
 		let PQLMS = util.multiplyMatrices(IPTtoLMS_M, ICpCt);
 
+		// From BT.2124-0 Annex 2 Conversion 3
 		let LMS = PQLMS.map (function (val) {
-			let num  = (val ** im2) - c1;
-			let denom = ((c2 - (c3 * (val ** im2))) ** im1) * 10000;
-			return (num / denom);
+			let num  = Math.max((val ** im2) - c1, 0);
+			let denom = (c2 - (c3 * (val ** im2)));
+			return 10000 * ((num / denom) ** im1);
 		});
 
 		let XYZa = util.multiplyMatrices(LMStoXYZ_M, LMS);
