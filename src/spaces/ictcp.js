@@ -42,17 +42,19 @@ Color.defineSpace({
 		[ 0.0070,  0.0749,  0.8434]
 	],
 	// linear-light Rec.2020 to LMS, again with crosstalk
+	// rational terms from Froehlich p.97
 	Rec2020toLMS_M: [
-		[ 0.4120,  0.5239,  0.0641],
-		[ 0.1667,  0.7204,  0.1129],
-		[ 0.0241,  0.0755,  0.9004]
+		[ 1688 / 4096,  2146 / 4096,   262 / 4096 ],
+		[  683 / 4096,  2951 / 4096,   462 / 4096 ],
+		[   99 / 4096,   309 / 4096,  3688 / 4096 ]
 	],
 	// this includes the Ebner LMS coefficients,
 	// the rotation, and the scaling to [-0.5,0.5] range
+	// rational terms from Froehlich p.97
 	LMStoIPT_M: [
-		[ 0.5,     0.5,     0     ],
-		[ 1.6137, -3.3234,  1.7097],
-		[ 4.3781, -4.2455, -0.1325]
+		[  2048 / 4096,   2048 / 4096,       0      ],
+		[  6610 / 4096, -13613 / 4096,  7003 / 4096 ],
+		[ 17933 / 4096,  17390 / 4096,  -543 / 4096 ]
 	],
 	// inverted matrices
 	IPTtoLMS_M: [
@@ -72,7 +74,7 @@ Color.defineSpace({
 	],
 	fromXYZ (XYZ) {
 
-		const {XYZtoLMS_M, LMStoIPT_M, c1, c2, c3, m1, m2} = this;
+		const {XYZtoLMS_M} = this;
 		// console.log ({c1, c2, c3, m1, m2});
 
 		// Make XYZ absolute, not relative to media white
@@ -88,6 +90,25 @@ Color.defineSpace({
 		let LMS = util.multiplyMatrices(XYZtoLMS_M, [ Xa, Ya, Za ]);
 		// console.log({LMS});
 
+		return this.LMStoICtCp(LMS);
+	},
+	toXYZ (ICtCp) {
+
+		const {LMStoXYZ_M} = this;
+
+		let LMS = this.ICtCptoLMS(ICtCp);
+
+		let XYZa = util.multiplyMatrices(LMStoXYZ_M, LMS);
+
+		// convert from Absolute, D65 XYZ to media white relative, D50 XYZ
+		return Color.spaces.absxyzd65.toXYZ(XYZa);
+
+	},
+	LMStoICtCp (LMS) {
+
+		const {LMStoIPT_M, c1, c2, c3, m1, m2} = this;
+		// console.log ({c1, c2, c3, m1, m2});
+
 		// apply the PQ EOTF
 		// we can't ever be dividing by zero because of the "1 +" in the denominator
 		let PQLMS = LMS.map (function (val) {
@@ -101,11 +122,11 @@ Color.defineSpace({
 		// LMS to IPT, with rotation for Y'C'bC'r compatibility
 		return util.multiplyMatrices(LMStoIPT_M, PQLMS);
 	},
-	toXYZ (ICpCt) {
+	ICtCptoLMS (ICtCp) {
 
-		const {LMStoXYZ_M, IPTtoLMS_M, c1, c2, c3, im1, im2} = this;
+		const {IPTtoLMS_M, c1, c2, c3, im1, im2} = this;
 
-		let PQLMS = util.multiplyMatrices(IPTtoLMS_M, ICpCt);
+		let PQLMS = util.multiplyMatrices(IPTtoLMS_M, ICtCp);
 
 		// From BT.2124-0 Annex 2 Conversion 3
 		let LMS = PQLMS.map (function (val) {
@@ -114,9 +135,17 @@ Color.defineSpace({
 			return 10000 * ((num / denom) ** im1);
 		});
 
-		let XYZa = util.multiplyMatrices(LMStoXYZ_M, LMS);
-
-		return Color.spaces.absxyzd65.toXYZ(XYZa);
-
+		return LMS;
 	}
+	// },
+	// from: {
+	// 	rec2020: function() {
+
+	// 	}
+	// },
+	// to: {
+	// 	rec2020: function() {
+
+	// 	}
+	// }
 });
