@@ -365,6 +365,10 @@ export function serialize(ret, color, win = window) {
 	}
 
 	if (ret instanceof win.Error) {
+		if (win.Error.message.indexOf("Cannot use import statement")) {
+			return "";
+		}
+		
 		return $.create({
 			className: "cn-error",
 			textContent: ret.name,
