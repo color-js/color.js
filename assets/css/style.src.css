@@ -23,8 +23,6 @@
 	--page-width: 60rem;
 	--page-margin: calc((100vw - var(--page-width)) / 2);
 
-
-
 	--rainbow-width: 150vw;
 	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
 	           var(--rainbow-width) 0 / var(--rainbow-width) .3em fixed;
@@ -74,6 +72,8 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
 	color: var(--color-blue);
+	mix-blend-mode: multiply;
+	font-weight: bolder;
 
 	&:not(:hover):not(:focus) {
 		text-decoration: none;
