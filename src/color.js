@@ -159,6 +159,23 @@ export default class Color {
 		return ret;
 	}
 
+	// Euclidean distance of colors in an arbitrary color space
+	distance (color, space = "lab") {
+		color = Color.get(color);
+		space = Color.space(space);
+
+		let coords1 = this[space.id];
+		let coords2 = color[space.id];
+
+		return Math.sqrt(coords1.reduce((a, c, i) => {
+			if (isNaN(c) || isNaN(coords2[i])) {
+				return a;
+			}
+
+			return a + (coords2[i] - c) ** 2;
+		}, 0));
+	}
+
 	deltaE (color, {method = Color.defaults.deltaE, ...rest} = {}) {
 		color = Color.get(color);
 
@@ -171,18 +188,7 @@ export default class Color {
 
 	// 1976 DeltaE. 2.3 is the JND
 	deltaE76 (color) {
-		color = Color.get(color);
-
-		let lab1 = this.lab;
-		let lab2 = color.lab;
-
-		return Math.sqrt([0, 1, 2].reduce((a, i) => {
-			if (isNaN(lab1[i]) || isNaN(lab2[i])) {
-				return 0;
-			}
-
-			return a + (lab2[i] - lab1[i]) ** 2;
-		}, 0));
+		return this.distance(color, "lab");
 	}
 
 	// Relative luminance
