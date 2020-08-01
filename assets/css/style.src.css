@@ -160,12 +160,9 @@ figure {
 
 body > header,
 body > footer {
-
 	padding-left: var(--page-margin);
 	padding-right: var(--page-margin);
 	animation: var(--rainbow-scroll);
-
-
 
 	& nav {
 		& a {
@@ -244,7 +241,8 @@ body > footer {
 	color: white;
 
 	& a {
-		color: var(--color-blue-light)
+		color: var(--color-blue-light);
+		mix-blend-mode: initial;
 	}
 
 	& nav {

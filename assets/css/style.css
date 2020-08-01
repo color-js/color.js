@@ -166,7 +166,6 @@ figure figcaption {
 
 body > header,
 body > footer {
-
 	padding-left: var(--page-margin);
 	padding-right: var(--page-margin);
 	animation: var(--rainbow-scroll)
@@ -247,7 +246,8 @@ body > footer {
 }
 
 body > footer a {
-		color: var(--color-blue-light)
+		color: var(--color-blue-light);
+		mix-blend-mode: initial;
 	}
 
 body > footer nav {
