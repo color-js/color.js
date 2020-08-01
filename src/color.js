@@ -176,7 +176,12 @@ export default class Color {
 		}, 0));
 	}
 
-	deltaE (color, {method = Color.defaults.deltaE, ...rest} = {}) {
+	deltaE (color, o = {}) {
+		if (util.isString(o)) {
+			o = {method: o};
+		}
+
+		let {method = Color.defaults.deltaE, ...rest} = o;
 		color = Color.get(color);
 
 		if (this["deltaE" + method]) {
