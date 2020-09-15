@@ -578,6 +578,351 @@ function deltaTest(...args) {
 </section>
 
 <section>
+	<h1>DeltaE ITP</h1>
+	<p>Includes test data from
+		<cite>The CIEDEITP Color-Difference Formula: Implementation Notes,
+		Supplementary Test Data, and Mathematical Observations</cite>,
+		G. Sharma, W. Wu, E. N. Dalal, <em>Color Research and Application</em>,
+		vol. <strong>30</strong>. No. 1, pp. 21-30, February 2005.
+		<a href="http://www2.ece.rochester.edu/~gsharma/ciede2000/">http://www2.ece.rochester.edu/~gsharma/ciede2000/</a></p>
+
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
+		<tr title="100% L = 100">
+			<td>white</td>
+			<td>black</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>100</td>
+		</tr>
+		<tr title="0%L = 0">
+			<td>white</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>0</td>
+		</tr>
+		<tr  title="barely off-white">
+			<td>#fffffe</td>
+			<td>white</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>0.4966</td>
+		</tr>
+		<tr  title="Pythagoream 3,4,5 triangle">
+			<td>lab(50% 30 40)</td>
+			<td>lab(50% 0 0)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>50</td>
+		</tr>
+		<tr title="Sharma test 1: signed ΔH">
+			<td>lab(50% 2.6772 -79.7751)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>2.0425</td>
+		</tr>
+		<tr  title="Sharma test 2: signed ΔH">
+			<td>lab(50% 3.1571 -77.2803)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>2.8615</td>
+		</tr>
+		<tr  title="Sharma test 3: signed ΔH">
+			<td>lab(50% 2.8361 -74.0200)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>3.4412</td>
+		</tr>
+		<tr  title="Sharma test 4: signed ΔC">
+			<td>lab(50% -1.3802 -84.2814)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr  title="Sharma test 5: signed ΔC">
+			<td>lab(50% -1.1848 -84.8006)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr  title="Sharma test 6: signed ΔC">
+			<td>lab(50% -0.9009 -85.5211)</td>
+			<td>lab(50% 0 -82.7485)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr title="Sharma test 7: arctan hue and mean hue">
+			<td>lab(50% 0 0)</td>
+			<td>lab(50% -1 2)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>2.3669</td>
+		</tr>
+		<tr title="Sharma test 8: arctan hue and mean hue">
+			<td>lab(50% -1 2)</td>
+			<td>lab(50% 0 0)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>2.3669</td>
+		</tr>
+		<tr title="Sharma test 9: arctan hue and mean hue">
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0009)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>7.1792</td>
+		</tr>
+		<tr title="Sharma test 10: arctan hue and mean hue">
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0010)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>7.1792</td>
+		</tr>
+		<tr  title="Sharma test 11: arctan hue and mean hue">
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0011)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>7.2195</td>
+		</tr>
+		<tr title="Sharma test 12: arctan hue and mean hue">
+			<td>lab(50% 2.4900 -0.0010)</td>
+			<td>lab(50% -2.4900 0.0012)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>7.2195</td>
+		</tr>
+		<tr title="Sharma test 13: arctan hue and mean hue">
+			<td>lab(50% -0.0010 2.4900)</td>
+			<td>lab(50% 0.0009 -2.4900)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>4.8045</td>
+		</tr>
+		<tr title="Sharma test 14: arctan hue and mean hue">
+			<td>lab(50% -0.0010 2.4900)</td>
+			<td>lab(50% 0.00010 -2.4900)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>4.8045</td>
+		</tr>
+		<tr title="Sharma test 15: arctan hue and mean hue">
+			<td>lab(50% -0.0010 2.4900)</td>
+			<td>lab(50% 0.0011 -2.4900)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>4.7461</td>
+		</tr>
+		<tr title="Sharma test 16: arctan hue and mean hue">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(50% 0 -2.5)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>4.3065</td>
+		</tr>
+		<tr  title="Sharma test 17: large color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(73% 25 -18)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>27.1492</td>
+		</tr>
+		<tr  title="Sharma test 18: large color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(61% -5 29)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>22.8977</td>
+		</tr>
+		<tr  title="Sharma test 19: large color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(56% -27 -3)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>31.9030</td>
+		</tr>
+		<tr title="Sharma test 20: large color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(58% 24 15)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>19.4535</td>
+		</tr>
+		<tr title="Sharma test 21: unit color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(50% 3.1736 0.5854)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr  title="Sharma test 22: unit color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(50% 3.2972 0)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr  title="Sharma test 23:  unit color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(50% 1.8634 0.5757)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<tr  title="Sharma test 24:  unit color differences">
+			<td>lab(50% 2.5 0)</td>
+			<td>lab(50% 3.2592 0.3350)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.0000</td>
+		</tr>
+		<!--
+			from "Improvement to industrial colour-difference
+			evaluation. Vienna: CIE Publication No. 142-2001
+		-->
+		<tr title="Sharma test 25: CIE Publication No. 142">
+			<td>lab(60.2574% -34.0099 36.2677)</td>
+			<td>lab(60.4626% -34.1751 39.4387)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.2644</td>
+		</tr>
+		<tr title="Sharma test 26: CIE Publication No. 142">
+			<td>lab(63.0109% -31.0961 -5.8663)</td>
+			<td>lab(62.8187 -29.7946 -4.0864)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.2630</td>
+		</tr>
+		<tr title="Sharma test 27: CIE Publication No. 142">
+			<td>lab(61.2901 3.7196 -5.3901)</td>
+			<td>lab(61.4292% 2.2480 -4.9620)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.8731</td>
+		</tr>
+		<tr title="Sharma test 28: CIE Publication No. 142">
+			<td>lab(35.0831% -44.1164 3.7933)</td>
+			<td>lab(35.0232% -40.0716 1.5901)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.8645</td>
+		</tr>
+		<tr title="Sharma test 29: CIE Publication No. 142">
+			<td>lab(22.7233% 20.0904 -46.6940)</td>
+			<td>lab(23.0331% 14.9730 -42.5619)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>2.0373</td>
+		</tr>
+		<tr title="Sharma test 30: CIE Publication No. 142">
+			<td>lab(36.4612% 47.8580 18.3852)</td>
+			<td>lab(36.2715% 50.5065 21.2231)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.4146</td>
+		</tr>
+		<tr title="Sharma test 31: CIE Publication No. 142">
+			<td>lab(90.8027% -2.0831 1.4410)</td>
+			<td>lab(91.1528% -1.6435 0.0447)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.4441</td>
+		</tr>
+		<tr title="Sharma test 32: CIE Publication No. 142">
+			<td>lab(90.9257% -0.5406 -0.9208)</td>
+			<td>lab(88.6381 -0.8985 -0.7239)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.5381</td>
+		</tr>
+		<tr title="Sharma test 33: CIE Publication No. 142">
+			<td>lab(6.7747% -0.2908 -2.4247)</td>
+			<td>lab(5.8714% -0.0985 -2.2286)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>0.6377</td>
+		</tr>
+		<tr title="Sharma test 34: CIE Publication No. 142">
+			<td>lab(2.0776% 0.0795 -1.1350)</td>
+			<td>lab(0.9033% -0.0636 -0.5514)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>0.9082</td>
+		</tr>
+		<tr title="Brilliant Yellow with Hue error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.46% 8.88 96.49)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>1.6743</td>
+		</tr>
+		<tr title="Brilliant Yellow with low Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.52% 5.75 93.09)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>0.5887</td>
+		</tr>
+		<tr title="Brilliant Yellow with high Chroma error">
+			<td>lab(84.25% 5.74 96.00)</td>
+			<td>lab(84.37% 5.86 99.42)</td>
+			<td>
+				<script>deltaTest({method: "ITP"});</script>
+			</td>
+			<td>0.6395</td>
+		</tr>
+	</table>
+</section>
+
+<section>
 	<h1>DeltaE Jz</h1>
 	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
