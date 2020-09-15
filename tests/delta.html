@@ -14,6 +14,8 @@
 <script src="../src/deltaECMC.js" type="module"></script>
 <script src="../src/spaces/jzazbz.js" type="module"></script>
 <script src="../src/deltaEJz.js" type="module"></script>
+<script src="../src/spaces/ictcp.js" type="module"></script>
+<script src="../src/deltaEITP.js" type="module"></script>
 <script>
 function deltaTest(...args) {
 	let td2 = document.currentScript.parentNode.previousElementSibling;
@@ -260,7 +262,7 @@ function deltaTest(...args) {
 			<td>#fffffe</td>
 			<td>white</td>
 			<td>
-				<script>deltaTest();</script>
+				<script>deltaTest({method: "2000"});</script>
 			</td>
 			<td>0.4966</td>
 		</tr>
@@ -268,7 +270,7 @@ function deltaTest(...args) {
 			<td>lab(50% 30 40)</td>
 			<td>lab(50% 0 0)</td>
 			<td>
-				<script>deltaTest();</script>
+				<script>deltaTest({method: "2000"});</script>
 			</td>
 			<td>50</td>
 		</tr>
