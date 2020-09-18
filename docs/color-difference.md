@@ -4,7 +4,7 @@
 
 We often need to determine the distance between two colors, for a variety of use cases.
 Before most people dive into color science, when they are only familiar with sRGB colors,
-their fist attempt to do so usually is the Euclidean distance of colors in sRGB,
+their first attempt to do so usually is the Euclidean distance of colors in sRGB,
 like so: `sqrt((r₁ - r₂)² + (g₁ - g₂)² + (b₁ - b₂)²)`.
 However, since sRGB is not [perceptually uniform](https://programmingdesignsystems.com/color/perceptually-uniform-color-spaces/),
 pairs of colors with the same Euclidean distance can have hugely different perceptual differences:
@@ -25,7 +25,7 @@ color3.distance(color4, "srgb");
 
 Notice that even though `color3` and `color4` are far closer than `color1` and `color2`, their sRGB Euclidean distance is slightly larger!
 
-Euclidean distance *can* be very useful in calculating color difference, as long as the measurement is done in a perceptually uniform color space, such as Lab or Jzazbz:
+Euclidean distance *can* be very useful in calculating color difference, as long as the measurement is done in a perceptually uniform color space, such as Lab, ICtCp or Jzazbz:
 
 ```js
 let color1 = new Color("hsl(30, 100%, 50%)");
@@ -54,11 +54,17 @@ color1.deltaE76(color2);
 color3.deltaE76(color4);
 ```
 
-However, because Lab turned out to not be as perceptually uniform as it was once thought, the algorithm was revised in 1984 (CMC), 1994, and lastly, 2000, with the most accurate and most complicated DeltaE algorithm to date.
-Color.js supports all DeltaE algorithms except DeltaE 94. Each deltaE algorithm comes with its own method (e.g. `color1.deltaECMC(color2)`),
+However, because Lab turned out to not be as perceptually uniform as it was once thought, the algorithm was revised in 1984 (CMC), 1994, and lastly, 2000, with the most accurate and most complicated Lab-based DeltaE algorithm to date.
+
+Instead of handling the remaining perceptual non-uniformities of Lab in the color difference equation,
+another option is to use a better color model and perform a simpler color difference calculation in that space.
+
+Examples include DeltaEJz (which uses JzCzhz) and deltaEITP (which uses ICtCp). An additional benefit of these two color difference formulae is that, unlike Lab which is mostly tested with medium to low chroma, reflective surface colors, JzCzhz and ICtCp are designed to be used with lght-emitting devices (screens), high chroma colors often found in Wide Gamut content, and a much larger range of luminances as found in High Dynamic Range content.
+
+Color.js supports all the DeltaE algorithms mentioned above except DeltaE 94. Each DeltaE algorithm comes with its own method (e.g. `color1.deltaECMC(color2)`),
 as well as a parameterized syntax (e.g. `color1.deltaE(color2, "CMC")`) which falls back to DeltaE 76 when the requested algorithm is not available, or the second argument is missing.
 
-Note: If you are not using the Color.js bundle that includes everything, you will need to import the modules for DeltaE CMC and DeltaE 2000 manually. DeltaE 76 is supported in the core Color.js.
+Note: If you are not using the Color.js bundle that includes everything, you will need to import the modules for DeltaE CMC, DeltaE 2000, DeltaEJz and DeltaEITP manually. DeltaE 76 is supported in the core Color.js.
 
 ```js
 // These are not needed if you're just using the bundle
