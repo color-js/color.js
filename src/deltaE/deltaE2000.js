@@ -28,6 +28,17 @@ Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	let [L2, a2, b2] = sample.lab;
 	let C2 = sample.chroma;
 
+	// Check for negative Chroma,
+	// which might happen through
+	// direct user input of LCH values
+
+	if (C1 < 0) {
+		C1 = 0;
+	}
+	if (C2 < 0) {
+		C2 = 0;
+	}
+
 	let Cbar = (C1 + C2)/2; // mean Chroma
 
 	// calculate a-axis asymmetry factor from mean Chroma
