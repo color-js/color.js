@@ -3,6 +3,7 @@ import Color, {util} from "./rec2020.js";
 const rec2020 = Color.spaces.rec2020;
 
 Color.defineSpace({
+	// Only the PQ form of ICtCp is implemented here. There is also an HLG form.
 	// from Dolby, "WHAT IS ICTCP?"
 	// https://professional.dolby.com/siteassets/pdfs/ictcp_dolbywhitepaper_v071.pdf
 	// and
