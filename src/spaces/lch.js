@@ -36,10 +36,19 @@ Color.defineSpace({
 	to: {
 		lab (LCH) {
 			// Convert from polar form
+			let [Lightness, Chroma, Hue] = LCH;
+			// Clamp any negative Chroma
+			if (Chroma < 0) {
+				Chroma = 0;
+			};
+			// Deal with NaN Hue
+			if (isNaN(Hue)) {
+				Hue = 0;
+			}
 			return [
-				LCH[0], // L is still L
-				LCH[1] * Math.cos(LCH[2] * Math.PI / 180), // a
-				LCH[1] * Math.sin(LCH[2] * Math.PI / 180)  // b
+				Lightness, // L is still L
+				Chroma * Math.cos(Hue * Math.PI / 180), // a
+				Chroma * Math.sin(Hue * Math.PI / 180)  // b
 			];
 		}
 	},
