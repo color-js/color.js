@@ -1,5 +1,7 @@
 import Color, {util} from "./../color.js";
 
+/** @spec IEC 61966-2-1:1996 */
+
 Color.defineSpace({
 	id: "srgb",
 	name: "sRGB",
@@ -9,17 +11,24 @@ Color.defineSpace({
 		blue: [0, 1]
 	},
 	white: Color.whites.D65,
+	α /*= a + 1*/: 1.055,
+	a: 0.055,
+	β /* = K₀/φ = E_t */: 0.0031308/*049535*/,
+	γ /* > 1 */: 12/5 /* = 2.4 */,
+	Γ /* = 1/γ < 1 */: 5/12 /* = 0.41_6 */,
+	/*δ = */ φ: 12.92/*0020442059*/,
+	K₀ /* = β*δ */: 0.04045 /* or 0.040449936 */,
 
 	// convert an array of sRGB values in the range 0.0 - 1.0
 	// to linear light (un-companded) form.
 	// https://en.wikipedia.org/wiki/SRGB
 	toLinear(RGB) {
 		return RGB.map(function (val) {
-			if (val < 0.04045) {
-				return val / 12.92;
+			if (val < K₀) {
+				return val / φ;
 			}
 
-			return Math.pow((val + 0.055) / 1.055, 2.4);
+			return Math.pow((val + a) / α , γ);
 		});
 	},
 	// convert an array of linear-light sRGB values in the range 0.0-1.0
@@ -27,11 +36,11 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toGamma(RGB) {
 		return RGB.map(function (val) {
-			if (val > 0.0031308) {
-				return 1.055 * Math.pow(val, 1/2.4) - 0.055;
+			if (val > β) {
+				return α * Math.pow(val, Γ) - a;
 			}
 
-			return 12.92 * val;
+			return φ * val;
 		});
 	},
 
