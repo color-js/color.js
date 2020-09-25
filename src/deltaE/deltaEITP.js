@@ -3,7 +3,6 @@ import Color from "../spaces/ictcp.js";
 // Delta E in ICtCp space,
 // which the ITU calls Delta E ITP, which is shorter
 // formulae from ITU Rec. ITU-R BT.2124-0
-// with corrections (ommited scaling factors)
 
 Color.prototype.deltaEITP = function (sample) {
 	let color = this;
@@ -19,6 +18,7 @@ Color.prototype.deltaEITP = function (sample) {
 
 	// the 0.25 factor is to undo the encoding scaling in Ct
 	// the 720 is so that 1 deltaE = 1 JND
+	// per  ITU-R BT.2124-0 p.3
 
 	return 720 * Math.sqrt((I1 - I2) ** 2 + (0.25 * (T1 -T2) ** 2) + (P1 - P2) ** 2);
 }
