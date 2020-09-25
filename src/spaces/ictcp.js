@@ -46,6 +46,7 @@ Color.defineSpace({
 	// linear-light Rec.2020 to LMS, again with crosstalk
 	// rational terms from Jan Fröhlich,
 	// Encoding High Dynamic Range andWide Color Gamut Imagery, p.97
+	// and ITU-R BT.2124-0 p.2
 	Rec2020toLMS_M: [
 		[ 1688 / 4096,  2146 / 4096,   262 / 4096 ],
 		[  683 / 4096,  2951 / 4096,   462 / 4096 ],
@@ -54,6 +55,7 @@ Color.defineSpace({
 	// this includes the Ebner LMS coefficients,
 	// the rotation, and the scaling to [-0.5,0.5] range
 	// rational terms from Fröhlich p.97
+	// and ITU-R BT.2124-0 pp.2-3
 	LMStoIPT_M: [
 		[  2048 / 4096,   2048 / 4096,       0      ],
 		[  6610 / 4096, -13613 / 4096,  7003 / 4096 ],
