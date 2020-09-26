@@ -1,30 +1,30 @@
 import Color from "./srgb.js";
 
+/** @spec ISO 22028-2, ROMM RGB */
+
 Color.defineSpace({
 	inherits: "srgb",
 	id: "prophoto",
 	name: "ProPhoto",
 	cssId: "prophoto-rgb",
 	white: Color.whites.D50,
+	α /*= a + 1*/: 1,
+	a: 0,
+	β /* = K₀/φ = E_t */: 1/512 /* = 0.001953125 */,
+	γ /* > 1 */: 9/5 /* = 1.8 */,
+	Γ /* = 1/γ < 1 */: 5/9 /* = 0._5 */,
+	φ /* = δ */: 16,
+	K₀ /* = β*δ = E_t2 */: 16/512 /* = 1/32 = 0.3125; sometimes quoted as 0.031248 */,
+
 	toLinear(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
-		const Et2 = 16/512;
 		return RGB.map(function (val) {
-			if (val <= Et2) {
-				return val / 16;
-			}
-
-			return Math.pow(val, 1.8);
+			return (val < K₀) ? val / φ : Math.pow((val + a) / α , γ);
 		});
 	},
 	toGamma(RGB) {
-		const Et = 1/512;
 		return RGB.map(function (val) {
-			if (val >= Et) {
-				return Math.pow(val, 1/1.8);
-			}
-
-			return 16 * val;
+			return (val <= β) ? val * φ : Math.pow(val, Γ) * α - a;
 		});
 	},
 	// convert an array of  prophoto-rgb values to CIE XYZ
