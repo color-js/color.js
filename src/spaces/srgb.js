@@ -16,7 +16,7 @@ Color.defineSpace({
 	β /* = K₀/φ = E_t */: 0.0031308/*049535*/,
 	γ /* > 1 */: 12/5 /* = 2.4 */,
 	Γ /* = 1/γ < 1 */: 5/12 /* = 0.41_6 */,
-	/*δ = */ φ: 12.92/*0020442059*/,
+	φ /* = δ */: 12.92/*0020442059*/,
 	K₀ /* = β*δ */: 0.04045 /* or 0.040449936 */,
 
 	// convert an array of sRGB values in the range 0.0 - 1.0
@@ -24,11 +24,7 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toLinear(RGB) {
 		return RGB.map(function (val) {
-			if (val < K₀) {
-				return val / φ;
-			}
-
-			return Math.pow((val + a) / α , γ);
+			return (val < K₀) ? val / φ : Math.pow((val + a) / α , γ);
 		});
 	},
 	// convert an array of linear-light sRGB values in the range 0.0-1.0
@@ -36,11 +32,7 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toGamma(RGB) {
 		return RGB.map(function (val) {
-			if (val > β) {
-				return α * Math.pow(val, Γ) - a;
-			}
-
-			return φ * val;
+			return (val <= β) ? val * φ : Math.pow(val, Γ) * α - a;
 		});
 	},
 
@@ -84,11 +76,7 @@ Color.defineSpace({
 			let collapsible = collapse && coords.every(c => c % 17 === 0);
 
 			let hex = coords.map(c => {
-				if (collapsible) {
-					return (c/17).toString(16);
-				}
-
-				return c.toString(16).padStart(2, "0");
+				return collapsible ? (c/17).toString(16) : c.toString(16).padStart(2, "0");
 			}).join("");
 
 			return "#" + hex;
