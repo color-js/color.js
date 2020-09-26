@@ -11,18 +11,19 @@ Color.defineSpace({
 		blue: [0, 1]
 	},
 	white: Color.whites.D65,
-	α /*= a + 1*/: 1.055,
-	a: 0.055,
-	β /* = K₀/φ = E_t */: 0.0031308/*049535*/,
+	α: 1.055,
+	a /* = α - 1 */: 0.055,
+	β /* = E_t */: 0.0031308/*049535...*/,
 	γ /* > 1 */: 12/5 /* = 2.4 */,
 	Γ /* = 1/γ < 1 */: 5/12 /* = 0.41_6 */,
-	φ /* = δ */: 12.92/*0020442059*/,
-	K₀ /* = β*δ */: 0.04045 /* or 0.040449936 */,
+	φ /* = δ */: 12.92/*0020442059...*/,
+	K₀ /* = β*δ = β*φ */: 0.04045 /* or 0.040449936... */,
 
 	// convert an array of sRGB values in the range 0.0 - 1.0
 	// to linear light (un-companded) form.
 	// https://en.wikipedia.org/wiki/SRGB
 	toLinear(RGB) {
+		const {α, a, φ, γ, K₀} = this;
 		return RGB.map(function (val) {
 			return (val < K₀) ? val / φ : Math.pow((val + a) / α , γ);
 		});
@@ -31,6 +32,7 @@ Color.defineSpace({
 	// to gamma corrected form
 	// https://en.wikipedia.org/wiki/SRGB
 	toGamma(RGB) {
+		const {α, a, φ, Γ, β} = this;
 		return RGB.map(function (val) {
 			return (val <= β) ? val * φ : Math.pow(val, Γ) * α - a;
 		});
