@@ -71,6 +71,7 @@ Note: If you are not using the Color.js bundle that includes everything, you wil
 // and will be omitted in other code examples
 import "https://colorjs.io/src/deltaE/deltaECMC.js";
 import "https://colorjs.io/src/deltaE/deltaE2000.js";
+import "https://colorjs.io/src/deltaE/deltaEITP.js";
 
 let color1 = new Color("blue");
 let color2 = new Color("lab", [30, 30, 30]);
@@ -84,6 +85,9 @@ color2.deltaE(color3, "CMC");
 
 color1.deltaE(color2, "2000");
 color2.deltaE(color3, "2000");
+
+color1.deltaE(color2, "ITP");
+color2.deltaE(color3, "ITP");
 ```
 
 For most DeltaE algorithms, 2.3 is considered the "Just Noticeable Difference" (JND).
