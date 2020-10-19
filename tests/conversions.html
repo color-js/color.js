@@ -104,6 +104,13 @@ let convertToRec2020 = convertTo("rec2020");
 			<td>0.625, 0.950, 0.300 </td>
 		</tr>
 		<tr>
+			<td>hwb(30 0% 80%)</td>
+			<td>
+				<script>convertToSRGB();</script>
+			</td>
+			<td>0.2, 0.1, 0</td>
+		</tr>
+		<tr>
 			<!-- angles can be outside [0 to 360) -->
 			<td>hwb(720 20% 40%)</td>
 			<td>
@@ -119,12 +126,20 @@ let convertToRec2020 = convertTo("rec2020");
 			<td>0.625, 0.950, 0.300 </td>
 		</tr>
 		<tr>
-			<!-- white and black normalize to less than 100% -->
+			<!-- white and black normalize to less than 100%, achromatic -->
 			<td>hwb(0 40% 80%)</td>
 			<td>
 				<script>convertToSRGB();</script>
 			</td>
 			<td><!--#993333--> 0.3333333, 0.3333333, 0.3333333</td>
+		</tr>
+		<tr>
+			<!-- white and black normalize to less than 100%, achromatic -->
+			<td>hwb(0 50% 50%)</td>
+			<td>
+				<script>convertToSRGB();</script>
+			</td>
+			<td><!--#993333--> 0.5, 0.5, 0.5</td>
 		</tr>
 	</table>
 </section>

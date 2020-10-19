@@ -42,14 +42,14 @@ Color.defineSpace({
 			let [h, w, b] = hwb;
 
 			// Now convert percentages to [0..1]
-			w /=100;
+			w /= 100;
 			b /= 100;
 
-			// Normalize so white plus black is no larger than 100
+			// Achromatic check (white plus black >= 1)
 			let sum = w + b;
-			if (sum > 1) {
-				 w /= sum;
-				 b /= sum;
+			if (sum >= 1) {
+				 let gray = w / sum;
+				 return [gray, gray, gray];
 			}
 
 			// From https://drafts.csswg.org/css-color-4/#hwb-to-rgb
