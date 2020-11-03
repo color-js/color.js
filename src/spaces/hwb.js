@@ -21,7 +21,8 @@ Color.defineSpace({
 
 	from: {
 		srgb (rgb) {
-			let h = Color.spaces.hsl.from.srgb(rgb)[0];
+			let hsl = Color.spaces.hsl.from.srgb(rgb);
+			let h = hsl[0];
 			// calculate white and black
 			let w = Math.min(...rgb);
 			let b = 1 - Math.max(...rgb);
@@ -34,6 +35,11 @@ Color.defineSpace({
 			let [h, s, v] = hsv;
 
 			return [h, v * (100 - s) / 100, 100 - v];
+		},
+
+		hsl (hsl) {
+			let hsv = Color.spaces.hsv.from.hsl(hsl);
+			return this.hsv(hsv);
 		}
 	},
 
@@ -59,6 +65,30 @@ Color.defineSpace({
 				rgb[i] += w;
 			}
 			return rgb;
+		},
+
+		hsv (hwb) {
+			let [h, w, b] = hwb;
+
+			// Now convert percentages to [0..1]
+			w /= 100;
+			b /= 100;
+
+			// Achromatic check (white plus black >= 1)
+			let sum = w + b;
+			if (sum >= 1) {
+				 let gray = w / sum;
+				 return [h, 0, gray];
+			}
+
+			let v = 1 - b;
+			let s = 100 - (100 * w) / (100 - b);
+			return [h, s, v * 100];
+		},
+
+		hsl (hwb) {
+			let hsv = Color.spaces.hwb.to.hsv(hwb);
+			return (Color.spaces.hsv.to.hsl(hsv));
 		}
 	},
 
