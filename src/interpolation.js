@@ -107,11 +107,17 @@ Color.range = function(color1, color2, options = {}) {
 		return Color.range(...range.rangeArgs.colors, {...range.rangeArgs.options, ...options});
 	}
 
-	let {space, outputSpace, progression} = options;
+	let {space, outputSpace, progression, premultiplied} = options;
 
 	// Make sure we're working on copies of these colors
 	color1 = new Color(color1);
 	color2 = new Color(color2);
+
+	if (premultiplied) {
+		// not coping with polar spaces yet
+		color1.coords = color1.coords.map (c => c * color1.alpha);
+		color2.coords = color2.coords.map (c => c * color2.alpha);
+	}
 
 	let rangeArgs = {colors: [color1, color2], options};
 
@@ -143,6 +149,11 @@ Color.range = function(color1, color2, options = {}) {
 		});
 		let alpha = interpolate(color1.alpha, color2.alpha, p);
 		let ret = new Color(space, coords, alpha);
+
+		if (premultiplied) {
+			// undo premultiplication
+			ret.coords = ret.coords.map(c => c / alpha);
+		}
 
 		if (outputSpace !== space) {
 			ret = ret.to(outputSpace);

@@ -619,6 +619,12 @@
 							"optional": true,
 							"type": "Function",
 							"description": "Function that takes a 0-1 parameter and returns a 0-1 number to control the progression and allow for non-linear interpolation. E.g. for a 2.2 gamma use `x => x ** 2.2`."
+						},
+						{
+							"name": "options.premultiplied",
+							"optional": true,
+							"type": "boolean",
+							"description": "If true, interpolate on premultiplied values. Defaults to false."
 						}
 					],
 					"returnType": "Function",
