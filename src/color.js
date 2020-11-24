@@ -218,6 +218,21 @@ export default class Color {
 		return (L1 + .05) / (L2 + .05);
 	}
 
+	// Chromaticity coordinates
+	get uv_chromaticity () {
+		let [X, Y, Z] = this.xyz;
+		let denom = X + 15 * Y + 3 * Z;
+    	return [4 * X / denom, 9 * Y / denom];
+	}
+
+	get xy_chromaticity () {
+		let [X, Y, Z] = this.xyz;
+		let  sum = X + Y + Z;
+    	return [X / sum, Y / sum];
+	}
+	// no setters, as lightness information is lost
+	// when converting color to chromaticity
+
 	// Get formatted coords
 	getCoords ({inGamut, precision = Color.defaults.precision} = {}) {
 		let coords = this.coords;
