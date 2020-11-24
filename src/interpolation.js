@@ -113,11 +113,6 @@ Color.range = function(color1, color2, options = {}) {
 	color1 = new Color(color1);
 	color2 = new Color(color2);
 
-	if (premultiplied) {
-		// not coping with polar spaces yet
-		color1.coords = color1.coords.map (c => c * color1.alpha);
-		color2.coords = color2.coords.map (c => c * color2.alpha);
-	}
 
 	let rangeArgs = {colors: [color1, color2], options};
 
@@ -139,6 +134,12 @@ Color.range = function(color1, color2, options = {}) {
 		let arc = options.hue = options.hue || "shorter";
 
 		[color1[space.id].hue, color2[space.id].hue] = angles.adjust(arc, [color1[space.id].hue, color2[space.id].hue]);
+	}
+
+	if (premultiplied) {
+		// not coping with polar spaces yet
+		color1.coords = color1.coords.map (c => c * color1.alpha);
+		color2.coords = color2.coords.map (c => c * color2.alpha);
 	}
 
 	return Object.assign(p => {
