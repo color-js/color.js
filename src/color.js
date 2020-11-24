@@ -219,13 +219,13 @@ export default class Color {
 	}
 
 	// Chromaticity coordinates
-	get uv_chromaticity () {
+	get uv () {
 		let [X, Y, Z] = this.xyz;
 		let denom = X + 15 * Y + 3 * Z;
     	return [4 * X / denom, 9 * Y / denom];
 	}
 
-	get xy_chromaticity () {
+	get xy () {
 		let [X, Y, Z] = this.xyz;
 		let  sum = X + Y + Z;
     	return [X / sum, Y / sum];
