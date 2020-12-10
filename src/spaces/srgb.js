@@ -105,6 +105,32 @@ Color.defineSpace({
 				...rest
 			});
 		}
+	},
+
+	parseHex (str) {
+		if (str.length <= 5) {
+			// #rgb or #rgba, duplicate digits
+			str = str.replace(/[a-f0-9]/gi, "$&$&");
+		}
+
+		let rgba = [];
+		str.replace(/[a-f0-9]{2}/gi, component => {
+			rgba.push(parseInt(component, 16) / 255);
+		});
+
+		return {
+			spaceId: "srgb",
+			coords: rgba.slice(0, 3),
+			alpha: rgba.slice(3)[0]
+		};
+	}
+});
+
+Color.hooks.add("parse-start", env => {
+	let str = env.str;
+
+	if (/^#([a-f0-9]{3,4}){1,2}$/i.test(str)) {
+		env.color = Color.spaces.srgb.parseHex(str);
 	}
 });
 

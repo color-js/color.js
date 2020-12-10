@@ -33,10 +33,6 @@ export default class Color {
 
 			if (str) {
 				color = Color.parse(str);
-
-				if (!color) {
-					throw new TypeError(`Cannot parse "${str}" as a color`);
-				}
 			}
 		}
 
@@ -222,13 +218,13 @@ export default class Color {
 	get uv () {
 		let [X, Y, Z] = this.xyz;
 		let denom = X + 15 * Y + 3 * Z;
-    	return [4 * X / denom, 9 * Y / denom];
+		return [4 * X / denom, 9 * Y / denom];
 	}
 
 	get xy () {
 		let [X, Y, Z] = this.xyz;
 		let  sum = X + Y + Z;
-    	return [X / sum, Y / sum];
+		return [X / sum, Y / sum];
 	}
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
@@ -568,21 +564,24 @@ export default class Color {
 
 	// CSS color to Color object
 	static parse (str) {
-		let parsed = Color.parseFunction(str);
-
-		let env = {str, parsed};
+		let env = {str};
 		Color.hooks.run("parse-start", env);
 
 		if (env.color) {
 			return env.color;
 		}
 
-		let isRGB = parsed && parsed.name.indexOf("rgb") === 0;
+		env.parsed = Color.parseFunction(env.str);
+		Color.hooks.run("parse-function-start", env);
+
+		if (env.color) {
+			return env.color;
+		}
 
 		// Try colorspace-specific parsing
 		for (let space of Object.values(Color.spaces)) {
 			if (space.parse) {
-				let color = space.parse(str, parsed);
+				let color = space.parse(env.str, env.parsed);
 
 				if (color) {
 					return color;
@@ -590,9 +589,11 @@ export default class Color {
 			}
 		}
 
-		if ((!parsed || !isRGB) && hasDOM && document.head) {
+		let name = env.parsed && env.parsed.name;
+
+		if (!/^color|^rgb/.test(name) && hasDOM && document.head) {
 			// Use browser to parse when a DOM is available
-			// this is how we parse #hex or color names, or RGB transformations like hsl()
+			// we only use this for color names right now, but also for future-proofing
 			let previousColor = document.head.style.color;
 			document.head.style.color = "";
 			document.head.style.color = str;
@@ -603,18 +604,16 @@ export default class Color {
 
 				if (computed) {
 					str = computed;
-					parsed = Color.parseFunction(computed);
+					env.parsed = Color.parseFunction(computed);
+					name = env.parsed.name;
 				}
 			}
 		}
 
-		// parsed might have changed, recalculate
-		isRGB = parsed && parsed.name.indexOf("rgb") === 0;
-
-		if (parsed) {
+		if (env.parsed) {
 			// It's a function
-			if (isRGB) {
-				let args = parsed.args.map((c, i) => i < 3 && !c.percentage? c / 255 : +c);
+			if (name === "rgb" || name === "rgba") {
+				let args = env.parsed.args.map((c, i) => i < 3 && !c.percentage? c / 255 : +c);
 
 				return {
 					spaceId: "srgb",
@@ -622,8 +621,8 @@ export default class Color {
 					alpha: args[3]
 				};
 			}
-			else if (parsed.name === "color") {
-				let spaceId = parsed.args.shift().toLowerCase();
+			else if (name === "color") {
+				let spaceId = env.parsed.args.shift().toLowerCase();
 				let space = Object.values(Color.spaces).find(space => (space.cssId || space.id) === spaceId);
 
 				if (space) {
@@ -631,9 +630,9 @@ export default class Color {
 					// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
 					// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
 					let argCount = Object.keys(space.coords).length;
-					let alpha = parsed.rawArgs.indexOf("/") > 0? parsed.args.pop() : 1;
+					let alpha = env.parsed.rawArgs.indexOf("/") > 0? env.parsed.args.pop() : 1;
 					let coords = Array(argCount).fill(0);
-					coords.forEach((_, i) => coords[i] = parsed.args[i] || 0);
+					coords.forEach((_, i) => coords[i] = env.parsed.args[i] || 0);
 
 					return {spaceId: space.id, coords, alpha};
 				}
@@ -642,6 +641,8 @@ export default class Color {
 				}
 			}
 		}
+
+		throw new TypeError(`Could not parse ${str} as a color. Missing a plugin?`);
 	}
 
 	/**
