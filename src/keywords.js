@@ -5,7 +5,7 @@
  * You can also take advantage of its default exports, if you need a data structure of named colors
  * Note that this does not handle currentColor
  */
-import Color, {util} from "./../color.js";
+import Color, {util} from "./color.js";
 
 const KEYWORDS = {
 	"aliceblue": [
