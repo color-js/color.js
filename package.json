@@ -1,5 +1,5 @@
 {
-	"name": "color.js",
+	"name": "colorjs.io",
 	"version": "0.0.1",
 	"description": "Color space agnostic color manipulation library",
 	"main": "color.js",
