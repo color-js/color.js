@@ -1,6 +1,6 @@
 {
 	"name": "colorjs.io",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Color space agnostic color manipulation library",
 	"main": "color.js",
 	"directories": {

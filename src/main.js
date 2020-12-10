@@ -23,6 +23,7 @@ import "./deltaE/deltaECMC.js";
 import "./deltaE/deltaE2000.js";
 import "./deltaE/deltaEJz.js";
 import "./CATs.js";
+import "./keywords.js";
 
 // Re-export everything
 export default Color;
