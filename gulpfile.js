@@ -171,7 +171,9 @@ let rollupConfig = {
 		bundle("iife"),
 		bundle("iife", {minify: true}),
 		bundle("esm"),
-		bundle("esm", {minify: true})
+		bundle("esm", {minify: true}),
+		bundle("cjs"),
+		bundle("cjs", {minify: true})
 	],
 };
 
