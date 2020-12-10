@@ -593,7 +593,9 @@ export default class Color {
 
 		if (!/^color|^rgb/.test(name) && hasDOM && document.head) {
 			// Use browser to parse when a DOM is available
-			// we only use this for color names right now, but also for future-proofing
+			// we mainly use this for color names right now if keywords.js is not included
+			// and for future-proofing
+
 			let previousColor = document.head.style.color;
 			document.head.style.color = "";
 			document.head.style.color = str;
