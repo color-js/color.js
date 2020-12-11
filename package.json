@@ -3,6 +3,13 @@
 	"version": "0.0.3",
 	"description": "Color space agnostic color manipulation library",
 	"main": "color.js",
+	"exports": {
+		"import": "./dist/color.esm.js",
+		"require": "./dist/color.cjs.js",
+		"default": "./dist/color.js"
+	},
+	"main": "./dist/color.cjs.js",
+	"module": "./dist/color.esm.js",
 	"directories": {
 		"test": "tests"
 	},
