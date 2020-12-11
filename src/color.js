@@ -479,7 +479,7 @@ export default class Color {
 			// in case it's different than this. That way third party code can use that
 			// for e.g. computing text color, indicating out of gamut etc
 
-			if (!hasDOM || typeof CSS !== "undefined" || CSS.supports("color", ret)) {
+			if (!hasDOM || typeof CSS === "undefined" || CSS.supports("color", ret)) {
 				ret = new String(ret);
 				ret.color = this;
 				return ret;
@@ -849,7 +849,7 @@ export default class Color {
 			get () {
 				let ret = Color.convert(this.coords, this.spaceId, id);
 
-				if (typeof Proxy !== "undefined") {
+				if (typeof Proxy === "undefined") {
 					return ret;
 				}
 
