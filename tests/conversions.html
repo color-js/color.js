@@ -511,7 +511,7 @@ let convertToOK = convertTo("oklab");
 					convertToICtCp();
 				</script>
 			</td>
-			<td>0.5820 0.0344 0.0001</td>
+			<td>0.5820, 0.0344, 0.0001</td>
 		</tr>
 		<!-- <tr title="XYZ of D65 to ICtCp">
 			<td>color(xyz 0.95047, 1.00000, 1.08883)</td>
@@ -529,7 +529,7 @@ let convertToOK = convertTo("oklab");
 					convertToICtCp();
 				</script>
 			</td>
-			<td>0.5820 0.0344 0.0001</td>
+			<td>0.5820, 0.0344, 0.0001</td>
 		</tr>
 		<tr title="rec2020 white to ICtCp">
 			<td>color(rec2020 1 1 1)</td>
@@ -538,7 +538,7 @@ let convertToOK = convertTo("oklab");
 					convertToICtCp();
 				</script>
 			</td>
-			<td>0.5820 0.0344 0.0001</td>
+			<td>0.5820, 0.0344, 0.0001</td>
 		</tr>
 		<tr  title="rec2020 red to ICtCp">
 			<td>color(rec2020 1 0 0)</td>
@@ -547,7 +547,7 @@ let convertToOK = convertTo("oklab");
 					convertToICtCp();
 				</script>
 			</td>
-			<td>0.4413 -0.1164 0.3985</td>
+			<td>0.4413, -0.1164, 0.3985</td>
 		</tr>
 		<tr  title="rec2020 green to ICtCp">
 			<td>color(rec2020 0 1 0)</td>
@@ -556,7 +556,7 @@ let convertToOK = convertTo("oklab");
 					convertToICtCp();
 				</script>
 			</td>
-			<td>0.5305 -0.4247 -0.1219</td>
+			<td>0.5305, -0.4247, -0.1219</td>
 		</tr>
 		<tr title="rec2020 blue to ICtCp">
 			<td>color(rec2020 0 0 1)</td>
@@ -565,7 +565,7 @@ let convertToOK = convertTo("oklab");
 					convertToICtCp();
 				</script>
 			</td>
-			<td>0.3687  0.2746  -0.2406</td>
+			<td>0.3687,  0.2746,  -0.2406</td>
 		</tr>
 		<!-- <tr  title="rec2100 18% gray to ICtCp">
 			<td>color(rec2100pq 0.34 0.34 0.34)</td>
@@ -583,7 +583,7 @@ let convertToOK = convertTo("oklab");
 					convertToRec2020();
 				</script>
 			</td>
-			<td>1 0 0</td>
+			<td>1, 0, 0</td>
 		</tr>
 		<tr  title="ICtCp rec2020 green back to rec2020">
 			<td>color(ictcp 0.5305 -0.4247 -0.1219)</td>
@@ -592,7 +592,7 @@ let convertToOK = convertTo("oklab");
 					convertToRec2020();
 				</script>
 			</td>
-			<td>0 1 0</td>
+			<td>0, 1, 0</td>
 		</tr>
 		<tr title="ICtCp rec2020 blue back to rec2020">
 			<td>color(ictcp 0.3687  0.2746  -0.2406)</td>
@@ -601,13 +601,14 @@ let convertToOK = convertTo("oklab");
 					convertToRec2020();
 				</script>
 			</td>
-			<td>0 0 1</td>
+			<td>0, 0, 1</td>
 		</tr>
 	</table>
 </section>
 
 <section>
 	<h1>OKLab</h1>
+	<p>Conversions tested against results from published linear sRGB to OKLab C++ code</p>
 	<table class="reftest" data-test="fuzzyNumbers3" data-columns="3" data-colors="1">
 	<!-- see  https://github.com/svgeesus/svgeesus.github.io/blob/master/Color/OKLab-notes.md -->
 		<tr title="sRGB white (D65) to OKlab">
