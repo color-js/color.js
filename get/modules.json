@@ -101,7 +101,7 @@
 			"id": "oklab",
 			"url": "https://bottosson.github.io/posts/oklab/",
 			"description": "An improved version of CIE Lab, with improved hue linearity and orthogonality; derived from optimized LMS basis functions. Cube root transfer function."
-		},
+		}
 	],
 	"optional": [
 		{

@@ -6,8 +6,8 @@ Color.defineSpace({
     name: "OKLab",
     coords: {
 		L: [ 0, 1],
-		a: [-3, 3],
-		b: [-3, 3]
+		a: [-0.5, 0.5],
+		b: [-0.5, 0.5]
     },
     inGamut: coords => true,
 	// Note that XYZ is relative to D65
