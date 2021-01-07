@@ -95,7 +95,13 @@
 			"id": "ictcp",
 			"url": "https://en.wikipedia.org/wiki/ICtCp",
 			"description": "A color space that improves on Lab, with better perceptual uniformity and also supports High Dynamic Range (HDR), or very bright colors brighter than a paper white. The transfer function is Dolby PQ, which is defined in REC.2100 and used for HDR UHDTV."
-		}
+		},
+		{
+			"name": "OKLab",
+			"id": "oklab",
+			"url": "https://bottosson.github.io/posts/oklab/",
+			"description": "An improved version of CIE Lab, with improved hue linearity and orthogonality; derived from optimized LMS basis functions. Cube root transfer function."
+		},
 	],
 	"optional": [
 		{
