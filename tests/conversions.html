@@ -14,6 +14,7 @@
 <script src="../src/spaces/rec2100.js" type="module"></script>
 <script src="../src/spaces/jzazbz.js" type="module"></script>
 <script src="../src/spaces/ictcp.js" type="module"></script>
+<script src="../src/spaces/oklab.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -37,6 +38,7 @@ let convertToJzazbz = convertTo("jzazbz");
 let convertToJzCzHz = convertTo("jzczhz");
 let convertToICtCp = convertTo("ICtCp");
 let convertToRec2020 = convertTo("rec2020");
+let convertToOK = convertTo("oklab");
 
 </script>
 
@@ -600,6 +602,85 @@ let convertToRec2020 = convertTo("rec2020");
 				</script>
 			</td>
 			<td>0 0 1</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>OKLab</h1>
+	<table class="reftest" data-test="fuzzyNumbers3" data-columns="3" data-colors="1">
+	<!-- see  https://github.com/svgeesus/svgeesus.github.io/blob/master/Color/OKLab-notes.md -->
+		<tr title="sRGB white (D65) to OKlab">
+			<td>white</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.999988, 0.000008, -0.000118</td>
+		</tr>
+		<tr title="sRGB red (D65) to OKlab">
+			<td>red</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.627915, 0.224903, 0.125803</td>
+		</tr>
+		<tr title="sRGB lime (D65) to OKlab">
+			<td>lime</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.866440, -0.233920, 0.179424</td>
+		</tr>
+		<tr title="sRGB blue (D65) to OKlab">
+			<td>blue</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.452030, -0.032379, -0.311620</td>
+		</tr>
+		<tr title="sRGB cyan (D65) to OKlab">
+			<td>cyan</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.905403, -0.149449, -0.039508</td>
+		</tr>
+		<tr title="sRGB magenta (D65) to OKlab">
+			<td>magenta</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.701648, 0.274632, -0.169274</td>
+		</tr>
+		<tr title="sRGB yellow (D65) to OKlab">
+			<td>yellow</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.967967, -0.071385, 0.198491</td>
+		</tr>
+		<tr title="sRGB black (D65) to OKlab">
+			<td>black</td>
+			<td>
+				<script>
+					convertToOK();
+				</script>
+			</td>
+			<td>0.000000, 0.000000, 0.000000</td>
 		</tr>
 	</table>
 </section>
