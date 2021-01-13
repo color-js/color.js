@@ -206,86 +206,86 @@ let convertToOK = convertTo("oklab");
 <section>
 	<h1>rec2100pq to XYZ and back</h1>
 	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
-		<tr>
-			<td>color(rec2100pq 0.34 0.34 0.34)</td>
+		<tr title="BT.2100 to XYZ">
+			<td>color(rec2100pq 0.3720 0.3720 0.3720)</td>
 			<td>
 				<script>
 					convertToXYZ();
 				</script>
 			</td>
-			<td>NaN, 0, 0</td>
+			<td>0.1128, 0.1170, 0.0966</td>
 		</tr>
-		<tr>
-			<td>color(xyz 0.1128525900459332 0.1170429720372096 0.09660550374381076)</td>
+		<tr title="XYZ to BT.2100">
+			<td>color(xyz 0.11285259 0.11704297 0.09660550)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td>0.34, 0.34, 0.34</td>
+			<td>0.3720, 0.3720, 0.3720</td>
 		</tr>
-		<tr>
+		<tr title="sRGB to BT.2100">
 			<td>white</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td>0.5422, 0.5422, 0.5422</td>
+			<td>0.5807, 0.5807, 0.5807</td>
 		</tr>
-		<tr>
+		<tr title="Display P3 to BT.2100">
 			<td>color(display-p3 1 0 0)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td></td>
+			<td>0.5514, 0.2939, 0</td>
 		</tr>
-		<tr>
+		<tr title="Display P3 to BT.2100">
 			<td>color(display-p3 0 1 0)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td></td>
+			<td>0.4200, 0.5744, 0.2248</td>
 		</tr>
-		<tr>
+		<tr title="Display P3 to BT.2100">
 			<td>color(display-p3 0 0 1)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td></td>
+			<td>0.2970, 0.2026, 0.5790</td>
 		</tr>
-		<tr>
+		<tr title="BT.2020 to BT.2100">
 			<td>color(rec2020 1 0 0)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td>0.5422, 0, 0</td>
+			<td>0.5801, 0, 0</td>
 		</tr>
-		<tr>
+		<tr title="BT.2020 to BT.2100">
 			<td>color(rec2020 0 1 0)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td>0, 0.5422, 0</td>
+			<td>0, 0.5801, 0</td>
 		</tr>
-		<tr>
+		<tr title="BT.2020 to BT.2100">
 			<td>color(rec2020 0 0 1)</td>
 			<td>
 				<script>
 					convertTo2100PQ();
 				</script>
 			</td>
-			<td>0, 0, 0.5422</td>
+			<td>0, 0, 0.5801</td>
 		</tr>
 	</table>
 </section>

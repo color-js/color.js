@@ -5,8 +5,8 @@ Color.defineSpace({
 	id: "rec2100pq",
 	cssid: "rec2100-pq",
 	name: "REC.2100-PQ",
-	Yw: 140,	// absolute luminance of media white, cd/m²
-	n:2610 / (2 ** 14),
+	Yw: 203,	// absolute luminance of media white, cd/m²
+	n: 2610 / (2 ** 14),
 	ninv: (2 ** 14) / 2610,
 	m: 2523 / (2 ** 5),
 	minv: (2 ** 5) / 2523,
