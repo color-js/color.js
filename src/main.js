@@ -16,6 +16,7 @@ import "./spaces/absxyzd65.js";
 import "./spaces/jzazbz.js";
 import "./spaces/jzczhz.js";
 import "./spaces/ictcp.js";
+import "./spaces/rec2100.js";
 import "./spaces/oklab.js";
 
 // Import optional modules
