@@ -15,6 +15,7 @@
 <script src="../src/spaces/jzazbz.js" type="module"></script>
 <script src="../src/spaces/ictcp.js" type="module"></script>
 <script src="../src/spaces/oklab.js" type="module"></script>
+<script src="../src/spaces/oklch.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -39,6 +40,7 @@ let convertToJzCzHz = convertTo("jzczhz");
 let convertToICtCp = convertTo("ICtCp");
 let convertToRec2020 = convertTo("rec2020");
 let convertToOK = convertTo("oklab");
+let convertToOKLCh = convertTo("oklch");
 
 </script>
 
@@ -682,6 +684,48 @@ let convertToOK = convertTo("oklab");
 				</script>
 			</td>
 			<td>0.000000, 0.000000, 0.000000</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>OKLCH</h1>
+	<table class="reftest" data-test="fuzzyNumbers3" data-columns="3" data-colors="1">
+		<tr title="sRGB white (D65) to OKlab">
+			<td>white</td>
+			<td>
+				<script>
+					convertToOKLCh();
+				</script>
+			</td>
+			<td>1.0, 0.0, NaN</td>
+		</tr>
+		<tr title="sRGB red (D65) to OKlab">
+			<td>red</td>
+			<td>
+				<script>
+					convertToOKLCh();
+				</script>
+			</td>
+			<td>0.627915, 0,0</td>
+		</tr>
+		<tr title="sRGB lime (D65) to OKlab">
+			<td>lime</td>
+			<td>
+				<script>
+					convertToOKLCh();
+				</script>
+			</td>
+			<td>0.866440, 0,0</td>
+		</tr>
+		<tr title="sRGB blue (D65) to OKlab">
+			<td>blue</td>
+			<td>
+				<script>
+					convertToOKLCh();
+				</script>
+			</td>
+			<td>0.452030, 0,0</td>
 		</tr>
 	</table>
 </section>

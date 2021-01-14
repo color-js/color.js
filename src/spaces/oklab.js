@@ -59,3 +59,7 @@ Color.defineSpace({
 		return (util.multiplyMatrices(LMStoXYZ_M, LMS));
 	}
 });
+
+
+export default Color;
+export {util};

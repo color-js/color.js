@@ -1,0 +1,70 @@
+import Color, {util} from "./../color.js";
+import "./oklab.js";
+import * as angles from "../angles.js";
+
+Color.defineSpace({
+	id: "oklch",
+	name: "OKLCh",
+	coords: {
+		L: [0, 1],
+		C: [0, 1],
+		h: angles.range,
+	},
+	inGamut: coords => true,
+	white: Color.whites.D65,
+	from: {
+		oklab (oklab) {
+			// Convert to polar form
+			let [L, a, b] = oklab;
+			console.log({oklab});
+			let h;
+			const ε = 0.000005; // chromatic components much smaller than a,b
+
+			if (Math.abs(a) < ε && Math.abs(b) < ε) {
+				h = NaN;
+			}
+			else {
+				h = Math.atan2(b, a) * 180 / Math.PI;
+			}
+
+			console.log({L});
+			return [
+				L, // OKLab L is still L
+				Math.sqrt(a ** 2 + b ** 2), // Chroma
+				angles.constrain(h) // Hue, in degrees [0 to 360)
+			];
+		}
+	},
+	to: {
+		oklab (oklch) {
+            // Convert from polar form
+            let [L, C, h] = oklch;
+            let a, b;
+            // check for NaN hue
+            if (isNaN(h)) {
+                a = 0;
+                b = 0;
+            }
+            else {
+                a = C * Math.cos(h * Math.PI / 180);
+				b = C * Math.sin(h * Math.PI / 180);
+            }
+			return [ L, a, b ];
+		}
+	},
+	parse (str, parsed = Color.parseFunction(str)) {
+		if (parsed && parsed.name === "oklch") {
+			let L = parsed.args[0];
+
+			return {
+				spaceId: "oklch",
+				coords: parsed.args.slice(0, 3),
+				alpha: parsed.args.slice(3)[0]
+			};
+		}
+	},
+
+});
+
+export default Color;
+export {angles};
