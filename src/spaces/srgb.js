@@ -15,11 +15,14 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toLinear(RGB) {
 		return RGB.map(function (val) {
-			if (val < 0.04045) {
+			let sign = val < 0? -1 : 1;
+			let abs = Math.abs(val);
+
+			if (abs < 0.04045) {
 				return val / 12.92;
 			}
 
-			return Math.pow((val + 0.055) / 1.055, 2.4);
+			return sign * Math.pow((abs + 0.055) / 1.055, 2.4);
 		});
 	},
 	// convert an array of linear-light sRGB values in the range 0.0-1.0
@@ -27,8 +30,11 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toGamma(RGB) {
 		return RGB.map(function (val) {
-			if (val > 0.0031308) {
-				return 1.055 * Math.pow(val, 1/2.4) - 0.055;
+			let sign = val < 0? -1 : 1;
+			let abs = Math.abs(val);
+
+			if (abs > 0.0031308) {
+				return sign * 1.055 * Math.pow(abs, 1/2.4) - 0.055;
 			}
 
 			return 12.92 * val;

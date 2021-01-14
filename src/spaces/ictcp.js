@@ -21,7 +21,7 @@ Color.defineSpace({
 	// Values below 0.0 should not be clipped in reference displays (even
 	// though they represent “negative” light) to allow the black level of
 	// the signal (LB) to be properly set using test signals known as “PLUGE”
-    coords: {
+	coords: {
 		I: [0, 1],			// Constant luminance
 		CT: [-0.5, 0.5],	// Full BT.2020 gamut in range [-0.5, 0.5]
 		CP: [-0.5, 0.5]
@@ -119,7 +119,7 @@ Color.defineSpace({
 		let PQLMS = LMS.map (function (val) {
 			let num = c1 + (c2 * ((val / 10000) ** m1));
 			let denom = 1 + (c3 * ((val / 10000) ** m1));
-			console.log({val, num, denom});
+			// console.log({val, num, denom});
 			return (num / denom)  ** m2;
 		});
 		// console.log({PQLMS});
