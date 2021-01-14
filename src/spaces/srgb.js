@@ -15,7 +15,7 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toLinear(RGB) {
 		return RGB.map(function (val) {
-			if (Math.abs(val) < 0.04045) {
+			if (val < 0.04045) {
 				return val / 12.92;
 			}
 
@@ -27,7 +27,7 @@ Color.defineSpace({
 	// https://en.wikipedia.org/wiki/SRGB
 	toGamma(RGB) {
 		return RGB.map(function (val) {
-			if (Math.abs(val) > 0.0031308) {
+			if (val > 0.0031308) {
 				return 1.055 * Math.pow(val, 1/2.4) - 0.055;
 			}
 
