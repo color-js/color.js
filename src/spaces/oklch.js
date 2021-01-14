@@ -16,7 +16,6 @@ Color.defineSpace({
 		oklab (oklab) {
 			// Convert to polar form
 			let [L, a, b] = oklab;
-			console.log({oklab});
 			let h;
 			const ε = 0.000005; // chromatic components much smaller than a,b
 
@@ -27,7 +26,6 @@ Color.defineSpace({
 				h = Math.atan2(b, a) * 180 / Math.PI;
 			}
 
-			console.log({L});
 			return [
 				L, // OKLab L is still L
 				Math.sqrt(a ** 2 + b ** 2), // Chroma
