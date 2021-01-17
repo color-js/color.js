@@ -850,6 +850,7 @@ export default class Color {
 				let ret = Color.convert(this.coords, this.spaceId, id);
 
 				if (typeof Proxy === "undefined") {
+					// If proxies are not supported, just return a static array
 					return ret;
 				}
 
