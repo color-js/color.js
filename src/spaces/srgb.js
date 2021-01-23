@@ -34,7 +34,7 @@ Color.defineSpace({
 			let abs = Math.abs(val);
 
 			if (abs > 0.0031308) {
-				return sign * 1.055 * Math.pow(abs, 1/2.4) - 0.055;
+				return sign * (1.055 * Math.pow(abs, 1/2.4) - 0.055);
 			}
 
 			return 12.92 * val;
