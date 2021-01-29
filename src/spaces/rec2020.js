@@ -6,6 +6,7 @@ Color.defineSpace({
 	name: "REC.2020",
 	α: 1.09929682680944,
 	β: 0.018053968510807,
+	// Non-linear transfer function from Rec. ITU-R BT.2020-2 table 4
 	toLinear(RGB) {
 		const {α, β} = this;
 
@@ -14,7 +15,7 @@ Color.defineSpace({
 				return val / 4.5;
 			}
 
-			return Math.pow((val + α -1 ) / α, 2.4);
+			return Math.pow((val + α -1 ) / α, 1/4.5);
 		});
 	},
 	toGamma(RGB) {
@@ -22,7 +23,7 @@ Color.defineSpace({
 
 		return RGB.map(function (val) {
 			if (val > β ) {
-				return α * Math.pow(val, 1/2.4) - (α - 1);
+				return α * Math.pow(val, 4.5) - (α - 1);
 			}
 
 			return 4.5 * val;
