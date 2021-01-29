@@ -30,6 +30,7 @@ function convertTo(spaceId) {
 }
 
 let convertToSRGB = convertTo("sRGB");
+let convertToP3 = convertTo("display-p3");
 let convertToHWB = convertTo("hwb");
 let convertToHSL = convertTo("hsl");
 let convertToLCH = convertTo("lch");
@@ -41,6 +42,7 @@ let convertToICtCp = convertTo("ICtCp");
 let convertToRec2020 = convertTo("rec2020");
 let convertToOK = convertTo("oklab");
 let convertToOKLCh = convertTo("oklch");
+let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 
 </script>
 
@@ -275,6 +277,21 @@ let convertToOKLCh = convertTo("oklch");
 
 	</table>
 </section>
+
+<!-- <section>
+	<h1>Round-tripping</h1>
+	<table class="reftest" data-test="fuzzyNumbers5" data-columns="3" data-colors="1">
+		<tr title="P3 mid grey, round-trip to sRGB and back">
+			<td>color(display-p3 0.47 0.47 0.47)</td>
+			<td>
+				<script>
+					roundtripP3SRGB();
+				</script>
+			</td>
+			<td>0.47000, 0.47000, 0.47000</td>
+		</tr>
+	</table>
+</section> -->
 
 <!-- 0.000000730 -->
 <section>
