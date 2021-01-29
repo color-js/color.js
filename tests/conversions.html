@@ -204,6 +204,78 @@ let convertToOKLCh = convertTo("oklch");
 		</tr>
 	</table>
 </section>
+
+
+<section>
+	<h1>P3 to sRGB</h1>
+	<table class="reftest" data-test="fuzzyNumbers5" data-columns="3" data-colors="1">
+		<tr title="mid grey">
+			<td>color(display-p3 0.47 0.47 0.47)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.47, 0.47, 0.47</td>
+		</tr>
+		<tr title="D65 white">
+			<td>color(display-p3 1 1 1)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>1, 1, 1</td>
+		</tr>
+		<tr title="neutral with negative components">
+			<td>color(display-p3 -0.1 -0.1 -0.1)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>-0.1, -0.1, -0.1</td>
+		</tr>
+		<tr title="a nice teal, inside sRGB gamut">
+			<td>color(display-p3 0.238 0.532 0.611)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.019595, 0.54027, 0.621351</td>
+		</tr>
+		<tr title="P3 primary red, outside sRGB gamut">
+			<td>color(display-p3 1 0 0)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>1.09299, -0.226745, -0.150155</td>
+		</tr>
+		<tr title="P3 primary green, outside sRGB gamut">
+			<td>color(display-p3 0 1 0)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>-0.511567, 1.018276, -0.310711</td>
+		</tr>
+		<tr title="P3 primary blue, just outside sRGB gamut">
+			<td>color(display-p3 0 0 1)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0, 0, 1.042131</td>
+		</tr>
+
+	</table>
+</section>
+
 <!-- 0.000000730 -->
 <section>
 	<h1>rec2100pq to XYZ and back</h1>
