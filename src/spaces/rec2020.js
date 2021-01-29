@@ -15,7 +15,7 @@ Color.defineSpace({
 				return val / 4.5;
 			}
 
-			return Math.pow((val + α -1 ) / α, 1/4.5);
+			return Math.pow((val + α -1 ) / α, 1/0.45);
 		});
 	},
 	toGamma(RGB) {
@@ -23,7 +23,7 @@ Color.defineSpace({
 
 		return RGB.map(function (val) {
 			if (val > β ) {
-				return α * Math.pow(val, 4.5) - (α - 1);
+				return α * Math.pow(val, 0.45) - (α - 1);
 			}
 
 			return 4.5 * val;
