@@ -41,21 +41,25 @@ Color.defineSpace({
 		});
 	},
 
+	// This matrix was calculated directly from the RGB and white chromaticities
+	// when rounded to 8 decimal places, it agrees completely with the official matrix
+	// see https://github.com/w3c/csswg-drafts/issues/5922
 	toXYZ_M: [
-		[0.4124564,  0.3575761,  0.1804375],
-		[0.2126729,  0.7151522,  0.0721750],
-		[0.0193339,  0.1191920,  0.9503041]
+		[ 0.41239079926595934, 0.357584339383878,   0.1804807884018343  ],
+		[ 0.21263900587151027, 0.715168678767756,   0.07219231536073371 ],
+		[ 0.01933081871559182, 0.11919477979462598, 0.9505321522496607  ]
 	],
+
+	// This matrix is the inverse of the above;
+	// again it agrees with the official definiton when rounded to 8 decimal places
 	fromXYZ_M: [
-		[ 3.2404542, -1.5371385, -0.4985314],
-		[-0.9692660,  1.8760108,  0.0415560],
-		[ 0.0556434, -0.2040259,  1.0572252]
+		[  3.2409699419045226,  -1.537383177570094,   -0.4986107602930034  ],
+		[ -0.9692436362808796,   1.8759675015077202,   0.04155505740717559 ],
+		[  0.05563007969699366, -0.20397695888897652,  1.0569715142428786  ]
 	],
+
 	// convert an array of sRGB values to CIE XYZ
 	// using sRGB's own white, D65 (no chromatic adaptation)
-	// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-	// also
-	// https://www.image-engineering.de/library/technotes/958-how-to-convert-between-srgb-and-ciexyz
 	toXYZ(rgb) {
 		rgb = this.toLinear(rgb);
 
