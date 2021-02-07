@@ -383,7 +383,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 
 <section>
 	<h1>Jzazbz</h1>
-	<p>Conversions tested against published Matlab code.</p>
+	<p>Conversions to Absolute D65 XYZ tested against published Matlab code.</p>
 	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
 		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 0.5 0 0)</td>
@@ -392,7 +392,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToXYZ();
 				</script>
 			</td>
-			<td>8.335759078708826, 8.439231888034406, 5.259832522341852</td>
+			<td>8.103011, 8.39796, 6.924744</td>
 		</tr>
 		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 1 0 0)</td>
@@ -401,7 +401,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToXYZ();
 				</script>
 			</td>
-			<td>50.29071277126775, 50.917338263221815, 31.73416719597243</td>
+			<td>48.887976, 50.667498, 41.779127</td>
 		</tr>
 		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 0.1 -0.05 0.05)</td>
@@ -410,7 +410,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToXYZ();
 				</script>
 			</td>
-			<td>0.1204092,  0.1738844,  0.0451467</td>
+			<td>0.113907, 0.173157, 0.057961</td>
 		</tr>
 		<tr title="XYZ to Jzazbz">
 			<td>color(xyz 0 0 0)</td>
@@ -421,24 +421,6 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 			</td>
 			<td>0.0, 0.0, 0.0</td>
 		</tr>
-		<tr title="XYZ of D50 to Jzazbz">
-			<td>color(xyz 0.96422, 1.00000, 0.82521)</td>
-			<td>
-				<script>
-					convertToJzazbz();
-				</script>
-			</td>
-			<td>0.2230353,  -0.0079138,  -0.0305407</td>
-		</tr>
-		<tr title="XYZ of D65 to Jzazbz">
-			<td>color(xyz 0.95047, 1.00000, 1.08883)</td>
-			<td>
-				<script>
-					convertToJzazbz();
-				</script>
-			</td>
-			<td>0.225288,  -0.016988,  -0.062262</td>
-		</tr>
 		<tr title="sRGB white (D65) to Jzazbz">
 			<td>white</td>
 			<td>
@@ -446,19 +428,19 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.2230353,  -0.0079138,  -0.0305407</td>
+			<td>0.222065, -0.0002, -0.0001</td>
 		</tr>
-		<tr title="rec2020 to Jzazbz">
+		<tr title="rec2020 D65 white to Jzazbz">
 			<td>color(rec2020 1 1 1)</td>
 			<td>
 				<script>
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.2230353,  -0.0079138,  -0.0305407</td>
+			<td>0.22206525, -0.000161, -0.000117</td>
 		</tr>
-		<tr title="Jzazbz to sRGB">
-			<td>color(jzazbz 0.2230353  -0.0079138  -0.0305407)</td>
+		<tr title="Jzazbz of D65 white to sRGB">
+			<td>color(jzazbz 0.22206525 -0.000161 -0.000117)</td>
 			<td>
 				<script>
 					convertToSRGB();
@@ -473,7 +455,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.210814,  -0.023619,   0.071656</td>
+			<td>0.212398, -0.0171, 0.0914</td>
 		</tr>
 		<tr  title="rec2020 to Jzazbz">
 			<td>color(rec2020 1 0 0)</td>
@@ -482,7 +464,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.15093,   0.16361,   0.13138</td>
+			<td>0.154543, 0.1643, 0.1351</td>
 		</tr>
 		<tr  title="rec2020 to Jzazbz">
 			<td>color(rec2020 0 1 0)</td>
@@ -491,7 +473,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.15941,  -0.21897,   0.14726</td>
+			<td>0.160578, -0.2066, 0.1462</td>
 		</tr>
 		<tr title="rec2020 to Jzazbz">
 			<td>color(rec2020 0 0 1)</td>
@@ -500,7 +482,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToJzazbz();
 				</script>
 			</td>
-			<td>0.104274,  -0.081669,  -0.218051</td>
+			<td>0.091785, -0.0775, -0.2047</td>
 		</tr>
 		<!-- <tr  title="rec2100 18% gray to Jzazbz">
 			<td>color(rec2100pq 0.34 0.34 0.34)</td>
@@ -542,7 +524,7 @@ let roundtripP3SRGB = to("srgb").convertTo("display-p3");
 					convertToJzCzHz();
 				</script>
 			</td>
-			<td>0.2, 0.00000707, 315</td>
+			<td>0.2, 0.00000707, NaN</td>
 		</tr>
 		<tr title="Jzazbz to JzCzHz">
 			<td>color(jzazbz 0.1 -0.05 0.05)</td>
