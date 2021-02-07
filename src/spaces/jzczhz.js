@@ -17,7 +17,7 @@ Color.defineSpace({
 			// Convert to polar form
 			let [Jz, az, bz] = jzazbz;
 			let hue;
-			const ε = 0.000005; // chromatic components much smaller than a,b
+			const ε = 0.0002; // chromatic components much smaller than a,b
 
 			if (Math.abs(az) < ε && Math.abs(bz) < ε) {
 				hue = NaN;

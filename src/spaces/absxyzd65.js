@@ -17,16 +17,9 @@ Color.defineSpace({
 	inGamut: coords => true,
     fromXYZ (XYZ) {
 
-		// First adapt from D50 to D65, with linear Bradford default
-
-		const W1 = Color.whites.D50;
-		const W2 = Color.whites.D65;
-
-		XYZ = Color.chromaticAdaptation(W1, W2, XYZ);
-
 		const {Yw} = this;
 
-		// Then make XYZ absolute, not relative to media white
+		// Make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²
         // Relative XYZ has Y=1 for media white
 
@@ -36,7 +29,7 @@ Color.defineSpace({
     },
     toXYZ (AbsXYZ) {
 
-		// First convert to media-white relative XYZ
+		// Convert to media-white relative XYZ
 
 		const {Yw} = this;
 
@@ -44,9 +37,6 @@ Color.defineSpace({
 			return Math.max(val / Yw, 0);
         });
 
-		// Then adapt to D50
-		const W1 = Color.whites.D65;
-		const W2 = Color.whites.D50;
-		return Color.chromaticAdaptation(W1, W2, XYZ);
+		return XYZ;
 	}
 });
