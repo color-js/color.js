@@ -6,9 +6,9 @@ Color.defineSpace({
 	id: "oklch",
 	name: "OKLCh",
 	coords: {
-		L: [0, 1],
-		C: [0, 1],
-		h: angles.range,
+		lightness: [0, 1],
+		chroma: [0, 1],
+		hue: angles.range,
 	},
 	inGamut: coords => true,
 	white: Color.whites.D65,
