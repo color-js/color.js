@@ -154,3 +154,5 @@ Color.defineSpace({
 	// 	}
 	// }
 });
+
+export default Color;
