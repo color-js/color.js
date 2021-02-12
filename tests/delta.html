@@ -1022,7 +1022,7 @@ function deltaTest(...args) {
 <section>
 	<h1>DeltaE OK</h1>
 	<p>These values average 200x smaller than the corresponding deltaE 2000 values.</p>
-	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="fuzzyNumbers5" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -1045,7 +1045,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>0.4966</td>
+			<td>0.001343</td>
 		</tr>
 		<tr  title="Pythagoream 3,4,5 triangle">
 			<td>lab(50% 30 40)</td>
@@ -1053,7 +1053,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>50</td>
+			<td>0.118679</td>
 		</tr>
 		<tr  title="Sharma test 17: large color differences">
 			<td>lab(50% 2.5 0)</td>
@@ -1061,7 +1061,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>27.1492</td>
+			<td>0.223724</td>
 		</tr>
 		<tr  title="Sharma test 18: large color differences">
 			<td>lab(50% 2.5 0)</td>
@@ -1069,7 +1069,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>22.8977</td>
+			<td>0.117703</td>
 		</tr>
 		<tr  title="Sharma test 19: large color differences">
 			<td>lab(50% 2.5 0)</td>
@@ -1077,7 +1077,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>31.9030</td>
+			<td>0.096109</td>
 		</tr>
 		<tr title="Sharma test 20: large color differences">
 			<td>lab(50% 2.5 0)</td>
@@ -1085,7 +1085,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>19.4535</td>
+			<td>0.103834</td>
 		</tr>
 		<!--
 			from "Improvement to industrial colour-difference
@@ -1097,7 +1097,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.2644</td>
+			<td>0.006934</td>
 		</tr>
 		<tr title="Sharma test 26: CIE Publication No. 142">
 			<td>lab(63.0109% -31.0961 -5.8663)</td>
@@ -1105,7 +1105,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.2630</td>
+			<td>0.006478</td>
 		</tr>
 		<tr title="Sharma test 27: CIE Publication No. 142">
 			<td>lab(61.2901 3.7196 -5.3901)</td>
@@ -1113,7 +1113,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.8731</td>
+			<td>0.004552</td>
 		</tr>
 		<tr title="Sharma test 28: CIE Publication No. 142">
 			<td>lab(35.0831% -44.1164 3.7933)</td>
@@ -1121,7 +1121,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.8645</td>
+			<td>0.011480</td>
 		</tr>
 		<tr title="Sharma test 29: CIE Publication No. 142">
 			<td>lab(22.7233% 20.0904 -46.6940)</td>
@@ -1129,7 +1129,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>2.0373</td>
+			<td>0.014549</td>
 		</tr>
 		<tr title="Sharma test 30: CIE Publication No. 142">
 			<td>lab(36.4612% 47.8580 18.3852)</td>
@@ -1137,7 +1137,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.4146</td>
+			<td>0.009265</td>
 		</tr>
 		<tr title="Sharma test 31: CIE Publication No. 142">
 			<td>lab(90.8027% -2.0831 1.4410)</td>
@@ -1145,7 +1145,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.4441</td>
+			<td>0.005109</td>
 		</tr>
 		<tr title="Sharma test 32: CIE Publication No. 142">
 			<td>lab(90.9257% -0.5406 -0.9208)</td>
@@ -1153,7 +1153,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.5381</td>
+			<td>0.019893</td>
 		</tr>
 		<tr title="Sharma test 33: CIE Publication No. 142">
 			<td>lab(6.7747% -0.2908 -2.4247)</td>
@@ -1161,7 +1161,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>0.6377</td>
+			<td>0.009068</td>
 		</tr>
 		<tr title="Sharma test 34: CIE Publication No. 142">
 			<td>lab(2.0776% 0.0795 -1.1350)</td>
@@ -1169,7 +1169,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>0.9082</td>
+			<td>0.032252</td>
 		</tr>
 		<tr title="Brilliant Yellow with Hue error">
 			<td>lab(84.25% 5.74 96.00)</td>
@@ -1177,7 +1177,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>1.6743</td>
+			<td>0.009285</td>
 		</tr>
 		<tr title="Brilliant Yellow with low Chroma error">
 			<td>lab(84.25% 5.74 96.00)</td>
@@ -1185,7 +1185,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>0.5887</td>
+			<td>0.0039230</td>
 		</tr>
 		<tr title="Brilliant Yellow with high Chroma error">
 			<td>lab(84.25% 5.74 96.00)</td>
@@ -1193,7 +1193,7 @@ function deltaTest(...args) {
 			<td>
 				<script>deltaTest({method: "OK"});</script>
 			</td>
-			<td>0.6395</td>
+			<td>0.003800</td>
 		</tr>
 	</table>
 </section>
