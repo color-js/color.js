@@ -17,8 +17,8 @@ Color.defineSpace({
 			// Convert to polar form
 			let [L, a, b] = oklab;
 			let h;
-			const ε = 0.000005; // chromatic components much smaller than a,b
-
+			const ε = 0.0002; // chromatic components much smaller than a,b
+debugger;
 			if (Math.abs(a) < ε && Math.abs(b) < ε) {
 				h = NaN;
 			}
