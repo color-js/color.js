@@ -25,6 +25,8 @@ import "./interpolation.js";
 import "./deltaE/deltaECMC.js";
 import "./deltaE/deltaE2000.js";
 import "./deltaE/deltaEJz.js";
+import "./deltaE/deltaEITP.js";
+import "./deltaE/deltaEOK.js";
 import "./CATs.js";
 import "./keywords.js";
 
