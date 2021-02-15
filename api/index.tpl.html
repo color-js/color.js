@@ -62,14 +62,7 @@
 				<span property="type" mv-if="role != 'constructor' and role != 'function'" foo="role != 'function'"></span>
 				<span class="type">[returnType]</span>
 				<span property="static" class="mv-toggle" mv-if="role != 'constructor'">Static</span>
-				<span property="role">
-					<select>
-						<option value="function">Function</option>
-						<option value="property">Property</option>
-						<option value="accessor">Accessor</option>
-						<option value="constructor">Constructor</option>
-					</select>
-				</span>
+				<span property="role" mv-edit="#role-select"></span>
 			</summary>
 
 			<p property="description" class="markdown"></p>
@@ -121,6 +114,15 @@
     </aside>
 </section>
 <script src="api.js"></script>
+	
+<div hidden>
+	<select id="role-select">
+		<option value="function">Function</option>
+		<option value="property">Property</option>
+		<option value="accessor">Accessor</option>
+		<option value="constructor">Constructor</option>
+	</select>
+</div>
 
 @@include('_footer.html')
 </body>
