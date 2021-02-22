@@ -17,7 +17,7 @@ Color.defineSpace({
 			// Convert to polar form
 			let [L, a, b] = Lab;
 			let hue;
-			const ε = 0.0005;
+			const ε = 0.02;
 
 			if (Math.abs(a) < ε && Math.abs(b) < ε) {
 				hue = NaN;

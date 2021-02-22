@@ -59,14 +59,14 @@ let convertToOKLCh = convertTo("oklch");
 			<td>
 				<script>convertToLCH();</script>
 			</td>
-			<td>52.69726481080971, 11.234142037623341, 253.00052666481292</td>
+			<td>52.697472, 11.242899, 253.010088</td>
 		</tr>
 		<tr>
 			<td>white</td>
 			<td>
 				<script>convertToLCH();</script>
 			</td>
-			<td>100, 0, NaN</td>
+			<td>100, 0.0146, NaN</td>
 		</tr>
 		<tr>
 			<td>black</td>
@@ -812,7 +812,7 @@ let convertToOKLCh = convertTo("oklch");
 					});
 				</script>
 			</td>
-			<td>11.234142037623341</td>
+			<td>11.242899</td>
 		</tr>
 		<tr title="color.lch[1]">
 			<td>
@@ -823,7 +823,7 @@ let convertToOKLCh = convertTo("oklch");
 					});
 				</script>
 			</td>
-			<td>11.234142037623341</td>
+			<td>11.242899</td>
 		</tr>
 		<tr title="color.lch.chroma">
 			<td>
@@ -834,7 +834,18 @@ let convertToOKLCh = convertTo("oklch");
 					});
 				</script>
 			</td>
-			<td>11.234142037623341</td>
+			<td>11.242899</td>
+		</tr>
+		<tr title="color.oklch.chroma">
+			<td>
+				<script>
+					print(() => {
+						var color = new Color("slategray");
+						return color.oklch.chroma;
+					});
+				</script>
+			</td>
+			<td>0.03100055</td>
 		</tr>
 		<tr title="color.jzazbz.Jz">
 			<td>
@@ -845,7 +856,7 @@ let convertToOKLCh = convertTo("oklch");
 					});
 				</script>
 			</td>
-			<td>0.1203</td>
+			<td>0.11646942</td>
 		</tr>
 		<tr title="color.jzazbz.Jz">
 			<td>
