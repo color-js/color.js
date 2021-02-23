@@ -680,7 +680,7 @@ let convertToOKLCh = convertTo("oklch");
 
 <section>
 	<h1>OKLab</h1>
-	<p>Conversions tested against results from published linear sRGB to OKLab C++ code</p>
+	<p>Conversions tested against results from published linear sRGB to OKLab C++ code (using better matrices, updated 2021-01-2)</p>
 	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
 	<!-- see  https://github.com/svgeesus/svgeesus.github.io/blob/master/Color/OKLab-notes.md -->
 		<tr title="sRGB white (D65) to OKlab">
@@ -690,7 +690,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.999988, 0.000008, -0.000118</td>
+			<td>1.000000, 0.000000, 0.000000</td>
 		</tr>
 		<tr title="sRGB red (D65) to OKlab">
 			<td>red</td>
@@ -699,7 +699,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.627915, 0.224903, 0.125803</td>
+			<td>0.627955, 0.224863, 0.125846</td>
 		</tr>
 		<tr title="sRGB lime (D65) to OKlab">
 			<td>lime</td>
@@ -708,7 +708,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.866440, -0.233920, 0.179424</td>
+			<td>0.86644, -0.233888, 0.179498</td>
 		</tr>
 		<tr title="sRGB blue (D65) to OKlab">
 			<td>blue</td>
@@ -717,7 +717,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.452030, -0.032379, -0.311620</td>
+			<td>0.452014, -0.032457, -0.311528</td>
 		</tr>
 		<tr title="sRGB cyan (D65) to OKlab">
 			<td>cyan</td>
@@ -726,7 +726,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.905403, -0.149449, -0.039508</td>
+			<td>0.905399, -0.149444, -0.039398</td>
 		</tr>
 		<tr title="sRGB magenta (D65) to OKlab">
 			<td>magenta</td>
@@ -735,7 +735,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.701648, 0.274632, -0.169274</td>
+			<td>0.701674, 0.274566, -0.169156</td>
 		</tr>
 		<tr title="sRGB yellow (D65) to OKlab">
 			<td>yellow</td>
@@ -744,7 +744,7 @@ let convertToOKLCh = convertTo("oklch");
 					convertToOK();
 				</script>
 			</td>
-			<td>0.967967, -0.071385, 0.198491</td>
+			<td>0.967983, -0.071369, 0.198570</td>
 		</tr>
 		<tr title="sRGB black (D65) to OKlab">
 			<td>black</td>
