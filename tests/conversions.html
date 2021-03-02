@@ -16,6 +16,7 @@
 <script src="../src/spaces/ictcp.js" type="module"></script>
 <script src="../src/spaces/oklab.js" type="module"></script>
 <script src="../src/spaces/oklch.js" type="module"></script>
+<script src="../src/spaces/srgb-linear.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -42,6 +43,7 @@ let convertToICtCp = convertTo("ICtCp");
 let convertToRec2020 = convertTo("rec2020");
 let convertToOK = convertTo("oklab");
 let convertToOKLCh = convertTo("oklch");
+let convertTosrgbLin = convertTo("srgb-linear");
 
 </script>
 
@@ -796,6 +798,30 @@ let convertToOKLCh = convertTo("oklch");
 				</script>
 			</td>
 			<td>0.452013, 0.313319, 264.058541</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>Linear-light sRGB</h1>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
+		<tr title="sRGB white to linear (identity">
+			<td>white</td>
+			<td>
+				<script>
+					convertTosrgbLin();
+				</script>
+			</td>
+			<td>1.0, 1.0, 1.0</td>
+		</tr>
+		<tr title="mid grey to linear">
+			<td>rgb(50% 50% 50%)</td>
+			<td>
+				<script>
+					convertTosrgbLin();
+				</script>
+			</td>
+			<td>0.21404114, 0.21404114, 0.21404114</td>
 		</tr>
 	</table>
 </section>

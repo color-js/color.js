@@ -27,7 +27,8 @@ let c1 = new Color("rebeccapurple");
 let c2 = new Color("lch", [85, 100, 85]);
 c1.range(c2); // lab
 c1.range(c2, {space: "lch"});
-c1.range(c2, {space: "srgb"}); // gamma corrected sRGB
+c1.range(c2, {space: "srgb"}); // gamma encoded sRGB
+c1.range(c2, {space: "srgb-linear"}); //linear-light sRGB
 c1.range(c2, {space: "xyz"}); // XYZ, same result as linear RGB
 c1.range(c2, {space: "hsl"});
 c1.range(c2, {space: "hwb"});

@@ -5,6 +5,7 @@ import Color, {util} from "./color.js";
 import "./spaces/lab.js";
 import "./spaces/lch.js";
 import "./spaces/srgb.js";
+import "./spaces/srgb-linear.js";
 import "./spaces/hsl.js";
 import "./spaces/hwb.js";
 import "./spaces/hsv.js";
