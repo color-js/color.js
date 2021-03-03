@@ -9,9 +9,9 @@ Color.defineSpace({
 		saturation: [0, 100],
 		lightness: [0, 100]
 	},
-	inGamut (coords) {
+	inGamut (coords, epsilon) {
 		let rgb = this.to.srgb(coords);
-		return Color.inGamut("srgb", rgb);
+		return Color.inGamut("srgb", rgb, {epsilon: epsilon});
 	},
 	white: Color.whites.D65,
 

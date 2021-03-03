@@ -258,7 +258,7 @@ export default class Color {
 		space = Color.space(space);
 
 		if (space.inGamut) {
-			return space.inGamut(coords);
+			return space.inGamut(coords, epsilon);
 		}
 		else {
 			if (!space.coords) {
