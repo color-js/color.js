@@ -42,7 +42,11 @@ Color.steps = function(color1, color2, options = {}) {
 		[color1, color2] = range.rangeArgs.colors;
 	}
 
-	let {maxDeltaE, steps = 2, maxSteps = 1000, ...rangeOptions} = options;
+	let {
+		maxDeltaE, deltaEMethod,
+		steps = 2, maxSteps = 1000,
+		...rangeOptions
+	} = options;
 
 	if (!range) {
 		color1 = Color.get(color1);
@@ -71,7 +75,14 @@ Color.steps = function(color1, color2, options = {}) {
 
 	if (maxDeltaE > 0) {
 		// Iterate over all stops and find max deltaE
-		let maxDelta = ret.reduce((acc, cur, i) => i === 0? 0 : Math.max(acc, cur.color.deltaE(ret[i - 1].color)), 0);
+		let maxDelta = ret.reduce((acc, cur, i) => {
+			if (i === 0) {
+				return 0;
+			}
+
+			let deltaE = cur.color.deltaE(ret[i - 1].color, deltaEMethod);
+			return Math.max(acc, deltaE);
+		}, 0);
 
 		while (maxDelta > maxDeltaE) {
 			// Insert intermediate stops and measure maxDelta again
