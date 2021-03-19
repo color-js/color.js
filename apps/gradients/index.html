@@ -15,11 +15,17 @@
 
 <div class="inputs">
 	<label>
-		Color 1: <input property type="text" id="colorStr1" mv-default="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
+		Color 1:
+		[if(!color1.inGamut(outputSpace), "OOG")]
+		<input property type="text" id="colorStr1" mv-default="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
+		<meta property="color1" content="[getColor(colorStr1)]">
 	</label>
 
 	<label>
-		Color 2: <input type="text" property id="colorStr2" mv-default="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
+		Color 2:
+		[if(!color2.inGamut(outputSpace), "OOG")]
+		<input type="text" property id="colorStr2" mv-default="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
+		<meta property="color2" content="[getColor(colorStr2)]">
 	</label>
 
 	<label>
@@ -29,10 +35,15 @@
 
 	Output space: <span property="outputSpace" mv-edit="#space" mv-default="[color1.spaceId]"></span>
 
+	<label>
+		<input type="checkbox" property="gamutMapping" checked>
+		Allow gamut mapping
+	</label>
+
 	<a href="?color1=[encodeURIComponent(colorStr1)]&color2=[encodeURIComponent(colorStr2)]">Permalink</a>
 
-	<meta property="color1" content="[getColor(colorStr1)]">
-	<meta property="color2" content="[getColor(colorStr2)]">
+
+
 </div>
 
 <div id="output">
@@ -47,12 +58,12 @@
 
 			<div>
 				Colors:
-				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, maxDeltaE: delta, space: space, outputSpace: space)))" mv-multiple="step" style="--color: [outputColor & ''];">
+				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, maxDeltaE: delta, deltaEMethod: '2000', space: space, outputSpace: space)), outputSpace, gamutMapping)" mv-multiple="step" style="--color: [outputColor & ''];">
 					<code>[color & ""]</code> &rarr; <code>[outputColor & ""]</code>
 					<meta property="color" />
 					<meta property="outputColor" content="[color.to(outputSpace)]" />
 
-					<span mv-if="$previous.color">ΔE [color.deltaE($previous.color)]</span>
+					<span mv-if="$previous.color">ΔE [color.deltaE2000($previous.color)]</span>
 					<meta property="gradientStep" content="[if(showGradient, outputColor & '', outputColor & ' 0 ' & (($index + 1) * (100 / stepCount)) & '%')]" />
 				</div>
 			</div>
@@ -77,8 +88,14 @@
 
 	// Map steps to objects with a color property
 	// because Mavo fiddles with object data
-	window.colorSteps = function(steps) {
+	window.colorSteps = function(steps, outputSpace, gamutMapping) {
+		gamutMapping = Mavo.value(gamutMapping);
+
 		return steps.map(c => {
+			if (!gamutMapping) {
+				c = c.inGamut(outputSpace)? c : new Color("black");
+			}
+
 			return {color: c}
 		});
 	}
