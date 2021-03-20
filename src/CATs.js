@@ -125,9 +125,4 @@ Object.assign(Color.whites, {
 	F2:  [0.99186, 1.00000, 0.67393],
 	F7:  [0.95041, 1.00000, 1.08747],
 	F11: [1.00962, 1.00000, 0.64350],
-
-	// The ACES whitepoint
-	// see TB-2018-001 Derivation of the ACES White Point CIE Chromaticity Coordinates
-	// also https://github.com/ampas/aces-dev/blob/master/documents/python/TB-2018-001/aces_wp.py
-	ACES: [0.32168/0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767)/0.33767]
 });
