@@ -20,6 +20,8 @@ import "./spaces/ictcp.js";
 import "./spaces/rec2100.js";
 import "./spaces/oklab.js";
 import "./spaces/oklch.js";
+import "./spaces/acescc.js";
+
 
 // Import optional modules
 import "./interpolation.js";

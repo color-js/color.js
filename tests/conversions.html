@@ -17,6 +17,7 @@
 <script src="../src/spaces/oklab.js" type="module"></script>
 <script src="../src/spaces/oklch.js" type="module"></script>
 <script src="../src/spaces/srgb-linear.js" type="module"></script>
+<script src="../src/spaces/acescc.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -31,7 +32,7 @@ function convertTo(spaceId) {
 }
 
 let convertToSRGB = convertTo("sRGB");
-let convertToP3 = convertTo("display-p3");
+let convertToP3 = convertTo("p3");
 let convertToHWB = convertTo("hwb");
 let convertToHSL = convertTo("hsl");
 let convertToLCH = convertTo("lch");
@@ -822,6 +823,102 @@ let convertTosrgbLin = convertTo("srgb-linear");
 				</script>
 			</td>
 			<td>0.21404114, 0.21404114, 0.21404114</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>ACEScc to XYZ</h1>
+	<table class="reftest" data-test="fuzzyNumbers4" data-columns="3" data-colors="1">
+		<tr title="ACEScc media white to XYZ">
+			<td>color(acescc 1.0 1.0 1.0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>214.88698, 222.86095, 183.90707</td>
+		</tr>
+		<tr title="mid grey (linear 0.5) to XYZ">
+			<td>color(acescc 0.4977169 0.4977169 0.4977169)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0.48211, 0.50000, 0.41260</td>
+		</tr>
+		<tr title="media black to XYZ">
+			<td>color(acescc 0 0 0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0.00114, 0.00119, 0.00098</td>
+		</tr>
+		<tr title="deepest black to XYZ">
+			<td>color(acescc -0.358447, -0.358447, -0.358447)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0, 0, 0</td>
+		</tr>
+		<tr title="ACEScc red to XYZ">
+			<td>color(acescc 1.0 0.0 0.0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>153.74173, 63.40514, -1.34614</td>
+		</tr>
+		<tr title="ACEScc green to XYZ">
+			<td>color(acescc 0.0 1.0 0.0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>33.37481, 149.69295, 2.22853</td>
+		</tr>
+		<tr title="ACEScc blue to XYZ">
+			<td>color(acescc 0.0 0.0 1.0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>27.77273, 9.76524, 183.02663 </td>
+		</tr>
+		<tr title="ACEScc red to P3">
+			<td>color(acescc 1.0 0.0 0.0)</td>
+			<td>
+				<script>
+					convertToP3();
+				</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr title="ACEScc green to P3">
+			<td>color(acescc 0.0 1.0 0.0)</td>
+			<td>
+				<script>
+					convertToP3();
+				</script>
+			</td>
+			<td></td>
+		</tr>
+		<tr title="ACEScc blue to P3">
+			<td>color(acescc 0.0 0.0 1.0)</td>
+			<td>
+				<script>
+					convertToP3();
+				</script>
+			</td>
+			<td></td>
 		</tr>
 	</table>
 </section>
