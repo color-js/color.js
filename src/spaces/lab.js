@@ -12,9 +12,13 @@ Color.defineSpace({
 	// Assuming XYZ is relative to D50, convert to CIE Lab
 	// from CIE standard, which now defines these as a rational fraction
 	white: Color.whites.D50,
-	ε: 216/24389,  // 6^3/29^3
+	ε: 216/24389,  // 6^3/29^3 == (24/116)^3
+	ε3: 24/116,
 	κ: 24389/27,   // 29^3/3^3
+	// κ * ε  = 2^3 = 8
 	fromXYZ(XYZ) {
+		// Convert D50-adapted XYX to Lab
+		//  CIE 15.3:2004 section 8.2.1.1
 		const {κ, ε, white} = this;
 
 		// compute xyz, which is XYZ scaled relative to reference white
@@ -31,8 +35,9 @@ Color.defineSpace({
 	},
 	toXYZ(Lab) {
 		// Convert Lab to D50-adapted XYZ
+		// Same result as CIE 15.3:2004 Appendix D although the derivation is different
 		// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-		const {κ, ε, white} = this;
+		const {κ, ε3, white} = this;
 
 		// compute f, starting with the luminance-related term
 		let f = [];
@@ -42,9 +47,9 @@ Color.defineSpace({
 
 		// compute xyz
 		var xyz = [
-			Math.pow(f[0], 3) > ε ?   Math.pow(f[0], 3)            : (116*f[0]-16)/κ,
-			Lab[0] > κ * ε ?         Math.pow((Lab[0]+16)/116, 3) : Lab[0]/κ,
-			Math.pow(f[2], 3)  > ε ?  Math.pow(f[2], 3)            : (116*f[2]-16)/κ
+			f[0]   > ε3  ?  Math.pow(f[0], 3)            : (116*f[0]-16)/κ,
+			Lab[0] > 8   ?  Math.pow((Lab[0]+16)/116, 3) : Lab[0]/κ,
+			f[2]   > ε3  ?  Math.pow(f[2], 3)            : (116*f[2]-16)/κ
 		];
 
 		// Compute XYZ by scaling xyz by reference white
