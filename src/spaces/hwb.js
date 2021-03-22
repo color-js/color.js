@@ -78,12 +78,12 @@ Color.defineSpace({
 			let sum = w + b;
 			if (sum >= 1) {
 				 let gray = w / sum;
-				 return [h, 0, gray];
+				 return [h, 0, gray * 100];
 			}
 
-			let v = 1 - b;
-			let s = 100 - (100 * w) / (100 - b);
-			return [h, s, v * 100];
+			let v = (1 - b);
+			let s = (v === 0) ? 0 : 1 - w / v;
+			return [h, s * 100, v * 100];
 		},
 
 		hsl (hwb) {
