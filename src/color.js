@@ -447,16 +447,10 @@ export default class Color {
 
 		if (util.isString(format)) {
 			if (format === "%") {
-				let maximumSignificantDigits = precision;
-
-				if (!Number.isInteger(precision) || precision > 21) {
-					maximumSignificantDigits = 21;
-				}
-
-				format = c => c.toLocaleString("en-US", {
-					style: "percent",
-					maximumSignificantDigits
-				});
+				format = c => {
+					c *= 100;
+					return util.toPrecision(c, precision, [0, 100]) + "%";
+				};
 			}
 		}
 
