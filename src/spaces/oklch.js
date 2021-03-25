@@ -18,7 +18,7 @@ Color.defineSpace({
 			let [L, a, b] = oklab;
 			let h;
 			const ε = 0.0002; // chromatic components much smaller than a,b
-debugger;
+
 			if (Math.abs(a) < ε && Math.abs(b) < ε) {
 				h = NaN;
 			}
@@ -34,19 +34,21 @@ debugger;
 		}
 	},
 	to: {
+		// Convert from polar form
 		oklab (oklch) {
-            // Convert from polar form
-            let [L, C, h] = oklch;
-            let a, b;
-            // check for NaN hue
-            if (isNaN(h)) {
-                a = 0;
-                b = 0;
-            }
-            else {
-                a = C * Math.cos(h * Math.PI / 180);
+			let [L, C, h] = oklch;
+			let a, b;
+
+			// check for NaN hue
+			if (isNaN(h)) {
+				a = 0;
+				b = 0;
+			}
+			else {
+				a = C * Math.cos(h * Math.PI / 180);
 				b = C * Math.sin(h * Math.PI / 180);
-            }
+			}
+
 			return [ L, a, b ];
 		}
 	},
