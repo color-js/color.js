@@ -83,7 +83,7 @@ Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	let hsum = h1 + h2;
 	let Δh;
 
-	if (Cdash1 * Cdash2 == 0) {
+	if (Cdash1 * Cdash2 === 0) {
 		Δh = 0;
 	}
 	else if (Math.abs(hdiff) <= 180) {
@@ -111,7 +111,7 @@ Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// Four possibilities for hue weighting factor,
 	// depending on the angles, to get the correct sign
 	let hdash;
-	if (Cdash1 * Cdash2 == 0) {
+	if (Cdash1 * Cdash2 === 0) {
 		hdash = hsum;   // which should be zero
 	}
 	else if (Math.abs(h1 - h2) <= 180) {
