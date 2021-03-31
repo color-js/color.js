@@ -81,12 +81,13 @@ Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// Hue difference, getting the sign correct
 	let hdiff = h2 - h1;
 	let hsum = h1 + h2;
+	let habs = Math.abs(hdiff);
 	let Δh;
 
 	if (Cdash1 * Cdash2 === 0) {
 		Δh = 0;
 	}
-	else if (Math.abs(hdiff) <= 180) {
+	else if (habs <= 180) {
 		Δh = hdiff;
 	}
 	else if (hdiff > 180) {
@@ -114,7 +115,7 @@ Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	if (Cdash1 * Cdash2 === 0) {
 		hdash = hsum;   // which should be zero
 	}
-	else if (Math.abs(h1 - h2) <= 180) {
+	else if (habs <= 180) {
 		hdash = hsum / 2;
 	}
 	else if (hsum < 360) {
