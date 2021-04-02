@@ -194,11 +194,17 @@ export default class Color {
 
 	// Relative luminance
 	get luminance () {
-		return this.xyz.Y;
+		// Luminance should actually be retrieved from XYZ with a D65 white point.
+		return Color.chromaticAdaptation(Color.spaces.xyz.white, Color.whites.D65, this.xyz)[1];
 	}
 
 	set luminance (value) {
-		this.xyz.Y = value;
+		let xyz = Color.chromaticAdaptation(Color.spaces.xyz.white, Color.whites.D65, this.xyz);
+		xyz[1] = value;
+		xyz = Color.chromaticAdaptation(Color.whites.D65, Color.spaces.xyz.white, xyz);
+		this.xyz.X = xyz[0];
+		this.xyz.Y = xyz[1];
+		this.xyz.Z = xyz[2];
 	}
 
 	// WCAG 2.0 contrast https://www.w3.org/TR/WCAG20-TECHS/G18.html
