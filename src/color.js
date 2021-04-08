@@ -950,6 +950,7 @@ Object.assign(Color, {
 	util,
 	hooks: new Hooks(),
 	whites: {
+		// from ASTM E308-01
 		D50: [0.96422, 1.00000, 0.82521],
 		D65: [0.95047, 1.00000, 1.08883],
 	},
