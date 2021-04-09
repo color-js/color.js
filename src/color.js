@@ -455,7 +455,7 @@ export default class Color {
 			if (format === "%") {
 				format = c => {
 					c *= 100;
-					return util.toPrecision(c, precision, [0, 100]) + "%";
+					return util.toPrecision(c, precision) + "%";
 				};
 			}
 		}

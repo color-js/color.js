@@ -65,14 +65,18 @@ export function capitalize(str) {
  * Round a number to a certain number of significant digits based on a range
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
- * @param {Array[2]} range - Range to base decimals on
  */
-export function toPrecision(n, precision, range = [0, 1]) {
+export function toPrecision(n, precision) {
 	precision = +precision;
-	let digits = ((range[1] || range[0] || 1) + "").length;
-	let decimals = Math.max(0, precision + 1 - digits);
+	let integerLength = (Math.floor(n) + "").length;
 
-	return +n.toFixed(decimals);
+	if (precision > integerLength) {
+		return +n.toFixed(precision - integerLength);
+	}
+	else {
+		let p10 = 10 ** (integerLength - precision);
+		return Math.round(n / p10) * p10;
+	}
 }
 
 export function parseCoord(coord) {
