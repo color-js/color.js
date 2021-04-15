@@ -106,7 +106,7 @@ color1.deltaE(color2, "2000");
 ## Setting the default DeltaE algorithm
 
 Notice that even if you include better DeltaE algorithms such as ΔΕ2000,
-the default DeltaE algorithm used in every function that accepts a deltaE argument (e.g `Color#steps()`) or `color.deltaE()` with no method parameter) will remain DeltaE 1976.
+the default DeltaE algorithm used in every function that accepts a deltaE argument (e.g `Color#steps()`) or `color.deltaE()` with no method parameter will remain DeltaE 1976.
 This is because Color.js doesn't necessarily know which DeltaE method is better for your use case.
 E.g. for high performance code, you may prefer the speed over accuracy tradeoff of DeltaE 1976.
 You can however change this default:
