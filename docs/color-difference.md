@@ -94,7 +94,6 @@ For most DeltaE algorithms, 2.3 is considered the "Just Noticeable Difference" (
 Can you notice a difference in the two colors below?
 
 ```js
-// These are not needed if you're just using the bundle
 let color1 = new Color("lch", [40, 50, 60]);
 let color2 = new Color("lch", [40, 50, 60]);
 
