@@ -8,7 +8,6 @@ LCH coordinates are particularly useful for this so they are available directly 
 
 ```js
 let color = new Color("rebeccapurple");
-let color = new Color("rebeccapurple");
 color.lightness *= 1.2;
 color.chroma = 40;
 color.hue += 30;

@@ -45,9 +45,9 @@ The exact ranges for these coordinates are up to the
 You can also pass another color, or an object literal with `spaceId`/`space`, `coords`, and optionally `alpha` properties:
 
 ```js
-let red = new Color({space: "lab", coords: [50, 50, 50]});
-let red = new Color({spaceId: "lab", coords: [50, 50, 50]});
-let redClone = new Color(red);
+let red1 = new Color({space: "lab", coords: [50, 50, 50]});
+let red2 = new Color({spaceId: "lab", coords: [50, 50, 50]});
+let redClone = new Color(red1);
 ```
 
 ## Color object properties

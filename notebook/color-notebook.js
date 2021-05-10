@@ -4,12 +4,17 @@
 * Author: Lea Verou
 */
 
-let $ = Bliss, $$ = $.$;
+export let $ = Bliss, $$ = $.$;
 import Color, {util} from "../color.js";
+import * as acorn from "https://cdn.jsdelivr.net/npm/acorn/dist/acorn.mjs";
+import * as acornWalk from "https://cdn.jsdelivr.net/npm/acorn-walk/dist/walk.mjs";
+import {generate} from "https://cdn.jsdelivr.net/npm/astring@1.7.4/dist/astring.mjs"
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 const outputSpace = supportsP3? "p3" : "srgb";
 const codes = new WeakMap();
+
+const acornOptions = {ecmaVersion: "2020", sourceType: "module"};
 
 Prism.hooks.add("before-sanity-check", env => {
 	if ($(".token", env.element)) {
@@ -32,6 +37,8 @@ export default class Notebook {
 		this.pre = pre;
 		this.pre.notebook = this;
 		this.initialCode = this.pre.textContent;
+		this.debug = this.pre.matches(".cn-debug, .cn-debug *");
+
 		Notebook.all.add(this);
 
 		Notebook.intersectionObserver.observe(this.pre);
@@ -57,9 +64,11 @@ export default class Notebook {
 			this.pre.live = new Prism.Live(this.pre);
 		}
 
+		let scriptURL = new URL("../color.js", import.meta.url);
+
 		this.sandbox = $.create("iframe", {
 			srcdoc: `<script type=module>
-			import Color from "/color.js";
+			import Color from "${scriptURL}";
 
 			window.runLine = function (line, env) {
 				let doc = {
@@ -109,6 +118,65 @@ export default class Notebook {
 		return win;
 	}
 
+	static rewrite(code) {
+		let ast = acorn.parse(code, acornOptions);
+		let env = new Set();
+		let details = {};
+		let nodes = [];
+
+		acornWalk.fullAncestor(ast, (node, ancestors) => {
+			let parent = ancestors[ancestors.length - 2];
+
+			if (node.type === "VariableDeclaration") {
+				nodes.push(node);
+
+				for (let declaration of node.declarations) {
+					let name = declaration.id.name;
+					details[name] = [];
+				}
+			}
+			else if (node.type === "Identifier") {
+				if (parent.type !== "VariableDeclarator" && node.name in details) {
+					nodes.push(node);
+				}
+			}
+		});
+
+		nodes = nodes.sort((n1, n2) => {
+			return n1.start - n2.start;
+		});
+
+		let offset = 0;
+
+		for (let node of nodes) {
+			if (node.type === "VariableDeclaration") {
+				// Remove let, var etc keywords since we are adding everything as properties on env
+				let start = node.start + offset;
+				code = code.slice(0, start) + code.slice(start + node.kind.length);
+				offset -= node.kind.length;
+
+				for (let declaration of node.declarations) {
+					// Prepend variable name with env.
+					let start = declaration.start + offset;
+					code = code.slice(0, start) + "env." + code.substring(start);
+					offset += 4;
+
+					details[declaration.id.name].push(getNodePosition(node, code, ast));
+				}
+			}
+			else {
+				// Insert "env." at node.start + offset
+				let start = node.start + offset;
+				code = code.slice(0, start) + "env." + code.slice(start);
+				offset += 4;
+
+				details[node.name].push(getNodePosition(node, code, ast));
+			}
+		}
+
+		return {code, details, ast};
+	}
+
 	async eval () {
 		let pre = this.pre;
 
@@ -119,47 +187,7 @@ export default class Notebook {
 
 		this.code = this.pre.textContent;
 
-		// Create a clone so we can take advantage of Prism's parsing to tweak the code
-		// Bonus: Comment this out to debug what's going on!
-		let originalPre = pre;
-		pre = pre.cloneNode(true);
-
-		// Remove comments
-		$$(".comment", pre).forEach(comment => comment.remove());
-
-		// Replace variable declarations with property creation on env
-		// This is so we can evaluate line by line, because eval() in strict mode has its own scope
-
-		let variables = new Set();
-		let nextVariable;
-
-		walk(pre, (node) => {
-			let text = node.textContent.trim();
-			let parent = node.parentNode;
-			let inRoot = parent.matches("code");
-
-			if (!text) {
-				// Whitespace node
-				return;
-			}
-
-			if (nextVariable && (inRoot || parent.matches(".token.constant"))) {
-				// Variables with ALL_CAPS are highlighted as constants
-				variables.add(text);
-				nextVariable = false;
-			}
-			else if (parent.matches(".token.keyword") && (text === "var" || text === "let")) {
-				nextVariable = true; // next token is the variable name
-				node.textContent = "";
-			}
-
-			if ((inRoot || parent.matches(".token.function, .token.template-string .interpolation, .token.constant")) && variables.has(text)) {
-				// node.textContent = "env." + text;
-				node.textContent = node.textContent.replace(text, "env.$&");
-			}
-		}, NodeFilter.SHOW_TEXT);
-
-		let value = pre.textContent.trim().replace(/\s+$/m, "");
+		let value = this.code.trim().replace(/\s+$/m, "");
 
 		if (codes.get(pre) === value) {
 			// We've already evaluated this
@@ -168,118 +196,111 @@ export default class Notebook {
 
 		codes.set(pre, value);
 
-		let varNodes = new Set();
-		let semicolons = [];
-		let line = 0;
-		let varLines = [];
-
-		// Wrap the variables so we can find them easily later
-		walk(originalPre, (node) => {
-			let text = node.textContent.trim();
-			let parent = node.parentNode;
-			let inRoot = parent.matches("code");
-
-			if (inRoot && variables.has(text)) {
-				// TODO get whitespace outside
-				node.line = line;
-				varNodes.add(node);
-			}
-			else if (parent.matches(".token.punctuation") && text === ";") {
-				semicolons.push(parent);
-				line++;
-			}
-		}, NodeFilter.SHOW_TEXT);
-
-		for (let node of varNodes) {
-			let wholeText = node.textContent;
-			let text = wholeText.trim();
-			let line = node.line;
-			varLines[line] = varLines[line] || new Set();
-
-			if (text !== wholeText) {
-				// There is whitespace
-				let start = wholeText.indexOf(text);
-				let end = start + text.length;
-
-				if (start > 0) {
-					// Whitespace in the beginning
-					node.splitText(start);
-					node = node.nextSibling;
-				}
-
-				if (end < wholeText.length) {
-					// Whitespace in the end
-					node.splitText(text.length);
-				}
-			}
-
-			let wrappedNode = $.create("span", {
-				className: "variable",
-				"data-varname": text,
-				"data-line": line,
-				textContent: node.textContent
-			});
-
-			node.replaceWith(wrappedNode);
-
-			// Associate variable nodes with lines so we know which line is relevant
-			varLines[line].add(wrappedNode);
+		try {
+			var {code, details, ast} = Notebook.rewrite(this.code);
+		}
+		catch (e) {
+			// Syntax error
+			var error = e;
 		}
 
-		// Split by semicolon
-		let lines = value.trim().split(/\s*;\s*/);
-
-		// Remove last line if empty
-		if (["", "\u200b"].includes(lines[lines.length - 1])) {
-			lines.pop();
+		if (!error) {
+			try {
+				var statements = acorn.parse(code, acornOptions).body;
+			}
+			catch (e) {
+				// Syntax error in the rewritten code
+				var error = e;
+			}
 		}
-
-		if (!this.sandbox.matches(".ready:not(.dirty)")) {
-			await this.reloadSandbox();
-		}
-
-		this.sandbox.classList.add("dirty");
 
 		let win = this.sandbox.contentWindow;
 		let env = {};
 
-		let wrapper = originalPre.closest(".cn-wrapper");
+		let wrapper = pre.closest(".cn-wrapper");
 		let results = $(".cn-results", wrapper);
 
 		// CLear previous results
 		results.textContent = "";
 
-		for (let i = 0; i < lines.length; i++) {
-			let line = lines[i];
-			let isLastLine = i === lines.length - 1;
+		if (error) {
+			// console.log(error, serialize(error, undefined, win));
+			// Syntax error
+			results.append(serialize(error, undefined, win));
+			return;
+		}
+
+		if (!win.runLine) {
+			// iframe hasn't loaded yet
+			await $.when(win, "load");
+		}
+
+		for (let i=0; i<statements.length; i++) {
+			let statement = statements[i];
+			let originalStatement = ast.body[i];
+			let lineCode = generate(statement);
 			let ret;
 
 			try {
-				ret = win.runLine(line, env);
+				ret = win.runLine(lineCode, env);
 			}
 			catch (e) {
 				ret = e;
+
+				if (this.debug) {
+					console.warn(e, line, env, this.pre);
+				}
 			}
 
-			if (!(ret instanceof win.Error)) {
-				// Update variables in the current line
-				let lineVars = varLines[i];
-
-				if (lineVars && lineVars.size > 0) {
-					for (let node of lineVars) {
-						let variable = node.textContent;
-						let value = env[variable];
-
-						if (value instanceof win.Color) {
-							try {
-								node.style.setProperty("--color", value.to(outputSpace));
-								node.classList.add(lightOrDark(value));
-							}
-							catch (e) {}
-						}
-						// TODO do something nice with other types :)
+			if (ret instanceof win.Error) {
+				console.log(
+					"Error during statement evaluation:", ret,
+					"Statement was:", lineCode
+				);
+			}
+			else {
+				// Find which variables are included in the current statement
+				acornWalk.full(originalStatement, node => {
+					if (node.type !== "Identifier" || !(node.name in details)) {
+						return;
 					}
-				}
+
+					let {name, start, end} = node;
+
+					// Wrap variable
+					let text = getNodeAt((start + end)/2, pre);
+					let value = env[name];
+
+					if (value && typeof value === "object" && ("coords" in value)) {
+
+						let offset = text.textContent.indexOf(name);
+
+						if (offset > 0) {
+							// Possible whitespace before
+							text.splitText(offset);
+							text = text.nextSibling;
+						}
+
+						if (text.textContent.length > name.length) {
+							// Possible whitespace after
+							text.splitText(name.length);
+						}
+
+						let wrappedNode = $.create("span", {
+							className: "variable",
+							"data-varname": name,
+							"data-line": i,
+							around: text
+						});
+
+						try {
+							wrappedNode.style.setProperty("--color", value.to(outputSpace));
+							wrappedNode.classList.add(lightOrDark(value));
+						}
+						catch (e) {}
+					}
+					// TODO do something nice with other types :)
+				});
 			}
 
 			let result;
@@ -293,31 +314,32 @@ export default class Notebook {
 
 			if (result) {
 				results.append(result);
-
 				// Make result line up with its line if there's space
-				let semicolon = semicolons[i];
 
-				if (!semicolon && isLastLine) {
-					// Last line often doesn't have a semicolon
-					semicolon = originalPre.lastElementChild.lastElementChild;
-				}
+				// What line is start on?
+				let end = originalStatement.end;
+				let nodeAtOffset = getNodeAt(end, pre, {type: "element"});
 
-				if (semicolon) {
-					let offset = semicolon.offsetTop - result.offsetTop
-					// Prevent overly tall results (e.g. long arrays of colors)
-					// to make the entire code area super tall
-					             - Math.max(0, result.offsetHeight - 30);
+				let offset = nodeAtOffset.offsetTop - result.offsetTop
+				// Prevent overly tall results (e.g. long arrays of colors)
+				// to make the entire code area super tall
+							 - Math.max(0, result.offsetHeight - 30);
 
-					if (offset > 5) {
-						result.style.marginTop = offset + "px";
-					}
+				if (offset > 5) {
+					result.style.marginTop = offset + "px";
 				}
 			}
 		}
 
+		if (!this.sandbox.matches(".ready:not(.dirty)")) {
+			await this.reloadSandbox();
+		}
+
+		this.sandbox.classList.add("dirty");
+
 		// Add a class to the first token to mark that we've evaluated this
 		// so that we don't do it again unless the contents are overwritten
-		let firstToken = $("code .token", originalPre);
+		let firstToken = $("code .token", pre);
 
 		if (firstToken) {
 			firstToken.classList.add("cn-evaluated");
@@ -356,19 +378,49 @@ export function walk(pre, callback, filter) {
 	}
 }
 
-export function serialize(ret, color, win = window) {
-	var color, element;
+function getNodePosition(node, code, ast) {
+	let {start, end} = node;
+	let before = code.slice(0, start);
+	let line = before.split(/\r?\n/);
+	return {start, end, line};
+}
+
+function getNodeAt (offset, container, {type} = {}) {
+	let node, sum = 0;
+	let walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+
+	while (node = walk.nextNode()) {
+		sum += node.data.length;
+
+		if (sum >= offset) {
+			if (type === "element" && node.nodeType === 3) {
+				node = node.parentNode;
+			}
+
+			return node;
+		}
+	}
+
+	// if here, offset is larger than maximum
+	return null;
+}
+
+export function serialize (ret, color, win = window) {
+	let element;
 	let Color = win.Color;
 
 	if (ret === undefined) {
 		return;
 	}
 
-	if (ret instanceof win.Error) {
-		if (win.Error.message.indexOf("Cannot use import statement")) {
+	if (
+		ret instanceof win.Error // runtime error, thrown in the sandbox
+		|| ret instanceof Error  // syntax error, thrown here
+	) {
+		if (ret.message.indexOf("Cannot use import statement") > -1) {
 			return "";
 		}
-		
+
 		return $.create({
 			className: "cn-error",
 			textContent: ret.name,
@@ -538,3 +590,7 @@ export function initAll(container = document) {
 }
 
 initAll();
+
+// // for debugging
+// self.acorn = acorn;
+// self.acornWalk = acornWalk;
