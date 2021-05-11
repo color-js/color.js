@@ -317,37 +317,23 @@ export default class Color {
 
 		if (method.indexOf(".") > 0 && !this.inGamut(space)) {
 			let clipped = color.toGamut({method: "clip", space});
-			// distance of original color from gamut boundary
-			let base_error = this.deltaE(clipped, {method: "2000"});
-			// console.log(base_error);
-			if (this.deltaE(clipped, {method: "2000"}) > 2.3) {
+			if (this.deltaE(clipped, {method: "2000"}) > 2) {
 				// Reduce a coordinate of a certain color space until the color is in gamut
 				let [mapSpace, coordName] = util.parseCoord(method);
 
 				let mappedColor = color.to(mapSpace);
 				let bounds = mapSpace.coords[coordName];
 				let min = bounds[0];
-				let ε = .001; // for deltaE
+				let ε = .01; // for deltaE
 				let low = min;
 				let high = mappedColor[coordName];
-				// distance of current estimate from original color
-				let error = color.deltaE(mappedColor, {method: "2000"});
-				// let i = 0;
-				while ((high - low > ε) && (error < base_error)) {
+				while (high - low > ε) {
 					let clipped = mappedColor.toGamut({space, method: "clip"});
 					let deltaE = mappedColor.deltaE(clipped, {method: "2000"});
-					error = color.deltaE(mappedColor, {method: "2000"});
 					if (deltaE - 2 < ε) {
 						low = mappedColor[coordName];
-						// console.log(++i, "in", mappedColor.chroma, mappedColor.srgb, error);
 					}
 					else {
-						// console.log(++i, "out", mappedColor.chroma, mappedColor.srgb, clipped.srgb, deltaE, error);
-						if (Math.abs(deltaE - 2) < ε) {
-							// We've found the boundary
-							break;
-						}
-
 						high = mappedColor[coordName];
 					}
 
