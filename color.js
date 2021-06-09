@@ -2,7 +2,7 @@
 // for easier testing and experimentation without building
 import Color, {util} from "./src/main.js";
 
-if (window) {
+if (global.window) {
 	window.Color = window.Color || Color;
 }
 
