@@ -22,7 +22,7 @@ Color.defineSpace({
 		const {α, β} = this;
 
 		return RGB.map(function (val) {
-			if (val > β ) {
+			if (val >= β ) {
 				return α * Math.pow(val, 0.45) - (α - 1);
 			}
 

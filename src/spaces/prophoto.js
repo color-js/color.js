@@ -10,7 +10,7 @@ Color.defineSpace({
 		// Transfer curve is gamma 1.8 with a small linear portion
 		const Et2 = 16/512;
 		return RGB.map(function (val) {
-			if (val <= Et2) {
+			if (val < Et2) {
 				return val / 16;
 			}
 
