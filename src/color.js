@@ -11,7 +11,9 @@ export default class Color {
 	// new Color(coords, alpha) // defaults to sRGB
 	// new Color(CSS variable [, root])
 	constructor (...args) {
-		let str, color;
+		let str;
+		/** @type {Color | ColorJSON} */ 
+		let color;
 
 		// new Color(color)
 		// new Color({spaceId, coords})
@@ -38,13 +40,16 @@ export default class Color {
 
 		if (color) {
 			if ("spaceId" in color) {
+				/** @type {string} */
 				this.spaceId = color.spaceId;
 			}
 			else {
 				this.space = color.space;
 			}
 
+			/** @type {number[]} */
 			this.coords = color.coords.slice();
+			/** @type {number} */ 
 			this.alpha = color.alpha;
 		}
 		else { // default signature new Color([ColorSpace,] array [, alpha])
@@ -73,6 +78,23 @@ export default class Color {
 		}
 	}
 
+	/**
+	 * @typedef {Object} Space - Color space description.
+     * @prop {string} id
+	 * @prop {string} cssId
+	 * @prop {string} name
+	 * @prop {function(number[]): number[]} toXYZ
+	 * @prop {function(number[]): number[]} fromXYZ
+	 * @prop {function(number[]): Boolean} [inGamut=] - .
+	 * @prop {{[key: string]: number[]}} [coords=]
+	 * @prop {string?} inherits
+	 * @prop {Object?} properties - Things to dynamically add to Color.prototype
+	 * @prop {Object?} instance   - Things to dynamically add to instances with this space
+	 */
+
+	/**
+	 * @returns {Space}
+	 */	
 	get space () {
 		return Color.spaces[this.spaceId];
 	}
@@ -82,11 +104,16 @@ export default class Color {
 		return this.spaceId = value;
 	}
 
+	/**
+	 * @returns {string}
+	 */
 	get spaceId () {
 		return this._spaceId;
 	}
 
-	// Handle dynamic changes of color space
+	/** Handle dynamic changes of color space
+	 * @param {string | Space} id
+	 */
 	set spaceId (id) {
 		let newSpace = Color.space(id);
 
@@ -235,7 +262,15 @@ export default class Color {
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
 
-	// Get formatted coords
+	/**
+	 * Get formatted coords
+	 * 
+	 * @param {Object} options
+	 * @param {Object|Boolean} options.inGamut    - Whether to force into gamut.
+	 *        If an object, force into gamut using the definition of toGamut()'s parameter options.
+	 * @param {number} options.precision
+	 * @returns {number[]}
+	 */
 	getCoords ({inGamut, precision = Color.defaults.precision} = {}) {
 		let coords = this.coords;
 
@@ -295,7 +330,7 @@ export default class Color {
 	 *        If in the form [colorSpaceId].[coordName], that coordinate is reduced
 	 *        until the color is in gamut. Please note that this may produce nonsensical
 	 *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
-	 * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
+	 * @param {Space|string} options.space - The space whose gamut we want to map to
 	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
 	 */
 	toGamut ({method = Color.defaults.gamutMapping, space = this.space, inPlace} = {}) {
@@ -406,6 +441,15 @@ export default class Color {
 		return color;
 	}
 
+	/**
+	 * @typedef {Object} ColorJSON
+	 * @prop {string} spaceId
+	 * @prop {number[]} coords
+	 * @prop {number} alpha
+	 */
+	/**
+	 * @returns {ColorJSON}
+	 */
 	toJSON () {
 		return {
 			spaceId: this.spaceId,
@@ -507,7 +551,19 @@ export default class Color {
 		       && this.coords.every((c, i) => c === color.coords[i]);
 	}
 
-	// Adapt XYZ from white point W1 to W2
+	/**
+	 * @typedef {[number, number, number]} Vec3
+	 * @typedef {[Vec3, Vec3, Vec3]} Mat33
+	 */
+	/**
+	 * Adapt XYZ from white point W1 to W2
+	 *
+	 * @param {Vec3} W1 
+	 * @param {Vec3} W2 
+	 * @param {Vec3} XYZ 
+	 * @param {Object} [options = {}]
+	 * @param {Mat33} options.M  - Choose a custom a matrix.
+	 */
 	static chromaticAdaptation (W1, W2, XYZ, options = {}) {
 		W1 = W1 || Color.whites.D50;
 		W2 = W2 || Color.whites.D50;
@@ -560,7 +616,12 @@ export default class Color {
 		}
 	}
 
-	// CSS color to Color object
+	/**
+	 * CSS color to Color object
+	 * 
+	 * @param {string} str
+	 * @returns {ColorJSON}
+	 */
 	static parse (str) {
 		let env = {str};
 		Color.hooks.run("parse-start", env);
@@ -647,8 +708,8 @@ export default class Color {
 
 	/**
 	 * Parse a CSS function, regardless of its name and arguments
-	 * @param String str String to parse
-	 * @return Object An object with {name, args, rawArgs}
+	 * @param {String} str String to parse
+	 * @return {Object} An object with {name, args, rawArgs}
 	 */
 	static parseFunction (str) {
 		if (!str) {
@@ -698,7 +759,13 @@ export default class Color {
 		}
 	}
 
-	// One-off convert between color spaces
+	/**
+	 * One-off convert between color spaces
+	 * 
+	 * @param {number[]} coords
+	 * @param {string | Space} fromSpace
+	 * @param {string | Space} toSpace
+	 */ 
 	static convert (coords, fromSpace, toSpace) {
 		fromSpace = Color.space(fromSpace);
 		toSpace = Color.space(toSpace);
@@ -751,6 +818,9 @@ export default class Color {
 	/**
 	 * Return a color space object from an id or color space object
 	 * Mainly used internally, so that functions can easily accept either
+	 * 
+	 * @param {string | Space} space
+	 * @returns {Space}
 	 */
 	static space (space) {
 		let type = util.type(space);
@@ -772,7 +842,11 @@ export default class Color {
 		throw new TypeError(`${space} is not a valid color space`);
 	}
 
-	// Define a new color space
+	/** 
+	 * Define a new color space
+	 * 
+	 * @returns {Space}
+	 */
 	static defineSpace ({id, inherits}) {
 		let space = Color.spaces[id] = arguments[0];
 
