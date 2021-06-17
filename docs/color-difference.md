@@ -59,7 +59,7 @@ However, because Lab turned out to not be as perceptually uniform as it was once
 Instead of handling the remaining perceptual non-uniformities of Lab in the color difference equation,
 another option is to use a better color model and perform a simpler color difference calculation in that space.
 
-Examples include DeltaEJz (which uses JzCzhz) and deltaEITP (which uses ICtCp). An additional benefit of these two color difference formulae is that, unlike Lab which is mostly tested with medium to low chroma, reflective surface colors, JzCzhz and ICtCp are designed to be used with lght-emitting devices (screens), high chroma colors often found in Wide Gamut content, and a much larger range of luminances as found in High Dynamic Range content.
+Examples include DeltaEJz (which uses JzCzhz) and deltaEITP (which uses ICtCp). An additional benefit of these two color difference formulae is that, unlike Lab which is mostly tested with medium to low chroma, reflective surface colors, JzCzhz and ICtCp are designed to be used with light-emitting devices (screens), high chroma colors often found in Wide Gamut content, and a much larger range of luminances as found in High Dynamic Range content.
 
 Color.js supports all the DeltaE algorithms mentioned above except DeltaE 94. Each DeltaE algorithm comes with its own method (e.g. `color1.deltaECMC(color2)`),
 as well as a parameterized syntax (e.g. `color1.deltaE(color2, "CMC")`) which falls back to DeltaE 76 when the requested algorithm is not available, or the second argument is missing.
@@ -94,7 +94,6 @@ For most DeltaE algorithms, 2.3 is considered the "Just Noticeable Difference" (
 Can you notice a difference in the two colors below?
 
 ```js
-// These are not needed if you're just using the bundle
 let color1 = new Color("lch", [40, 50, 60]);
 let color2 = new Color("lch", [40, 50, 60]);
 
@@ -106,7 +105,7 @@ color1.deltaE(color2, "2000");
 ## Setting the default DeltaE algorithm
 
 Notice that even if you include better DeltaE algorithms such as ΔΕ2000,
-the default DeltaE algorithm used in every function that accepts a deltaE argument (e.g `Color#steps()`) or `color.deltaE()` with no method parameter) will remain DeltaE 1976.
+the default DeltaE algorithm used in every function that accepts a deltaE argument (e.g `Color#steps()`) or `color.deltaE()` with no method parameter will remain DeltaE 1976.
 This is because Color.js doesn't necessarily know which DeltaE method is better for your use case.
 E.g. for high performance code, you may prefer the speed over accuracy tradeoff of DeltaE 1976.
 You can however change this default:
