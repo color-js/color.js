@@ -13,9 +13,9 @@ Color.defineSpace({
 		saturation: [0, 100],
 		value: [0, 100]
 	},
-	inGamut (coords) {
+	inGamut (coords, epsilon) {
 		let hsl = this.to.hsl(coords);
-		return Color.spaces.hsl.inGamut(hsl);
+		return Color.spaces.hsl.inGamut(hsl, {epsilon: epsilon});
 	},
 	white: Color.whites.D65,
 
