@@ -15,8 +15,8 @@ Color.defineSpace({
 	name: "ProPhoto",
 	cssId: "prophoto-rgb",
 	white: Color.whites.D50,
-	α /*= a + 1*/: 1,
-	a: 0,
+	α /*= a + 1*/: 1.0,
+	a: 0.0,
 	β /* = K₀/φ = E_t */: 1/512 /* = 0.001953125 */,
 	γ /* > 1 */: 9/5 /* = 1.8 */,
 	Γ /* = 1/γ < 1 */: 5/9 /* = 0._5 */,
@@ -26,12 +26,12 @@ Color.defineSpace({
 	toLinear(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
 		return RGB.map(function (val) {
-			return (val < K₀) ? val / φ : Math.pow((val + a) / α , γ);
+			return (val <= K₀) ? val / φ : Math.pow((val + a) / α , γ);
 		});
 	},
 	toGamma(RGB) {
 		return RGB.map(function (val) {
-			return (val <= β) ? val * φ : Math.pow(val, Γ) * α - a;
+			return (val < β) ? val * φ : Math.pow(val, Γ) * α - a;
 		});
 	},
 	// convert an array of  prophoto-rgb values to CIE XYZ
