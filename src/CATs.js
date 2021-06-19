@@ -31,9 +31,9 @@ Color.adapt = function (W1, W2, id = "Bradford") {
 
 	// all practical illuminants have non-zero XYZ so no division by zero can occur below
 	let scale = [
-		[ ρd/ρs,      0.0000000,  0.0000000 ],
-		[ 0.0000000,  γd/γs,      0.0000000 ],
-		[ 0.0000000,  0.0000000,  βd/βs     ]
+		[ ρd/ρs,  0.0,    0.0   ],
+		[ 0.0,    γd/γs,  0.0   ],
+		[ 0.0,    0.0,    βd/βs ]
 	];
 	// console.log({scale});
 
