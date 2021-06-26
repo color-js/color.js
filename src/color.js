@@ -562,7 +562,7 @@ export default class Color {
 	 * @param {Vec3} W2 
 	 * @param {Vec3} XYZ 
 	 * @param {Object} [options = {}]
-	 * @param {Mat33} options.M  - Choose a custom a matrix.
+	 * @param {Mat33} [options.M =]  - Choose a custom a matrix.
 	 */
 	static chromaticAdaptation (W1, W2, XYZ, options = {}) {
 		W1 = W1 || Color.whites.D50;
@@ -572,7 +572,7 @@ export default class Color {
 			return XYZ;
 		}
 
-		let env = {W1, W2, XYZ, options};
+		let env = {W1, W2, XYZ, M: options.M, options};
 
 		Color.hooks.run("chromatic-adaptation-start", env);
 
