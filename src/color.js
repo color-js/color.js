@@ -572,7 +572,7 @@ export default class Color {
 			return XYZ;
 		}
 
-		let env = {W1, W2, XYZ, ...options};
+		let env = {W1, W2, XYZ, options};
 
 		Color.hooks.run("chromatic-adaptation-start", env);
 
