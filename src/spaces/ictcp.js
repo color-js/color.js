@@ -26,6 +26,7 @@ Color.defineSpace({
 		CT: [-0.5, 0.5],	// Full BT.2020 gamut in range [-0.5, 0.5]
 		CP: [-0.5, 0.5]
 	},
+	classification: ['labish'],
 	inGamut: coords => true,
 	// Note that XYZ is relative to D65
 	white: Color.whites.D65,

@@ -8,7 +8,8 @@ Color.defineSpace({
 		L: [ 0, 1],
 		a: [-0.5, 0.5],
 		b: [-0.5, 0.5]
-    },
+	},
+	classification: ['labish'],
     inGamut: coords => true,
 	// Note that XYZ is relative to D65
     white: Color.whites.D65,

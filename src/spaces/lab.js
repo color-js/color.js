@@ -8,6 +8,7 @@ Color.defineSpace({
 		a: [-100, 100],
 		b: [-100, 100]
 	},
+	classification: ['labish'],
 	inGamut: coords => true,
 	// Assuming XYZ is relative to D50, convert to CIE Lab
 	// from CIE standard, which now defines these as a rational fraction
