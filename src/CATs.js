@@ -14,6 +14,7 @@ Color.hooks.add("chromatic-adaptation-end", env => {
 	}
 });
 
+/* eslint-disable no-unused-vars */
 Color.defineCAT = function ({id, toCone_M, fromCone_M}) {
 	// Use id, toCone_M, fromCone_M like variables
 	Color.CATs[id] = arguments[0];

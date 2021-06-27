@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Color, {util} from "./rec2020.js";
 
 const rec2020 = Color.spaces.rec2020;
@@ -26,7 +27,7 @@ Color.defineSpace({
 		CT: [-0.5, 0.5],	// Full BT.2020 gamut in range [-0.5, 0.5]
 		CP: [-0.5, 0.5]
 	},
-	inGamut: coords => true,
+	inGamut: _coords => true,
 	// Note that XYZ is relative to D65
 	white: Color.whites.D65,
 	c1: 3424 / 4096,

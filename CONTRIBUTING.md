@@ -32,3 +32,6 @@ Here are a few other guideliines that cannot be enforced via ESLint:
 - Prefer single-word names over multi-word names. 3+ word names are especially frowned upon.
 - camelCase over underscore_case, with few exceptions.
 - Don't be afraid of unicode characters when appropriate, except on user-facing names. E.g. use ε over epsilon internally, but not ΔΕ over deltaE in the public-facing method name.
+
+If you prefer to run ESLint from the command-line, a `lint` script is provided so you can use `npm run lint`. To use the auto-fix functionality, try `npm run lint -- --fix`.
+Do note that the current code base is not very consistent on the indents, so you may see many unwanted results.

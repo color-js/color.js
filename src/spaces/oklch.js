@@ -1,4 +1,4 @@
-import Color, {util} from "./../color.js";
+import Color from "./../color.js";
 import "./oklab.js";
 import * as angles from "../angles.js";
 
@@ -10,7 +10,7 @@ Color.defineSpace({
 		chroma: [0, 1],
 		hue: angles.range,
 	},
-	inGamut: coords => true,
+	inGamut: _coords => true,
 	white: Color.whites.D65,
 	from: {
 		oklab (oklab) {
@@ -54,8 +54,6 @@ Color.defineSpace({
 	},
 	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "oklch") {
-			let L = parsed.args[0];
-
 			return {
 				spaceId: "oklch",
 				coords: parsed.args.slice(0, 3),

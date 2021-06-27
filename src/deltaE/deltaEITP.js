@@ -21,6 +21,6 @@ Color.prototype.deltaEITP = function (sample) {
 	// per  ITU-R BT.2124-0 p.3
 
 	return 720 * Math.sqrt((I1 - I2) ** 2 + (0.25 * (T1 -T2) ** 2) + (P1 - P2) ** 2);
-}
+};
 
 Color.statify(["deltaEITP"]);

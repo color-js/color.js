@@ -179,7 +179,7 @@ Color.range = function(color1, color2, options = {}) {
 
 export function isRange (val) {
 	return util.type(val) === "function" && val.rangeArgs;
-};
+}
 
 // Helper
 function interpolate(start, end, p) {

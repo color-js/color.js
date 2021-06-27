@@ -83,6 +83,7 @@ export function parseCoord(coord) {
 	if (coord.indexOf(".") > 0) {
 		// Reduce a coordinate of a certain color space until the color is in gamut
 		let [spaceId, coordName] = coord.split(".");
+		// eslint-disable-next-line no-undef
 		let space = Color.space(spaceId);
 
 		if (!(coordName in space.coords)) {

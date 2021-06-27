@@ -1,4 +1,4 @@
-import Color, {util} from "./../color.js";
+import Color from "./../color.js";
 
 Color.defineSpace({
 // Absolute CIE XYZ, with a D65 whitepoint,
@@ -14,7 +14,7 @@ Color.defineSpace({
 	},
     white: Color.whites.D65,
     Yw: 203,	// absolute luminance of media white
-	inGamut: coords => true,
+	inGamut: _coords => true,
     fromXYZ (XYZ) {
 
 		const {Yw} = this;

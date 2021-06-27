@@ -14,7 +14,8 @@
 	},
 	"scripts": {
 		"test": "open tests/",
-		"build": "gulp"
+		"build": "gulp",
+		"lint": "eslint src"
 	},
 	"repository": {
 		"type": "git",

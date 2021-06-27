@@ -10,7 +10,7 @@ Color.defineSpace({
 		chroma: [0, 1],
 		hue: angles.range,
 	},
-	inGamut: coords => true,
+	inGamut: _coords => true,
 	white: Color.whites.D65,
 	from: {
 		jzazbz (jzazbz) {
@@ -46,8 +46,6 @@ Color.defineSpace({
 	},
 	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "jzczhz") {
-			let Jz = parsed.args[0];
-
 			return {
 				spaceId: "jzczhz",
 				coords: parsed.args.slice(0, 3),

@@ -109,6 +109,7 @@ Color.defineSpace({
 	 },
 
 	 instance: {
+		// eslint-disable-next-line no-unused-vars
 		toString ({format, commas, inGamut, ...rest} = {}) {
 				if (!format) {
 				format = (c, i) => i > 0? c + "%" : c;

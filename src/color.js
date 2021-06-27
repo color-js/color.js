@@ -79,7 +79,7 @@ export default class Color {
 
 	set space (value) {
 		// Setting spaceId works with color space objects too
-		return this.spaceId = value;
+		this.spaceId = value;
 	}
 
 	get spaceId () {
@@ -99,7 +99,7 @@ export default class Color {
 
 			// b) Remove instance properties from previous color space
 			for (let prop in this.space.instance) {
-				if (this.hasOwnProperty(prop)) {
+				if (Object.prototype.hasOwnProperty.call(prop)) {
 					delete this[prop];
 				}
 			}
@@ -255,7 +255,7 @@ export default class Color {
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
-	inGamut (space = this.space, options) {
+	inGamut (space = this.space, options = {}) {
 		space = Color.space(space);
 		return Color.inGamut(space, this[space.id], options);
 	}
@@ -473,7 +473,8 @@ export default class Color {
 
 			let fallbacks = Array.isArray(fallback)? fallback.slice() : Color.defaults.fallbackSpaces;
 
-			for (let i = 0, fallbackSpace; fallbackSpace = fallbacks[i]; i++) {
+			for (let i = 0; fallbacks[i]; i++) {
+				let fallbackSpace = fallbacks[i];
 				if (Color.spaces[fallbackSpace]) {
 					let color = this.to(fallbackSpace);
 					ret = color.toString({precision});
@@ -913,7 +914,7 @@ export default class Color {
 				return util.value(this, Color.shortcuts[prop]);
 			},
 			set (value) {
-				return util.value(this, Color.shortcuts[prop], value);
+				util.value(this, Color.shortcuts[prop], value);
 			},
 			configurable: true,
 			enumerable: true
@@ -924,7 +925,7 @@ export default class Color {
 	static statify(names = []) {
 		names = names || Object.getOwnPropertyNames(Color.prototype);
 
-		for (let prop of Object.getOwnPropertyNames(Color.prototype)) {
+		for (let prop of names) {
 			let descriptor = Object.getOwnPropertyDescriptor(Color.prototype, prop);
 
 			if (descriptor.get || descriptor.set) {
@@ -942,7 +943,7 @@ export default class Color {
 			}
 		}
 	}
-};
+}
 
 Object.assign(Color, {
 	util,
@@ -985,7 +986,7 @@ Color.defineSpace({
 		Z: []
 	},
 	white: Color.whites.D50,
-	inGamut: coords => true,
+	inGamut: _coords => true,
 	toXYZ: coords => coords,
 	fromXYZ: coords => coords
 });

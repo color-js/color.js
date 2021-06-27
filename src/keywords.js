@@ -5,7 +5,7 @@
  * You can also take advantage of its default exports, if you need a data structure of named colors
  * Note that this does not handle currentColor
  */
-import Color, {util} from "./color.js";
+import Color from "./color.js";
 
 // To produce: Visit https://www.w3.org/TR/css-color-4/#named-colors
 // and run in the console:

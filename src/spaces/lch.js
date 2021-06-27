@@ -10,7 +10,7 @@ Color.defineSpace({
 		chroma: [0, 150],
 		hue: angles.range,
 	},
-	inGamut: coords => true,
+	inGamut: _coords => true,
 	white: Color.whites.D50,
 	from: {
 		lab (Lab) {
@@ -40,7 +40,7 @@ Color.defineSpace({
 			// Clamp any negative Chroma
 			if (Chroma < 0) {
 				Chroma = 0;
-			};
+			}
 			// Deal with NaN Hue
 			if (isNaN(Hue)) {
 				Hue = 0;

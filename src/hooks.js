@@ -6,8 +6,8 @@ export default class Hooks {
 	add (name, callback, first) {
 		if (typeof arguments[0] != "string") {
 			// Multiple hooks
-			for (var name in arguments[0]) {
-				this.add(name, arguments[0][name], arguments[1]);
+			for (var one_name in arguments[0]) {
+				this.add(one_name, arguments[0][one_name], arguments[1]);
 			}
 
 			return;
@@ -28,4 +28,4 @@ export default class Hooks {
 			callback.call(env && env.context? env.context : env, env);
 		});
 	}
-};
+}

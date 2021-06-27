@@ -9,7 +9,7 @@ Color.defineSpace({
 		az: [-0.5, 0.5],
 		bz: [-0.5, 0.5]
     },
-    inGamut: coords => true,
+    inGamut: _coords => true,
 	// Note that XYZ is relative to D65
 	white: Color.whites.D65,
 	b: 1.15,
