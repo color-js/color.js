@@ -155,7 +155,12 @@ export default class Color {
 		return ret;
 	}
 
-	// Euclidean distance of colors in an arbitrary color space
+	/**
+	 * Euclidean distance of colors in an arbitrary color space
+	 *
+	 * @param {Color} color   - The other color.
+	 * @param {string} space  - Color space to run in.
+	 */
 	distance (color, space = "lab") {
 		color = Color.get(color);
 		space = Color.space(space);
@@ -172,12 +177,23 @@ export default class Color {
 		}, 0));
 	}
 
+	/**
+	 * Color difference (delta E) according to any of the supported methods.
+	 *
+	 * @param {Color} color       - The other color.
+	 * @param {string | Object} o - String specifying the method, or an object specifying both the method and additional options.
+	 */
 	deltaE (color, o = {}) {
 		if (util.isString(o)) {
 			o = {method: o};
 		}
 
-		let {method = Color.defaults.deltaE, ...rest} = o;
+		if (util.isString(Color.defaults.deltaE)) {
+			console.warn("The data structure for Color.defaults.deltaE has changed.");
+			Color.defaults.DeltaE = {method: Color.defaults.DeltaE};
+		}
+
+		let {method, ...rest} = {...Color.defaults.DeltaE, ...o};
 		color = Color.get(color);
 
 		if (this["deltaE" + method]) {
@@ -188,11 +204,15 @@ export default class Color {
 	}
 
 	// 1976 DeltaE. 2.3 is the JND
-	deltaE76 (color) {
-		return this.distance(color, "lab");
+	deltaE76 (color, options = {space: 'lab'}) {
+		return this.distance(color, options.space);
 	}
 
-	// Relative luminance
+	/**
+	 * Relative luminance
+	 * 
+	 * @returns {number}
+	*/
 	get luminance () {
 		// Luminance should actually be retrieved from XYZ with a D65 white point.
 		return Color.chromaticAdaptation(Color.spaces.xyz.white, Color.whites.D65, this.xyz)[1];
@@ -971,7 +991,7 @@ Object.assign(Color, {
 	defaults: {
 		gamutMapping: "lch.chroma",
 		precision: 5,
-		deltaE: "76", // Default deltaE method
+		deltaE: { method: "76" }, // Default deltaE method
 		fallbackSpaces: ["p3", "srgb"]
 	}
 });
