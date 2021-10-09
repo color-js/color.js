@@ -18,8 +18,8 @@ Color.defineSpace({
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
 	from: {
 		srgb (rgb) {
-			let max = Math.max.apply(Math, rgb);
-			let min = Math.min.apply(Math, rgb);
+			let max = Math.max(...rgb);
+			let min = Math.min(...rgb);
 			let [r, g, b] = rgb;
 			let [h, s, l] = [NaN, 0, (min + max)/2];
 			let d = max - min;
