@@ -194,16 +194,13 @@ export default class Color {
 
 	// Relative luminance
 	get luminance () {
-		// Luminance should actually be retrieved from XYZ with a D65 white point.
-		return Color.chromaticAdaptation(Color.spaces.xyz.white, Color.whites.D65, this.xyz)[1];
+		return this.xyz[1];
 	}
 
 	set luminance (value) {
-		let xyz = Color.chromaticAdaptation(Color.spaces.xyz.white, Color.whites.D65, this.xyz);
-		xyz[1] = value;
-		xyz = Color.chromaticAdaptation(Color.whites.D65, Color.spaces.xyz.white, xyz);
+		let xyz = this.xyz;
 		this.xyz.X = xyz[0];
-		this.xyz.Y = xyz[1];
+		this.xyz.Y = value;
 		this.xyz.Z = xyz[2];
 	}
 
@@ -984,7 +981,35 @@ Color.defineSpace({
 		Y: [],
 		Z: []
 	},
+	white: Color.whites.D65,
+	inGamut: coords => true,
+	toXYZ: coords => coords,
+	fromXYZ: coords => coords
+});
+
+Color.defineSpace({
+	id: "xyz-d50",
+	name: "XYZ-D50",
+	coords: {
+		X: [],
+		Y: [],
+		Z: []
+	},
 	white: Color.whites.D50,
+	inGamut: coords => true,
+	toXYZ: coords => coords,
+	fromXYZ: coords => coords
+});
+
+Color.defineSpace({
+	id: "xyz-d65",
+	name: "XYZ-D65",
+	coords: {
+		X: [],
+		Y: [],
+		Z: []
+	},
+	white: Color.whites.D65,
 	inGamut: coords => true,
 	toXYZ: coords => coords,
 	fromXYZ: coords => coords
