@@ -194,14 +194,11 @@ export default class Color {
 
 	// Relative luminance
 	get luminance () {
-		return this.xyz[1];
+		return this.xyz.Y;
 	}
 
 	set luminance (value) {
-		let xyz = this.xyz;
-		this.xyz.X = xyz[0];
 		this.xyz.Y = value;
-		this.xyz.Z = xyz[2];
 	}
 
 	// WCAG 2.0 contrast https://www.w3.org/TR/WCAG20-TECHS/G18.html
