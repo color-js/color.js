@@ -101,6 +101,18 @@
 			"id": "oklab",
 			"url": "https://bottosson.github.io/posts/oklab/",
 			"description": "An improved version of CIE Lab, with improved hue linearity and orthogonality; derived from optimized LMS basis functions. Cube root transfer function."
+		},
+		{
+			"name": "OKCH",
+			"id": "oklch",
+			"url": "https://bottosson.github.io/posts/oklab/",
+			"description": "The polar (Hue, Chroma) form of OK Lab"
+		},
+		{
+			"name": "ACEScc",
+			"id": "acescc",
+			"url": "https://en.wikipedia.org/wiki/Academy_Color_Encoding_System",
+			"description": "Academy Color Encoding System, using the wide gamut but physically realizable AP1 primaries and Logarithmic Encoding"
 		}
 	],
 	"optional": [
@@ -138,6 +150,12 @@
 			"path": "deltaE",
 			"url": "https://kb.portrait.com/help/ictcp-color-difference-metric",
 			"description": "DeltaE based on the ICtCp color space. Improved on DeltaE2000 for WCG and HDR, while being computationally simpler."
+		},
+		{
+			"name": "DeltaE OK",
+			"id": "deltaEOK",
+			"path": "deltaE",
+			"description": "DeltaE based on the OKLab color space. Improved on DeltaE2000, while being computationally much simpler. Required for OKLCH gamut mapping."
 		},
 		{
 			"name": "Chromatic adaptation",
