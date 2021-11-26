@@ -39,7 +39,7 @@ Color.prototype.deltaEJz = function (sample) {
 	}
 
 	let Δh = Hz1 - Hz2;
-	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * Math.sin(Δh * Math.PI / 180);
+	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * Math.sin((Δh / 2) * (Math.PI / 180));
 
 	return Math.sqrt(ΔJ ** 2 + ΔC ** 2 + ΔH ** 2);
 };
