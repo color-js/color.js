@@ -311,30 +311,45 @@ export default class Color {
 
 		if (method.indexOf(".") > 0 && !this.inGamut(space)) {
 			let clipped = color.toGamut({method: "clip", space});
-			if (this.deltaE(clipped, {method: "2000"}) > 2) {
-				// Reduce a coordinate of a certain color space until the color is in gamut
-				let [mapSpace, coordName] = util.parseCoord(method);
+
+			// Reduce a coordinate of a certain color space until the color is in gamut
+			let [mapSpace, coordName] = util.parseCoord(method);
+
+			let delta = "2000";
+			let ε = .01; // for deltaE
+			let JND = 2;
+
+			if (mapSpace.id === "oklch") {
+				delta = "OK";
+				ε = .0001; // for deltaE
+				JND = 0.02;
+			}
+
+			// is simple clipping going to produce a noticeable color difference?
+			if (this.deltaE(clipped, {method: delta}) > JND) {
 
 				let mappedColor = color.to(mapSpace);
 				let bounds = mapSpace.coords[coordName];
 				let min = bounds[0];
-				let ε = .01; // for deltaE
+
 				let low = min;
 				let high = mappedColor[coordName];
 				while (high - low > ε) {
 					let clipped = mappedColor.toGamut({space, method: "clip"});
-					let deltaE = mappedColor.deltaE(clipped, {method: "2000"});
-					if (deltaE - 2 < ε) {
+					let deltaE = mappedColor.deltaE(clipped, {method: delta});
+					// are we inside the gamut (or very close to the boundary, outside)
+					if (deltaE - JND < ε) {
 						low = mappedColor[coordName];
 					}
 					else {
 						high = mappedColor[coordName];
 					}
-
+					// binary search
 					mappedColor[coordName] = (high + low) / 2;
 				}
 
 				color = mappedColor.to(space);
+
 			}
 			else {
 				color = clipped;
@@ -963,7 +978,7 @@ Object.assign(Color, {
 
 	// Global defaults one may want to configure
 	defaults: {
-		gamutMapping: "lch.chroma",
+		gamutMapping: "oklch.chroma",
 		precision: 5,
 		deltaE: "76", // Default deltaE method
 		fallbackSpaces: ["p3", "srgb"]
