@@ -318,6 +318,7 @@ export default class Color {
 			let delta = "2000";
 			let ε = .01; // for deltaE
 			let JND = 2;
+
 			if (mapSpace.id === "oklch") {
 				delta = "OK";
 				ε = .0001; // for deltaE
