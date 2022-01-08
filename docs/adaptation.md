@@ -90,8 +90,8 @@ so we don't implement it. But you can do it yourself if you want:
 ```js
 let W1 = Color.whites.D65;
 let W2 = Color.whites.D50;
-let Xscale = W2.x/W1.x;
-let Zscale = W2.z/W1.z;
+let Xscale = W2[0]/W1[0];
+let Zscale = W2[2]/W1[2];
 let color = new Color("rebeccapurple");
 let color2 = color.xyz /// aah nevermind this isn't going to work
 ```
