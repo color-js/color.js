@@ -210,8 +210,8 @@ and also ProPhoto RGB and most CMYK colorspaces.
 Attempting to use another whitepoint or a different method will give an error.
 
 ```js
-let color1 = new Color("p3" 0.22 0.63 0.42); // D65 white
-let color2 = new Color("prophoto" 0.15 0.54 0.21); //D50 white
+let color1 = new Color("p3", [0.22, 0.63, 0.42]); // D65 white
+let color2 = new Color("prophoto", [0.15, 0.54, 0.21]); //D50 white
 color1.lch;
 // linear Bradford was used to adapt to D50 before conversion to Lab
 color2.lch;
