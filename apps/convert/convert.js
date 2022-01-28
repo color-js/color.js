@@ -85,6 +85,7 @@ document.body.addEventListener("click", evt => {
 	if (evt.target.matches("td:nth-child(3), td:nth-child(4)")) {
 		// Color cell
 		colorInput.value = evt.target.textContent;
+		navigator.clipboard.writeText(evt.target.textContent)
 		update();
 	}
 })
