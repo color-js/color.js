@@ -57,8 +57,8 @@ function update() {
 			ret += `<tr>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
-				<td>${converted.toString({precision})}</td>
-				<td>${Color.prototype.toString.call(converted, {precision})}</td>
+				<td><span class="converted" data-tooltip="select">${converted.toString({precision})}</span><span class="copy" data-tooltip="copy">&#10064;</span></td>
+				<td><span class="converted">${Color.prototype.toString.call(converted, {precision})}</span><span class="copy">&#10064;</span></td>
 			</tr>`;
 		}
 
@@ -82,10 +82,12 @@ updateFromURL();
 addEventListener("popstate", updateFromURL);
 
 document.body.addEventListener("click", evt => {
-	if (evt.target.matches("td:nth-child(3), td:nth-child(4)")) {
+	if (evt.target.className === "copy") {
+		navigator.clipboard.writeText(evt.target.previousSibling.textContent)
+		.then(()=>console.log("Copying To Clipboard was Successful"),(err)=>console.error("Could Not Copy ",err));
+	} else if (evt.target.className === "converted") {
 		// Color cell
 		colorInput.value = evt.target.textContent;
-		navigator.clipboard.writeText(evt.target.textContent)
 		update();
 	}
 })

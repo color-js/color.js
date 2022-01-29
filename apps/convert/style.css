@@ -26,10 +26,46 @@ td {
 	font-family: Consolas, Monaco, monospace;
 }
 
-td:nth-child(3):hover,
-td:nth-child(4):hover {
+td:nth-child(3),
+td:nth-child(4) {
+	position: relative;
+}
+
+.converted:hover {
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+.copy {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+}
+
+.copy:hover{
+	opacity: inherit;
+}
+
+[data-tooltip]:before {            
+    position : absolute;
+	content : attr(data-tooltip);
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+	border-radius: 5px;
+	width: 70px;
+	left: 50%;
+	bottom: 100%;
+	margin-left: -35px;
+	z-index: 1;
+	opacity : 0;
+	transition: opacity 0.3s ;
+}
+
+[data-tooltip]:hover:before {        
+    opacity : 1;
 }
 
 tr:nth-child(even) {
