@@ -2,6 +2,9 @@
 	"name": "colorjs.io",
 	"version": "0.0.4",
 	"description": "Color space agnostic color manipulation library",
+	"files": [
+		"dist/"
+	],
 	"exports": {
 		"import": "./dist/color.esm.js",
 		"require": "./dist/color.cjs.js",
