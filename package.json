@@ -1,6 +1,6 @@
 {
 	"name": "colorjs.io",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Color space agnostic color manipulation library",
 	"files": [
 		"dist/color.cjs.js",
