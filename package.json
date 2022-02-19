@@ -5,15 +5,15 @@
 	"files": [
 		"dist/color.cjs.js",
 		"dist/color.cjs.js.map",
-		"dist/color.esm.js",
-		"dist/color.esm.js.map"
+		"dist/color.esm.mjs",
+		"dist/color.esm.mjs.map"
 	],
 	"exports": {
-		"import": "./dist/color.esm.js",
+		"import": "./dist/color.esm.mjs",
 		"require": "./dist/color.cjs.js"
 	},
 	"main": "./dist/color.cjs.js",
-	"module": "./dist/color.esm.js",
+	"module": "./dist/color.esm.mjs",
 	"directories": {
 		"test": "tests"
 	},

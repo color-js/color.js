@@ -188,4 +188,19 @@ gulp.task("bundle", async function () {
 	}
 });
 
-gulp.task("default", gulp.parallel("css", "bundle", "html", "md"));
+gulp.task("mjs", function () {
+	return gulp
+		.src(["./dist/color.esm.js*"])
+		.pipe(
+			rename((path) => {
+				if (path.extname === ".js") {
+					path.extname === ".js.mjs";
+				} else {
+					path.basename = "color.esm.mjs";
+				}
+			})
+		)
+		.pipe(gulp.dest("./dist/"));
+});
+
+gulp.task("default", gulp.parallel("css", "bundle", "mjs", "html", "md"));
