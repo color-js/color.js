@@ -194,7 +194,7 @@ gulp.task("mjs", function () {
 		.pipe(
 			rename((path) => {
 				if (path.extname === ".js") {
-					path.extname === ".js.mjs";
+					path.extname = ".mjs";
 				} else {
 					path.basename = "color.esm.mjs";
 				}
