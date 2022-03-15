@@ -175,13 +175,19 @@ let rollupConfig = {
 		bundle("cjs"),
 		bundle("cjs", {minify: true})
 	],
+	onwarn (warning, rollupWarn) {
+		if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+			rollupWarn(warning);
+		}
+	}
 };
 
 gulp.task("bundle", async function () {
 	for (const bundle of rollupConfig.output) {
 		let b = await rollup.rollup({
 			input: rollupConfig.input,
-			plugins: bundle.plugins
+			plugins: bundle.plugins,
+			onwarn: rollupConfig.onwarn
 		});
 
 		await b.write(bundle);
