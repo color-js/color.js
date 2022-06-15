@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" class="home">
-<head>
-	<meta charset="UTF-8">
-	<title>Color.js</title>
-	@@include('_head.html')
-	<link rel="stylesheet" href="assets/css/home.css">
-
-	<script src="color.js" type="module"></script>
-</head>
-<body class="language-javascript">
-
+---
+layout: "plain.njk"
+includes: '<link rel="stylesheet" href="./assets/css/home.css">'
+---
 <header>
 	<nav>
-		@@include('_nav.html')
+		{% include "./templates/_nav.njk" %}
 	</nav>
 
 	<hgroup class="logo">
@@ -164,8 +156,3 @@
 		<p class="read-more"><a href="docs/interpolation.html">Read more about interpolation</a>
 	</section>
 </main>
-
-@@include('_footer.html')
-
-</body>
-</html>

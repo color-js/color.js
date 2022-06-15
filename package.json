@@ -19,7 +19,14 @@
 	},
 	"scripts": {
 		"test": "open tests/",
-		"build": "gulp"
+		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css",
+		"build:html": "npx @11ty/eleventy",
+		"build:js": "rollup -c",
+		"build": "npm run build:html && npm run build:css && npm run build:js",
+		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --watch",
+		"watch:html": "npx @11ty/eleventy --watch",
+		"watch:js": "rollup -c --watch",
+		"watch": "npm run watch:css & npm run watch:html & npm run watch:js"
 	},
 	"repository": {
 		"type": "git",
@@ -35,16 +42,14 @@
 	},
 	"homepage": "https://colorjs.io",
 	"devDependencies": {
-		"acorn": "^7.3.1",
-		"babel-eslint": "^10.1.0",
-		"eslint": "^7.2.0",
-		"gulp": "^4.0.2",
-		"gulp-file-include": "^2.2.2",
-		"gulp-postcss": "^8.0.0",
-		"gulp-rename": "^2.0.0",
-		"postcss-nesting": "^7.0.1",
-		"rollup": "^2.10.5",
-		"rollup-plugin-terser": "^5.3.0",
-		"showdown": "^1.9.1"
+		"@11ty/eleventy": "^1.0",
+		"acorn": "^7",
+		"eslint": "^7",
+		"markdown-it": "^13",
+		"postcss": "^8",
+		"postcss-cli": "^9",
+		"postcss-nesting": "^7",
+		"rollup": "^2.10",
+		"rollup-plugin-terser": "^5.3"
 	}
 }

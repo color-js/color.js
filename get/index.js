@@ -1,3 +1,4 @@
+let $ = Bliss;
 let code = $("#bundle > code");
 code.classList.remove("language-none");
 

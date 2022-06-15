@@ -1,6 +1,8 @@
 import Notebook, {initAll} from "./color-notebook.js";
 import extensions from "../assets/js/showdown-extensions.mjs";
 
+let $ = Bliss;
+
 let container = $("[property=content]");
 
 document.addEventListener("mv-markdown-render", function(evt) {

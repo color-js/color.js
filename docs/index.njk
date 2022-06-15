@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<title>Color.js Docs</title>
-<!-- <link rel="stylesheet" href="https://get.mavo.io/mavo.css"> -->
-@@include('_head.html')
-
-<!-- <script src="https://get.mavo.io/mavo.js" async></script> -->
-
-</head>
-
-<body>
-
-@@include('_header.html', {
-"title": "Color.js Docs"
-})
-<main>
+---
+layout: "page.njk"
+title: Color.js Docs
+---
 
 <nav>
 	<ul>
-		@@include('_docs-nav.html')
+		{% include "../templates/_docs-nav.html" %}
 	</ul>
 </nav>
 
@@ -34,9 +19,3 @@
 		</li>
 	</ul>
 </section> -->
-
-</main>
-
-@@include('_footer.html')
-</body>
-</html>

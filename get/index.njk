@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<title>Get Color.js</title>
-<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
-@@include('_head.html')
-<link rel="stylesheet" href="style.css">
-
-<script src="https://get.mavo.io/mavo.js" async></script>
-
-</head>
-
-<body class="language-js">
-
-@@include('_header.html', {
-"title": "Get Color.js"
-})
+---
+title: "Get Color.js"
+layout: "page.njk"
+has_mavo: true
+includes: '<link rel="stylesheet" href="style.css"><script src="index.js" type="module"></script>'
+---
 <main class="cn-ignore">
 
 <h2>Quick use</h2>
@@ -165,8 +152,3 @@ export default Color;
 </section>
 
 </main>
-
-@@include('_footer.html')
-<script src="index.js" type="module"></script>
-</body>
-</html>

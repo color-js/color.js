@@ -52,6 +52,10 @@ main {
 			text-transform: uppercase;
 		}
 
+#toc + h1 {
+		display: none;
+	}
+
 [mv-app="colorSpaces"] [property="space"] {
 		display: grid;
 		grid-template-columns: 1fr auto;

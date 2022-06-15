@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<title>Supported color spaces &bull; Color.js</title>
-<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
-@@include('_head.html')
-<link rel="stylesheet" href="@@webRoot/assets/css/docs.css" />
-
-
-</head>
-
-<body class="cn-ignore">
-
-@@include('_header.html', {
-"title": "Supported color spaces"
-})
-<main>
-
-<aside id="toc">
-	<ul>
-		@@include('_docs-nav.html')
-	</ul>
-</aside>
-
-<section mv-app="colorSpaces" mv-storage="../get/modules.json">
+---
+layout: "docs.njk"
+title: Supported color spaces
+has_mavo: true
+body_classes: cn-ignore
+---
+{% raw %}
+<section mv-app="colorSpaces" mv-storage="../get/modules.json" class="cn-ignore">
 
 	<article mv-multiple property="space">
 		<header>
@@ -73,11 +54,4 @@ color.toString();</code></pre>
 	</article>
 
 </section>
-
-</main>
-
-@@include('_footer.html')
-<script src="https://get.mavo.io/mavo.js"></script>
-
-</body>
-</html>
+{% endraw %}

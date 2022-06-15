@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+---
+title: API Documentation
+has_mavo: true
+includes: '<link rel="stylesheet" href="https://mavo.io/docs/style.css">'
+---
 
-<meta charset="UTF-8">
-<title>API Documentation</title>
-<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
-<link rel="stylesheet" href="https://mavo.io/docs/style.css">
-@@include('_head.html')
-
-<script src="https://get.mavo.io/mavo.js"></script>
-
-</head>
-
-<body class="language-javascript" mv-app="api"
+<div class="language-javascript" mv-app="api"
       mv-storage="https://github.com/leaverou/color.js/api/api.json"
       mv-plugins="markdown"
       mv-expressions-ignore="mv-github-commit-prefix" mv-github-commit-prefix="[API] ">
-
-@@include('_header.html', {
-"title": "API Documentation"
-})
-<main>
 
 <section id="api">
 	<div class="mv-bar mv-ui"></div>
@@ -113,8 +100,9 @@
     	</ul>
     </aside>
 </section>
+</div>
 <script src="api.js"></script>
-	
+
 <div hidden>
 	<select id="role-select">
 		<option value="function">Function</option>
@@ -123,7 +111,3 @@
 		<option value="constructor">Constructor</option>
 	</select>
 </div>
-
-@@include('_footer.html')
-</body>
-</html>

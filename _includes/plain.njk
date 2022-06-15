@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ title }}{% if title %} &bull; {% endif %}Color.js</title>
+<meta name="viewport" content="width=device-width" />
+<link rel="shortcut icon" href="{{ page | relative }}/logo.svg">
+<link rel="stylesheet" href="{{ page | relative }}/assets/css/style.css">
+
+<script src="{{ page | relative }}/color.js" type="module"></script>
+
+{% if has_mavo %}
+<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+<script src="https://get.mavo.io/mavo.js" async></script>
+{% endif %}
+
+{{ includes | safe }}
+
+</head>
+<body class="{% if body_classes %} {{ body_classes }} {% else %} language-javascript {% endif %}">
+
+{{ content | safe }}
+
+<footer>
+	From <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 4 and 5)
+	and <a href="https://svgees.us">Chris Lilley</a> (co-editor of CSS Color 3, 4, and 5; W3C representative to ICC)
+
+	<nav>
+		{% include "../templates/_nav.njk" %}
+	</nav>
+</footer>
+
+<script src="{{ page | relative }}/assets/js/prism.js"></script>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://live.prismjs.com/src/prism-live.js?load=javascript" async></script>
+<script src="{{ page | relative }}/assets/js/index.js" type="module"></script>
+
+</body>
+</html>

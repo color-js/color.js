@@ -1,0 +1,15 @@
+---
+layout: "page.njk"
+
+eleventyComputed:
+  title: '{{ page.fileSlug | unslugify }}'
+  includes: '<link rel="stylesheet" href="{{ page | relative }}/assets/css/docs.css" />'
+---
+<aside id="toc">
+<ul>
+{% include "../templates/_docs-nav.html" %}
+</ul>
+</aside>
+{{ content | safe }}
+
+{% include "../templates/_footer-docs.njk" %}
