@@ -59,6 +59,24 @@ Color.defineSpace({
 		let LMS = LMSg.map (val => val ** 3);
 
 		return (util.multiplyMatrices(LMStoXYZ_M, LMS));
+	},
+	parse (str, parsed = Color.parseFunction(str)) {
+		if (parsed && parsed.name === "oklab") {
+			return {
+				spaceId: "oklab",
+				coords: parsed.args.slice(0, 3),
+				alpha: parsed.args.slice(3)[0]
+			};
+		}
+	},
+	instance: {
+		toString ({format, ...rest} = {}) {
+			if (!format) {
+				format = (c, i) => i === 0? c * 100 + "%" : c;
+			}
+
+			return Color.prototype.toString.call(this, {name: "oklab", format, ...rest});
+		}
 	}
 });
 

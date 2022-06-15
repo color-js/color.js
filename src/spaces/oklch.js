@@ -54,8 +54,6 @@ Color.defineSpace({
 	},
 	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "oklch") {
-			let L = parsed.args[0];
-
 			return {
 				spaceId: "oklch",
 				coords: parsed.args.slice(0, 3),
@@ -63,7 +61,15 @@ Color.defineSpace({
 			};
 		}
 	},
+	instance: {
+		toString ({format, ...rest} = {}) {
+			if (!format) {
+				format = (c, i) => i === 0? c * 100 + "%" : c;
+			}
 
+			return Color.prototype.toString.call(this, {name: "oklch", format, ...rest});
+		}
+	}
 });
 
 export default Color;
