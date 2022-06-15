@@ -1,0 +1,36 @@
+#swatch {
+	--color-image: linear-gradient(var(--color), var(--color));
+	--transparency-tile-size: clamp(6px, .5em, 30px);
+	--transparency-grid: repeating-conic-gradient(hsl(0 0% 85%) 0 25%, hsl(0 0% 98%) 0 50%) 0 0 / var(--transparency-tile-size) var(--transparency-tile-size);
+	--border-width: clamp(2px, .15em, 16px);
+	--box-shadow-blur: clamp(2px, .1em, 5px);
+	--box-shadow-color: rgb(0 0 0 / .3);
+
+	display: inline-flex;
+	vertical-align: calc(-1 * var(--border-width));
+	width: 1.2em;
+	height: 1.2em;
+	border: var(--border-width) solid white;
+	box-sizing: border-box;
+	margin: 0 .15em 0 .1em;
+	background: var(--color-image, 0), var(--transparency-grid, canvas);
+
+	box-shadow: calc(var(--box-shadow-blur) * .2) calc(var(--box-shadow-blur) * .2) var(--box-shadow-blur) var(--box-shadow-color);
+	border-radius: clamp(1px, .1em, 10px);
+}
+
+#swatch:hover {
+	transform: scale(1.5);
+	transition: .4s;
+}
+
+#swatch.invalid {
+	--color-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚠️</text></svg>');
+	--transparency-grid: initial;
+}
+
+@media (prefers-color-scheme: dark) {
+	#swatch {
+		--box-shadow-color: rgb(0 0 0 / .8);
+	}
+}
