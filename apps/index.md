@@ -1,7 +1,14 @@
 ---
 title: Demos
+body_classes: language-markup
 ---
 
-- [Convert](convert)
-- [Gradients](gradients)
-- [`<color-swatch>` web component](../elements/color-swatch/)
+## Apps
+
+- [Convert across everything](convert)
+- [Gradient interpolation](gradients)
+- [Named color proximity](named)
+
+## Elements
+
+- [`<color-swatch>`](../elements/color-swatch/)

@@ -1,0 +1,48 @@
+body {
+	font: 120%/1.5 system-ui, Helvetica Neue, Helvetica, Segoe UI, sans-serif;
+	width: 900px;
+	max-width: 90vw;
+	margin: 1em auto;
+	padding: 0 2em;
+	background: var(--color);
+}
+
+input {
+	font: inherit;
+	font-size: 200%;
+	width: 100%;
+	padding: 0 .3em;
+	box-sizing: border-box;
+	border: 3px solid silver;
+	box-shadow: 0 0 0 .1em white;
+}
+
+input:invalid {
+	background-color: #fdd;
+}
+
+input.oog {
+	border-color: #d00;
+}
+
+input:focus {
+	outline: none;
+}
+
+.keyword-color {
+	padding-left: 1em;
+	background:  var(--color);
+	padding: .5em;
+}
+
+.dark-color {
+	color: white;
+}
+
+.light-color {
+	color: black;
+}
+
+code {
+	font-family: Consolas, Monaco, monospace;
+}
