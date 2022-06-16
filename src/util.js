@@ -80,20 +80,6 @@ export function toPrecision(n, precision) {
 	}
 }
 
-export function parseCoord(coord) {
-	if (coord.indexOf(".") > 0) {
-		// Reduce a coordinate of a certain color space until the color is in gamut
-		let [spaceId, coordName] = coord.split(".");
-		let space = Color.space(spaceId);
-
-		if (!(coordName in space.coords)) {
-			throw new ReferenceError(`Color space "${space.name}" has no "${coordName}" coordinate.`);
-		}
-
-		return [space, coordName];
-	}
-}
-
 export function value(obj, prop, value) {
 	let props = prop.split(".");
 	let lastProp = props.pop();

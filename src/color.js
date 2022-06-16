@@ -313,7 +313,7 @@ export default class Color {
 			let clipped = color.toGamut({method: "clip", space});
 			if (this.deltaE(clipped, {method: "2000"}) > 2) {
 				// Reduce a coordinate of a certain color space until the color is in gamut
-				let [mapSpace, coordName] = util.parseCoord(method);
+				let [mapSpace, coordName] = parseCoord(method);
 
 				let mappedColor = color.to(mapSpace);
 				let bounds = mapSpace.coords[coordName];
@@ -1018,5 +1018,20 @@ for (let prop in Color.shortcuts) {
 
 // Make static methods for all instance methods
 Color.statify();
+
+// Private helpers
+function parseCoord(coord) {
+	if (coord.indexOf(".") > 0) {
+		// Reduce a coordinate of a certain color space until the color is in gamut
+		let [spaceId, coordName] = coord.split(".");
+		let space = Color.space(spaceId);
+
+		if (!(coordName in space.coords)) {
+			throw new ReferenceError(`Color space "${space.name}" has no "${coordName}" coordinate.`);
+		}
+
+		return [space, coordName];
+	}
+}
 
 // Color.DEBUGGING = true;
