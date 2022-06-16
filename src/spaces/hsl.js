@@ -1,4 +1,4 @@
-import Color, {util} from "./srgb.js";
+import Color from "./srgb.js";
 import * as angles from "../angles.js";
 
 Color.defineSpace({
@@ -95,4 +95,3 @@ Color.defineSpace({
 });
 
 export default Color;
-export {util, angles};

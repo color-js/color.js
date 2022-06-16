@@ -1,4 +1,5 @@
-import Color, {util} from "./rec2020.js";
+import Color from "./rec2020.js";
+import {multiplyMatrices} from "../util.js";
 
 const rec2020 = Color.spaces.rec2020;
 
@@ -92,7 +93,7 @@ Color.defineSpace({
 		// console.log({Xa, Ya, Za});
 
 		// move to LMS cone domain
-		let LMS = util.multiplyMatrices(XYZtoLMS_M, [ Xa, Ya, Za ]);
+		let LMS = multiplyMatrices(XYZtoLMS_M, [ Xa, Ya, Za ]);
 		// console.log({LMS});
 
 		return this.LMStoICtCp(LMS);
@@ -103,7 +104,7 @@ Color.defineSpace({
 
 		let LMS = this.ICtCptoLMS(ICtCp);
 
-		let XYZa = util.multiplyMatrices(LMStoXYZ_M, LMS);
+		let XYZa = multiplyMatrices(LMStoXYZ_M, LMS);
 
 		// convert from Absolute, D65 XYZ to media white relative, D50 XYZ
 		return Color.spaces.absxyzd65.toXYZ(XYZa);
@@ -125,13 +126,13 @@ Color.defineSpace({
 		// console.log({PQLMS});
 
 		// LMS to IPT, with rotation for Y'C'bC'r compatibility
-		return util.multiplyMatrices(LMStoIPT_M, PQLMS);
+		return multiplyMatrices(LMStoIPT_M, PQLMS);
 	},
 	ICtCptoLMS (ICtCp) {
 
 		const {IPTtoLMS_M, c1, c2, c3, im1, im2} = this;
 
-		let PQLMS = util.multiplyMatrices(IPTtoLMS_M, ICtCp);
+		let PQLMS = multiplyMatrices(IPTtoLMS_M, ICtCp);
 
 		// From BT.2124-0 Annex 2 Conversion 3
 		let LMS = PQLMS.map (function (val) {

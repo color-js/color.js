@@ -1,4 +1,5 @@
-import Color, {util} from "./../color.js";
+import Color from "../color.js";
+import {multiplyMatrices} from "../util.js";
 
 Color.defineSpace({
 	id: "oklab",
@@ -40,12 +41,12 @@ Color.defineSpace({
 		const {XYZtoLMS_M, LMStoLab_M} = this;
 
 		// move to LMS cone domain
-		let LMS = util.multiplyMatrices(XYZtoLMS_M, XYZ);
+		let LMS = multiplyMatrices(XYZtoLMS_M, XYZ);
 
 		// non-linearity
 		let LMSg = LMS.map (val => Math.cbrt(val));
 
-		return (util.multiplyMatrices(LMStoLab_M, LMSg));
+		return (multiplyMatrices(LMStoLab_M, LMSg));
 
 	},
 	toXYZ (OKLab) {
@@ -53,12 +54,12 @@ Color.defineSpace({
 		const {LMStoXYZ_M, LabtoLMS_M} = this;
 
 		// move to LMS cone domain
-		let LMSg = util.multiplyMatrices(LabtoLMS_M, OKLab);
+		let LMSg = multiplyMatrices(LabtoLMS_M, OKLab);
 
 		// restore linearity
 		let LMS = LMSg.map (val => val ** 3);
 
-		return (util.multiplyMatrices(LMStoXYZ_M, LMS));
+		return (multiplyMatrices(LMStoXYZ_M, LMS));
 	},
 	parse (str, parsed = Color.parseFunction(str)) {
 		if (parsed && parsed.name === "oklab") {
@@ -82,4 +83,3 @@ Color.defineSpace({
 
 
 export default Color;
-export {util};

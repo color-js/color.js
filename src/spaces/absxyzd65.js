@@ -1,4 +1,4 @@
-import Color, {util} from "./../color.js";
+import Color from "../color.js";
 
 Color.defineSpace({
 // Absolute CIE XYZ, with a D65 whitepoint,

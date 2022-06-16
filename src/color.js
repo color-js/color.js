@@ -1019,6 +1019,4 @@ for (let prop in Color.shortcuts) {
 // Make static methods for all instance methods
 Color.statify();
 
-export {util};
-
 // Color.DEBUGGING = true;

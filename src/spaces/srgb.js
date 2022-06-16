@@ -1,4 +1,5 @@
-import Color, {util} from "./../color.js";
+import Color from "../color.js";
+import {multiplyMatrices} from "../util.js";
 
 Color.defineSpace({
 	id: "srgb",
@@ -63,10 +64,10 @@ Color.defineSpace({
 	toXYZ(rgb) {
 		rgb = this.toLinear(rgb);
 
-		return util.multiplyMatrices(this.toXYZ_M, rgb);
+		return multiplyMatrices(this.toXYZ_M, rgb);
 	},
 	fromXYZ(XYZ) {
-		return this.toGamma(util.multiplyMatrices(this.fromXYZ_M, XYZ));
+		return this.toGamma(multiplyMatrices(this.fromXYZ_M, XYZ));
 	},
 	// Properties added to Color.prototype
 	properties: {
@@ -145,4 +146,3 @@ Color.hooks.add("parse-start", env => {
 });
 
 export default Color;
-export {util};

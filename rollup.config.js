@@ -2,27 +2,35 @@ import { terser } from "rollup-plugin-terser";
 
 function bundle(format, {minify} = {}) {
 	let filename = "color";
+	let options = {
+		format: format,
+		sourcemap: true,
+		plugins: []
+	};
 
-	if (format !== "iife") {
+	if (format === "iife") {
+		options.name = "Color";
+	}
+	else {
 		filename += "." + format;
+
+		if (format === "cjs") {
+			options.exports = "named"; /** Disable warning for default imports */
+		}
 	}
 
 	if (minify) {
 		filename += ".min";
+
+		options.plugins.push(terser({
+			compress: true,
+			mangle: true
+		}));
 	}
 
 	return {
 		file: `dist/${filename}.js`,
-		name: "Color",
-		format: format,
-		sourcemap: true,
-		exports: "named", /** Disable warning for default imports */
-		plugins: [
-			minify? terser({
-				compress: true,
-				mangle: true
-			}) : undefined
-		]
+		...options
 	};
 }
 

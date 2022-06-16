@@ -1,5 +1,5 @@
 // Import all modules of Color.js
-import Color, {util} from "./color.js";
+import Color from "./color.js";
 
 // Import color spaces
 import "./spaces/lab.js";
@@ -35,4 +35,3 @@ import "./keywords.js";
 
 // Re-export everything
 export default Color;
-export {util};

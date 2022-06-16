@@ -1,4 +1,5 @@
-import Color, {angles} from "./hsl.js";
+import Color from "./hsl.js";
+import * as angles from "../angles.js";
 
 // The Hue, Whiteness Blackness (HWB) colorspace
 // See https://drafts.csswg.org/css-color-4/#the-hwb-notation

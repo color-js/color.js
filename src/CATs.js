@@ -1,4 +1,5 @@
-import Color, {util} from "./color.js";
+import Color from "./color.js";
+import {multiplyMatrices} from "./util.js";
 
 Color.CATs = {};
 
@@ -26,8 +27,8 @@ Color.adapt = function (W1, W2, id = "Bradford") {
 	// debugger;
 	let method = Color.CATs[id];
 
-	let [ρs, γs, βs] = util.multiplyMatrices(method.toCone_M, W1);
-	let [ρd, γd, βd] = util.multiplyMatrices(method.toCone_M, W2);
+	let [ρs, γs, βs] = multiplyMatrices(method.toCone_M, W1);
+	let [ρd, γd, βd] = multiplyMatrices(method.toCone_M, W2);
 
 	// all practical illuminants have non-zero XYZ so no division by zero can occur below
 	let scale = [
@@ -37,8 +38,8 @@ Color.adapt = function (W1, W2, id = "Bradford") {
 	];
 	// console.log({scale});
 
-	let scaled_cone_M = util.multiplyMatrices(scale, method.toCone_M);
-	let adapt_M	= util.multiplyMatrices(method.fromCone_M, scaled_cone_M);
+	let scaled_cone_M = multiplyMatrices(scale, method.toCone_M);
+	let adapt_M	= multiplyMatrices(method.fromCone_M, scaled_cone_M);
 	// console.log({scaled_cone_M, adapt_M});
 	return adapt_M;
 };

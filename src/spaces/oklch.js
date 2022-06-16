@@ -1,4 +1,4 @@
-import Color, {util} from "./../color.js";
+import Color from "./../color.js";
 import "./oklab.js";
 import * as angles from "../angles.js";
 
@@ -73,4 +73,3 @@ Color.defineSpace({
 });
 
 export default Color;
-export {angles};

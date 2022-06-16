@@ -1,4 +1,5 @@
-import Color, {util} from "./color.js";
+import Color from "./color.js";
+import {type} from "./util.js";
 import * as angles from "./angles.js";
 
 let methods = {
@@ -13,7 +14,7 @@ let methods = {
 	 *             color.mix(color)
 	 */
 	mix (color, p = .5, o = {}) {
-		if (util.type(p) === "object") {
+		if (type(p) === "object") {
 			[p, o] = [.5, p];
 		}
 
@@ -178,7 +179,7 @@ Color.range = function(color1, color2, options = {}) {
 };
 
 export function isRange (val) {
-	return util.type(val) === "function" && val.rangeArgs;
+	return type(val) === "function" && val.rangeArgs;
 };
 
 // Helper

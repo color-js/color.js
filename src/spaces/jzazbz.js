@@ -1,4 +1,5 @@
-import Color, {util} from "./../color.js";
+import Color from "../color.js";
+import {multiplyMatrices} from "../util.js";
 
 Color.defineSpace({
 	id: "jzazbz",
@@ -66,7 +67,7 @@ Color.defineSpace({
 		// console.log({Xm, Ym, Za});
 
 		// move to LMS cone domain
-		let LMS = util.multiplyMatrices(XYZtoCone_M, [ Xm, Ym, Za ]);
+		let LMS = multiplyMatrices(XYZtoCone_M, [ Xm, Ym, Za ]);
 		// console.log({LMS});
 
 		// PQ-encode LMS
@@ -79,7 +80,7 @@ Color.defineSpace({
 		// console.log({PQLMS});
 
 		// almost there, calculate Iz az bz
-		let [ Iz, az, bz] = util.multiplyMatrices(ConetoIab_M, PQLMS);
+		let [ Iz, az, bz] = multiplyMatrices(ConetoIab_M, PQLMS);
 		// console.log({Iz, az, bz});
 
 		let Jz = ((1 + d) * Iz) / (1 + (d * Iz)) - d0;
@@ -95,7 +96,7 @@ Color.defineSpace({
 		// console.log({Iz});
 
 		// bring into LMS cone domain
-		let PQLMS = util.multiplyMatrices(IabtoCone_M, [ Iz, az, bz ]);
+		let PQLMS = multiplyMatrices(IabtoCone_M, [ Iz, az, bz ]);
 		// console.log({PQLMS});
 
 		// convert from PQ-coded to linear-light
@@ -109,7 +110,7 @@ Color.defineSpace({
 		// console.log({LMS});
 
 		// modified abs XYZ
-		let [ Xm, Ym, Za ] = util.multiplyMatrices(ConetoXYZ_M, LMS);
+		let [ Xm, Ym, Za ] = multiplyMatrices(ConetoXYZ_M, LMS);
 		// console.log({sXm, Ym, Za});
 
 		// restore standard D50 relative XYZ, relative to media white
@@ -134,4 +135,3 @@ Color.defineSpace({
 });
 
 export default Color;
-export {util};
