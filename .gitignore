@@ -7,3 +7,4 @@ node_modules/
 !tests/*.html
 !templates/*.html
 !apps/*/*.html
+!test.html

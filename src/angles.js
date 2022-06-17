@@ -1,6 +1,3 @@
-export const range = [0, 360];
-range.isAngle = true;
-
 export function constrain (angle) {
 	return ((angle % 360) + 360) % 360;
 }

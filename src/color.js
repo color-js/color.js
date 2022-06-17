@@ -1,5 +1,11 @@
 import * as util from "./util.js";
 import Hooks from "./hooks.js";
+import ColorSpace from "./space.js";
+import whites from "./whites.js";
+
+import "./spaces/xyz-d50.js";
+import "./spaces/xyz-d65.js";
+import "./spaces/srgb.js";
 
 const ε = .000075;
 const hasDOM = typeof document !== "undefined";
@@ -36,34 +42,29 @@ export default class Color {
 			}
 		}
 
-		if (color) {
-			if ("spaceId" in color) {
-				this.spaceId = color.spaceId;
-			}
-			else {
-				this.space = color.space;
-			}
+		let {space, spaceId, coords, alpha} = color ?? {};
 
-			this.coords = color.coords.slice();
-			this.alpha = color.alpha;
-		}
-		else { // default signature new Color([ColorSpace,] array [, alpha])
-			let spaceId, coords, alpha;
-
+		if (!color) {
+			// default signature new Color([ColorSpace,] array [, alpha])
 			if (Array.isArray(args[0])) {
 				// No color space provided, default to sRGB
-				[spaceId, coords, alpha] = ["sRGB", ...args];
+				[spaceId, coords, alpha] = ["srgb", ...args];
 			}
 			else {
 				[spaceId, coords, alpha] = args;
 			}
-
-			this.spaceId = spaceId || "sRGB";
-			this.coords = coords? coords.slice() : [0, 0, 0];
-			this.alpha = alpha;
 		}
 
-		this.alpha = this.alpha < 1? this.alpha : 1; // this also deals with NaN etc
+		if (space) {
+			this.#space = space;
+		}
+		else if (spaceId) {
+			this.#space = ColorSpace.get(spaceId);
+		}
+
+		this.#space = this.#space ?? ColorSpace.get("srgb");
+		this.coords = coords? coords.slice() : [0, 0, 0];
+		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
 
 		// Convert "NaN" to NaN
 		for (let i = 0; i < this.coords.length; i++) {
@@ -73,42 +74,13 @@ export default class Color {
 		}
 	}
 
+	#space;
 	get space () {
-		return Color.spaces[this.spaceId];
-	}
-
-	set space (value) {
-		// Setting spaceId works with color space objects too
-		return this.spaceId = value;
+		return this.#space;
 	}
 
 	get spaceId () {
-		return this._spaceId;
-	}
-
-	// Handle dynamic changes of color space
-	set spaceId (id) {
-		let newSpace = Color.space(id);
-
-		id = newSpace.id;
-
-		if (this.space && newSpace && this.space !== newSpace) {
-			// We’re not setting this for the first time, need to:
-			// a) Convert coords
-			this.coords = this[id];
-
-			// b) Remove instance properties from previous color space
-			for (let prop in this.space.instance) {
-				if (this.hasOwnProperty(prop)) {
-					delete this[prop];
-				}
-			}
-		}
-
-		this._spaceId = id;
-
-		// Add new instance properties from new color space
-		util.extend(this, this.space.instance);
+		return this.space.id;
 	}
 
 	get white () {
@@ -162,7 +134,7 @@ export default class Color {
 	// Euclidean distance of colors in an arbitrary color space
 	distance (color, space = "lab") {
 		color = Color.get(color);
-		space = Color.space(space);
+		space = ColorSpace.get(space);
 
 		let coords1 = this[space.id];
 		let coords2 = color[space.id];
@@ -242,7 +214,7 @@ export default class Color {
 		}
 
 		if (precision !== undefined && precision !== null) {
-			let bounds = this.space.coords? Object.values(this.space.coords) : [];
+			let bounds = Object.values(this.space.coords).map(c => c.range || c.refRange);
 
 			coords = coords.map((n, i) => util.toPrecision(n, precision, bounds[i]));
 		}
@@ -254,35 +226,13 @@ export default class Color {
 	 * @return {Boolean} Is the color in gamut?
 	 */
 	inGamut (space = this.space, options) {
-		space = Color.space(space);
-		return Color.inGamut(space, this[space.id], options);
+		return Color.inGamut(space, this.to(space).coords, options);
 	}
 
 	static inGamut (space, coords, {epsilon = ε} = {}) {
-		space = Color.space(space);
+		space = ColorSpace.get(space);
 
-		if (space.inGamut) {
-			return space.inGamut(coords, epsilon);
-		}
-		else {
-			if (!space.coords) {
-				return true;
-			}
-
-			// No color-space specific inGamut() function, just check if coords are within reference range
-			let bounds = Object.values(space.coords);
-
-			return coords.every((c, i) => {
-				if (Number.isNaN(c)) {
-					return true;
-				}
-
-				let [min, max] = bounds[i];
-
-				return (min === undefined || c >= min - epsilon)
-				    && (max === undefined || c <= max + epsilon);
-			});
-		}
+		return space.inGamut(coords, {epsilon});
 	}
 
 	/**
@@ -301,7 +251,7 @@ export default class Color {
 			space = arguments[0];
 		}
 
-		space = Color.space(space);
+		space = ColorSpace.get(space);
 
 		if (this.inGamut(space, {epsilon: 0})) {
 			return this;
@@ -320,7 +270,7 @@ export default class Color {
 				let [mapSpace, coordName] = parseCoord(method);
 
 				let mappedColor = color.to(mapSpace);
-				let bounds = mapSpace.coords[coordName];
+				let bounds = mapSpace.coords[coordName].range || mapSpace.coords[coordName].refRange;
 				let min = bounds[0];
 				let ε = .01; // for deltaE
 				let low = min;
@@ -350,7 +300,7 @@ export default class Color {
 		    // finish off smarter gamut mapping with clip to get rid of ε, see #17
 		    || !color.inGamut(space, {epsilon: 0})
 		) {
-			let bounds = Object.values(space.coords);
+			let bounds = Object.values(space.coords).map(c => c.range || []);
 
 			color.coords = color.coords.map((c, i) => {
 				let [min, max] = bounds[i];
@@ -392,7 +342,7 @@ export default class Color {
 	 * @returns {Color}
 	 */
 	to (space, {inGamut} = {}) {
-		space = Color.space(space);
+		space = ColorSpace.get(space);
 		let id = space.id;
 
 		let color = new Color(id, this[id], this.alpha);
@@ -416,46 +366,56 @@ export default class Color {
 	 * Generic toString() method, outputs a color(spaceId ...coords) function
 	 * @param {Object} options
 	 * @param {number} options.precision - Significant digits
-	 * @param {boolean} options.commas - Whether to use commas to separate arguments or spaces (and a slash for alpha) [default: false]
-	 * @param {Function|String|Array} options.format - If function, maps all coordinates. Keywords tap to colorspace-specific formats (e.g. "hex")
+	 * @param {Function|String|Array} options.serializeCoords - If function, maps all coordinates. Keywords tap to colorspace-specific formats (e.g. "hex")
 	 * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
 	 * @param {string} options.name - Function name [default: color]
 	 */
 	toString ({
 		precision = Color.defaults.precision,
-		format, commas, inGamut,
-		name = "color",
-		fallback
+		format = "default", commas,
+		inGamut = true,
+		name,
+		fallback,
+		...customOptions
 	} = {}) {
-		let strAlpha = this.alpha < 1? ` ${commas? "," : "/"} ${this.alpha}` : "";
+		format = this.space.getFormat(format)
+		       ?? this.space.getFormat("default")
+		       ?? ColorSpace.DEFAULT_FORMAT;
 
-		let coords = this.getCoords({inGamut, precision});
+		let ret;
 
-		// Convert NaN to zeros to have a chance at a valid CSS color
-		// Also convert -0 to 0
-		coords = coords.map(c => c? c : 0);
+		if (format.type === "custom") {
+			let coords = this.getCoords({
+				inGamut: inGamut || format.toGamut,
+				precision
+			});
 
-		if (util.isString(format)) {
-			if (format === "%") {
-				format = c => {
-					c *= 100;
-					return util.toPrecision(c, precision) + "%";
-				};
+			ret = format.serialize(coords, this.alpha, customOptions);
+		}
+		else {
+			// Functional syntax
+			let coords = this.getCoords({inGamut, precision});
+
+			// Convert NaN to zeros to have a chance at a valid CSS color
+			// Also convert -0 to 0
+			coords = coords.map(c => c? c : 0);
+
+			name ||= format.name || "color";
+
+			if (format.coordsOut) {
+				coords = format.coordsOut(coords);
 			}
+
+			let args = [...coords];
+
+			if (name === "color") {
+				// If output is a color() function, add colorspace id as first argument
+				args.unshift(this.space.cssId);
+			}
+
+			let strAlpha = this.alpha < 1? ` ${format.commas? "," : "/"} ${this.alpha}` : "";
+			ret = `${name}(${args.join(format.commas? ", " : " ")}${strAlpha})`;
 		}
-
-		if (typeof format === "function") {
-			coords = coords.map(format);
-		}
-
-		let args = [...coords];
-
-		if (name === "color") {
-			// If output is a color() function, add colorspace id as first argument
-			args.unshift(this.space? this.space.cssId || this.space.id : "XYZ");
-		}
-
-		let ret = `${name}(${args.join(commas? ", " : " ")}${strAlpha})`;
 
 		if (fallback) {
 			// Return a CSS string that's actually supported by the current browser
@@ -491,7 +451,7 @@ export default class Color {
 
 			// None of the fallbacks worked, return in the most conservative form possible
 			let color = this.to("srgb");
-			ret = new String(color.toString({commas: true}));
+			ret = new String(color.toString());
 			ret.color = color;
 		}
 
@@ -500,7 +460,7 @@ export default class Color {
 
 	equals (color) {
 		color = Color.get(color);
-		return this.spaceId === color.spaceId
+		return this.space === color.space
 		       && this.alpha === color.alpha
 		       && this.coords.every((c, i) => c === color.coords[i]);
 	}
@@ -567,139 +527,86 @@ export default class Color {
 			return env.color;
 		}
 
-		env.parsed = Color.parseFunction(env.str);
-		Color.hooks.run("parse-function-start", env);
-
-		if (env.color) {
-			return env.color;
-		}
-
-		// Try colorspace-specific parsing
-		for (let space of Object.values(Color.spaces)) {
-			if (space.parse) {
-				let color = space.parse(env.str, env.parsed);
-
-				if (color) {
-					return color;
-				}
-			}
-		}
-
-		let name = env.parsed && env.parsed.name;
-
-		if (!/^color|^rgb/.test(name) && hasDOM && document.head) {
-			// Use browser to parse when a DOM is available
-			// we mainly use this for color names right now if keywords.js is not included
-			// and for future-proofing
-
-			let previousColor = document.head.style.color;
-			document.head.style.color = "";
-			document.head.style.color = str;
-
-			if (document.head.style.color !== previousColor) {
-				let computed = getComputedStyle(document.head).color;
-				document.head.style.color = previousColor;
-
-				if (computed) {
-					str = computed;
-					env.parsed = Color.parseFunction(computed);
-					name = env.parsed.name;
-				}
-			}
-		}
+		env.parsed = util.parseFunction(env.str);
 
 		if (env.parsed) {
-			// It's a function
-			if (name === "rgb" || name === "rgba") {
-				let args = env.parsed.args.map((c, i) => i < 3 && !c.percentage? c / 255 : +c);
+			// Is a functional syntax
+			let name = env.parsed.name;
 
-				return {
-					spaceId: "srgb",
-					coords: args.slice(0, 3),
-					alpha: args[3]
-				};
-			}
-			else if (name === "color") {
-				let spaceId = env.parsed.args.shift().toLowerCase();
-				let space = Object.values(Color.spaces).find(space => (space.cssId || space.id) === spaceId);
+			if (name === "color") {
+				// color() function
+				let cssId = env.parsed.args.shift();
+				let alpha = env.parsed.rawArgs.indexOf("/") > 0? env.parsed.args.pop() : 1;
 
-				if (space) {
-					// From https://drafts.csswg.org/css-color-4/#color-function
-					// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
-					// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
-					let argCount = Object.keys(space.coords).length;
-					let alpha = env.parsed.rawArgs.indexOf("/") > 0? env.parsed.args.pop() : 1;
-					let coords = Array(argCount).fill(0);
-					coords.forEach((_, i) => coords[i] = env.parsed.args[i] || 0);
+				for (let space of ColorSpace.all) {
+					if (cssId === space.cssId) {
+						// From https://drafts.csswg.org/css-color-4/#color-function
+						// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
+						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
+						let argCount = Object.keys(space.coords).length;
+						let coords = Array(argCount).fill(0);
+						coords.forEach((_, i) => coords[i] = env.parsed.args[i] || 0);
 
-					return {spaceId: space.id, coords, alpha};
+						return {spaceId: space.id, coords, alpha};
+					}
 				}
-				else {
-					throw new TypeError(`Color space ${spaceId} not found. Missing a plugin?`);
+
+				// Not found
+				throw new TypeError(`Color space ${env.parsed.args[0]} not found. Missing a plugin?`);
+			}
+			else {
+				for (let space of ColorSpace.all) {
+					// color space specific function
+					if (space.formats.functions?.[name]) {
+						let format = space.formats.functions[name];
+						let alpha = 1;
+
+						if (format.lastAlpha || util.last(env.parsed.args).alpha) {
+							alpha = env.parsed.args.pop();
+						}
+
+						let coords = env.parsed.args;
+
+						if (format.coordsIn) {
+							coords = format.coordsIn(coords);
+						}
+
+						return {
+							spaceId: space.id,
+							coords, alpha
+						};
+					}
+				}
+			}
+		}
+		else {
+			// Custom, colorspace-specific format
+			for (let space of ColorSpace.all) {
+				for (let formatId in space.formats.custom) {
+					let format = space.formats.custom[formatId];
+
+					if (format.test && !format.test(env.str)) {
+						continue;
+					}
+
+					let color = format.parse(env.str);
+
+					if (color) {
+						return color;
+					}
 				}
 			}
 		}
 
+
+		// If we're here, we couldn't parse
 		throw new TypeError(`Could not parse ${str} as a color. Missing a plugin?`);
-	}
-
-	/**
-	 * Parse a CSS function, regardless of its name and arguments
-	 * @param String str String to parse
-	 * @return Object An object with {name, args, rawArgs}
-	 */
-	static parseFunction (str) {
-		if (!str) {
-			return;
-		}
-
-		str = str.trim();
-
-		const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
-		const isNumberRegex = /^-?[\d.]+$/;
-		let parts = str.match(isFunctionRegex);
-
-		if (parts) {
-			// It is a function, parse args
-			let args = parts[2].match(/([-\w.]+(?:%|deg)?)/g);
-
-			args = args.map(arg => {
-				if (/%$/.test(arg)) {
-					// Convert percentages to 0-1 numbers
-					let n = new Number(+arg.slice(0, -1) / 100);
-					n.percentage = true;
-					return n;
-				}
-				else if (/deg$/.test(arg)) {
-					// Drop deg from degrees and convert to number
-					let n = new Number(+arg.slice(0, -3));
-					n.deg = true;
-					return n;
-				}
-				else if (isNumberRegex.test(arg)) {
-					// Convert numerical args to numbers
-					return +arg;
-				}
-
-				// Return everything else as-is
-				return arg;
-			});
-
-			return {
-				name: parts[1].toLowerCase(),
-				rawName: parts[1],
-				rawArgs: parts[2],
-				// An argument could be (as of css-color-4):
-				// a number, percentage, degrees (hue), ident (in color())
-				args
-			};
-		}
 	}
 
 	// One-off convert between color spaces
 	static convert (coords, fromSpace, toSpace) {
-		fromSpace = Color.space(fromSpace);
-		toSpace = Color.space(toSpace);
+		fromSpace = ColorSpace.get(fromSpace);
+		toSpace = ColorSpace.get(toSpace);
 
 		if (fromSpace === toSpace) {
 			// Same space, no change needed
@@ -751,151 +658,7 @@ export default class Color {
 	 * Mainly used internally, so that functions can easily accept either
 	 */
 	static space (space) {
-		let type = util.type(space);
-
-		if (type === "string") {
-			// It's a color space id
-			let ret = Color.spaces[space.toLowerCase()];
-
-			if (!ret) {
-				throw new TypeError(`No color space found with id = "${space}"`);
-			}
-
-			return ret;
-		}
-		else if (space && type === "object") {
-			return space;
-		}
-
-		throw new TypeError(`${space} is not a valid color space`);
-	}
-
-	// Define a new color space
-	static defineSpace ({id, inherits}) {
-		let space = Color.spaces[id] = arguments[0];
-
-		if (inherits) {
-			const except = ["id", "parse", "instance", "properties"];
-			let parent = Color.spaces[inherits];
-
-			for (let prop in parent) {
-				if (!except.includes(prop) && !(prop in space)) {
-					util.copyDescriptor(space, parent, prop);
-				}
-			}
-		}
-
-		let coords = space.coords;
-
-		if (space.properties) {
-			util.extend(Color.prototype, space.properties);
-		}
-
-		if (!space.fromXYZ && !space.toXYZ) {
-			// Using a different connection space, define from/to XYZ functions based on that
-			let connectionSpace;
-
-			// What are we using as a connection space?
-			if (space.from && space.to) {
-				let from = new Set(Object.keys(space.from));
-				let to = new Set(Object.keys(space.to));
-
-				// Find spaces we can both convert to and from
-				let candidates = [...from].filter(id => {
-					if (to.has(id)) {
-						// Of those, only keep those that have fromXYZ and toXYZ
-						let space = Color.spaces[id];
-						return space && space.fromXYZ && space.toXYZ;
-					}
-				});
-
-				if (candidates.length > 0) {
-					// Great, we found connection spaces! Pick the first one
-					connectionSpace = Color.spaces[candidates[0]];
-				}
-			}
-
-			if (connectionSpace) {
-				// Define from/to XYZ functions based on the connection space
-				Object.assign(space, {
-					// ISSUE do we need white point adaptation here?
-					fromXYZ(XYZ) {
-						let newCoords = connectionSpace.fromXYZ(XYZ);
-						return this.from[connectionSpace.id](newCoords);
-					},
-					toXYZ(coords) {
-						let newCoords = this.to[connectionSpace.id](coords);
-						return connectionSpace.toXYZ(newCoords);
-					}
-				});
-			}
-			else {
-				throw new ReferenceError(`No connection space found for ${space.name}.`);
-			}
-		}
-
-		let coordNames = Object.keys(coords);
-
-		// Define getters and setters for color[spaceId]
-		// e.g. color.lch on *any* color gives us the lch coords
-		Object.defineProperty(Color.prototype, id, {
-			// Convert coords to coords in another colorspace and return them
-			// Source colorspace: this.spaceId
-			// Target colorspace: id
-			get () {
-				let ret = Color.convert(this.coords, this.spaceId, id);
-
-				if (typeof Proxy === "undefined") {
-					// If proxies are not supported, just return a static array
-					return ret;
-				}
-
-				// Enable color.spaceId.coordName syntax
-				return new Proxy(ret, {
-					has: (obj, property) => {
-						return coordNames.includes(property) || Reflect.has(obj, property);
-					},
-					get: (obj, property, receiver) => {
-						let i = coordNames.indexOf(property);
-
-						if (i > -1) {
-							return obj[i];
-						}
-
-						return Reflect.get(obj, property, receiver);
-					},
-					set: (obj, property, value, receiver) => {
-						let i = coordNames.indexOf(property);
-
-						if (property > -1) { // Is property a numerical index?
-							i = property; // next if will take care of modifying the color
-						}
-
-						if (i > -1) {
-							obj[i] = value;
-
-							// Update color.coords
-							this.coords = Color.convert(obj, id, this.spaceId);
-
-							return true;
-						}
-
-						return Reflect.set(obj, property, value, receiver);
-					},
-
-				});
-			},
-			// Convert coords in another colorspace to internal coords and set them
-			// Target colorspace: this.spaceId
-			// Source colorspace: id
-			set (coords) {
-				this.coords = Color.convert(coords, id, this.spaceId);
-			},
-			configurable: true,
-			enumerable: true
-		});
-
-		return space;
+		return ColorSpace.get(space);
 	}
 
 	// Define a shortcut property, e.g. color.lightness instead of color.lch.lightness
@@ -945,15 +708,7 @@ export default class Color {
 Object.assign(Color, {
 	util,
 	hooks: new Hooks(),
-	whites: {
-		// from ASTM E308-01
-		// D50: [0.96422, 1.00000, 0.82521],
-		// D65: [0.95047, 1.00000, 1.08883],
-		// for compatibility, the four-digit chromaticity-derived ones everyone else uses
-		D50: [0.3457 / 0.3585, 1.00000, (1.0 - 0.3457 - 0.3585) / 0.3585],
-		D65: [0.3127 / 0.3290, 1.00000, (1.0 - 0.3127 - 0.3290) / 0.3290],
-
-	},
+	whites,
 	spaces: {},
 
 	// These will be available as getters and setters on EVERY color instance.
@@ -974,48 +729,6 @@ Object.assign(Color, {
 	}
 });
 
-Color.defineSpace({
-	id: "xyz",
-	name: "XYZ",
-	coords: {
-		X: [],
-		Y: [],
-		Z: []
-	},
-	white: Color.whites.D65,
-	inGamut: coords => true,
-	toXYZ: coords => coords,
-	fromXYZ: coords => coords
-});
-
-Color.defineSpace({
-	id: "xyz-d50",
-	name: "XYZ-D50",
-	coords: {
-		X: [],
-		Y: [],
-		Z: []
-	},
-	white: Color.whites.D50,
-	inGamut: coords => true,
-	toXYZ: coords => coords,
-	fromXYZ: coords => coords
-});
-
-Color.defineSpace({
-	id: "xyz-d65",
-	name: "XYZ-D65",
-	coords: {
-		X: [],
-		Y: [],
-		Z: []
-	},
-	white: Color.whites.D65,
-	inGamut: coords => true,
-	toXYZ: coords => coords,
-	fromXYZ: coords => coords
-});
-
 for (let prop in Color.shortcuts) {
 	Color.defineShortcut(prop);
 }
@@ -1028,7 +741,7 @@ function parseCoord(coord) {
 	if (coord.indexOf(".") > 0) {
 		// Reduce a coordinate of a certain color space until the color is in gamut
 		let [spaceId, coordName] = coord.split(".");
-		let space = Color.space(spaceId);
+		let space = ColorSpace.get(spaceId);
 
 		if (!(coordName in space.coords)) {
 			throw new ReferenceError(`Color space "${space.name}" has no "${coordName}" coordinate.`);
