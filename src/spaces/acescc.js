@@ -8,7 +8,6 @@ const ε = 2 ** -16;
 export default RGBColorSpace.create({
 	id: "acescc",
 	name: "ACEScc",
-	base: ACEScg,
 	// see S-2014-003 ACEScc – A Logarithmic Encoding of ACES Data
 	// uses the AP1 primaries, see section 4.3.1 Color primaries
 
@@ -30,7 +29,9 @@ export default RGBColorSpace.create({
 			name: "Blue"
 		}
 	},
+	referred: "scene",
 
+	base: ACEScg,
 	// from section 4.4.2 Decoding Function
 	toBase (RGB) {
 		const low = (9.72 - 15) / 17.52; // -0.3014

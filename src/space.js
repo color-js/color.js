@@ -6,8 +6,9 @@ const ε = .000075;
 export default class ColorSpace {
 	constructor (options) {
 		this.id = options.id;
-
 		this.base = options.base ? ColorSpace.get(options.base) : null;
+
+		// Coordinate metadata
 
 		let coords = options.coords ?? this.base.coords;
 		if (Array.isArray(coords)) {
@@ -15,11 +16,15 @@ export default class ColorSpace {
 		}
 		this.coords = coords;
 
+		// White point
+
 		let white = options.white ?? this.base.white ?? whites.D65;
 		if (typeof white === "string") {
 			white = whites[white];
 		}
 		this.white = white;
+
+		// Sort out formats
 
 		this.formats = options.formats ?? {};
 		for (let type in this.formats) {
@@ -37,6 +42,9 @@ export default class ColorSpace {
 			this.formats.functions.color = { id: options.cssId };
 			Object.defineProperty(this, "cssId", {value: options.cssId});
 		}
+
+		// Other stuff
+		this.referred = options.referred;
 	}
 
 	inGamut (coords, {epsilon = ε} = {}) {

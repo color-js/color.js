@@ -9,6 +9,8 @@ export default RGBColorSpace.create({
 	id: "rec2100hlg",
 	cssid: "rec2100-hlg",
 	name: "REC.2100-HLG",
+	referred: "scene",
+
 	base: REC2020Linear,
 	toBase (RGB) {
 		// given HLG encoded component in range [0, 1]

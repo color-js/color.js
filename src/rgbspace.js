@@ -29,6 +29,8 @@ export default class RGBColorSpace extends ColorSpace {
 			options.fromBase ??= xyz => multiplyMatrices(fromXYZ_M, xyz);
 		}
 
+		options.referred ??= "display";
+
 		super(options);
 	}
 }
