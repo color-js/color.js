@@ -44,6 +44,7 @@ export default RGBColorSpace.create({
 	// below 18% middle gray are encoded as negative ACEScc values.
 	// These values should be preserved per the encoding in Section 4.4
 	// so that all positive ACES values are maintained."
+	referred: "scene",
 
 	white: whites.ACES,
 
