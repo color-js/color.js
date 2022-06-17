@@ -1,61 +1,53 @@
-import Color from "./../color.js";
-import "./jzazbz.js";
-import * as angles from "../angles.js";
+import ColorSpace from "../space.js";
+import Jzazbz from "./jzazbz.js";
+import {constrain as constrainAngle} from "../angles.js";
 
-Color.defineSpace({
+export default ColorSpace.create({
 	id: "jzczhz",
 	name: "JzCzHz",
 	coords: {
-		Jz: [0, 1],
-		chroma: [0, 1],
-		hue: angles.range,
-	},
-	inGamut: coords => true,
-	white: Color.whites.D65,
-	from: {
-		jzazbz (jzazbz) {
-			// Convert to polar form
-			let [Jz, az, bz] = jzazbz;
-			let hue;
-			const ε = 0.0002; // chromatic components much smaller than a,b
-
-			if (Math.abs(az) < ε && Math.abs(bz) < ε) {
-				hue = NaN;
-			}
-			else {
-				hue = Math.atan2(bz, az) * 180 / Math.PI;
-			}
-
-			return [
-				Jz, // Jz is still Jz
-				Math.sqrt(az ** 2 + bz ** 2), // Chroma
-				angles.constrain(hue) // Hue, in degrees [0 to 360)
-			];
-		}
-	},
-	to: {
-		jzazbz (jzczhz) {
-			// Convert from polar form
-			// debugger;
-			return [
-				jzczhz[0], // Jz is still Jz
-				jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
-				jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180)  // bz
-			];
-		}
-	},
-	parse (str, parsed = Color.parseFunction(str)) {
-		if (parsed && parsed.name === "jzczhz") {
-			let Jz = parsed.args[0];
-
-			return {
-				spaceId: "jzczhz",
-				coords: parsed.args.slice(0, 3),
-				alpha: parsed.args.slice(3)[0]
-			};
+		jz: {
+			refRange: [0, 1],
+			name: "Jz",
+		},
+		cz: {
+			refRange: [0, 1],
+			name: "Chroma",
+		},
+		hz: {
+			refRange: [0, 360],
+			type: "angle",
+			name: "Hue",
 		}
 	},
 
+	base: Jzazbz,
+	fromBase (jzazbz) {
+		// Convert to polar form
+		let [Jz, az, bz] = jzazbz;
+		let hue;
+		const ε = 0.0002; // chromatic components much smaller than a,b
+
+		if (Math.abs(az) < ε && Math.abs(bz) < ε) {
+			hue = NaN;
+		}
+		else {
+			hue = Math.atan2(bz, az) * 180 / Math.PI;
+		}
+
+		return [
+			Jz, // Jz is still Jz
+			Math.sqrt(az ** 2 + bz ** 2), // Chroma
+			constrainAngle(hue) // Hue, in degrees [0 to 360)
+		];
+	},
+	toBase (jzczhz) {
+		// Convert from polar form
+		// debugger;
+		return [
+			jzczhz[0], // Jz is still Jz
+			jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
+			jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180)  // bz
+		];
+	},
 });
-
-export default Color;

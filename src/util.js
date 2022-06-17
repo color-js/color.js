@@ -100,4 +100,63 @@ export function value(obj, prop, value) {
 	}
 }
 
+/**
+* Parse a CSS function, regardless of its name and arguments
+* @param String str String to parse
+* @return Object An object with {name, args, rawArgs}
+*/
+export function parseFunction (str) {
+	if (!str) {
+		return;
+	}
+
+	str = str.trim();
+
+	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
+	const isNumberRegex = /^-?[\d.]+$/;
+	let parts = str.match(isFunctionRegex);
+
+	if (parts) {
+		// It is a function, parse args
+		let args = [];
+		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg)?)/g, ($0, arg) => {
+			if (/%$/.test(arg)) {
+				// Convert percentages to 0-1 numbers
+				arg = new Number(+arg.slice(0, -1) / 100);
+				arg.percentage = true;
+			}
+			else if (/deg$/.test(arg)) {
+				// Drop deg from degrees and convert to number
+				arg = new Number(+arg.slice(0, -3));
+				arg.deg = true;
+			}
+			else if (isNumberRegex.test(arg)) {
+				// Convert numerical args to numbers
+				arg = +arg;
+			}
+
+			if ($0.startsWith("/")) {
+				// It's alpha
+				arg = arg instanceof Number? arg : new Number(arg);
+				arg.alpha = true;
+			}
+
+			args.push(arg);
+		});
+
+		return {
+			name: parts[1].toLowerCase(),
+			rawName: parts[1],
+			rawArgs: parts[2],
+			// An argument could be (as of css-color-4):
+			// a number, percentage, degrees (hue), ident (in color())
+			args
+		};
+	}
+}
+
+export function last(arr) {
+	return arr[arr.length - 1];
+}
+
 export {multiplyMatrices};

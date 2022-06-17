@@ -1,16 +1,12 @@
-/* Parse color keywords without the browser DOM
- * This is only needed to parse Color keywords in Node,
- * and to improve performance when parsing color keywords in the browser
- * To take advantage of this, just import the module.
- * You can also take advantage of its default exports, if you need a data structure of named colors
- * Note that this does not handle currentColor
+/* List of CSS color keywords
+ * Note that this does not include currentColor and transparent
  */
 import Color from "./color.js";
 
 // To produce: Visit https://www.w3.org/TR/css-color-4/#named-colors
 // and run in the console:
 // copy($$("tr", $(".named-color-table tbody")).map(tr => `"${tr.cells[2].textContent.trim()}": [${tr.cells[4].textContent.trim().split(/\s+/).map(c => c === "0"? "0" : c === "255"? "1" : c + " / 255").join(", ")}]`).join(",\n"))
-const KEYWORDS = {
+export default {
 	"aliceblue": [240 / 255, 248 / 255, 1],
 	"antiquewhite": [250 / 255, 235 / 255, 215 / 255],
 	"aqua": [0, 1, 1],
@@ -160,22 +156,3 @@ const KEYWORDS = {
 	"yellow": [1, 1, 0],
 	"yellowgreen": [154 / 255, 205 / 255, 50 / 255]
 };
-
-Color.hooks.add("parse-start", env => {
-	let str = env.str.toLowerCase();
-	let ret = {spaceId: "srgb", coords: null, alpha: 1};
-
-	if (str === "transparent") {
-		ret.coords = KEYWORDS.black;
-		ret.alpha = 0;
-	}
-	else {
-		ret.coords = KEYWORDS[str];
-	}
-
-	if (ret.coords) {
-		env.color = ret;
-	}
-});
-
-export default KEYWORDS;
