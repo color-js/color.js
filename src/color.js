@@ -1,7 +1,7 @@
 import * as util from "./util.js";
-import Hooks from "./hooks.js";
+import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
-import whites from "./whites.js";
+import {WHITES} from "./adapt.js";
 
 import "./spaces/xyz-d50.js";
 import "./spaces/xyz-d65.js";
@@ -84,7 +84,7 @@ export default class Color {
 	}
 
 	get white () {
-		return this.space.white || Color.whites.D50;
+		return this.space.white;
 	}
 
 	get (prop) {
@@ -465,59 +465,6 @@ export default class Color {
 		       && this.coords.every((c, i) => c === color.coords[i]);
 	}
 
-	// Adapt XYZ from white point W1 to W2
-	static chromaticAdaptation (W1, W2, XYZ, options = {}) {
-		W1 = W1 || Color.whites.D50;
-		W2 = W2 || Color.whites.D50;
-
-		if (W1 === W2) {
-			return XYZ;
-		}
-
-		let env = {W1, W2, XYZ, options};
-
-		Color.hooks.run("chromatic-adaptation-start", env);
-
-		if (!env.M) {
-			if (env.W1 === Color.whites.D65 && env.W2 === Color.whites.D50) {
-				// Linear Bradford CAT
-				// env.M = [
-				// 	[ 1.0478112,  0.0228866, -0.0501270],
-				// 	[ 0.0295424,  0.9904844, -0.0170491],
-				// 	[-0.0092345,  0.0150436,  0.7521316]
-				// ];
-
-				env.M = [
-					[  1.0479298208405488,    0.022946793341019088,  -0.05019222954313557 ],
-					[  0.029627815688159344,  0.990434484573249,     -0.01707382502938514 ],
-					[ -0.009243058152591178,  0.015055144896577895,   0.7518742899580008  ]
-				];
-			}
-			else if (env.W1 === Color.whites.D50 && env.W2 === Color.whites.D65) {
-				// env.M = [
-				// 	[ 0.9555766, -0.0230393,  0.0631636],
-				// 	[-0.0282895,  1.0099416,  0.0210077],
-				// 	[ 0.0122982, -0.0204830,  1.3299098]
-				// ];
-
-				env.M = [
-					[  0.9554734527042182,   -0.023098536874261423,  0.0632593086610217   ],
-					[ -0.028369706963208136,  1.0099954580058226,    0.021041398966943008 ],
-					[  0.012314001688319899, -0.020507696433477912,  1.3303659366080753   ]
-				];
-			}
-		}
-
-		Color.hooks.run("chromatic-adaptation-end", env);
-
-		if (env.M) {
-			return util.multiplyMatrices(env.M, env.XYZ);
-		}
-		else {
-			throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
-		}
-	}
-
 	// CSS color to Color object
 	static parse (str) {
 		let env = {str};
@@ -707,8 +654,8 @@ export default class Color {
 
 Object.assign(Color, {
 	util,
-	hooks: new Hooks(),
-	whites,
+	hooks,
+	WHITES,
 	spaces: {},
 
 	// These will be available as getters and setters on EVERY color instance.

@@ -1,9 +1,12 @@
 import ColorSpace from "../space.js";
+import {WHITES} from "../adapt.js";
 
 // κ * ε  = 2^3 = 8
 const ε = 216/24389;  // 6^3/29^3 == (24/116)^3
 const ε3 = 24/116;
 const κ = 24389/27;   // 29^3/3^3
+
+let white = WHITES.D50;
 
 export default ColorSpace.create({
 	id: "lab",
@@ -23,7 +26,7 @@ export default ColorSpace.create({
 
 	// Assuming XYZ is relative to D50, convert to CIE Lab
 	// from CIE standard, which now defines these as a rational fraction
-	white: "D50",
+	white,
 
 	base: "xyz-d50",
 	// Convert D50-adapted XYX to Lab

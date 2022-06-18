@@ -1,12 +1,12 @@
 import RGBColorSpace from "../rgbspace.js";
-import whites from "../whites.js";
+import {WHITES} from "../adapt.js";
 import "../CATs.js"; // because of the funky whitepoint
 
 // The ACES whitepoint
 // see TB-2018-001 Derivation of the ACES White Point CIE Chromaticity Coordinates
 // also https://github.com/ampas/aces-dev/blob/master/documents/python/TB-2018-001/aces_wp.py
 // Similar to D60
-whites.ACES = [0.32168/0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767)/0.33767];
+WHITES.ACES = [0.32168/0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767)/0.33767];
 
 // convert an array of linear-light ACEScc values to CIE XYZ
 const toXYZ_M = [
@@ -25,6 +25,7 @@ export default RGBColorSpace.create({
 	name: "ACEScg",
 
 	// ACEScg – A scene-referred, linear-light encoding of ACES Data
+	// https://docs.acescentral.com/specifications/acescg/
 	// uses the AP1 primaries, see section 4.3.1 Color primaries
 	coords: {
 		r: {
@@ -46,10 +47,10 @@ export default RGBColorSpace.create({
 	// so that all positive ACES values are maintained."
 	referred: "scene",
 
-	white: whites.ACES,
+	white: WHITES.ACES,
 
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
 });
 
 // export default Color;

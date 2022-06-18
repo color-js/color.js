@@ -1,5 +1,6 @@
 /* List of CSS color keywords
- * Note that this does not include currentColor and transparent
+ * Note that this does not include currentColor, transparent,
+ * or system colors
  */
 import Color from "./color.js";
 

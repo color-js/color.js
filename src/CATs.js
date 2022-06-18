@@ -104,7 +104,7 @@ Color.defineCAT({
 	]
 });
 
-Object.assign(Color.whites, {
+Object.assign(Color.WHITES, {
 	// whitepoint values from ASTM E308-01 with 10nm spacing, 1931 2 degree observer
 	// all normalized to Y (luminance) = 1.00000
 	// Illuminant A is a tungsten electric light, giving a very warm, orange light.

@@ -1,5 +1,4 @@
 import RGBColorSpace from "../rgbspace.js";
-import whites from "../whites.js";
 import "../CATs.js"; // because of the funky whitepoint
 import ACEScg from "./acescg.js";
 
@@ -9,6 +8,7 @@ export default RGBColorSpace.create({
 	id: "acescc",
 	name: "ACEScc",
 	// see S-2014-003 ACEScc – A Logarithmic Encoding of ACES Data
+	// https://docs.acescentral.com/specifications/acescc/
 	// uses the AP1 primaries, see section 4.3.1 Color primaries
 
 	// Appendix A: "Very small ACES scene referred values below 7 1/4 stops

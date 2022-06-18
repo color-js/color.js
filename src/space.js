@@ -1,5 +1,5 @@
 import {type} from "./util.js";
-import whites from "./whites.js";
+import {getWhite} from "./adapt.js";
 
 const ε = .000075;
 
@@ -18,11 +18,8 @@ export default class ColorSpace {
 
 		// White point
 
-		let white = options.white ?? this.base.white ?? whites.D65;
-		if (typeof white === "string") {
-			white = whites[white];
-		}
-		this.white = white;
+		let white = options.white ?? this.base.white ?? "D65";
+		this.white = getWhite(white);
 
 		// Sort out formats
 
