@@ -33,13 +33,13 @@ import "./spaces/acescc.js";
 
 // Import optional modules
 import "./space-accessors.js";
-// import "./interpolation.js";
-// import "./deltaE/deltaECMC.js";
-// import "./deltaE/deltaE2000.js";
-// import "./deltaE/deltaEJz.js";
-// import "./deltaE/deltaEITP.js";
-// import "./deltaE/deltaEOK.js";
-// import "./CATs.js";
+import "./interpolation.js";
+import "./deltaE/deltaECMC.js";
+import "./deltaE/deltaE2000.js";
+import "./deltaE/deltaEJz.js";
+import "./deltaE/deltaEITP.js";
+import "./deltaE/deltaEOK.js";
+import "./CATs.js";
 
 // Re-export everything
 export default Color;

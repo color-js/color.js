@@ -1,4 +1,5 @@
-import Color from "../spaces/jzazbz.js";
+import Color from "../color.js";
+import "../spaces/jzazbz.js";
 import "../spaces/jzczhz.js";
 
 // More accurate color-difference formulae
