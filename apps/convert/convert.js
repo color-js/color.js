@@ -43,9 +43,12 @@ function update() {
 		output.tBodies[0].textContent = "";
 		let ret = "";
 
-		for (let id in Color.spaces) {
+		// Prevent aliases showing up in the output
+		let spaces = new Set(Color.Space.all);
+
+		for (let space of spaces) {
+			let id = space.id;
 			let converted = color.to(id);
-			let space = Color.spaces[id];
 
 			if (id === "srgb" || (id === "p3") && supportsP3) {
 				colorOutput.style.background = converted;
