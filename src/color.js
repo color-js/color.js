@@ -72,7 +72,6 @@ export default class Color {
 				this.coords[i] = NaN;
 			}
 		}
-	}
 
 	#space;
 	get space () {
@@ -342,10 +341,9 @@ export default class Color {
 	 * @returns {Color}
 	 */
 	to (space, {inGamut} = {}) {
-		space = ColorSpace.get(space);
-		let id = space.id;
+		let coords = this.space.to(space, this.coords);
 
-		let color = new Color(id, this[id], this.alpha);
+		let color = new Color(space, coords, this.alpha);
 
 		if (inGamut) {
 			color.toGamut({inPlace: true});
@@ -553,39 +551,8 @@ export default class Color {
 	// One-off convert between color spaces
 	static convert (coords, fromSpace, toSpace) {
 		fromSpace = ColorSpace.get(fromSpace);
-		toSpace = ColorSpace.get(toSpace);
 
-		if (fromSpace === toSpace) {
-			// Same space, no change needed
-			return coords;
-		}
-
-		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
-		coords = coords.map(c => Number.isNaN(c)? 0 : c);
-
-		let fromId = fromSpace.id;
-		let toId = toSpace.id;
-
-		// Do we have a more specific conversion function?
-		// Avoids round-tripping to & from XYZ
-		if (toSpace.from && toSpace.from[fromId]) {
-			// No white point adaptation, we assume the custom function takes care of it
-			return toSpace.from[fromId](coords);
-		}
-
-		if (fromSpace.to && fromSpace.to[toId]) {
-			// No white point adaptation, we assume the custom function takes care of it
-			return fromSpace.to[toId](coords);
-		}
-
-		let XYZ = fromSpace.toXYZ(coords);
-
-		if (toSpace.white !== fromSpace.white) {
-			// Different white point, perform white point adaptation
-			XYZ = Color.chromaticAdaptation(fromSpace.white, toSpace.white, XYZ);
-		}
-
-		return toSpace.fromXYZ(XYZ);
+		return fromSpace.to(toSpace, coords);
 	}
 
 	/**
