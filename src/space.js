@@ -1,5 +1,6 @@
 import {type} from "./util.js";
 import {getWhite} from "./adapt.js";
+import hooks from "./hooks.js";
 
 const ε = .000075;
 
@@ -48,6 +49,8 @@ export default class ColorSpace {
 
 		// Compute ancestors and store them, since they will never change
 		this.#path = this.#getPath().reverse();
+
+		hooks.run("colorspace-init-end", this);
 	}
 
 	inGamut (coords, {epsilon = ε} = {}) {
@@ -112,6 +115,7 @@ export default class ColorSpace {
 		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
 		coords = coords.map(c => Number.isNaN(c)? 0 : c);
 
+		// Find connection space = lowest common ancestor in the base tree
 		let myPath = this.#path;
 		let otherPath = space.#path;
 
