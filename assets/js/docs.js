@@ -100,7 +100,7 @@ if (location.pathname.indexOf("/spaces") > -1) {
 				};
 			});
 
-			space.whitePoint = spaceMeta.white === Color.whites.D50? "D50" : "D65";
+			space.whitePoint = spaceMeta.white === Color.WHITES.D50? "D50" : "D65";
 			space.cssId = spaceMeta.cssId || spaceMeta.id;
 		}
 	});

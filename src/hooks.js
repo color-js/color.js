@@ -2,7 +2,7 @@
  * Module version of Bliss.Hooks.
  * @author Lea Verou
  */
-export default class Hooks {
+export class Hooks {
 	add (name, callback, first) {
 		if (typeof arguments[0] != "string") {
 			// Multiple hooks
@@ -29,3 +29,7 @@ export default class Hooks {
 		});
 	}
 };
+
+const hooks = new Hooks();
+
+export default hooks;
