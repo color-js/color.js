@@ -6,7 +6,13 @@ const ε = .000075;
 export default class ColorSpace {
 	constructor (options) {
 		this.id = options.id;
+		this.name = options.name;
 		this.base = options.base ? ColorSpace.get(options.base) : null;
+
+		if (this.base) {
+			this.fromBase = options.fromBase;
+			this.toBase = options.toBase;
+		}
 
 		// Coordinate metadata
 
@@ -42,6 +48,9 @@ export default class ColorSpace {
 
 		// Other stuff
 		this.referred = options.referred;
+
+		// Compute ancestors and store them, since they will never change
+		this.#path = this.#getPath().reverse();
 	}
 
 	inGamut (coords, {epsilon = ε} = {}) {
@@ -81,6 +90,66 @@ export default class ColorSpace {
 				}
 			}
 		}
+	}
+
+	#path
+
+	#getPath () {
+		let ret = [this];
+
+		for (let space = this; space = space.base;) {
+			ret.push(space);
+		}
+
+		return ret;
+	}
+
+	to (space, coords) {
+		space = ColorSpace.get(space);
+
+		if (this === space) {
+			// Same space, no change needed
+			return coords;
+		}
+
+		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
+		coords = coords.map(c => Number.isNaN(c)? 0 : c);
+
+		let myPath = this.#path;
+		let otherPath = space.#path;
+
+		let connectionSpace, connectionSpaceIndex;
+
+		for (let i=0; i < myPath.length; i++) {
+			if (myPath[i] === otherPath[i]) {
+				connectionSpace = myPath[i];
+				connectionSpaceIndex = i;
+			}
+			else {
+				break;
+			}
+		}
+
+		if (!connectionSpace) {
+			// This should never happen
+			throw new Error(`Cannot convert between color spaces ${this} and ${space}: no connection space was found`);
+		}
+
+		// Go up from current space to connection space
+		for (let i = myPath.length - 1; i > connectionSpaceIndex; i--) {
+			coords = myPath[i].toBase(coords);
+		}
+
+		// Go down from connection space to target space
+		for (let i = connectionSpaceIndex + 1; i < otherPath.length; i++) {
+			coords = otherPath[i].fromBase(coords);
+		}
+
+		return coords;
+	}
+
+	toString () {
+		return `${this.name} (${this.id})`;
 	}
 
 	static registry = {}

@@ -1,5 +1,6 @@
 import ColorSpace from "./space.js";
 import {multiplyMatrices} from "./util.js";
+import adapt from "./adapt.js";
 
 export default class RGBColorSpace extends ColorSpace {
 	constructor (options) {
@@ -25,8 +26,21 @@ export default class RGBColorSpace extends ColorSpace {
 		}
 
 		if (options.toXYZ_M && options.fromXYZ_M) {
-			options.toBase ??= rgb => multiplyMatrices(toXYZ_M, rgb);
-			options.fromBase ??= xyz => multiplyMatrices(fromXYZ_M, xyz);
+			options.toBase ??= rgb => {
+				let xyz = multiplyMatrices(options.toXYZ_M, rgb);
+
+				if (this.white !== this.base.white) {
+					// Perform chromatic adaptation
+					xyz = adapt(this.white, this.base.white, xyz);
+				}
+
+				return xyz;
+			};
+
+			options.fromBase ??= xyz => {
+				xyz = adapt(this.base.white, this.white, xyz);
+				return multiplyMatrices(options.fromXYZ_M, xyz);
+			};
 		}
 
 		options.referred ??= "display";
