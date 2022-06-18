@@ -32,6 +32,7 @@ import "./spaces/acescc.js";
 
 
 // Import optional modules
+import "./space-accessors.js";
 // import "./interpolation.js";
 // import "./deltaE/deltaECMC.js";
 // import "./deltaE/deltaE2000.js";
