@@ -623,7 +623,8 @@ Object.assign(Color, {
 	util,
 	hooks,
 	WHITES,
-	spaces: {},
+	Space: ColorSpace,
+	spaces: ColorSpace.registry,
 
 	// These will be available as getters and setters on EVERY color instance.
 	// They refer to LCH by default, but can be set to anything
