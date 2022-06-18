@@ -56,13 +56,13 @@ export default class Color {
 		}
 
 		if (space) {
-			this.#space = space;
+			this.space = space;
 		}
 		else if (spaceId) {
-			this.#space = ColorSpace.get(spaceId);
+			this.space = ColorSpace.get(spaceId);
 		}
 
-		this.#space = this.#space ?? ColorSpace.get("srgb");
+		this.space = this.space ?? ColorSpace.get("srgb");
 		this.coords = coords? coords.slice() : [0, 0, 0];
 		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
 
@@ -73,13 +73,21 @@ export default class Color {
 			}
 		}
 
-	#space;
-	get space () {
-		return this.#space;
-	}
+		// Make space property immutable
+		Object.defineProperty(this, "space", {
+			value: this.space,
+			enumerable: true,
+			configurable: false,
+			writable: false
+		});
 
-	get spaceId () {
-		return this.space.id;
+		// Define immutable spaceId property
+		Object.defineProperty(this, "spaceId", {
+			value: this.space.id,
+			enumerable: true,
+			configurable: false,
+			writable: false
+		});
 	}
 
 	get white () {
