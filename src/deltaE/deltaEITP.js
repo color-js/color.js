@@ -1,4 +1,5 @@
-import Color from "../spaces/ictcp.js";
+import Color from "../color.js";
+import "../spaces/ictcp.js";
 
 // Delta E in ICtCp space,
 // which the ITU calls Delta E ITP, which is shorter

@@ -1,7 +1,8 @@
-import Color from "../spaces/oklab.js";
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in CIE Lab
 
+import Color from "../color.js";
+import "../spaces/oklab.js";
 
 Color.prototype.deltaEOK = function (sample, deltas = {}) {
 	let color = this;
