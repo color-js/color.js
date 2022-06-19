@@ -17,9 +17,6 @@ export default class ColorSpace {
 		// Coordinate metadata
 
 		let coords = options.coords ?? this.base.coords;
-		if (Array.isArray(coords)) {
-			coords = Object.fromEntries(coords.map(name => [name, {}]));
-		}
 		this.coords = coords;
 
 		// White point

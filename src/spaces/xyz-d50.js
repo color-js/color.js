@@ -5,7 +5,6 @@ import XYZ_D65 from "./xyz-d65.js";
 export default ColorSpace.create({
 	id: "xyz-d50",
 	name: "XYZ D50",
-	coords: ["x", "y", "z"],
 	white: "D50",
 	base: XYZ_D65,
 	fromBase: coords => adapt(XYZ_D65.white, "D50", coords),
