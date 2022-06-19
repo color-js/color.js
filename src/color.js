@@ -115,6 +115,10 @@ export default class Color {
 		return this.space.white || Color.whites.D50;
 	}
 
+	get (prop) {
+		return util.value(this, prop);
+	}
+
 	// Set properties and return current instance
 	set (prop, value) {
 		if (arguments.length === 1 && util.type(arguments[0]) === "object") {
