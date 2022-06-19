@@ -88,8 +88,8 @@ This doesn't predict corresponding colors _at all well_
 so we don't implement it. But you can do it yourself if you want:
 
 ```js
-let W1 = Color.whites.D65;
-let W2 = Color.whites.D50;
+let W1 = Color.WHITES.D65;
+let W2 = Color.WHITES.D50;
 let Xscale = W2[0]/W1[0];
 let Zscale = W2[2]/W1[2];
 let color = new Color("rebeccapurple");
@@ -112,8 +112,8 @@ as long as the two illuminants are fairly similar to daylight,
 and the colors to be adapted are not very saturated.
 
 ```js
-let W1 = Color.whites.D65;
-let W2 = Color.whites.D50;
+let W1 = Color.WHITES.D65;
+let W2 = Color.WHITES.D50;
 let color = new Color("rebeccapurple");
 // okay this isn't going to work either
 ```
