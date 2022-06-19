@@ -135,7 +135,7 @@ Color.range = function(color1, color2, options = {}) {
 		space = Color.spaces[Color.defaults.interpolationSpace] || color1.space;
 	}
 
-	outputSpace = outputSpace? Color.space(outputSpace) : (color1.space || space);
+	outputSpace = outputSpace? Color.space(outputSpace) : space;
 
 	color1 = color1.to(space).toGamut();
 	color2 = color2.to(space).toGamut();
