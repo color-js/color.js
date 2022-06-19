@@ -926,12 +926,12 @@ let convertTosrgbLin = convertTo("srgb-linear");
 <section>
 	<h1>Get coordinates</h1>
 	<table class="reftest" data-test="fuzzyNumbers">
-		<tr title="color.chroma">
+		<tr title="color.c">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						return color.chroma
+						return color.c
 					});
 				</script>
 			</td>
@@ -948,23 +948,23 @@ let convertTosrgbLin = convertTo("srgb-linear");
 			</td>
 			<td>11.23415</td>
 		</tr>
-		<tr title="color.lch.chroma">
+		<tr title="color.lch.c">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						return color.lch.chroma;
+						return color.lch.c;
 					});
 				</script>
 			</td>
 			<td>11.23415</td>
 		</tr>
-		<tr title="color.oklch.chroma">
+		<tr title="color.oklch.c">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						return color.oklch.chroma;
+						return color.oklch.c;
 					});
 				</script>
 			</td>
@@ -975,7 +975,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						return color.jzazbz.Jz
+						return color.jzazbz.jz
 					});
 				</script>
 			</td>
@@ -986,7 +986,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 				<script>
 					print(() => {
 						var color = new Color("color(jzazbz 0.54 0 0)");
-						return color.jzazbz.Jz
+						return color.jzazbz.jz
 					});
 				</script>
 			</td>

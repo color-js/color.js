@@ -29,8 +29,8 @@ function render() {
 	input_color.classList.toggle("oog", !str.color.inGamut());
 
 	document.body.style.setProperty("--color", str);
-	document.body.classList.toggle("light-color", color.oklch.lightness > L_CUTOFF);
-	document.body.classList.toggle("dark-color", color.oklch.lightness <= L_CUTOFF);
+	document.body.classList.toggle("light-color", color.oklch.l > L_CUTOFF);
+	document.body.classList.toggle("dark-color", color.oklch.l <= L_CUTOFF);
 
 	closest_colors.textContent = "";
 
@@ -50,7 +50,7 @@ function render() {
 		let deltaE = result.deltaE;
 
 		closest_colors.insertAdjacentHTML("beforeend", `
-		<article class="keyword-color ${keywordColor.oklch.lightness > L_CUTOFF? "light-color" : "dark-color"}" style="--color: ${keywordColor}">
+		<article class="keyword-color ${keywordColor.oklch.l > L_CUTOFF? "light-color" : "dark-color"}" style="--color: ${keywordColor}">
 			<code class="keyword">${keyword}</code>
 			<code class="delta-e">${deltaE.toFixed(2)}</code>
 		</article>

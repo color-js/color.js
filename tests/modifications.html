@@ -23,25 +23,25 @@
 <section>
 	<h1>sRGB to LCH</h1>
 	<table class="reftest" data-test="fuzzyNumbers">
-		<tr title="color.chroma = 13">
+		<tr title="color.c = 13">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.chroma = 13;
-						return color.chroma
+						color.c = 13;
+						return color.c
 					});
 				</script>
 			</td>
 			<td>13</td>
 		</tr>
-		<tr title="color.lch.chroma = 13">
+		<tr title="color.lch.c = 13">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.lch.chroma = 13;
-						return color.chroma
+						color.lch.c = 13;
+						return color.c
 					});
 				</script>
 			</td>
@@ -53,31 +53,31 @@
 					print(() => {
 						var color = new Color("slategray");
 						color.lch[1] = 13;
-						return color.chroma
+						return color.c
 					});
 				</script>
 			</td>
 			<td>13</td>
 		</tr>
-		<tr title="color.set('chroma', 13)">
+		<tr title="color.set('c', 13)">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.set('chroma', 13)
-						return color.chroma
+						color.set('c', 13)
+						return color.c
 					});
 				</script>
 			</td>
 			<td>13</td>
 		</tr>
-		<tr title="color.set({chroma: 13, lightness: 40})">
+		<tr title='color.set({"lch.c": 13, "lch.l": 40})'>
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.set({chroma: 13, lightness: 40})
-						return color.chroma + ' ' + color.lightness
+						color.set({"lch.c": 13, "lch.l": 40})
+						return color.c + ' ' + color.l
 					});
 				</script>
 			</td>
@@ -101,19 +101,19 @@
 					print(() => {
 						var color = new Color("slategray");
 						color.set('lch.1', 13);
-						return color.chroma;
+						return color.c;
 					});
 				</script>
 			</td>
 			<td>13</td>
 		</tr>
-		<tr title="color.set('lch.chroma', 13)">
+		<tr title="color.set('lch.c', 13)">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.set('lch.chroma', 13);
-						return color.chroma;
+						color.set('lch.c', 13);
+						return color.c;
 					});
 				</script>
 			</td>
@@ -124,33 +124,33 @@
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.chroma *= 1.2;
-						return color.chroma;
+						color.c *= 1.2;
+						return color.c;
 					});
 
 				</script>
 			</td>
 			<td>13.480970445148008</td>
 		</tr>
-		<tr title='color.set("chroma", c => c * 1.2)'>
+		<tr title='color.set("c", c => c * 1.2)'>
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.set("chroma", c => c * 1.2);
-						return color.chroma;
+						color.set("c", c => c * 1.2);
+						return color.c;
 					});
 
 				</script>
 			</td>
 			<td>13.480970445148008</td>
 		</tr>
-		<tr title="chroma *= 1.25 then print lch">
+		<tr title="c *= 1.25 then print lch">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.chroma *= 1.25;
+						color.c *= 1.25;
 						return color.lch;
 					});
 				</script>

@@ -23,7 +23,6 @@ Prism.hooks.add("before-sanity-check", env => {
 	}
 });
 
-
 Prism.hooks.add("complete", env => {
 	let pre = env.element.closest("pre");
 
@@ -413,6 +412,8 @@ export function serialize (ret, color, win = window) {
 		return;
 	}
 
+	let flag = false;
+
 	if (
 		ret instanceof win.Error // runtime error, thrown in the sandbox
 		|| ret instanceof Error  // syntax error, thrown here
@@ -443,6 +444,8 @@ export function serialize (ret, color, win = window) {
 			...template,
 			textContent: ret.toString({precision: 3, inGamut: false})
 		});
+
+		flag = true;
 	}
 	else if (typeof ret === "function" && ret.rangeArgs) {
 		// Range function?

@@ -51,7 +51,7 @@ sRGB_lime.toGamut();
 Perhaps most important is the `method` parameter, which controls the algorithm used for gamut mapping.
 You can pass `"clip"` to use simple clipping (not recommended), or any coordinate of any imported color space, which will make Color.js reduce that coordinate until the color is in gamut.
 
-The default method is `"lch.chroma"` which means LCH hue and lightness remain constant while chroma is reduced until the color fits in gamut.
+The default method is `"lch.c"` which means LCH hue and lightness remain constant while chroma is reduced until the color fits in gamut.
 Simply reducing chroma tends to produce good results for most colors, but most notably fails on yellows:
 
 ![chroma-reduction](../images/p3-yellow-lab.svg)
