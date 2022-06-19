@@ -73,17 +73,17 @@ includes: '<link rel="stylesheet" href="./assets/css/home.css">'
 		of any color space and convert back
 		<pre><code>
 			let color = new Color("slategray");
-			color.lightness = 80; // LCH coords available directly on colors
-			color.chroma *= 1.2; // saturate 20%
-			color.hwb.whiteness += 10; // any other color space also available
+			color.l = 80; // LCH coords available directly on colors
+			color.c *= 1.2; // saturate 20%
+			color.hwb.w += 10; // any other color space also available
 		</code></pre>
 
 		<p>Chaining-style modifications are also supported:</p>
 		<pre><code>
 			let color = new Color("lch(50% 50 10)");
 			color = color.set({
-				hue: h => h + 180,
-				chroma: 60
+				h: h => h + 180,
+				c: 60
 			}).lighten();
 		</code></pre>
 

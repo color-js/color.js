@@ -118,19 +118,11 @@ export default class Color {
 	}
 
 	lighten (amount = .25) {
-		let ret = new Color(this);
-		let lightness = ret.lightness;
-		ret.lightness = lightness * (1 + amount);
-
-		return ret;
+		return new Color(this).set("lch.l", l => l * (1 + amount));
 	}
 
 	darken (amount = .25) {
-		let ret = new Color(this);
-		let lightness = ret.lightness;
-		ret.lightness = lightness * (1 - amount);
-
-		return ret;
+		return new Color(this).set("lch.l", l => l * (1 - amount));
 	}
 
 	// Euclidean distance of colors in an arbitrary color space
@@ -466,6 +458,19 @@ export default class Color {
 		       && this.coords.every((c, i) => c === color.coords[i]);
 	}
 
+	get lightness() {
+		console.warn(`color.lightness is deprecated. Please use color.lch.l instead.`);
+		return this.get("lch.l");
+	}
+	get chroma() {
+		console.warn(`color.chroma is deprecated. Please use color.lch.c instead.`);
+		return this.get("lch.c");
+	}
+	get hue() {
+		console.warn(`color.hue is deprecated. Please use color.lch.h instead.`);
+		return this.get("lch.h");
+	}
+
 	// CSS color to Color object
 	static parse (str) {
 		let env = {str};
@@ -578,7 +583,7 @@ export default class Color {
 		return ColorSpace.get(space);
 	}
 
-	// Define a shortcut property, e.g. color.lightness instead of color.lch.lightness
+	// Define a shortcut property, e.g. color.l instead of color.lch.l
 	// Shorcut is looked up on Color.shortcuts at calling time
 	// If `long` is provided, it's added to Color.shortcuts as well, otherwise it's assumed to be already there
 	static defineShortcut(prop, obj = Color.prototype, long) {
@@ -633,14 +638,14 @@ Object.assign(Color, {
 	// They refer to LCH by default, but can be set to anything
 	// and you can add more by calling Color.defineShortcut()
 	shortcuts: {
-		"lightness": "lch.lightness",
-		"chroma": "lch.chroma",
-		"hue": "lch.hue",
+		"l": "lch.l",
+		"c": "lch.c",
+		"h": "lch.h",
 	},
 
 	// Global defaults one may want to configure
 	defaults: {
-		gamutMapping: "lch.chroma",
+		gamutMapping: "lch.c",
 		precision: 5,
 		deltaE: "76", // Default deltaE method
 		fallbackSpaces: ["p3", "srgb"]

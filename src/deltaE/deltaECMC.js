@@ -21,10 +21,10 @@ Color.prototype.deltaECMC = function (sample, {l = 2, c = 1} = {}) {
 	//  which is typical for non-textile uses.
 
 	let [L1, a1, b1] = color.lab;
-	let C1 = color.chroma;
+	let C1 = color.get("lch.c");
 	let H1 = color.hue;
 	let [L2, a2, b2] = sample.lab;
-	let C2 = sample.chroma;
+	let C2 = sample.get("lch.c");
 
 	// Check for negative Chroma,
 	// which might happen through

@@ -249,7 +249,7 @@
 							"name": "options.method",
 							"optional": true,
 							"type": "string",
-							"description": "How to force into gamut. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"lch.chroma\"`."
+							"description": "How to force into gamut. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"lch.c\"`."
 						},
 						{
 							"name": "options.space",
