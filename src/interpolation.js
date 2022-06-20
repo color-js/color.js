@@ -1,5 +1,5 @@
 import Color from "./color.js";
-import {type} from "./util.js";
+import {type, interpolate} from "./util.js";
 import * as angles from "./angles.js";
 
 let methods = {
@@ -181,19 +181,6 @@ Color.range = function(color1, color2, options = {}) {
 export function isRange (val) {
 	return type(val) === "function" && val.rangeArgs;
 };
-
-// Helper
-function interpolate(start, end, p) {
-	if (isNaN(start)) {
-		return end;
-	}
-
-	if (isNaN(end)) {
-		return start;
-	}
-
-	return start + (end - start) * p;
-}
 
 Object.assign(Color.defaults, {
 	interpolationSpace: "lab"

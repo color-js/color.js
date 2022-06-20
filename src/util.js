@@ -122,17 +122,20 @@ export function parseFunction (str) {
 		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg)?)/g, ($0, arg) => {
 			if (/%$/.test(arg)) {
 				// Convert percentages to 0-1 numbers
-				arg = new Number(+arg.slice(0, -1) / 100);
-				arg.percentage = true;
+				arg = new Number(arg.slice(0, -1) / 100);
+				arg.type = "<percentage>";
 			}
 			else if (/deg$/.test(arg)) {
 				// Drop deg from degrees and convert to number
+				// TODO handle other units too
 				arg = new Number(+arg.slice(0, -3));
-				arg.deg = true;
+				arg.type = "<angle>";
+				arg.unit = "deg";
 			}
 			else if (isNumberRegex.test(arg)) {
 				// Convert numerical args to numbers
-				arg = +arg;
+				arg = new Number(arg);
+				arg.type = "<number>";
 			}
 
 			if ($0.startsWith("/")) {
@@ -157,6 +160,43 @@ export function parseFunction (str) {
 
 export function last(arr) {
 	return arr[arr.length - 1];
+}
+
+export function interpolate (start, end, p) {
+	if (isNaN(start)) {
+		return end;
+	}
+
+	if (isNaN(end)) {
+		return start;
+	}
+
+	return start + (end - start) * p;
+}
+
+export function interpolateInv (start, end, value) {
+	return (value - start) / (end - start);
+}
+
+export function mapRange(from, to, value) {
+	return interpolate(to[0], to[1], interpolateInv(from[0], from[1], value));
+}
+
+export function parseCoordGrammar (coordGrammars) {
+	return coordGrammars.map(coordGrammar => {
+		return coordGrammar.split("|").map(type => {
+			type = type.trim();
+			let range = type.match(/^(<[a-z]+>)\[(-?[.\d]+),\s*(-?[.\d]+)\]?$/);
+
+			if (range) {
+				let ret = new String(range[1]);
+				ret.range = [+range[2], +range[3]];
+				return ret;
+			}
+
+			return type;
+		});
+	});
 }
 
 export {multiplyMatrices};

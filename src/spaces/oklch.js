@@ -63,7 +63,7 @@ export default ColorSpace.create({
 	formats: {
 		functions: {
 			"oklch": {
-				coordsOut: coords => coords.map((c, i) => i === 0? c * 100 + "%" : c)
+				coords: ["<percentage>", "<number>", "<number> | <angle>"],
 			}
 		}
 	}
