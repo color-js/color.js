@@ -59,6 +59,13 @@ export default class ColorSpace {
 	}
 
 	inGamut (coords, {epsilon = ε} = {}) {
+		if (this.isPolar) {
+			// Do not check gamut through polar coordinates
+			coords = this.toBase(coords);
+
+			return this.base.inGamut(coords, {epsilon});
+		}
+
 		let coordMeta = Object.values(this.coords);
 
 		return coords.every((c, i) => {
@@ -81,6 +88,16 @@ export default class ColorSpace {
 
 	get cssId () {
 		return this.formats.functions?.color?.id || this.id;
+	}
+
+	get isPolar() {
+		for (let id in this.coords) {
+			if (this.coords[id].type === "angle") {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	getFormat (format) {
