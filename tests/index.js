@@ -13,7 +13,15 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 		}
 
 		let cell = env.cells[i];
-		let color = new Color(cell.textContent);
+		let color;
+
+		try {
+			color = new Color(cell.textContent);
+		}
+		catch (e) {
+			return;
+		}
+
 		cell.style.setProperty("--color", color.toString({fallback: true}));
 		cell.classList.add(color.luminance > .5 || color.alpha < .5? "light" : "dark");
 	}
