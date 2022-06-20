@@ -92,15 +92,17 @@ if (location.pathname.indexOf("/spaces") > -1) {
 				continue;
 			}
 
-			space.coord = Object.entries(spaceMeta.coords).map(entry => {
+			space.coord = Object.entries(spaceMeta.coords).map(([id, meta]) => {
+				let range = meta.range || meta.refRange;
 				return {
-					name: entry[0],
-					min: entry[1][0],
-					max: entry[1][1]
+					id,
+					name: meta.name,
+					min: range?.[0],
+					max: range?.[1]
 				};
 			});
 
-			space.whitePoint = spaceMeta.white === Color.WHITES.D50? "D50" : "D65";
+			space.whitePoint = Object.entries(Color.WHITES).find(([name, white]) => white === spaceMeta.white)?.[0];
 			space.cssId = spaceMeta.cssId || spaceMeta.id;
 		}
 	});

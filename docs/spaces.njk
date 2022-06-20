@@ -25,18 +25,20 @@ body_classes: cn-ignore
 				<table>
 					<thead>
 						<tr>
+							<th>Id</th>
 							<th>Name</th>
 							<th>Ref. range</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr mv-multiple property="coord">
+							<th property="id"></th>
 							<th property="name"></th>
 							<td>
 								<span property="min"></span>
 								&ndash;
 								<span property="max"></span>
-								<meta property="codeExample" content="color.[space.id].[name] = [random(min, max)];">
+								<meta property="codeExample" content="color.[space.id].[id] = [random(min, max)];">
 								<meta property="randomCoord" content="[random(min, max)]">
 							</td>
 
