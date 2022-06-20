@@ -12,12 +12,14 @@
 <script type="module">
 	import Color from "./src/main.js";
 	import ColorSpace from "./src/space.js";
+	import * as util from "./src/util.js";
 
 	window.ColorSpace = ColorSpace;
+	window.Color = Color;
+	window.util = util;
 
-	let lime = new Color("oklab(86.6% -0.23 0.179)");
-	console.log(lime);
-	console.log(lime.toString())
+	let color = new Color("rgb(0 127.5 300 / .5)");
+	console.log(color.coords, color + "");
 </script>
 </body>
 </html>

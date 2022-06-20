@@ -53,12 +53,7 @@ export default ColorSpace.create({
 	formats: {
 		functions: {
 			"hwb": {
-				coordsIn: hwb => {
-					// white and black percentages are converted to [0, 1] by parseFunction
-					hwb[1] *= 100;
-					hwb[2] *= 100;
-				},
-				coordsOut: coords => coords.map((c, i) => i > 0? c + "%" : c)
+				coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 			}
 		}
 	}

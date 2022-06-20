@@ -391,12 +391,38 @@ export default class Color {
 
 			// Convert NaN to zeros to have a chance at a valid CSS color
 			// Also convert -0 to 0
+			// This also clones it so we can manipulate it
 			coords = coords.map(c => c? c : 0);
 
 			name ||= format.name || "color";
 
-			if (format.coordsOut) {
-				coords = format.coordsOut(coords);
+			if (format.coordGrammar) {
+				Object.entries(this.space.coords).forEach(([id, coordMeta], i) => {
+					// Preferred format for each coord is the first one
+					let outputType = format.coordGrammar[i][0];
+
+					let fromRange = coordMeta.range || coordMeta.refRange;
+					let toRange = outputType.range, suffix = "";
+
+					// Non-strict equals intentional since outputType could be a string object
+					if (outputType == "<percentage>") {
+						toRange = [0, 100];
+						suffix = "%";
+					}
+					else if (outputType == "<angle>") {
+						suffix = "deg";
+					}
+
+					if (fromRange && toRange) {
+						coords[i] = util.mapRange(fromRange, toRange, coords[i]);
+					}
+
+					coords[i] = util.toPrecision(coords[i], precision);
+
+					if (suffix) {
+						coords[i] += suffix;
+					}
+				});
 			}
 
 			let args = [...coords];
@@ -520,8 +546,36 @@ export default class Color {
 
 						let coords = env.parsed.args;
 
-						if (format.coordsIn) {
-							coords = format.coordsIn(coords);
+						if (format.coordGrammar) {
+							Object.entries(space.coords).forEach(([id, coordMeta], i) => {
+								let coordGrammar = format.coordGrammar[i];
+								let providedType = coords[i]?.type;
+
+								// Find grammar alternative that matches the provided type
+								// Non-strict equals is intentional because we are comparing w/ string objects
+								coordGrammar = coordGrammar.find(c => c == providedType);
+
+								// Check that each coord conforms to its grammar
+								if (!coordGrammar) {
+									// Type does not exist in the grammar, throw
+									console.log(coordMeta)
+									let coordName = coordMeta.name || id;
+									throw new TypeError(`${providedType} not allowed for ${coordName} in ${name}()`);
+								}
+
+								let fromRange = coordGrammar.range;
+
+								if (providedType === "<percentage>") {
+									fromRange ||= [0, 1];
+								}
+
+								let toRange = coordMeta.range || coordMeta.refRange;
+
+								if (fromRange && toRange) {
+
+									coords[i] = util.mapRange(fromRange, toRange, coords[i]);
+								}
+							});
 						}
 
 						return {

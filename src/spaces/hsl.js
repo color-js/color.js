@@ -69,26 +69,13 @@ export default ColorSpace.create({
 	formats: {
 		functions: {
 			"hsl": {
-				coordsIn,
-				coordsOut
+				coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 			},
 			"hsla": {
+				coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 				commas: true,
 				lastAlpha: true,
-				coordsIn,
-				coordsOut
 			}
 		}
 	},
 });
-
-function coordsIn (hsl) {
-	// percentages are converted to [0, 1] by parseFunction
-	hsl[1] *= 100;
-	hsl[2] *= 100;
-	return hsl;
-}
-
-function coordsOut (coords) {
-	return coords.map((c, i) => i > 0? c + "%" : c)
-}

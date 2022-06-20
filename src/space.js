@@ -1,4 +1,4 @@
-import {type} from "./util.js";
+import {type, parseCoordGrammar} from "./util.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
 
@@ -30,10 +30,15 @@ export default class ColorSpace {
 		this.formats = options.formats ?? {};
 		for (let type in this.formats) {
 			for (let name in this.formats[type]) {
-				this.formats[type][name].type ??= type;
+				let format = this.formats[type][name];
+				format.type ??= type;
 
 				if (type === "functions") {
-					this.formats[type][name].name ??= name;
+					format.name ??= name;
+				}
+
+				if (format.coords) {
+					format.coordGrammar = parseCoordGrammar(format.coords);
 				}
 			}
 		}

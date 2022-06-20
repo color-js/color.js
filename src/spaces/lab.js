@@ -68,19 +68,7 @@ export default ColorSpace.create({
 	formats: {
 		functions: {
 			"lab": {
-				coordsIn: coords => {
-					let L = coords[0];
-
-					// Percentages in lab() don't translate to a 0-1 range, but a 0-100 range
-					if (L.percentage) {
-						coords[0] = L * 100;
-					}
-
-					return coords;
-				},
-				coordsOut: coords => {
-					return coords.map((c, i) => i === 0? c + "%" : c);
-				},
+				coords: ["<percentage> | <number>", "<number>", "<number>"],
 			}
 		}
 	}

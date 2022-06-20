@@ -51,6 +51,10 @@
 			<td>rgba(0% 50% 200% / 0.5)</td>
 			<td>{"spaceId":"srgb","coords":[0,0.5,2],"alpha":0.5}</td>
 		</tr>
+		<tr title="rgb(r g b / a)">
+			<td>rgb(0 127.5 300 / .5)</td>
+			<td>{"spaceId":"srgb","coords":[0,0.5,1.1764705882352942],"alpha":0.5}</td>
+		</tr>
 		<tr title="rgba(n, n, n, a)">
 			<td>rgba(0, 127.5, 300, 0.5)</td>
 			<td>{"spaceId":"srgb","coords":[0,0.5,1.1764705882352942],"alpha":0.5}</td>
@@ -146,6 +150,17 @@
 		<tr title="hsla(), degrees for hue, spaces and slash">
 			<td>hsl(0deg 0% 0% / .5)</td>
 			<td>{"spaceId":"hsl","coords":[0,0,0],"alpha":0.5}</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>hwb()</h1>
+
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
+		<tr>
+			<td>hwb(180 20% 30%)</td>
+			<td>{"spaceId":"hwb","coords":[180,20,30],"alpha":1}</td>
 		</tr>
 	</table>
 </section>

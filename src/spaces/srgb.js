@@ -2,6 +2,8 @@ import RGBColorSpace from "../rgbspace.js";
 import sRGBLinear from "./srgb-linear.js";
 import KEYWORDS from "../keywords.js";
 
+let coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
+
 export default RGBColorSpace.create({
 	id: "srgb",
 	name: "sRGB",
@@ -39,15 +41,13 @@ export default RGBColorSpace.create({
 	formats: {
 		functions: {
 			"rgb": {
-				coordsIn,
-				coordsOut
+				coords: coordGrammar,
 			},
 			"color": { /* use defaults */ },
 			"rgba": {
+				coords: coordGrammar,
 				commas: true,
 				lastAlpha: true,
-				coordsIn,
-				coordsOut
 			}
 		},
 		custom: {
@@ -116,11 +116,3 @@ export default RGBColorSpace.create({
 		},
 	}
 });
-
-function coordsIn (coords) {
-	return coords.map(arg => arg.percentage? +arg : arg / 255);
-}
-
-function coordsOut (coords) {
-	return coords.map(c => c * 100 + "%");
-}

@@ -68,6 +68,7 @@ export default ColorSpace.create({
 	formats: {
 		functions: {
 			"oklab": {
+				coords: ["<percentage>", "<number>", "<number>"],
 				coordsOut: coords => coords.map((c, i) => i === 0? c * 100 + "%" : c)
 			}
 		}
