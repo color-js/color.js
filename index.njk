@@ -93,6 +93,12 @@ includes: '<link rel="stylesheet" href="./assets/css/home.css">'
 	<section>
 		<h2>Converting between color spaces & stringifying</h2>
 
+		<p>Convert to any color space:</p>
+		<pre><code>
+			let color = new Color("slategray");
+			color.to("lch") // Convert to LCH
+		</code></pre>
+
 		<p>Output in any color space</p>
 		<pre><code>
 			let color = new Color("slategray");
@@ -103,17 +109,8 @@ includes: '<link rel="stylesheet" href="./assets/css/home.css">'
 		<p>Clip to gamut or don't</p>
 		<pre><code>
 			let color = new Color("p3", [0, 1, 0]);
-			color.to("srgb").toString({inGamut: false})
-		</code></pre>
-
-		<p>Change color space:</p>
-		<pre><code>
-			let color = new Color("slategray");
-			color.space = "srgb"; // Convert to sRGB
-			color.spaceId = "srgb"; // Same
-			color.space = "sRGB"; // Capitalization doesn't matter
-			color.space = Color.spaces.srgb; // Same
-			color.spaceId = Color.spaces.srgb; // Same
+			color.to("srgb") + ""; // Default toString()
+			color.to("srgb").toString({inGamut: false});
 		</code></pre>
 	</section>
 

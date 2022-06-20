@@ -11,15 +11,18 @@
 <body>
 <script type="module">
 	import Color from "./src/main.js";
-	import ColorSpace from "./src/space.js";
-	import * as util from "./src/util.js";
+	import Color2 from "https://colorjs.io/src/main.js";
+	// import ColorSpace from "./src/space.js";
+	// import * as util from "./src/util.js";
 
-	window.ColorSpace = ColorSpace;
+	// window.ColorSpace = ColorSpace;
 	window.Color = Color;
-	window.util = util;
+	// window.util = util;
 
-	let color = new Color("rgb(0 127.5 300 / .5)");
-	console.log(color.coords, color + "");
+	let color = new Color("deeppink");
+	console.log(color.coords);
+	color.srgb.green = .5;
+	console.log(color.coords);
 </script>
 </body>
 </html>

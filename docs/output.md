@@ -71,7 +71,7 @@ if (!CSS.supports("color", cssColor))
 	cssColor = green.to("srgb").toString();
 cssColor;
 ```
-As of June 2020, `cssColor` will be sRGB in Chrome and Firefox, and P3 in Safari, providing access to 50% more colors than sRGB!
+As of June 2022, `cssColor` will be sRGB in Chrome and Firefox, and P3 in Safari, providing access to 50% more colors than sRGB!
 
 So, this works, but the process is a little tedious. Thankfully, Color.js has got your back!
 Simply use the `fallback` parameter.
