@@ -55,14 +55,9 @@ export default class Color {
 			}
 		}
 
-		if (space) {
-			this.space = space;
-		}
-		else if (spaceId) {
-			this.space = ColorSpace.get(spaceId);
-		}
-
+		this.space = ColorSpace.get(space || spaceId);
 		this.space = this.space ?? ColorSpace.get("srgb");
+
 		this.coords = coords? coords.slice() : [0, 0, 0];
 		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
 
