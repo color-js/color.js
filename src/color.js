@@ -93,6 +93,11 @@ export default class Color {
 		return util.value(this, prop);
 	}
 
+	getAll (space) {
+		space = ColorSpace.get(space);
+		return this.space.to(space, this.coords);
+	}
+
 	// Set properties and return current instance
 	set (prop, value) {
 		if (arguments.length === 1 && util.type(arguments[0]) === "object") {
@@ -114,6 +119,12 @@ export default class Color {
 
 		}
 
+		return this;
+	}
+
+	setAll (space, coords) {
+		space = ColorSpace.get(space);
+		this.coords = space.to(this.space, coords);
 		return this;
 	}
 
