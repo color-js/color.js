@@ -91,7 +91,9 @@ export default class Color {
 	}
 
 	get (prop) {
-		return util.value(this, prop);
+		let {space, index} = ColorSpace.resolveCoord(prop, this.space);
+		let coords = this.getAll(space);
+		return coords[index];
 	}
 
 	getAll (space) {
@@ -110,14 +112,13 @@ export default class Color {
 		}
 		else {
 			if (typeof value === "function") {
-				let current = util.value(this, prop);
-
-				util.value(this, prop, value.call(this, current));
-			}
-			else {
-				util.value(this, prop, value);
+				value = value(this.get(prop));
 			}
 
+			let {space, index} = ColorSpace.resolveCoord(prop, this.space);
+			let coords = this.getAll(space);
+			coords[index] = value;
+			this.setAll(space, coords);
 		}
 
 		return this;
@@ -253,29 +254,31 @@ export default class Color {
 		// mapSpace: space with the coord we're reducing
 		let color = this.to(space);
 
-		if (method.indexOf(".") > 0 && !this.inGamut(space)) {
+		if (method !== "clip" && !this.inGamut(space)) {
 			let clipped = color.toGamut({method: "clip", space});
 			if (this.deltaE(clipped, {method: "2000"}) > 2) {
 				// Reduce a coordinate of a certain color space until the color is in gamut
-				let [mapSpace, coordName] = parseCoord(method);
+				let coordMeta = ColorSpace.resolveCoord(method);
+				let mapSpace = coordMeta.space;
+				let coordId = coordMeta.id;
 
 				let mappedColor = color.to(mapSpace);
-				let bounds = mapSpace.coords[coordName].range || mapSpace.coords[coordName].refRange;
+				let bounds = coordMeta.range || coordMeta.refRange;
 				let min = bounds[0];
 				let ε = .01; // for deltaE
 				let low = min;
-				let high = mappedColor[coordName];
+				let high = mappedColor[coordId];
 				while (high - low > ε) {
 					let clipped = mappedColor.toGamut({space, method: "clip"});
 					let deltaE = mappedColor.deltaE(clipped, {method: "2000"});
 					if (deltaE - 2 < ε) {
-						low = mappedColor[coordName];
+						low = mappedColor[coordId];
 					}
 					else {
-						high = mappedColor[coordName];
+						high = mappedColor[coordId];
 					}
 
-					mappedColor[coordName] = (high + low) / 2;
+					mappedColor[coordId] = (high + low) / 2;
 				}
 
 				color = mappedColor.to(space);
@@ -718,20 +721,5 @@ for (let prop in Color.shortcuts) {
 
 // Make static methods for all instance methods
 Color.statify();
-
-// Private helpers
-function parseCoord(coord) {
-	if (coord.indexOf(".") > 0) {
-		// Reduce a coordinate of a certain color space until the color is in gamut
-		let [spaceId, coordName] = coord.split(".");
-		let space = ColorSpace.get(spaceId);
-
-		if (!(coordName in space.coords)) {
-			throw new ReferenceError(`Color space "${space.name}" has no "${coordName}" coordinate.`);
-		}
-
-		return [space, coordName];
-	}
-}
 
 // Color.DEBUGGING = true;

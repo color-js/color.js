@@ -225,6 +225,54 @@ export default class ColorSpace {
 		throw new TypeError(`${space} is not a valid color space`);
 	}
 
+	static resolveCoord (ref, workingSpace) {
+		let coordType = type(ref);
+		let space, coord;
+
+		if (coordType === "string") {
+			if (ref.includes(".")) {
+				// Absolute coordinate
+				[space, coord] = ref.split(".");
+			}
+			else {
+				// Relative coordinate
+				[space, coord] = [, ref];
+			}
+		}
+		else if (Array.isArray(ref)) {
+			[space, coord] = ref;
+		}
+		else {
+			// Object
+			space = ref.space;
+			coord = ref.coordId;
+		}
+
+		if (!space) {
+			space = workingSpace;
+		}
+
+		if (!space) {
+			throw new TypeError(`Cannot resolve coordinate reference ${ref}: No color space specified and relative references are not allowed here`);
+		}
+
+		space = ColorSpace.get(space);
+		let normalizedCoord = coord.toLowerCase();
+
+		let i = 0;
+		for (let id in space.coords) {
+			let meta = space.coords[id];
+
+			if (id.toLowerCase() === normalizedCoord || meta.name?.toLowerCase() === normalizedCoord) {
+				return {space, id, index: i, ...meta};
+			}
+
+			i++;
+		}
+
+		throw new TypeError(`No "${coord}" coordinate found in ${space.name}. Its coordinates are: ${Object.keys(space.coords).join(", ")}`);
+	}
+
 	static DEFAULT_FORMAT = {
 		type: "functions",
 		name: "color",
