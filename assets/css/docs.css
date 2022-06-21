@@ -31,10 +31,7 @@ main {
 	}
 
 @media (max-width: 1480px), (max-height: 30rem) {
-
-#toc {
 		/* Hide all but next, current, prev */
-}
 			#toc > ul > li:not(.next):not(.current):not(.previous) {
 				display: none;
 			}

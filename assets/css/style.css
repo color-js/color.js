@@ -124,16 +124,16 @@ table thead th {
 		}
 
 table tbody th,
-		table tbody td,
 		table tfoot th,
+		table tbody td,
 		table tfoot td {
 			background: hsla(0 0% 100% / .95);
 			border: 1px solid transparent;
 		}
 
 table tbody tr:nth-of-type(even) td,
-			table tbody tr:nth-of-type(even) th,
 			table tfoot tr:nth-of-type(even) td,
+			table tbody tr:nth-of-type(even) th,
 			table tfoot tr:nth-of-type(even) th {
 				background: hsla(0 0% 100% / .8);
 			}
@@ -356,7 +356,8 @@ pre[class*="language-"] {
 @supports (-webkit-background-clip: text) and (not (-moz-margin-start: 0)) {
 	body > header nav a,
 	body > footer nav a,
-	main h2 {
+	main h2,
+	main h2 > a {
 		background: var(--rainbow);
 		animation: var(--rainbow-scroll);
 		-webkit-background-clip: text;
