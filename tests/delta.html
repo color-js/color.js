@@ -31,14 +31,14 @@ function deltaTest(...args) {
 </script>
 
 </head>
-<body>
+<body data-epsilon=".0001">
 
 <h1>DeltaE Tests</h1>
 <p>These tests test the various Delta E algorithms.</p>
 
 <section>
 	<h1>DeltaE 76</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -133,7 +133,7 @@ function deltaTest(...args) {
 <section>
 	<h1>DeltaE CMC(2:1)</h1>
 	<p>Brilliant Yellow test data by BYK-Gardner GmbH.</p>
-	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -242,7 +242,7 @@ function deltaTest(...args) {
 		vol. <strong>30</strong>. No. 1, pp. 21-30, February 2005.
 		<a href="http://www2.ece.rochester.edu/~gsharma/ciede2000/">http://www2.ece.rochester.edu/~gsharma/ciede2000/</a></p>
 
-	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -589,7 +589,7 @@ function deltaTest(...args) {
 		to help comparison with DeltaE2000 test results.
 	</p>
 
-	<table class="reftest" data-test="fuzzyNumbers4" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -927,7 +927,7 @@ function deltaTest(...args) {
 
 <section>
 	<h1>DeltaE Jz</h1>
-	<table class="reftest" data-test="fuzzyNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -1022,7 +1022,7 @@ function deltaTest(...args) {
 <section>
 	<h1>DeltaE OK</h1>
 	<p>These values average 200x smaller than the corresponding deltaE 2000 values.</p>
-	<table class="reftest" data-test="fuzzyNumbers5" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>

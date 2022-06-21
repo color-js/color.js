@@ -24,14 +24,14 @@ function gamutTest(toSpace, args) {
 </script>
 
 </head>
-<body>
+<body data-epsilon=".01">
 
 <h1>Gamut mapping Tests</h1>
 <p>These tests check how coords are shrunk to smaller gamuts.</p>
 
 <section>
 	<h1>P3 primaries to sRGB</h1>
-	<table class="reftest" data-test="fuzzyNumbers1" data-columns="3" data-colors="1,2,3">
+	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1,2,3">
 		<tr title="Using chroma reduction">
 			<td>color(display-p3 1 0 0)</td>
 			<td>
@@ -44,7 +44,7 @@ function gamutTest(toSpace, args) {
 		<tr title="Using HSL saturation reduction">
 			<td>color(display-p3 1 0 0)</td>
 			<td>
-				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+				<script>gamutTest("srgb", {method: "hsl.s"});</script>
 			</td>
 			<td>
 				rgb(100% 0% 0%)
@@ -72,7 +72,7 @@ function gamutTest(toSpace, args) {
 		<tr title="Using HSL saturation reduction">
 			<td>color(display-p3 0 1 0)</td>
 			<td>
-				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+				<script>gamutTest("srgb", {method: "hsl.s"});</script>
 			</td>
 			<td>
 				rgb(0% 100% 0%)
@@ -100,7 +100,7 @@ function gamutTest(toSpace, args) {
 		<tr title="Using HSL saturation reduction">
 			<td>color(display-p3 0 0 1)</td>
 			<td>
-				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+				<script>gamutTest("srgb", {method: "hsl.s"});</script>
 			</td>
 			<td>
 				rgb(0% 0% 100%)
@@ -118,7 +118,7 @@ function gamutTest(toSpace, args) {
 		<tr title="Using HSL saturation reduction">
 			<td>color(display-p3 1 1 0)</td>
 			<td>
-				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+				<script>gamutTest("srgb", {method: "hsl.s"});</script>
 			</td>
 			<td>
 				rgb(100% 100% 0%)
@@ -136,7 +136,7 @@ function gamutTest(toSpace, args) {
 		<tr title="Using HSL saturation reduction">
 			<td>color(display-p3 0 1 1)</td>
 			<td>
-				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+				<script>gamutTest("srgb", {method: "hsl.s"});</script>
 			</td>
 			<td>
 				rgb(0% 100% 100%)
@@ -154,7 +154,7 @@ function gamutTest(toSpace, args) {
 		<tr title="Using HSL saturation reduction">
 			<td>color(display-p3 1 0 1)</td>
 			<td>
-				<script>gamutTest("srgb", {method: "hsl.saturation"});</script>
+				<script>gamutTest("srgb", {method: "hsl.s"});</script>
 			</td>
 			<td>
 				rgb(100% 0% 100%)

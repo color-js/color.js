@@ -16,7 +16,7 @@
 </script>
 
 </head>
-<body>
+<body data-epsilon=".0005">
 
 <h1>Chromatic adaptation tests</h1>
 <p>These tests adapt from one whitepoint to another.</p>
@@ -25,7 +25,7 @@
 	<h1>Bradford D50 ⇔ D65</h1>
 	<p>These test the linear Bradford adaptations from CATs.js against the built-in
 		conversion matricies to interconvert between D50 and D65.</p>
-	<table class="reftest" data-test="fuzzyNumbers">
+	<table class="reftest" data-test="compareNumbers">
 		<tr title="D50 to D65">
 			<td>
 				<script>
@@ -75,7 +75,7 @@
 	<h1>Bradford Other whitepoints</h1>
 	<p>These test the linear Bradford adaptations from CATs.js against
 		the matrices <a href="http://www.brucelindbloom.com/index.html?Eqn_ChromAdapt.html">published by Lindbloom</a>.</p>
-	<table class="reftest" data-test="fuzzyNumbers">
+	<table class="reftest" data-test="compareNumbers">
 		<tr title="C to D50">
 			<td>
 				<script>
@@ -146,7 +146,7 @@
 	<h1>von Kries Other whitepoints</h1>
 	<p>These test the von Kries adaptations from CATs.js against
 		the matrices <a href="http://www.brucelindbloom.com/index.html?Eqn_ChromAdapt.html">published by Lindbloom</a>.</p>
-	<table class="reftest" data-test="fuzzyNumbers">
+	<table class="reftest" data-test="compareNumbers">
 		<tr title="C to D50">
 			<td>
 				<script>
@@ -216,7 +216,7 @@
 <section>
 	<h1>CAT02 and CAT16, D50 ⇔ D65</h1>
 	<p>These test the fully adapted CAT02 and CAT16 adaptations from CATs.js, interconverting between D50 and D65.</p>
-	<table class="reftest" data-test="fuzzyNumbers">
+	<table class="reftest" data-test="compareNumbers">
 		<tr title="CAT02 D50 to D65">
 			<td>
 				<script>
@@ -328,7 +328,7 @@
 <section>
 	<h1>CAT16, C to D50</h1>
 	<p>This tests the fully adapted CAT16 adaptation from CATs.js, Illuminant C to D50.</p>
-	<table class="reftest" data-test="fuzzyNumbers">
+	<table class="reftest" data-test="compareNumbers">
 		<tr title="CAT02 D50 to D65">
 			<td>
 				<script>
