@@ -1,4 +1,3 @@
-import Color from "./color.js";
 import multiplyMatrices from "./multiply-matrices.js";
 
 /**
