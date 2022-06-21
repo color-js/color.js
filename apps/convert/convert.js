@@ -56,12 +56,16 @@ function update() {
 			}
 
 			let precision = precisionInput.value;
+			let str = converted.toString({precision});
+			let permalink = `?color=${encodeURIComponent(str)}&precision=${encodeURIComponent(precision)}`;
 
 			ret += `<tr>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
-				<td>${converted.toString({precision})}</td>
-				<td>${Color.prototype.toString.call(converted, {precision})}</td>
+				<td title="Alt + click or double click to go to this color">
+					<a href="${permalink}">${str}</a>
+					<button class="copy" data-clipboard-text="${str}" title="Copy">📋</button>
+				</td>
 			</tr>`;
 		}
 
@@ -84,10 +88,21 @@ updateFromURL();
 
 addEventListener("popstate", updateFromURL);
 
-document.body.addEventListener("click", evt => {
-	if (evt.target.matches("td:nth-child(3), td:nth-child(4)")) {
-		// Color cell
-		colorInput.value = evt.target.textContent;
-		update();
+function wait (ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+document.body.addEventListener("click", async evt => {
+	let copyButton = evt.target.closest(".copy");
+	if (copyButton) {
+		try {
+			await navigator.clipboard.writeText(copyButton.dataset.clipboardText);
+			copyButton.textContent = "✅";
+			await wait(1000);
+			copyButton.textContent = "📋";
+		}
+		catch(e) {
+			alert("Failed to copy to clipboard");
+		}
 	}
 })

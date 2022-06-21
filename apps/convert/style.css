@@ -1,7 +1,7 @@
 body {
 	font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
 	width: 90vw;
-	max-width: fit-content;
+	max-width: 80em;
 	margin: 1em auto;
 	padding: 0 2em;
 }
@@ -14,6 +14,10 @@ input {
 	box-sizing: border-box;
 }
 
+#precisionInput {
+	width: 3em;
+}
+
 .inputs {
 	display: grid;
 	grid-template-columns: 1fr auto;
@@ -21,13 +25,30 @@ input {
 	margin: 3em 0;
 }
 
+	.inputs input {
+		display: block;
+	}
+
+table {
+	width: 100%;
+}
+
 td {
 	padding: .3em .5em;
 	font-family: Consolas, Monaco, monospace;
 }
 
-td:nth-child(3):hover,
-td:nth-child(4):hover {
+td:nth-child(3) {
+	display: flex;
+}
+
+td:nth-child(3) a {
+	font: inherit;
+	color: inherit;
+	text-decoration: none;
+}
+
+td:nth-child(3) a:hover {
 	cursor: pointer;
 	text-decoration: underline;
 }
@@ -43,4 +64,17 @@ tr:nth-child(even) {
 	height: 2em;
 	--red-stripe-stops: transparent calc(50% - .05em), red 0 calc(50% + .05em), transparent 0;
 	--error-background: linear-gradient(to bottom right, var(--red-stripe-stops)), linear-gradient(to top right, var(--red-stripe-stops)) gray;
+}
+
+button.copy {
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	background: transparent;
+	cursor: pointer;
+	margin-left: auto;
+}
+
+button.copy:not(:hover) {
+	filter: grayscale() opacity(.6);
 }
