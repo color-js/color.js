@@ -66,4 +66,9 @@ export default RGBColorSpace.create({
 	},
 	// encoded media white (rgb 1,1,1) => linear  [ 222.861, 222.861, 222.861 ]
 	// encoded media black (rgb 0,0,0) => linear [ 0.0011857, 0.0011857, 0.0011857]
+	formats: {
+		functions: {
+			color: {}
+		}
+	},
 });

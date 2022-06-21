@@ -102,36 +102,69 @@
 
 	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
 		<tr>
-			<td>color(display-p3 0 .5 1)</td>
-			<td>{"spaceId":"p3","coords":[0,0.5,1],"alpha":1}</td>
+			<td>color(srgb 0 1 .5)</td>
+			<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
-			<td>color(a98-rgb 0 .5 1)</td>
-			<td>{"spaceId":"a98rgb","coords":[0,0.5,1],"alpha":1}</td>
+			<td>color(srgb-linear 0 1 .5)</td>
+			<td>{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
-		<tr title="P3 lime with transparency">
+		<tr>
+			<td>color(display-p3 0 1 .5)</td>
+			<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 0 1 .5)</td>
+			<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(a98-rgb 0 1 .5)</td>
+			<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(prophoto-rgb 0 1 .5)</td>
+			<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(acescc 0 1 .5)</td>
+			<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(xyz 0 1 .5)</td>
+			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(xyz-d65 0 1 .5)</td>
+			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(xyz-d50 0 1 .5)</td>
+			<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr title="With transparency">
 			<td>color(display-p3 0 1 0 / .5)</td>
 			<td>{"spaceId":"p3","coords":[0,1,0],"alpha":0.5}</td>
 		</tr>
-		<tr title="P3 no arguments">
+		<tr title="No arguments">
 			<td>color(display-p3)</td>
 			<td>{"spaceId":"p3","coords":[0,0,0],"alpha":1}</td>
 		</tr>
 		</tr>
-		<tr title="P3 no arguments with transparency">
+		<tr title="No arguments / alpha">
 			<td>color(display-p3 / .5)</td>
 			<td>{"spaceId":"p3","coords":[0,0,0],"alpha":0.5}</td>
 		</tr>
 		</tr>
-		<tr title="P3 fewer arguments">
+		<tr title="Fewer arguments">
 			<td>color(display-p3 1)</td>
 			<td>{"spaceId":"p3","coords":[1,0,0],"alpha":1}</td>
 		</tr>
 		</tr>
-		<tr title="P3 fewer arguments">
+		<tr title="Fewer arguments / alpha">
 			<td>color(display-p3 1 / .5)</td>
 			<td>{"spaceId":"p3","coords":[1,0,0],"alpha":0.5}</td>
 		</tr>
+
 	</table>
 </section>
 

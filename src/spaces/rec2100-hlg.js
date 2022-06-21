@@ -33,4 +33,11 @@ export default RGBColorSpace.create({
 			return Math.exp(((val - c) / a) + b) / 12;
 		});
 	},
+	formats: {
+		functions: {
+			color: {
+				id: "rec2100-hlg"
+			}
+		}
+	},
 });

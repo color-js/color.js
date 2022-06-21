@@ -28,4 +28,9 @@ export default RGBColorSpace.create({
 			return 4.5 * val;
 		});
 	},
+	formats: {
+		functions: {
+			color: {}
+		}
+	}
 });

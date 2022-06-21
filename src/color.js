@@ -514,24 +514,33 @@ export default class Color {
 
 			if (name === "color") {
 				// color() function
-				let cssId = env.parsed.args.shift();
+				let id = env.parsed.args.shift();
 				let alpha = env.parsed.rawArgs.indexOf("/") > 0? env.parsed.args.pop() : 1;
 
 				for (let space of ColorSpace.all) {
-					if (cssId === space.cssId) {
-						// From https://drafts.csswg.org/css-color-4/#color-function
-						// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
-						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
-						let argCount = Object.keys(space.coords).length;
-						let coords = Array(argCount).fill(0);
-						coords.forEach((_, i) => coords[i] = env.parsed.args[i] || 0);
+					let colorSpec = space.formats?.functions?.color;
+					if (colorSpec) {
+						if (id === colorSpec.id || colorSpec.ids?.includes(id)) {
+							// From https://drafts.csswg.org/css-color-4/#color-function
+							// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
+							// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
+							let argCount = Object.keys(space.coords).length;
+							let coords = Array(argCount).fill(0);
+							coords.forEach((_, i) => coords[i] = env.parsed.args[i] || 0);
 
-						return {spaceId: space.id, coords, alpha};
+							return {spaceId: space.id, coords, alpha};
+						}
 					}
 				}
 
 				// Not found
-				throw new TypeError(`Color space ${env.parsed.args[0]} not found. Missing a plugin?`);
+				let didYouMean = "";
+				if (id in ColorSpace.registry) {
+					// Used color space id instead of color() id, these are often different
+					let cssId = ColorSpace.registry[id].formats?.functions?.color?.id;
+					didYouMean = `Did you mean color(${cssId})?`;
+				}
+				throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
 			}
 			else {
 				for (let space of ColorSpace.all) {

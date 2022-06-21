@@ -26,5 +26,10 @@ export default RGBColorSpace.create({
 	name: "Linear sRGB",
 	white: "D65",
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
+	formats: {
+		functions: {
+			color: {}
+		}
+	},
 });

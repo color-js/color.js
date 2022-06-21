@@ -7,7 +7,6 @@ const Et2 = 16/512;
 export default RGBColorSpace.create({
 	id: "prophoto",
 	name: "ProPhoto",
-	cssId: "prophoto-rgb",
 	base: ProPhotoLinear,
 	toBase(RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
@@ -15,5 +14,12 @@ export default RGBColorSpace.create({
 	},
 	fromBase(RGB) {
 		return RGB.map(v => v >= Et? v ** (1/1.8) : 16 * v);
+	},
+	formats: {
+		functions: {
+			color: {
+				id: "prophoto-rgb"
+			}
+		}
 	},
 });

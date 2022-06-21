@@ -12,7 +12,6 @@ const c3 = 2392 / (2 ** 7);
 
 export default RGBColorSpace.create({
 	id: "rec2100pq",
-	cssid: "rec2100-pq",
 	name: "REC.2100-PQ",
 	base: REC2020Linear,
 	toBase (RGB) {
@@ -33,5 +32,12 @@ export default RGBColorSpace.create({
 
 			return ((num / denom)  ** m);
 		});
+	},
+	formats: {
+		functions: {
+			color: {
+				id: "rec2100-pq"
+			}
+		}
 	},
 });

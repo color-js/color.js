@@ -10,14 +10,6 @@
 <script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
-<script src="../src/spaces/hwb.js" type="module"></script>
-<script src="../src/spaces/rec2100.js" type="module"></script>
-<script src="../src/spaces/jzazbz.js" type="module"></script>
-<script src="../src/spaces/ictcp.js" type="module"></script>
-<script src="../src/spaces/oklab.js" type="module"></script>
-<script src="../src/spaces/oklch.js" type="module"></script>
-<script src="../src/spaces/srgb-linear.js" type="module"></script>
-<script src="../src/spaces/acescc.js" type="module"></script>
 
 <script>
 function convertTo(spaceId) {
@@ -300,7 +292,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 	<h1>rec2100pq to XYZ and back</h1>
 	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
 		<tr title="BT.2100 to XYZ">
-			<td>color(rec2100pq 0.3720 0.3720 0.3720)</td>
+			<td>color(rec2100-pq 0.3720 0.3720 0.3720)</td>
 			<td>
 				<script>
 					convertToXYZ();

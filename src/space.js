@@ -48,6 +48,9 @@ export default class ColorSpace {
 			this.formats.functions.color = { id: options.cssId };
 			Object.defineProperty(this, "cssId", {value: options.cssId});
 		}
+		else if (this.formats.functions?.color && !this.formats.functions?.color.id) {
+			this.formats.functions.color.id = this.id;
+		}
 
 		// Other stuff
 		this.referred = options.referred;

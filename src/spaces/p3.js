@@ -6,8 +6,14 @@ export default RGBColorSpace.create({
 	id: "p3",
 	name: "P3",
 	base: P3Linear,
-	cssId: "display-p3",
 	// Gamma encoding/decoding is the same as sRGB
 	fromBase: sRGB.fromBase,
 	toBase: sRGB.toBase,
+	formats: {
+		functions: {
+			color: {
+				id: "display-p3",
+			}
+		}
+	},
 });
