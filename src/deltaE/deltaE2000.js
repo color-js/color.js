@@ -1,4 +1,4 @@
-import Color from "../color.js";
+import {register} from "../deltaE.js";
 
 // deltaE2000 is a statistically significant improvement
 // and is recommended by the CIE and Idealliance
@@ -8,10 +8,7 @@ import Color from "../color.js";
 // DeltaE2000 is also discontinuous; in case this
 // matters to you, use deltaECMC instead.
 
-Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
-	let color = this;
-	sample = Color.get(sample);
-
+export default register("2000", function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// Given this color as the reference
 	// and the function parameter as the sample,
 	// calculate deltaE 2000.
@@ -162,6 +159,4 @@ Color.prototype.deltaE2000 = function (sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	dE += RT * (ΔC / (kC * SC)) * (ΔH / (kH * SH));
 	return Math.sqrt(dE);
 	// Yay!!!
-};
-
-Color.statify(["deltaE2000"]);
+});

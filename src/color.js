@@ -2,6 +2,7 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 import {WHITES} from "./adapt.js";
+import {deltaE} from "./deltaE.js";
 
 import "./spaces/xyz-d50.js";
 import "./spaces/xyz-d65.js";
@@ -153,24 +154,8 @@ export default class Color {
 		}, 0));
 	}
 
-	deltaE (color, o = {}) {
-		if (util.isString(o)) {
-			o = {method: o};
-		}
-
-		let {method = Color.defaults.deltaE, ...rest} = o;
-		color = Color.get(color);
-
-		if (this["deltaE" + method]) {
-			return this["deltaE" + method](color, rest);
-		}
-
-		return this.deltaE76(color);
-	}
-
-	// 1976 DeltaE. 2.3 is the JND
-	deltaE76 (color) {
-		return this.distance(color, "lab");
+	deltaE(...args) {
+		return deltaE(this, ...args);
 	}
 
 	// Relative luminance
@@ -702,6 +687,7 @@ export default class Color {
 };
 
 Object.assign(Color, {
+	deltaE,
 	util,
 	hooks,
 	WHITES,

@@ -1,4 +1,6 @@
-import Color from "../color.js";
+import {register} from "../deltaE.js";
+import lab from "../spaces/lab.js";
+
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in Lab
 
@@ -8,22 +10,19 @@ import Color from "../color.js";
 // with different weights for L, C and H differences
 // A nice increase in accuracy for modest increase in complexity
 
-Color.prototype.deltaECMC = function (sample, {l = 2, c = 1} = {}) {
-	let color = this;
-	sample = Color.get(sample);
-
+export default register("CMC", function (color, sample, {l = 2, c = 1} = {}) {
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE CMC.
 
 	// This implementation assumes the parametric
 	// weighting factors l:c are 2:1
-	//  which is typical for non-textile uses.
+	// which is typical for non-textile uses.
 
-	let [L1, a1, b1] = color.lab;
+	let [L1, a1, b1] = color.getAll(lab);
 	let C1 = color.get("lch.c");
-	let H1 = color.hue;
-	let [L2, a2, b2] = sample.lab;
+	let H1 = color.get("lch.h");
+	let [L2, a2, b2] = sample.getAll(lab);
 	let C2 = sample.get("lch.c");
 
 	// Check for negative Chroma,
@@ -112,6 +111,4 @@ Color.prototype.deltaECMC = function (sample, {l = 2, c = 1} = {}) {
 	// dE += (ΔH / SH)  ** 2;
 	return Math.sqrt(dE);
 	// Yay!!!
-};
-
-Color.statify(["deltaECMC"]);
+});
