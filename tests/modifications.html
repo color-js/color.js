@@ -35,13 +35,13 @@
 			</td>
 			<td>13</td>
 		</tr>
-		<tr title="color.lch.c = 13">
+		<tr title="color.set('lch.c', 13)">
 			<td>
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.lch.c = 13;
-						return color.lch.c
+						color.set('lch.c', 13);
+						return color.get('lch.c');
 					});
 				</script>
 			</td>
@@ -63,7 +63,7 @@
 			<td>
 				<script>
 					print(() => {
-						var color = new Color("slategray");
+						var color = new Color("slategray").to("lch");
 						color.set('c', 13)
 						return color.lch.c
 					});
@@ -77,7 +77,7 @@
 					print(() => {
 						var color = new Color("slategray");
 						color.set({"lch.c": 13, "lch.l": 40})
-						return color.lch.c + ' ' + color.l
+						return color.lch.c + ' ' + color.lch.l
 					});
 				</script>
 			</td>
@@ -100,7 +100,7 @@
 				<script>
 					print(() => {
 						var color = new Color("slategray");
-						color.c *= 1.2;
+						color.lch.c *= 1.2;
 						return color.lch.c;
 					});
 
@@ -112,7 +112,7 @@
 			<td>
 				<script>
 					print(() => {
-						var color = new Color("slategray");
+						var color = new Color("slategray").to("lch");
 						color.set("c", c => c * 1.2);
 						return color.lch.c;
 					});
