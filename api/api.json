@@ -876,32 +876,6 @@
 					"returnDescription": "target (which has now acquired new properties)"
 				},
 				{
-					"name": "copyDescriptor",
-					"static": true,
-					"role": "function",
-					"description": "Copy a single descriptor from one object to another.",
-					"argument": [
-						{
-							"name": "target",
-							"optional": false,
-							"type": "Object",
-							"description": "Object to copy to"
-						},
-						{
-							"name": "source",
-							"optional": false,
-							"type": "Object",
-							"description": "Object to copy from"
-						},
-						{
-							"name": "property",
-							"optional": false,
-							"type": "string",
-							"description": "Name of property"
-						}
-					]
-				},
-				{
 					"name": "capitalize",
 					"static": true,
 					"role": "function",
@@ -921,7 +895,7 @@
 					"name": "toPrecision",
 					"static": false,
 					"role": "function",
-					"description": "Round a number to a certain number of significant digits based on a range.",
+					"description": "Round a number to a certain number of significant digits.",
 					"argument": [
 						{
 							"name": "n",
@@ -934,12 +908,6 @@
 							"optional": false,
 							"type": "Number",
 							"description": "Number of significant digits"
-						},
-						{
-							"name": "range",
-							"optional": true,
-							"type": "Array",
-							"description": "Range to base number of decimals on"
 						}
 					],
 					"returnType": "Number"
