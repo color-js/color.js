@@ -1,46 +1,50 @@
+/**
+ * Functions related to color interpolation
+ * @module
+ */
 import Color from "./color.js";
 import {type, interpolate} from "./util.js";
+import defaults from "./defaults.js";
 import * as angles from "./angles.js";
 
-let methods = {
-	range (...args) {
-		return Color.range(this, ...args);
-	},
+/**
+ * Return an intermediate color between two colors
+ * Signatures: Color.mix(c1, c2, p, options)
+ *             Color.mix(c1, c2, options)
+ *             Color.mix(color)
+ * @param {Color | string} c1 The first color
+ * @param {Color | string} [c2] The second color
+ * @param {number} [p=.5] A 0-1 percentage where 0 is c1 and 1 is c2
+ * @param {Object} [o={}]
+ * @return {Color}
+ */
+export function mix (c1, c2, p = .5, o = {}) {
+	[c1, c2] = [Color.get(c1), Color.get(c2)];
 
-	/**
-	 * Return an intermediate color between two colors
-	 * Signatures: color.mix(color, p, options)
-	 *             color.mix(color, options)
-	 *             color.mix(color)
-	 */
-	mix (color, p = .5, o = {}) {
-		if (type(p) === "object") {
-			[p, o] = [.5, p];
-		}
-
-		let {space, outputSpace} = o;
-
-		color = Color.get(color);
-		let range = this.range(color, {space, outputSpace});
-		return range(p);
-	},
-
-	/**
-	 * Interpolate to color2 and return an array of colors
-	 * @returns {Color[]}
-	 */
-	steps (...args) {
-		return Color.steps(this, ...args);
+	if (type(p) === "object") {
+		[p, o] = [.5, p];
 	}
-};
 
-Color.steps = function(color1, color2, options = {}) {
-	let range;
+	let {space, outputSpace} = o;
 
-	if (isRange(color1)) {
+	let range = c1.range(c2, {space, outputSpace});
+	return range(p);
+}
+
+/**
+ *
+ * @param {Color | string | Function} c1 The first color or a range
+ * @param {Color | string} [c2] The second color if c1 is not a range
+ * @param {Object} [options={}]
+ * @return {Color[]}
+ */
+export function steps (c1, c2, options = {}) {
+	let colorRange;
+
+	if (isRange(c1)) {
 		// Tweaking existing range
-		[range, options] = [color1, color2];
-		[color1, color2] = range.rangeArgs.colors;
+		[colorRange, options] = [c1, c2];
+		[c1, c2] = colorRange.rangeArgs.colors;
 	}
 
 	let {
@@ -49,13 +53,12 @@ Color.steps = function(color1, color2, options = {}) {
 		...rangeOptions
 	} = options;
 
-	if (!range) {
-		color1 = Color.get(color1);
-		color2 = Color.get(color2);
-		range = Color.range(color1, color2, rangeOptions);
+	if (!colorRange) {
+		[c1, c2] = [Color.get(c1), Color.get(c2)];
+		colorRange = range(c1, c2, rangeOptions);
 	}
 
-	let totalDelta = this.deltaE(color2);
+	let totalDelta = c1.deltaE(c2);
 	let actualSteps = maxDeltaE > 0? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1) : steps;
 	let ret = [];
 
@@ -64,13 +67,13 @@ Color.steps = function(color1, color2, options = {}) {
 	}
 
 	if (actualSteps === 1) {
-		ret = [{p: .5, color: range(.5)}];
+		ret = [{p: .5, color: colorRange(.5)}];
 	}
 	else {
 		let step = 1 / (actualSteps - 1);
 		ret = Array.from({length: actualSteps}, (_, i) => {
 			let p = i * step;
-			return {p, color: range(p)};
+			return {p, color: colorRange(p)};
 		});
 	}
 
@@ -95,9 +98,9 @@ Color.steps = function(color1, color2, options = {}) {
 				let cur = ret[i];
 
 				let p = (cur.p + prev.p) / 2;
-				let color = range(p);
+				let color = colorRange(p);
 				maxDelta = Math.max(maxDelta, color.deltaE(prev.color), color.deltaE(cur.color));
-				ret.splice(i, 0, {p, color: range(p)});
+				ret.splice(i, 0, {p, color: colorRange(p)});
 				i++;
 			}
 		}
@@ -110,9 +113,12 @@ Color.steps = function(color1, color2, options = {}) {
 
 /**
  * Interpolate to color2 and return a function that takes a 0-1 percentage
- * @returns {Function}
+ * @param {Color | string | Function} color1 The first color or an existing range
+ * @param {Color | string} [color2] If color1 is a color, this is the second color
+ * @param {Object} [options={}]
+ * @returns {Function} A function that takes a 0-1 percentage and returns a color
  */
-Color.range = function(color1, color2, options = {}) {
+export function range (color1, color2, options = {}) {
 	if (isRange(color1)) {
 		// Tweaking existing range
 		let [range, options] = [color1, color2];
@@ -132,7 +138,7 @@ Color.range = function(color1, color2, options = {}) {
 		space = Color.space(space);
 	}
 	else {
-		space = Color.spaces[Color.defaults.interpolationSpace] || color1.space;
+		space = Color.spaces[defaults.interpolationSpace] || color1.space;
 	}
 
 	outputSpace = outputSpace? Color.space(outputSpace) : space;
@@ -182,11 +188,13 @@ export function isRange (val) {
 	return type(val) === "function" && val.rangeArgs;
 };
 
-Object.assign(Color.defaults, {
-	interpolationSpace: "lab"
-});
+defaults.interpolationSpace = "lab";
 
-Object.assign(Color.prototype, methods);
-Color.statify(Object.keys(methods));
+let exports = {mix, range, steps};
 
-export default Color;
+for (let name in exports) {
+	Color[name] = exports[name];
+	Color.prototype[name] = function(...args) {
+		return exports[name](this, ...args);
+	}
+}
