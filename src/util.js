@@ -21,23 +21,6 @@ export function type (o) {
 }
 
 /**
- * Like Object.assign() but copies property descriptors (including symbols)
- * @param {Object} target - Object to copy to
- * @param {...Object} sources - Objects to copy from
- * @returns {Object} target
- */
-export function extend (target, ...sources) {
-	for (let source of sources) {
-		if (source) {
-			let descriptors = Object.getOwnPropertyDescriptors(source);
-			Object.defineProperties(target, descriptors);
-		}
-	}
-
-	return target;
-}
-
-/**
  * Round a number to a certain number of significant digits
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
@@ -52,26 +35,6 @@ export function toPrecision(n, precision) {
 	else {
 		let p10 = 10 ** (integerLength - precision);
 		return Math.round(n / p10) * p10;
-	}
-}
-
-export function value(obj, prop, value) {
-	let props = prop.split(".");
-	let lastProp = props.pop();
-
-	obj = props.reduceRight((acc, cur) => {
-		return acc && acc[cur];
-	}, obj);
-
-	if (obj) {
-		if (value === undefined) {
-			// Get
-			return obj[lastProp];
-		}
-		else {
-			// Set
-			return obj[lastProp] = value;
-		}
 	}
 }
 
