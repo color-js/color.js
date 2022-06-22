@@ -2,6 +2,8 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 
+const hasDOM = typeof document !== "undefined";
+
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
  * @param {Object} options
@@ -99,12 +101,12 @@ export default function toString (color, {
 
 		for (let i = 0, fallbackSpace; fallbackSpace = fallbacks[i]; i++) {
 			if (ColorSpace.registry[fallbackSpace]) {
-				let color = color.to(fallbackSpace);
-				ret = color.toString({precision});
+				let fallbackColor = color.to(fallbackSpace);
+				ret = fallbackColor.toString({precision});
 
 				if (CSS.supports("color", ret)) {
 					ret = new String(ret);
-					ret.color = color;
+					ret.color = fallbackColor;
 					return ret;
 				}
 				else if (fallbacks === defaults.fallbackSpaces) {
@@ -116,9 +118,9 @@ export default function toString (color, {
 		}
 
 		// None of the fallbacks worked, return in the most conservative form possible
-		let color = color.to("srgb");
-		ret = new String(color.toString());
-		ret.color = color;
+		let fallbackColor = color.to("srgb");
+		ret = new String(fallbackColor.toString());
+		ret.color = fallbackColor;
 	}
 
 	return ret;
