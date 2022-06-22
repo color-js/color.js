@@ -27,7 +27,7 @@ let methods = {
 
 	/**
 	 * Interpolate to color2 and return an array of colors
-	 * @returns {Array[Color]}
+	 * @returns {Color[]}
 	 */
 	steps (...args) {
 		return Color.steps(this, ...args);

@@ -41,7 +41,7 @@ export function toPrecision(n, precision) {
 /**
 * Parse a CSS function, regardless of its name and arguments
 * @param String str String to parse
-* @return Object An object with {name, args, rawArgs}
+* @return {{name, args, rawArgs}}
 */
 export function parseFunction (str) {
 	if (!str) {
