@@ -6,9 +6,17 @@ We use 11ty for processing CSS and HTML for the website, and Rollup.js for bundl
 
 1. [Install npm](https://www.npmjs.com/get-npm) if you don't already have it
 2. `cd` to the project directory and run `npm install` to install local modules
-3. Done! Now run `npm run build:html` to build.
+3. Done! Now run `npm run build` to build.
 
 Run `npm run watch:html` before you start working on the website to build automatically as you edit files.
+
+Or, for individual tasks:
+
+- `npm run watch:html` to build HTML
+- `npm run watch:css` to process PostCSS files (`*.src.css` in our repo)
+- `npm run watch:js` to create Color.js bundles in `dist/`
+
+All of the above also have `build` versions (e.g. `npm run build:js` or `npm run build` for everything) for one-time builds with no watching.
 
 ## Commit messages
 
