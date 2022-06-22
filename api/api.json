@@ -815,6 +815,48 @@
 							"type": "\"display\" | \"scene\""
 						}
 					]
+				},
+				{
+					"name": "inGamut",
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"name": "coords",
+							"optional": false,
+							"type": "Array"
+						},
+						{
+							"name": "options",
+							"optional": true,
+							"type": "Object"
+						},
+						{
+							"name": "options.epsilon",
+							"optional": true,
+							"type": "Number",
+							"description": "Tolerance"
+						}
+					],
+					"returnType": "Boolean"
+				},
+				{
+					"name": "to",
+					"static": false,
+					"role": "function",
+					"argument": [
+						{
+							"name": "space",
+							"optional": false,
+							"type": "String | ColorSpace"
+						},
+						{
+							"name": "coords",
+							"optional": false,
+							"type": "Array"
+						}
+					],
+					"returnType": "Array"
 				}
 			]
 		},
@@ -852,44 +894,6 @@
 					],
 					"returnType": "string",
 					"returnDescription": "The internal [[Class]] of o, lowercased."
-				},
-				{
-					"name": "extend",
-					"static": true,
-					"role": "function",
-					"description": "Like [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) but copies property descriptors (including symbols)",
-					"argument": [
-						{
-							"name": "target",
-							"optional": false,
-							"type": "Object",
-							"description": " Object to copy to"
-						},
-						{
-							"name": "...sources",
-							"optional": false,
-							"type": "...Object",
-							"description": "Object(s) to copy from"
-						}
-					],
-					"returnType": "Object",
-					"returnDescription": "target (which has now acquired new properties)"
-				},
-				{
-					"name": "capitalize",
-					"static": true,
-					"role": "function",
-					"description": "Uppercase the first letter of a string",
-					"argument": [
-						{
-							"name": "str",
-							"optional": false,
-							"type": "string",
-							"description": "String to capitalize"
-						}
-					],
-					"returnDescription": "Capitalized string",
-					"returnType": "string"
 				},
 				{
 					"name": "toPrecision",
@@ -945,7 +949,7 @@
 		{
 			"name": "Hooks",
 			"filename": "hooks.js",
-			"description": "**This is for plugin authors. If you're not interested in writing plugins for Color.js, you can skip this.**\nHooks afford extensibility far beyond what can be achieved by overriding properties and methods, or using functions. Hooks allow plugin authors to change how Color.js’ internal code works, by adding custom callbacks to predefined points in the execution.\nYou can find available hooks by searching the source code for `Color.hooks.run(` or `_.hooks.run(` in color.js.\nIf you need a hook that is not present, we typically accept pull requests for new hooks pretty easily!",
+			"description": "**This is for plugin authors. If you're not interested in writing plugins for Color.js, you can skip this.**\nHooks afford extensibility far beyond what can be achieved by overriding properties and methods, or using functions. Hooks allow plugin authors to change how Color.js’ internal code works, by adding custom callbacks to predefined points in the execution.\nYou can find available hooks by searching the source code for `hooks.run(` or `hooks.run(` in color.js.\nIf you need a hook that is not present, we typically accept pull requests for new hooks pretty easily!\n\nThe Hooks module exports both a hooks object that is used throughout Color.js (as a default export), as well as a `Hooks` class (as a named export) that can be used to create new sets of hooks.",
 			"member": [
 				{
 					"name": "add",
