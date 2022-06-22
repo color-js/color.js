@@ -3,7 +3,8 @@ import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 
 /**
- * Force coordinates in gamut of a certain color space and return the result
+ * Force coordinates to be in gamut of a certain color space.
+ * Mutates the color it is passed.
  * @param {Object} options
  * @param {string} options.method - How to force into gamut.
  *        If "clip", coordinates are just clipped to their reference range.
@@ -11,7 +12,6 @@ import defaults from "./defaults.js";
  *        until the color is in gamut. Please note that this may produce nonsensical
  *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
  * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
- * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
  */
 export default function toGamut (color, {method = defaults.gamutMapping, space = color.space, inPlace} = {}) {
 	if (util.isString(arguments[0])) {
@@ -31,7 +31,7 @@ export default function toGamut (color, {method = defaults.gamutMapping, space =
 	let spaceColor = color.to(space);
 
 	if (method !== "clip" && !color.inGamut(space)) {
-		let clipped = spaceColor.toGamut({method: "clip", space});
+		let clipped = spaceColor.clone().toGamut({method: "clip", space});
 		if (color.deltaE(clipped, {method: "2000"}) > 2) {
 			// Reduce a coordinate of a certain color space until the color is in gamut
 			let coordMeta = ColorSpace.resolveCoord(method);
@@ -46,7 +46,7 @@ export default function toGamut (color, {method = defaults.gamutMapping, space =
 			let high = mappedColor[coordId];
 
 			while (high - low > ε) {
-				let clipped = mappedColor.toGamut({space, method: "clip"});
+				let clipped = mappedColor.clone().toGamut({space, method: "clip"});
 				let deltaE = mappedColor.deltaE(clipped, {method: "2000"});
 				if (deltaE - 2 < ε) {
 					low = mappedColor[coordId];
@@ -91,11 +91,6 @@ export default function toGamut (color, {method = defaults.gamutMapping, space =
 		spaceColor = spaceColor.to(color.space);
 	}
 
-	if (inPlace) {
-		color.coords = spaceColor.coords;
-		return color;
-	}
-	else {
-		return spaceColor;
-	}
+	color.coords = spaceColor.coords;
+	return color;
 }

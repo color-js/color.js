@@ -254,7 +254,7 @@ export default class Color {
 		let color = new Color(space, coords, this.alpha);
 
 		if (inGamut) {
-			color.toGamut({inPlace: true});
+			color.toGamut();
 		}
 
 		return color;

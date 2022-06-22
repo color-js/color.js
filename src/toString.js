@@ -36,7 +36,7 @@ export default function toString (color, {
 	coords = coords.map(c => c? c : 0);
 
 	if (inGamut && !color.inGamut()) {
-		coords = color.toGamut(inGamut === true? undefined : inGamut).coords;
+		coords = color.clone().toGamut(inGamut === true? undefined : inGamut).coords;
 	}
 
 	if (format.type === "custom") {
