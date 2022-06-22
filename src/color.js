@@ -365,14 +365,6 @@ export default class Color {
 		};
 	}
 
-	/**
-	 * Generic toString() method, outputs a color(spaceId ...coords) function
-	 * @param {Object} options
-	 * @param {number} options.precision - Significant digits
-	 * @param {Function|String|Array} options.serializeCoords - If function, maps all coordinates. Keywords tap to colorspace-specific formats (e.g. "hex")
-	 * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
-	 * @param {string} options.name - Function name [default: color]
-	 */
 	toString (...args) {
 		return toString(this, ...args);
 	}
