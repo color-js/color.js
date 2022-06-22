@@ -259,7 +259,9 @@ export default class ColorSpace {
 			throw new TypeError(`Cannot resolve coordinate reference ${ref}: No color space specified and relative references are not allowed here`);
 		}
 
-		if (type(coord) === "number" || coord >= 0) {
+		coordType = type(coord);
+
+		if (coordType === "number" || coordType === "string" && coord >= 0) {
 			// Resolve numerical coord
 			let meta = Object.entries(space.coords)[coord];
 
@@ -269,6 +271,7 @@ export default class ColorSpace {
 		}
 
 		space = ColorSpace.get(space);
+
 		let normalizedCoord = coord.toLowerCase();
 
 		let i = 0;
