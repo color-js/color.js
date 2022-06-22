@@ -169,11 +169,11 @@ export default class Color {
 
 	// Relative luminance
 	get luminance () {
-		return this.xyz.Y;
+		return this.get("xyz.y");
 	}
 
 	set luminance (value) {
-		this.xyz.Y = value;
+		this.set("xyz.y", value);
 	}
 
 	// WCAG 2.0 contrast https://www.w3.org/TR/WCAG20-TECHS/G18.html
@@ -191,13 +191,13 @@ export default class Color {
 
 	// Chromaticity coordinates
 	get uv () {
-		let [X, Y, Z] = this.xyz;
+		let [X, Y, Z] = this.getAll("xyz");
 		let denom = X + 15 * Y + 3 * Z;
 		return [4 * X / denom, 9 * Y / denom];
 	}
 
 	get xy () {
-		let [X, Y, Z] = this.xyz;
+		let [X, Y, Z] = this.getAll("xyz");
 		let  sum = X + Y + Z;
 		return [X / sum, Y / sum];
 	}
