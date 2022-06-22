@@ -85,16 +85,19 @@ and scale Z by 0.82521/1.08883.
 Simple, let's do exactly that to all the other colors.
 
 This doesn't predict corresponding colors _at all well_
-so we don't implement it. But you can do it yourself if you want:
+so we don't implement it. You could try to do it yourself if you wanted:
 
 ```js
 let W1 = Color.WHITES.D65;
 let W2 = Color.WHITES.D50;
-let Xscale = W2[0]/W1[0];
-let Zscale = W2[2]/W1[2];
+let Xscale = W1[0]/W2[0];
+let Zscale = W1[2]/W2[2];
 let color = new Color("rebeccapurple");
 let color2 = color.xyz /// aah nevermind this isn't going to work
 ```
+
+but it would not be worth the trouble.
+Don't do this.
 
 ### von Kries
 
@@ -115,7 +118,10 @@ and the colors to be adapted are not very saturated.
 let W1 = Color.WHITES.D65;
 let W2 = Color.WHITES.D50;
 let color = new Color("rebeccapurple");
-// okay this isn't going to work either
+// now get the xyz-d65 coordinates
+// and matrix multiply by a cone response matrix
+// scale by the whites
+// and convert back to XYZ with a new white point.
 ```
 
 ### Bradford
@@ -147,6 +153,12 @@ before being converted to Lab and then LCH.
 Normally, this is exactly what you want,
 and gives compatibility between our code
 and results obtained via ICC profiles.
+
+```js
+let color = new Color("rebeccapurple");
+let color2 = color.to("lch");
+// Bradford CAT happened for you without any fuss
+```
 
 ### CAT97s
 
@@ -183,10 +195,12 @@ such as vividly colored stage lighting.
 
 ### CAT16
 
-TODO how is this better than CAT02.
-
-CAT16 gives somewhat better predictions that CAT02,
-particularly with vivid non-white illuminants.
+Li et al showed that CAT16 gives somewhat better predictions than CAT02,
+particularly with vivid non-white illuminants,
+while also being more numerically robust and mathematically simpler.
+// A Revision of CIECAM02 and its CAT and UCS
+// Changjun Li, Zhiqiang Li, et al (2016)
+// 24th Color and Imaging Conference Final Program and Proceedings
 
 CAT16, as originally published, has been criticized by Smet & Ma
 for incorrectly scaling by a reference white luminance,
