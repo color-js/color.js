@@ -84,6 +84,14 @@ export default class Color {
 			configurable: false,
 			writable: false
 		});
+
+		// Define getters and setters for each coordinate
+		for (let id in this.space.coords) {
+			Object.defineProperty(this, id, {
+				get: () => this.get(id),
+				set: value => this.set(id, value)
+			});
+		}
 	}
 
 	get white () {
