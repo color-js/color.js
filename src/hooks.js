@@ -1,6 +1,5 @@
 /**
- * Module version of Bliss.Hooks.
- * @author Lea Verou
+ * A class for adding deep extensibility to any piece of JS code
  */
 export class Hooks {
 	add (name, callback, first) {
@@ -30,6 +29,9 @@ export class Hooks {
 	}
 };
 
+/**
+ * The instance of {@link Hooks} used throughout Color.js
+ */
 const hooks = new Hooks();
 
 export default hooks;

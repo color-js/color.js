@@ -4,6 +4,9 @@ import hooks from "./hooks.js";
 
 const ε = .000075;
 
+/**
+ * Class to represent a color space
+ */
 export default class ColorSpace {
 	constructor (options) {
 		this.id = options.id;

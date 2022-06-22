@@ -1,6 +1,5 @@
 /**
  * Functions related to color interpolation
- * @module
  */
 import Color from "./color.js";
 import {type, interpolate} from "./util.js";

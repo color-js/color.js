@@ -1,3 +1,7 @@
+/**
+ * Various utility functions
+ */
+
 import multiplyMatrices from "./multiply-matrices.js";
 
 /**

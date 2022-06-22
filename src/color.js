@@ -15,12 +15,18 @@ import "./spaces/srgb.js";
 const ε = .000075;
 const hasDOM = typeof document !== "undefined";
 
+/**
+ * Class that represents a color
+ */
 export default class Color {
-	// Signatures:
-	// new Color(stringToParse)
-	// new Color(otherColor)
-	// new Color(coords, alpha) // defaults to sRGB
-	// new Color(CSS variable [, root])
+	/**
+	 * Creates an instance of Color.
+	 * Signatures:
+	 * - `new Color(stringToParse)`
+	 * - `new Color(otherColor)`
+	 * - `new Color(coords, alpha)` // defaults to sRGB
+	 * - `new Color(CSS variable [, root])`
+	 */
 	constructor (...args) {
 		let str, color;
 
@@ -108,6 +114,12 @@ export default class Color {
 		return coords[index];
 	}
 
+	/**
+	 * Get the coordinates of this color in another color space
+	 *
+	 * @param {string | ColorSpace} space
+	 * @returns {number[]}
+	 */
 	getAll (space) {
 		space = ColorSpace.get(space);
 		return this.space.to(space, this.coords);
