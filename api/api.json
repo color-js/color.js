@@ -754,6 +754,22 @@
 			]
 		},
 		{
+			"name": "ColorSpace",
+			"filename": "space.js",
+			"description": "Class for color spaces. Each color space corresponds to a `ColorSpace` instance.",
+			"member": [
+				{
+					"static": false,
+					"role": "constructor",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "util",
 			"filename": "util.js",
 			"description": "Collection of utility functions. Available on `Color.util`, or as separate exports.",
