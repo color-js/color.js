@@ -6,6 +6,7 @@ import {WHITES} from "./adapt.js";
 import {deltaE} from "./deltaE.js";
 import parse from "./parse.js";
 import toString from "./toString.js";
+import toGamut from "./toGamut.js";
 
 import "./spaces/xyz-d50.js";
 import "./spaces/xyz-d65.js";
@@ -237,101 +238,8 @@ export default class Color {
 		return space.inGamut(coords, {epsilon});
 	}
 
-	/**
-	 * Force coordinates in gamut of a certain color space and return the result
-	 * @param {Object} options
-	 * @param {string} options.method - How to force into gamut.
-	 *        If "clip", coordinates are just clipped to their reference range.
-	 *        If in the form [colorSpaceId].[coordName], that coordinate is reduced
-	 *        until the color is in gamut. Please note that this may produce nonsensical
-	 *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
-	 * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
-	 * @param {boolean} options.inPlace - If true, modify the current color, otherwise return a new one.
-	 */
-	toGamut ({method = Color.defaults.gamutMapping, space = this.space, inPlace} = {}) {
-		if (util.isString(arguments[0])) {
-			space = arguments[0];
-		}
-
-		space = ColorSpace.get(space);
-
-		if (this.inGamut(space, {epsilon: 0})) {
-			return this;
-		}
-
-		// 3 spaces:
-		// this.space: current color space
-		// space: space whose gamut we are mapping to
-		// mapSpace: space with the coord we're reducing
-		let color = this.to(space);
-
-		if (method !== "clip" && !this.inGamut(space)) {
-			let clipped = color.toGamut({method: "clip", space});
-			if (this.deltaE(clipped, {method: "2000"}) > 2) {
-				// Reduce a coordinate of a certain color space until the color is in gamut
-				let coordMeta = ColorSpace.resolveCoord(method);
-				let mapSpace = coordMeta.space;
-				let coordId = coordMeta.id;
-
-				let mappedColor = color.to(mapSpace);
-				let bounds = coordMeta.range || coordMeta.refRange;
-				let min = bounds[0];
-				let ε = .01; // for deltaE
-				let low = min;
-				let high = mappedColor[coordId];
-				while (high - low > ε) {
-					let clipped = mappedColor.toGamut({space, method: "clip"});
-					let deltaE = mappedColor.deltaE(clipped, {method: "2000"});
-					if (deltaE - 2 < ε) {
-						low = mappedColor[coordId];
-					}
-					else {
-						high = mappedColor[coordId];
-					}
-
-					mappedColor[coordId] = (high + low) / 2;
-				}
-
-				color = mappedColor.to(space);
-			}
-			else {
-				color = clipped;
-			}
-
-		}
-
-		if (method === "clip" // Dumb coord clipping
-		    // finish off smarter gamut mapping with clip to get rid of ε, see #17
-		    || !color.inGamut(space, {epsilon: 0})
-		) {
-			let bounds = Object.values(space.coords).map(c => c.range || []);
-
-			color.coords = color.coords.map((c, i) => {
-				let [min, max] = bounds[i];
-
-				if (min !== undefined) {
-					c = Math.max(min, c);
-				}
-
-				if (max !== undefined) {
-					c = Math.min(c, max);
-				}
-
-				return c;
-			});
-		}
-
-		if (space.id !== this.spaceId) {
-			color = color.to(this.space);
-		}
-
-		if (inPlace) {
-			this.coords = color.coords;
-			return this;
-		}
-		else {
-			return color;
-		}
+	toGamut (...args) {
+		return toGamut(this, ...args);
 	}
 
 	clone () {
