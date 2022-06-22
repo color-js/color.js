@@ -38,7 +38,8 @@ lime.toString({inGamut: false});
 ```
 
 
-If you want gamut mapped coordinates, you can use `color.toGamut()`, which by default returns a new color that is within gamut (if you want to mutate your own color instead you can use `{inPlace: true}`).
+If you want gamut mapped coordinates, you can use `color.toGamut()`, which mutates the coordinates of the color it is called on.
+If you want the gamut mapped color to be a different object, you can clone your color first.
 You can also pass a different color space whose gamut you are mapping to via the `space` parameter.
 
 ```js
