@@ -1,9 +1,11 @@
 import * as util from "./util.js";
 import hooks from "./hooks.js";
+import defaults from "./defaults.js";
 import ColorSpace from "./space.js";
 import {WHITES} from "./adapt.js";
 import {deltaE} from "./deltaE.js";
 import parse from "./parse.js";
+import toString from "./toString.js";
 
 import "./spaces/xyz-d50.js";
 import "./spaces/xyz-d65.js";
@@ -40,7 +42,7 @@ export default class Color {
 			}
 
 			if (str) {
-				color = Color.parse(str);
+				color = parse(str);
 			}
 		}
 
@@ -371,118 +373,8 @@ export default class Color {
 	 * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
 	 * @param {string} options.name - Function name [default: color]
 	 */
-	toString ({
-		precision = Color.defaults.precision,
-		format = "default", commas,
-		inGamut = true,
-		name,
-		fallback,
-		...customOptions
-	} = {}) {
-		format = this.space.getFormat(format)
-		       ?? this.space.getFormat("default")
-		       ?? ColorSpace.DEFAULT_FORMAT;
-
-		let ret;
-
-		if (format.type === "custom") {
-			let coords = this.getCoords({
-				inGamut: inGamut || format.toGamut,
-				precision
-			});
-
-			ret = format.serialize(coords, this.alpha, customOptions);
-		}
-		else {
-			// Functional syntax
-			let coords = this.getCoords({inGamut, precision});
-
-			// Convert NaN to zeros to have a chance at a valid CSS color
-			// Also convert -0 to 0
-			// This also clones it so we can manipulate it
-			coords = coords.map(c => c? c : 0);
-
-			name ||= format.name || "color";
-
-			if (format.coordGrammar) {
-				Object.entries(this.space.coords).forEach(([id, coordMeta], i) => {
-					// Preferred format for each coord is the first one
-					let outputType = format.coordGrammar[i][0];
-
-					let fromRange = coordMeta.range || coordMeta.refRange;
-					let toRange = outputType.range, suffix = "";
-
-					// Non-strict equals intentional since outputType could be a string object
-					if (outputType == "<percentage>") {
-						toRange = [0, 100];
-						suffix = "%";
-					}
-					else if (outputType == "<angle>") {
-						suffix = "deg";
-					}
-
-					if (fromRange && toRange) {
-						coords[i] = util.mapRange(fromRange, toRange, coords[i]);
-					}
-
-					coords[i] = util.toPrecision(coords[i], precision);
-
-					if (suffix) {
-						coords[i] += suffix;
-					}
-				});
-			}
-
-			let args = [...coords];
-
-			if (name === "color") {
-				// If output is a color() function, add colorspace id as first argument
-				args.unshift(this.space.cssId);
-			}
-
-			let strAlpha = this.alpha < 1? ` ${format.commas? "," : "/"} ${this.alpha}` : "";
-			ret = `${name}(${args.join(format.commas? ", " : " ")}${strAlpha})`;
-		}
-
-		if (fallback) {
-			// Return a CSS string that's actually supported by the current browser
-			// Return as a String object, so we can also hang the color object on it
-			// in case it's different than this. That way third party code can use that
-			// for e.g. computing text color, indicating out of gamut etc
-
-			if (!hasDOM || typeof CSS === "undefined" || CSS.supports("color", ret)) {
-				ret = new String(ret);
-				ret.color = this;
-				return ret;
-			}
-
-			let fallbacks = Array.isArray(fallback)? fallback.slice() : Color.defaults.fallbackSpaces;
-
-			for (let i = 0, fallbackSpace; fallbackSpace = fallbacks[i]; i++) {
-				if (Color.spaces[fallbackSpace]) {
-					let color = this.to(fallbackSpace);
-					ret = color.toString({precision});
-
-					if (CSS.supports("color", ret)) {
-						ret = new String(ret);
-						ret.color = color;
-						return ret;
-					}
-					else if (fallbacks === Color.defaults.fallbackSpaces) {
-						// Drop this space from the default fallbacks since it's not supported
-						fallbacks.splice(i, 1);
-						i--;
-					}
-				}
-			}
-
-			// None of the fallbacks worked, return in the most conservative form possible
-			let color = this.to("srgb");
-			ret = new String(color.toString());
-			ret.color = color;
-		}
-
-		return ret;
+	toString (...args) {
+		return toString(this, ...args);
 	}
 
 	equals (color) {
@@ -566,12 +458,7 @@ Object.assign(Color, {
 	parse,
 
 	// Global defaults one may want to configure
-	defaults: {
-		gamutMapping: "lch.c",
-		precision: 5,
-		deltaE: "76", // Default deltaE method
-		fallbackSpaces: ["p3", "srgb"]
-	}
+	defaults
 });
 
 // Make static methods for all instance methods
