@@ -653,26 +653,6 @@ export default class Color {
 		return ColorSpace.get(space);
 	}
 
-	// Define a shortcut property, e.g. color.l instead of color.lch.l
-	// Shorcut is looked up on Color.shortcuts at calling time
-	// If `long` is provided, it's added to Color.shortcuts as well, otherwise it's assumed to be already there
-	static defineShortcut(prop, obj = Color.prototype, long) {
-		if (long) {
-			Color.shortcuts[prop] = long;
-		}
-
-		Object.defineProperty(obj, prop, {
-			get () {
-				return util.value(this, Color.shortcuts[prop]);
-			},
-			set (value) {
-				return util.value(this, Color.shortcuts[prop], value);
-			},
-			configurable: true,
-			enumerable: true
-		});
-	}
-
 	// Define static versions of all instance methods
 	static statify(names = []) {
 		names = names || Object.getOwnPropertyNames(Color.prototype);
@@ -705,15 +685,6 @@ Object.assign(Color, {
 	Space: ColorSpace,
 	spaces: ColorSpace.registry,
 
-	// These will be available as getters and setters on EVERY color instance.
-	// They refer to LCH by default, but can be set to anything
-	// and you can add more by calling Color.defineShortcut()
-	shortcuts: {
-		"l": "lch.l",
-		"c": "lch.c",
-		"h": "lch.h",
-	},
-
 	// Global defaults one may want to configure
 	defaults: {
 		gamutMapping: "lch.c",
@@ -722,10 +693,6 @@ Object.assign(Color, {
 		fallbackSpaces: ["p3", "srgb"]
 	}
 });
-
-for (let prop in Color.shortcuts) {
-	Color.defineShortcut(prop);
-}
 
 // Make static methods for all instance methods
 Color.statify();

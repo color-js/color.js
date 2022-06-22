@@ -76,9 +76,16 @@ includes: '<link rel="stylesheet" href="./assets/css/home.css">'
 		of any color space and convert back
 		<pre><code>
 			let color = new Color("slategray");
-			color.l = 80; // LCH coords available directly on colors
-			color.c *= 1.2; // saturate 20%
+			color.lch.l = 80; // Set coord directly in any color space
+			color.lch.c *= 1.2; // saturate by increasing LCH chroma by 20%
 			color.hwb.w += 10; // any other color space also available
+		</code></pre>
+
+		<p>Coordinates of the color's current color space are available as properties too:</p>
+		<pre><code>
+			let color = new Color("slategray").to("lch");
+			color.l = 80; // Set LCH lightness
+			color.c *= 1.2; // saturate by increasing LCH chroma
 		</code></pre>
 
 		<p>Chaining-style modifications are also supported:</p>
