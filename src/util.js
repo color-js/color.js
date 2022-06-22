@@ -38,17 +38,6 @@ export function extend (target, ...sources) {
 }
 
 /**
- * Copy a descriptor from one object to another
- * @param {Object} target - Object to copy to
- * @param {Object} source - Object to copy from
- * @param {string} prop - Name of property
- */
-export function copyDescriptor (target, source, prop) {
-	let descriptor = Object.getOwnPropertyDescriptor(source, prop);
-	Object.defineProperty(target, prop, descriptor);
-}
-
-/**
  * Uppercase the first letter of a string
  * @param {string} str - String to capitalize
  * @returns Capitalized string
