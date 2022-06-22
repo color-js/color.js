@@ -24,7 +24,7 @@ function addSpaceAccessors (id, space) {
 		// Source colorspace: this.spaceId
 		// Target colorspace: id
 		get () {
-			let ret = Color.convert(this.coords, this.space, id);
+			let ret = this.getAll(id);
 
 			if (typeof Proxy === "undefined") {
 				// If proxies are not supported, just return a static array
@@ -34,19 +34,20 @@ function addSpaceAccessors (id, space) {
 			// Enable color.spaceId.coordName syntax
 			return new Proxy(ret, {
 				has: (obj, property) => {
-					return coordIds.includes(property) || coordNames.includes(property) || Reflect.has(obj, property);
+					try {
+						ColorSpace.resolveCoord([space, property]);
+						return true;
+					}
+					catch(e) {}
+
+					return Reflect.has(obj, property);
 				},
 				get: (obj, property, receiver) => {
 					if (property && !(property in obj)) {
-						let i = coordIds.indexOf(property);
+						let {index} = ColorSpace.resolveCoord([space, property]);
 
-						if (i === -1) {
-							// If id not found, maybe name is?
-							i = coordNames.indexOf(property);
-						}
-
-						if (i > -1) {
-							return obj[i];
+						if (index >= 0) {
+							return obj[index];
 						}
 					}
 
@@ -54,22 +55,13 @@ function addSpaceAccessors (id, space) {
 				},
 				set: (obj, property, value, receiver) => {
 					if (property && !(property in obj) || property >= 0) {
-						let i = coordIds.findIndex(id => id.toLowerCase() === property.toLowerCase());
+						let {index} = ColorSpace.resolveCoord([space, property]);
 
-						if (i === -1) {
-							// If id not found, maybe name is?
-							i = coordNames.findIndex(name => name.toLowerCase() === property.toLowerCase());
-						}
-
-						if (property > -1) { // Is property a numerical index?
-							i = property; // next if will take care of modifying the color
-						}
-
-						if (i > -1) {
-							obj[i] = value;
+						if (index >= 0) {
+							obj[index] = value;
 
 							// Update color.coords
-							this.coords = Color.convert(obj, id, this.spaceId);
+							this.setAll(id, obj);
 
 							return true;
 						}
@@ -83,7 +75,7 @@ function addSpaceAccessors (id, space) {
 		// Target colorspace: this.spaceId
 		// Source colorspace: id
 		set (coords) {
-			this.coords = Color.convert(coords, id, this.spaceId);
+			this.setAll(id, coords);
 		},
 		configurable: true,
 		enumerable: true
