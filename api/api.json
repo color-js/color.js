@@ -763,7 +763,56 @@
 					"role": "constructor",
 					"argument": [
 						{
-							"optional": false
+							"name": "options",
+							"optional": false,
+							"type": "Object"
+						},
+						{
+							"name": "options.id",
+							"optional": false,
+							"type": "String",
+							"description": "Id of this color space, to be used in conversions etc"
+						},
+						{
+							"name": "options.name",
+							"optional": false,
+							"type": "String",
+							"description": "Readable name, to be used in user-facing UI"
+						},
+						{
+							"name": "options.coords",
+							"optional": false,
+							"type": "Object",
+							"description": "Object of coord ids to coord metadata (range, refRange, name, type)"
+						},
+						{
+							"name": "options.base",
+							"optional": true,
+							"type": "String | ColorSpace",
+							"description": "Base color space"
+						},
+						{
+							"name": "options.toBase",
+							"optional": true,
+							"type": "Function",
+							"description": "Function that converts coords in this color space to coords in the base color space. Must perform chromatic adaptation if needed."
+						},
+						{
+							"name": "options.fromBase",
+							"optional": true,
+							"type": "Function",
+							"description": "Function that converts coords in the base color space to coords in this color space. Must perform chromatic adaptation if needed."
+						},
+						{
+							"name": "options.formats",
+							"optional": true,
+							"type": "Object",
+							"description": "Details about string formats to parse from / serialize to."
+						},
+						{
+							"name": "options.referred",
+							"optional": true,
+							"type": "\"display\" | \"scene\""
 						}
 					]
 				}
