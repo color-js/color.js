@@ -62,7 +62,7 @@ export function capitalize(str) {
 }
 
 /**
- * Round a number to a certain number of significant digits based on a range
+ * Round a number to a certain number of significant digits
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
  */

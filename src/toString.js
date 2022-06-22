@@ -26,22 +26,24 @@ export default function toString (color, {
 
 	let ret;
 
-	if (format.type === "custom") {
-		let coords = color.getCoords({
-			inGamut: inGamut || format.toGamut,
-			precision
-		});
+	inGamut ||= format.toGamut;
 
+	let coords = color.coords;
+
+	// Convert NaN to zeros to have a chance at a valid CSS color
+	// Also convert -0 to 0
+	// This also clones it so we can manipulate it
+	coords = coords.map(c => c? c : 0);
+
+	if (inGamut && !color.inGamut()) {
+		coords = color.toGamut(inGamut === true? undefined : inGamut).coords;
+	}
+
+	if (format.type === "custom") {
 		ret = format.serialize(coords, color.alpha, customOptions);
 	}
 	else {
 		// Functional syntax
-		let coords = color.getCoords({inGamut, precision});
-
-		// Convert NaN to zeros to have a chance at a valid CSS color
-		// Also convert -0 to 0
-		// This also clones it so we can manipulate it
-		coords = coords.map(c => c? c : 0);
 
 		name ||= format.name || "color";
 
@@ -73,6 +75,11 @@ export default function toString (color, {
 				}
 			});
 		}
+		else {
+			if (precision !== null) {
+				coords = coords.map(c => util.toPrecision(c, precision));
+			}
+		}
 
 		let args = [...coords];
 
@@ -93,7 +100,7 @@ export default function toString (color, {
 
 		if (!hasDOM || typeof CSS === "undefined" || CSS.supports("color", ret)) {
 			ret = new String(ret);
-			ret.color = this;
+			ret.color = color;
 			return ret;
 		}
 

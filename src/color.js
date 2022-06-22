@@ -208,23 +208,6 @@ export default class Color {
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
 
-	// Get formatted coords
-	getCoords ({inGamut, precision = Color.defaults.precision} = {}) {
-		let coords = this.coords;
-
-		if (inGamut && !this.inGamut()) {
-			coords = this.toGamut(inGamut === true? undefined : inGamut).coords;
-		}
-
-		if (precision !== undefined && precision !== null) {
-			let bounds = Object.values(this.space.coords).map(c => c.range || c.refRange);
-
-			coords = coords.map((n, i) => util.toPrecision(n, precision, bounds[i]));
-		}
-
-		return coords;
-	}
-
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
