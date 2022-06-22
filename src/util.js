@@ -38,19 +38,6 @@ export function extend (target, ...sources) {
 }
 
 /**
- * Uppercase the first letter of a string
- * @param {string} str - String to capitalize
- * @returns Capitalized string
- */
-export function capitalize(str) {
-	if (!str) {
-		return str;
-	}
-
-	return str[0].toUpperCase() + str.slice(1);
-}
-
-/**
  * Round a number to a certain number of significant digits
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
