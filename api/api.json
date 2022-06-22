@@ -360,32 +360,6 @@
 					"returnDescription": "Serialized color"
 				},
 				{
-					"name": "chromaticAdaptation",
-					"static": true,
-					"role": "function",
-					"description": "Adapt a XYZ coordinates from one white point to another. Only supports D50 and D65 out of the box. but you can add support for more white points by importing the CAT module.",
-					"argument": [
-						{
-							"name": "W1",
-							"optional": false,
-							"type": "Array",
-							"description": "White point to adapt from"
-						},
-						{
-							"name": "W2",
-							"optional": false,
-							"type": "Array",
-							"description": "White point to adapt to"
-						},
-						{
-							"name": "XYZ",
-							"optional": false,
-							"type": "Array",
-							"description": "XYZ coordinates to adapt"
-						}
-					]
-				},
-				{
 					"name": "parse",
 					"static": true,
 					"role": "function",
@@ -400,22 +374,6 @@
 					],
 					"returnType": "Object",
 					"returnDescription": "An object with properties `spaceId`, `coords`, `alpha` that can be then passed to the `Color` constructor to create a new color."
-				},
-				{
-					"name": "parseFunction",
-					"static": true,
-					"role": "function",
-					"argument": [
-						{
-							"optional": false,
-							"name": "str",
-							"type": "string",
-							"description": "String to parse"
-						}
-					],
-					"description": "Parse a functional notation and return an object. Used internally by [`Color.parse()`](#Color.parse)",
-					"returnType": "Object",
-					"returnDescription": "An object with `name` (function name), `args` (Array) and `rawArgs` (string) properties."
 				},
 				{
 					"name": "convert",
@@ -469,20 +427,6 @@
 							"optional": false,
 							"name": "spaceOrId",
 							"type": "Object | string"
-						}
-					]
-				},
-				{
-					"name": "defineSpace",
-					"static": true,
-					"role": "function",
-					"description": "Define a new color space",
-					"argument": [
-						{
-							"optional": false,
-							"name": "space",
-							"type": "Object",
-							"description": "Object with color space details."
 						}
 					]
 				},
@@ -915,6 +859,22 @@
 						}
 					],
 					"returnType": "Number"
+				},
+				{
+					"name": "parseFunction",
+					"static": true,
+					"role": "function",
+					"argument": [
+						{
+							"optional": false,
+							"name": "str",
+							"type": "string",
+							"description": "String to parse"
+						}
+					],
+					"description": "Parse a functional notation and return an object. Used internally by [`Color.parse()`](#Color.parse)",
+					"returnType": "Object",
+					"returnDescription": "An object with `name` (function name), `args` (Array) and `rawArgs` (string) properties."
 				}
 			]
 		},
@@ -943,6 +903,49 @@
 					],
 					"returnType": "Array",
 					"returnDescription": "Result"
+				}
+			]
+		},
+		{
+			"name": "adapt",
+			"filename": "adapt.js",
+			"description": "Chromatic adaptation",
+			"member": [
+				{
+					"name": "adapt",
+					"static": true,
+					"role": "function",
+					"description": "Adapt a XYZ coordinates from one white point to another. Only supports D50 and D65 out of the box. but you can add support for more white points by importing the CAT module.",
+					"argument": [
+						{
+							"name": "W1",
+							"optional": false,
+							"type": "Array",
+							"description": "White point to adapt from"
+						},
+						{
+							"name": "W2",
+							"optional": false,
+							"type": "Array",
+							"description": "White point to adapt to"
+						},
+						{
+							"name": "XYZ",
+							"optional": false,
+							"type": "Array",
+							"description": "XYZ coordinates to adapt"
+						}
+					]
+				},
+				{
+					"name": "WHITES",
+					"static": false,
+					"role": "property",
+					"argument": [
+						{
+							"optional": false
+						}
+					]
 				}
 			]
 		},
