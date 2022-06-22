@@ -2,19 +2,13 @@
 
 ## Getting up and running with build tools
 
-We use gulp for processing CSS and HTML for the website, and Rollup.js for bundling Color.js.
+We use 11ty for processing CSS and HTML for the website, and Rollup.js for bundling Color.js.
 
 1. [Install npm](https://www.npmjs.com/get-npm) if you don't already have it
 2. `cd` to the project directory and run `npm install` to install local modules
-3. Done! Now run `npx gulp` to build.
+3. Done! Now run `npm run build:html` to build.
 
-Run `npx gulp watch` before you start working on the website to have gulp run automatically as you edit files.
-
-Or, for individual tasks:
-
-- `gulp md` to convert Markdown files to HTML pages
-- `gulp css` to process PostCSS files (`*.src.css` in our repo)
-- `gulp bundle` to create Color.js bundles in `dist/`
+Run `npm run watch:html` before you start working on the website to build automatically as you edit files.
 
 ## Commit messages
 
