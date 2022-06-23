@@ -62,7 +62,7 @@ function update() {
 			ret += `<tr>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
-				<td title="Alt + click or double click to go to this color">
+				<td>
 					<a href="${permalink}">${str}</a>
 					<button class="copy" data-clipboard-text="${str}" title="Copy">📋</button>
 				</td>
