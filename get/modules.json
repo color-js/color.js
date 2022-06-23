@@ -26,6 +26,13 @@
 			"description": "The color space of all CSS colors before CSS Color Level 4, sRGB is derived from the definition of HDTV. Most screens can display all, or very nearly all, sRGB colors but there are many visible colors which lie outside the sRGB gamut."
 		},
 		{
+			"name": "Linear sRGB",
+			"id": "srgb-linear",
+			"include": true,
+			"url": "https://en.wikipedia.org/wiki/SRGB",
+			"description": "sRGB, but with a linear-light transfer function."
+		},
+		{
 			"name": "Display P3",
 			"id": "p3",
 			"include": true,
@@ -112,7 +119,13 @@
 			"name": "ACEScc",
 			"id": "acescc",
 			"url": "https://en.wikipedia.org/wiki/Academy_Color_Encoding_System",
-			"description": "Academy Color Encoding System, using the wide gamut but physically realizable AP1 primaries and Logarithmic Encoding"
+			"description": "Academy Color Encoding System, using the wide gamut but physically realizable AP1 primaries and Logarithmic Encoding. Used for color grading."
+		},
+		{
+			"name": "ACEScg",
+			"id": "acescg",
+			"url": "https://en.wikipedia.org/wiki/Academy_Color_Encoding_System",
+			"description": "Scene-referred Academy Color Encoding System, using the wide gamut but physically realizable AP1 primaries and linear-light encoding. Used for physical rendering."
 		}
 	],
 	"optional": [
