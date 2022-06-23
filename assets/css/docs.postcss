@@ -55,11 +55,15 @@ main {
 }
 
 [mv-app="colorSpaces"] {
-	& [property="space"] {
+	& [mv-list-item][property="space"] {
 		display: grid;
 		grid-template-columns: 1fr auto;
 		grid-gap: 0 1em;
 		margin: 1em 0;
+
+		& .alias-of {
+			font-style: italic;
+		}
 
 		& > * {
 			grid-column: 1;
@@ -72,11 +76,22 @@ main {
 
 			& h2 {
 				margin: 0 auto 0 0;
+
+				& code {
+					font-family: var(--font-monospace);
+					font-weight: bold;
+					font-size: 70%;
+
+					&::before {
+						content: "#";
+					}
+				}
 			}
 
 			& .file {
 				font-style: italic;
 				opacity: .6;
+				filter: saturate(.1);
 			}
 		}
 

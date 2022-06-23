@@ -53,37 +53,52 @@ main {
 		display: none;
 	}
 
-[mv-app="colorSpaces"] [property="space"] {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] {
 		display: grid;
 		grid-template-columns: 1fr auto;
 		grid-gap: 0 1em;
 		margin: 1em 0
 	}
 
-[mv-app="colorSpaces"] [property="space"] > * {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] .alias-of {
+			font-style: italic;
+		}
+
+[mv-app="colorSpaces"] [mv-list-item][property="space"] > * {
 			grid-column: 1;
 		}
 
-[mv-app="colorSpaces"] [property="space"] > header {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] > header {
 			grid-column: 1 / span 2;
 			display: flex;
 			align-items: center
 		}
 
-[mv-app="colorSpaces"] [property="space"] > header h2 {
-				margin: 0 auto 0 0;
+[mv-app="colorSpaces"] [mv-list-item][property="space"] > header h2 {
+				margin: 0 auto 0 0
 			}
 
-[mv-app="colorSpaces"] [property="space"] > header .file {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] > header h2 code {
+					font-family: var(--font-monospace);
+					font-weight: bold;
+					font-size: 70%
+				}
+
+[mv-app="colorSpaces"] [mv-list-item][property="space"] > header h2 code::before {
+						content: "#";
+					}
+
+[mv-app="colorSpaces"] [mv-list-item][property="space"] > header .file {
 				font-style: italic;
 				opacity: .6;
+				filter: saturate(.1);
 			}
 
-[mv-app="colorSpaces"] [property="space"] [property="description"] {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] [property="description"] {
 			margin: .5em 0;
 		}
 
-[mv-app="colorSpaces"] [property="space"] dl {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] dl {
 			min-width: 10em;
 			margin: 0;
 			grid-row: 2 / span 3;
@@ -93,11 +108,11 @@ main {
 			padding: 1em
 		}
 
-[mv-app="colorSpaces"] [property="space"] dl dt {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] dl dt {
 				margin-top: .5em;
 				font-size: 80%;
 			}
 
-[mv-app="colorSpaces"] [property="space"] dl dd {
+[mv-app="colorSpaces"] [mv-list-item][property="space"] dl dd {
 				grid-column: 1;
 			}

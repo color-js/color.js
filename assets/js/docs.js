@@ -61,38 +61,48 @@ function makePageToc(pageToc) {
 		}
 
 		let a = $.create("a", {
-			textContent: text,
 			href: "#" + h2.id
 		});
 
 		// Linkify heading
 		if (!$("a", h2)) {
-			h2.textContent = "";
-			h2.appendChild(a.cloneNode(true));
+			a.append(...h2.childNodes);
+			h2.append(a);
+		}
+		else {
+			a.textContent = h2.textContent;
 		}
 
+		let toc_a = a.cloneNode(true);
+		$$(".toc-ignore", toc_a).forEach(el => el.remove());
+
 		$.create("li", {
-			contents: a,
+			contents: toc_a,
 			inside: pageToc
 		});
 	});
 }
 
 if (location.pathname.indexOf("/spaces") > -1) {
-	// FIXME race condition: data may have already rendered
-	Mavo.hooks.add("render-start", function(env) {
-		if (this.id !== "colorSpaces") {
-			return;
-		}
+	await Mavo.all.colorSpaceData.dataLoaded;
 
-		for (let space of env.data.space) {
-			let spaceMeta = Color.spaces[space.id];
+	let docsSpaces = Object.fromEntries(Mavo.all.colorSpaceData.root.data.space.map(space => [space.id, space]));
 
-			if (!spaceMeta) {
-				continue;
-			}
+	let spaces = Object.entries(Color.Space.registry).map(([id, space]) => {
+		let docsSpace = docsSpaces[id];
 
-			space.coord = Object.entries(spaceMeta.coords).map(([id, meta]) => {
+		return Object.assign(docsSpace || {
+			description: "",
+			url: "",
+		}, {
+			id,
+			isAlias: space.id != id,
+			aliasOf: space.id,
+			aliasOfName: Color.Space.registry[space.id].name,
+			base: space.base?.id,
+			baseName: space.base?.name,
+			name: space.name,
+			coord: Object.entries(space.coords).map(([id, meta]) => {
 				let range = meta.range || meta.refRange;
 				return {
 					id,
@@ -100,11 +110,14 @@ if (location.pathname.indexOf("/spaces") > -1) {
 					min: range?.[0],
 					max: range?.[1]
 				};
-			});
+			}),
+			whitePoint: Object.entries(Color.WHITES).find(([name, white]) => white === space.white)?.[0],
+			cssId: space.cssId || space.id,
+		});
+	});
 
-			space.whitePoint = Object.entries(Color.WHITES).find(([name, white]) => white === spaceMeta.white)?.[0];
-			space.cssId = spaceMeta.cssId || spaceMeta.id;
-		}
+	Mavo.all.colorSpaces.load({
+		data: {space: spaces}
 	});
 
 	Mavo.hooks.add("getdata-end", function(env) {
@@ -112,6 +125,7 @@ if (location.pathname.indexOf("/spaces") > -1) {
 			return;
 		}
 
+		// Do not try to store things we are getting on runtime from ColorSpace.registry
 		for (let space of env.data.space) {
 			delete space.coord;
 			delete space.whitePoint;
@@ -130,11 +144,11 @@ if (location.pathname.indexOf("/spaces") > -1) {
 		});
 	});
 
-	if (Mavo.all.colorSpaces && Mavo.all.colorSpaces.root.children.space.children.length > 1) {
-		// Data has already rendered, re-render
-		Mavo.all.colorSpaces.render(Mavo.all.colorSpaces.getData());
+	// if (Mavo.all.colorSpaces && Mavo.all.colorSpaces.root.children.space.children.length > 1) {
+	// 	// Data has already rendered, re-render
+	// 	Mavo.all.colorSpaces.render(Mavo.all.colorSpaces.getData());
 
-	}
+	// }
 
 
 }
