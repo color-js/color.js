@@ -19,7 +19,10 @@ function addSpaceAccessors (id, space) {
 	let coordIds = Object.keys(space.coords);
 	let coordNames = Object.values(space.coords).map(c => c.name);
 
-	Object.defineProperty(Color.prototype, id, {
+
+	let propId = id.replace(/-/g, "_");
+
+	Object.defineProperty(Color.prototype, propId, {
 		// Convert coords to coords in another colorspace and return them
 		// Source colorspace: this.spaceId
 		// Target colorspace: id
