@@ -6,7 +6,7 @@ export default ColorSpace.create({
 	name: "HSL",
 	coords: {
 		h: {
-			range: [0, 360],
+			refRange: [0, 360],
 			type: "angle",
 			name: "Hue"
 		},
