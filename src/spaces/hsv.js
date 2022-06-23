@@ -54,5 +54,12 @@ export default ColorSpace.create({
 			(l === 0 || l === 1)? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
 			l * 100
 		];
+	},
+	formats: {
+		functions: {
+			color: {
+				toGamut: true,
+			}
+		}
 	}
 });
