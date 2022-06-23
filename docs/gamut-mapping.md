@@ -46,7 +46,8 @@ You can also pass a different color space whose gamut you are mapping to via the
 let lime = new Color("p3", [0, 1, 0]);
 let sRGB_lime = lime.to("srgb");
 lime.toGamut({space: "srgb"});
-sRGB_lime.toGamut();
+sRGB_lime.clone().toGamut();
+sRGB_lime; // still out of gamut
 ```
 
 Perhaps most important is the `method` parameter, which controls the algorithm used for gamut mapping.
