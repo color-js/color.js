@@ -1,5 +1,9 @@
+:root {
+	--font-ui: system-ui, Helvetica Neue, Helvetica, Segoe UI, sans-serif
+}
+
 body {
-	font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
+	font: 120%/1.5 var(--font-ui);
 	width: 90vw;
 	max-width: 80em;
 	margin: 1em auto;
@@ -38,20 +42,41 @@ td {
 	font-family: Consolas, Monaco, monospace;
 }
 
-td:nth-child(3) {
+.serialization {
 	display: flex;
 }
 
-td:nth-child(3) a {
-	font: inherit;
-	color: inherit;
-	text-decoration: none;
-}
+	.serialization a {
+		display: flex;
+		font: inherit;
+		color: inherit;
+		text-decoration: none;
+	}
 
-td:nth-child(3) a:hover {
-	cursor: pointer;
-	text-decoration: underline;
-}
+	.serialization a:hover {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
+	.serialization.out-of-gamut {
+		color: hsl(0 90% 38%);
+	}
+
+	.serialization.gamut-mapped::after {
+		content: "Gamut\amapped";
+		display: inline-block;
+		font: bold 9px/1 var(--font-ui);
+		background: hsl(0 40% 50% / .15);
+		text-transform: uppercase;
+		white-space: pre-line;
+		padding: .4em .6em;
+		border-radius: .3em;
+		margin: auto 0 auto .5em;
+	}
+
+	.serialization button {
+		order: 4;
+	}
 
 tr:nth-child(even) {
 	background: rgba(0,0,0,.05);

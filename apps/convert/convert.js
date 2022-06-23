@@ -56,15 +56,25 @@ function update() {
 			}
 
 			let precision = precisionInput.value;
-			let str = converted.toString({precision});
+			let inGamut = converted.inGamut();
+			let str = converted.toString({precision, inGamut: false});
+			let str_mapped = converted.toString({precision, inGamut: true});
 			let permalink = `?color=${encodeURIComponent(str)}&precision=${encodeURIComponent(precision)}`;
+			let permalink_mapped = `?color=${encodeURIComponent(str_mapped)}&precision=${encodeURIComponent(precision)}`;
 
 			ret += `<tr>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
 				<td>
-					<a href="${permalink}">${str}</a>
-					<button class="copy" data-clipboard-text="${str}" title="Copy">📋</button>
+					<div class="serialization ${inGamut || str === str_mapped? "in-gamut" : "out-of-gamut"} ${!inGamut && str === str_mapped? "gamut-mapped" : ""}">
+						<a href="${permalink}" ${!inGamut? 'title="Out of gamut"' : ""}>${str}</a>
+						<button class="copy" data-clipboard-text="${str}" title="Copy">📋</button>
+					</div>
+					${str !== str_mapped? `
+					<div class="serialization gamut-mapped">
+						<a href="${permalink_mapped}">${str_mapped}</a>
+						<button class="copy" data-clipboard-text="${str_mapped}" title="Copy">📋</button>
+					</div>` : ""}
 				</td>
 			</tr>`;
 		}
