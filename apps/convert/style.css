@@ -51,6 +51,7 @@ td {
 		font: inherit;
 		color: inherit;
 		text-decoration: none;
+		white-space: nowrap;
 	}
 
 	.serialization a:hover {
