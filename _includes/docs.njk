@@ -2,7 +2,7 @@
 layout: "page.njk"
 
 eleventyComputed:
-  title: '{{ page.fileSlug | unslugify }}'
+  default_title: '{{ page.fileSlug | unslugify }}'
   includes: '<link rel="stylesheet" href="{{ page | relative }}/assets/css/docs.css" />'
 ---
 <aside id="toc">

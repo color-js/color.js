@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{{ title }}{% if title %} &bull; {% endif %}Color.js</title>
+<title>{% if title %}{{ title }} &bull; {% else %}{{ default_title }}{% endif %}Color.js</title>
 <meta name="viewport" content="width=device-width" />
 <link rel="shortcut icon" href="{{ page | relative }}/logo.svg">
 <link rel="stylesheet" href="{{ page | relative }}/assets/css/style.css">
