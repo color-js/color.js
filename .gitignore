@@ -8,3 +8,4 @@ node_modules/
 !templates/*.html
 !apps/*/*.html
 !test.html
+api2/
