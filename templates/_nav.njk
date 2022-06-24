@@ -1,5 +1,10 @@
 <a href="{{ page | relative }}/get/">Get<span class="wide"> Color.js</span></a>
-<a href="{{ page | relative }}/docs/">Docs</a>
+<div class="menu">
+	<a href="{{ page | relative }}/docs/">Docs</a>
+	<ul>
+		{% include "./_docs-nav.njk" %}
+	</ul>
+</div>
 <a href="{{ page | relative }}/api/">API</a>
 <a href="{{ page | relative }}/notebook/">Play!</a>
 <a href="{{ page | relative }}/apps/">Demos</a>

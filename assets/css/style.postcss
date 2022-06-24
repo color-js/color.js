@@ -165,10 +165,39 @@ body > footer {
 	animation: var(--rainbow-scroll);
 
 	& nav {
+		& > .menu {
+			flex: 1;
+			display: flex;
+			position: relative;
+
+			& > ul {
+				position: absolute;
+				z-index: 1;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+				background: white;
+				box-shadow: .1em .5em 1em hsl(0 0% 0% / .1);
+				border-radius: 4px;
+				transition: 150ms;
+
+				& a {
+					text-align: left;
+				}
+			}
+
+			&:not(:focus-within, :hover) > ul {
+				transform: scale(0);
+				opacity: 0;
+			}
+		}
+
 		& a {
+			display: block;
 			text-align: center;
 		}
 
+		& > .menu > a,
 		& a:not(.logo) {
 			flex: 1;
 			padding: .6em;
@@ -183,6 +212,16 @@ body > footer {
 			}
 		}
 	}
+}
+
+header .menu > ul {
+	top: 100%;
+	transform-origin: top left;
+}
+
+footer .menu > ul {
+	bottom: 100%;
+	transform-origin: bottom left;
 }
 
 [mv-app="colorNotebook"] h1,
