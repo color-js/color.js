@@ -12,6 +12,7 @@
 		"import": "./dist/color.js",
 		"require": "./dist/color.cjs"
 	},
+	"type": "module",
 	"main": "./dist/color.cjs.js",
 	"module": "./dist/color.esm.js",
 	"directories": {
@@ -20,11 +21,11 @@
 	"scripts": {
 		"test": "open tests/",
 		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css",
-		"build:html": "npx @11ty/eleventy",
+		"build:html": "npx @11ty/eleventy --config=.eleventy.cjs",
 		"build:js": "rollup -c",
 		"build": "npm run build:html && npm run build:css && npm run build:js",
 		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --watch",
-		"watch:html": "npx @11ty/eleventy --watch",
+		"watch:html": "npx @11ty/eleventy --config=.eleventy.cjs --watch",
 		"watch:js": "rollup -c --watch",
 		"watch": "npm run watch:css & npm run watch:html & npm run watch:js"
 	},
