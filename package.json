@@ -1,17 +1,18 @@
 {
 	"name": "colorjs.io",
-	"version": "0.0.7",
+	"version": "0.1.0-alpha",
 	"description": "Color space agnostic color manipulation library",
 	"files": [
-		"dist/color.cjs.js",
-		"dist/color.cjs.js.map",
-		"dist/color.esm.js",
-		"dist/color.esm.js.map"
+		"dist/color.cjs",
+		"dist/color.cjs.map",
+		"dist/color.js",
+		"dist/color.js.map"
 	],
 	"exports": {
-		"import": "./dist/color.esm.js",
-		"require": "./dist/color.cjs.js"
+		"import": "./dist/color.js",
+		"require": "./dist/color.cjs"
 	},
+	"type": "module",
 	"main": "./dist/color.cjs.js",
 	"module": "./dist/color.esm.js",
 	"directories": {
