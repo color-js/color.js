@@ -12,7 +12,6 @@
 		"import": "./dist/color.js",
 		"require": "./dist/color.cjs"
 	},
-	"type": "module",
 	"main": "./dist/color.cjs.js",
 	"module": "./dist/color.esm.js",
 	"directories": {
