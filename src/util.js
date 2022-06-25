@@ -30,6 +30,7 @@ export function type (o) {
  * @param {number} precision - Number of significant digits
  */
 export function toPrecision(n, precision) {
+	n = +n;
 	precision = +precision;
 	let integerLength = (Math.floor(n) + "").length;
 
