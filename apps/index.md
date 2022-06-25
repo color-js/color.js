@@ -12,3 +12,7 @@ body_classes: language-markup
 ## Elements
 
 - [`<color-swatch>`](../elements/color-swatch/)
+
+## External
+
+- [What the color?](https://projects.verou.me/whathecolor/)
