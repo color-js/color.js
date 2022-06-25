@@ -20,11 +20,11 @@
 	},
 	"scripts": {
 		"test": "open tests/",
-		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css",
+		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
 		"build:html": "npx @11ty/eleventy --config=.eleventy.cjs",
 		"build:js": "rollup -c",
 		"build": "npm run build:html && npm run build:css && npm run build:js",
-		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --watch",
+		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs --watch",
 		"watch:html": "npx @11ty/eleventy --config=.eleventy.cjs --watch",
 		"watch:js": "rollup -c --watch",
 		"watch": "npm run watch:css & npm run watch:html & npm run watch:js"
