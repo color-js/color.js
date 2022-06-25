@@ -121,7 +121,7 @@ export function range (color1, color2, options = {}) {
 	if (isRange(color1)) {
 		// Tweaking existing range
 		let [range, options] = [color1, color2];
-		return Color.range(...range.rangeArgs.colors, {...range.rangeArgs.options, ...options});
+		return range(...range.rangeArgs.colors, {...range.rangeArgs.options, ...options});
 	}
 
 	let {space, outputSpace, progression, premultiplied} = options;
@@ -150,7 +150,11 @@ export function range (color1, color2, options = {}) {
 	if (space.coords.h && space.coords.h.type === "angle") {
 		let arc = options.hue = options.hue || "shorter";
 
-		[color1[space.id].h, color2[space.id].h] = angles.adjust(arc, [color1[space.id].h, color2[space.id].h]);
+		let hue = [space, "h"];
+		let [θ1, θ2] = [color1.get(hue), color2.get(hue)];
+		[θ1, θ2] = angles.adjust(arc, [θ1, θ2]);
+		color1.set(hue, θ1);
+		color2.set(hue, θ2);
 	}
 
 	if (premultiplied) {
