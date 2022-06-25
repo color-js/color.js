@@ -10,7 +10,7 @@
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 
-<script src="../color.js" type="module"></script>
+<script src="../dist/color.global.js"></script>
 <script>
 function gamutTest(toSpace, args) {
 	let td = document.currentScript.parentNode.previousElementSibling;
@@ -164,34 +164,6 @@ function gamutTest(toSpace, args) {
 </section>
 
 
-<script>
-function fuzzyNumberTest(test, ref) {
-	let decimals = 2;
-	test = test.textContent;
-	ref = ref.textContent;
-
-	if (test === ref) {
-		return true;
-	}
-
-	let nRegex = /(-?[\d.]+)/g;
-	let nRound = n => (+n).toFixed(decimals);
-
-	test = test.replace(nRegex, nRound);
-	ref = ref.replace(nRegex, nRound);
-
-	return Test.equals(test.trim(), ref.trim());
-}
-//
-// $.ready().then(() => {
-// 	let lch = [86.61463159131704, 106.45657523304926, 136.0088599937244];
-// 	console.log(Color.convert(lch, "lch", "srgb"));
-// 	console.log(Color.convert(lch, "lch", "srgb", Color.D50));
-// 	console.log(Color.convert(lch, "lch", "srgb", Color.D65));
-// });
-
-
-</script>
 <script src="index.js"></script>
 
 </body>
