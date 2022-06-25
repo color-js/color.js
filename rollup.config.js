@@ -2,7 +2,7 @@ import { terser } from "rollup-plugin-terser";
 
 let bundles = [
 	{
-		"file": "dist/color.iife.js",
+		"file": "dist/color.global.js",
 		"format": "iife",
 		"sourcemap": true,
 		"name": "Color"
