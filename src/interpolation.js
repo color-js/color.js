@@ -134,10 +134,10 @@ export function range (color1, color2, options = {}) {
 	let rangeArgs = {colors: [color1, color2], options};
 
 	if (space) {
-		space = Color.space(space);
+		space = Color.Space.get(space);
 	}
 	else {
-		space = Color.spaces[defaults.interpolationSpace] || color1.space;
+		space = Color.Space.registry[defaults.interpolationSpace] || color1.space;
 	}
 
 	outputSpace = outputSpace? Color.space(outputSpace) : space;
