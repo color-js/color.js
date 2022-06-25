@@ -1,7 +1,9 @@
 // Global defaults one may want to configure
+const hasDOM = typeof document !== "undefined";
+
 export default {
 	gamutMapping: "lch.c",
 	precision: 5,
 	deltaE: "76", // Default deltaE method
-	fallbackSpaces: ["p3", "srgb"]
+	css_space: "srgb", // Default space for CSS output. Code in Color.js makes this wider if there's a DOM available
 }

@@ -356,6 +356,20 @@ Object.assign(Color, {
 	defaults
 });
 
+if (typeof CSS !== "undefined" && CSS.supports) {
+	// Find widest supported color space for CSS
+	for (let spaceId of ["lab", "rec2020", "p3", "srgb"]) {
+		if (spaceId in ColorSpace.registry) {
+			let coords = ColorSpace.registry[spaceId].getMinCoords();
+			let color = new Color(spaceId, coords);
+
+			if (CSS.supports("color", color)) {
+				defaults.css_space = spaceId;
+			}
+		}
+	}
+}
+
 // Make static methods for all instance methods
 Color.statify();
 

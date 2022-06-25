@@ -75,16 +75,16 @@ As of June 2022, `cssColor` will be sRGB in Chrome and Firefox, and P3 in Safari
 
 So, this works, but the process is a little tedious. Thankfully, Color.js has got your back!
 Simply use the `fallback` parameter.
-If set to `true` it will use the default set of fallbacks (P3, then sRGB), but you can also provide your own.
+If set to `true` it will use the widest of the default set of fallbacks ([Lab](spaces.html#lab), [REC.2020](spaces.html#rec2020), [P3](spaces.html#p3), then [sRGB](spaces.html#srgb)), but you can also provide your own space.
 Let's rewrite the example above using the `fallback` parameter!
 
 ```js
 let green = new Color("lch", [80, 80, 120]);
 let cssColor = green.toString({fallback: true});
-let cssColor2 = green.toString({fallback: ["p3", "hsl"]});
+let cssColor2 = green.toString({fallback: "hsl"});
 ```
 
-Tip: You can change the default set of fallbacks by setting `Color.defaults.fallbackSpaces`.
+Tip: You can change the default fallback by setting `Color.defaults.css_space`.
 
 What if you want access to the converted color? For example, you may want to indicate whether it was in gamut or not.
 You can access the `color` property on the returned value:
@@ -97,6 +97,7 @@ cssColor.color.inGamut();
 
 Note: While `color.toString()` returns a primitive string in most cases, when `fallback` is used it returns a `String` object
 so that it can have a property (primitives in Javascript cannot have properties).
+In that case, it will return a `String` object **even if it didn't need to actually use a fallback color**
 
 ## Creating a CSS gradient from a range
 
@@ -118,7 +119,8 @@ element.style.background = `linear-gradient(to right, ${
 Play with the parameters above to see what gradient is produced, or use the [gradients demo app](/apps/gradients)!
 
 Note that in the example above, `color.toString()` is called implicitly with no params due to `array.join()`.
-You can also map the colors to strings yourself:
+This can produce colors that are not supported by the current browser.
+You can also map the colors to strings yourself (e.g. so you can provide the `fallback` parameter):
 
 <div id="test2" style="width: 100%; height: 2em"></div>
 
@@ -127,6 +129,6 @@ let r = Color.range("rebeccapurple", "gold");
 let stops = Color.steps(r, {steps: 10});
 let element = document.querySelector("#test2");
 element.style.background = `linear-gradient(to right, ${
-	stops.map(c => c.toString({precision: 2})).join(", ")
+	stops.map(c => c.toString({fallback: true})).join(", ")
 })`;
 ```

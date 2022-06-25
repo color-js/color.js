@@ -2,8 +2,6 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 
-const hasDOM = typeof document !== "undefined";
-
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
  * @param {Object} options
@@ -20,11 +18,11 @@ export default function toString (color, {
 	fallback,
 	...customOptions
 } = {}) {
+	let ret;
+
 	format = color.space.getFormat(format)
 		   ?? color.space.getFormat("default")
 		   ?? ColorSpace.DEFAULT_FORMAT;
-
-	let ret;
 
 	inGamut ||= format.toGamut;
 
@@ -98,34 +96,16 @@ export default function toString (color, {
 		// in case it's different than this. That way third party code can use that
 		// for e.g. computing text color, indicating out of gamut etc
 
-		if (!hasDOM || typeof CSS === "undefined" || CSS.supports("color", ret)) {
+		if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.css_space) {
 			ret = new String(ret);
 			ret.color = color;
 			return ret;
 		}
 
-		let fallbacks = Array.isArray(fallback)? fallback.slice() : defaults.fallbackSpaces;
-
-		for (let i = 0, fallbackSpace; fallbackSpace = fallbacks[i]; i++) {
-			if (ColorSpace.registry[fallbackSpace]) {
-				let fallbackColor = color.to(fallbackSpace);
-				ret = fallbackColor.toString({precision});
-
-				if (CSS.supports("color", ret)) {
-					ret = new String(ret);
-					ret.color = fallbackColor;
-					return ret;
-				}
-				else if (fallbacks === defaults.fallbackSpaces) {
-					// Drop this space from the default fallbacks since it's not supported
-					fallbacks.splice(i, 1);
-					i--;
-				}
-			}
-		}
-
-		// None of the fallbacks worked, return in the most conservative form possible
-		let fallbackColor = color.to("srgb");
+		// If we're here, what we were about to output is not supported
+		// Fall back to fallback space
+		let fallbackSpace = fallback === true? defaults.css_space : fallback;
+		let fallbackColor = color.to(fallbackSpace);
 		ret = new String(fallbackColor.toString());
 		ret.color = fallbackColor;
 	}

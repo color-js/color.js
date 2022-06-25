@@ -181,6 +181,18 @@ export default class ColorSpace {
 		return `${this.name} (${this.id})`;
 	}
 
+	getMinCoords () {
+		let ret = [];
+
+		for (let id in this.coords) {
+			let meta = this.coords[id];
+			let range = meta.range || meta.refRange;
+			ret.push(range?.min ?? 0);
+		}
+
+		return ret;
+	}
+
 	static registry = {}
 
 	static get all () {
