@@ -240,6 +240,14 @@ export default class ColorSpace {
 		throw new TypeError(`${space} is not a valid color space`);
 	}
 
+	/**
+	 * Get metadata about a coordinate of a color space
+	 *
+	 * @static
+	 * @param {Array | string} ref
+	 * @param {ColorSpace | string} [workingSpace]
+	 * @return {Object}
+	 */
 	static resolveCoord (ref, workingSpace) {
 		let coordType = type(ref);
 		let space, coord;
@@ -262,6 +270,8 @@ export default class ColorSpace {
 			space = ref.space;
 			coord = ref.coordId;
 		}
+
+		space = ColorSpace.get(space);
 
 		if (!space) {
 			space = workingSpace;
