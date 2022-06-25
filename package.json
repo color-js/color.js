@@ -1,7 +1,7 @@
 {
 	"name": "colorjs.io",
 	"version": "0.1.0-alpha",
-	"description": "Color space agnostic color manipulation library",
+	"description": "Let’s get serious about color",
 	"files": [
 		"dist/color.cjs",
 		"dist/color.cjs.map",
@@ -13,8 +13,8 @@
 		"require": "./dist/color.cjs"
 	},
 	"type": "module",
-	"main": "./dist/color.cjs.js",
-	"module": "./dist/color.esm.js",
+	"main": "./dist/color.cjs",
+	"module": "./dist/color.js",
 	"directories": {
 		"test": "tests"
 	},
