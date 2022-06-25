@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Angle pre-interpolation adjustment tests</title>
+<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://test.mavo.io/test.js"></script>
+<script src="../color.js" type="module"></script>
+
+<script type="module">
+import {adjust} from "../src/angles.js";
+window.adjust = adjust;
+</script>
+
+</head>
+<body data-epsilon=".0005">
+
+<h1>Angle pre-interpolation adjustment tests</h1>
+<p>These tests test how angles adapt to different hue interpolation strategies.</p>
+
+<section>
+	<h1>angles.adjust()</h1>
+
+	<table class="reftest" data-test="angle_adjust" data-columns="3">
+		<tr>
+			<td>
+				-20 380
+			</td>
+			<td>
+				340 380
+			</td>
+		</tr>
+		<tr>
+			<td>
+				increasing -20 380
+			</td>
+			<td>
+				340 380
+			</td>
+		</tr>
+		<tr>
+			<td>
+				decreasing -20 380
+			</td>
+			<td>
+				340 20
+			</td>
+		</tr>
+		<tr>
+			<td>
+				longer -20 380
+			</td>
+			<td>
+				340 20
+			</td>
+		</tr>
+		<tr>
+			<td>
+				shorter -20 380
+			</td>
+			<td>
+				340 380
+			</td>
+		</tr>
+		<tr>
+			<td>
+				raw -20 380
+			</td>
+			<td>
+				-20 380
+			</td>
+		</tr>
+	</table>
+</section>
+
+<script type="module">
+import {adjust} from "../src/angles.js";
+
+window.angle_adjust = function angle_adjust(test, result, expected) {
+	var err;
+
+	try {
+		var args = test.textContent.trim().split(/\s+/);
+
+		if (args.length === 2) {
+			args.unshift(undefined);
+		}
+
+		let [arc, ...angles] = args;
+		angles = angles.map(c => +c);
+
+		result.textContent = adjust(arc, angles).join(" ");
+
+		if (Test.equals(result.textContent.trim(), expected.textContent.trim())) {
+			return true;
+		}
+	}
+	catch(e) {
+		result.textContent = err = e;
+	}
+
+	return err || false;
+}
+</script>
+</body>
+</html>
