@@ -266,13 +266,6 @@ export default class Color {
 		       && this.coords.every((c, i) => c === color.coords[i]);
 	}
 
-	// One-off convert between color spaces
-	static convert (coords, fromSpace, toSpace) {
-		fromSpace = ColorSpace.get(fromSpace);
-
-		return fromSpace.to(toSpace, coords);
-	}
-
 	/**
 	 * Get a color from the argument passed
 	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
