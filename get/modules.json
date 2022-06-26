@@ -176,10 +176,10 @@
 			"description": "Color.js core only supports chromatic adaptation between D50 and D65 using the linear Bradford method. This module supports chromatic adaptation between arbitrary illuminants (with 9 presets) using Bradford, Van Kries, CAT02, or CAT16."
 		},
 		{
-			"name": "Color keywords",
-			"id": "keywords",
+			"name": "Space accessors",
+			"id": "space-accessors",
 			"path": ".",
-			"description": "To parse [CSS named colors](https://www.w3.org/TR/css-color-4/#named-colors) in Node, and to improve performance when parsing named colors in the client-side."
+			"description": "To use the shorter `color.spaceId.coordName` syntax instead of `color.get()` and `color.set()`"
 		}
 	]
 }
