@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Benchmark</title>
+</head>
+<body>
+
+<canvas id="colorjs_canvas" width="300" height="300"></canvas>
+<canvas id="culori_canvas" width="300" height="300"></canvas>
+
+<script type="module">
+
+function test(lib, canvas, iteration) {
+	let ctx = canvas.getContext("2d")
+	let i=0, j=0;
+	let timeTaken = 0;
+
+	for (let h = 0; h <= 360; h += 1) {
+		for (let l = 0; l <= 1; l+=.05) {
+			for (let c = 0; c <= 0.4; c+=.01) {
+				let start = performance.now();
+				let {inSRGB, colorStr} = iteration(l, c, h);
+				timeTaken += performance.now() - start;
+
+				if (inSRGB) {
+					ctx.fillStyle = colorStr;
+
+					let x = i % 300;
+					let y = (i - x) / 300;
+
+					ctx.fillRect(x, y, 1, 1);
+					i++;
+				}
+				j++;
+
+			}
+		}
+
+		//console.log(`${h}/360 done, taken ${timeTaken}ms so far`);
+	}
+
+	console.log(`${lib}: ${i}/${j} colors in gamut, took ${timeTaken}ms`);
+}
+
+import Color from "../src/color.js";
+import oklch from "../src/spaces/oklch.js";
+import "../src/deltaE/deltaE2000.js";
+
+test("Color.js", colorjs_canvas, (l, c, h) => {
+	let color = new Color('oklch', [l, c, h])
+	let inSRGB = color.inGamut('srgb');
+
+	return {
+		inSRGB: inSRGB,
+		colorStr: inSRGB ? color.to('srgb').toString() : undefined
+	}
+});
+
+import { displayable, formatRgb } from 'https://cdn.skypack.dev/culori';
+
+test("culori", culori_canvas, (l, c, h) => {
+	let color = { type: 'oklch', l, c, h };
+	let inSRGB = displayable(color);
+
+	return {
+		inSRGB,
+		colorStr: formatRgb(color)
+	}
+});
+
+
+</script>
+</body>
+</html>
