@@ -71,16 +71,16 @@ Any color from CSS Color Level 4 should work:
 
 ```js
 let color = new Color("slategray");
-let color2 = new Color("hwb(60 30% 40%)");
-let color3 = new Color("color(display-p3 0 1 0)");
+let color2 = new Color("hwb(60 30% 40% / .5)");
+let color3 = new Color("color(display-p3 0 1 0 / .9)");
 let color4 = new Color("lch(50% 80 30)");
 ```
 
 You can also create `Color` objects manually:
 
 ```js
-let color2 = new Color("hwb", [60, 30, 40]);
-let color3 = new Color({space: "p3", coords: [0, 1, 0]});
+let color2 = new Color("hwb", [60, 30, 40], .5);
+let color3 = new Color({space: "p3", coords: [0, 1, 0], alpha: .9});
 ```
 
 <p class="read-more"><a href="https://colorjs.io/docs/the-color-object.html">Read more about color objects</a>
