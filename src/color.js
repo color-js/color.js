@@ -179,7 +179,7 @@ export default class Color {
 		}, 0));
 	}
 
-	deltaE(...args) {
+	deltaE (...args) {
 		return deltaE(this, ...args);
 	}
 
@@ -210,12 +210,13 @@ export default class Color {
 	/**
 	 * @return {Boolean} Is the color in gamut?
 	 */
-	inGamut (space = this.space, options) {
-		return Color.inGamut(space, this.to(space).coords, options);
-	}
-
-	static inGamut (space, coords, {epsilon = ε} = {}) {
+	inGamut (space = this.space, {epsilon = ε} = {}) {
 		space = ColorSpace.get(space);
+		let coords = this.coords;
+
+		if (space !== this.space) {
+			coords = this.space.to(space, this.coords);
+		}
 
 		return space.inGamut(coords, {epsilon});
 	}
