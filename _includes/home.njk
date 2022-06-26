@@ -1,0 +1,57 @@
+---
+layout: "plain.njk"
+permalink: index.html
+includes: '<link rel="stylesheet" href="./assets/css/home.css">'
+---
+<header>
+	<nav>
+		{% include "../templates/_nav.njk" %}
+	</nav>
+
+	<hgroup class="logo">
+		<img src="logo.svg" alt="">
+		<h1>Color.js</h1>
+		<h2>Let's get serious about color</h2>
+	</hgroup>
+
+	<div id="features">
+		<article>
+			<h4>Fully color space aware</h3>
+			<p>Each color belongs to a color space; operations are color space agnostic.
+				Modules for <a href="docs/spaces.html">a wide variety of color spaces</a>,
+				including Lab/LCh, OKLab/OKLCh,
+				sRGB and friends (HSL/HSV/HWB), Display P3,
+				J<sub>z</sub>a<sub>z</sub>b<sub>z</sub>, REC.2100 and many <a href="docs/spaces.html">more</a>.</p>
+		</article>
+		<article>
+			<h4>Doesn't gloss over color science</h3>
+			<p>Actual <a href="docs/gamut-mapping.html">gamut mapping</a> instead of naïve clipping,
+				multiple <a href="docs/color-difference.html">DeltaE</a> methods (76, CMC, 2000, J<sub>z</sub>),
+				multiple <a href="docs/adaptation.html">chromatic adaptation</a> methods (von Kries, Bradford, CAT02, CAT16),
+				all with sensible defaults
+			</p>
+		</article>
+		<article>
+			<h4>Up to date with CSS Color 4</h3>
+			<p>Every <a href="https://drafts.csswg.org/css-color-4/">CSS Color 4</a> format & color space supported for both <a href="docs/the-color-object.html">input</a> and <a href="docs/output.html">output</a>, whether your browser supports it or not.</p>
+		</article>
+		<article>
+			<h4>Readable, object-oriented API</h3>
+			<p>Color objects for multiple operations on the same color, and static Color.something() functions for one-off calculations</p>
+		</article>
+		<article>
+			<h4>Modular & Extensible</h3>
+			<p>Use only what you need, or a bundle. Client-side or Node. Deep extensibility with <a href="api/#Hooks-hooks.js">hooks</a>. </p>
+		</article>
+	</div>
+</header>
+
+<main>
+	<p class="warning">
+		Color.js is currently an unreleased work in progress. Here be dragons.
+		If you found this website somehow, feel free to try it out and <a href="https://github.com/LeaVerou/color.js/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">give us feedback</a>, but sshhhh! 🤫
+		There are more bugs in the live code snippets ("Color Notebook") in the docs than the actual Color.js library, so before reporting a bug, please try to reproduce it outside Color Notebook.
+	</p>
+
+	{{ content | safe }}
+</main>

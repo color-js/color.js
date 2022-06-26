@@ -57,3 +57,26 @@ window.vars = vars;
 document.addEventListener("scroll", evt => {
 	root.style.setProperty("--scrolltop", root.scrollTop);
 }, {passive: true});
+
+// Style callouts
+for (let p of $$("p")) {
+	let callout = p.textContent.trimLeft().slice(0, 10).match(/(Tip|Warning|Note):/)?.[1];
+
+	if (callout) {
+		p.classList.add(callout.toLowerCase());
+		p.firstChild.textContent = p.firstChild.textContent.replace(callout + ":", "");
+	}
+}
+
+// Linkify API calls
+for (let code of $$(":not(pre) > code")) {
+	let text = code.textContent;
+	let match = text.match(/([Cc]olor).(\w+)\(\)/);
+
+	if (match) {
+		$.create("a", {
+			href: `/api/#Color${match[1] === "Color"? "." : "#"}${match[2]}`,
+			around: code
+		});
+	}
+}
