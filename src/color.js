@@ -182,8 +182,6 @@ export default class Color {
 		let  sum = X + Y + Z;
 		return [X / sum, Y / sum];
 	}
-	// no setters, as lightness information is lost
-	// when converting color to chromaticity
 
 	/**
 	 * @return {Boolean} Is the color in gamut?

@@ -180,6 +180,18 @@
 			"id": "space-accessors",
 			"path": ".",
 			"description": "To use the shorter `color.spaceId.coordName` syntax instead of `color.get()` and `color.set()`"
+		},
+		{
+			"name": "Contrast",
+			"id": "contrast",
+			"path": ".",
+			"description": "WCAG 2.1 contrast ratio"
+		},
+		{
+			"name": "Chromaticity",
+			"id": "chromaticity",
+			"path": ".",
+			"description": "color.uv and color.xy chromaticity"
 		}
 	]
 }
