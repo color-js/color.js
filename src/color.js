@@ -8,8 +8,8 @@ import parse from "./parse.js";
 import toString from "./toString.js";
 import toGamut from "./toGamut.js";
 
+import xyz_d65 from "./spaces/xyz-d65.js";
 import "./spaces/xyz-d50.js";
-import "./spaces/xyz-d65.js";
 import "./spaces/srgb.js";
 
 const ε = .000075;
@@ -185,22 +185,22 @@ export default class Color {
 
 	// Relative luminance
 	get luminance () {
-		return this.get("xyz.y");
+		return this.get([xyz_d65, "y"]);
 	}
 
 	set luminance (value) {
-		this.set("xyz.y", value);
+		this.set([xyz_d65, "y"], value);
 	}
 
 	// Chromaticity coordinates
 	get uv () {
-		let [X, Y, Z] = this.getAll("xyz");
+		let [X, Y, Z] = this.getAll(xyz_d65);
 		let denom = X + 15 * Y + 3 * Z;
 		return [4 * X / denom, 9 * Y / denom];
 	}
 
 	get xy () {
-		let [X, Y, Z] = this.getAll("xyz");
+		let [X, Y, Z] = this.getAll(xyz_d65);
 		let  sum = X + Y + Z;
 		return [X / sum, Y / sum];
 	}
