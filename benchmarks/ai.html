@@ -8,22 +8,35 @@
 </head>
 <body>
 
-<canvas id="colorjs_canvas" width="300" height="300"></canvas>
-<canvas id="culori_canvas" width="300" height="300"></canvas>
+<canvas id="colorjs_canvas" width="300" height="400"></canvas>
+<canvas id="culori_canvas" width="300" height="400"></canvas>
 
 <script type="module">
 
-function test(lib, canvas, iteration) {
+function test(lib, canvas, f) {
 	let ctx = canvas.getContext("2d")
 	let i=0, j=0;
-	let timeTaken = 0;
+	let timeTaken = {create: 0, in: 0, str: 0};
 
 	for (let h = 0; h <= 360; h += 1) {
 		for (let l = 0; l <= 1; l+=.05) {
 			for (let c = 0; c <= 0.4; c+=.01) {
-				let start = performance.now();
-				let {inSRGB, colorStr} = iteration(l, c, h);
-				timeTaken += performance.now() - start;
+				let start;
+				start = performance.now();
+				let color = f.create(l, c, h);
+				timeTaken.create += performance.now() - start;
+
+				start = performance.now();
+				let inSRGB = f.in(color);
+				timeTaken.in += performance.now() - start;
+
+				let colorStr;
+
+				if (inSRGB) {
+					start = performance.now();
+					colorStr = f.str(color, inSRGB);
+					timeTaken.str += performance.now() - start;
+				}
 
 				if (inSRGB) {
 					ctx.fillStyle = colorStr;
@@ -42,34 +55,27 @@ function test(lib, canvas, iteration) {
 		//console.log(`${h}/360 done, taken ${timeTaken}ms so far`);
 	}
 
-	console.log(`${lib}: ${i}/${j} colors in gamut, took ${timeTaken}ms`);
+	let totalTime = timeTaken.create + timeTaken.in + timeTaken.str;
+	console.log(`${lib}: ${i}/${j} colors in gamut, took ${totalTime}ms (${timeTaken.create}ms creation, ${timeTaken.in} in gamut check, ${timeTaken.str} serialization)`);
 }
 
 import Color from "../src/color.js";
 import oklch from "../src/spaces/oklch.js";
 import "../src/deltaE/deltaE2000.js";
 
-test("Color.js", colorjs_canvas, (l, c, h) => {
-	let color = new Color('oklch', [l, c, h]);
-	let color_srgb = color.to('srgb');
-	let inSRGB = color_srgb.inGamut();
-
-	return {
-		inSRGB,
-		colorStr: inSRGB ? color_srgb.toString() : undefined
-	}
+test("Color.js", colorjs_canvas, {
+	create: (l, c, h) => new Color('oklch', [l, c, h]),
+	in: color => color.inGamut("srgb"),
+	str: color => color.to("srgb").toString()
 });
+
 
 import { displayable, formatRgb } from 'https://cdn.skypack.dev/culori';
 
-test("culori", culori_canvas, (l, c, h) => {
-	let color = { mode: 'oklch', l, c, h };
-	let inSRGB = displayable(color);
-
-	return {
-		inSRGB,
-		colorStr: inSRGB ? formatRgb(color) : undefined
-	}
+test("culori", culori_canvas, {
+	create: (l, c, h) => ({ mode: 'oklch', l, c, h }),
+	in: color => displayable(color),
+	str: color => formatRgb(color)
 });
 
 
