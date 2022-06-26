@@ -1,3 +1,6 @@
+import lab from "../spaces/lab.js";
+import lch from "../spaces/lch.js";
+
 import {register} from "../deltaE.js";
 
 // deltaE2000 is a statistically significant improvement
@@ -20,10 +23,10 @@ export default register("2000", function (color, sample, {kL = 1, kC = 1, kH = 1
 	// kL should be increased for lightness texture or noise
 	// and kC increased for chroma noise
 
-	let [L1, a1, b1] = color.lab;
-	let C1 = color.get("lch.c");
-	let [L2, a2, b2] = sample.lab;
-	let C2 = sample.get("lch.c");
+	let [L1, a1, b1] = color.getAll(lab);
+	let C1 = color.get([lch, "c"]);
+	let [L2, a2, b2] = sample.getAll(lab);
+	let C2 = sample.get([lch, "c"]);
 
 	// Check for negative Chroma,
 	// which might happen through
