@@ -62,7 +62,7 @@ test("Color.js", colorjs_canvas, (l, c, h) => {
 import { displayable, formatRgb } from 'https://cdn.skypack.dev/culori';
 
 test("culori", culori_canvas, (l, c, h) => {
-	let color = { type: 'oklch', l, c, h };
+	let color = { mode: 'oklch', l, c, h };
 	let inSRGB = displayable(color);
 
 	return {
