@@ -15,11 +15,21 @@ export default function multiplyMatrices(A, B) {
 	let p = B[0].length;
 	let B_cols = B[0].map((_, i) => B.map(x => x[i])); // transpose B
 	let product = A.map(row => B_cols.map(col => {
+		let ret = 0;
+
 		if (!Array.isArray(row)) {
-			return col.reduce((a, c) => a + c * row, 0);
+			for (let c of col) {
+				ret += row * c;
+			}
+
+			return ret;
 		}
 
-		return row.reduce((a, c, i) => a + c * (col[i] || 0), 0);
+		for (let i=0; i < row.length; i++) {
+			ret += row[i] * (col[i] || 0);
+		}
+
+		return ret;
 	}));
 
 	if (m === 1) {
