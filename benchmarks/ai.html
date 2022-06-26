@@ -8,15 +8,16 @@
 </head>
 <body>
 
-<canvas id="colorjs_canvas" width="300" height="400"></canvas>
-<canvas id="culori_canvas" width="300" height="400"></canvas>
+<canvas id="colorjs_canvas" width="360" height="400"></canvas>
+<canvas id="culori_canvas" width="360" height="400"></canvas>
 
 <script type="module">
 
 function test(lib, canvas, f) {
-	let ctx = canvas.getContext("2d")
+	let ctx = canvas.getContext("2d");
+	let w = canvas.width;
 	let i=0, j=0;
-	let timeTaken = {create: 0, in: 0, str: 0};
+	let timeTaken = {create: 0, to_srgb: 0, in: 0, str: 0};
 
 	for (let h = 0; h <= 360; h += 1) {
 		for (let l = 0; l <= 1; l+=.05) {
@@ -27,22 +28,26 @@ function test(lib, canvas, f) {
 				timeTaken.create += performance.now() - start;
 
 				start = performance.now();
-				let inSRGB = f.in(color);
+				let color_srgb = f.to_srgb(color);
+				timeTaken.to_srgb += performance.now() - start;
+
+				start = performance.now();
+				let inSRGB = f.in(color_srgb, color);
 				timeTaken.in += performance.now() - start;
 
 				let colorStr;
 
 				if (inSRGB) {
 					start = performance.now();
-					colorStr = f.str(color, inSRGB);
+					colorStr = f.str(color_srgb, color, inSRGB);
 					timeTaken.str += performance.now() - start;
 				}
 
 				if (inSRGB) {
 					ctx.fillStyle = colorStr;
 
-					let x = i % 300;
-					let y = (i - x) / 300;
+					let x = i % w;
+					let y = (i - x) / w;
 
 					ctx.fillRect(x, y, 1, 1);
 					i++;
@@ -55,25 +60,28 @@ function test(lib, canvas, f) {
 		//console.log(`${h}/360 done, taken ${timeTaken}ms so far`);
 	}
 
-	let totalTime = timeTaken.create + timeTaken.in + timeTaken.str;
-	console.log(`${lib}: ${i}/${j} colors in gamut, took ${totalTime}ms (${timeTaken.create}ms creation, ${timeTaken.in} in gamut check, ${timeTaken.str} serialization)`);
+	let totalTime = timeTaken.create + timeTaken.to_srgb + timeTaken.in + timeTaken.str;
+	console.log(`${lib}: ${i}/${j} colors in gamut, took ${totalTime}ms (${timeTaken.create}ms creation, ${timeTaken.to_srgb}ms conversion to srgb, ${timeTaken.in} in gamut check, ${timeTaken.str} serialization)`);
 }
 
 import Color from "../src/color.js";
+import srgb from "../src/spaces/srgb.js";
 import oklch from "../src/spaces/oklch.js";
 import "../src/deltaE/deltaE2000.js";
 
 test("Color.js", colorjs_canvas, {
 	create: (l, c, h) => new Color('oklch', [l, c, h]),
-	in: color => color.inGamut("srgb"),
-	str: color => color.to("srgb").toString()
+	to_srgb: color => color.to("srgb"),
+	in: color_srgb => color_srgb.inGamut(),
+	str: color_srgb => color_srgb.toString()
 });
 
 
-import { displayable, formatRgb } from 'https://cdn.skypack.dev/culori';
+import { displayable, rgb, formatRgb } from 'https://cdn.skypack.dev/culori';
 
 test("culori", culori_canvas, {
 	create: (l, c, h) => ({ mode: 'oklch', l, c, h }),
+	to_srgb: color => rgb(color),
 	in: color => displayable(color),
 	str: color => formatRgb(color)
 });
