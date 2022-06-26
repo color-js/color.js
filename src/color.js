@@ -44,14 +44,19 @@ export default class Color {
 			}
 		}
 
-		let {space, spaceId, coords, alpha} = color ?? {};
+		let space, coords, alpha;
 
-		if (!color) {
+		if (color) {
+			space = color.space || color.spaceId;
+			coords = color.coords;
+			alpha = color.alpha;
+		}
+		else {
 			// default signature new Color(ColorSpace, array [, alpha])
-			[spaceId, coords, alpha] = args;
+			[space, coords, alpha] = args;
 		}
 
-		this.#space = ColorSpace.get(space || spaceId);
+		this.#space = ColorSpace.get(space);
 		this.coords = coords? coords.slice() : [0, 0, 0];
 		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
 
