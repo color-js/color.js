@@ -1,4 +1,7 @@
-# Using Color.js for performance sensitive tasks
+---
+title: Advice for high performance tasks
+---
+# Advice for high performance tasks
 
 Color.js should have good performance for most tasks, however it does support multiple ways of doing the same thing
 and not all of these ways have the same performance.
