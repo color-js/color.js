@@ -8,6 +8,7 @@ import "./spaces/index.js";
 import "./deltaE/index.js";
 
 // Import optional modules
+import "./contrast.js";
 import "./space-accessors.js";
 import "./interpolation.js";
 import "./CATs.js";

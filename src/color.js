@@ -192,19 +192,6 @@ export default class Color {
 		this.set("xyz.y", value);
 	}
 
-	// WCAG 2.0 contrast https://www.w3.org/TR/WCAG20-TECHS/G18.html
-	contrast (color) {
-		color = Color.get(color);
-		let L1 = this.luminance;
-		let L2 = color.luminance;
-
-		if (L2 > L1) {
-			[L1, L2] = [L2, L1];
-		}
-
-		return (L1 + .05) / (L2 + .05);
-	}
-
 	// Chromaticity coordinates
 	get uv () {
 		let [X, Y, Z] = this.getAll("xyz");
