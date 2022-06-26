@@ -1,4 +1,4 @@
-import Color from "../../src/main.js";
+import Color from "../../src/index.js";
 import KEYWORDS from "../../src/keywords.js";
 
 const L_CUTOFF = .65;

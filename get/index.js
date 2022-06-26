@@ -23,7 +23,7 @@ function createURL(code, type = "text/javascript") {
 // async function build() {
 //   // create a bundle
 //   const bundle = await rollup({
-// 	  input: "../src/main.js",
+// 	  input: "../src/index.js",
 // 	  plugins: []
 //   });
 //

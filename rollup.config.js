@@ -34,7 +34,7 @@ bundles = bundles.flatMap(bundle => {
 });
 
 export default {
-	input: "src/main.js",
+	input: "src/index.js",
 	output: bundles,
 	onwarn (warning, rollupWarn) {
 		if (warning.code !== 'CIRCULAR_DEPENDENCY') {

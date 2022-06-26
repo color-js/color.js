@@ -1,4 +1,4 @@
-import Color from "../../src/main.js";
+import Color from "../../src/index.js";
 
 export default class ColorSwatch extends HTMLElement {
 	#swatch
