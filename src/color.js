@@ -86,10 +86,6 @@ export default class Color {
 		return this.#space.id;
 	}
 
-	get white () {
-		return this.space.white;
-	}
-
 	get (prop) {
 		let {space, index} = ColorSpace.resolveCoord(prop, this.space);
 		let coords = this.getAll(space);
