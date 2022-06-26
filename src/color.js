@@ -31,16 +31,16 @@ export default class Color {
 		let str, color;
 
 		if (args.length === 1) {
+			// new Color(string)
+			if (util.isString(args[0])) {
+				str = args[0];
+				color = parse(args[0]);
+			}
 			// new Color(color)
 			// new Color({spaceId, coords})
 			// new Color({space, coords})
-			if (args[0] && typeof args[0] === "object" && (args[0].space || args[0].spaceId) && args[0].coords) {
+			else if (typeof args[0] === "object") {
 				color = args[0];
-			}
-			// new Color(string)
-			else if (util.isString(args[0])) {
-				str = args[0];
-				color = parse(args[0]);
 			}
 		}
 
@@ -52,7 +52,6 @@ export default class Color {
 		}
 
 		this.#space = ColorSpace.get(space || spaceId);
-
 		this.coords = coords? coords.slice() : [0, 0, 0];
 		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
 
