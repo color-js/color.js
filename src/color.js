@@ -47,14 +47,8 @@ export default class Color {
 		let {space, spaceId, coords, alpha} = color ?? {};
 
 		if (!color) {
-			// default signature new Color([ColorSpace,] array [, alpha])
-			if (Array.isArray(args[0])) {
-				// No color space provided, default to sRGB
-				[spaceId, coords, alpha] = ["srgb", ...args];
-			}
-			else {
-				[spaceId, coords, alpha] = args;
-			}
+			// default signature new Color(ColorSpace, array [, alpha])
+			[spaceId, coords, alpha] = args;
 		}
 
 		this.space = ColorSpace.get(space || spaceId);
