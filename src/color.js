@@ -266,19 +266,6 @@ export default class Color {
 		       && this.coords.every((c, i) => c === color.coords[i]);
 	}
 
-	get lightness() {
-		console.warn(`color.lightness is deprecated. Please use color.lch.l instead.`);
-		return this.get("lch.l");
-	}
-	get chroma() {
-		console.warn(`color.chroma is deprecated. Please use color.lch.c instead.`);
-		return this.get("lch.c");
-	}
-	get hue() {
-		console.warn(`color.hue is deprecated. Please use color.lch.h instead.`);
-		return this.get("lch.h");
-	}
-
 	// One-off convert between color spaces
 	static convert (coords, fromSpace, toSpace) {
 		fromSpace = ColorSpace.get(fromSpace);
