@@ -8,10 +8,11 @@ if (location.pathname.indexOf("/docs/") > -1 && window.toc) {
 }
 
 let root = document.documentElement;
+let root_cs = getComputedStyle(root);
 let colors = {
-	red: new Color("--color-red"),
-	green: new Color("--color-green"),
-	blue: new Color("--color-blue")
+	red: new Color(root_cs.getPropertyValue("--color-red")),
+	green: new Color(root_cs.getPropertyValue("--color-green")),
+	blue: new Color(root_cs.getPropertyValue("--color-blue"))
 };
 
 let supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");

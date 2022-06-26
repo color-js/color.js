@@ -16,13 +16,6 @@ let color3 = new Color("color(display-p3 0 1 0)");
 let color4 = new Color("lch(50% 80 30)");
 ```
 
-You can even use CSS variables, optionally with a DOM element against which they will be resolved (defaults to document root):
-
-```js
-new Color("--color-blue");
-new Color("--color-green", document.querySelector("h1"));
-```
-
 ## Color space and coordinates
 
 Internally, every Color object is stored this way, so this is the most low level way to create a Color object.

@@ -58,28 +58,7 @@
 				{ "spaceId": "srgb", "coords": [ 1, 0, 0 ], "alpha": 1 }
 			</td>
 		</tr>
-		<tr title="new Color('--foo')">
-			<td>
-				<script>
-					print(() => {
-						var color = new Color("--foo");
-						return color.toJSON();
-					});
-				</script>
-			</td>
-			<td>
-				{ "spaceId": "srgb", "coords": [ 0, 1, 0 ], "alpha": 1 }
-			</td>
-		</tr>
 		<tr title="new Color('--foo', root)">
-			<td>
-				<script>
-					print(() => {
-						var color = new Color("--foo", testElement);
-						return color.toJSON();
-					});
-				</script>
-			</td>
 			<td>
 				<script>
 					print(() => {

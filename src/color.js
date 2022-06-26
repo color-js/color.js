@@ -30,26 +30,17 @@ export default class Color {
 	constructor (...args) {
 		let str, color;
 
-		// new Color(color)
-		// new Color({spaceId, coords})
-		// new Color({space, coords})
-		if (args[0] && typeof args[0] === "object" && (args[0].space || args[0].spaceId) && args[0].coords) {
-			color = args[0];
-		}
-		else if (util.isString(args[0])) {
-			// new Color("--foo" [, root])
-			if (hasDOM && args[0].indexOf("--") === 0) {
-				// CSS variable
-				let root = arguments[1] && arguments[1].nodeType === 1? arguments[1] : document.documentElement;
-				str = getComputedStyle(root).getPropertyValue(arguments[0]);
+		if (args.length === 1) {
+			// new Color(color)
+			// new Color({spaceId, coords})
+			// new Color({space, coords})
+			if (args[0] && typeof args[0] === "object" && (args[0].space || args[0].spaceId) && args[0].coords) {
+				color = args[0];
 			}
-			 // new Color(string)
-			else if (args.length === 1) {
+			// new Color(string)
+			else if (util.isString(args[0])) {
 				str = args[0];
-			}
-
-			if (str) {
-				color = parse(str);
+				color = parse(args[0]);
 			}
 		}
 
