@@ -127,7 +127,7 @@ color.set({
 });
 
 // Set single coordinate
-color.set("hwb.w", w => w + 10);
+color.set("h", 30);
 ```
 
 Chaining-style modifications are also supported:
