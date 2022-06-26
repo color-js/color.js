@@ -285,14 +285,6 @@ export default class Color {
 		return new Color(color, ...args);
 	}
 
-	/**
-	 * Return a color space object from an id or color space object
-	 * Mainly used internally, so that functions can easily accept either
-	 */
-	static space (space) {
-		return ColorSpace.get(space);
-	}
-
 	// Define static versions of all instance methods
 	static statify(names = []) {
 		names = names || Object.getOwnPropertyNames(Color.prototype);

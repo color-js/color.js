@@ -140,7 +140,7 @@ export function range (color1, color2, options = {}) {
 		space = Color.Space.registry[defaults.interpolationSpace] || color1.space;
 	}
 
-	outputSpace = outputSpace? Color.space(outputSpace) : space;
+	outputSpace = outputSpace? Color.Space.get(outputSpace) : space;
 
 	color1 = color1.to(space).toGamut();
 	color2 = color2.to(space).toGamut();

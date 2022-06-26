@@ -533,7 +533,7 @@ export function serialize (ret, color, win = window) {
 		}
 
 		if (outputSpace !== color.spaceId && !color.inGamut(outputSpace)) {
-			outOfGamut.push(Color.space(outputSpace).name);
+			outOfGamut.push(Color.Space.get(outputSpace).name);
 		}
 
 		if (outOfGamut.length > 0) {
