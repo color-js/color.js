@@ -51,8 +51,7 @@ export default class Color {
 			[spaceId, coords, alpha] = args;
 		}
 
-		this.space = ColorSpace.get(space || spaceId);
-		this.space = this.space ?? ColorSpace.get("srgb");
+		this.#space = ColorSpace.get(space || spaceId);
 
 		this.coords = coords? coords.slice() : [0, 0, 0];
 		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
@@ -64,29 +63,23 @@ export default class Color {
 			}
 		}
 
-		// Make space property immutable
-		Object.defineProperty(this, "space", {
-			value: this.space,
-			enumerable: true,
-			configurable: false,
-			writable: false
-		});
-
-		// Define immutable spaceId property
-		Object.defineProperty(this, "spaceId", {
-			value: this.space.id,
-			enumerable: true,
-			configurable: false,
-			writable: false
-		});
-
 		// Define getters and setters for each coordinate
-		for (let id in this.space.coords) {
+		for (let id in this.#space.coords) {
 			Object.defineProperty(this, id, {
 				get: () => this.get(id),
 				set: value => this.set(id, value)
 			});
 		}
+	}
+
+	#space
+
+	get space() {
+		return this.#space;
+	}
+
+	get spaceId() {
+		return this.#space.id;
 	}
 
 	get white () {
