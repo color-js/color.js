@@ -13,7 +13,7 @@ import defaults from "./defaults.js";
  *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
  * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
  */
-export default function toGamut (color, {method = defaults.gamutMapping, space = color.space, inPlace} = {}) {
+export default function toGamut (color, {method = defaults.gamut_mapping, space = color.space, inPlace} = {}) {
 	if (util.isString(arguments[0])) {
 		space = arguments[0];
 	}
