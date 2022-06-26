@@ -50,12 +50,13 @@ import oklch from "../src/spaces/oklch.js";
 import "../src/deltaE/deltaE2000.js";
 
 test("Color.js", colorjs_canvas, (l, c, h) => {
-	let color = new Color('oklch', [l, c, h])
-	let inSRGB = color.inGamut('srgb');
+	let color = new Color('oklch', [l, c, h]);
+	let color_srgb = color.to('srgb');
+	let inSRGB = color_srgb.inGamut();
 
 	return {
-		inSRGB: inSRGB,
-		colorStr: inSRGB ? color.to('srgb').toString() : undefined
+		inSRGB,
+		colorStr: inSRGB ? color_srgb.toString() : undefined
 	}
 });
 
@@ -67,7 +68,7 @@ test("culori", culori_canvas, (l, c, h) => {
 
 	return {
 		inSRGB,
-		colorStr: formatRgb(color)
+		colorStr: inSRGB ? formatRgb(color) : undefined
 	}
 });
 
