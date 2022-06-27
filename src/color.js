@@ -13,7 +13,6 @@ import "./spaces/xyz-d50.js";
 import "./spaces/srgb.js";
 
 const ε = .000075;
-const hasDOM = typeof document !== "undefined";
 
 /**
  * Class that represents a color
