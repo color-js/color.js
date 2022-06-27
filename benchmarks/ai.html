@@ -19,7 +19,7 @@ function test(lib, canvas, f) {
 	let i=0, j=0;
 	let timeTaken = {create: 0, to_srgb: 0, in: 0, str: 0};
 
-	for (let h = 0; h <= 360; h += 1) {
+	outerloop: for (let h = 0; h <= 360; h += 1) {
 		for (let l = 0; l <= 1; l+=.05) {
 			for (let c = 0; c <= 0.4; c+=.02) {
 				let start;
@@ -40,6 +40,7 @@ function test(lib, canvas, f) {
 				if (inSRGB) {
 					start = performance.now();
 					colorStr = f.str(color_srgb, color, inSRGB);
+
 					timeTaken.str += performance.now() - start;
 				}
 
@@ -67,13 +68,15 @@ function test(lib, canvas, f) {
 import Color from "../src/color.js";
 import srgb from "../src/spaces/srgb.js";
 import oklch from "../src/spaces/oklch.js";
-import "../src/deltaE/deltaE2000.js";
+import to from "../src/to.js";
+import inGamut from "../src/inGamut.js";
+import serialize from "../src/serialize.js";
 
 test("Color.js", colorjs_canvas, {
-	create: (l, c, h) => new Color('oklch', [l, c, h]),
-	to_srgb: color => color.to("srgb"),
-	in: color_srgb => color_srgb.inGamut(undefined, {epsilon: 0}),
-	str: color_srgb => color_srgb.toString()
+	create: (l, c, h) => ({space: oklch, coords: [l, c, h]}),
+	to_srgb: color => to(color, "srgb"),
+	in: color_srgb => inGamut(color_srgb, srgb, {epsilon: 0}),
+	str: color_srgb => serialize(color_srgb)
 });
 
 

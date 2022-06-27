@@ -1,4 +1,3 @@
-import {register} from "../deltaE.js";
 import jzczhz from "../spaces/jzczhz.js";
 
 // More accurate color-difference formulae
@@ -8,12 +7,12 @@ import jzczhz from "../spaces/jzczhz.js";
 // and thus a simple Euclidean root-sum of ΔL² ΔC² ΔH²
 // gives good results.
 
-export default register("Jz", function (color, sample) {
+export default function (color, sample) {
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE in JzCzHz.
-	let [Jz1, Cz1, Hz1] = color.getAll(jzczhz);
-	let [Jz2, Cz2, Hz2] = sample.getAll(jzczhz);
+	let [Jz1, Cz1, Hz1] = jzczhz.from(color);
+	let [Jz2, Cz2, Hz2] = jzczhz.from(sample);
 
 	// Lightness and Chroma differences
 	// sign does not matter as they are squared.
@@ -38,4 +37,4 @@ export default register("Jz", function (color, sample) {
 	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * Math.sin((Δh / 2) * (Math.PI / 180));
 
 	return Math.sqrt(ΔJ ** 2 + ΔC ** 2 + ΔH ** 2);
-});
+};

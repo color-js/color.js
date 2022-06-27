@@ -1,6 +1,10 @@
 import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
+import getColor from "./getColor.js";
+import to from "./to.js";
+import checkInGamut from "./inGamut.js";
+import toGamut from "./toGamut.js";
 
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
@@ -10,7 +14,7 @@ import defaults from "./defaults.js";
  * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
  * @param {string} options.name - Function name [default: color]
  */
-export default function toString (color, {
+export default function serialize (color, {
 	precision = defaults.precision,
 	format = "default",
 	inGamut = true,
@@ -18,6 +22,8 @@ export default function toString (color, {
 	...customOptions
 } = {}) {
 	let ret;
+
+	color = getColor(color);
 
 	format = color.space.getFormat(format)
 		   ?? color.space.getFormat("default")
@@ -32,8 +38,8 @@ export default function toString (color, {
 	// This also clones it so we can manipulate it
 	coords = coords.map(c => c? c : 0);
 
-	if (inGamut && !color.inGamut()) {
-		coords = color.clone().toGamut(inGamut === true? undefined : inGamut).coords;
+	if (inGamut && !checkInGamut(color)) {
+		coords = toGamut(color, inGamut === true? undefined : inGamut).coords;
 	}
 
 	if (format.type === "custom") {
@@ -73,15 +79,16 @@ export default function toString (color, {
 		if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.css_space) {
 			ret = new String(ret);
 			ret.color = color;
-			return ret;
+		}
+		else {
+			// If we're here, what we were about to output is not supported
+			// Fall back to fallback space
+			let fallbackSpace = fallback === true? defaults.css_space : fallback;
+			let fallbackColor = to(color, fallbackSpace);
+			ret = new String(toString(fallbackColor));
+			ret.color = fallbackColor;
 		}
 
-		// If we're here, what we were about to output is not supported
-		// Fall back to fallback space
-		let fallbackSpace = fallback === true? defaults.css_space : fallback;
-		let fallbackColor = color.to(fallbackSpace);
-		ret = new String(fallbackColor.toString());
-		ret.color = fallbackColor;
 	}
 
 	return ret;

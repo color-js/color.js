@@ -1,6 +1,6 @@
-import "./deltaE76.js";
-import "./deltaECMC.js";
-import "./deltaE2000.js";
-import "./deltaEJz.js";
-import "./deltaEITP.js";
-import "./deltaEOK.js";
+export {default as deltaE76} from "./deltaE76.js";
+export {default as deltaECMC} from "./deltaECMC.js";
+export {default as deltaE2000} from "./deltaE2000.js";
+export {default as deltaEJz} from "./deltaEJz.js";
+export {default as deltaEITP} from "./deltaEITP.js";
+export {default as deltaEOK} from "./deltaEOK.js";
