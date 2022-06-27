@@ -68,9 +68,10 @@ function test(lib, canvas, f) {
 import Color from "../src/color.js";
 import srgb from "../src/spaces/srgb.js";
 import oklch from "../src/spaces/oklch.js";
-import to from "../src/to.js";
-import inGamut from "../src/inGamut.js";
-import serialize from "../src/serialize.js";
+// import to from "../src/to.js";
+// import inGamut from "../src/inGamut.js";
+// import serialize from "../src/serialize.js";
+import {to, inGamut, serialize} from "../src/index-fn.js";
 
 test("Color.js", colorjs_canvas, {
 	create: (l, c, h) => ({space: oklch, coords: [l, c, h]}),
@@ -78,6 +79,13 @@ test("Color.js", colorjs_canvas, {
 	in: color_srgb => inGamut(color_srgb, srgb, {epsilon: 0}),
 	str: color_srgb => serialize(color_srgb)
 });
+
+// test("Color.js", colorjs_canvas, {
+// 	create: (l, c, h) => new Color(oklch, [l, c, h]),
+// 	to_srgb: color => color.to(srgb),
+// 	in: color_srgb => color_srgb.inGamut(srgb, {epsilon: 0}),
+// 	str: color_srgb => color_srgb.toString(color_srgb)
+// });
 
 
 import { displayable, rgb, formatRgb } from 'https://cdn.skypack.dev/culori';
