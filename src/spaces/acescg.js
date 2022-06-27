@@ -29,15 +29,15 @@ export default RGBColorSpace.create({
 	// uses the AP1 primaries, see section 4.3.1 Color primaries
 	coords: {
 		r: {
-			range: [0, 2 ** 16],
+			range: [0, 65504],
 			name: "Red"
 		},
 		g: {
-			range: [0, 2 ** 16],
+			range: [0, 65504],
 			name: "Green"
 		},
 		b: {
-			range: [0, 2 ** 16],
+			range: [0, 65504],
 			name: "Blue"
 		}
 	},
