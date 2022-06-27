@@ -36,9 +36,8 @@ export default function toString (color, {
 		coords = color.clone().toGamut(inGamut === true? undefined : inGamut).coords;
 	}
 
-	customOptions.precision = precision;
-
 	if (format.type === "custom") {
+		customOptions.precision = precision;
 		ret = format.serialize(coords, color.alpha, customOptions);
 	}
 	else {
