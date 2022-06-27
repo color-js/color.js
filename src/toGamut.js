@@ -1,7 +1,7 @@
 import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
-import deltaE2000 from "./deltaE/deltaE2000.js";
+// import deltaE2000 from "./deltaE/deltaE2000.js";
 
 /**
  * Force coordinates to be in gamut of a certain color space.
