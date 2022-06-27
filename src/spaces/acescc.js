@@ -4,6 +4,13 @@ import ACEScg from "./acescg.js";
 
 const ε = 2 ** -16;
 
+// the smallest value which, in the 32bit IEEE 754 float encoding,
+// decodes as a non-negative value
+const ACES_min_nonzero = -0.35828683;
+
+// brightest encoded value, decodes to 65504
+const ACES_cc_max = (Math.log2(65504) + 9.72) / 17.52; // 1.468
+
 export default RGBColorSpace.create({
 	id: "acescc",
 	name: "ACEScc",
@@ -17,15 +24,15 @@ export default RGBColorSpace.create({
 	// so that all positive ACES values are maintained."
 	coords: {
 		r: {
-			range: [-0.3014, 1.468],
+			range: [ACES_min_nonzero, ACES_cc_max],
 			name: "Red"
 		},
 		g: {
-			range: [-0.3014, 1.468],
+			range: [ACES_min_nonzero, ACES_cc_max],
 			name: "Green"
 		},
 		b: {
-			range: [-0.3014, 1.468],
+			range: [ACES_min_nonzero, ACES_cc_max],
 			name: "Blue"
 		}
 	},
@@ -35,16 +42,15 @@ export default RGBColorSpace.create({
 	// from section 4.4.2 Decoding Function
 	toBase (RGB) {
 		const low = (9.72 - 15) / 17.52; // -0.3014
-		const high = (Math.log2(65504) + 9.72) / 17.52; // 1.468
 
 		return RGB.map(function (val) {
 			if (val <= low) {
-				return (2 ** ((val * 17.52) - 9.72) - ε) * 2; // 0 for low or below
+				return (2 ** ((val * 17.52) - 9.72) - ε) * 2; // very low values, below -0.3014
 			}
-			else if (val < high) {
+			else if (val < ACES_cc_max) {
 				return 2 ** ((val * 17.52) - 9.72);
 			}
-			else { // val >= high
+			else { // val >= ACES_cc_max
 				return 65504;
 			}
 		});

@@ -29,22 +29,19 @@ export default RGBColorSpace.create({
 	// uses the AP1 primaries, see section 4.3.1 Color primaries
 	coords: {
 		r: {
-			range: [0, 2 ** 16],
+			range: [0, 65504],
 			name: "Red"
 		},
 		g: {
-			range: [0, 2 ** 16],
+			range: [0, 65504],
 			name: "Green"
 		},
 		b: {
-			range: [0, 2 ** 16],
+			range: [0, 65504],
 			name: "Blue"
 		}
 	},
-	// Appendix A: "Very small ACES scene referred values below 7 1/4 stops
-	// below 18% middle gray are encoded as negative ACEScc values.
-	// These values should be preserved per the encoding in Section 4.4
-	// so that all positive ACES values are maintained."
+
 	referred: "scene",
 
 	white: WHITES.ACES,
