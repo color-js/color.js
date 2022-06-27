@@ -1,5 +1,5 @@
-import {register} from "../deltaE.js";
+import distance from "../distance.js";
 
-export default register("76", (color, sample) => {
-	return color.distance(sample, "lab");
-});
+export default function deltaE76 (color, sample) {
+	return distance(color, sample, "lab");
+};

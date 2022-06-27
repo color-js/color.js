@@ -1,16 +1,16 @@
-import Color from "./color.js";
+import getColor from "./getColor.js";
 import {isString} from "./util.js";
 export const DELTAE_METHODS = {};
 
-export function deltaE (c1, c2, o = {}) {
+export default function deltaE (c1, c2, o = {}) {
 	if (isString(o)) {
 		o = {method: o};
 	}
 
 	let {method = Color.defaults.deltaE, ...rest} = o;
 
-	c1 = Color.get(c1);
-	c2 = Color.get(c2);
+	c1 = getColor(c1);
+	c2 = getColor(c2);
 
 	if (method in DELTAE_METHODS) {
 		return DELTAE_METHODS[method](c1, c2, rest);
@@ -19,21 +19,20 @@ export function deltaE (c1, c2, o = {}) {
 	throw new TypeError(`Unknown deltaE method: ${method}`);
 };
 
-export function register(method, func) {
-	if (method) {
-		DELTAE_METHODS[method] = func;
-	}
+export function registerMethod(name, code) {
+	let id = name.replace(/^deltaE/, "");
+	DELTAE_METHODS[id] = code;
+}
 
-	let methodName = "deltaE" + method;
+export function register(Color) {
+	Color.defineFunction("deltaE", deltaE);
 
-	// Add instance method
-	Color.prototype[methodName] = function(c2, o) {
-		c2 = Color.get(c2);
-		return func(this, c2, o);
-	};
+	for (let method in DELTAE_METHODS) {
+		let methodName = "deltaE" + method;
 
-	return Color[methodName] = function(c1, c2, o) {
-		c1 = Color.get(c1);
-		return c1[methodName](c2, o);
+		Color.defineFunction(methodName, function(c1, c2, o) {
+			c1 = getColor(c1);
+			return DELTAE_METHODS[method](c1, c2, o);
+		});
 	}
 }
