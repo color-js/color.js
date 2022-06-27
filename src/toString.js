@@ -12,9 +12,8 @@ import defaults from "./defaults.js";
  */
 export default function toString (color, {
 	precision = defaults.precision,
-	format = "default", commas,
+	format = "default",
 	inGamut = true,
-	name,
 	fallback,
 	...customOptions
 } = {}) {
@@ -44,7 +43,7 @@ export default function toString (color, {
 	}
 	else {
 		// Functional syntax
-		name ||= format.name || "color";
+		let name = format.name || "color";
 
 		if (format.serializeCoords) {
 			coords = format.serializeCoords(coords, precision);
