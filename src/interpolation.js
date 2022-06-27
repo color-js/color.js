@@ -2,15 +2,16 @@
  * Functions related to color interpolation
  */
 import Color from "./color.js";
+import ColorSpace from "./space.js";
 import {type, interpolate} from "./util.js";
 import defaults from "./defaults.js";
 import * as angles from "./angles.js";
 
 /**
  * Return an intermediate color between two colors
- * Signatures: Color.mix(c1, c2, p, options)
- *             Color.mix(c1, c2, options)
- *             Color.mix(color)
+ * Signatures: mix(c1, c2, p, options)
+ *             mix(c1, c2, options)
+ *             mix(color)
  * @param {Color | string} c1 The first color
  * @param {Color | string} [c2] The second color
  * @param {number} [p=.5] A 0-1 percentage where 0 is c1 and 1 is c2
@@ -134,13 +135,13 @@ export function range (color1, color2, options = {}) {
 	let rangeArgs = {colors: [color1, color2], options};
 
 	if (space) {
-		space = Color.Space.get(space);
+		space = ColorSpace.get(space);
 	}
 	else {
-		space = Color.Space.registry[defaults.interpolationSpace] || color1.space;
+		space = ColorSpace.registry[defaults.interpolationSpace] || color1.space;
 	}
 
-	outputSpace = outputSpace? Color.Space.get(outputSpace) : space;
+	outputSpace = outputSpace? ColorSpace.get(outputSpace) : space;
 
 	color1 = color1.to(space).toGamut();
 	color2 = color2.to(space).toGamut();
