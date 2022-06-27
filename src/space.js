@@ -170,6 +170,10 @@ export default class ColorSpace {
 	}
 
 	to (space, coords) {
+		if (arguments.length === 1) {
+			[space, coords] = [space.space, space.coords];
+		}
+
 		space = ColorSpace.get(space);
 
 		if (this === space) {
@@ -212,6 +216,16 @@ export default class ColorSpace {
 		}
 
 		return coords;
+	}
+
+	from (space, coords) {
+		if (arguments.length === 1) {
+			[space, coords] = [space.space, space.coords];
+		}
+
+		space = ColorSpace.get(space);
+
+		return space.to(this, coords);
 	}
 
 	toString () {
