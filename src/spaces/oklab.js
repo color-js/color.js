@@ -41,7 +41,7 @@ export default ColorSpace.create({
 			refRange: [-0.4, 0.4]
 		}
     },
-    inGamut: coords => true,
+
 	// Note that XYZ is relative to D65
     white: "D65",
 	base: "xyz-d65",
@@ -50,9 +50,9 @@ export default ColorSpace.create({
 		let LMS = multiplyMatrices(XYZtoLMS_M, XYZ);
 
 		// non-linearity
-		let LMSg = LMS.map (val => Math.cbrt(val));
+		let LMSg = LMS.map(val => Math.cbrt(val));
 
-		return (multiplyMatrices(LMStoLab_M, LMSg));
+		return multiplyMatrices(LMStoLab_M, LMSg);
 
 	},
 	toBase (OKLab) {
@@ -60,9 +60,9 @@ export default ColorSpace.create({
 		let LMSg = multiplyMatrices(LabtoLMS_M, OKLab);
 
 		// restore linearity
-		let LMS = LMSg.map (val => val ** 3);
+		let LMS = LMSg.map(val => val ** 3);
 
-		return (multiplyMatrices(LMStoXYZ_M, LMS));
+		return multiplyMatrices(LMStoXYZ_M, LMS);
 	},
 
 	formats: {

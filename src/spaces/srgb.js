@@ -12,12 +12,12 @@ export default RGBColorSpace.create({
 		// convert an array of linear-light sRGB values in the range 0.0-1.0
 		// to gamma corrected form
 		// https://en.wikipedia.org/wiki/SRGB
-		return rgb.map(function (val) {
+		return rgb.map(val => {
 			let sign = val < 0? -1 : 1;
-			let abs = Math.abs(val);
+			let abs = val * sign;
 
 			if (abs > 0.0031308) {
-				return sign * (1.055 * Math.pow(abs, 1/2.4) - 0.055);
+				return sign * (1.055 * (abs ** (1/2.4)) - 0.055);
 			}
 
 			return 12.92 * val;
@@ -27,15 +27,15 @@ export default RGBColorSpace.create({
 		// convert an array of sRGB values in the range 0.0 - 1.0
 		// to linear light (un-companded) form.
 		// https://en.wikipedia.org/wiki/SRGB
-		return rgb.map(function (val) {
+		return rgb.map(val => {
 			let sign = val < 0? -1 : 1;
-			let abs = Math.abs(val);
+			let abs = val * sign;
 
 			if (abs < 0.04045) {
 				return val / 12.92;
 			}
 
-			return sign * Math.pow((abs + 0.055) / 1.055, 2.4);
+			return sign * (((abs + 0.055) / 1.055) ** 2.4);
 		});
 	},
 	formats: {
