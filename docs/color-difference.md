@@ -62,32 +62,24 @@ another option is to use a better color model and perform a simpler color differ
 Examples include DeltaEJz (which uses JzCzhz) and deltaEITP (which uses ICtCp). An additional benefit of these two color difference formulae is that, unlike Lab which is mostly tested with medium to low chroma, reflective surface colors, JzCzhz and ICtCp are designed to be used with light-emitting devices (screens), high chroma colors often found in Wide Gamut content, and a much larger range of luminances as found in High Dynamic Range content.
 
 Color.js supports all the DeltaE algorithms mentioned above except DeltaE 94. Each DeltaE algorithm comes with its own method (e.g. `color1.deltaECMC(color2)`),
-as well as a parameterized syntax (e.g. `color1.deltaE(color2, "CMC")`) which falls back to DeltaE 76 when the requested algorithm is not available, or the second argument is missing.
-
-Note: If you are not using the Color.js bundle that includes everything, you will need to import the modules for DeltaE CMC, DeltaE 2000, DeltaEJz and DeltaEITP manually. DeltaE 76 is supported in the core Color.js.
+as well as a parameterized syntax (e.g. `color1.deltaE(color2, "CMC")`).
 
 ```js
-// These are not needed if you're just using the bundle
-// and will be omitted in other code examples
-import "https://colorjs.io/src/deltaE/deltaECMC.js";
-import "https://colorjs.io/src/deltaE/deltaE2000.js";
-import "https://colorjs.io/src/deltaE/deltaEITP.js";
-
 let color1 = new Color("blue");
 let color2 = new Color("lab", [30, 30, 30]);
 let color3 = new Color("lch", [40, 50, 60]);
 
 color1.deltaE(color2, "76");
-color2.deltaE(color3, "76");
+Color.deltaE(color2, color3, "76");
 
 color1.deltaE(color2, "CMC");
-color2.deltaE(color3, "CMC");
+Color.deltaE(color2, color3, "CMC");
 
 color1.deltaE(color2, "2000");
-color2.deltaE(color3, "2000");
+Color.deltaE(color2, color3, "2000");
 
 color1.deltaE(color2, "ITP");
-color2.deltaE(color3, "ITP");
+Color.deltaE(color2, color3, "ITP");
 ```
 
 For most DeltaE algorithms, 2.3 is considered the "Just Noticeable Difference" (JND).
