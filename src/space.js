@@ -270,7 +270,7 @@ export default class ColorSpace {
 	 * Lookup ColorSpace object by name
 	 * @param {ColorSpace | string} name
 	 */
-	static get (space) {
+	static get (space, ...alternatives) {
 		if (!space || space instanceof ColorSpace) {
 			return space;
 		}
@@ -286,6 +286,10 @@ export default class ColorSpace {
 			}
 
 			return ret;
+		}
+
+		if (alternatives.length) {
+			return ColorSpace.get(...alternatives);
 		}
 
 		throw new TypeError(`${space} is not a valid color space`);
