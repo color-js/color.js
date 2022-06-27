@@ -41,10 +41,7 @@ export default RGBColorSpace.create({
 			name: "Blue"
 		}
 	},
-	// Appendix A: "Very small ACES scene referred values below 7 1/4 stops
-	// below 18% middle gray are encoded as negative ACEScc values.
-	// These values should be preserved per the encoding in Section 4.4
-	// so that all positive ACES values are maintained."
+
 	referred: "scene",
 
 	white: WHITES.ACES,
