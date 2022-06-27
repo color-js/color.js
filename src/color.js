@@ -23,8 +23,9 @@ export default class Color {
 	 * Signatures:
 	 * - `new Color(stringToParse)`
 	 * - `new Color(otherColor)`
-	 * - `new Color(coords, alpha)` // defaults to sRGB
-	 * - `new Color(CSS variable [, root])`
+	 * - `new Color({space, coords, alpha})`
+	 * - `new Color(space, coords, alpha)`
+	 * - `new Color(spaceId, coords, alpha)`
 	 */
 	constructor (...args) {
 		let str, color;
@@ -201,7 +202,7 @@ export default class Color {
 	}
 
 	clone () {
-		return new Color(this.spaceId, this.coords, this.alpha);
+		return new Color(this.space, this.coords, this.alpha);
 	}
 
 	/**
