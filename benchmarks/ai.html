@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<canvas id="colorjs_canvas" width="360" height="400"></canvas>
-<canvas id="culori_canvas" width="360" height="400"></canvas>
+<canvas id="colorjs_canvas" width="360" height="200"></canvas>
+<canvas id="culori_canvas" width="360" height="200"></canvas>
 
 <script type="module">
 
@@ -21,7 +21,7 @@ function test(lib, canvas, f) {
 
 	for (let h = 0; h <= 360; h += 1) {
 		for (let l = 0; l <= 1; l+=.05) {
-			for (let c = 0; c <= 0.4; c+=.01) {
+			for (let c = 0; c <= 0.4; c+=.02) {
 				let start;
 				start = performance.now();
 				let color = f.create(l, c, h);
@@ -72,7 +72,7 @@ import "../src/deltaE/deltaE2000.js";
 test("Color.js", colorjs_canvas, {
 	create: (l, c, h) => new Color('oklch', [l, c, h]),
 	to_srgb: color => color.to("srgb"),
-	in: color_srgb => color_srgb.inGamut(),
+	in: color_srgb => color_srgb.inGamut(undefined, {epsilon: 0}),
 	str: color_srgb => color_srgb.toString()
 });
 
