@@ -37,41 +37,17 @@ export default function toString (color, {
 		coords = color.clone().toGamut(inGamut === true? undefined : inGamut).coords;
 	}
 
+	customOptions.precision = precision;
+
 	if (format.type === "custom") {
 		ret = format.serialize(coords, color.alpha, customOptions);
 	}
 	else {
 		// Functional syntax
-
 		name ||= format.name || "color";
 
-		if (format.coordGrammar) {
-			Object.entries(color.space.coords).forEach(([id, coordMeta], i) => {
-				// Preferred format for each coord is the first one
-				let outputType = format.coordGrammar[i][0];
-
-				let fromRange = coordMeta.range || coordMeta.refRange;
-				let toRange = outputType.range, suffix = "";
-
-				// Non-strict equals intentional since outputType could be a string object
-				if (outputType == "<percentage>") {
-					toRange = [0, 100];
-					suffix = "%";
-				}
-				else if (outputType == "<angle>") {
-					suffix = "deg";
-				}
-
-				if (fromRange && toRange) {
-					coords[i] = util.mapRange(fromRange, toRange, coords[i]);
-				}
-
-				coords[i] = util.toPrecision(coords[i], precision);
-
-				if (suffix) {
-					coords[i] += suffix;
-				}
-			});
+		if (format.serializeCoords) {
+			coords = format.serializeCoords(coords, precision);
 		}
 		else {
 			if (precision !== null) {

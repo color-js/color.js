@@ -1,4 +1,4 @@
-import {type, parseCoordGrammar} from "./util.js";
+import {type, parseCoordGrammar, toPrecision, mapRange} from "./util.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
 
@@ -42,6 +42,43 @@ export default class ColorSpace {
 
 				if (format.coords) {
 					format.coordGrammar = parseCoordGrammar(format.coords);
+
+					let coordFormats = Object.entries(this.coords).map(([id, coordMeta], i) => {
+						// Preferred format for each coord is the first one
+						let outputType = format.coordGrammar[i][0];
+
+						let fromRange = coordMeta.range || coordMeta.refRange;
+						let toRange = outputType.range, suffix = "";
+
+						// Non-strict equals intentional since outputType could be a string object
+						if (outputType == "<percentage>") {
+							toRange = [0, 100];
+							suffix = "%";
+						}
+						else if (outputType == "<angle>") {
+							suffix = "deg";
+						}
+
+						return  {fromRange, toRange, suffix};
+					});
+
+					format.serializeCoords = (coords, precision) => {
+						return coords.map((c, i) => {
+							let {fromRange, toRange, suffix} = coordFormats[i];
+
+							if (fromRange && toRange) {
+								c = mapRange(fromRange, toRange, c);
+							}
+
+							c = toPrecision(c, precision);
+
+							if (suffix) {
+								c += suffix;
+							}
+
+							return c;
+						})
+					};
 				}
 			}
 		}
