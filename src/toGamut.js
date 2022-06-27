@@ -1,6 +1,7 @@
 import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
+import deltaE2000 from "./deltaE/deltaE2000.js";
 
 /**
  * Force coordinates to be in gamut of a certain color space.
@@ -14,8 +15,8 @@ import defaults from "./defaults.js";
  * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
  */
 export default function toGamut (color, {method = defaults.gamut_mapping, space = color.space, inPlace} = {}) {
-	if (util.isString(arguments[0])) {
-		space = arguments[0];
+	if (util.isString(arguments[1])) {
+		space = arguments[1];
 	}
 
 	space = ColorSpace.get(space);
