@@ -25,7 +25,7 @@ function render() {
 	}
 
 	let str = color.toString({fallback: true});
-	console.log(str.color, str.color.inGamut());
+
 	input_color.classList.toggle("oog", !str.color.inGamut());
 
 	document.body.style.setProperty("--color", str);

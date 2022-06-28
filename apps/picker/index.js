@@ -27,7 +27,6 @@ let app = createApp({
 
 				let isHue = id === "h" && meta.type === "angle";
 
-
 				return { id, name, isHue, min, max, step };
 			});
 		},
