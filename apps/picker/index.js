@@ -1,5 +1,5 @@
 import Color from "../../color.js";
-import {createApp} from "https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.js";
+import {createApp} from "https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.prod.js";
 
 let app = createApp({
 	data() {
@@ -35,7 +35,14 @@ let app = createApp({
 			return new Color(this.spaceId, this.coords, this.alpha / 100);
 		},
 		css_color () {
-			return this.color.toString({fallback: true});
+			let css_color = this.color.toString({fallback: true});
+
+			requestIdleCallback(() => {
+				let serialized = encodeURIComponent(css_color);
+				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" r="10" fill="${serialized}" /></svg>`;
+			});
+
+			return css_color;
 		},
 		color_srgb () {
 			return this.color.to('srgb');
@@ -79,10 +86,13 @@ let app = createApp({
 	watch: {
 		spaceId (newSpaceId, oldSpaceId) {
 			if (newSpaceId != oldSpaceId) {
-				let coords = Color.Space.get(oldSpaceId).to(newSpaceId, this.coords);
+				let newSpace = Color.Space.get(newSpaceId);
+				let coords = Color.Space.get(oldSpaceId).to(newSpace, this.coords);
 				this.coords = coords;
+
+				document.title = `${newSpace.name} color picker`;
 			}
-		}
+		},
 	}
 }).mount('#app')
 
