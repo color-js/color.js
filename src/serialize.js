@@ -90,7 +90,7 @@ export default function serialize (color, {
 			// Fall back to fallback space
 			let fallbackSpace = fallback === true? defaults.css_space : fallback;
 			let fallbackColor = to(color, fallbackSpace);
-			ret = new String(toString(fallbackColor));
+			ret = new String(serialize(fallbackColor));
 			ret.color = fallbackColor;
 		}
 
