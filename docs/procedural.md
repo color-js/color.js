@@ -12,6 +12,7 @@ There are several reasons to use this API:
 
 - It is approximately two times faster, making it more suitable for performance-sensitive tasks.
 - It is tree-shakeable (except color spaces at the moment), which results to a smaller bundle size when using build tools.
+- Plain functions operating on plain objects are easier to debug
 - Personal preference: some people find procedural APIs easier to understand.
 
 To use it, you import functions from modules directly, either one by one or en masse.
