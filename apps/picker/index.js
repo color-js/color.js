@@ -94,17 +94,6 @@ window.getColor = function(...args) {
 	return color;
 }
 
-// Generate gradient stops for the sliders
-// (we need to use more to emulate proper interpolation)
-window.slider_stops = function slider_stops(range, l, c, h, a, index) {
-	return range.map(x => {
-		let args = [l, c, h, a];
-		args[index] = x;
-		let color = new Color("lch", args.slice(0, 3), args[3] / 100);
-		return color.toString({fallback: true});
-	}).join(", ");
-}
-
 window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 	str = str || prompt("Enter any CSS color");
 
