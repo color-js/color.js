@@ -1,4 +1,5 @@
 body > header {
+	position: relative;
 	padding-bottom: 1rem;
 }
 
@@ -78,3 +79,22 @@ body > header {
 .readme-only {
 	display: none;
 }
+
+.version-number {
+	font-size: 40%;
+	vertical-align: super;
+	letter-spacing: 0;
+	text-indent: -.4em;
+	margin-left: -0.3em;
+	color: var(--color-green)
+}
+
+@supports not (-webkit-background-clip: text) {
+
+.version-number {
+		background: var(--rainbow);
+		animation: var(--rainbow-scroll);
+		-webkit-text-fill-color: transparent;
+		-webkit-background-clip: text
+}
+	}
