@@ -10,7 +10,8 @@
 	],
 	"exports": {
 		"import": "./dist/color.js",
-		"require": "./dist/color.cjs"
+		"require": "./dist/color.cjs",
+		"./fn": "./src/index-fn.js"
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",
