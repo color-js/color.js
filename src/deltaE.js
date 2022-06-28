@@ -1,4 +1,5 @@
 import getColor from "./getColor.js";
+import defaults from "./defaults.js";
 import {isString} from "./util.js";
 export const DELTAE_METHODS = {};
 
@@ -7,7 +8,7 @@ export default function deltaE (c1, c2, o = {}) {
 		o = {method: o};
 	}
 
-	let {method = Color.defaults.deltaE, ...rest} = o;
+	let {method = defaults.deltaE, ...rest} = o;
 
 	c1 = getColor(c1);
 	c2 = getColor(c2);
