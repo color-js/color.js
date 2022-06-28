@@ -37,7 +37,7 @@
 	"keywords": [
 		"color"
 	],
-	"author": "Lea Verou, Chris Lilley",
+	"contributors": ["Lea Verou", "Chris Lilley"],
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/LeaVerou/color.js/issues"
