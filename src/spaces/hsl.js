@@ -48,13 +48,22 @@ export default ColorSpace.create({
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
 	toBase: hsl => {
 		let [h, s, l] = hsl;
+
+		// clamp out of range values, per CSS Color 4
+		// https://drafts.csswg.org/css-color/#the-hsl-notation
+		// then convert percents to numbers
 		h = h % 360;
 
 		if (h < 0) {
 			h += 360;
 		}
 
+		if (s < 0) s = 0;
+		if (s > 100) s = 100;
 		s /= 100;
+
+		if (l < 0) l = 0;
+		if (l > 100) l = 100;
 		l /= 100;
 
 		function f(n) {
