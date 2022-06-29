@@ -27,6 +27,10 @@ let app = createApp({
 			ret.spaceId = spaceId;
 		}
 
+		let space = Color.Space.get(ret.spaceId);
+
+		document.title = `${space.name} color picker`;
+
 		return ret;
 	},
 	computed: {
