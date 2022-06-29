@@ -1,7 +1,3 @@
----
-layout: home
----
-
 <header class="readme-only">
 
 # Color.js: Let’s get serious about color
