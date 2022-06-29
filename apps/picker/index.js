@@ -1,11 +1,15 @@
 import Color from "../../color.js";
 import {createApp} from "https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.prod.js";
 
+if (!globalThis.requestIdleCallback) {
+	globalThis.requestIdleCallback = globalThis.requestAnimationFrame;
+}
+
 let app = createApp({
 	data() {
 		let ret = {
 			alpha: 100,
-			decimals: 3,
+			precision: 3,
 			spaceId: "lch",
 			color_spaces: Color.Space.all,
 			coords: [50, 50, 50],
@@ -49,12 +53,24 @@ let app = createApp({
 			return new Color(this.spaceId, this.coords, this.alpha / 100);
 		},
 		css_color () {
-			let css_color = this.color.toString({fallback: true});
+			requestIdleCallback(() => {
+				let serialized = encodeURIComponent(this.css_color);
+				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" r="10" fill="${serialized}" /></svg>`;
+			});
 
-			return css_color;
+			return this.color.toString({fallback: true}) + "";
 		},
 		color_srgb () {
 			return this.color.to('srgb');
+		},
+		serialized_color () {
+			return this.color.toString({precision: this.precision});
+		},
+		serialized_color_srgb () {
+			return this.color_srgb.toString({precision: this.precision});
+		},
+		serialized_color_srgb_oog () {
+			return this.color_srgb.toString({precision: this.precision, inGamut: false});
 		},
 		slider_steps () {
 			let {spaceId, coords, coord_meta, alpha} = this;
@@ -110,8 +126,6 @@ let app = createApp({
 			requestIdleCallback(() => {
 				let {spaceId, coords, alpha} = this;
 				localStorage.picker_color = JSON.stringify({spaceId, coords, alpha});
-				let serialized = encodeURIComponent(this.css_color);
-				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" r="10" fill="${serialized}" /></svg>`;
 			});
 		}
 	}

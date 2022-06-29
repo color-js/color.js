@@ -17,7 +17,7 @@ body {
 
 input[type=number]::-webkit-inner-spin-button {
 	opacity: .5;
-	transform: scale(1.2)
+	transform: translateX(.1em);
 }
 
 header {
@@ -28,13 +28,15 @@ header {
 }
 
 	header select {
-		max-width: 100%;
-		font: inherit;
-		color: inherit;
-		background: none;
+		max-width: calc(100% - .2em);
+		box-sizing: content-box;
+		padding: 0;
 		border: .1em solid hsl(220 10% 60%);
 		border-radius: .2em;
 		margin-bottom: .2em;
+		font: inherit;
+		color: inherit;
+		background: none;
 		font-size: 150%;
 		text-overflow: ellipsis;
 	}
@@ -53,7 +55,15 @@ main {
 	box-shadow: .05em .05em .1em rgba(0,0,0,.2), 0 0 0 100vmax var(--color);
 }
 
+fieldset {
+	border: 1px solid hsl(220 10% 80%);
+	border-radius: .3em;
+	margin: 0;
+	margin-top: 1em;
+}
+
 label,
+legend,
 details summary {
 	display: block;
 	text-transform: uppercase;
@@ -148,16 +158,17 @@ input.color-srgb {
 }
 
 .out-of-gamut-warning {
+	margin-top: .4em;
 	color: #b00;
 	font-weight: bold;
 	font-size: smaller;
 	text-transform: initial;
 }
 
-.out-of-gamut-warning::before {
-	content: "⚠️ ";
-	filter: invert() hue-rotate(-200deg);
-}
+	.out-of-gamut-warning::before {
+		content: "⚠️ ";
+		filter: invert() hue-rotate(-200deg);
+	}
 
 label:not(.out-of-gamut) .out-of-gamut-warning {
 	display: none;
@@ -212,64 +223,9 @@ details {
 	margin-top: 1em;
 }
 
-.decimals input {
+.precision input {
 	font: inherit;
 	color: inherit;
 	background: none;
 	border: none;
-}
-
-/* Carbon Ads */
-
-#carbonads {
-	display: block;
-	margin: 2em 0;
-
-	font-size: 14px;
-	line-height: 1.35;
-	overflow: hidden;
-	max-width: 330px;
-}
-
-#carbonads a {
-	color: #5b5b6f;
-}
-
-#carbonads span {
-	display: block;
-	position: relative;
-
-	overflow: hidden;
-}
-
-.carbon-img {
-	float: left;
-	margin-right: 1em;
-}
-
-.carbon-img img {
-	display: block;
-}
-
-.carbon-text {
-	display: block;
-	float: left;
-	margin-bottom: 20px;
-
-	max-width: calc(100% - 130px - 1em);
-	text-align: left;
-	text-decoration: none;
-}
-
-.carbon-poweredby {
-	display: block;
-	position: absolute;
-	bottom: 0;
-	left: 144px;
-
-	font-size: 10px;
-	font-weight: 600;
-	line-height: 1;
-	letter-spacing: 1px;
-	text-transform: uppercase;
 }
