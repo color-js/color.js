@@ -3,13 +3,27 @@ import {createApp} from "https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.prod.
 
 let app = createApp({
 	data() {
-		return {
+		let ret = {
 			alpha: 100,
 			decimals: 3,
 			spaceId: "lch",
 			color_spaces: Color.Space.registry,
 			coords: [50, 50, 50],
 		};
+
+		if (localStorage.picker_color) {
+			let o = JSON.parse(localStorage.picker_color);
+			Object.assign(ret, o);
+		}
+
+		let spaceId = location.pathname.match(/\/picker\/([\w-]*)/)?.[1] || new URL(location).searchParams.get("space");
+
+		if (spaceId && spaceId !== ret.spaceId) {
+			ret.coords = new Color(ret.spaceId, ret.coords, ret.alpha / 100).to(spaceId, {inGamut: true}).coords;
+			ret.spaceId = spaceId;
+		}
+
+		return ret;
 	},
 	computed: {
 		space () {
@@ -36,11 +50,6 @@ let app = createApp({
 		},
 		css_color () {
 			let css_color = this.color.toString({fallback: true});
-
-			requestIdleCallback(() => {
-				let serialized = encodeURIComponent(css_color);
-				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" r="10" fill="${serialized}" /></svg>`;
-			});
 
 			return css_color;
 		},
@@ -96,6 +105,15 @@ let app = createApp({
 				history.pushState(null, "", url.href);
 			}
 		},
+
+		color (newColor) {
+			requestIdleCallback(() => {
+				let {spaceId, coords, alpha} = this;
+				localStorage.picker_color = JSON.stringify({spaceId, coords, alpha});
+				let serialized = encodeURIComponent(this.css_color);
+				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" r="10" fill="${serialized}" /></svg>`;
+			});
+		}
 	}
 }).mount('#app')
 
