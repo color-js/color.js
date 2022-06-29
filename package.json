@@ -1,12 +1,13 @@
 {
 	"name": "colorjs.io",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "Let’s get serious about color",
 	"files": [
 		"dist/color.cjs",
 		"dist/color.cjs.map",
 		"dist/color.js",
-		"dist/color.js.map"
+		"dist/color.js.map",
+		"src/"
 	],
 	"exports": {
 		"import": "./dist/color.js",
