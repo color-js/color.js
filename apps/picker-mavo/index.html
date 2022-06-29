@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" mv-storage="local" mv-app="genericPicker" mv-autosave
+mv-init='data:application/json,{"spaceId":"lch", "coords": [50, 50, 50], "alpha": 100}'
+mv-mode="edit">
+<head>
+	<meta charset="UTF-8">
+	<title>LCH Colour picker</title>
+	<meta name="viewport" content="initial-scale=1">
+	<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
+	<link rel="stylesheet" href="style.css">
+
+	<script src="index.js" type="module"></script>
+	<script src="https://get.mavo.io/mavo.js" defer></script>
+	<link rel="icon" id="favicon">
+</head>
+<body id="app">
+	<main style="--color: [css_color]">
+		<header>
+			<h1>
+				<select class="autosize" property id="spaceId">
+					<option mv-multiple="space" mv-value="getColorSpaces()" value="[id]" mv-group>[name]</option>
+				</select>
+				<div>Colour Picker <button onclick="CSS_color_to_LCH()">Import color…</button></div>
+			</h1>
+		</header>
+
+		<div hidden property="color">
+			<meta property="spaceId" content="[genericPicker.spaceId]">
+			<meta property="coords" content="[value]">
+			<meta property="alpha" content="[genericPicker.alpha]">
+		</div>
+		<div hidden property="color_srgb" mv-value="color_to(genericPicker.color, 'srgb')">
+			<meta property="spaceId">
+			<meta property="coords">
+			<meta property="alpha">
+		</div>
+
+		<div class="mv-container" mv-list>
+			<label mv-list-item="coord_meta" mv-value="getCoordMeta(genericPicker.spaceId)" class="color-slider-label">
+				[name] ([min]-[max])
+				<!-- style="--stops: [get(getSliderSteps(spaceId, coords, coord_meta, alpha), $index)]" -->
+				<input class="color-slider" type="range" property="value" mv-default="[valueNumber]" min="[min]" max="[max]" step="[step]" />
+				<input type="number" property="valueNumber" mv-default="[value]" style="`--percentage: [ value / (max - min) ]`" min="[min]" max="[max]" step="[step]" />
+			</label>
+		</div>
+
+		<label class="color-slider-label">Alpha (0-100)
+			<!-- style="--stops: [last(getSliderSteps(spaceId, coords, coord_meta, alpha))]" -->
+			<input class="color-slider" type="range" property="alpha" mv-default="[alphaNumber]"
+			 />
+			<input type="number" class="autosize" property="alphaNumber" mv-default="[alpha]" style="--percentage: [alpha / 100]" max="100" />
+		</label>
+
+	<label>CSS Color <span class="decimals autosize">(<span property="decimals" mv-mode="edit" mv-editor-type="number" mv-editor-min="0" mv-editor-max="20">3</span> decimals)</span>
+		<input class="color-css" value="[color_serialize(color, precision: decimals)]" readonly />
+	</label>
+
+	<label>Displayed color</span>
+		<input property id="css_color" class="color-css" value="[color_serialize(color, group(precision: decimals, fallback: true))]" readonly />
+	</label>
+
+	<label class="[!if(color_inGamut(color, 'srgb', epsilon: .00005), 'out-of-gamut')]" style="--color: [color_serialize(color_srgb)]">
+		<abbr>sRGB</abbr> Color
+		<input class="color-srgb" value="[color_serialize(color_srgb, precision: decimals)]" readonly />
+		<div class="out-of-gamut-warning">Color is actually [color_serialize(color_srgb, group(precision: decimals, inGamut: false))], which is out of sRGB gamut; auto-corrected to sRGB boundary.</div>
+	</label>
+</main>
+
+
+</body>
+</html>
