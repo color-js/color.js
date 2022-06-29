@@ -205,6 +205,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 
 			if (CSS.supports("color", color)) {
 				defaults.css_space = spaceId;
+				break;
 			}
 		}
 	}
