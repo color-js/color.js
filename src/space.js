@@ -246,8 +246,9 @@ export default class ColorSpace {
 
 	static registry = {}
 
+	// Returns array of unique color spaces
 	static get all () {
-		return Object.values(ColorSpace.registry);
+		return [...new Set(Object.values(ColorSpace.registry))];
 	}
 
 	static register (id, space) {
