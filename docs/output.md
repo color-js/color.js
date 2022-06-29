@@ -16,6 +16,18 @@ let magenta = new Color("srgb", [1, 0, .4]);
 While this may suffice for some uses, in many cases you will want to provide parameters to customize the result.
 Here are a few examples.
 
+### Choose a specific output format
+
+Each color space supports multiple output formats, you can use the `format` option to pick between them:
+
+```js
+let lv_magenta = new Color("#ff0066");
+lv_magenta.toString({format: "rgb"});
+lv_magenta.toString({format: "rgba"});
+lv_magenta.toString({format: "hex"});
+lv_magenta.toString({format: "color"});
+```
+
 ### Disable gamut mapping
 
 ```js
