@@ -18,6 +18,7 @@ let app = createApp({
 		coord_meta () {
 			return Object.entries(this.space.coords).map(([id, meta]) => {
 				let {name, range, refRange} = meta;
+				name = name || id;
 				range = range || refRange || [0, 100];
 				let [min, max] = range;
 				let step = (max - min) / 100;
@@ -90,6 +91,9 @@ let app = createApp({
 				this.coords = coords;
 
 				document.title = `${newSpace.name} color picker`;
+				let url = new URL(location);
+				url.pathname = url.pathname.replace(/\/picker\/[\w-]*/, `/picker/${newSpaceId}`);
+				history.pushState(null, "", url.href);
 			}
 		},
 	}
