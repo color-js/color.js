@@ -16,9 +16,13 @@ export {default as distance}  from "./distance.js";
 export {default as equals}    from "./equals.js";
 export {default as contrast}  from "./contrast.js";
 export {default as clone}     from "./clone.js";
-export *                      from "./luminance.js";
-export *                      from "./chromaticity.js";
+export {
+  getLuminance, setLuminance
+}                             from "./luminance.js";
+export {uv, xy}                             from "./chromaticity.js";
 export {default as deltaE}    from "./deltaE.js";
 export *                      from "./deltaE/index.js";
 export *                      from "./variations.js";
-export *                      from "./interpolation.js";
+export {
+  mix, steps, range, isRange
+}                             from "./interpolation.js";
