@@ -14,7 +14,7 @@
 		<header>
 			<h1>
 				<select class="autosize" v-model="spaceId">
-					<option v-for="(space, spaceId) in color_spaces" :value="spaceId">{{space.name}}</option>
+					<option v-for="space in color_spaces" :value="space.id">{{space.name}}</option>
 				</select>
 				<div>Colour Picker <button onclick="CSS_color_to_LCH()">Import color…</button></div>
 			</h1>

@@ -7,7 +7,7 @@ let app = createApp({
 			alpha: 100,
 			decimals: 3,
 			spaceId: "lch",
-			color_spaces: Color.Space.registry,
+			color_spaces: Color.Space.all,
 			coords: [50, 50, 50],
 		};
 
