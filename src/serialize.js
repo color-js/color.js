@@ -5,6 +5,7 @@ import getColor from "./getColor.js";
 import to from "./to.js";
 import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
+import clone from "./clone.js";
 
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
@@ -39,7 +40,7 @@ export default function serialize (color, {
 	coords = coords.map(c => c? c : 0);
 
 	if (inGamut && !checkInGamut(color)) {
-		coords = toGamut(color, inGamut === true? undefined : inGamut).coords;
+		coords = toGamut(clone(color), inGamut === true? undefined : inGamut).coords;
 	}
 
 	if (format.type === "custom") {
@@ -90,7 +91,7 @@ export default function serialize (color, {
 			// Fall back to fallback space
 			let fallbackSpace = fallback === true? defaults.css_space : fallback;
 			let fallbackColor = to(color, fallbackSpace);
-			ret = new String(serialize(fallbackColor));
+			ret = new String(serialize(fallbackColor, {precision, inGamut}));
 			ret.color = fallbackColor;
 		}
 
