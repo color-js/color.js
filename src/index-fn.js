@@ -17,14 +17,12 @@ export {default as equals}    from "./equals.js";
 export {default as contrast}  from "./contrast.js";
 export {default as clone}     from "./clone.js";
 export {
-  getLuminance, setLuminance, register as registerLuminance
+  getLuminance, setLuminance
 }                             from "./luminance.js";
-export {
-  uv, xy, register as registerChromaticity
-}                             from "./chromaticity.js";
+export {uv, xy}                             from "./chromaticity.js";
 export {default as deltaE}    from "./deltaE.js";
 export *                      from "./deltaE/index.js";
 export *                      from "./variations.js";
 export {
-  mix, steps, range, isRange, register as registerInterpolation
+  mix, steps, range, isRange
 }                             from "./interpolation.js";
