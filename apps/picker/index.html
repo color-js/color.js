@@ -23,7 +23,7 @@
 		<label v-for="(meta, i) in coord_meta" class="color-slider-label">
 			{{ meta.name }} ({{ meta.min }}-{{ meta.max }})
 			<input class="color-slider" type="range" v-model.number="coords[i]" :style="`--stops: ${ slider_steps[i] }`" :min="meta.min" :max="meta.max" :step="meta.step" />
-			<input type="number" v-model.number="coords[i]" class="autosize" :style="`--percentage: ${coords[i] / (meta.max - meta.min) }`" :min="meta.min" :max="meta.max":step="meta.step" />
+			<input type="number" v-model.number="coords[i]" class="autosize" :style="`--percentage: ${coords[i] / (meta.max - meta.min) }`" :min="meta.min" :max="meta.max" />
 		</label>
 
 		<label class="color-slider-label">Alpha (0-100)
