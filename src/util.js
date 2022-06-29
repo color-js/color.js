@@ -62,7 +62,7 @@ export function parseFunction (str) {
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg)?)/g, ($0, arg) => {
+		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg|g?rad|°|pi|turn)?)/g, ($0, arg) => {
 			if (/%$/.test(arg)) {
 				// Convert percentages to 0-1 numbers
 				arg = new Number(arg.slice(0, -1) / 100);
@@ -70,8 +70,37 @@ export function parseFunction (str) {
 			}
 			else if (/deg$/.test(arg)) {
 				// Drop deg from degrees and convert to number
-				// TODO handle other units too
 				arg = new Number(+arg.slice(0, -3));
+				arg.type = "<angle>";
+				arg.unit = "deg";
+			}
+			else if (/°$/.test(arg)) { // this notation is not valid in CSS
+				// Drop degree sign from degrees and convert to number
+				arg = new Number(+arg.slice(0, -1));
+				arg.type = "<angle>";
+				arg.unit = "deg";
+			}
+			else if (/grad$/.test(arg)) { // check for 'grad' needs to come before check for 'rad' 
+				// Drop grad from gradians (gon) and convert to number in degrees
+				arg = new Number(+arg.slice(0, -4) / 10 * 9);
+				arg.type = "<angle>";
+				arg.unit = "deg";
+			}
+			else if (/rad$/.test(arg)) {
+				// Drop rad from radians and convert to number in degrees
+				arg = new Number(+arg.slice(0, -3) * 180 / Math.PI);
+				arg.type = "<angle>";
+				arg.unit = "deg";
+			}
+			else if (/pi$/.test(arg)) {// this unit is not valid in CSS
+				// Drop pi from π radians and convert to number in degrees
+				arg = new Number(+arg.slice(0, -2) * 180);
+				arg.type = "<angle>";
+				arg.unit = "deg";
+			}
+			else if (/turn$/.test(arg)) {
+				// Drop turn from τ radians and convert to number in degrees
+				arg = new Number(+arg.slice(0, -4) * 360);
 				arg.type = "<angle>";
 				arg.unit = "deg";
 			}
