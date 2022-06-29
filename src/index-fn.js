@@ -1,3 +1,5 @@
+export {default as ColorSpace}           from "./space.js";
+export {default as RGBColorSpace}        from "./rgbspace.js";
 export {default as hooks, Hooks} from "./hooks.js";
 export {default as defaults}  from "./defaults.js";
 export {default as getColor}  from "./getColor.js";
