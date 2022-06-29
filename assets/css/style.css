@@ -380,6 +380,11 @@ main > footer .edit-page {
 			background: white;
 		}
 
+:not(pre) > code,
+pre {
+	font-family: var(--font-monospace);
+}
+
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
 	background: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .02) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;

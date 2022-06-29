@@ -5,7 +5,34 @@ has_mavo: true
 body_classes: cn-ignore
 ---
 {% raw %}
-<section mv-app="colorSpaces" class="cn-ignore">
+<section class="cn-ignore">
+	<figure>
+		<img src="images/all-spaces.png" alt="">
+		<figcaption>Tree of all color spaces supported by Color.js as of June 2022.</figcaption>
+	</figure>
+
+	<p>Color spaces are <code>ColorSpace</code> objects.
+	Every function in Color.js that takes a color space reference can take it in one of two forms:</p>
+
+	<ul>
+		<li>A string id of a <em>registered color space</em></li>
+		<li>A <code>ColorSpace</code> object</li>
+	</ul>
+
+	<p>When you import a module that defines a color space, this uses <code>ColorSpace.create()</code> which does two things:</p>
+	<ol>
+		<li>It invokes the <code>ColorSpace</code> constructor to create a new <code>ColorSpace</code> object</li>
+		<li>It calls <code>ColorSpace.register()</code> to register the color space so it can be referenced with a string id.
+		This just adds the color space to the <code>ColorSpace.registry</code> object.</li>
+		</li>
+	</ol>
+
+	<p class="note">There is an <a href="https://github.com/LeaVerou/color.js/issues/163">open issue</a>
+	about eliminating side effects from our color space modules so they can become tree-shakeable,
+	so this may change in the future.</p>
+</section>
+
+<section mv-app="colorSpaces" mv-bar="none" class="cn-ignore">
 	<div mv-list property="space">
 	<article mv-list-item class="[if(id != originalId, 'alias')">
 		<header>
