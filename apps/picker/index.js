@@ -95,14 +95,6 @@ let app = createApp({
 	}
 }).mount('#app')
 
-const supportsP3 = self.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
-window.supportsP3 = supportsP3;
-
-window.getColor = function(...args) {
-	let color = new Color(...args);
-	return color;
-}
-
 window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 	str = str || prompt("Enter any CSS color");
 
