@@ -274,11 +274,6 @@ export default class ColorSpace {
 		return space;
 	}
 
-	static create (options) {
-		let space = new this(options);
-		return this.register(space);
-	}
-
 	/**
 	 * Lookup ColorSpace object by name
 	 * @param {ColorSpace | string} name
