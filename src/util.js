@@ -62,35 +62,22 @@ export function parseFunction (str) {
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts.groups.args.replace(/\/?\s*([+-\w.e]+(?:%|deg|g?rad|°|pi|turn)?)/gi, ($0, arg) => {
+		parts.groups.args.replace(/\/?\s*(?<arg>[+-\w.]+(?<unit>%|deg|g?rad|turn)?)/gi, ($0, arg, unit) => {
 			if (/%$/.test(arg)) {
 				// Convert percentages to 0-1 numbers
 				arg = new Number(arg.slice(0, -1) / 100);
 				arg.type = "<percentage>";
 			}
-			else if (/deg$/.test(arg)) {
-				// Drop deg from degrees and convert to number
-				arg = new Number(+arg.slice(0, -3));
+			else if (/(?:deg|g?rad|turn)$/.test(arg)) {
+				// Drop the unit symbol and convert to number in degrees
+                                switch (unit) {
+				  case "deg": arg = new Number(+arg.slice(0, -3)); break;
+				  case "grad": arg = new Number(+arg.slice(0, -4) / 10 * 9); break;
+				  case "rad": arg = new Number(+arg.slice(0, -3) * 180 / Math.PI); break;
+				  case "turn": arg = new Number(+arg.slice(0, -4) * 360); break;
+                                }
 				arg.type = "<angle>";
-				arg.unit = "deg";
-			}
-			else if (/grad$/.test(arg)) { // check for 'grad' needs to come before check for 'rad' 
-				// Drop grad from gradians (gon) and convert to number in degrees
-				arg = new Number(+arg.slice(0, -4) / 10 * 9);
-				arg.type = "<angle>";
-				arg.unit = "grad";
-			}
-			else if (/rad$/.test(arg)) {
-				// Drop rad from radians and convert to number in degrees
-				arg = new Number(+arg.slice(0, -3) * 180 / Math.PI);
-				arg.type = "<angle>";
-				arg.unit = "rad";
-			}
-			else if (/turn$/.test(arg)) {
-				// Drop turn from τ radians and convert to number in degrees
-				arg = new Number(+arg.slice(0, -4) * 360);
-				arg.type = "<angle>";
-				arg.unit = "turn";
+				arg.unit = unit;
 			}
 			else if (isNumberRegex.test(arg)) {
 				// Convert numerical args to numbers
