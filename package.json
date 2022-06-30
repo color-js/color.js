@@ -14,8 +14,7 @@
 			"import": "./dist/color.js",
 			"require": "./dist/color.cjs"
 		},
-		"./fn": "./src/index-fn.js",
-		"./fn/spaces": "./src/spaces/index-fn.js"
+		"./fn": "./src/index-fn.js"
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",
@@ -57,5 +56,6 @@
 		"postcss-nesting": "latest",
 		"rollup": "^2.10",
 		"rollup-plugin-terser": "^7"
-	}
+	},
+	"sideEffects": ["./src/spaces/index.js"]
 }
