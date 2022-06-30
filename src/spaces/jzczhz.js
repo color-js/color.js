@@ -51,8 +51,6 @@ export default ColorSpace.create({
 		];
 	},
 	formats: {
-		functions: {
-			color: {}
-		}
+		color: {}
 	},
 });

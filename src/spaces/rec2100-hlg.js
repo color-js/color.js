@@ -34,10 +34,8 @@ export default RGBColorSpace.create({
 		});
 	},
 	formats: {
-		functions: {
-			color: {
-				id: "rec2100-hlg"
-			}
-		}
+		color: {
+			id: "rec2100-hlg"
+		},
 	},
 });

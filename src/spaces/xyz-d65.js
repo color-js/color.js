@@ -10,9 +10,7 @@ const XYZ = ColorSpace.create({
 	},
 	white: "D65",
 	formats: {
-		functions: {
-			color: {}
-		}
+		color: {}
 	},
 });
 
@@ -20,5 +18,5 @@ export default XYZ;
 
 // Register xyz alias
 ColorSpace.register("xyz", XYZ);
-XYZ.formats.functions.color.ids ||= [];
-XYZ.formats.functions.color.ids.push("xyz");
+XYZ.formats.color.ids ||= [];
+XYZ.formats.color.ids.push("xyz");

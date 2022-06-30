@@ -39,80 +39,77 @@ export default RGBColorSpace.create({
 		});
 	},
 	formats: {
-		functions: {
-			"rgb": {
-				coords: coordGrammar,
+		"rgb": {
+			coords: coordGrammar,
+		},
+		"color": { /* use defaults */ },
+		"rgba": {
+			coords: coordGrammar,
+			commas: true,
+			lastAlpha: true,
+		},
+		"hex": {
+			type: "custom",
+			toGamut: true,
+			test: str => /^#([a-f0-9]{3,4}){1,2}$/i.test(str),
+			parse (str) {
+				if (str.length <= 5) {
+					// #rgb or #rgba, duplicate digits
+					str = str.replace(/[a-f0-9]/gi, "$&$&");
+				}
+
+				let rgba = [];
+				str.replace(/[a-f0-9]{2}/gi, component => {
+					rgba.push(parseInt(component, 16) / 255);
+				});
+
+				return {
+					spaceId: "srgb",
+					coords: rgba.slice(0, 3),
+					alpha: rgba.slice(3)[0]
+				};
 			},
-			"color": { /* use defaults */ },
-			"rgba": {
-				coords: coordGrammar,
-				commas: true,
-				lastAlpha: true,
+			serialize: (coords, alpha, {
+				collapse = true // collapse to 3-4 digit hex when possible?
+			} = {}) => {
+				if (alpha < 1) {
+					coords.push(alpha);
+				}
+
+				coords = coords.map(c => Math.round(c * 255));
+
+				let collapsible = collapse && coords.every(c => c % 17 === 0);
+
+				let hex = coords.map(c => {
+					if (collapsible) {
+						return (c/17).toString(16);
+					}
+
+					return c.toString(16).padStart(2, "0");
+				}).join("");
+
+				return "#" + hex;
 			}
 		},
-		custom: {
-			"hex": {
-				toGamut: true,
-				test: str => /^#([a-f0-9]{3,4}){1,2}$/i.test(str),
-				parse (str) {
-					if (str.length <= 5) {
-						// #rgb or #rgba, duplicate digits
-						str = str.replace(/[a-f0-9]/gi, "$&$&");
-					}
+		"keyword": {
+			type: "custom",
+			test: str => /^[a-z]+$/i.test(str),
+			parse (str) {
+				str = str.toLowerCase();
+				let ret = {spaceId: "srgb", coords: null, alpha: 1};
 
-					let rgba = [];
-					str.replace(/[a-f0-9]{2}/gi, component => {
-						rgba.push(parseInt(component, 16) / 255);
-					});
-
-					return {
-						spaceId: "srgb",
-						coords: rgba.slice(0, 3),
-						alpha: rgba.slice(3)[0]
-					};
-				},
-				serialize: (coords, alpha, {
-					collapse = true // collapse to 3-4 digit hex when possible?
-				} = {}) => {
-					if (alpha < 1) {
-						coords.push(alpha);
-					}
-
-					coords = coords.map(c => Math.round(c * 255));
-
-					let collapsible = collapse && coords.every(c => c % 17 === 0);
-
-					let hex = coords.map(c => {
-						if (collapsible) {
-							return (c/17).toString(16);
-						}
-
-						return c.toString(16).padStart(2, "0");
-					}).join("");
-
-					return "#" + hex;
+				if (str === "transparent") {
+					ret.coords = KEYWORDS.black;
+					ret.alpha = 0;
 				}
-			},
-			"keyword": {
-				test: str => /^[a-z]+$/i.test(str),
-				parse (str) {
-					str = str.toLowerCase();
-					let ret = {spaceId: "srgb", coords: null, alpha: 1};
+				else {
+					ret.coords = KEYWORDS[str];
+				}
 
-					if (str === "transparent") {
-						ret.coords = KEYWORDS.black;
-						ret.alpha = 0;
-					}
-					else {
-						ret.coords = KEYWORDS[str];
-					}
-
-					if (ret.coords) {
-						return ret;
-					}
+				if (ret.coords) {
+					return ret;
 				}
 			}
-			// TODO keyword
 		},
 	}
 });

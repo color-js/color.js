@@ -10,10 +10,8 @@ export default RGBColorSpace.create({
 	fromBase: sRGB.fromBase,
 	toBase: sRGB.toBase,
 	formats: {
-		functions: {
-			color: {
-				id: "display-p3",
-			}
+		color: {
+			id: "display-p3",
 		}
 	},
 });

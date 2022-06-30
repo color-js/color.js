@@ -29,8 +29,6 @@ export default RGBColorSpace.create({
 		});
 	},
 	formats: {
-		functions: {
-			color: {}
-		}
+		color: {},
 	}
 });

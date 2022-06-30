@@ -31,65 +31,19 @@ export default class ColorSpace {
 		// Sort out formats
 
 		this.formats = options.formats ?? {};
-		for (let type in this.formats) {
-			for (let name in this.formats[type]) {
-				let format = this.formats[type][name];
-				format.type ??= type;
 
-				if (type === "functions") {
-					format.name ??= name;
-				}
-
-				if (format.coords) {
-					format.coordGrammar = parseCoordGrammar(format.coords);
-
-					let coordFormats = Object.entries(this.coords).map(([id, coordMeta], i) => {
-						// Preferred format for each coord is the first one
-						let outputType = format.coordGrammar[i][0];
-
-						let fromRange = coordMeta.range || coordMeta.refRange;
-						let toRange = outputType.range, suffix = "";
-
-						// Non-strict equals intentional since outputType could be a string object
-						if (outputType == "<percentage>") {
-							toRange = [0, 100];
-							suffix = "%";
-						}
-						else if (outputType == "<angle>") {
-							suffix = "deg";
-						}
-
-						return  {fromRange, toRange, suffix};
-					});
-
-					format.serializeCoords = (coords, precision) => {
-						return coords.map((c, i) => {
-							let {fromRange, toRange, suffix} = coordFormats[i];
-
-							if (fromRange && toRange) {
-								c = mapRange(fromRange, toRange, c);
-							}
-
-							c = toPrecision(c, precision);
-
-							if (suffix) {
-								c += suffix;
-							}
-
-							return c;
-						})
-					};
-				}
-			}
+		for (let name in this.formats) {
+			let format = this.formats[name];
+			format.type ||= "function";
+			format.name ||= name;
 		}
 
 		if (options.cssId && !this.formats.functions?.color) {
-			this.formats.functions ??= {};
-			this.formats.functions.color = { id: options.cssId };
+			this.formats.color = { id: options.cssId };
 			Object.defineProperty(this, "cssId", {value: options.cssId});
 		}
-		else if (this.formats.functions?.color && !this.formats.functions?.color.id) {
-			this.formats.functions.color.id = this.id;
+		else if (this.formats?.color && !this.formats?.color.id) {
+			this.formats.color.id = this.id;
 		}
 
 		// Other stuff
@@ -143,18 +97,76 @@ export default class ColorSpace {
 		return false;
 	}
 
+	#processFormat(format) {
+		if (format.coords && !format.coordGrammar) {
+			format.type ||= "function";
+			format.name ||= "color";
+
+			// Format has not been processed
+			format.coordGrammar = parseCoordGrammar(format.coords);
+
+			let coordFormats = Object.entries(this.coords).map(([id, coordMeta], i) => {
+				// Preferred format for each coord is the first one
+				let outputType = format.coordGrammar[i][0];
+
+				let fromRange = coordMeta.range || coordMeta.refRange;
+				let toRange = outputType.range, suffix = "";
+
+				// Non-strict equals intentional since outputType could be a string object
+				if (outputType == "<percentage>") {
+					toRange = [0, 100];
+					suffix = "%";
+				}
+				else if (outputType == "<angle>") {
+					suffix = "deg";
+				}
+
+				return  {fromRange, toRange, suffix};
+			});
+
+			format.serializeCoords = (coords, precision) => {
+				return coords.map((c, i) => {
+					let {fromRange, toRange, suffix} = coordFormats[i];
+
+					if (fromRange && toRange) {
+						c = mapRange(fromRange, toRange, c);
+					}
+
+					c = toPrecision(c, precision);
+
+					if (suffix) {
+						c += suffix;
+					}
+
+					return c;
+				})
+			};
+		}
+
+		return format;
+	}
+
 	getFormat (format) {
 		if (typeof format === "object") {
+			format = this.#processFormat(format);
 			return format;
 		}
 
-		for (let type in this.formats) {
-			for (let name in this.formats[type]) {
-				if (format === name || format === "default") {
-					return this.formats[type][name];
-				}
-			}
+		let ret;
+		if (format === "default") {
+			// Get first format
+			ret = Object.values(this.formats)[0];
 		}
+		else {
+			ret = this.formats[format];
+		}
+
+		if (ret) {
+			ret = this.#processFormat(ret);
+			return ret;
+		}
+
+		return null;
 	}
 
 	#path

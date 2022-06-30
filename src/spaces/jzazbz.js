@@ -110,10 +110,8 @@ export default ColorSpace.create({
 	},
 
 	formats: {
-		functions: {
-			// https://drafts.csswg.org/css-color-hdr/#Jzazbz
-			"color": {}
-		}
+		// https://drafts.csswg.org/css-color-hdr/#Jzazbz
+		"color": {}
 	}
 });
 

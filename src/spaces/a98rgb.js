@@ -8,10 +8,8 @@ export default RGBColorSpace.create({
 	toBase: RGB => RGB.map(val => Math.pow(Math.abs(val), 563 / 256) * Math.sign(val)),
 	fromBase: RGB => RGB.map(val => Math.pow(Math.abs(val), 256 / 563) * Math.sign(val)),
 	formats: {
-		functions: {
-			color: {
-				id: "a98-rgb"
-			}
+		color: {
+			id: "a98-rgb"
 		}
 	},
 });

@@ -23,7 +23,8 @@ export default function parse (str) {
 			let alpha = env.parsed.rawArgs.indexOf("/") > 0? env.parsed.args.pop() : 1;
 
 			for (let space of ColorSpace.all) {
-				let colorSpec = space.formats?.functions?.color;
+				let colorSpec = space.getFormat("color");
+
 				if (colorSpec) {
 					if (id === colorSpec.id || colorSpec.ids?.includes(id)) {
 						// From https://drafts.csswg.org/css-color-4/#color-function
@@ -50,8 +51,8 @@ export default function parse (str) {
 		else {
 			for (let space of ColorSpace.all) {
 				// color space specific function
-				if (space.formats.functions?.[name]) {
-					let format = space.formats.functions[name];
+				let format = space.getFormat(name);
+				if (format && format.type === "function") {
 					let alpha = 1;
 
 					if (format.lastAlpha || util.last(env.parsed.args).alpha) {
@@ -103,8 +104,13 @@ export default function parse (str) {
 	else {
 		// Custom, colorspace-specific format
 		for (let space of ColorSpace.all) {
-			for (let formatId in space.formats.custom) {
-				let format = space.formats.custom[formatId];
+
+			for (let formatId in space.formats) {
+				let format = space.formats[formatId];
+
+				if (format.type !== "custom") {
+					continue;
+				}
 
 				if (format.test && !format.test(env.str)) {
 					continue;

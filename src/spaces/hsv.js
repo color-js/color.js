@@ -56,10 +56,8 @@ export default ColorSpace.create({
 		];
 	},
 	formats: {
-		functions: {
-			color: {
-				toGamut: true,
-			}
+		color: {
+			toGamut: true,
 		}
 	}
 });

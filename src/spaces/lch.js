@@ -60,10 +60,8 @@ export default ColorSpace.create({
 	},
 
 	formats: {
-		functions: {
-			"lch": {
-				coords: ["<percentage> | <number>", "<number>", "<number> | <angle>"],
-			}
+		"lch": {
+			coords: ["<percentage> | <number>", "<number>", "<number> | <angle>"],
 		}
 	}
 });

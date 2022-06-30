@@ -76,16 +76,14 @@ export default ColorSpace.create({
 	},
 
 	formats: {
-		functions: {
-			"hsl": {
-				toGamut: true,
-				coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
-			},
-			"hsla": {
-				coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
-				commas: true,
-				lastAlpha: true,
-			}
+		"hsl": {
+			toGamut: true,
+			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+		},
+		"hsla": {
+			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+			commas: true,
+			lastAlpha: true,
 		}
 	},
 });

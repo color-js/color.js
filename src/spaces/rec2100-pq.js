@@ -34,10 +34,8 @@ export default RGBColorSpace.create({
 		});
 	},
 	formats: {
-		functions: {
-			color: {
-				id: "rec2100-pq"
-			}
-		}
+		color: {
+			id: "rec2100-pq"
+		},
 	},
 });

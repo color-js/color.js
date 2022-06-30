@@ -26,6 +26,16 @@ lv_magenta.toString({format: "rgb"});
 lv_magenta.toString({format: "rgba"});
 lv_magenta.toString({format: "hex"});
 lv_magenta.toString({format: "color"});
+
+// Custom functional format:
+lv_magenta.toString({format: {
+	name: "myrgb",
+	coords: [
+		"<number>[0, 255]",
+		"<angle>",
+		"<percentage>"
+	]
+}})
 ```
 
 ### Disable gamut mapping

@@ -51,11 +51,9 @@ export default ColorSpace.create({
 	},
 
 	formats: {
-		functions: {
-			"hwb": {
-				toGamut: true,
-				coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
-			}
+		"hwb": {
+			toGamut: true,
+			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 		}
 	}
 });

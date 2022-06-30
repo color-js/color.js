@@ -16,10 +16,8 @@ export default RGBColorSpace.create({
 		return RGB.map(v => v >= Et? v ** (1/1.8) : 16 * v);
 	},
 	formats: {
-		functions: {
-			color: {
-				id: "prophoto-rgb"
-			}
+		color: {
+			id: "prophoto-rgb"
 		}
 	},
 });
