@@ -188,26 +188,27 @@
 			<td>hsl(0deg 0% 0% / .5)</td>
 			<td>{"spaceId":"hsl","coords":[0,0,0],"alpha":0.5}</td>
 		</tr>
-		<tr title="hsla(), degree sign for hue, commas, alpha in percent">
-			<td>hsla(180°, 50%, 50%, 50%)</td>
+		<tr title="hsla(), commas, alpha in percent">
+			<td>hsla(180, 50%, 50%, 50%)</td>
 			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":0.5}</td>
 		</tr>
-		<tr title="hsl(), angle in radians for hue">
+		<tr title="hsl(), radians for hue">
 			<td>hsl(3.14159265358979rad 50% 50%)</td>
 			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
 		</tr>
-		<tr title="hsl(), angle in &pi; radians for hue">
-			<td>hsl(1pi 50% 50%)</td>
-			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
-		</tr>
-		<tr title="hsl(), angle in gradians for hue">
+		<tr title="hsl(), gradians for hue">
 			<td>hsl(200grad 50% 50%)</td>
 			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
 		</tr>
-		<tr title="hsl(), angle in turns for hue">
+		<tr title="hsl(), turns for hue">
 			<td>hsl(0.5turn 50% 50%)</td>
 			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
 		</tr>
+		<tr data-error title="hsl(), degree sign">
+			<td>hsl(180° 50% 50%)</td>
+			<td>TypeError</td>
+		</tr>
+		
 	</table>
 </section>
 
