@@ -6,6 +6,6 @@ ColorSpace.register(spaces.XYZ_D65);
 // ...
 
 // Register xyz alias
-ColorSpace.register("xyz", XYZ);
-XYZ.formats.color.ids ||= [];
-XYZ.formats.color.ids.push("xyz");
+ColorSpace.register("xyz", XYZ_D65);
+XYZ_D65.formats.color.ids ||= [];
+XYZ_D65.formats.color.ids.push("xyz");
