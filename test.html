@@ -10,18 +10,19 @@
 </head>
 <body>
 <script type="module">
-	import Color from "./src/index.js";
-	import Color2 from "https://colorjs.io/src/index.js";
-	// import ColorSpace from "./src/space.js";
+	// import Color from "./src/index.js";
+	// import Color2 from "https://colorjs.io/src/index.js";
+	import ColorSpace from "./src/space.js";
+	import "./src/spaces/index.js";
+	import set from "./src/set.js";
 	// import * as util from "./src/util.js";
 
 	// window.ColorSpace = ColorSpace;
-	window.Color = Color;
+	// window.Color = Color;
 	// window.util = util;
-
-	let color = new Color("deeppink");
-	console.log(color.coords);
-	color.srgb.green = .5;
+	// new Color("hsl(0 80% 50%)").set("lch.l", 94).toString()
+	let color = {spaceId: "hsl", coords: [0, 80, 50]};
+	set(color, "lch.l", 94);
 	console.log(color.coords);
 </script>
 </body>
