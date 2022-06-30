@@ -12,6 +12,7 @@ export default class ColorSpace {
 		this.id = options.id;
 		this.name = options.name;
 		this.base = options.base ? ColorSpace.get(options.base) : null;
+		this.aliases = options.aliases;
 
 		if (this.base) {
 			this.fromBase = options.fromBase;
@@ -271,6 +272,15 @@ export default class ColorSpace {
 
 		space = this.get(space);
 		this.registry[id] = space;
+
+		if (this.aliases) {
+			for (let alias of this.aliases) {
+				this.registry[alias] = space;
+				space.formats.color.ids ||= [];
+				space.formats.color.ids.push(alias);
+			}
+		}
+
 		return space;
 	}
 

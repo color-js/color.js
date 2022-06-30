@@ -12,4 +12,5 @@ export default new ColorSpace({
 	formats: {
 		color: {}
 	},
+	aliases: ['xyz']
 });
