@@ -113,6 +113,7 @@ export default function parse (str) {
 				let color = format.parse(env.str);
 
 				if (color) {
+					color.alpha ??= 1;
 					return color;
 				}
 			}
