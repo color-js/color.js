@@ -172,8 +172,8 @@
 	<h1>hsl()</h1>
 
 	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr title="hsl(), commas">
-			<td>hsl(180, 50%, 50%)</td>
+		<tr title="hsl(), commas, signed numbers">
+			<td>hsl(+180, 50%, +50%)</td>
 			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
 		</tr>
 		<tr title="hsl(), negative hue">
@@ -184,9 +184,29 @@
 			<td>hsl(900, 50%, 50%)</td>
 			<td>{"spaceId":"hsl","coords":[900,50,50],"alpha":1}</td>
 		</tr>
-		<tr title="hsla(), degrees for hue, spaces and slash">
+		<tr title="hsla(), degrees for hue, spaces and slash, float without leading zero">
 			<td>hsl(0deg 0% 0% / .5)</td>
 			<td>{"spaceId":"hsl","coords":[0,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="hsla(), degree sign for hue, commas, alpha in percent">
+			<td>hsla(180°, 50%, 50%, 50%)</td>
+			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":0.5}</td>
+		</tr>
+		<tr title="hsl(), angle in radians for hue">
+			<td>hsl(3.14159265358979rad 50% 50%)</td>
+			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
+		</tr>
+		<tr title="hsl(), angle in &pi; radians for hue">
+			<td>hsl(1pi 50% 50%)</td>
+			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
+		</tr>
+		<tr title="hsl(), angle in gradians for hue">
+			<td>hsl(200grad 50% 50%)</td>
+			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
+		</tr>
+		<tr title="hsl(), angle in turns for hue">
+			<td>hsl(0.5turn 50% 50%)</td>
+			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
 		</tr>
 	</table>
 </section>
