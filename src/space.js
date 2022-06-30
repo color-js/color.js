@@ -273,8 +273,8 @@ export default class ColorSpace {
 		space = this.get(space);
 		this.registry[id] = space;
 
-		if (this.aliases) {
-			for (let alias of this.aliases) {
+		if (space.aliases) {
+			for (let alias of space.aliases) {
 				this.registry[alias] = space;
 				space.formats.color.ids ||= [];
 				space.formats.color.ids.push(alias);
