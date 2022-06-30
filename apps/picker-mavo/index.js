@@ -1,14 +1,32 @@
 import Color from "../../color.js";
-import {parse, ColorSpace, to, serialize, inGamut, steps} from "../../src/index-fn.js";
+import {ColorSpace, to, serialize, inGamut, steps} from "../../src/index-fn.js";
 
 // Expose Color.js functions as globals so we can easily reference them from Mavo
 window.ColorSpace = ColorSpace;
-window.color_to = to;
-window.color_serialize = serialize;
-window.color_inGamut = inGamut;
+window.color_to = function (...args) {
+	// Drop proxies
+	args = args.map(a => Mavo.clone(a));
+
+	return to(...args);
+};
+window.color_serialize = function (...args) {
+	// Drop proxies
+	args = args.map(a => Mavo.clone(a));
+
+	return serialize(...args);
+};
+window.color_inGamut = function (...args) {
+	// Drop proxies
+	args = args.map(a => Mavo.clone(a));
+
+	return inGamut(...args);
+};
 
 window.getColorSpaces = () => ColorSpace.all.map(({id, name}) => ({id, name}));
 window.getCoordMeta = (spaceId) => {
+	// Drop proxy
+	spaceId = Mavo.clone(spaceId);
+
 	let space = ColorSpace.get(spaceId);
 	return Object.entries(space.coords).map(([id, meta]) => {
 		let {name, range, refRange} = meta;
@@ -24,16 +42,28 @@ window.getCoordMeta = (spaceId) => {
 
 		return { id, name, isHue, min, max, step };
 	});
+};
+
+window.getColorSpace = function (spaceId) {
+	// Drop proxy
+	spaceId = Mavo.clone(spaceId);
+
+	return ColorSpace.get(spaceId);
 }
 
 window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
-	return "";
+	// Drop proxies
+	spaceId = Mavo.clone(spaceId);
+	coords = Mavo.clone(coords);
+	coord_meta = Mavo.clone(coord_meta);
+	alpha = Mavo.clone(alpha);
+
 	alpha /= 100;
 
 	let ret = [];
 
-	for (let i=0; i<this.coord_meta.length; i++) {
-		let {range, isHue, min, max} = coord_meta[i];
+	for (let i=0; i<coord_meta.length; i++) {
+		let {isHue, min, max} = coord_meta[i];
 
 		let start = coords.slice();
 		start[i] = min;
@@ -56,8 +86,8 @@ window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
 	// Push alpha too
 	let color1 = {spaceId, coords, alpha: 0};
 	let color2 = {spaceId, coords, alpha: 1};
-	let steps = steps(color1, color2, {steps: 10}).map(c => serialize(c, {fallback: true})).join(", ");
-	ret.push(steps);
+	let colorSteps = steps(color1, color2, {steps: 10}).map(c => serialize(c, {fallback: true})).join(", ");
+	ret.push(colorSteps);
 
 	return ret;
 }
@@ -77,85 +107,6 @@ document.body.addEventListener("mv-change", evt => {
 	}
 });
 
-let app = {
-	data() {
-		return {
-			alpha: 100,
-			decimals: 3,
-			spaceId: "lch",
-			color_spaces: Color.Space.registry,
-			coords: [50, 50, 50],
-		};
-	},
-	computed: {
-		space () {
-			return Color.Space.get(this.spaceId);
-		},
-		coord_meta () {
-
-		},
-		color (...args) {
-			return new Color(this.spaceId, this.coords, this.alpha / 100);
-		},
-		css_color () {
-			let css_color = this.color.toString({fallback: true});
-
-
-
-			return css_color;
-		},
-		color_srgb () {
-			return this.color.to('srgb');
-		},
-		slider_steps () {
-			let {spaceId, coords, coord_meta, alpha} = this;
-			alpha /= 100;
-
-			let ret = [];
-
-			for (let i=0; i<this.coord_meta.length; i++) {
-				let {range, isHue, min, max} = coord_meta[i];
-
-				let start = coords.slice();
-				start[i] = min;
-				let color1 = new Color(spaceId, start, alpha);
-
-				let end = coords.slice();
-				end[i] = max;
-				let color2 = new Color(spaceId, end, alpha);
-
-				let interpolationOptions = {space: spaceId, steps: 10};
-
-				if (isHue) {
-					interpolationOptions.hue = "raw";
-				}
-
-				let steps = Color.steps(color1, color2, interpolationOptions);
-				ret.push(steps.map(c => c.toString({fallback: true})).join(", "));
-			}
-
-			// Push alpha too
-			let color1 = new Color(spaceId, coords, 0);
-			let color2 = new Color(spaceId, coords, 1);
-			let steps = Color.steps(color1, color2, {steps: 10}).map(c => c.toString({fallback: true})).join(", ");
-			ret.push(steps);
-
-			return ret;
-		}
-	},
-	watch: {
-		spaceId (newSpaceId, oldSpaceId) {
-			if (newSpaceId != oldSpaceId) {
-				let newSpace = Color.Space.get(newSpaceId);
-				let coords = Color.Space.get(oldSpaceId).to(newSpace, this.coords);
-				this.coords = coords;
-
-				document.title = `${newSpace.name} color picker`;
-			}
-		},
-	}
-};
-
 window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 	str = str || prompt("Enter any CSS color");
 
@@ -166,11 +117,15 @@ window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 	let app = Mavo.all.genericPicker;
 
 	try {
-		let color = parse(str);
-		let converted = color_to(color, app.root.children.spaceId.value);
+		let color = new Color(str);
+		let converted = color_to(color, spaceId.value);
 
-		app.coords = converted.coords;
-		app.alpha = converted.alpha * 100;
+		let coord_meta = [];
+		for (let coords of converted.coords) {
+			coord_meta.push({value: coords});
+		}
+
+		app.render({coord_meta, coords: converted.coords, alpha: converted.alpha * 100});
 	}
 	catch (e) {
 		alert(e.message);

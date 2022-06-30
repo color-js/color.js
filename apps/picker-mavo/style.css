@@ -53,7 +53,15 @@ main {
 	box-shadow: .05em .05em .1em rgba(0,0,0,.2), 0 0 0 100vmax var(--color);
 }
 
+fieldset {
+	border: 1px solid hsl(220 10% 80%);
+	border-radius: .3em;
+	margin: 0;
+	margin-top: 1em;
+}
+
 label,
+legend,
 details summary {
 	display: block;
 	text-transform: uppercase;
