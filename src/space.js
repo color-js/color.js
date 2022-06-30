@@ -47,6 +47,10 @@ export default class ColorSpace {
 			this.formats.color.id = this.id;
 		}
 
+		if (options.idAliases) {
+			this.formats.color.ids = options.idAliases;
+		}
+
 		// Other stuff
 		this.referred = options.referred;
 
@@ -264,6 +268,28 @@ export default class ColorSpace {
 		return [...new Set(Object.values(ColorSpace.registry))];
 	}
 
+	static addToRegistry (id, space) {
+		if (this.registry[id] && this.registry[id] !== space) {
+			throw new Error(`Duplicate color space registration: '${id}'`);
+		}
+		this.registry[id] = space;
+	}
+
+	static validateIds () {
+		// Get full list of IDs.
+		const ids = this.all.flatMap(space =>
+			[space.id, ...(space.formats.color.ids ?? [])]
+		).sort();
+
+		let prev;
+		for (let id of ids) {
+			if (id === prev) {
+				throw new Error(`Duplicate color ID registration: '${id}'`);
+			}
+			prev = id;
+		}
+	}
+
 	static register (id, space) {
 		if (arguments.length === 1) {
 			space = arguments[0];
@@ -271,15 +297,15 @@ export default class ColorSpace {
 		}
 
 		space = this.get(space);
-		this.registry[id] = space;
+		this.addToRegistry(id, space);
 
 		if (space.aliases) {
 			for (let alias of space.aliases) {
-				this.registry[alias] = space;
-				space.formats.color.ids ||= [];
-				space.formats.color.ids.push(alias);
+				this.addToRegistry(alias, space);
 			}
 		}
+
+		this.validateIds();
 
 		return space;
 	}
