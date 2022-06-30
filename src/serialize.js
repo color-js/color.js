@@ -26,6 +26,7 @@ export default function serialize (color, {
 
 	color = getColor(color);
 
+	let formatId = format;
 	format = color.space.getFormat(format)
 		   ?? color.space.getFormat("default")
 		   ?? ColorSpace.DEFAULT_FORMAT;
@@ -45,7 +46,13 @@ export default function serialize (color, {
 
 	if (format.type === "custom") {
 		customOptions.precision = precision;
-		ret = format.serialize(coords, color.alpha, customOptions);
+
+		if (format.serialize) {
+			ret = format.serialize(coords, color.alpha, customOptions);
+		}
+		else {
+			throw new TypeError(`format ${formatId} can only be used to parse colors, not for serialization`);
+		}
 	}
 	else {
 		// Functional syntax
