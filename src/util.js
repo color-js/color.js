@@ -55,14 +55,14 @@ export function parseFunction (str) {
 
 	str = str.trim();
 
-	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
-	const isNumberRegex = /^-?[\d.]+$/;
+	const isFunctionRegex = /^(?<name>[a-z-]+)\((?<args>.+?)\)$/i;
+	const isNumberRegex = /^[+-]?\d?\.?\d+(e[+-]?\d+)?$/i;
 	let parts = str.match(isFunctionRegex);
 
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg|g?rad|°|pi|turn)?)/g, ($0, arg) => {
+		parts.groups.args.replace(/\/?\s*([+-\w.e]+(?:%|deg|g?rad|°|pi|turn)?)/gi, ($0, arg) => {
 			if (/%$/.test(arg)) {
 				// Convert percentages to 0-1 numbers
 				arg = new Number(arg.slice(0, -1) / 100);
@@ -120,11 +120,11 @@ export function parseFunction (str) {
 		});
 
 		return {
-			name: parts[1].toLowerCase(),
-			rawName: parts[1],
-			rawArgs: parts[2],
+			name: parts.groups.name.toLowerCase(),
+			rawName: parts.groups.name,
+			rawArgs: parts.groups.args,
 			// An argument could be (as of css-color-4):
-			// a number, percentage, degrees (hue), ident (in color())
+			// a number, percentage, angle (hue), ident (in color())
 			args
 		};
 	}
