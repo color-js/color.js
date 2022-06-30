@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>&lt;color-swatch></title>
+	<script src="color-swatch.js" type="module"></script>
+	<style>
+		html {
+			color-scheme: light dark;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			html {
+				background: hsl(220 5% 20%);
+			}
+		}
+
+		body {
+			font: 100%/1.5 system-ui;
+
+		}
+
+		color-swatch {
+			display: block;
+			margin: 1em 0;
+		}
+	</style>
+</head>
+<body>
+
+<h1>&lt;color-swatch></h1>
+
+<section>
+	<h2>Different font sizes</h2>
+	<color-swatch style="font-size: 70%" contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch style="font-size: 200%" contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch style="font-size: 400%" contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch style="font-size: 800%" contentEditable>lch(50% 40 30)</color-swatch>
+</section>
+
+<p>Semi-transparent color</p>
+<color-swatch>hsl(340 90% 50% / .25)</color-swatch>
+
+<p>Invalid color</p>
+<color-swatch>foobar</color-swatch>
+
+</body>
+</html>

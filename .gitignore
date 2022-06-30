@@ -8,3 +8,4 @@ node_modules/
 !benchmarks/*.html
 !templates/*.html
 !apps/*/*.html
+!elements/*/*.html
