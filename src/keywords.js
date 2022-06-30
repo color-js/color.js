@@ -2,7 +2,6 @@
  * Note that this does not include currentColor, transparent,
  * or system colors
  */
-import Color from "./color.js";
 
 // To produce: Visit https://www.w3.org/TR/css-color-4/#named-colors
 // and run in the console:
