@@ -1,26 +1,43 @@
 import Color from "../../color.js";
 import {ColorSpace, to, serialize, inGamut, steps} from "../../src/index-fn.js";
+import {type} from "../../src/util.js";
 
 // Expose Color.js functions as globals so we can easily reference them from Mavo
 window.ColorSpace = ColorSpace;
-window.color_to = function (...args) {
-	// Drop proxies
-	args = args.map(a => Mavo.clone(a));
+window.color_to = function (color, o) {
+	if (!has_color_resolved(color)) {
+		return "";
+	}
 
-	return to(...args);
-};
-window.color_serialize = function (...args) {
-	// Drop proxies
-	args = args.map(a => Mavo.clone(a));
+	color = Mavo.clone(color); // drop proxies
 
-	return serialize(...args);
+	return to(color, o);
 };
-window.color_inGamut = function (...args) {
-	// Drop proxies
-	args = args.map(a => Mavo.clone(a));
+window.color_serialize = function (color, o) {
+	if (!has_color_resolved(color)) {
+		return "";
+	}
+	// if (color.spaceId == "lch") debugger;
+	color = Mavo.clone(color); // drop proxies
+	return serialize(color, o);
+};
+window.color_inGamut = function (color, o) {
+	if (!has_color_resolved(color)) {
+		return "";
+	}
 
-	return inGamut(...args);
+	color = Mavo.clone(color); // drop proxies
+
+	return inGamut(color, o);
 };
+
+function has_color_resolved(color) {
+	return color && has_spaceId_resolved(color.spaceId);
+}
+
+function has_spaceId_resolved(spaceId) {
+	return spaceId && (spaceId + "").trim() && spaceId != "[id]";
+}
 
 window.getColorSpaces = () => ColorSpace.all.map(({id, name}) => ({id, name}));
 window.getCoordMeta = (spaceId) => {
@@ -52,6 +69,10 @@ window.getColorSpace = function (spaceId) {
 }
 
 window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
+	if (!has_spaceId_resolved(spaceId)) {
+		return;
+	}
+
 	// Drop proxies
 	spaceId = Mavo.clone(spaceId);
 	coords = Mavo.clone(coords);
