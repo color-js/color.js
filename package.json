@@ -58,7 +58,7 @@
 		"rollup-plugin-terser": "^7"
 	},
 	"sideEffects": [
-		"src/index.js",
+		"./src/index.js",
 		"./src/spaces/index.js"
 	]
 }
