@@ -264,13 +264,6 @@ export default class ColorSpace {
 		return [...new Set(Object.values(ColorSpace.registry))];
 	}
 
-	static addToRegistry (id, space) {
-		if (this.registry[id] && this.registry[id] !== space) {
-			throw new Error(`Duplicate color space registration: '${id}'`);
-		}
-		this.registry[id] = space;
-	}
-
 	static register (id, space) {
 		if (arguments.length === 1) {
 			space = arguments[0];
@@ -278,11 +271,16 @@ export default class ColorSpace {
 		}
 
 		space = this.get(space);
-		this.addToRegistry(id, space);
 
-		if (space.aliases) {
+		if (this.registry[id] && this.registry[id] !== space) {
+			throw new Error(`Duplicate color space registration: '${id}'`);
+		}
+		this.registry[id] = space;
+
+		// Register aliases when called without an explicit ID.
+		if (arguments.length === 1 && space.aliases) {
 			for (let alias of space.aliases) {
-				this.addToRegistry(alias, space);
+				this.register(alias, space);
 			}
 		}
 
