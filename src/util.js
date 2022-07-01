@@ -70,11 +70,12 @@ export function parseFunction (str) {
 			}
 			else if (/(?:deg|g?rad|turn)$/.test(arg)) {
 				// Drop the unit symbol and convert to number in degrees
+                                arg = new Number(+arg.slice(0, -unit.length));
                                 switch (unit) {
-				  case "deg": arg = new Number(+arg.slice(0, -3)); break;
-				  case "grad": arg = new Number(+arg.slice(0, -4) / 10 * 9); break;
-				  case "rad": arg = new Number(+arg.slice(0, -3) * 180 / Math.PI); break;
-				  case "turn": arg = new Number(+arg.slice(0, -4) * 360); break;
+				  case "deg": break;
+				  case "grad": arg *= 9 / 10; break;
+				  case "rad": arg *= 180 / Math.PI; break;
+				  case "turn": arg *= 360; break;
                                 }
 				arg.type = "<angle>";
 				arg.unit = unit;
