@@ -47,10 +47,6 @@ export default class ColorSpace {
 			this.formats.color.id = this.id;
 		}
 
-		if (options.idAliases) {
-			this.formats.color.ids = options.idAliases;
-		}
-
 		// Other stuff
 		this.referred = options.referred;
 

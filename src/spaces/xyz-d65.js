@@ -10,8 +10,9 @@ export default new ColorSpace({
 	},
 	white: "D65",
 	formats: {
-		color: {}
+		color: {
+			ids: ['xyz'],
+		}
 	},
 	aliases: ['xyz'],
-	idAliases: ['xyz'],
 });
