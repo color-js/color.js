@@ -271,21 +271,6 @@ export default class ColorSpace {
 		this.registry[id] = space;
 	}
 
-	static validateIds () {
-		// Get full list of IDs.
-		const ids = this.all.flatMap(space =>
-			[space.id, ...(space.formats.color.ids ?? [])]
-		).sort();
-
-		let prev;
-		for (let id of ids) {
-			if (id === prev) {
-				throw new Error(`Duplicate color ID registration: '${id}'`);
-			}
-			prev = id;
-		}
-	}
-
 	static register (id, space) {
 		if (arguments.length === 1) {
 			space = arguments[0];
@@ -300,8 +285,6 @@ export default class ColorSpace {
 				this.addToRegistry(alias, space);
 			}
 		}
-
-		this.validateIds();
 
 		return space;
 	}
