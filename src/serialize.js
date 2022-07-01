@@ -71,7 +71,8 @@ export default function serialize (color, {
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument
-			args.unshift(color.space.cssId);
+			let cssId = format.id || format.ids?.[0] || color.space.id;
+			args.unshift(cssId);
 		}
 
 		let alpha = color.alpha;
