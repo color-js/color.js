@@ -1,6 +1,8 @@
 import RGBColorSpace from "../rgbspace.js";
 import REC2020Linear from "./rec2020-linear.js";
 
+// FIXME see https://github.com/LeaVerou/color.js/issues/190
+
 const a = 0.17883277;
 const b = 0.28466892; // 1 - (4 * a)
 const c = 0.55991073; // 0.5 - a * Math.log(4 *a)
