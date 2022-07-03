@@ -132,7 +132,7 @@ with less overlap between the three cone types.
 While this doesn't represent the actual physiological responses,
 it does give better predictive accuracy.
 The originally published CAT also incorporated
-a correction for the non-linear resonse of the
+a correction for the non-linear response of the
 short wavelength ("blue") cone.
 Later studies found that this correction
 did not significantly improve accuracy,
