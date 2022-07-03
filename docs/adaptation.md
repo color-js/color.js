@@ -166,7 +166,7 @@ At the close of the 20th century,
 the International Lighting Commission (CIE)
 came up with a _color appearance model_
 which used a modified form of the original, non-linear Bradford CAT.
-It has since been superceeded by later models
+It has since been superseded by later models
 which are more accurate,
 easier to calculate,
 and more numerically stable.
