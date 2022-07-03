@@ -6,7 +6,7 @@ frequently in CSS. This page is all about that.
 ## Getting a string representation of a color
 
 `color.toString()` is a swiss army knife for many of your serialization needs.
-In fact, you may have used it without knowing, since Javascript calls it implicitly with no params when you coerce an object to a string:
+In fact, you may have used it without knowing, since JavaScript calls it implicitly with no params when you coerce an object to a string:
 
 ```js
 let magenta = new Color("srgb", [1, 0, .4]);
@@ -118,7 +118,7 @@ cssColor.color.inGamut();
 ```
 
 Note: While `color.toString()` returns a primitive string in most cases, when `fallback` is used it returns a `String` object
-so that it can have a property (primitives in Javascript cannot have properties).
+so that it can have a property (primitives in JavaScript cannot have properties).
 In that case, it will return a `String` object **even if it didn't need to actually use a fallback color**
 
 ## Creating a CSS gradient from a range
