@@ -212,7 +212,7 @@ CAT16 defines both a one-stage and a two-stage CAT;
 in the latter, colors are first adapted to an equal-energy white
 and then to the destination white in a second step.
 We have only implemented the one-stage CAT,
-which gived idential results for full adaptation.
+which gived identical results for full adaptation.
 
 ## Using CATs
 
