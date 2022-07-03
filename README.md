@@ -2,7 +2,7 @@
 
 # Color.js: Let’s get serious about color
 
-- [Offical website](https://colorjs.io)
+- [Official website](https://colorjs.io)
 - [Contribution guide](CONTRIBUTING.md)
 
 Features:
