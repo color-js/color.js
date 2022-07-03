@@ -14,7 +14,7 @@ const toXYZ_M = [
 ];
 
 // This matrix is the inverse of the above;
-// again it agrees with the official definiton when rounded to 8 decimal places
+// again it agrees with the official definition when rounded to 8 decimal places
 const fromXYZ_M = [
 	[  3.2409699419045226,  -1.537383177570094,   -0.4986107602930034  ],
 	[ -0.9692436362808796,   1.8759675015077202,   0.04155505740717559 ],
