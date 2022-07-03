@@ -129,7 +129,7 @@ let color = new Color("rebeccapurple");
 Invented by Lam at the University of Bradford,
 this method uses modified (sharpened) cone responses
 with less overlap between the three cone types.
-While this doesn't represent the actual physilogical responses,
+While this doesn't represent the actual physiological responses,
 it does give better predictive accuracy.
 The originally published CAT also incorporated
 a correction for the non-linear resonse of the
