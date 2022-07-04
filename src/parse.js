@@ -44,7 +44,10 @@ export default function parse (str) {
 			if (id in ColorSpace.registry) {
 				// Used color space id instead of color() id, these are often different
 				let cssId = ColorSpace.registry[id].formats?.functions?.color?.id;
-				didYouMean = `Did you mean color(${cssId})?`;
+
+				if (cssId) {
+					didYouMean = `Did you mean color(${cssId})?`;
+				}
 			}
 			throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
 		}
