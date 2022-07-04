@@ -76,7 +76,6 @@ export default function parse (str) {
 							// Check that each coord conforms to its grammar
 							if (!coordGrammar) {
 								// Type does not exist in the grammar, throw
-								console.log(coordMeta)
 								let coordName = coordMeta.name || id;
 								throw new TypeError(`${providedType} not allowed for ${coordName} in ${name}()`);
 							}
