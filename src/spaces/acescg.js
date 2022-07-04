@@ -48,6 +48,10 @@ export default RGBColorSpace.create({
 
 	toXYZ_M,
 	fromXYZ_M,
+
+	formats: {
+		color: {}
+	},
 });
 
 // export default Color;
