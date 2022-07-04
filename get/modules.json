@@ -6,7 +6,7 @@
 			"include": true,
 			"mandatory": true,
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space",
-			"description": "A CIE color space with good perceptually uniformity, Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between to points in Lab is a good first approximation to how different the two colors look. Commercial color-measuring instruments report values in Lab, and it is used as an intermediate space for gamut mapping and colorspace interconversion."
+			"description": "A CIE color space with fairly good perceptually uniformity. Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between to points in Lab is a good first approximation to how different the two colors look. Commercial color-measuring instruments report values in Lab, and it is used as an intermediate space for gamut mapping and colorspace interconversion."
 		},
 		{
 			"name": "LCH",
@@ -15,7 +15,21 @@
 			"mandatory": true,
 			"dependencies": ["lab"],
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_representation:_CIELCh_or_CIEHLC",
-			"description": "LCH is the polar form of Lab. Instead of juggling a and b, you specify a Hue angle (starting from the positive a axis) and a Chroma, or colorfulness, which is zero for neutral greys and increases as a color becomes more saturated."
+			"description": "LCH is the polar form of Lab. Instead of juggling a and b, you specify a Hue angle (starting from the positive a axis) and a Chroma, or colorfulness, which is zero for neutral greys and increases as a color becomes more intensely colorful."
+		},
+		{
+			"name": "XYZ-D65",
+			"id": "xyz-d65",
+			"include": true,
+			"mandatory": true,
+			"url": "https://en.wikipedia.org/wiki/CIE_1931_color_space",
+			"description": "The fundamental CIE color space, derived from color-matching experiments on human vision. All other color spaces can be converted to XYZ. Encodes linear light intensity. XYZ-D65 assumes the eye is adapted to the D65 daylight white point, which is true for most color spaces."
+		},
+		{
+			"name": "XYZ-D50",
+			"id": "xyz-d50",
+			"url": "https://en.wikipedia.org/wiki/CIE_1931_color_space",
+			"description": "XYZ-D50 assumes the eye is adapted to the graphic arts D50 daylight white point, which is the case for ProPhoto RGB. Measured CIE Lab values are also typically reported with a D50 white point. Color.js will also internally create XYZ color spaces with different white points as needed (for example, converting to and from the ACES color spaces)."
 		},
 		{
 			"name": "sRGB",
@@ -55,13 +69,26 @@
 			"description": "A very wide gamut RGB color space used in 4k and 8k UHDTV. It is currently difficult to make a screen which displays the entire REC.2020 gamut; current movies broadcast in this colorspace do not use the full gamut, although they do use a little more than P3."
 		},
 		{
+			"name": "REC.2100-PQ",
+			"id": "rec2020pq",
+			"dependencies": ["rec2020"],
+			"url": "https://en.wikipedia.org/wiki/Rec._2100",
+			"description": "One of the two HDR forms of Rec.2020; PQ stands for Perceptual Quantizer and is designed to avoid banding when HDR material is encoded with only 10 or 12 bits per component. REC.2100-PQ encodes absolute display luminance, in the range 0 to 10,000 cd/m2. Intended to be viewed in a dim viewing environment. Media white is typically displayed at around 200 cd/m2 (varying with content), values brighter than that are highlights."
+		},
+		{
+			"name": "REC.2100-HLG",
+			"id": "rec2020hlg",
+			"dependencies": ["rec2020"],
+			"url": "https://en.wikipedia.org/wiki/Rec._2100",
+			"description": "One of the two HDR forms of Rec.2020; HLG stands for Hybrid Log-Gamma and is designed to maximise compatibility with SDR broadcast standards. REC.2100-HLG encodes relative scene luminance, so that it can be adapted to a wide range of viewing conditions and display peak luminances. Media white is encoded at a value of 0.75, values brighter than that are highlights. NOTE currently broken in color.js, do not use until fixed!"
+		},
+		{
 			"name": "ProPhoto",
 			"id": "prophoto",
 			"dependencies": ["srgb"],
 			"url": "https://en.wikipedia.org/wiki/ProPhoto_RGB_color_space",
 			"description": "Very wide gamut RGB color space with primaries outside the range of human vision. Designed to avoid hue shifts when sigmoid (contrast-changing) functions are applied directly to the RGB channels, so it is popular as an authoring space for digital photography. Includes 90% of visible colors, but also encodes many values that are not physically realizable colors. Requires gamut mapping before display."
 		},
-
 		{
 			"name": "HSL",
 			"id": "hsl",
@@ -82,7 +109,7 @@
 			"id": "hsv",
 			"dependencies": ["hsl"],
 			"url": "https://en.wikipedia.org/wiki/HSL_and_HSV",
-			"description": "Yet another polar transformation of sRGB, supported in Adobe CS software."
+			"description": "Yet another polar transformation of sRGB, supported in, for example, Adobe CS software."
 		},
 		{
 			"name": "Jzazbz",
