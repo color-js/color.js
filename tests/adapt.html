@@ -9,10 +9,13 @@
 <script src="https://blissfuljs.com/bliss.shy.js"></script>
 <script src="https://test.mavo.io/test.js"></script>
 <script src="../color.js" type="module"></script>
-<script src="../src/CATs.js" type="module"></script>
 
-<script>
+<script type="module">
+import {WHITES} from "../src/adapt.js";
+import {adapt} from "../src/CATs.js";
 
+window.WHITES = WHITES;
+window.color_adapt = adapt;
 </script>
 
 </head>
@@ -30,7 +33,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.D50, Color.WHITES.D65, "Bradford");
+						let M = color_adapt(WHITES.D50, WHITES.D65, "Bradford");
 						return M;
 						});
 				</script>
@@ -51,7 +54,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.D65, Color.WHITES.D50, "Bradford");
+						let M = color_adapt(WHITES.D65, WHITES.D50, "Bradford");
 						return M;
 						});
 				</script>
@@ -80,7 +83,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.C, Color.WHITES.D50, "Bradford");
+						let M = color_adapt(WHITES.C, WHITES.D50, "Bradford");
 						return M;
 						});
 				</script>
@@ -101,7 +104,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.A, Color.WHITES.C, "Bradford");
+						let M = color_adapt(WHITES.A, WHITES.C, "Bradford");
 						return M;
 						});
 				</script>
@@ -122,7 +125,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.F2, Color.WHITES.D50, "Bradford");
+						let M = color_adapt(WHITES.F2, WHITES.D50, "Bradford");
 						return M;
 						});
 				</script>
@@ -151,7 +154,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.C, Color.WHITES.D50, "von Kries");
+						let M = color_adapt(WHITES.C, WHITES.D50, "von Kries");
 						return M;
 						});
 				</script>
@@ -172,7 +175,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.A, Color.WHITES.C, "von Kries");
+						let M = color_adapt(WHITES.A, WHITES.C, "von Kries");
 						return M;
 						});
 				</script>
@@ -193,7 +196,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.F2, Color.WHITES.D50, "von Kries");
+						let M = color_adapt(WHITES.F2, WHITES.D50, "von Kries");
 						return M;
 						});
 				</script>
@@ -221,7 +224,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.D50, Color.WHITES.D65, "CAT02");
+						let M = color_adapt(WHITES.D50, WHITES.D65, "CAT02");
 						return M;
 						});
 				</script>
@@ -242,7 +245,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.D65, Color.WHITES.D50, "CAT02");
+						let M = color_adapt(WHITES.D65, WHITES.D50, "CAT02");
 						return M;
 						});
 				</script>
@@ -263,7 +266,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.D50, Color.WHITES.D65, "CAT16");
+						let M = color_adapt(WHITES.D50, WHITES.D65, "CAT16");
 						return M;
 						});
 				</script>
@@ -284,7 +287,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.D65, Color.WHITES.D50, "CAT16");
+						let M = color_adapt(WHITES.D65, WHITES.D50, "CAT16");
 						return M;
 						});
 				</script>
@@ -305,7 +308,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt([98.88, 90.00, 32.03], [100, 100, 100] "CAT02");
+						let M = color_adapt([98.88, 90.00, 32.03], [100, 100, 100] "CAT02");
 						return M;
 						});
 				</script>
@@ -333,7 +336,7 @@
 			<td>
 				<script>
 					print(() => {
-						let M = Color.adapt(Color.WHITES.C, Color.WHITES.D50, "CAT16");
+						let M = color_adapt(WHITES.C, WHITES.D50, "CAT16");
 						return M;
 						});
 				</script>
