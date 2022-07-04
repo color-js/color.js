@@ -18,7 +18,7 @@ const fromXYZ_M = [
 	[  0.013444280632031142,  -0.11836239223101838,   1.0151749943912054  ]
 ]
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "a98rgb-linear",
 	name: "Linear Adobe® 98 RGB compatible",
 	white: "D65",

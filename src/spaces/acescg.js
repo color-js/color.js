@@ -20,7 +20,7 @@ const fromXYZ_M = [
 	[  0.011721894328375376, -0.008284441996237409, 0.9883948585390215   ]
 ];
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "acescg",
 	name: "ACEScg",
 

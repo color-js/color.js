@@ -26,7 +26,7 @@ const LabtoLMS_M = [
 	[ 1.0000000546724109177,  -0.089484182094965759684, -1.2914855378640917399   ]
 ];
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "oklab",
     name: "OKLab",
     coords: {
@@ -43,7 +43,7 @@ export default ColorSpace.create({
     },
 
 	// Note that XYZ is relative to D65
-    white: "D65",
+  white: "D65",
 	base: "xyz-d65",
 	fromBase (XYZ) {
 		// move to LMS cone domain

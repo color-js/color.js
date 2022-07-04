@@ -2,7 +2,7 @@ import ColorSpace from "../space.js";
 
 const Yw = 203;	// absolute luminance of media white
 
-export default ColorSpace.create({
+export default new ColorSpace({
 // Absolute CIE XYZ, with a D65 whitepoint,
 // as used in most HDR colorspaces as a starting point.
 // SDR spaces are converted per BT.2048

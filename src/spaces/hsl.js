@@ -1,7 +1,7 @@
 import ColorSpace from "../space.js";
 import sRGB from "./srgb.js";
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "hsl",
 	name: "HSL",
 	coords: {

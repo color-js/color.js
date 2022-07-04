@@ -5,7 +5,7 @@ import REC2020Linear from "./rec2020-linear.js";
 const α = 1.09929682680944;
 const β = 0.018053968510807;
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "rec2020",
 	name: "REC.2020",
 	base: REC2020Linear,

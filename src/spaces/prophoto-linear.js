@@ -15,7 +15,7 @@ const fromXYZ_M = [
 	[  0.0,                  0.0,                   1.2119675456389454  ]
 ]
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "prophoto-linear",
 	name: "Linear ProPhoto",
 	white: "D50",
