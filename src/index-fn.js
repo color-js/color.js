@@ -10,6 +10,7 @@ export {default as setAll}    from "./setAll.js";
 export {default as parse}     from "./parse.js";
 export {default as to}        from "./to.js";
 export {default as serialize} from "./serialize.js";
+export {default as display}   from "./display.js";
 export {default as inGamut}   from "./inGamut.js";
 export {default as toGamut}   from "./toGamut.js";
 export {default as distance}  from "./distance.js";

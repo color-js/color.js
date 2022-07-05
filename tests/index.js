@@ -24,7 +24,7 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 			return;
 		}
 
-		cell.style.setProperty("--color", color.toString({fallback: true}));
+		cell.style.setProperty("--color", color.display());
 		cell.classList.add(color.luminance > .5 || color.alpha < .5? "light" : "dark");
 	}
 });

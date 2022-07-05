@@ -67,7 +67,7 @@ pink.toString({precision: 21});
 
 Tip: Building an app that needs high precision? You can change the default precision of 5 globally by setting `Color.defaults.precision`!
 
-### Get a CSS color value that is actually supported by the current browser
+## Get a displayable CSS color value
 
 When using sRGB or HSL, you can just use the output of `color.toString()` directly in CSS.
 However, with many color spaces, and most browsers, this is not the case yet.
@@ -96,24 +96,26 @@ cssColor;
 As of June 2022, `cssColor` will be sRGB in Chrome and Firefox, and P3 in Safari, providing access to 50% more colors than sRGB!
 
 So, this works, but the process is a little tedious. Thankfully, Color.js has got your back!
-Simply use the `fallback` parameter.
-If set to `true` it will use the widest of the default set of fallbacks ([Lab](spaces.html#lab), [REC.2020](spaces.html#rec2020), [P3](spaces.html#p3), then [sRGB](spaces.html#srgb)), but you can also provide your own space.
-Let's rewrite the example above using the `fallback` parameter!
+Simply use the `color.display()` method.
+By default, it will use the widest of the default set of fallbacks ([Lab](spaces.html#lab), [REC.2020](spaces.html#rec2020), [P3](spaces.html#p3), then [sRGB](spaces.html#srgb)),
+but you can also provide your own space when the color to be output is not supported by the current browser.
+Note that in Node, the fallback space is always sRGB if not provided.
+Let's rewrite the example above using `color.display()`!
 
 ```js
 let green = new Color("lch", [80, 80, 120]);
-let cssColor = green.toString({fallback: true});
-let cssColor2 = green.toString({fallback: "hsl"});
+let cssColor = green.display();
+let cssColor2 = green.display({space: "hsl"});
 ```
 
-Tip: You can change the default fallback by setting `Color.defaults.css_space`.
+Tip: You can change the default fallback by setting `Color.defaults.display_space`.
 
 What if you want access to the converted color? For example, you may want to indicate whether it was in gamut or not.
 You can access the `color` property on the returned value:
 
 ```js
 let green = new Color("lch", [80, 90, 120]);
-let cssColor = green.toString({fallback: true});
+let cssColor = green.display();
 cssColor.color.inGamut();
 ```
 
@@ -151,6 +153,6 @@ let r = Color.range("rebeccapurple", "gold");
 let stops = Color.steps(r, {steps: 10});
 let element = document.querySelector("#test2");
 element.style.background = `linear-gradient(to right, ${
-	stops.map(c => c.toString({fallback: true})).join(", ")
+	stops.map(c => c.display()).join(", ")
 })`;
 ```
