@@ -4,19 +4,19 @@
 
 <meta charset="UTF-8">
 <title>Contrast tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
-<script src="../src/deltaE2000.js" type="module"></script>
+
 <script>
 function contrastTest(...args) {
 	let td2 = document.currentScript.parentNode.previousElementSibling;
 	let td1 = td2.previousElementSibling;
 
-	print(() => {
+	$out(() => {
 		let color1 = new Color(td1.textContent);
 		let color2 = new Color(td2.textContent);
 
@@ -33,7 +33,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>sRGB</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr>
 			<td>white</td>
 			<td>black</td>
@@ -87,7 +87,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>Display P3</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 	<tr>
 		<!-- same as 3.00 above but p3 -->
 		<td>color(display-p3 0.555354 0.5982801 0.5316741)</td>
@@ -102,7 +102,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>LCH</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr>
 			<td>lch(50% 0 0)</td>
 			<td>white</td>
@@ -116,7 +116,7 @@ function contrastTest(...args) {
 
 <section>
 	<h1>With NaN</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr>
 			<td>lch(50% 0 NaN)</td>
 			<td>white</td>
@@ -128,6 +128,6 @@ function contrastTest(...args) {
 	</table>
 </section>
 
-<script src="index.js"></script>
+<script src="index.js" type="module"></script>
 </body>
 </html>

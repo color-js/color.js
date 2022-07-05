@@ -1,3 +1,5 @@
+import RefTest from "https://projects.verou.me/htest/src/reftest.js";
+
 RefTest.hooks.add("reftest-testrow", function (env) {
 	let table = this.table;
 

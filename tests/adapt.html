@@ -4,10 +4,12 @@
 
 <meta charset="UTF-8">
 <title>Chromatic adaptation tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
+
 <link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
+
+
 <script src="../color.js" type="module"></script>
 
 <script type="module">
@@ -28,11 +30,11 @@ window.color_adapt = adapt;
 	<h1>Bradford D50 ⇔ D65</h1>
 	<p>These test the linear Bradford adaptations from CATs.js against the built-in
 		conversion matricies to interconvert between D50 and D65.</p>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="D50 to D65">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.D50, WHITES.D65, "Bradford");
 						return M;
 						});
@@ -40,7 +42,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 0.9555766, -0.0230393,  0.0631636],
 							[-0.0282895,  1.0099416,  0.0210077],
@@ -53,7 +55,7 @@ window.color_adapt = adapt;
 		<tr title="D65 to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.D65, WHITES.D50, "Bradford");
 						return M;
 						});
@@ -61,7 +63,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 1.0478112,  0.0228866, -0.0501270],
 							[ 0.0295424,  0.9904844, -0.0170491],
@@ -78,11 +80,11 @@ window.color_adapt = adapt;
 	<h1>Bradford Other whitepoints</h1>
 	<p>These test the linear Bradford adaptations from CATs.js against
 		the matrices <a href="http://www.brucelindbloom.com/index.html?Eqn_ChromAdapt.html">published by Lindbloom</a>.</p>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="C to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.C, WHITES.D50, "Bradford");
 						return M;
 						});
@@ -90,7 +92,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 1.0376976,  0.0153932, -0.0582624],
  							[ 0.0170675,  1.0056038, -0.0188973],
@@ -103,7 +105,7 @@ window.color_adapt = adapt;
 		<tr title="A to C">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.A, WHITES.C, "Bradford");
 						return M;
 						});
@@ -111,7 +113,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 								[ 0.8530161, -0.1130268,  0.4404346],
 								[-0.1238786,  1.0853435,  0.1425803],
@@ -124,7 +126,7 @@ window.color_adapt = adapt;
 		<tr title="F2 to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.F2, WHITES.D50, "Bradford");
 						return M;
 						});
@@ -132,7 +134,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 								[ 0.9628262, -0.0215790,  0.0457172],
 								[-0.0280310,  1.0172847,  0.0156071],
@@ -149,11 +151,11 @@ window.color_adapt = adapt;
 	<h1>von Kries Other whitepoints</h1>
 	<p>These test the von Kries adaptations from CATs.js against
 		the matrices <a href="http://www.brucelindbloom.com/index.html?Eqn_ChromAdapt.html">published by Lindbloom</a>.</p>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="C to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.C, WHITES.D50, "von Kries");
 						return M;
 						});
@@ -161,7 +163,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 1.0132609,  0.0457455, -0.0636638],
  							[ 0.0050248,  0.9962695, -0.0010128],
@@ -174,7 +176,7 @@ window.color_adapt = adapt;
 		<tr title="A to C">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.A, WHITES.C, "von Kries");
 						return M;
 						});
@@ -182,7 +184,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 								[ 0.9418277, -0.2249131,  0.4806950],
 								[-0.0247051,  1.0253682,  0.0049749],
@@ -195,7 +197,7 @@ window.color_adapt = adapt;
 		<tr title="F2 to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.F2, WHITES.D50, "von Kries");
 						return M;
 						});
@@ -203,7 +205,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 								[ 0.9869554, -0.0470220,  0.0479582],
 								[-0.0051650,  1.0044210,  0.0010416],
@@ -219,11 +221,11 @@ window.color_adapt = adapt;
 <section>
 	<h1>CAT02 and CAT16, D50 ⇔ D65</h1>
 	<p>These test the fully adapted CAT02 and CAT16 adaptations from CATs.js, interconverting between D50 and D65.</p>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="CAT02 D50 to D65">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.D50, WHITES.D65, "CAT02");
 						return M;
 						});
@@ -231,7 +233,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 0.9599435, -0.0292880,  0.0656334],
 							[-0.0211745,  0.9988615,  0.0261212],
@@ -244,7 +246,7 @@ window.color_adapt = adapt;
 		<tr title="CAT02 D65 to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.D65, WHITES.D50, "CAT02");
 						return M;
 						});
@@ -252,7 +254,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 1.0424827,  0.0308012, -0.0527444],
 							[ 0.0221295,  1.0018823, -0.0210462],
@@ -265,7 +267,7 @@ window.color_adapt = adapt;
 		<tr title="CAT16 D50 to D65">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.D50, WHITES.D65, "CAT16");
 						return M;
 						});
@@ -273,7 +275,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 0.9894962, -0.0399233,  0.0439904],
 							[-0.0053910,  1.0066456, -0.0017541],
@@ -286,7 +288,7 @@ window.color_adapt = adapt;
 		<tr title="CAT16 D65 to D50">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.D65, WHITES.D50, "CAT16");
 						return M;
 						});
@@ -294,7 +296,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 1.0108226,  0.0405991, -0.0341060],
 							[ 0.0054139,  0.99359563, 0.0011560],
@@ -307,7 +309,7 @@ window.color_adapt = adapt;
 		<!-- <tr title="Hunt &amp; Pointer worked example">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt([98.88, 90.00, 32.03], [100, 100, 100] "CAT02");
 						return M;
 						});
@@ -315,7 +317,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 						[ 1.0478112,  0.0228866, -0.0501270],
 						[ 0.0295424,  0.9904844, -0.0170491],
@@ -331,11 +333,11 @@ window.color_adapt = adapt;
 <section>
 	<h1>CAT16, C to D50</h1>
 	<p>This tests the fully adapted CAT16 adaptation from CATs.js, Illuminant C to D50.</p>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="CAT02 D50 to D65">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						let M = color_adapt(WHITES.C, WHITES.D50, "CAT16");
 						return M;
 						});
@@ -343,7 +345,7 @@ window.color_adapt = adapt;
 			</td>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						return [
 							[ 1.0059635,  0.0270676, -0.0418130],
 							[ 0.0037323,  0.9940963,  0.0018973],

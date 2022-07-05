@@ -4,16 +4,9 @@
 
 <meta charset="UTF-8">
 <title>Angle pre-interpolation adjustment tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
-<script src="../color.js" type="module"></script>
-
-<script type="module">
-import {adjust} from "../src/angles.js";
-window.adjust = adjust;
-</script>
 
 </head>
 <body data-epsilon=".0005">
@@ -78,6 +71,7 @@ window.adjust = adjust;
 
 <script type="module">
 import {adjust} from "../src/angles.js";
+import {equals} from "https://projects.verou.me/htest/src/content.js";
 
 window.angle_adjust = function angle_adjust(test, result, expected) {
 	var err;
@@ -94,7 +88,7 @@ window.angle_adjust = function angle_adjust(test, result, expected) {
 
 		result.textContent = adjust(arc, angles).join(" ");
 
-		if (Test.equals(result.textContent.trim(), expected.textContent.trim())) {
+		if (equals(result.textContent.trim(), expected.textContent.trim())) {
 			return true;
 		}
 	}
