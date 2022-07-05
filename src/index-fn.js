@@ -26,3 +26,4 @@ export *                      from "./variations.js";
 export {
   mix, steps, range, isRange
 }                             from "./interpolation.js";
+export *                      from "./spaces/index-fn.js";

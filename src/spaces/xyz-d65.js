@@ -1,6 +1,6 @@
 import ColorSpace from "../space.js";
 
-const XYZ = ColorSpace.create({
+export default new ColorSpace({
 	id: "xyz-d65",
 	name: "XYZ D65",
 	coords: {
@@ -10,13 +10,9 @@ const XYZ = ColorSpace.create({
 	},
 	white: "D65",
 	formats: {
-		color: {}
+		color: {
+			ids: ['xyz-d65', 'xyz'],
+		}
 	},
+	aliases: ['xyz'],
 });
-
-export default XYZ;
-
-// Register xyz alias
-ColorSpace.register("xyz", XYZ);
-XYZ.formats.color.ids ||= [];
-XYZ.formats.color.ids.push("xyz");

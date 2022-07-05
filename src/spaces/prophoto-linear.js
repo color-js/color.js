@@ -1,4 +1,5 @@
 import RGBColorSpace from "../rgbspace.js";
+import XYZ_D50 from "./xyz-d50.js";
 
 // convert an array of  prophoto-rgb values to CIE XYZ
 // using  D50 (so no chromatic adaptation needed afterwards)
@@ -15,11 +16,11 @@ const fromXYZ_M = [
 	[  0.0,                  0.0,                   1.2119675456389454  ]
 ]
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "prophoto-linear",
 	name: "Linear ProPhoto",
 	white: "D50",
-	base: "xyz-d50",
+	base: XYZ_D50,
 	toXYZ_M,
 	fromXYZ_M
 });

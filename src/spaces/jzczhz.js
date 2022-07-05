@@ -2,7 +2,7 @@ import ColorSpace from "../space.js";
 import Jzazbz from "./jzazbz.js";
 import {constrain as constrainAngle} from "../angles.js";
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "jzczhz",
 	name: "JzCzHz",
 	coords: {

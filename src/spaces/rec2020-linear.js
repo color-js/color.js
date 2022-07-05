@@ -17,7 +17,7 @@ const fromXYZ_M = [
 	[  0.017639857445311,  -0.042770613257809,  0.942103121235474  ]
 ]
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "rec2020-linear",
 	name: "Linear REC.2020",
 	white: "D65",

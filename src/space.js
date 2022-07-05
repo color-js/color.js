@@ -12,6 +12,7 @@ export default class ColorSpace {
 		this.id = options.id;
 		this.name = options.name;
 		this.base = options.base ? ColorSpace.get(options.base) : null;
+		this.aliases = options.aliases;
 
 		if (this.base) {
 			this.fromBase = options.fromBase;
@@ -270,13 +271,20 @@ export default class ColorSpace {
 		}
 
 		space = this.get(space);
-		this.registry[id] = space;
-		return space;
-	}
 
-	static create (options) {
-		let space = new this(options);
-		return this.register(space);
+		if (this.registry[id] && this.registry[id] !== space) {
+			throw new Error(`Duplicate color space registration: '${id}'`);
+		}
+		this.registry[id] = space;
+
+		// Register aliases when called without an explicit ID.
+		if (arguments.length === 1 && space.aliases) {
+			for (let alias of space.aliases) {
+				this.register(alias, space);
+			}
+		}
+
+		return space;
 	}
 
 	/**

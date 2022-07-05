@@ -4,7 +4,7 @@ import ProPhotoLinear from "./prophoto-linear.js";
 const Et = 1/512;
 const Et2 = 16/512;
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "prophoto",
 	name: "ProPhoto",
 	base: ProPhotoLinear,

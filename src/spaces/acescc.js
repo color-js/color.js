@@ -11,7 +11,7 @@ const ACES_min_nonzero = -0.35828683;
 // brightest encoded value, decodes to 65504
 const ACES_cc_max = (Math.log2(65504) + 9.72) / 17.52; // 1.468
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "acescc",
 	name: "ACEScc",
 	// see S-2014-003 ACEScc – A Logarithmic Encoding of ACES Data
