@@ -4,10 +4,11 @@
 
 <meta charset="UTF-8">
 <title>Hooks tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
+
 
 <script src="../color.js" type="module"></script>
 <script>
@@ -26,7 +27,7 @@
 		<tr title="parse-start">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						Color.hooks.add("parse-start", env => {
 							if (env.str === "foo") {
 								return env.color = {spaceId: "sRGB", coords: [1, .5, .5]};
@@ -41,6 +42,8 @@
 		</tr>
 	</table>
 </section>
+
+<script src="index.js" type="module"></script>
 
 </body>
 </html>

@@ -6,7 +6,7 @@ import HSL from "./hsl.js";
 // Note that, like HSL, calculations are done directly on
 // gamma-corrected sRGB values rather than linearising them first.
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "hsv",
 	name: "HSV",
 	coords: {

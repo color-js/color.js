@@ -62,7 +62,7 @@ let app = createApp({
 				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" r="10" fill="${serialized}" /></svg>`;
 			});
 
-			return this.color.toString({fallback: true, precision: this.precision}) + "";
+			return this.color.display({precision: this.precision}) + "";
 		},
 		color_srgb () {
 			return this.color.to('srgb');
@@ -100,13 +100,13 @@ let app = createApp({
 				}
 
 				let steps = Color.steps(color1, color2, interpolationOptions);
-				ret.push(steps.map(c => c.toString({fallback: true})).join(", "));
+				ret.push(steps.map(c => c.display()).join(", "));
 			}
 
 			// Push alpha too
 			let color1 = new Color(spaceId, coords, 0);
 			let color2 = new Color(spaceId, coords, 1);
-			let steps = Color.steps(color1, color2, {steps: 10}).map(c => c.toString({fallback: true})).join(", ");
+			let steps = Color.steps(color1, color2, {steps: 10}).map(c => c.display()).join(", ");
 			ret.push(steps);
 
 			return ret;

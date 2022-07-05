@@ -4,18 +4,17 @@
 
 <meta charset="UTF-8">
 <title>Gamut mapping tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
-<link rel="stylesheet" href="style.css" />
 
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
+<link rel="stylesheet" href="style.css" />
 
 <script src="../dist/color.global.js"></script>
 <script>
 function gamutTest(toSpace, args) {
 	let td = document.currentScript.parentNode.previousElementSibling;
 
-	print(() => {
+	$out(() => {
 		let color = new Color(td.textContent);
 		let color2 = color.to(toSpace);
 		return color2.toString({inGamut: args, precision: null});
@@ -31,7 +30,7 @@ function gamutTest(toSpace, args) {
 
 <section>
 	<h1>P3 primaries to sRGB</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1,2,3">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1,2,3">
 		<tr title="Using chroma reduction">
 			<td>color(display-p3 1 0 0)</td>
 			<td>
@@ -164,7 +163,7 @@ function gamutTest(toSpace, args) {
 </section>
 
 
-<script src="index.js"></script>
+<script src="index.js" type="module"></script>
 
 </body>
 </html>

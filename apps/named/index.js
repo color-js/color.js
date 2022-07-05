@@ -24,7 +24,7 @@ function render() {
 		return;
 	}
 
-	let str = color.toString({fallback: true});
+	let str = color.display();
 
 	input_color.classList.toggle("oog", !str.color.inGamut());
 

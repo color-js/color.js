@@ -4,35 +4,30 @@
 
 <meta charset="UTF-8">
 <title>Color.js Tests</title>
-<link rel="stylesheet" href="https://get.mavo.io/mavo.css" />
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https:///htest.dev/htest.js" type="module" crossorigin></script>
 
 </head>
-<body mv-app="tests" mv-source="https://api.github.com/repos/leaverou/color.js/contents/tests" mv-mode="read">
+<body>
 
 <section>
-	<div class="mv-bar mv-ui mv-compact mv-tiny"></div>
 	<h1>Color.js Tests</h1>
 
-	<section>
-		<ul>
-			<li property="file" mv-multiple hidden="[name = 'index.html' or to(name, '.html') = '']" class="[if(name = selected, 'selected')]">
-				<input type="checkbox" property="toRun" checked="[name != 'index.html']">
-				<meta property="id" content="[to(name, '.html')]">
-				<a target="test" property="name" mv-action="set(selected, name)">[id]</a>
-				<a href="[name]" class="new-tab" title="Open in new Tab" target="_blank">↗️</a>
-			</li>
-		</ul>
-		<button mv-action="Test.runSelected(condense(name where toRun))">Run selected</button>
-	</section>
+	<ul id="tests">
+		<li><a href="parse.html">Parsing</a></li>
+		<li><a href="construct.html">Object construction</a></li>
+		<li><a href="conversions.html">Conversions</a></li>
+		<li><a href="delta.html">DeltaE</a></li>
+		<li><a href="gamut.html">Gamut mapping</a></li>
+		<li><a href="modifications.html">Color modification</a></li>
+		<li><a href="contrast.html">Contrast</a></li>
+		<li><a href="angles.html">Angles</a></li>
+		<li><a href="adapt.html">Chromatic adaptation</a></li>
+		<li><a href="multiply-matrices.html">Matrix multiplication</a></li>
+		<li><a href="hooks.html">Hooks</a></li>
+	</ul>
 </section>
-<div id="iframes"></div>
-<iframe name="test" src="[first(name)]"></iframe>
-
-<meta property="selected" />
-
-<script src="https://get.mavo.io/mavo.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
 
 </body>
 </html>

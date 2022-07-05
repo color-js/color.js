@@ -1,6 +1,7 @@
 import ColorSpace from "./space.js";
 import {multiplyMatrices} from "./util.js";
 import adapt from "./adapt.js";
+import XYZ_D65 from "./spaces/xyz-d65.js";
 
 /**
  * Convenience class for RGB color spaces
@@ -35,7 +36,7 @@ export default class RGBColorSpace extends ColorSpace {
 		}
 
 		if (!options.base) {
-			options.base = "xyz-d65";
+			options.base = XYZ_D65;
 		}
 
 		if (options.toXYZ_M && options.fromXYZ_M) {

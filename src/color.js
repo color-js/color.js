@@ -16,9 +16,10 @@ import {
 	getAll,
 	set,
 	setAll,
+	display,
 } from "./index-fn.js";
 
-import xyz_d65 from "./spaces/xyz-d65.js";
+
 import "./spaces/xyz-d50.js";
 import "./spaces/srgb.js";
 
@@ -96,13 +97,11 @@ export default class Color {
 		};
 	}
 
-	toString (...args) {
-		let ret = serialize(this, ...args);
+	display (...args) {
+		let ret = display(this, ...args);
 
-		if (ret.color) {
-			// Convert color object to Color instance
-			ret.color = new Color(ret.color);
-		}
+		// Convert color object to Color instance
+		ret.color = new Color(ret.color);
 
 		return ret;
 	}
@@ -182,6 +181,7 @@ Color.defineFunctions({
 	inGamut,
 	toGamut,
 	distance,
+	toString: serialize,
 });
 
 Object.assign(Color, {
@@ -196,17 +196,4 @@ Object.assign(Color, {
 	defaults
 });
 
-if (typeof CSS !== "undefined" && CSS.supports) {
-	// Find widest supported color space for CSS
-	for (let spaceId of ["lab", "rec2020", "p3", "srgb"]) {
-		if (spaceId in ColorSpace.registry) {
-			let coords = ColorSpace.registry[spaceId].getMinCoords();
-			let color = new Color(spaceId, coords);
 
-			if (CSS.supports("color", color)) {
-				defaults.css_space = spaceId;
-				break;
-			}
-		}
-	}
-}

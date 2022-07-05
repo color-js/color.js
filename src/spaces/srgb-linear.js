@@ -21,7 +21,7 @@ const fromXYZ_M = [
 	[  0.05563007969699366, -0.20397695888897652,  1.0569715142428786  ]
 ];
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "srgb-linear",
 	name: "Linear sRGB",
 	white: "D65",

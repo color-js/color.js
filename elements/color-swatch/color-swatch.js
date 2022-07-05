@@ -36,7 +36,7 @@ export default class ColorSwatch extends HTMLElement {
 
 		try {
 			this.#color = new Color(colorText);
-			this.#swatch.style.cssText = `--color: ${this.#color.toString({fallback: true})}`;
+			this.#swatch.style.cssText = `--color: ${this.#color.display()}`;
 			this.#swatch.classList.remove("invalid");
 		}
 		catch (e) {

@@ -4,11 +4,10 @@
 
 <meta charset="UTF-8">
 <title>DeltaE tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
 
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
 <script src="../color.js" type="module"></script>
 <script src="../src/deltaE/deltaE2000.js" type="module"></script>
 <script src="../src/deltaE/deltaECMC.js" type="module"></script>
@@ -22,7 +21,7 @@ function deltaTest(...args) {
 	let td2 = document.currentScript.parentNode.previousElementSibling;
 	let td1 = td2.previousElementSibling;
 
-	print(() => {
+	$out(() => {
 		let color1 = new Color(td1.textContent);
 		let color2 = new Color(td2.textContent);
 		return color1.deltaE(color2, ...args);
@@ -38,7 +37,7 @@ function deltaTest(...args) {
 
 <section>
 	<h1>DeltaE 76</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -133,7 +132,7 @@ function deltaTest(...args) {
 <section>
 	<h1>DeltaE CMC(2:1)</h1>
 	<p>Brilliant Yellow test data by BYK-Gardner GmbH.</p>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -242,7 +241,7 @@ function deltaTest(...args) {
 		vol. <strong>30</strong>. No. 1, pp. 21-30, February 2005.
 		<a href="http://www2.ece.rochester.edu/~gsharma/ciede2000/">http://www2.ece.rochester.edu/~gsharma/ciede2000/</a></p>
 
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -589,7 +588,7 @@ function deltaTest(...args) {
 		to help comparison with DeltaE2000 test results.
 	</p>
 
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -927,7 +926,7 @@ function deltaTest(...args) {
 
 <section>
 	<h1>DeltaE Jz</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -1022,7 +1021,7 @@ function deltaTest(...args) {
 <section>
 	<h1>DeltaE OK</h1>
 	<p>These values average 200x smaller than the corresponding deltaE 2000 values.</p>
-	<table class="reftest" data-test="compareNumbers" data-columns="4" data-colors="1,2">
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
 		<tr title="100% L = 100">
 			<td>white</td>
 			<td>black</td>
@@ -1199,7 +1198,7 @@ function deltaTest(...args) {
 </section>
 
 
-<script src="index.js"></script>
+<script src="index.js" type="module"></script>
 
 </body>
 </html>
