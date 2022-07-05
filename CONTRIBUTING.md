@@ -28,7 +28,7 @@ All of the above also have `build` versions (e.g. `npm run build:js` or `npm run
 
 Please install an ESLint plugin for your editor. There is an `.eslintrc.json` file in the repo which encodes most of the coding style of the project.
 
-Here are a few other guideliines that cannot be enforced via ESLint:
+Here are a few other guidelines that cannot be enforced via ESLint:
 
 - When you define a function, use a space between the opening paren and its name. That way we can search for "functionName (" and find its definition immediately, instead of having to wade through calls to the function.
 - Prefer single-word names over multi-word names. 3+ word names are especially frowned upon.

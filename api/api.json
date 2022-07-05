@@ -363,7 +363,7 @@
 					"name": "parse",
 					"static": true,
 					"role": "function",
-					"description": "Parse a string as a color. Understands all [CSS Color 4](https://w3.org/TR/css-color-4) functions. Uses the DOM if present to parse hex colors and color names, so that will not not available in non-DOM environments such as Node.js.",
+					"description": "Parse a string as a color. Understands all [CSS Color 4](https://w3.org/TR/css-color-4) functions. Uses the DOM if present to parse hex colors and color names, so that will not available in non-DOM environments such as Node.js.",
 					"argument": [
 						{
 							"name": "str",
