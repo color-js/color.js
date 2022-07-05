@@ -1,6 +1,8 @@
 <header class="readme-only">
 
 # Color.js: Let’s get serious about color
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a6208d72-3d48-43ab-9132-b9f31f828609/deploy-status)](https://app.netlify.com/sites/colorjs/deploys)
+[![npm](https://img.shields.io/npm/dw/colorjs.io)](https://npmjs.com/package/colorjs.io)
 
 - [Official website](https://colorjs.io)
 - [Contribution guide](CONTRIBUTING.md)
