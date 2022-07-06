@@ -43,9 +43,9 @@ You can also import specific modules:
 
 ```js
 import Color from "https://colorjs.io/src/color.js";
-import "https://colorjs.io/src/spaces/p3.js";
-import "https://colorjs.io/src/spaces/rec2020.js";
-import "https://colorjs.io/src/deltaE/deltaE2000.js";
+import p3 from "https://colorjs.io/src/spaces/p3.js";
+import rec2020 from "https://colorjs.io/src/spaces/rec2020.js";
+import deltaE200 from "https://colorjs.io/src/deltaE/deltaE2000.js";
 ```
 
 Warning: To use `import` statements in a browser, your `<script>` needs `type="module"`
