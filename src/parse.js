@@ -4,7 +4,7 @@ import ColorSpace from "./space.js";
 
 // CSS color to Color object
 export default function parse (str) {
-	let env = {str};
+	let env = {"str": str?.trim()};
 	hooks.run("parse-start", env);
 
 	if (env.color) {
