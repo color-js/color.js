@@ -57,7 +57,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = contrastWeber(color1, color2);
+let contrast = Color.contrastWeber(color1, color2);
 ```
 
 ## Michelson Contrast
