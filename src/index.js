@@ -32,8 +32,8 @@ Color.extend(interpolation);
 import * as contrastWeber from "./contrast/Weber.js";
 Color.extend(contrastWeber);
 
-import * as contrastMichelson from "./contrast/Michelson.js";
-Color.extend(contrastMichelson);
+// import * as contrastMichelson from "./contrast/Michelson.js";
+// Color.extend(contrastMichelson);
 
 import * as contrastWCAG21 from "./contrast/WCAG21.js";
 Color.extend(contrastWCAG21);
