@@ -42,14 +42,16 @@ export default function contrastAPCA(foreground, background) {
 	// Myndex as-published, assumes sRGB inputs
 	let R, G, B;
 
-	[R, G, B] = to(foreground, 'srgb');
+	to(foreground, 'srgb');
 	// Should these be clamped to in-gamut values?
 
 	// Calculates "screen luminance" with non-standard simple gamma EOTF
 	// weights should be from CSS Color 4, not the ones here which are via Myndex and copied from Lindbloom
+	[R, G, B] = foreground.coords;
 	let lumTxt = (R ** 2.4) * 0.2126729 + (G ** 2.4) * 0.7151522 + (B ** 2.4) * 0.0721750;
 
-	[R, G, B] = to(background, 'srgb');
+	to(background, 'srgb');
+	[R, G, B] = background.coords;
 	let lumBg = (R ** 2.4) * 0.2126729 + (G ** 2.4) * 0.7151522 + (B ** 2.4) * 0.0721750;
 
 	// toe clamping of very dark values to account for flare
