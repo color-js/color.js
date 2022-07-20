@@ -82,6 +82,7 @@ export default function contrastAPCA(foreground, background) {
 	} else {
 		Sapc = C + loBoWoffset;
 	}
+
 	return Sapc * 100;
 }
 
