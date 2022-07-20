@@ -62,7 +62,8 @@ export default function contrastAPCA(foreground, background) {
 	// why is this a delta, when Y is not perceptually uniform?
 	if (Math.abs(Ybg - Ytxt) < deltaYmin) {
 		C = 0;
-	} else {
+	}
+	else {
 		if (BoW) {
 			// dark text on light background
 			S = Ybg ** normBG - Ytxt ** normTXT;
@@ -75,11 +76,13 @@ export default function contrastAPCA(foreground, background) {
 	}
 	if (Math.abs(C) < loClip) {
 		Sapc = 0;
-	} else if (C > 0) {
+	}
+	else if (C > 0) {
 		// not clear whether Woffset is loBoWoffset or loWoBoffset
 		// but they have the same value
 		Sapc = C - loBoWoffset;
-	} else {
+	}
+	else {
 		Sapc = C + loBoWoffset;
 	}
 
