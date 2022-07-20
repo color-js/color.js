@@ -10,14 +10,16 @@ export default function contrastMichelson  (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 
-	let Y1 = getLuminance(color1);
-	let Y2 = getLuminance(color2);
+	let Y1 = Math.max(getLuminance(color1), 0);
+	let Y2 = Math.max(getLuminance(color2), 0);
 
     if (Y2 > Y1) {
         [Y1, Y2] = [Y2, Y1];
     }
 
-    return (Y1 - Y2) / (Y1 + Y2);
+	let denom = (Y1 + Y2);
+	if (denom = 0) return 0;
+    return (Y1 - Y2) / denom;
 };
 
 export function register(Color) {

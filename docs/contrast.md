@@ -197,7 +197,7 @@ let contrast = contrastWCAG21(color1, color2);
 
 - Gordon E. Legge, David H. Parish, Andrew Luebker, and Lee H. Wurm (1990)  _Psychophysics of reading. XI. Comparing color contrast and luminance contrast_. Journal of the Optical Society of America vol **7** issue 10 pp. 2002-2010 [https://doi.org/10.1364/JOSAA.7.002002](https://doi.org/10.1364/JOSAA.7.002002)
 
-- Gordon E.Legge, Gary S.Rubin, AndrewLuebker (1987) _Psychophysics of reading—V. The role of contrast in normal vision_. Vision Research vol **27**, Issue 7, pp. 1165-1177 [abstract](https://www.sciencedirect.com/science/article/abs/pii/0042698987900289)
+- Gordon E.Legge, Gary S.Rubin, Andrew Luebker (1987) _Psychophysics of reading—V. The role of contrast in normal vision_. Vision Research vol **27**, Issue 7, pp. 1165-1177 [abstract](https://www.sciencedirect.com/science/article/abs/pii/0042698987900289)
 
 - Color Usage Research Lab at NASA AMES Research Center, [Luminance Contrast](https://colorusage.arc.nasa.gov/luminance_cont.php)
 
