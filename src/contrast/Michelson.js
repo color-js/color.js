@@ -15,12 +15,12 @@ export default function contrastMichelson  (color1, color2) {
 	console.log(Y1, Y2);
 
     if (Y2 > Y1) {
-        [Y1, Y2] = [Y2, Y1];
+		[Y1, Y2] = [Y2, Y1];
     }
 
 	let denom = (Y1 + Y2);
 	if (denom = 0) return 0;
-    return (Y1 - Y2) / denom;
+	return (Y1 - Y2) / denom;
 };
 
 export function register(Color) {
