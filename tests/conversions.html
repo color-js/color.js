@@ -4,10 +4,9 @@
 
 <meta charset="UTF-8">
 <title>Color conversion tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
 
@@ -16,7 +15,7 @@ function convertTo(spaceId) {
 	return function() {
 		let td = document.currentScript.parentNode.previousElementSibling;
 
-		print(() => {
+		$out(() => {
 			let color = new Color(td.textContent);
 			return color.to(spaceId).coords.join(", ");
 		});
@@ -48,7 +47,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>sRGB to LCH</h1>
-	<table class="reftest" data-test="compareNumbers" data-epsilon=".02" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-epsilon=".02" data-columns="3" data-colors="1">
 		<tr>
 			<td>slategray</td>
 			<td>
@@ -75,7 +74,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>sRGB to (D50) XYZ</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 	<tr>
 		<td>white</td>
 		<td>
@@ -88,7 +87,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>HWB to sRGB</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr>
 			<td>hwb(0 20% 40%)</td>
 			<td>
@@ -146,7 +145,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>sRGB to HWB</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr>
 			<td>rgb(60% 20% 20%)</td>
 			<td>
@@ -179,7 +178,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>sRGB to HSL</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr>
 			<td>black</td>
 			<td>
@@ -204,7 +203,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>P3 to sRGB</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="mid grey">
 			<td>color(display-p3 0.47 0.47 0.47)</td>
 			<td>
@@ -274,7 +273,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <!-- <section>
 	<h1>Round-tripping</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="P3 mid grey, round-trip to sRGB and back">
 			<td>color(display-p3 0.47 0.47 0.47)</td>
 			<td>
@@ -290,7 +289,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 <!-- 0.000000730 -->
 <section>
 	<h1>rec2100pq to XYZ and back</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="BT.2100 to XYZ">
 			<td>color(rec2100-pq 0.3720 0.3720 0.3720)</td>
 			<td>
@@ -378,7 +377,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 <section>
 	<h1>Jzazbz</h1>
 	<p>Conversions to Absolute D65 XYZ tested against published Matlab code.</p>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="Jzazbz to XYZ">
 			<td>color(jzazbz 0.5 0 0)</td>
 			<td>
@@ -492,7 +491,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>JzCzHz</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="Jzazbz to JzCzHz">
 			<td>color(jzazbz 0.5 0 0)</td>
 			<td>
@@ -561,7 +560,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>ICtCp</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="XYZ to ICtCp">
 			<td>color(xyz 0 0 0)</td>
 			<td>
@@ -676,7 +675,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 <section>
 	<h1>OKLab</h1>
 	<p>Conversions tested against results from published linear sRGB to OKLab C++ code (using better matrices, updated 2021-01-2)</p>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 	<!-- see  https://github.com/svgeesus/svgeesus.github.io/blob/master/Color/OKLab-notes.md -->
 		<tr title="sRGB white (D65) to OKlab">
 			<td>white</td>
@@ -755,7 +754,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>OKLCh</h1>
-	<table class="reftest" data-test="compareNumbers" data-epsilon=".02" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-epsilon=".02" data-columns="3" data-colors="1">
 		<tr title="sRGB white (D65) to OKlab">
 			<td>white</td>
 			<td>
@@ -797,7 +796,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>Linear-light sRGB</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="sRGB white to linear (identity">
 			<td>white</td>
 			<td>
@@ -821,7 +820,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>ACEScc to XYZ</h1>
-	<table class="reftest" data-test="compareNumbers" data-columns="3" data-colors="1">
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 		<tr title="ACEScc media white to XYZ">
 			<td>color(acescc 1.0 1.0 1.0)</td>
 			<td>
@@ -917,11 +916,11 @@ let convertTosrgbLin = convertTo("srgb-linear");
 
 <section>
 	<h1>Get coordinates</h1>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="color.c">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						return color.c
 					});
@@ -932,7 +931,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 		<tr title="color.lch[1]">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						return color.lch[1];
 					});
@@ -943,7 +942,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 		<tr title="color.lch.c">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						return color.lch.c;
 					});
@@ -954,7 +953,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 		<tr title="color.oklch.c">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						return color.oklch.c;
 					});
@@ -965,7 +964,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 		<tr title="color.jzazbz.Jz">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						return color.jzazbz.jz
 					});
@@ -976,7 +975,7 @@ let convertTosrgbLin = convertTo("srgb-linear");
 		<tr title="color.jzazbz.Jz">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("color(jzazbz 0.54 0 0)");
 						return color.jzazbz.jz
 					});
@@ -987,6 +986,6 @@ let convertTosrgbLin = convertTo("srgb-linear");
 	</table>
 </section>
 
-<script src="index.js"></script>
+<script src="index.js" type="module"></script>
 </body>
 </html>

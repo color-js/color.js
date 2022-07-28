@@ -2,7 +2,7 @@ import ColorSpace from "../space.js";
 import Lab from "./lab.js";
 import {constrain as constrainAngle} from "../angles.js";
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "lch",
 	name: "LCH",
 	coords: {

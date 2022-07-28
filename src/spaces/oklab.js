@@ -1,5 +1,6 @@
 import ColorSpace from "../space.js";
 import {multiplyMatrices} from "../util.js";
+import XYZ_D65 from "./xyz-d65.js";
 
 // Recalculated for consistent reference white
 // see https://github.com/w3c/csswg-drafts/issues/6642#issuecomment-943521484
@@ -26,7 +27,7 @@ const LabtoLMS_M = [
 	[ 1.0000000546724109177,  -0.089484182094965759684, -1.2914855378640917399   ]
 ];
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "oklab",
     name: "OKLab",
     coords: {
@@ -43,8 +44,8 @@ export default ColorSpace.create({
     },
 
 	// Note that XYZ is relative to D65
-    white: "D65",
-	base: "xyz-d65",
+  white: "D65",
+	base: XYZ_D65,
 	fromBase (XYZ) {
 		// move to LMS cone domain
 		let LMS = multiplyMatrices(XYZtoLMS_M, XYZ);

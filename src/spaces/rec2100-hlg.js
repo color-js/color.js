@@ -7,7 +7,7 @@ const a = 0.17883277;
 const b = 0.28466892; // 1 - (4 * a)
 const c = 0.55991073; // 0.5 - a * Math.log(4 *a)
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "rec2100hlg",
 	cssid: "rec2100-hlg",
 	name: "REC.2100-HLG",

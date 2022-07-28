@@ -1,8 +1,9 @@
 import ColorSpace from "../space.js";
+import XYZ_D65 from "./xyz-d65.js";
 
 const Yw = 203;	// absolute luminance of media white
 
-export default ColorSpace.create({
+export default new ColorSpace({
 // Absolute CIE XYZ, with a D65 whitepoint,
 // as used in most HDR colorspaces as a starting point.
 // SDR spaces are converted per BT.2048
@@ -24,7 +25,7 @@ export default ColorSpace.create({
 		}
 	},
 
-	base: "xyz-d65",
+	base: XYZ_D65,
 	fromBase (XYZ) {
 		// Make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²

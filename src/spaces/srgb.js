@@ -4,7 +4,7 @@ import KEYWORDS from "../keywords.js";
 
 let coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "srgb",
 	name: "sRGB",
 	base: sRGBLinear,

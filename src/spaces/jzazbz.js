@@ -37,7 +37,7 @@ const IabtoCone_M = [
 	[ 0.9999999999999998, -0.09601924202631895, -0.8118918960560388  ]
 ];
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "jzazbz",
 	name: "Jzazbz",
 	coords: {

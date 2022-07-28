@@ -12,7 +12,7 @@ const fromXYZ_M = [
 	[ 0.03584583024378447, -0.07617238926804182, 0.9568845240076872]
 ]
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "p3-linear",
 	name: "Linear P3",
 	white: "D65",

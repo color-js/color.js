@@ -10,7 +10,7 @@ const c1 = 3424 / (2 ** 12);
 const c2 = 2413 / (2 ** 7);
 const c3 = 2392 / (2 ** 7);
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "rec2100pq",
 	name: "REC.2100-PQ",
 	base: REC2020Linear,

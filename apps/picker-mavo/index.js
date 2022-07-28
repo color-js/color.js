@@ -1,5 +1,5 @@
 import Color from "../../color.js";
-import {ColorSpace, to, serialize, inGamut, steps} from "../../src/index-fn.js";
+import {ColorSpace, to, serialize, display, inGamut, steps} from "../../src/index-fn.js";
 import {type} from "../../src/util.js";
 
 // Expose Color.js functions as globals so we can easily reference them from Mavo
@@ -20,6 +20,14 @@ window.color_serialize = function (color, o) {
 	// if (color.spaceId == "lch") debugger;
 	color = Mavo.clone(color); // drop proxies
 	return serialize(color, o);
+};
+window.color_display = function (color, o) {
+	if (!has_color_resolved(color)) {
+		return "";
+	}
+	// if (color.spaceId == "lch") debugger;
+	color = Mavo.clone(color); // drop proxies
+	return display(color, o);
 };
 window.color_inGamut = function (color, o) {
 	if (!has_color_resolved(color)) {
@@ -101,13 +109,13 @@ window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
 		}
 
 		let steps = Color.steps(color1, color2, interpolationOptions);
-		ret.push(steps.map(c => c.toString({fallback: true})).join(", "));
+		ret.push(steps.map(c => c.display()).join(", "));
 	}
 
 	// Push alpha too
 	let color1 = {spaceId, coords, alpha: 0};
 	let color2 = {spaceId, coords, alpha: 1};
-	let colorSteps = steps(color1, color2, {steps: 10}).map(c => serialize(c, {fallback: true})).join(", ");
+	let colorSteps = steps(color1, color2, {steps: 10}).map(c => display(c)).join(", ");
 	ret.push(colorSteps);
 
 	return ret;

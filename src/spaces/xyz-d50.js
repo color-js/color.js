@@ -2,7 +2,7 @@ import ColorSpace from "../space.js";
 import adapt from "../adapt.js";
 import XYZ_D65 from "./xyz-d65.js";
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "xyz-d50",
 	name: "XYZ D50",
 	white: "D50",
