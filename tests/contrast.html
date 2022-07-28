@@ -33,7 +33,8 @@ function APCAcontrastTest(...args) {
 		let text = new Color(td1.textContent);
 		let bg = new Color(td2.textContent);
 
-		return contrastAPCA(text, bg, ...args);
+		// return contrastAPCA(text, bg, ...args);
+		return text.contrastAPCA(bg, ...args);
 	});
 }
 
