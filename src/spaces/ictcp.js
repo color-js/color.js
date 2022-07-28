@@ -64,7 +64,7 @@ const LMStoXYZ_M = [
 // Dolby, "Perceptual Color Volume
 // Measuring the Distinguishable Colors of HDR and WCG Displays"
 // https://professional.dolby.com/siteassets/pdfs/dolby-vision-measuring-perceptual-color-volume-v7.1.pdf
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "ictcp",
 	name: "ICTCP",
 	// From BT.2100-2 page 7:

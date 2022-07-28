@@ -63,7 +63,7 @@ mv-mode="edit">
 		</label>
 
 		<label>Displayed color
-			<input property id="css_color" class="color-css" value="[color_serialize(color, group(precision: decimals, fallback: true))]" readonly />
+			<input property id="css_color" class="color-css" value="[color_display(color, precision: decimals)]" readonly />
 		</label>
 
 		<label class="[if(!color_inGamut(color, 'srgb', epsilon: .00005), 'out-of-gamut')]" style="--color: [color_serialize(color_srgb)]">

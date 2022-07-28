@@ -2,7 +2,7 @@ import ColorSpace from "../space.js";
 import OKLab from "./oklab.js";
 import {constrain as constrainAngle} from "../angles.js";
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "oklch",
 	name: "OKLCh",
 	coords: {

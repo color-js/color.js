@@ -1,7 +1,7 @@
 import RGBColorSpace from "../rgbspace.js";
 import A98Linear from "./a98rgb-linear.js";
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "a98rgb",
 	name: "Adobe® 98 RGB compatible",
 	base: A98Linear,

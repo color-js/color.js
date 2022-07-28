@@ -9,7 +9,7 @@ const κ = 24389/27;   // 29^3/3^3
 
 let white = WHITES.D50;
 
-export default ColorSpace.create({
+export default new ColorSpace({
 	id: "lab",
 	name: "Lab",
 	coords: {

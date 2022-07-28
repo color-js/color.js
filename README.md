@@ -1,8 +1,10 @@
 <header class="readme-only">
 
 # Color.js: Let’s get serious about color
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a6208d72-3d48-43ab-9132-b9f31f828609/deploy-status)](https://app.netlify.com/sites/colorjs/deploys)
+[![npm](https://img.shields.io/npm/dw/colorjs.io)](https://npmjs.com/package/colorjs.io)
 
-- [Offical website](https://colorjs.io)
+- [Official website](https://colorjs.io)
 - [Contribution guide](CONTRIBUTING.md)
 
 Features:
@@ -43,9 +45,9 @@ You can also import specific modules:
 
 ```js
 import Color from "https://colorjs.io/src/color.js";
-import "https://colorjs.io/src/spaces/p3.js";
-import "https://colorjs.io/src/spaces/rec2020.js";
-import "https://colorjs.io/src/deltaE/deltaE2000.js";
+import p3 from "https://colorjs.io/src/spaces/p3.js";
+import rec2020 from "https://colorjs.io/src/spaces/rec2020.js";
+import deltaE200 from "https://colorjs.io/src/deltaE/deltaE2000.js";
 ```
 
 Warning: To use `import` statements in a browser, your `<script>` needs `type="module"`

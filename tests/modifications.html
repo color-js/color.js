@@ -4,10 +4,10 @@
 
 <meta charset="UTF-8">
 <title>Color modification tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
 
 <script src="../color.js" type="module"></script>
 <script>
@@ -22,11 +22,11 @@
 
 <section>
 	<h1>sRGB to LCH</h1>
-	<table class="reftest" data-test="compareNumbers">
+	<table class="reftest" data-test="numbers">
 		<tr title="color.lch.c = 13">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.lch.c = 13;
 						return color.lch.c
@@ -38,7 +38,7 @@
 		<tr title="color.set('lch.c', 13)">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.set('lch.c', 13);
 						return color.get('lch.c');
@@ -50,7 +50,7 @@
 		<tr title="color.lch[1] = 13">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.lch[1] = 13;
 						return color.lch.c
@@ -62,7 +62,7 @@
 		<tr title="color.set('c', 13)">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray").to("lch");
 						color.set('c', 13)
 						return color.lch.c
@@ -74,7 +74,7 @@
 		<tr title='color.set({"lch.c": 13, "lch.l": 40})'>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.set({"lch.c": 13, "lch.l": 40})
 						return color.lch.c + ' ' + color.lch.l
@@ -86,7 +86,7 @@
 		<tr title="color.set('lch.c', 13)">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.set('lch.c', 13);
 						return color.lch.c;
@@ -98,7 +98,7 @@
 		<tr title="chroma *= 1.2">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.lch.c *= 1.2;
 						return color.lch.c;
@@ -111,7 +111,7 @@
 		<tr title='color.set("c", c => c * 1.2)'>
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray").to("lch");
 						color.set("c", c => c * 1.2);
 						return color.lch.c;
@@ -124,7 +124,7 @@
 		<tr title="c *= 1.25 then print lch">
 			<td>
 				<script>
-					print(() => {
+					$out(() => {
 						var color = new Color("slategray");
 						color.lch.c *= 1.25;
 						return color.lch;
@@ -135,6 +135,8 @@
 		</tr>
 	</table>
 </section>
+
+<script src="index.js" type="module"></script>
 
 </body>
 </html>

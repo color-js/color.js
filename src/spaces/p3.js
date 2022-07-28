@@ -2,7 +2,7 @@ import RGBColorSpace from "../rgbspace.js";
 import P3Linear from "./p3-linear.js";
 import sRGB from "./srgb.js";
 
-export default RGBColorSpace.create({
+export default new RGBColorSpace({
 	id: "p3",
 	name: "P3",
 	base: P3Linear,

@@ -4,12 +4,11 @@
 
 <meta charset="UTF-8">
 <title>Color parse tests</title>
-<link rel="stylesheet" href="https://test.mavo.io/style.css" />
-<link rel="stylesheet" href="style.css" />
-<script src="https://blissfuljs.com/bliss.shy.js"></script>
-<script src="https://test.mavo.io/test.js"></script>
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
 
-<script src="../color.js" type="module"></script>
+<link rel="stylesheet" href="style.css" />
+
 <script>
 
 </script>
@@ -129,6 +128,16 @@
 			<td>color(acescc 0 1 .5)</td>
 			<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
+		</tr>
+		<tr>
+			<td>color(acescg 0 1 .5)</td>
+			<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		</tr>
+		<tr>
+			<td>color(acescg 0 1 .5)</td>
+			<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
 		<tr>
 			<td>color(xyz 0 1 .5)</td>
 			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
@@ -202,8 +211,10 @@
 	</table>
 </section>
 
-<script>
-function colorParse(test, result, expected) {
+<script type="module">
+import Color from "../src/index.js";
+
+window.colorParse = function colorParse(test, result, expected) {
 	var err;
 
 	try {
@@ -222,7 +233,7 @@ function colorParse(test, result, expected) {
 	return err || false;
 }
 </script>
-<script src="index.js"></script>
+<script src="index.js" type="module"></script>
 
 </body>
 </html>

@@ -129,10 +129,10 @@ let color = new Color("rebeccapurple");
 Invented by Lam at the University of Bradford,
 this method uses modified (sharpened) cone responses
 with less overlap between the three cone types.
-While this doesn't represent the actual physilogical responses,
+While this doesn't represent the actual physiological responses,
 it does give better predictive accuracy.
 The originally published CAT also incorporated
-a correction for the non-linear resonse of the
+a correction for the non-linear response of the
 short wavelength ("blue") cone.
 Later studies found that this correction
 did not significantly improve accuracy,
@@ -166,7 +166,7 @@ At the close of the 20th century,
 the International Lighting Commission (CIE)
 came up with a _color appearance model_
 which used a modified form of the original, non-linear Bradford CAT.
-It has since been superceeded by later models
+It has since been superseded by later models
 which are more accurate,
 easier to calculate,
 and more numerically stable.
@@ -212,7 +212,7 @@ CAT16 defines both a one-stage and a two-stage CAT;
 in the latter, colors are first adapted to an equal-energy white
 and then to the destination white in a second step.
 We have only implemented the one-stage CAT,
-which gived idential results for full adaptation.
+which gived identical results for full adaptation.
 
 ## Using CATs
 
