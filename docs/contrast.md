@@ -57,7 +57,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = Color.contrastWeber(color1, color2);
+let contrast = color1.contrastWeber(color2);
 ```
 
 ## Michelson Contrast
@@ -82,7 +82,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = contrastMichelson(color1, color2);
+let contrast = color1.contrastMichelson(color2);
 ```
 
 ## Accessible Perceptual Contrast Algorithm (APCA)
@@ -117,8 +117,8 @@ Swapping them gives a somewhat different, and incorrect, result.
 ```js
 let text = new Color("p3", [0.9, 0.8, 0.1]);
 let background = new Color("slategrey");
-let contrast = contrastAPCA(text, background);
-let wrongContrast = contrastAPCA(background, text);
+let contrast = text.contrastAPCA(background);
+let wrongContrast = background.contrastAPCA(text, text);
 ```
 
 ## Lightness difference
@@ -138,7 +138,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = contrastLstar(color1, color2);
+let contrast = color1.contrastLstar(color2);
 ```
 
 Google Material Design uses a color model called
@@ -188,7 +188,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = contrastWCAG21(color1, color2);
+let contrast = color1.contrastWCAG21(color2);
 ```
 
 ## References
