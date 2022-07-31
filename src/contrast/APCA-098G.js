@@ -29,6 +29,12 @@ function fclamp (Y) {
 	return Y + (blkThrs - Y) ** blkClmp;
 }
 
+function linearize (val) {
+	let sign = val < 0? -1 : 1;
+	let abs = Math.abs(val);
+	return sign * Math.pow(abs, 2.4);
+}
+
 // Not symmetric, requires a foreground (text) color, and a background color
 export default function contrastAPCA(foreground, background) {
 
@@ -42,17 +48,17 @@ export default function contrastAPCA(foreground, background) {
 	// Myndex as-published, assumes sRGB inputs
 	let R, G, B;
 
-	to(foreground, 'srgb');
+	foreground = to(foreground, 'srgb');
 	// Should these be clamped to in-gamut values?
 
 	// Calculates "screen luminance" with non-standard simple gamma EOTF
 	// weights should be from CSS Color 4, not the ones here which are via Myndex and copied from Lindbloom
 	[R, G, B] = foreground.coords;
-	let lumTxt = (R ** 2.4) * 0.2126729 + (G ** 2.4) * 0.7151522 + (B ** 2.4) * 0.0721750;
+	let lumTxt = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
 
-	to(background, 'srgb');
+	background = to(background, 'srgb');
 	[R, G, B] = background.coords;
-	let lumBg = (R ** 2.4) * 0.2126729 + (G ** 2.4) * 0.7151522 + (B ** 2.4) * 0.0721750;
+	let lumBg = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
 
 	// toe clamping of very dark values to account for flare
 	let Ytxt = fclamp(lumTxt);
