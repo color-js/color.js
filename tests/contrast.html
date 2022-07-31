@@ -31,7 +31,7 @@ function APCAcontrastTest(...args) {
 	let td2 = document.currentScript.parentNode.previousElementSibling;
 	let td1 = td2.previousElementSibling;
 
-	print(() => {
+	$out(() => {
 		let text = new Color(td1.textContent);
 		let bg = new Color(td2.textContent);
 
@@ -212,9 +212,9 @@ function APCAcontrastTest(...args) {
 		<td>8.32326136957393</td>
 	</tr>
 	<tr>
+		<!-- confirmed correct with @Myndex -->
 		<td>#444</td>
 		<td>#123</td>
-		<!-- confirmed correct with @Myndex -->
 		<td>
 			<script>APCAcontrastTest();</script>
 		</td>
