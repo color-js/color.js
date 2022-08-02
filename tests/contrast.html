@@ -65,6 +65,18 @@ function WeberContrastTest(...args) {
 	});
 }
 
+function MichelsonContrastTest(...args) {
+	let td2 = document.currentScript.parentNode.previousElementSibling;
+	let td1 = td2.previousElementSibling;
+
+	$out(() => {
+		let text = new Color(td1.textContent);
+		let bg = new Color(td2.textContent);
+
+		return text.contrastMichelson(bg, ...args);
+	});
+}
+
 </script>
 
 </head>
