@@ -17,7 +17,7 @@ export default function contrastWeber (color1, color2) {
         [Y1, Y2] = [Y2, Y1];
     }
 
-	if (Y2 = 0) return 0;
+	if (Y2 === 0) return 0;
     return (Y1 - Y2) / Y2;
 };
 
