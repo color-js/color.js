@@ -503,6 +503,78 @@ function WeberContrastTest(...args) {
 	</table>
 </section>
 
+<section>
+	<h1>Michelson contrast, sRGB</h1>
+	<p>Same test color pairs as <a href="https://github.com/Myndex/apca-w3/blob/master/test/test.html">apca-w3 test</a>. </p>
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
+	<tr>
+		<td>#888</td>
+		<td>#fff</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>3.0617165365103394</td>
+	</tr>
+	<tr>
+		<td>#fff</td>
+		<td>#888</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>3.0617165365103394</td>
+	</tr>
+	<tr>
+		<td>#000</td>
+		<td>#aaa</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<td>#aaa</td>
+		<td>#000</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<td>#123</td>
+		<td>#def</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>54.745740598838104</td>
+	</tr>
+	<tr>
+		<td>#def</td>
+		<td>#123</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>54.745740598838104</td>
+	</tr>
+	<tr>
+		<td>#123</td>
+		<td>#444</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>2.8480815999063975</td>
+	</tr>
+	<tr>
+		<!-- confirmed correct with @Myndex -->
+		<td>#444</td>
+		<td>#123</td>
+		<td>
+			<script>MichelsonContrastTest();</script>
+		</td>
+		<td>2.8480815999063975</td>
+	</tr>
+	</table>
+</section>
+
 <script src="index.js" type="module"></script>
 
 </body>
