@@ -7,10 +7,8 @@ import "./spaces/index.js";
 // Import all DeltaE methods
 import * as deltaE from "./deltaE.js";
 import * as deltaEMethods from "./deltaE/index.js";
-for (let method in deltaEMethods) {
-	let id = method.replace(/^deltaE/, "");
-	deltaE.registerMethod(id, deltaEMethods[method]);
-}
+
+Color.extend(deltaEMethods);
 Color.extend(deltaE);
 
 // Import optional modules
