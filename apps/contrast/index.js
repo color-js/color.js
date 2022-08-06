@@ -7,8 +7,14 @@ for (let algo in contrastAlgorithms) {
 	contrast_algorithm.insertAdjacentHTML("beforeend", `<option>${algoName}</option>`);
 }
 
+const root = document.documentElement;
+let previousAlgo;
+
 function computeTextColor() {
 	let algo = contrast_algorithm.value;
+
+	previous_algo.textContent = previousAlgo;
+	current_algo.textContent = algo;
 
 	for (let div of colors.children) {
 		let color = div.color;
@@ -19,11 +25,13 @@ function computeTextColor() {
 		div.style.color = textColor;
 		div.classList.toggle("changed", changed);
 	}
+
+	previousAlgo = algo;
 }
 
 function drawColors() {
 	let granularity = Math.cbrt(number_of_colors.value);
-	document.documentElement.style.setProperty("--granularity", granularity);
+	// root.style.setProperty("--granularity", granularity);
 	let increment = 1 / granularity;
 
 	for (let r=0; r<=1; r += increment) {
@@ -53,7 +61,7 @@ number_of_colors.addEventListener("input", evt => {
 })
 
 show_changes.addEventListener("input", evt => {
-	changed_style.media = show_changes.checked? "all" : "not all";
+	root.classList.toggle("show-changes", show_changes.checked);
 })
 
 drawColors();

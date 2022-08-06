@@ -1,19 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="show-changes">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Contrast</title>
 	<link rel="stylesheet" href="style.css">
-	<style id="changed_style">
-		.changed {
-			outline: 2px dashed red;
-			outline-offset: 2px;
-			box-shadow: 0 0 0 2px white, 0 0 0 6px black;
-		}
-	</style>
-	<script src="./index.js" type="module"></script>
 </head>
 <body>
 	<h1>
@@ -32,9 +24,11 @@
 		</label>
 		<label class="changed">
 			<input type="checkbox" id="show_changes" checked>
-			Show changes
+			Show changes between <span id="previous_algo"></span> and <span id="current_algo"></span>
 		</label>
 		<div id="colors"></div>
 	</main>
+
+	<script src="./index.js" type="module"></script>
 </body>
 </html>

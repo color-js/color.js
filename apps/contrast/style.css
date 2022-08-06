@@ -34,3 +34,17 @@ main {
 #colors > div {
 	padding: .3em .5em;
 }
+
+.show-changes .changed {
+	outline: 2px dashed black;
+	outline-offset: 2px;
+	box-shadow: 0 0 0 6px white;
+}
+
+#previous_algo:empty::before {
+	content: "previous";
+}
+
+#current_algo:empty::before {
+	content: "current algorithm";
+}
