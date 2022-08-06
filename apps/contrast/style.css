@@ -1,0 +1,36 @@
+body {
+	font: 100%/1.5 system-ui, sans-serif;
+	margin: 0;
+}
+
+h1 {
+	padding: 2rem;
+	margin: 0;
+	background: hsl(180 50% 50%);
+	color: hsl(0 0% 20% / .5);
+	letter-spacing: -.03em;
+	font-size: 300%
+}
+
+h1 .black {
+		color: black;
+	}
+
+h1 .white {
+		color: white;
+	}
+
+main {
+	padding: 1em;
+}
+
+#colors {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(5ch, 1fr));
+	gap: .3em;
+	margin-top: 1em;
+}
+
+#colors > div {
+	padding: .3em .5em;
+}

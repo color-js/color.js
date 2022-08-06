@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contrast</title>
+	<link rel="stylesheet" href="style.css">
+	<style id="changed_style">
+		.changed {
+			outline: 2px dashed red;
+			outline-offset: 2px;
+			box-shadow: 0 0 0 2px white, 0 0 0 6px black;
+		}
+	</style>
+	<script src="./index.js" type="module"></script>
+</head>
+<body>
+	<h1>
+		<span class="black">Black</span>
+		or <span class="white">white</span>?
+	</h1>
+
+	<main>
+		<label>
+			Contrast algorithm:
+			<select id="contrast_algorithm"></select>
+		</label>
+		<label>
+			Number of colors:
+			<input type="range" id="number_of_colors" min="27" max="1728" value="125">
+		</label>
+		<label class="changed">
+			<input type="checkbox" id="show_changes" checked>
+			Show changes
+		</label>
+		<div id="colors"></div>
+	</main>
+</body>
+</html>
