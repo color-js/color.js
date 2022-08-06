@@ -60,6 +60,25 @@ let color2 = new Color("slategrey");
 let contrast = color1.contrastWeber(color2);
 ```
 
+### Modified Weber Contrast
+
+Weber contrast is typically used with printed test charts
+with positive polarity (black text, white background).
+The formula thus can be expressed as:
+
+> WC<sub>pp</sub> = Y<sub>background</sub> - Y<sub>text</sub> / Y<sub>text</sub>
+
+Hwang and Peli used a modified Weber contrast for
+tablet-based, negative polarity testing (white text on black background),
+and wrote:
+
+> We found that our app generates more accurate and a wider range of contrast stimuli than the paper chart (especially at the critical high CS, low contrast range), and found a clear difference between NP and PP CS measures (CSNP>CSPP) despite the symmetry afforded by the modified Weber contrast definition. Our app provides a convenient way to measure CS in both lighted and dark environments.
+
+The formula for negative polarity is
+
+> WC<sub>np</sub> = Y<sub>text</sub> - Y<sub>background</sub> / Y<sub>text</sub>
+
+
 ## Michelson Contrast
 
 Michelson Contrast, also called Modulation or Peak-to-Peak Constrast,
@@ -194,6 +213,8 @@ let contrast = color1.contrastWCAG21(color2);
 ## References
 
 - Kyoko Fujita, Koichi Oda, Junko Watanabe & Mitsuko Yuzawa (2008) _How normal eyes perform in reading low-contrast texts_. Japanese Journal of Ophthalmology vol **52**, pp. 44–47 [abstract](https://link.springer.com/article/10.1007/s10384-007-0494-6)
+
+- Alex D. Hwang and Eli Peli (2016) _Positive and negative polarity contrast sensitivity measuring app_. IS&T Int Symp Electron Imaging 2016: 10.2352. [full article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5481843/)
 
 - Gordon E. Legge, David H. Parish, Andrew Luebker, and Lee H. Wurm (1990)  _Psychophysics of reading. XI. Comparing color contrast and luminance contrast_. Journal of the Optical Society of America vol **7** issue 10 pp. 2002-2010 [https://doi.org/10.1364/JOSAA.7.002002](https://doi.org/10.1364/JOSAA.7.002002)
 
