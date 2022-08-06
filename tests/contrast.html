@@ -11,73 +11,18 @@
 
 <script src="../color.js" type="module"></script>
 
-<script src="../src/deltaE/deltaE2000.js" type="module"></script>
-<script src="../src/contrast/APCA-098G.js" type="module"></script>
-<script src="../src/contrast/delta-Lstar.js" type="module"></script>
-<script src="../src/contrast/Weber.js" type="module"></script>
-<script src="../src/contrast/Michelson.js" type="module"></script>
-
 <script>
 function contrastTest(...args) {
 	let td2 = document.currentScript.parentNode.previousElementSibling;
 	let td1 = td2.previousElementSibling;
 
 	$out(() => {
-		let color1 = new Color(td1.textContent);
-		let color2 = new Color(td2.textContent);
+		let color1 = new Color(td2.textContent);
+		let color2 = new Color(td1.textContent);
 
 		return color1.contrast(color2, ...args);
 	});
 }
-
-function APCAcontrastTest(...args) {
-	let td2 = document.currentScript.parentNode.previousElementSibling;
-	let td1 = td2.previousElementSibling;
-
-	$out(() => {
-		let text = new Color(td1.textContent);
-		let bg = new Color(td2.textContent);
-
-		return text.contrastAPCA(bg, ...args);
-	});
-}
-
-function LstarContrastTest(...args) {
-	let td2 = document.currentScript.parentNode.previousElementSibling;
-	let td1 = td2.previousElementSibling;
-
-	$out(() => {
-		let text = new Color(td1.textContent);
-		let bg = new Color(td2.textContent);
-
-		return text.contrastLstar(bg, ...args);
-	});
-}
-
-function WeberContrastTest(...args) {
-	let td2 = document.currentScript.parentNode.previousElementSibling;
-	let td1 = td2.previousElementSibling;
-
-	$out(() => {
-		let text = new Color(td1.textContent);
-		let bg = new Color(td2.textContent);
-
-		return text.contrastWeber(bg, ...args);
-	});
-}
-
-function MichelsonContrastTest(...args) {
-	let td2 = document.currentScript.parentNode.previousElementSibling;
-	let td1 = td2.previousElementSibling;
-
-	$out(() => {
-		let text = new Color(td1.textContent);
-		let bg = new Color(td2.textContent);
-
-		return text.contrastMichelson(bg, ...args);
-	});
-}
-
 </script>
 
 </head>
@@ -93,7 +38,7 @@ function MichelsonContrastTest(...args) {
 			<td>white</td>
 			<td>black</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>21</td>
 		</tr>
@@ -101,7 +46,7 @@ function MichelsonContrastTest(...args) {
 			<td>white</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>1</td>
 		</tr>
@@ -109,7 +54,7 @@ function MichelsonContrastTest(...args) {
 			<td>#ffe</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>1.010070</td>
 		</tr>
@@ -117,7 +62,7 @@ function MichelsonContrastTest(...args) {
 			<td>#afbaae</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>2.008125</td>
 		</tr>
@@ -125,7 +70,7 @@ function MichelsonContrastTest(...args) {
 			<td>#8b9986</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>3.000644</td>
 		</tr>
@@ -133,7 +78,7 @@ function MichelsonContrastTest(...args) {
 			<td>#765</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>5.502984</td>
 		</tr>
@@ -150,7 +95,7 @@ function MichelsonContrastTest(...args) {
 		<td>color(display-p3 0.555354 0.5982801 0.5316741)</td>
 		<td>white</td>
 		<td>
-			<script>contrastTest();</script>
+			<script>contrastTest("WCAG21");</script>
 		</td>
 		<td>3.000644</td>
 	</tr>
@@ -166,7 +111,7 @@ function MichelsonContrastTest(...args) {
 			<td>lch(50% 0 0)</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>4.4836</td>
 		</tr>
@@ -182,7 +127,7 @@ function MichelsonContrastTest(...args) {
 			<td>lch(50% 0 NaN)</td>
 			<td>white</td>
 			<td>
-				<script>contrastTest();</script>
+				<script>contrastTest("WCAG21");</script>
 			</td>
 			<td>4.4836</td>
 		</tr>
@@ -197,7 +142,7 @@ function MichelsonContrastTest(...args) {
 		<td>#888</td>
 		<td>#fff</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>63.056469930209424</td>
 	</tr>
@@ -205,7 +150,7 @@ function MichelsonContrastTest(...args) {
 		<td>#fff</td>
 		<td>#888</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-68.54146436644962</td>
 	</tr>
@@ -213,7 +158,7 @@ function MichelsonContrastTest(...args) {
 		<td>#000</td>
 		<td>#aaa</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>58.146262578561334</td>
 	</tr>
@@ -221,7 +166,7 @@ function MichelsonContrastTest(...args) {
 		<td>#aaa</td>
 		<td>#000</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-56.24113336839742</td>
 	</tr>
@@ -229,7 +174,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#def</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>91.66830811481631</td>
 	</tr>
@@ -237,7 +182,7 @@ function MichelsonContrastTest(...args) {
 		<td>#def</td>
 		<td>#123</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-93.06770049484275</td>
 	</tr>
@@ -245,7 +190,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#444</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>8.32326136957393</td>
 	</tr>
@@ -254,7 +199,7 @@ function MichelsonContrastTest(...args) {
 		<td>#444</td>
 		<td>#123</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-7.526878460278154</td>
 	</tr>
@@ -269,7 +214,7 @@ function MichelsonContrastTest(...args) {
 		<td>color(display-p3 0.5333333 0.5333333 0.5333333)</td>
 		<td>#fff</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>63.056469930209424</td>
 	</tr>
@@ -277,7 +222,7 @@ function MichelsonContrastTest(...args) {
 		<td>#fff</td>
 		<td>color(prophoto-rgb 0.4590162 0.4590162 0.4590162)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-68.54146436644962</td>
 	</tr>
@@ -285,7 +230,7 @@ function MichelsonContrastTest(...args) {
 		<td>#000</td>
 		<td>color(rec2020 0.6301706 0.6301706 0.6301706)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>58.146262578561334</td>
 	</tr>
@@ -293,7 +238,7 @@ function MichelsonContrastTest(...args) {
 		<td>color(xyz-d65 0.3820622 0.4019778 0.437777)</td>
 		<td>#000</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-56.24113336839742</td>
 	</tr>
@@ -301,7 +246,7 @@ function MichelsonContrastTest(...args) {
 		<td>hsl(210 50% 13.333333%)</td>
 		<td>lch(93.207946% 10.778089 252.00404)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>91.66830811481631</td>
 	</tr>
@@ -309,7 +254,7 @@ function MichelsonContrastTest(...args) {
 		<td>oklch(94.162468% 0.0293154 248.13928)</td>
 		<td>oklch(24.619227% 0.0398483 249.73161)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-93.06770049484275</td>
 	</tr>
@@ -317,7 +262,7 @@ function MichelsonContrastTest(...args) {
 		<td>color(display-p3 0.0819793 0.1316305 0.1944321)</td>
 		<td>color(a98-rgb 0.2735638 0.2735638 0.2735638)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>8.32326136957393</td>
 	</tr>
@@ -326,7 +271,7 @@ function MichelsonContrastTest(...args) {
 		<td>hwb(0 26.666667% 73.333333%)</td>
 		<td>hwb(210 6.6666667% 80%)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-7.526878460278154</td>
 	</tr>
@@ -341,7 +286,7 @@ function MichelsonContrastTest(...args) {
 		<td>color(display-p3 1 1 0)</td>
 		<td>#fff</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>0</td>
 	</tr>
@@ -349,7 +294,7 @@ function MichelsonContrastTest(...args) {
 		<td>color(display-p3 1 1 0)</td>
 		<td>#000</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>-102.29879033895834</td>
 	</tr>
@@ -357,7 +302,7 @@ function MichelsonContrastTest(...args) {
 		<td>#fff</td>
 		<td>color(display-p3 1 1 0)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>0</td>
 	</tr>
@@ -365,7 +310,7 @@ function MichelsonContrastTest(...args) {
 		<td>#000</td>
 		<td>color(display-p3 1 1 0)</td>
 		<td>
-			<script>APCAcontrastTest();</script>
+			<script>contrastTest("APCA");</script>
 		</td>
 		<td>100.98312326509509</td>
 	</tr>
@@ -380,7 +325,7 @@ function MichelsonContrastTest(...args) {
 		<td>#888</td>
 		<td>#fff</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>43.29658976448289</td>
 	</tr>
@@ -388,7 +333,7 @@ function MichelsonContrastTest(...args) {
 		<td>#fff</td>
 		<td>#888</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>43.29658976448289</td>
 	</tr>
@@ -396,7 +341,7 @@ function MichelsonContrastTest(...args) {
 		<td>#000</td>
 		<td>#aaa</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>69.61016686067734</td>
 	</tr>
@@ -404,7 +349,7 @@ function MichelsonContrastTest(...args) {
 		<td>#aaa</td>
 		<td>#000</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>69.61016686067734</td>
 	</tr>
@@ -412,7 +357,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#def</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>80.77804435335543</td>
 	</tr>
@@ -420,7 +365,7 @@ function MichelsonContrastTest(...args) {
 		<td>#def</td>
 		<td>#123</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>80.77804435335543</td>
 	</tr>
@@ -428,7 +373,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#444</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>16.42200146571048</td>
 	</tr>
@@ -437,7 +382,7 @@ function MichelsonContrastTest(...args) {
 		<td>#444</td>
 		<td>#123</td>
 		<td>
-			<script>LstarContrastTest();</script>
+			<script>contrastTest("Lstar");</script>
 		</td>
 		<td>16.42200146571048</td>
 	</tr>
@@ -452,7 +397,7 @@ function MichelsonContrastTest(...args) {
 		<td>#888</td>
 		<td>#fff</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>3.0617165365103394</td>
 	</tr>
@@ -460,7 +405,7 @@ function MichelsonContrastTest(...args) {
 		<td>#fff</td>
 		<td>#888</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>3.0617165365103394</td>
 	</tr>
@@ -468,7 +413,7 @@ function MichelsonContrastTest(...args) {
 		<td>#000</td>
 		<td>#aaa</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>0</td>
 	</tr>
@@ -476,7 +421,7 @@ function MichelsonContrastTest(...args) {
 		<td>#aaa</td>
 		<td>#000</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>0</td>
 	</tr>
@@ -484,7 +429,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#def</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>54.745740598838104</td>
 	</tr>
@@ -492,7 +437,7 @@ function MichelsonContrastTest(...args) {
 		<td>#def</td>
 		<td>#123</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>54.745740598838104</td>
 	</tr>
@@ -500,7 +445,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#444</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>2.8480815999063975</td>
 	</tr>
@@ -509,7 +454,7 @@ function MichelsonContrastTest(...args) {
 		<td>#444</td>
 		<td>#123</td>
 		<td>
-			<script>WeberContrastTest();</script>
+			<script>contrastTest("Weber");</script>
 		</td>
 		<td>2.8480815999063975</td>
 	</tr>
@@ -524,7 +469,7 @@ function MichelsonContrastTest(...args) {
 		<td>#888</td>
 		<td>#fff</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>0.6048771230917556</td>
 	</tr>
@@ -532,7 +477,7 @@ function MichelsonContrastTest(...args) {
 		<td>#fff</td>
 		<td>#888</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>0.6048771230917556</td>
 	</tr>
@@ -540,7 +485,7 @@ function MichelsonContrastTest(...args) {
 		<td>#000</td>
 		<td>#aaa</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>1</td>
 	</tr>
@@ -548,7 +493,7 @@ function MichelsonContrastTest(...args) {
 		<td>#aaa</td>
 		<td>#000</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>1</td>
 	</tr>
@@ -556,7 +501,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#def</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>0.9647550639238472</td>
 	</tr>
@@ -564,7 +509,7 @@ function MichelsonContrastTest(...args) {
 		<td>#def</td>
 		<td>#123</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>0.9647550639238472</td>
 	</tr>
@@ -572,7 +517,7 @@ function MichelsonContrastTest(...args) {
 		<td>#123</td>
 		<td>#444</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>0.5874656895134326</td>
 	</tr>
@@ -581,7 +526,7 @@ function MichelsonContrastTest(...args) {
 		<td>#444</td>
 		<td>#123</td>
 		<td>
-			<script>MichelsonContrastTest();</script>
+			<script>contrastTest("Michelson");</script>
 		</td>
 		<td>0.5874656895134326</td>
 	</tr>

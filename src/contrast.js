@@ -3,7 +3,7 @@ import getColor from "./getColor.js";
 import {isString} from "./util.js";
 import * as contrastAlgorithms from "./contrast/index.js";
 
-export default function contrast (c1, c2, o = {}) {
+export default function contrast (background, foreground, o = {}) {
 	if (isString(o)) {
 		o = {algorithm: o};
 	}
@@ -15,12 +15,12 @@ export default function contrast (c1, c2, o = {}) {
 		throw new TypeError(`contrast() function needs a contrast algorithm. Please specify one of: ${algorithms}`);
 	}
 
-	c1 = getColor(c1);
-	c2 = getColor(c2);
+	background = getColor(background);
+	foreground = getColor(foreground);
 
 	for (let a in contrastAlgorithms) {
 		if ("contrast" + algorithm.toLowerCase() === a.toLowerCase()) {
-			return contrastAlgorithms[a](c1, c2, rest);
+			return contrastAlgorithms[a](background, foreground, rest);
 		}
 	}
 

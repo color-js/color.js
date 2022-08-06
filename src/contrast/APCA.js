@@ -36,8 +36,7 @@ function linearize (val) {
 }
 
 // Not symmetric, requires a foreground (text) color, and a background color
-export default function contrastAPCA (foreground, background) {
-
+export default function contrastAPCA (background, foreground) {
 	foreground = getColor(foreground);
 	background = getColor(background);
 

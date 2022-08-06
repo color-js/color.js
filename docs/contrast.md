@@ -136,8 +136,8 @@ Swapping them gives a somewhat different, and incorrect, result.
 ```js
 let text = new Color("p3", [0.9, 0.8, 0.1]);
 let background = new Color("slategrey");
-let contrast = text.contrastAPCA(background);
-let wrongContrast = background.contrastAPCA(text, text);
+let contrast = background.contrastAPCA(text);
+let wrongContrast = text.contrastAPCA(background);
 ```
 
 ## Lightness difference
