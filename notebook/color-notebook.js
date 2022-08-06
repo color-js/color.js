@@ -23,11 +23,13 @@ Prism.hooks.add("before-sanity-check", env => {
 	}
 });
 
+let evalDebounce;
 Prism.hooks.add("complete", env => {
 	let pre = env.element.closest("pre");
 
 	if (pre?.notebook?.initialized) {
-		pre.notebook.eval();
+		clearTimeout(evalDebounce);
+		evalDebounce = setTimeout(_ => pre.notebook.eval(), 500);
 	}
 });
 
