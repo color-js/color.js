@@ -13,14 +13,9 @@ export default function contrastWeber (color1, color2) {
 	let Y1 = Math.max(getLuminance(color1), 0);
 	let Y2 = Math.max(getLuminance(color2), 0);
 
-    if (Y2 > Y1) {
-        [Y1, Y2] = [Y2, Y1];
-    }
+	if (Y2 > Y1) {
+		[Y1, Y2] = [Y2, Y1];
+	}
 
-	if (Y2 === 0) return 0;
-    return (Y1 - Y2) / Y2;
+	return Y2 === 0 ? 0 : (Y1 - Y2) / Y2;
 };
-
-export function register(Color) {
-	Color.defineFunction("contrastWeber", contrastWeber);
-}

@@ -36,7 +36,7 @@ function linearize (val) {
 }
 
 // Not symmetric, requires a foreground (text) color, and a background color
-export default function contrastAPCA(foreground, background) {
+export default function contrastAPCA (foreground, background) {
 
 	foreground = getColor(foreground);
 	background = getColor(background);
@@ -95,9 +95,4 @@ export default function contrastAPCA(foreground, background) {
 	}
 
 	return Sapc * 100;
-}
-
-
-export function register(Color) {
-	Color.defineFunction("contrastAPCA", contrastAPCA);
 }
