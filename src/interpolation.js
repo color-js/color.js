@@ -4,7 +4,12 @@
 import Color from "./color.js";
 import ColorSpace from "./space.js";
 import {type, interpolate} from "./util.js";
-import {getColor, clone, to, toGamut, get, set} from "./index-fn.js";
+import getColor from "./getColor.js";
+import clone from "./clone.js";
+import to from "./to.js";
+import toGamut from "./toGamut.js";
+import get from "./get.js";
+import set from "./set.js";
 import defaults from "./defaults.js";
 import * as angles from "./angles.js";
 import deltaE from "./deltaE.js";
