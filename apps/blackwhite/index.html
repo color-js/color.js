@@ -14,18 +14,30 @@
 	</h1>
 
 	<main>
-		<label>
-			Contrast algorithm:
-			<select id="contrast_algorithm"></select>
-		</label>
-		<label>
-			Number of colors:
-			<input type="range" id="number_of_colors" min="27" max="1728" value="125">
-		</label>
-		<label class="changed">
-			<input type="checkbox" id="show_changes" checked>
-			Show changes between <span id="previous_algo"></span> and <span id="current_algo"></span>
-		</label>
+		<fieldset>
+			<legend>Settings</legend>
+			<label>
+				Contrast algorithm:
+				<select id="contrast_algorithm"></select>
+			</label>
+			<label>
+				Number of colors:
+				<input type="range" id="number_of_colors" min="27" max="1728" value="256">
+			</label>
+			<label>
+				<input type="checkbox" id="show_changes" checked>
+				Show <span class="changed">changes</span> between <span id="previous_algo"></span> and <span id="current_algo"></span>
+			</label>
+			<label>
+				Order by
+				<select id="order_by">
+					<option value="">Inreasing R, G, B</option>
+					<option value="h">Hue</option>
+					<option value="c">Chroma</option>
+					<option value="l" selected>Lightness</option>
+				</select>
+			</label>
+		</fieldset>
 		<div id="colors"></div>
 	</main>
 

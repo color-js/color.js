@@ -3,6 +3,14 @@ body {
 	margin: 0;
 }
 
+fieldset {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2em;
+	border: 1px solid hsl(220 10% 90%);
+	border-radius: .2em;
+}
+
 h1 {
 	padding: 2rem;
 	margin: 0;
@@ -29,16 +37,30 @@ main {
 	grid-template-columns: repeat(auto-fit, minmax(5ch, 1fr));
 	gap: .3em;
 	margin-top: 1em;
+
 }
 
 #colors > div {
 	padding: .3em .5em;
+	border-radius: 1px;
+
+	@nest [data-order="l"] & {
+		order: var(--l);
+	}
+
+	@nest [data-order="c"] & {
+		order: var(--c);
+	}
+
+	@nest [data-order="h"] & {
+		order: var(--h);
+	}
 }
 
 .show-changes .changed {
-	outline: 2px dashed black;
-	outline-offset: 2px;
-	box-shadow: 0 0 0 6px white;
+	outline: 2px dashed orange;
+	outline-offset: 1px;
+	box-shadow: 0 0 0 4px hsl(0 0% 40%);
 }
 
 #previous_algo:empty::before {
