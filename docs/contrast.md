@@ -38,6 +38,25 @@ Color.js provides several methods to estimate luminance contrast.
 The strengths, drawbacks and uses of these methods have been examined by
 the NASA (Color Usage Research Lab).
 
+Each contrast algorithm can be used via either its dedicated function name,
+or the general `contrast()` function:
+
+```js
+let color1 = new Color("p3", [0.9, 0.8, 0.1]);
+let color2 = new Color("slategrey");
+let contrast = color1.contrastWCAG21(color2);
+let sameContrast = color1.contrast(color2, "WCAG21");
+// Case insensitive:
+let sameContrast2 = color1.contrast(color2, "wcag21");
+```
+
+Warning: You *need* to provide a contrast algorithm to `contrast()`.
+Not providing one produces a `TypeError`:
+
+```js
+Color.contrast("red", "white");
+```
+
 ## Weber Contrast
 
 Weber contrast, also often simply called Luminance Contrast,
@@ -57,7 +76,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = color1.contrastWeber(color2);
+let contrast = color1.contrast(color2, "weber");
 ```
 
 ### Modified Weber Contrast
@@ -101,7 +120,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = color1.contrastMichelson(color2);
+let contrast = color1.contrast(color2, "Michelson");
 ```
 
 ## Accessible Perceptual Contrast Algorithm (APCA)
@@ -136,8 +155,8 @@ Swapping them gives a somewhat different, and incorrect, result.
 ```js
 let text = new Color("p3", [0.9, 0.8, 0.1]);
 let background = new Color("slategrey");
-let contrast = background.contrastAPCA(text);
-let wrongContrast = text.contrastAPCA(background);
+let contrast = background.contrast(text, "APCA");
+let wrongContrast = text.contrast(background, "APCA");
 ```
 
 ## Lightness difference
@@ -157,7 +176,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = color1.contrastLstar(color2);
+let contrast = color1.contrast(color2, "Lstar");
 ```
 
 Google Material Design uses a color model called
@@ -167,7 +186,7 @@ but Tone is the same as CIE Lightness:
 
 > The HCT color system makes meeting accessibility standards much easier. Instead of using the unintuitive measure of a contrast ratio, the system converts those same requirements to a simple difference in tone, HCT’s measure of lightness. Contrast is guaranteed simply by picking colors whose tone values are far enough apart—no complex calculations required.
 
-So, color.js `contrastLstar` will give you the HCT Tone difference.
+So, color.js `Lstar` will give you the HCT Tone difference.
 
 ## Simple contrast
 
@@ -207,7 +226,7 @@ The lighter of the two will be detected automatically.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = color1.contrastWCAG21(color2);
+let contrast = color1.contrast(color2, "WCAG21");
 ```
 
 ## References
