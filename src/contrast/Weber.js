@@ -6,6 +6,12 @@
 import getColor from "../getColor.js";
 import {getLuminance} from "../luminance.js";
 
+// the darkest sRGB color above black is #000001 and this produces
+// a plain Weber contrast of ~45647.
+// So, setting the divide-by-zero result at 50000 is a reasonable
+// max clamp for the plain Weber
+const max = 50000;
+
 export default function contrastWeber (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
@@ -17,5 +23,5 @@ export default function contrastWeber (color1, color2) {
 		[Y1, Y2] = [Y2, Y1];
 	}
 
-	return Y2 === 0 ? 0 : (Y1 - Y2) / Y2;
+	return Y2 === 0 ? max : (Y1 - Y2) / Y2;
 };
