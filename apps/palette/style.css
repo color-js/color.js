@@ -1,0 +1,17 @@
+body {
+	display: flex;
+	font: 100%/1.5 system-ui, sans-serif;
+	margin: 0;
+	padding: 2em;
+}
+
+.swatch {
+	width: 100px;
+	height: 100px;
+	background-color: var(--color);
+}
+
+output {
+	display: flex;
+	margin: 1em;
+}
