@@ -6,7 +6,7 @@
 
 import getColor from "../getColor.js";
 import {getLuminance} from "../luminance.js";
-import lab-d65 from "../spaces/lab-d65.js";
+import lab_d65 from "../spaces/lab-d65.js";
 
 const phi = Math.pow(5, 0.5) * 0.5 + 0.5; // Math.phi can be used if Math.js
 
@@ -14,8 +14,8 @@ export default function contrastDeltaPhi (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 
-	let Lstr1 = get(color1, [lab-d65, "l"]);
-	let Lstr2 = get(color2, [lab-d65, "l"]);
+	let Lstr1 = get(color1, [lab_d65, "l"]);
+	let Lstr2 = get(color2, [lab_d65, "l"]);
 
 	let deltaPhiStar = Math.abs(Math.pow(Lstr1,phi) - Math.pow(Lstr2,phi));
 
