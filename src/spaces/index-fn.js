@@ -1,6 +1,7 @@
 export {default as XYZ_D65} from "./xyz-d65.js";
 export {default as XYZ_D50} from "./xyz-d50.js";
 export {default as XYZ_ABS_D65} from "./xyz-abs-d65.js";
+export {default as Lab_D65} from "./lab-d65.js";
 export {default as Lab} from "./lab.js";
 export {default as LCH} from "./lch.js";
 export {default as sRGB_Linear} from "./srgb-linear.js";
