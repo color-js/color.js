@@ -25,21 +25,30 @@ but everything applies to importing from URLs too.
 import {
 	to as convert,
 	toGamut,
-	serialize
+	serialize,
+	ColorSpace,
+	sRGB,
+	P3,
+	LCH
 } from "colorjs.io/fn";
 
 // You can also import functions directly:
 import parse from "./node_modules/colorjs.io/src/parse.js";
 
+// Register color spaces for parsing and converting
+ColorSpace.register(sRGB); // Can parse keywords and hex colors
+ColorSpace.register(P3);
+ColorSpace.register(LCH); // Used in toGamut and serialize
+
 // Parsing color
-let red = parse("red");
+const red = parse("red");
 
 // Directly creating object literal
-let p3_lime = {space: "p3", coords: [0, 1, 0]};
+const p3_lime = {space: "p3", coords: [0, 1, 0]};
 
-let p3_lime_srgb = convert(p3_green, "srgb");
-toGamut(p3_lime_srgb);
-serialize(p3_lime_srgb);
+const p3_lime_srgb = convert(p3_lime, "srgb");
+const lime_in_gamut = toGamut(p3_lime_srgb);
+const lime_str = serialize(p3_lime_srgb);
 ```
 
 ## More tips for performance-sensitive tasks
