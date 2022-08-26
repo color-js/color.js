@@ -5,7 +5,7 @@
 
 
 import getColor from "../getColor.js";
-import {getLuminance} from "../luminance.js";
+import get from "../get.js";
 import lab_d65 from "../spaces/lab-d65.js";
 
 const phi = Math.pow(5, 0.5) * 0.5 + 0.5; // Math.phi can be used if Math.js
