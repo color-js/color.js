@@ -5,7 +5,6 @@
 
 
 import getColor from "../getColor.js";
-import {getLuminance} from "../luminance.js";
 import get from "../get.js";
 import lab_d65 from "../spaces/lab-d65.js";
 
