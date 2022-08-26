@@ -34,7 +34,7 @@
 :root {
 		--page-margin: max(1rem, (100vw - var(--page-width)) / 2);
 		--rainbow-width: max(150vw, 900px)
-
+	
 }}
 
 @supports (-moz-margin-start: 0) {
