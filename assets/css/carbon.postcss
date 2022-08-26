@@ -1,10 +1,10 @@
 aside.carbon {
+	position: relative;
 	flex: 1;
 	width: var(--page-width);
 	max-width: calc(100vw - 2em);
 	margin: 1em auto 0;
 	padding: 1em;
-	position: relative;
 }
 
 #carbonads * {
@@ -14,23 +14,25 @@ aside.carbon {
 
 #carbonads {
 	display: flex;
-	position: fixed;
-	left: 50%;
-	transform: translateX(calc(var(--page-width) / 2 + 1.5rem));
-	bottom: 3rem;
-
-	font-size: .675em;
-	overflow: hidden;
-	max-width: 130px;
-	border-radius: 4px;
 	z-index: 2;
+	position: fixed;
+	bottom: 3rem;
+	left: 50%;
+	max-width: 130px;
+	overflow: hidden;
+	transform: translateX(
+		calc(var(--page-width) / 2 + 1.5rem)
+	);
+	border-radius: 4px;
 	background-color: hsl(240, 10%, 98%);
 	box-shadow: 0 0 1px hsla(0, 0%, 0%, 0.15);
+
+	font-size: 0.675em;
 }
 
 #carbonads a {
-	text-decoration: none;
 	color: #111;
+	text-decoration: none;
 }
 
 #carbonads a:hover {
@@ -39,23 +41,20 @@ aside.carbon {
 
 #carbonads .carbon-img {
 	display: block;
-
-	line-height: 1;
 	max-width: 130px;
+	line-height: 1;
 }
 
 #carbonads .carbon-img img {
 	display: block;
-	margin: 0 auto;
-
 	width: 130px;
 	height: 100px;
+	margin: 0 auto;
 }
 
 #carbonads .carbon-text {
 	display: block;
 	padding: 8px 10px;
-
 	line-height: 1.35;
 	text-align: left;
 }
@@ -63,13 +62,13 @@ aside.carbon {
 #carbonads .carbon-poweredby {
 	display: block;
 	padding: 10px;
-
-	font-size: .5rem;
-	font-weight: 600;
-	line-height: 0;
-	letter-spacing: .02ch;
-	text-transform: uppercase;
 	background-color: hsl(240, 10%, 95%);
+	font-weight: 600;
+
+	font-size: 0.5rem;
+	line-height: 0;
+	letter-spacing: 0.02ch;
+	text-transform: uppercase;
 }
 
 @media only screen and (max-width: 1279px) {
@@ -93,18 +92,18 @@ aside.carbon {
 
 	#carbonads .carbon-text {
 		display: block;
-		font-size: .75rem;
-		padding: .75rem .75rem 0 .75rem;
 		margin-bottom: 2em;
+		padding: 0.75rem 0.75rem 0 0.75rem;
+		font-size: 0.75rem;
 	}
 
 	#carbonads .carbon-poweredby {
 		position: absolute;
 		right: 0;
 		bottom: 0;
-
-		text-align: center;
 		border-radius: 0;
 		border-top-left-radius: 3px;
+
+		text-align: center;
 	}
 }
