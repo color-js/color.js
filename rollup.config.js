@@ -1,3 +1,6 @@
+import { babel } from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 
 let bundles = [
@@ -36,6 +39,11 @@ bundles = bundles.flatMap(bundle => {
 export default {
 	input: "src/index.js",
 	output: bundles,
+	plugins: [
+		commonjs(),
+		nodeResolve(),
+		babel({ babelHelpers: "bundled", exclude: "node_modules/**" }),
+	],
 	onwarn (warning, rollupWarn) {
 		if (warning.code !== 'CIRCULAR_DEPENDENCY') {
 			rollupWarn(warning);
