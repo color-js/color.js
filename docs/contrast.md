@@ -195,6 +195,31 @@ but Tone is the same as CIE Lightness:
 
 So, color.js `Lstar` will give you the HCT Tone difference.
 
+## Delta Phi Star
+
+Delta Phi Star (ΔΦ*) computes the difference between
+two CIE Lightnesses (D65-adapted),
+which have been raised to the power φ.
+The difference is raised to the power 1/φ,
+then scaled to give a convenient 0 to 101 range.
+Finally, low contrasts less than 7.5 are clipped to zero.
+
+```js
+let phi = Math.pow(5, 0.5) * 0.5 + 0.5;
+let difference  = (L<sub>bg</sub> ** phi) - (L<sub>txt</sub> ** phi);
+let DeltaPhiStar = difference * Math.SQRT2 - 40;
+if DeltaPhiStar < 7.5 DeltaPhiStar = 0;
+```
+
+Delta Phi Star was created by Andrew Somers
+as a "general" simplifed, polarity-insensitive perceptual contrast algorithm.
+
+```js
+let color1 = new Color("p3", [0.9, 0.8, 0.1]);
+let color2 = new Color("slategrey");
+let contrast = color1.contrast(color2, "DeltaPhiStar");
+```
+
 ## Simple contrast
 
 Simple Contrast values are used in photography, to specify the difference between bright and dark parts of the picture. This definition is not useful for real-world luminances, because of their much higher dynamic range, and the logarithmic response characteristics of the human eye.
@@ -254,6 +279,8 @@ let contrast = color1.contrast(color2, "WCAG21");
 [full article](https://www.sciencedirect.com/science/article/pii/S0042698919302111/pdfft?md5=5ea21f525bb62a071ee82497e2db4447&pid=1-s2.0-S0042698919302111-main.pdf)
 
 - Andrew Somers (2022) _APCA for W3C & WCAG3_. [https://github.com/Myndex/apca-w3](https://github.com/Myndex/apca-w3)
+
+- Andrew Somers (2022) _𝜟𝜱✴︎ (delta phi star)_ [https://github.com/Myndex/deltaphistar](https://github.com/Myndex/deltaphistar)
 
 -  Sam Waller (2022) _Does the contrast ratio actually predict the legibility of website text?_  [https://www.cedc.tools/article.html](https://www.cedc.tools/article.html)
 
