@@ -216,7 +216,7 @@ as a "general" simplifed, polarity-insensitive perceptual contrast algorithm.
 ```js
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
-let contrast = color1.contrast(color2, "DeltaPhiStar");
+let contrast = color1.contrast(color2, "DeltaPhi");
 ```
 
 ## Simple contrast
