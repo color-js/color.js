@@ -35,6 +35,13 @@ and that adding chromatic contrast does not further increase reading speed.
 This is true for both those with low vision and those with normal vision.
 
 Color.js provides several methods to estimate luminance contrast.
+Most methods report a contrast of 0 for a color on itself
+(WCAG 2.1 gives 1),
+and around 100 for the highest contrast black-on-white
+(WCAG 2.1 gives 21, Weber gives a high number which we cap at 50,000).
+Methods which distinguish polarity will report a negative number for reverse polarity;
+APCA gives -110 for white on black.
+
 The strengths, drawbacks and uses of these methods have been examined by
 the NASA (Color Usage Research Lab).
 
