@@ -204,12 +204,11 @@ The difference is raised to the power 1/φ,
 then scaled to give a convenient 0 to 101 range.
 Finally, low contrasts less than 7.5 are clipped to zero.
 
-```js
-let phi = Math.pow(5, 0.5) * 0.5 + 0.5;
-let difference  = (L<sub>bg</sub> ** phi) - (L<sub>txt</sub> ** phi);
-let DeltaPhiStar = difference * Math.SQRT2 - 40;
-if DeltaPhiStar < 7.5 DeltaPhiStar = 0;
-```
+
+> let phi = Math.pow(5, 0.5) * 0.5 + 0.5; <br>
+> let difference  = (L<sub>bg</sub> ** phi) - (L<sub>txt</sub> ** phi);<br>
+> let DeltaPhiStar = difference * Math.SQRT2 - 40;<br>
+> if DeltaPhiStar < 7.5 DeltaPhiStar = 0;
 
 Delta Phi Star was created by Andrew Somers
 as a "general" simplifed, polarity-insensitive perceptual contrast algorithm.
