@@ -209,7 +209,7 @@ _This value is much higher than that in the sRGB standard,
 which puts white at 80 cd/m2 and black at 0.2cd/m2,
 a relative luminance boost of 0.0025._
 
-> WCAG21 =  = (Y<sub>max</sub> + 0.05) / (Y<sub>min</sub> + 0.05)
+> WCAG21 = (Y<sub>max</sub> + 0.05) / (Y<sub>min</sub> + 0.05)
 
 Because of it's widespread use,
 color.js provides this method, mainly to aid comparison.
