@@ -67,7 +67,7 @@ It is commonly used in lighting design,
 and also to examine small, sharp edged symbols and text
 on larger, uniformly-colored backgrounds.
 
-> WC = Y<sub>max</sub> - Y<sub>min</sub> / Y<sub>min</sub>
+> WC = (Y<sub>max</sub> - Y<sub>min</sub>) / Y<sub>min</sub>
 
 Any two colors can be used,
 and this formula does not care which is the text color and which is the background.
@@ -85,7 +85,7 @@ Weber contrast is typically used with printed test charts
 with positive polarity (black text, white background).
 The formula thus can be expressed as:
 
-> WC<sub>pp</sub> = Y<sub>background</sub> - Y<sub>text</sub> / Y<sub>text</sub>
+> WC<sub>pp</sub> = (Y<sub>background</sub> - Y<sub>text</sub>) / Y<sub>text</sub>
 
 Hwang and Peli used a modified Weber contrast for
 tablet-based, negative polarity testing (white text on black background),
@@ -95,7 +95,7 @@ and wrote:
 
 The formula for negative polarity is
 
-> WC<sub>np</sub> = Y<sub>text</sub> - Y<sub>background</sub> / Y<sub>text</sub>
+> WC<sub>np</sub> = (Y<sub>text</sub> - Y<sub>background</sub>) / Y<sub>text</sub>
 
 
 ## Michelson Contrast
