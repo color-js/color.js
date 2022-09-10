@@ -135,6 +135,22 @@ let color2 = new Color("slategrey");
 let contrast = color1.contrast(color2, "Michelson");
 ```
 
+## Stevens Contrast
+
+Stevens contrast is often considered to supersede the Weber contrast.
+It is based on powers rather than logarithms.
+
+> SC = Y<sub>max</sub><sup>exp</sup> - Y<sub>min</sub><sup>exp</sup>
+
+The value of that exponent depends on the viewing conditions.
+It is also possible to use an offset to model flare.
+
+```js
+let color1 = new Color("p3", [0.9, 0.8, 0.1]);
+let color2 = new Color("slategrey");
+let contrast = color1.contrast(color2, {algorithm: "stevens", exponent: 1 / 3, offset: .0025});
+```
+
 ## Accessible Perceptual Contrast Algorithm (APCA)
 
 APCA is part of a color appearance system to determine  _readability contrast_

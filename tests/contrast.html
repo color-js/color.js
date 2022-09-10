@@ -555,6 +555,92 @@ function contrastTest(...args) {
 	</table>
 </section>
 
+<section>
+	<h1>Stevens contrast, sRGB</h1>
+	<table class="reftest" data-test="numbers" data-columns="4" data-colors="1,2">
+	<tr>
+		<td>white</td>
+		<td>black</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.8651117590220451</td>
+	</tr>
+	<tr>
+		<td>white</td>
+		<td>white</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<td>#888</td>
+		<td>#fff</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.37196482640638906</td>
+	</tr>
+	<tr>
+		<td>#fff</td>
+		<td>#888</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.37196482640638906</td>
+	</tr>
+	<tr>
+		<td>#000</td>
+		<td>#aaa</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.6038246032876674</td>
+	</tr>
+	<tr>
+		<td>#aaa</td>
+		<td>#000</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.6038246032876674</td>
+	</tr>
+	<tr>
+		<td>#123</td>
+		<td>#def</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.6837707144018808</td>
+	</tr>
+	<tr>
+		<td>#def</td>
+		<td>#123</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.6837707144018808</td>
+	</tr>
+	<tr>
+		<td>#123</td>
+		<td>#444</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.13241705354214078</td>
+	</tr>
+	<tr>
+		<td>#444</td>
+		<td>#123</td>
+		<td>
+			<script>contrastTest("Stevens");</script>
+		</td>
+		<td>0.13241705354214078</td>
+	</tr>
+	</table>
+</section>
+
 <script src="index.js" type="module"></script>
 
 </body>
