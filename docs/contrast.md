@@ -214,9 +214,6 @@ color.js provides this method, mainly to aid comparison.
 Note though that it has been criticized for
 numerous false positive and false negative results,
 particularly in dark mode.
-In a study of the legibility of white and black text
-against 8,000 random coloured backgrounds (Waller),
-WCAG 2.1 performed poorly compared to APCA.
 
 This formula does not care which is the text color and which is the background.
 The lighter of the two will be detected automatically.
@@ -245,6 +242,4 @@ let contrast = color1.contrast(color2, "WCAG21");
 [full article](https://www.sciencedirect.com/science/article/pii/S0042698919302111/pdfft?md5=5ea21f525bb62a071ee82497e2db4447&pid=1-s2.0-S0042698919302111-main.pdf)
 
 - Andrew Somers (2022) _APCA for W3C & WCAG3_. [https://github.com/Myndex/apca-w3](https://github.com/Myndex/apca-w3)
-
--  Sam Waller (2022) _Does the contrast ratio actually predict the legibility of website text?_  [https://www.cedc.tools/article.html](https://www.cedc.tools/article.html)
 
