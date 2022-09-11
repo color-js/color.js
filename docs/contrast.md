@@ -114,6 +114,10 @@ to study the relationship between contrast, character size and reading speed:
 
 > Critical Print Size (CPS) was found to increase as the contrast decreased. The relationship between contrast and CPS was linear in log–log coordinates, that is, log–CPS increased as the log-contrast of the characters decreased.
 
+Calculating the Michelson Contrast is the same as
+calculating the Weber Contrast between
+Y<sub>max</sub> and (Y<sub>max</sub> + Y<sub>min</sub>) / 2.
+
 This formula does not care which is the text color and which is the background.
 The lighter of the two will be detected automatically.
 
