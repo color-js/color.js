@@ -136,8 +136,6 @@ APCA is being evaluated for use in version 3 of
 the W3C Web Content Accessibility Guidelines (WCAG).
 
 The first stage of this system is the measurement of Lightness Contrast **L<sup>c</sup>**.
-Unlike systems using luminance, which is not perceptually uniform,
-APCA calculates a measure of lightness.
 The formula for L<sup>c</sup> starts with gamma-encoded sRGB values
 and involves multiple steps:
 
@@ -165,11 +163,7 @@ let wrongContrast = text.contrast(background, "APCA");
 
 ## Lightness difference
 
-Instead of being based on luminance,
-which is not perceptually uniform
-(and thus, the visual difference corresponding to a given luminance difference
-is greater for a dark pair of colors than a light pair),
-lightness difference uses the CIE Lightness **L<sup>*</sup>**,
+Lightness difference uses the CIE Lightness **L<sup>*</sup>**,
 which is (approximately) perceptually uniform.
 
 > LstarC = L<sub>max</sub> - L<sub>min</sub>
@@ -194,11 +188,11 @@ So, color.js `Lstar` will give you the HCT Tone difference.
 
 ## Simple contrast
 
-Simple Contrast values are used in photography, to specify the difference between bright and dark parts of the picture. This definition is not useful for real-world luminances, because of their much higher dynamic range, and the logarithmic response characteristics of the human eye.
+Simple Contrast values are used in photography, to specify the difference between bright and dark parts of the picture.
 
 > SC = Y<sub>max</sub> / Y<sub>min</sub>
 
-Because it is not very useful, and also trivial to compute,
+Because it is basically the same as Weber Contrast, and also trivial to compute,
 color.js does not provide a function for simple contrast.
 
 ## WCAG 2.1
