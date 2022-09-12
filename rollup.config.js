@@ -23,6 +23,22 @@ let bundles = [
 	},
 ];
 
+let legacyPlugins = [
+	commonjs(),
+	nodeResolve(),
+	babel({ babelHelpers: "bundled", exclude: "node_modules/**" }),
+];
+
+// Add legacy versions of every bundle
+bundles = bundles.flatMap(bundle => {
+	let legacyBundle = Object.assign({}, bundle);
+	legacyBundle.file = legacyBundle.file.replace(/\.\w+$/, ".legacy$&");
+	legacyBundle.plugins ||= [];
+	legacyBundle.plugins.push(legacyPlugins);
+
+	return [bundle, legacyBundle];
+});
+
 // Add minified versions of every bundle
 bundles = bundles.flatMap(bundle => {
 	let minBundle = Object.assign({}, bundle);
@@ -39,11 +55,6 @@ bundles = bundles.flatMap(bundle => {
 export default {
 	input: "src/index.js",
 	output: bundles,
-	plugins: [
-		commonjs(),
-		nodeResolve(),
-		babel({ babelHelpers: "bundled", exclude: "node_modules/**" }),
-	],
 	onwarn (warning, rollupWarn) {
 		if (warning.code !== 'CIRCULAR_DEPENDENCY') {
 			rollupWarn(warning);

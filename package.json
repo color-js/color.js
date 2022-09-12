@@ -7,6 +7,10 @@
 		"dist/color.cjs.map",
 		"dist/color.js",
 		"dist/color.js.map",
+		"dist/color.legacy.cjs",
+		"dist/color.legacy.cjs.map",
+		"dist/color.legacy.js",
+		"dist/color.legacy.js.map",
 		"src/"
 	],
 	"exports": {
