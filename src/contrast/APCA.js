@@ -67,6 +67,8 @@ export default function contrastAPCA (background, foreground) {
 	let BoW = Ybg > Ytxt;
 
 	// why is this a delta, when Y is not perceptually uniform?
+	// Answer: it is a noise gate, see
+	// https://github.com/LeaVerou/color.js/issues/208
 	if (Math.abs(Ybg - Ytxt) < deltaYmin) {
 		C = 0;
 	}
