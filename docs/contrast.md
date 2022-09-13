@@ -190,7 +190,7 @@ So, color.js `Lstar` will give you the HCT Tone difference.
 
 ## Simple contrast
 
-Simple Contrast values are used in photography, to specify the difference between bright and dark parts of the picture. This definition is not useful for real-world luminances, because of their much higher dynamic range, and the logarithmic response characteristics of the human eye.
+Simple Contrast values are used in photography, to specify the difference between bright and dark parts of the picture. This definition is not useful for real-world luminances, because of their much higher dynamic range, and the logarithmic response characteristics of the human eye (Schorsch).
 
 > SC = Y<sub>max</sub> / Y<sub>min</sub>
 
@@ -245,6 +245,8 @@ let contrast = color1.contrast(color2, "WCAG21");
 
 - Madoka Ohnishi, Terumi Otsukuni, _et. al._ (2020) _Effects of luminance contrast and character size on reading speed_. Vision Research vol **166**, January 2020, pp. 52-59 [abstract](https://doi.org/10.1016/j.visres.2019.09.010).
 [full article](https://www.sciencedirect.com/science/article/pii/S0042698919302111/pdfft?md5=5ea21f525bb62a071ee82497e2db4447&pid=1-s2.0-S0042698919302111-main.pdf)
+
+- Schorsch (2020) _[Lighting Design Glossary](https://www.schorsch.com/en/kbase/glossary/contrast.html)_, Lighting Design and Simulation Knowledgebase.
 
 - Andrew Somers (2022) _APCA for W3C & WCAG3_. [https://github.com/Myndex/apca-w3](https://github.com/Myndex/apca-w3)
 
