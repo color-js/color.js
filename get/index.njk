@@ -18,11 +18,15 @@ Or, if you'd rather just have <code>Color</code> as a global variable, the class
 
 <pre class="language-markup"><code>&lt;script src="https://colorjs.io/dist/color.global.js">&lt;/script></code></pre>
 
-<p class="tip">You can also add <code>.min</code> right before the <code>.js</code> extension to get a minified file.
+<p class="tip">You can also add <code>.min</code> right before the <code>.js</code> extension to get a minified file.</p>
 
 <p>You can also <a href="/docs/procedural.html">import individual functions and use the tree-shakeable API</a>.</p>
 
-<p class="tip">To use with older platforms (e.g. Node.js 12 or 14), add <code>.legacy</code> right before the <code>.js</code> extension to get a transpiled version.
+To use with older browsers (e.g. Opera v89) or platforms (e.g. Node.js v12 or v14), add <code>.legacy</code> right before the <code>.js</code> extension to get a transpiled version:
+
+<pre><code>const Color = require("colorjs.io/dist/color.legacy.cjs").default</code></pre>
+
+<pre class="language-markup"><code>&lt;script src="https://colorjs.io/dist/color.global.legacy.js">&lt;/script></code></pre>
 
 <h2>Via npm</h2>
 

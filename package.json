@@ -18,7 +18,8 @@
 			"import": "./dist/color.js",
 			"require": "./dist/color.cjs"
 		},
-		"./fn": "./src/index-fn.js"
+		"./fn": "./src/index-fn.js",
+		"./dist/*": "./dist/*"
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",
