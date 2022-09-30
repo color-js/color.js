@@ -1,0 +1,12 @@
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"targets": "defaults, node >= 12",
+				"useBuiltIns": "usage",
+				"corejs": "3.25"
+			}
+		]
+	]
+}

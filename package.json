@@ -7,6 +7,10 @@
 		"dist/color.cjs.map",
 		"dist/color.js",
 		"dist/color.js.map",
+		"dist/color.legacy.cjs",
+		"dist/color.legacy.cjs.map",
+		"dist/color.legacy.js",
+		"dist/color.legacy.js.map",
 		"src/"
 	],
 	"exports": {
@@ -14,7 +18,8 @@
 			"import": "./dist/color.js",
 			"require": "./dist/color.cjs"
 		},
-		"./fn": "./src/index-fn.js"
+		"./fn": "./src/index-fn.js",
+		"./dist/*": "./dist/*"
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",
@@ -27,7 +32,8 @@
 		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
 		"build:html": "npx @11ty/eleventy --config=.eleventy.cjs",
 		"build:js": "rollup -c",
-		"build": "npm run build:html && npm run build:css && npm run build:js",
+		"build:js:legacy": "rollup -c rollup.legacy.config.js",
+		"build": "npm run build:html && npm run build:css && npm run build:js && npm run build:js:legacy",
 		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs --watch",
 		"watch:html": "npx @11ty/eleventy --config=.eleventy.cjs --watch",
 		"watch:js": "rollup -c --watch",
@@ -40,7 +46,10 @@
 	"keywords": [
 		"color"
 	],
-	"contributors": ["Lea Verou", "Chris Lilley"],
+	"contributors": [
+		"Lea Verou",
+		"Chris Lilley"
+	],
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/LeaVerou/color.js/issues"
@@ -48,7 +57,13 @@
 	"homepage": "https://colorjs.io",
 	"devDependencies": {
 		"@11ty/eleventy": "^1.0",
+		"@babel/core": "^7.19.3",
+		"@babel/preset-env": "^7.19.3",
+		"@rollup/plugin-babel": "^5.3.1",
+		"@rollup/plugin-commonjs": "^22.0.2",
+		"@rollup/plugin-node-resolve": "^14.1.0",
 		"acorn": "latest",
+		"core-js": "^3.25.3",
 		"eslint": "latest",
 		"markdown-it": "latest",
 		"postcss": "latest",
