@@ -1,0 +1,1 @@
+src/spaces/index.d.ts
