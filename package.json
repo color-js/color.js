@@ -11,7 +11,10 @@
 		"dist/color.legacy.cjs.map",
 		"dist/color.legacy.js",
 		"dist/color.legacy.js.map",
-		"src/"
+		"src/",
+		"types/dist/",
+		"types/src/",
+		"types/index.d.ts"
 	],
 	"exports": {
 		".": {
@@ -24,11 +27,13 @@
 	"type": "module",
 	"main": "./dist/color.cjs",
 	"module": "./dist/color.js",
+	"types": "./types",
 	"directories": {
 		"test": "tests"
 	},
 	"scripts": {
 		"test": "open tests/",
+		"dtslint": "dtslint types",
 		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
 		"build:html": "npx @11ty/eleventy --config=.eleventy.cjs",
 		"build:js": "rollup -c",
@@ -59,6 +64,7 @@
 		"@11ty/eleventy": "^1.0",
 		"@babel/core": "^7.19.3",
 		"@babel/preset-env": "^7.19.3",
+		"@definitelytyped/dtslint": "latest",
 		"@rollup/plugin-babel": "^5.3.1",
 		"@rollup/plugin-commonjs": "^22.0.2",
 		"@rollup/plugin-node-resolve": "^14.1.0",
