@@ -3,7 +3,6 @@ import { ColorTypes } from "./color";
 export interface Options {
 	precision?: number | undefined;
 	format?: string | undefined;
-	/** @default true */
 	inGamut?: boolean | undefined;
 }
 
