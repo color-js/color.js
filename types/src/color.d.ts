@@ -24,12 +24,18 @@ export type Coords = [number, number, number];
 export interface ColorObject {
 	space: ColorSpace;
 	coords: Coords;
-	alpha: number;
+	alpha?: number;
 }
 
-export type ColorTypes = Color | ColorObject | string;
+export interface ColorConstructor {
+	spaceId: string;
+	coords: Coords;
+	alpha: number | undefined;
+}
 
-export type DefineFuncionCode = (
+export type ColorTypes = Color | ColorObject | ColorConstructor | string;
+
+export type DefineFunctionCode = (
 	...args: any[]
 ) => ColorTypes | ColorTypes[] | ((...args: any[]) => ColorTypes);
 
@@ -38,7 +44,7 @@ export interface DefineFunctionOptions {
 	returns?: "color" | "function<color>" | "array<color>" | undefined;
 }
 
-export type DefineFuncionHybrid = DefineFuncionCode & DefineFunctionOptions;
+export type DefineFunctionHybrid = DefineFunctionCode & DefineFunctionOptions;
 
 /** Remove the first element of an array type */
 type RemoveFirstElement<T extends any[]> = T extends [any, ...infer R]
@@ -81,22 +87,22 @@ declare class Color {
 		alpha: number
 	): Color;
 
-	static defineFunction(code: DefineFuncionHybrid): void;
-	static defineFunction(name: string, code: DefineFuncionHybrid): void;
+	static defineFunction(code: DefineFunctionHybrid): void;
+	static defineFunction(name: string, code: DefineFunctionHybrid): void;
 	static defineFunction(
 		name: string,
-		code: DefineFuncionCode,
+		code: DefineFunctionCode,
 		options: DefineFunctionOptions
 	): void;
 
-	static defineFunctions(objects: Record<string, DefineFuncionHybrid>): void;
+	static defineFunctions(objects: Record<string, DefineFunctionHybrid>): void;
 
 	static extend(
 		exports:
-			| DefineFuncionHybrid
+			| DefineFunctionHybrid
 			| { register: (color: typeof Color) => void }
-			| { default: DefineFuncionHybrid }
-			| Record<string, DefineFuncionHybrid>
+			| { default: DefineFunctionHybrid }
+			| Record<string, DefineFunctionHybrid>
 	): void;
 
 	get space(): ColorSpace;
@@ -112,7 +118,7 @@ declare class Color {
 		...args: RemoveFirstElement<Parameters<typeof display>>
 	): string & { color: Color };
 
-	toJSON(): { spaceId: string; coords: Coords; alpha: number };
+	toJSON(): ColorConstructor;
 
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;

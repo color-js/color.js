@@ -18,11 +18,22 @@
 	],
 	"exports": {
 		".": {
+			"types": "./types/index.d.ts",
 			"import": "./dist/color.js",
 			"require": "./dist/color.cjs"
 		},
-		"./fn": "./src/index-fn.js",
+		"./fn": {
+			"types": "./types/src/index-fn.d.ts",
+			"import": "./src/index-fn.js"
+		},
 		"./dist/*": "./dist/*"
+	},
+	"typesVersions": {
+		"*": {
+		  "fn": [
+			"./types/src/index-fn.d.ts"
+		  ]
+		}
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",

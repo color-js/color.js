@@ -1,14 +1,28 @@
 import { White } from "./adapt";
-import Color, { ColorObject, Coords } from "./color";
+import Color, { ColorConstructor, ColorObject, Coords } from "./color";
 
 export interface Format {
 	type?: string | undefined;
 	name?: string | undefined;
 	id?: string | undefined;
-	coordGrammar?: string[] | undefined;
+	coords?: string[] | undefined;
+	coordGrammar?: Array<string & { range?: [number, number] }> | undefined;
 	serializeCoords?:
 		| ((coords: Coords, precision: number) => [string, string, string])
 		| undefined;
+	toGamut?: boolean | undefined;
+	commas?: boolean | undefined;
+	lastAlpha?: boolean | undefined;
+	test?: ((str: string) => boolean) | undefined;
+	parse?: ((str: string) => ColorConstructor) | undefined;
+	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
+}
+
+export interface CoordMeta {
+	name?: string | undefined;
+	type?: string | undefined;
+	range?: [number, number] | undefined;
+	refRange?: [number, number] | undefined;
 }
 
 export interface Options {
@@ -17,11 +31,11 @@ export interface Options {
 	base?: string | ColorSpace | null | undefined;
 	fromBase?: ((coords: Coords) => number[]) | undefined;
 	toBase?: ((coords: Coords) => number[]) | undefined;
-	coords?: Coords | undefined;
+	coords?: Record<string, CoordMeta> | undefined;
 	white?: string | White | undefined;
 	cssId?: string | undefined;
 	referred?: string | undefined;
-	formats?: Record<string, Format>;
+	formats?: Record<string, Format> | undefined;
 }
 
 export type Ref =
@@ -48,11 +62,9 @@ export default class ColorSpace {
 	static resolveCoord(
 		ref: Ref,
 		workingSpace?: string | ColorSpace
-	): {
-		name: string;
+	): CoordMeta & {
 		id: string;
 		index: string | number;
-		range: number[];
 		space: ColorSpace;
 	};
 
@@ -72,12 +84,12 @@ export default class ColorSpace {
 	id: string;
 	aliases?: string[] | undefined;
 	base: ColorSpace | null;
-	coords: Coords;
+	coords: Record<string, CoordMeta>;
 	fromBase?: ((coords: Coords) => number[]) | undefined;
 	toBase?: ((coords: Coords) => number[]) | undefined;
 	formats: Record<string, Format>;
 	referred?: string | undefined;
-	white: string;
+	white: White;
 
 	from(color: Color | ColorObject): Coords;
 	from(space: string | ColorSpace, coords: Coords): Coords;

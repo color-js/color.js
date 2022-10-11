@@ -15,7 +15,20 @@ new ColorSpace({
 	name: "ABC",
 	toBase: () => [3, 2, 1],
 	fromBase: () => [1, 2, 3],
-	coords: [1, 2, 3],
+	coords: {
+		a: {
+			refRange: [0, 360],
+			name: "A"
+		},
+		b: {
+			range: [0, 100],
+			name: "B"
+		},
+		c: {
+			range: [0, 100],
+			name: "C"
+		}
+	},
 	white: "D50",
 	cssId: "abc",
 	referred: "abc",
