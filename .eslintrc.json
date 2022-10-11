@@ -1,5 +1,5 @@
 {
-	"parser": "babel-eslint",
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": 6,
 		"sourceType": "module",
@@ -7,9 +7,6 @@
 			"impliedStrict": true
 		}
 	},
-	"plugins": [
-		"classPrivateMethods"
-	],
 	"env": {
 		"browser": true,
 		"node": true
