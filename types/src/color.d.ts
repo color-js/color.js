@@ -59,6 +59,9 @@ export type ToColorPrototype<T extends (...args: any[]) => any> = T extends (
 	? (...args: A) => R
 	: never;
 
+/** Proxy used for space accessors */
+export type SpaceAccessor = Record<string, number> & number[];
+
 declare namespace Color {
 	export {
 		getAll,
@@ -131,6 +134,38 @@ declare class Color {
 	toGamut: ToColorPrototype<typeof toGamut>;
 	distance: ToColorPrototype<typeof distance>;
 	toString: ToColorPrototype<typeof serialize>;
+
+	// Space accessors
+	// A property should technically be added every time a new ColorSpace is initialized,
+	// but I don't know that there's any good way to do that with TypeScript
+	a98rgb: SpaceAccessor;
+	a98rgb_linear: SpaceAccessor;
+	acescc: SpaceAccessor;
+	acescg: SpaceAccessor;
+	hsl: SpaceAccessor;
+	hsv: SpaceAccessor;
+	hwb: SpaceAccessor;
+	ictcp: SpaceAccessor;
+	jzazbz: SpaceAccessor;
+	jzczhz: SpaceAccessor;
+	lab: SpaceAccessor;
+	lch: SpaceAccessor;
+	oklab: SpaceAccessor;
+	oklch: SpaceAccessor;
+	p3: SpaceAccessor;
+	p3_linear: SpaceAccessor;
+	prophoto: SpaceAccessor;
+	prophoto_linear: SpaceAccessor;
+	rec2020: SpaceAccessor;
+	rec2020_linear: SpaceAccessor;
+	rec2100hlg: SpaceAccessor;
+	rec2100pq: SpaceAccessor;
+	srgb: SpaceAccessor;
+	srgb_linear: SpaceAccessor;
+	xyz: SpaceAccessor;
+	xyz_abs_d65: SpaceAccessor;
+	xyz_d50: SpaceAccessor;
+	xyz_d65: SpaceAccessor;
 }
 
 export default Color;
