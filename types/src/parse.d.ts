@@ -1,3 +1,3 @@
-import { ColorObject } from "./color";
+import { ColorConstructor } from "./color";
 
-export default function parse(str: string): ColorObject;
+export default function parse(str: string): ColorConstructor;
