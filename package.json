@@ -68,6 +68,7 @@
 		"@rollup/plugin-babel": "^5.3.1",
 		"@rollup/plugin-commonjs": "^22.0.2",
 		"@rollup/plugin-node-resolve": "^14.1.0",
+		"@typescript-eslint/parser": "^5.40.0",
 		"acorn": "latest",
 		"core-js": "^3.25.3",
 		"eslint": "latest",
@@ -76,7 +77,8 @@
 		"postcss-cli": "latest",
 		"postcss-nesting": "latest",
 		"rollup": "^2.10",
-		"rollup-plugin-terser": "^7"
+		"rollup-plugin-terser": "^7",
+		"typescript": "^4.8.4"
 	},
 	"sideEffects": [
 		"./src/index.js",
