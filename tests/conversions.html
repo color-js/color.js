@@ -27,7 +27,7 @@ let convertToP3 = convertTo("p3");
 let convertToHWB = convertTo("hwb");
 let convertToHSL = convertTo("hsl");
 let convertToLCH = convertTo("lch");
-let convertToXYZ = convertTo("xyz");
+let convertToXYZ = convertTo("xyz-d65");
 let convertTo2100PQ = convertTo("rec2100pq");
 let convertToJzazbz = convertTo("jzazbz");
 let convertToJzCzHz = convertTo("jzczhz");
@@ -73,14 +73,14 @@ let convertTosrgbLin = convertTo("srgb-linear");
 </section>
 
 <section>
-	<h1>sRGB to (D50) XYZ</h1>
+	<h1>sRGB to (D65) XYZ</h1>
 	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
 	<tr>
 		<td>white</td>
 		<td>
 			<script>convertToXYZ();</script>
 		</td>
-		<td>0.96422, 1.00000, 0.82521</td>
+		<td>0.9504559270516717, 1, 1.0890577507598784</td>
 	</tr>
 	</table>
 </section>
