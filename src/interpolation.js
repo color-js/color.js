@@ -32,9 +32,9 @@ export function mix (c1, c2, p = .5, o = {}) {
 		[p, o] = [.5, p];
 	}
 
-	let {space, outputSpace} = o;
+	let {space, outputSpace, premultiplied} = o;
 
-	let r = range(c1, c2, {space, outputSpace});
+	let r = range(c1, c2, {space, outputSpace, premultiplied});
 	return r(p);
 }
 
