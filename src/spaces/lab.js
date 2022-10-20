@@ -68,7 +68,7 @@ export default new ColorSpace({
 
 	formats: {
 		"lab": {
-			coords: ["<percentage> | <number>", "<number>", "<number>"],
+			coords: ["<number> | <percentage>", "<number>", "<number>"],
 		}
 	}
 });
