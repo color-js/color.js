@@ -15,6 +15,9 @@ Color.extend(deltaE);
 import * as variations from "./variations.js";
 Color.extend(variations);
 
+import over from "./over.js";
+Color.extend(over);
+
 import contrast from "./contrast.js";
 Color.extend(contrast);
 
