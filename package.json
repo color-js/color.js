@@ -53,7 +53,8 @@
 		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs --watch",
 		"watch:html": "npx @11ty/eleventy --config=.eleventy.cjs --watch",
 		"watch:js": "rollup -c --watch",
-		"watch": "npm run watch:css & npm run watch:html & npm run watch:js"
+		"watch": "npm run watch:css & npm run watch:html & npm run watch:js",
+		"prepack": "npm run build"
 	},
 	"repository": {
 		"type": "git",
