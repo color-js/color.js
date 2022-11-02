@@ -70,14 +70,14 @@
 		},
 		{
 			"name": "REC.2100-PQ",
-			"id": "rec2020pq",
+			"id": "rec2100pq",
 			"dependencies": ["rec2020"],
 			"url": "https://en.wikipedia.org/wiki/Rec._2100",
 			"description": "One of the two HDR forms of Rec.2020; PQ stands for Perceptual Quantizer and is designed to avoid banding when HDR material is encoded with only 10 or 12 bits per component. REC.2100-PQ encodes absolute display luminance, in the range 0 to 10,000 cd/m2. Intended to be viewed in a dim viewing environment. Media white is typically displayed at around 200 cd/m2 (varying with content), values brighter than that are highlights."
 		},
 		{
 			"name": "REC.2100-HLG",
-			"id": "rec2020hlg",
+			"id": "rec2100hlg",
 			"dependencies": ["rec2020"],
 			"url": "https://en.wikipedia.org/wiki/Rec._2100",
 			"description": "One of the two HDR forms of Rec.2020; HLG stands for Hybrid Log-Gamma and is designed to maximise compatibility with SDR broadcast standards. REC.2100-HLG encodes relative scene luminance, so that it can be adapted to a wide range of viewing conditions and display peak luminances. Media white is encoded at a value of 0.75, values brighter than that are highlights. NOTE currently broken in color.js, do not use until fixed!"
