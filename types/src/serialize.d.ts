@@ -1,8 +1,9 @@
 import { ColorTypes } from "./color";
+import { Format } from "./space"
 
 export interface Options {
 	precision?: number | undefined;
-	format?: string | undefined;
+	format?: string | Format | undefined;
 	inGamut?: boolean | undefined;
 }
 
