@@ -1,5 +1,11 @@
 name: Test Type Definitions
-on: pull_request
+on:
+  push:
+    branches: [main]
+    paths: [types/**/*]
+  pull_request:
+    branches: [main]
+    paths: [types/**/*]
 
 jobs:
   test:
@@ -10,7 +16,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "12"
-
 
       - run: npm install
       - run: npm run dtslint
