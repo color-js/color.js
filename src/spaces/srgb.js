@@ -3,6 +3,7 @@ import sRGBLinear from "./srgb-linear.js";
 import KEYWORDS from "../keywords.js";
 
 let coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
+let coordGrammarNumber = Array(3).fill("<number>[0, 255]");
 
 export default new RGBColorSpace({
 	id: "srgb",
@@ -42,11 +43,22 @@ export default new RGBColorSpace({
 		"rgb": {
 			coords: coordGrammar,
 		},
+		"rgb_number": {
+			name: "rgb",
+			commas: true,
+			coords: coordGrammarNumber,
+			noAlpha: true,
+		},
 		"color": { /* use defaults */ },
 		"rgba": {
 			coords: coordGrammar,
 			commas: true,
 			lastAlpha: true,
+		},
+		"rgba_number": {
+			name: "rgba",
+			commas: true,
+			coords: coordGrammarNumber
 		},
 		"hex": {
 			type: "custom",
