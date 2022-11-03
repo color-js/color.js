@@ -77,7 +77,7 @@ export default function serialize (color, {
 			alpha = util.toPrecision(alpha, precision);
 		}
 
-		let strAlpha = color.alpha < 1? ` ${format.commas? "," : "/"} ${alpha}` : "";
+		let strAlpha = color.alpha < 1? `${format.commas? "," : " /"} ${alpha}` : "";
 		ret = `${name}(${args.join(format.commas? ", " : " ")}${strAlpha})`;
 	}
 
