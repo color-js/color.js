@@ -9,3 +9,4 @@ serialize(new Color("red")); // $ExpectType string
 serialize("red", {}); // $ExpectType string
 serialize("red", { precision: 5, format: "default", inGamut: false }); // $ExpectType string
 serialize("red", { precision: 5, format: "default", inGamut: false, foo: "bar" }); // $ExpectType string
+serialize("red", { format: { name: "CustomFormat", id: "custom-format" } }); // $ExpectType string

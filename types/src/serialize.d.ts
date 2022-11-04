@@ -1,5 +1,5 @@
 import { ColorTypes } from "./color";
-import { Format } from "./space"
+import { Format } from "./space";
 
 export interface Options {
 	precision?: number | undefined;
