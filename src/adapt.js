@@ -1,11 +1,11 @@
 import hooks from "./hooks.js";
-import {multiplyMatrices} from "./util.js"
+import {multiplyMatrices} from "./util.js";
 
 export const WHITES = {
 	// for compatibility, the four-digit chromaticity-derived ones everyone else uses
 	D50: [0.3457 / 0.3585, 1.00000, (1.0 - 0.3457 - 0.3585) / 0.3585],
 	D65: [0.3127 / 0.3290, 1.00000, (1.0 - 0.3127 - 0.3290) / 0.3290],
-}
+};
 
 export function getWhite(name) {
 	if (Array.isArray(name)) {

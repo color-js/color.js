@@ -22,10 +22,10 @@
 		"brace-style": [1, "stroustrup"],
 		"no-mixed-spaces-and-tabs": [1, "smart-tabs"],
 		"quotes": [1, "double", "avoid-escape"],
-        "spaced-comment": [1, "always", {
-            "block": {
-                "exceptions": ["*"]
-            }
+		"spaced-comment": [1, "always", {
+			"block": {
+				"exceptions": ["*"]
+			}
 		}],
 		"arrow-spacing": 1,
 		"comma-spacing": 1,

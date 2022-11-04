@@ -17,7 +17,7 @@ export default function contrastDeltaPhi (color1, color2) {
 	let Lstr1 = get(color1, [lab_d65, "l"]);
 	let Lstr2 = get(color2, [lab_d65, "l"]);
 
-	let deltaPhiStar = Math.abs(Math.pow(Lstr1,phi) - Math.pow(Lstr2,phi));
+	let deltaPhiStar = Math.abs(Math.pow(Lstr1, phi) - Math.pow(Lstr2, phi));
 
 	let contrast = Math.pow(deltaPhiStar, (1 / phi)) * Math.SQRT2 - 40;
 

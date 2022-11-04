@@ -1,0 +1,6 @@
+!.*
+.vscode/
+assets/js/prism.js
+/dist/
+docs/
+node_modules/

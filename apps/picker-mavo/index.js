@@ -74,7 +74,7 @@ window.getColorSpace = function (spaceId) {
 	spaceId = Mavo.clone(spaceId);
 
 	return ColorSpace.get(spaceId);
-}
+};
 
 window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
 	if (!has_spaceId_resolved(spaceId)) {
@@ -119,7 +119,7 @@ window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
 	ret.push(colorSteps);
 
 	return ret;
-}
+};
 
 let handle;
 document.body.addEventListener("mv-change", evt => {
@@ -160,7 +160,7 @@ window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 		alert(e.message);
 		return;
 	}
-}
+};
 
 // Select text in readonly input fields when you focus them
 document.addEventListener("click", evt => {

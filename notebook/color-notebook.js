@@ -8,7 +8,7 @@ export let $ = Bliss, $$ = $.$;
 import Color, {util} from "../color.js";
 import * as acorn from "https://cdn.jsdelivr.net/npm/acorn/dist/acorn.mjs";
 import * as acornWalk from "https://cdn.jsdelivr.net/npm/acorn-walk/dist/walk.mjs";
-import {generate} from "https://cdn.jsdelivr.net/npm/astring@1.7.4/dist/astring.mjs"
+import {generate} from "https://cdn.jsdelivr.net/npm/astring@1.7.4/dist/astring.mjs";
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 const outputSpace = supportsP3? "p3" : "srgb";

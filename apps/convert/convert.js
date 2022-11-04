@@ -52,7 +52,7 @@ function update() {
 
 			if (id === "srgb" || (id === "p3") && supportsP3) {
 				colorOutput.style.background = converted;
-				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" fill="${converted}" /></svg>`
+				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" fill="${converted}" /></svg>`;
 			}
 
 			let precision = precisionInput.value;
@@ -111,8 +111,8 @@ document.body.addEventListener("click", async evt => {
 			await wait(1000);
 			copyButton.textContent = "📋";
 		}
-		catch(e) {
+		catch (e) {
 			alert("Failed to copy to clipboard");
 		}
 	}
-})
+});

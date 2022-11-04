@@ -45,6 +45,7 @@
 	"scripts": {
 		"test": "open tests/",
 		"dtslint": "dtslint types",
+		"lint": "eslint . --fix --ext .js --ext .ts --ext .js --ext .cjs",
 		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
 		"build:html": "npx @11ty/eleventy --config=.eleventy.cjs",
 		"build:js": "rollup -c",

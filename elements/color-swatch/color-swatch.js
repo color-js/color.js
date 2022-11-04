@@ -1,7 +1,7 @@
 import Color from "../../src/index.js";
 
 export default class ColorSwatch extends HTMLElement {
-	#swatch
+	#swatch;
 
 	constructor() {
 		super();
@@ -17,7 +17,7 @@ export default class ColorSwatch extends HTMLElement {
 		ColorSwatch.#mo.observe(this, {childList: true, subtree: true, characterData: true});
 	}
 
-	#value
+	#value;
 	get value() {
 		return this.#value;
 	}
@@ -26,7 +26,7 @@ export default class ColorSwatch extends HTMLElement {
 		this.#render();
 	}
 
-	#color
+	#color;
 	get color() {
 		return this.#color;
 	}
@@ -67,8 +67,8 @@ export default class ColorSwatch extends HTMLElement {
 				target.#render();
 			}
 		}
-	})
+	});
 }
 
 
-customElements.define('color-swatch', ColorSwatch);
+customElements.define("color-swatch", ColorSwatch);

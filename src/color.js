@@ -75,7 +75,7 @@ export default class Color {
 		}
 	}
 
-	#space
+	#space;
 
 	get space() {
 		return this.#space;
@@ -136,7 +136,7 @@ export default class Color {
 				ret = function(...args) {
 					let ret = f(...args);
 					return Color.get(ret);
-				}
+				};
 				// Copy any function metadata
 				Object.assign(ret, f);
 			}
@@ -145,7 +145,7 @@ export default class Color {
 			}
 
 			return ret;
-		}
+		};
 
 		if (!(name in Color)) {
 			Color[name] = func;
@@ -154,7 +154,7 @@ export default class Color {
 		if (instance) {
 			Color.prototype[name] = function (...args) {
 				return func(this, ...args);
-			}
+			};
 		}
 	}
 

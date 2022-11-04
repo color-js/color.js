@@ -24,12 +24,12 @@ export default function (color, sample) {
 		// both undefined hues
 		Hz1 = 0;
 		Hz2 = 0;
-	} else
-	if (Number.isNaN(Hz1)) {
+	}
+	else if (Number.isNaN(Hz1)) {
 		// one undefined, set to the defined hue
 		Hz1 = Hz2;
-	} else
-	if (Number.isNaN(Hz2)) {
+	}
+	else if (Number.isNaN(Hz2)) {
 		Hz2 = Hz1;
 	}
 

@@ -2,7 +2,7 @@ import { babel } from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 
-import defaultConfig from './rollup.config.js';
+import defaultConfig from "./rollup.config.js";
 
 const legacyPlugins = [
 	commonjs(),
