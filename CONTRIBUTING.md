@@ -32,7 +32,6 @@ To lint and format the project, run `npm run lint`.
 
 Here are a few other guidelines that cannot be enforced via ESLint:
 
-- When you define a function, use a space between the opening paren and its name. That way we can search for "functionName (" and find its definition immediately, instead of having to wade through calls to the function.
 - Prefer single-word names over multi-word names. 3+ word names are especially frowned upon.
 - camelCase over underscore_case, with few exceptions.
 - Don't be afraid of unicode characters when appropriate, except on user-facing names. E.g. use ε over epsilon internally, but not ΔΕ over deltaE in the public-facing method name.

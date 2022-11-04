@@ -31,6 +31,7 @@
 		"comma-spacing": 1,
 		"keyword-spacing": 1,
 		"eol-last": 1,
-		"no-trailing-spaces": 1
+		"no-trailing-spaces": 1,
+		"space-before-function-paren": 1
 	}
 }

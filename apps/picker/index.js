@@ -6,7 +6,7 @@ if (!globalThis.requestIdleCallback) {
 }
 
 let app = createApp({
-	data() {
+	data () {
 		let ret = {
 			alpha: 100,
 			precision: 3,
@@ -135,7 +135,7 @@ let app = createApp({
 	}
 }).mount("#app");
 
-window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
+window.CSS_color_to_LCH = function CSS_color_to_LCH (str) {
 	str = str || prompt("Enter any CSS color");
 
 	if (!str) {

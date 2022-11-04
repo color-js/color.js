@@ -88,7 +88,7 @@ export default class ColorSpace {
 		return this.formats.functions?.color?.id || this.id;
 	}
 
-	get isPolar() {
+	get isPolar () {
 		for (let id in this.coords) {
 			if (this.coords[id].type === "angle") {
 				return true;
@@ -98,7 +98,7 @@ export default class ColorSpace {
 		return false;
 	}
 
-	#processFormat(format) {
+	#processFormat (format) {
 		if (format.coords && !format.coordGrammar) {
 			format.type ||= "function";
 			format.name ||= "color";

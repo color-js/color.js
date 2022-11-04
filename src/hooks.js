@@ -12,7 +12,7 @@ export class Hooks {
 			return;
 		}
 
-		(Array.isArray(name)? name : [name]).forEach(function(name) {
+		(Array.isArray(name)? name : [name]).forEach(function (name) {
 			this[name] = this[name] || [];
 
 			if (callback) {
@@ -23,7 +23,7 @@ export class Hooks {
 
 	run (name, env) {
 		this[name] = this[name] || [];
-		this[name].forEach(function(callback) {
+		this[name].forEach(function (callback) {
 			callback.call(env && env.context? env.context : env, env);
 		});
 	}

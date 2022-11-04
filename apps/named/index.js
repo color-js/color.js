@@ -11,7 +11,7 @@ for (let method in Color.prototype) {
 	}
 }
 
-function render() {
+function render () {
 	let color;
 
 	try {

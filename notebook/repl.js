@@ -5,7 +5,7 @@ let $ = Bliss;
 
 let container = $("[property=content]");
 
-document.addEventListener("mv-markdown-render", function(evt) {
+document.addEventListener("mv-markdown-render", function (evt) {
 	container.dirty = false;
 
 	requestAnimationFrame(() => {
@@ -13,7 +13,7 @@ document.addEventListener("mv-markdown-render", function(evt) {
 	});
 });
 
-function updateMarkdown() {
+function updateMarkdown () {
 	// Update code snippets with actual contents
 	let node = Mavo.all.colorNotebook.root.children.content;
 	let value = node.value;
@@ -34,7 +34,7 @@ function updateMarkdown() {
 	}
 }
 
-Mavo.hooks.add("save-start", function() {
+Mavo.hooks.add("save-start", function () {
 	if (this.id === "colorNotebook") {
 		updateMarkdown();
 	}

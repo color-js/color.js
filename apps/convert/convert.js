@@ -1,11 +1,11 @@
 const favicon = document.querySelector('link[rel="shortcut icon"]');
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 
-function getURLParams() {
+function getURLParams () {
 	return Object.fromEntries(new URL(location).searchParams);
 }
 
-function update() {
+function update () {
 	try {
 		var color = new Color(colorInput.value);
 		colorInput.setCustomValidity("");
@@ -88,7 +88,7 @@ let urlParams = getURLParams();
 colorInput.addEventListener("input", update);
 precisionInput.addEventListener("input", update);
 
-function updateFromURL() {
+function updateFromURL () {
 	colorInput.value = urlParams.color || colorInput.value;
 	precisionInput.value = urlParams.precision || precisionInput.value;
 	update();

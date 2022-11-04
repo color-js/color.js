@@ -119,7 +119,7 @@ export default class Notebook {
 		return win;
 	}
 
-	static rewrite(code) {
+	static rewrite (code) {
 		let ast = acorn.parse(code, acornOptions);
 		let env = new Set();
 		let details = {};
@@ -366,7 +366,7 @@ export default class Notebook {
 	}
 }
 
-export function walk(pre, callback, filter) {
+export function walk (pre, callback, filter) {
 	let walker = document.createTreeWalker(pre, filter);
 	let node;
 
@@ -379,7 +379,7 @@ export function walk(pre, callback, filter) {
 	}
 }
 
-function getNodePosition(node, code, ast) {
+function getNodePosition (node, code, ast) {
 	let {start, end} = node;
 	let before = code.slice(0, start);
 	let line = before.split(/\r?\n/);
@@ -556,7 +556,7 @@ export function serialize (ret, color, win = window) {
 	return element;
 }
 
-function lightOrDark(color) {
+function lightOrDark (color) {
 	return color.luminance > .5 || color.alpha < .5? "light" : "dark";
 }
 
@@ -576,7 +576,7 @@ Notebook.intersectionObserver = new IntersectionObserver(entries => {
 	}
 });
 
-export function initAll(container = document) {
+export function initAll (container = document) {
 	let pres = $$(".language-js, .language-javascript", container).flatMap(el => {
 		let ret = $$("pre > code", el);
 		let ancestor =  el.closest("pre > code");

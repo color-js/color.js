@@ -29,7 +29,7 @@ export function type (o) {
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
  */
-export function toPrecision(n, precision) {
+export function toPrecision (n, precision) {
 	n = +n;
 	precision = +precision;
 	let integerLength = (Math.floor(n) + "").length;
@@ -101,7 +101,7 @@ export function parseFunction (str) {
 	}
 }
 
-export function last(arr) {
+export function last (arr) {
 	return arr[arr.length - 1];
 }
 
@@ -121,7 +121,7 @@ export function interpolateInv (start, end, value) {
 	return (value - start) / (end - start);
 }
 
-export function mapRange(from, to, value) {
+export function mapRange (from, to, value) {
 	return interpolate(to[0], to[1], interpolateInv(from[0], from[1], value));
 }
 

@@ -77,11 +77,11 @@ export default class Color {
 
 	#space;
 
-	get space() {
+	get space () {
 		return this.#space;
 	}
 
-	get spaceId() {
+	get spaceId () {
 		return this.#space.id;
 	}
 
@@ -133,7 +133,7 @@ export default class Color {
 			}
 			else if (returns === "function<color>") {
 				let f = ret;
-				ret = function(...args) {
+				ret = function (...args) {
 					let ret = f(...args);
 					return Color.get(ret);
 				};
@@ -158,7 +158,7 @@ export default class Color {
 		}
 	}
 
-	static defineFunctions(o) {
+	static defineFunctions (o) {
 		for (let name in o) {
 			Color.defineFunction(name, o[name], o[name]);
 		}

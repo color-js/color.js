@@ -57,7 +57,7 @@ export default new ColorSpace({
 		s /= 100;
 		l /= 100;
 
-		function f(n) {
+		function f (n) {
 			let k = (n + h/30) % 12;
 			let a = s * Math.min(l, 1 - l);
 			return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));

@@ -7,7 +7,7 @@ export const WHITES = {
 	D65: [0.3127 / 0.3290, 1.00000, (1.0 - 0.3127 - 0.3290) / 0.3290],
 };
 
-export function getWhite(name) {
+export function getWhite (name) {
 	if (Array.isArray(name)) {
 		return name;
 	}
