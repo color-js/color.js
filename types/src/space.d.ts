@@ -13,6 +13,7 @@ export interface Format {
 	toGamut?: boolean | undefined;
 	commas?: boolean | undefined;
 	lastAlpha?: boolean | undefined;
+	noAlpha?: boolean | undefined;
 	test?: ((str: string) => boolean) | undefined;
 	parse?: ((str: string) => ColorConstructor) | undefined;
 	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
