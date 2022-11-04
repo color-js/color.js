@@ -92,7 +92,7 @@ export default new ColorSpace({
 		let PQLMS = multiplyMatrices(IabtoCone_M, [ Iz, az, bz ]);
 
 		// convert from PQ-coded to linear-light
-		let LMS = PQLMS.map(function (val){
+		let LMS = PQLMS.map(function (val) {
 			let num = (c1 - (val ** pinv));
 			let denom = (c3 * (val ** pinv)) - c2;
 			let x = 10000 * ((num / denom) ** ninv);
@@ -114,4 +114,3 @@ export default new ColorSpace({
 		"color": {}
 	}
 });
-

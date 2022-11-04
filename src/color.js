@@ -207,5 +207,3 @@ Object.assign(Color, {
 	// Global defaults one may want to configure
 	defaults
 });
-
-

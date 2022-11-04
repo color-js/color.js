@@ -214,4 +214,3 @@ export function register(Color) {
 	Color.defineFunction("range", range, {returns: "function<color>"});
 	Color.defineFunction("steps", steps, {returns: "array<color>"});
 }
-
