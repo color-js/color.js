@@ -90,7 +90,6 @@ declare class Color {
 		alpha: number
 	): Color;
 
-	static defineFunction(code: DefineFunctionHybrid): void;
 	static defineFunction(name: string, code: DefineFunctionHybrid): void;
 	static defineFunction(
 		name: string,
@@ -102,9 +101,7 @@ declare class Color {
 
 	static extend(
 		exports:
-			| DefineFunctionHybrid
 			| { register: (color: typeof Color) => void }
-			| { default: DefineFunctionHybrid }
 			| Record<string, DefineFunctionHybrid>
 	): void;
 
