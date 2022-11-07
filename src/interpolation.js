@@ -209,9 +209,8 @@ export function isRange (val) {
 
 defaults.interpolationSpace = "lab";
 
-export function register(Color) {
+export function register (Color) {
 	Color.defineFunction("mix", mix, {returns: "color"});
 	Color.defineFunction("range", range, {returns: "function<color>"});
 	Color.defineFunction("steps", steps, {returns: "array<color>"});
 }
-

@@ -10,7 +10,7 @@ for (let algo in contrastAlgorithms) {
 const root = document.documentElement;
 let previousAlgo;
 
-function computeTextColor() {
+function computeTextColor () {
 	let algo = contrast_algorithm.value;
 
 	previous_algo.textContent = previousAlgo;
@@ -29,7 +29,7 @@ function computeTextColor() {
 	previousAlgo = algo;
 }
 
-function drawColors() {
+function drawColors () {
 	colors.innerHTML = "";
 	let granularity = Math.cbrt(number_of_colors.value);
 	// root.style.setProperty("--granularity", granularity);
@@ -56,7 +56,7 @@ function drawColors() {
 	computeTextColor();
 }
 
-function render(evt) {
+function render (evt) {
 	if (!evt || evt.target === number_of_colors) {
 		number_of_colors.title = number_of_colors.value;
 		drawColors();

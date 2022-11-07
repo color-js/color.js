@@ -1,11 +1,11 @@
 const favicon = document.querySelector('link[rel="shortcut icon"]');
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 
-function getURLParams() {
+function getURLParams () {
 	return Object.fromEntries(new URL(location).searchParams);
 }
 
-function update() {
+function update () {
 	try {
 		var color = new Color(colorInput.value);
 		colorInput.setCustomValidity("");
@@ -52,7 +52,7 @@ function update() {
 
 			if (id === "srgb" || (id === "p3") && supportsP3) {
 				colorOutput.style.background = converted;
-				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" fill="${converted}" /></svg>`
+				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" fill="${converted}" /></svg>`;
 			}
 
 			let precision = precisionInput.value;
@@ -88,7 +88,7 @@ let urlParams = getURLParams();
 colorInput.addEventListener("input", update);
 precisionInput.addEventListener("input", update);
 
-function updateFromURL() {
+function updateFromURL () {
 	colorInput.value = urlParams.color || colorInput.value;
 	precisionInput.value = urlParams.precision || precisionInput.value;
 	update();
@@ -111,8 +111,8 @@ document.body.addEventListener("click", async evt => {
 			await wait(1000);
 			copyButton.textContent = "📋";
 		}
-		catch(e) {
+		catch (e) {
 			alert("Failed to copy to clipboard");
 		}
 	}
-})
+});

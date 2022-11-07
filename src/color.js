@@ -75,13 +75,13 @@ export default class Color {
 		}
 	}
 
-	#space
+	#space;
 
-	get space() {
+	get space () {
 		return this.#space;
 	}
 
-	get spaceId() {
+	get spaceId () {
 		return this.#space.id;
 	}
 
@@ -133,10 +133,10 @@ export default class Color {
 			}
 			else if (returns === "function<color>") {
 				let f = ret;
-				ret = function(...args) {
+				ret = function (...args) {
 					let ret = f(...args);
 					return Color.get(ret);
-				}
+				};
 				// Copy any function metadata
 				Object.assign(ret, f);
 			}
@@ -145,7 +145,7 @@ export default class Color {
 			}
 
 			return ret;
-		}
+		};
 
 		if (!(name in Color)) {
 			Color[name] = func;
@@ -154,11 +154,11 @@ export default class Color {
 		if (instance) {
 			Color.prototype[name] = function (...args) {
 				return func(this, ...args);
-			}
+			};
 		}
 	}
 
-	static defineFunctions(o) {
+	static defineFunctions (o) {
 		for (let name in o) {
 			Color.defineFunction(name, o[name], o[name]);
 		}
@@ -207,5 +207,3 @@ Object.assign(Color, {
 	// Global defaults one may want to configure
 	defaults
 });
-
-

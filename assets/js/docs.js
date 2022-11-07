@@ -40,7 +40,7 @@ if (current) {
 	}
 }
 
-function idify(str) {
+function idify (str) {
 	// from Mavo.Functions.idify()
 	return str
 			.normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Convert accented letters to ASCII
@@ -49,7 +49,7 @@ function idify(str) {
 			.toLowerCase();
 }
 
-function makePageToc(pageToc) {
+function makePageToc (pageToc) {
 	pageToc.textContent = "";
 
 	// Make toc for current page
@@ -120,7 +120,7 @@ if (location.pathname.indexOf("/spaces") > -1) {
 		data: {space: spaces}
 	});
 
-	Mavo.hooks.add("getdata-end", function(env) {
+	Mavo.hooks.add("getdata-end", function (env) {
 		if (this.id !== "colorSpaces") {
 			return;
 		}

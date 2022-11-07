@@ -41,7 +41,7 @@ function addSpaceAccessors (id, space) {
 						ColorSpace.resolveCoord([space, property]);
 						return true;
 					}
-					catch(e) {}
+					catch (e) {}
 
 					return Reflect.has(obj, property);
 				},

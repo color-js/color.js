@@ -88,7 +88,7 @@ export default class ColorSpace {
 		return this.formats.functions?.color?.id || this.id;
 	}
 
-	get isPolar() {
+	get isPolar () {
 		for (let id in this.coords) {
 			if (this.coords[id].type === "angle") {
 				return true;
@@ -98,7 +98,7 @@ export default class ColorSpace {
 		return false;
 	}
 
-	#processFormat(format) {
+	#processFormat (format) {
 		if (format.coords && !format.coordGrammar) {
 			format.type ||= "function";
 			format.name ||= "color";
@@ -140,7 +140,7 @@ export default class ColorSpace {
 					}
 
 					return c;
-				})
+				});
 			};
 		}
 
@@ -170,7 +170,7 @@ export default class ColorSpace {
 		return null;
 	}
 
-	#path
+	#path;
 
 	#getPath () {
 		let ret = [this];
@@ -257,7 +257,7 @@ export default class ColorSpace {
 		return ret;
 	}
 
-	static registry = {}
+	static registry = {};
 
 	// Returns array of unique color spaces
 	static get all () {
@@ -364,7 +364,7 @@ export default class ColorSpace {
 			let meta = Object.entries(space.coords)[coord];
 
 			if (meta) {
-				return {space, id: meta[0], index: coord, ...meta[1]}
+				return {space, id: meta[0], index: coord, ...meta[1]};
 			}
 		}
 
@@ -389,5 +389,5 @@ export default class ColorSpace {
 	static DEFAULT_FORMAT = {
 		type: "functions",
 		name: "color",
-	}
+	};
 }

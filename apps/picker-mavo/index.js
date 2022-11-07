@@ -39,11 +39,11 @@ window.color_inGamut = function (color, o) {
 	return inGamut(color, o);
 };
 
-function has_color_resolved(color) {
+function has_color_resolved (color) {
 	return color && has_spaceId_resolved(color.spaceId);
 }
 
-function has_spaceId_resolved(spaceId) {
+function has_spaceId_resolved (spaceId) {
 	return spaceId && (spaceId + "").trim() && spaceId != "[id]";
 }
 
@@ -74,9 +74,9 @@ window.getColorSpace = function (spaceId) {
 	spaceId = Mavo.clone(spaceId);
 
 	return ColorSpace.get(spaceId);
-}
+};
 
-window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
+window.getSliderSteps = function (spaceId, coords, coord_meta, alpha) {
 	if (!has_spaceId_resolved(spaceId)) {
 		return;
 	}
@@ -119,7 +119,7 @@ window.getSliderSteps = function(spaceId, coords, coord_meta, alpha) {
 	ret.push(colorSteps);
 
 	return ret;
-}
+};
 
 let handle;
 document.body.addEventListener("mv-change", evt => {
@@ -136,7 +136,7 @@ document.body.addEventListener("mv-change", evt => {
 	}
 });
 
-window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
+window.CSS_color_to_LCH = function CSS_color_to_LCH (str) {
 	str = str || prompt("Enter any CSS color");
 
 	if (!str) {
@@ -160,7 +160,7 @@ window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 		alert(e.message);
 		return;
 	}
-}
+};
 
 // Select text in readonly input fields when you focus them
 document.addEventListener("click", evt => {

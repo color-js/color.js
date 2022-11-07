@@ -3,7 +3,7 @@ import ColorSpace from "./space.js";
 /**
  * Euclidean distance of colors in an arbitrary color space
  */
-export default function distance(color1, color2, space = "lab") {
+export default function distance (color1, color2, space = "lab") {
 	space = ColorSpace.get(space);
 
 	let coords1 = space.from(color1);

@@ -6,9 +6,9 @@ let increments = [
 	-90, +90,
 	-45, +45, -135, +135,
 	-22.5, +22.5, -67.5, +67.5, -112.5, +112.5, -157.5, +157.5, -202.5, +202.5, -247.5, +247.5, -292.5, +292.5, -337.5, +337.5,
-]
+];
 
-function render() {
+function render () {
 	let color = new Color(accent_color.value).to("oklch");
 	let n = number_of_colors.value - 1;
 

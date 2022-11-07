@@ -37,7 +37,7 @@ export default {
 	input: "src/index.js",
 	output: bundles,
 	onwarn (warning, rollupWarn) {
-		if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+		if (warning.code !== "CIRCULAR_DEPENDENCY") {
 			rollupWarn(warning);
 		}
 	}

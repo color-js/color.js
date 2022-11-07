@@ -6,7 +6,7 @@ if (!globalThis.requestIdleCallback) {
 }
 
 let app = createApp({
-	data() {
+	data () {
 		let ret = {
 			alpha: 100,
 			precision: 3,
@@ -65,7 +65,7 @@ let app = createApp({
 			return this.color.display({precision: this.precision}) + "";
 		},
 		color_srgb () {
-			return this.color.to('srgb');
+			return this.color.to("srgb");
 		},
 		serialized_color () {
 			return this.color.toString({precision: this.precision});
@@ -133,9 +133,9 @@ let app = createApp({
 			});
 		}
 	}
-}).mount('#app')
+}).mount("#app");
 
-window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
+window.CSS_color_to_LCH = function CSS_color_to_LCH (str) {
 	str = str || prompt("Enter any CSS color");
 
 	if (!str) {
@@ -152,7 +152,7 @@ window.CSS_color_to_LCH = function CSS_color_to_LCH(str) {
 		alert(e.message);
 		return;
 	}
-}
+};
 
 // Select text in readonly input fields when you focus them
 document.addEventListener("click", evt => {

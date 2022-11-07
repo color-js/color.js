@@ -1,9 +1,9 @@
 import Color from "../../src/index.js";
 
 export default class ColorSwatch extends HTMLElement {
-	#swatch
+	#swatch;
 
-	constructor() {
+	constructor () {
 		super();
 		this.attachShadow({mode: "open"});
 		this.shadowRoot.innerHTML = `<style>@import url("./color-swatch.css");</style>
@@ -12,26 +12,26 @@ export default class ColorSwatch extends HTMLElement {
 		this.#swatch = this.shadowRoot.querySelector("#swatch");
 	}
 
-	connectedCallback() {
+	connectedCallback () {
 		this.#render();
 		ColorSwatch.#mo.observe(this, {childList: true, subtree: true, characterData: true});
 	}
 
-	#value
-	get value() {
+	#value;
+	get value () {
 		return this.#value;
 	}
-	set value(value) {
+	set value (value) {
 		this.#value = value;
 		this.#render();
 	}
 
-	#color
-	get color() {
+	#color;
+	get color () {
 		return this.#color;
 	}
 
-	#render() {
+	#render () {
 		let colorText = this.value || this.textContent;
 
 		try {
@@ -45,11 +45,11 @@ export default class ColorSwatch extends HTMLElement {
 		}
 	}
 
-	static get observedAttributes() {
+	static get observedAttributes () {
 		return ["value"];
 	}
 
-	attributeChangedCallback(name, newValue) {
+	attributeChangedCallback (name, newValue) {
 		if (name === "value") {
 			this.value = newValue;
 		}
@@ -67,8 +67,8 @@ export default class ColorSwatch extends HTMLElement {
 				target.#render();
 			}
 		}
-	})
+	});
 }
 
 
-customElements.define('color-swatch', ColorSwatch);
+customElements.define("color-swatch", ColorSwatch);

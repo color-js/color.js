@@ -14,7 +14,7 @@ export function xy (color) {
 	return [X / sum, Y / sum];
 }
 
-export function register(Color) {
+export function register (Color) {
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
 	Object.defineProperty(Color.prototype, "uv", {

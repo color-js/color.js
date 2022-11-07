@@ -25,7 +25,9 @@ const scaleWoB= 1.14;
 const loWoBoffset = 0.027;
 
 function fclamp (Y) {
-	if (Y >= blkThrs) return Y;
+	if (Y >= blkThrs) {
+		return Y;
+	}
 	return Y + (blkThrs - Y) ** blkClmp;
 }
 
@@ -47,7 +49,7 @@ export default function contrastAPCA (background, foreground) {
 	// Myndex as-published, assumes sRGB inputs
 	let R, G, B;
 
-	foreground = to(foreground, 'srgb');
+	foreground = to(foreground, "srgb");
 	// Should these be clamped to in-gamut values?
 
 	// Calculates "screen luminance" with non-standard simple gamma EOTF
@@ -55,7 +57,7 @@ export default function contrastAPCA (background, foreground) {
 	[R, G, B] = foreground.coords;
 	let lumTxt = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
 
-	background = to(background, 'srgb');
+	background = to(background, "srgb");
 	[R, G, B] = background.coords;
 	let lumBg = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
 
@@ -77,7 +79,8 @@ export default function contrastAPCA (background, foreground) {
 			// dark text on light background
 			S = Ybg ** normBG - Ytxt ** normTXT;
 			C = S * scaleBoW;
-		} else {
+		}
+		else {
 			// light text on dark background
 			S = Ybg ** revBG - Ytxt ** revTXT;
 			C = S * scaleWoB;
