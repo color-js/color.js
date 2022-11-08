@@ -22,6 +22,7 @@ export { uv, xy } from "./chromaticity";
 export { default as deltaE } from "./deltaE";
 export { mix, steps, range, isRange } from "./interpolation";
 
+export * from "./contrast/index";
 export * from "./deltaE/index";
 export * from "./variations";
 export * from "./spaces/index-fn";

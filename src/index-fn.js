@@ -21,6 +21,7 @@ export {
   getLuminance, setLuminance
 }                             from "./luminance.js";
 export {uv, xy}                             from "./chromaticity.js";
+export *                      from "./contrast/index.js";
 export {default as deltaE}    from "./deltaE.js";
 export *                      from "./deltaE/index.js";
 export *                      from "./variations.js";
