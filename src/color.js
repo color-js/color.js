@@ -119,10 +119,6 @@ export default class Color {
 	}
 
 	static defineFunction (name, code, o = code) {
-		if (arguments.length === 1) {
-			[name, code, o] = [arguments[0].name, arguments[0], arguments[0]];
-		}
-
 		let {instance = true, returns} = o;
 
 		let func = function (...args) {
@@ -167,12 +163,6 @@ export default class Color {
 	static extend (exports) {
 		if (exports.register) {
 			exports.register(Color);
-		}
-		else if (exports.default) {
-			Color.defineFunction(exports.default.name, exports.default);
-		}
-		else if (typeof exports === "function") {
-			Color.defineFunction(exports);
 		}
 		else {
 			// No register method, just add the module's functions

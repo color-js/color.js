@@ -5,18 +5,18 @@ import Color from "./color.js";
 import "./spaces/index.js";
 
 // Import all DeltaE methods
-import * as deltaE from "./deltaE.js";
+import deltaE from "./deltaE.js";
 import * as deltaEMethods from "./deltaE/index.js";
 
 Color.extend(deltaEMethods);
-Color.extend(deltaE);
+Color.extend({deltaE});
 
 // Import optional modules
 import * as variations from "./variations.js";
 Color.extend(variations);
 
 import contrast from "./contrast.js";
-Color.extend(contrast);
+Color.extend({contrast});
 
 import * as chromaticity from "./chromaticity.js";
 Color.extend(chromaticity);
