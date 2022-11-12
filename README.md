@@ -14,11 +14,11 @@ Modules for <a href="https://colorjs.io/docs/spaces.html">a wide variety of colo
 including Lab/LCh, OKLab/OKLCh,
 sRGB and friends (HSL/HSV/HWB), Display P3,
 J<sub>z</sub>a<sub>z</sub>b<sub>z</sub>, REC.2100 and many <a href="https://colorjs.io/docs/spaces.html">more</a>.
-- **Doesn't gloss over color science**: Actual <a href="docs/gamut-mapping.html">gamut mapping</a> instead of naïve clipping,
+- **Doesn't gloss over color science**: Actual <a href="https://colorjs.io/docs/gamut-mapping.html">gamut mapping</a> instead of naïve clipping,
 multiple <a href="https://colorjs.io/docs/color-difference.html">DeltaE</a> methods (76, CMC, 2000, J<sub>z</sub>),
 multiple <a href="https://colorjs.io/docs/adaptation.html">chromatic adaptation</a> methods (von Kries, Bradford, CAT02, CAT16),
 all with sensible defaults
-- **Up to date with CSS Color 4**: Every <a href="https://drafts.csswg.org/css-color-4/">CSS Color 4</a> format & color space supported for both <a href="docs/the-color-object.html">input</a> and <a href="https://colorjs.io/docs/output.html">output</a>, whether your browser supports it or not.
+- **Up to date with CSS Color 4**: Every <a href="https://drafts.csswg.org/css-color-4/">CSS Color 4</a> format & color space supported for both <a href="https://colorjs.io/docs/the-color-object.html">input</a> and <a href="https://colorjs.io/docs/output.html">output</a>, whether your browser supports it or not.
 - **Readable, object-oriented API**: Color objects for multiple operations on the same color, and static `Color.something()` functions for one-off calculations
 - **Modular & Extensible**: Use only what you need, or a bundle. Client-side or Node. Deep extensibility with <a href="https://colorjs.io/api/#Hooks-hooks.js">hooks</a>. </p>
 - **Fast & efficient**: <a href="https://colorjs.io/docs/procedural.html">Procedural, tree-shakeable API</a> available for performance sensitive tasks and reduced bundle size
