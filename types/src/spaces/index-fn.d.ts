@@ -4,6 +4,7 @@ export { default as XYZ_D65 } from "./xyz-d65";
 export { default as XYZ_D50 } from "./xyz-d50";
 export { default as XYZ_ABS_D65 } from "./xyz-abs-d65";
 export { default as Lab } from "./lab";
+export { default as Lab_D65 } from "./lab-d65";
 export { default as LCH } from "./lch";
 export { default as sRGB_Linear } from "./srgb-linear";
 export { default as sRGB } from "./srgb";

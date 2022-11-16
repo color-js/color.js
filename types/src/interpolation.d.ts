@@ -24,6 +24,7 @@ export function range(
 export interface MixOptions {
 	space?: string | ColorSpace | undefined;
 	outputSpace?: string | ColorSpace | undefined;
+	premultiplied?: boolean | undefined;
 }
 
 export function mix(

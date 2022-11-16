@@ -146,6 +146,7 @@ declare class Color {
 	jzazbz: SpaceAccessor;
 	jzczhz: SpaceAccessor;
 	lab: SpaceAccessor;
+	lab_d65: SpaceAccessor;
 	lch: SpaceAccessor;
 	oklab: SpaceAccessor;
 	oklch: SpaceAccessor;

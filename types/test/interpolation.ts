@@ -39,7 +39,12 @@ mix("red", "blue"); // $ExpectType number
 mix("red", "blue", 0.5); // $ExpectType number
 mix("red", "blue", {}); // $ExpectType number
 mix("red", "blue", 0.5, {}); // $ExpectType number
-mix("red", "blue", { space: "srgb", outputSpace: "srgb_linear" }); // $ExpectType number
+// $ExpectType number
+mix("red", "blue", {
+	space: "srgb",
+	outputSpace: "srgb_linear",
+	premultiplied: true,
+});
 
 steps("red", "blue"); // $ExpectType Color[]
 steps(r, " blue"); // $ExpectType Color[]
