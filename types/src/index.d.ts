@@ -7,6 +7,7 @@ import {
 	contrastMichelson,
 	contrastWeber,
 	contrastLstar,
+	contrastDeltaPhi,
 } from "../src/contrast/index";
 import deltaE from "../src/deltaE";
 import {
@@ -31,6 +32,7 @@ declare namespace Color {
 		contrastMichelson,
 		contrastWeber,
 		contrastLstar,
+		contrastDeltaPhi,
 	};
 	// deltaE
 	export {
@@ -62,6 +64,7 @@ declare class Color extends ColorImport {
 	contrastMichelson: ToColorPrototype<typeof contrastMichelson>;
 	contrastWeber: ToColorPrototype<typeof contrastWeber>;
 	contrastLstar: ToColorPrototype<typeof contrastLstar>;
+	contrastDeltaPhi: ToColorPrototype<typeof contrastDeltaPhi>;
 
 	// deltaE
 	deltaE: ToColorPrototype<typeof deltaE>;
