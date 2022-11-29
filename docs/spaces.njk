@@ -19,17 +19,15 @@ body_classes: cn-ignore
 		<li>A <code>ColorSpace</code> object</li>
 	</ul>
 
-	<p>When you import a module that defines a color space, this uses <code>ColorSpace.create()</code> which does two things:</p>
+	<p>When you import a module that defines a color space in the Object-Oriented API, this uses <code>ColorSpace.create()</code> which does two things:</p>
 	<ol>
 		<li>It invokes the <code>ColorSpace</code> constructor to create a new <code>ColorSpace</code> object</li>
 		<li>It calls <code>ColorSpace.register()</code> to register the color space so it can be referenced with a string id.
 		This just adds the color space to the <code>ColorSpace.registry</code> object.</li>
 		</li>
 	</ol>
-
-	<p class="note">There is an <a href="https://github.com/LeaVerou/color.js/issues/163">open issue</a>
-	about eliminating side effects from our color space modules so they can become tree-shakeable,
-	so this may change in the future.</p>
+	
+	<p> If you are using the <a href="procedural.html">prodcedural API</a>, you need to register color spaces yourself, by calling <code>ColorSpace.register(colorSpaceReference)</code>.
 </section>
 
 <section mv-app="colorSpaces" mv-bar="none" class="cn-ignore">
