@@ -12,7 +12,12 @@ for (let id in ColorSpace.registry) {
 }
 
 // Add space accessors to color spaces not yet created
-hooks.add("colorspace-init-end", addSpaceAccessors);
+hooks.add("colorspace-init-end", space => {
+	addSpaceAccessors(space.id, space);
+	space.aliases?.forEach(alias => {
+		addSpaceAccessors(alias, space);
+	});
+});
 
 function addSpaceAccessors (id, space) {
 	// Coordinates can be looked up by both id and name
