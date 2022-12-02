@@ -57,7 +57,9 @@ export type ToColorPrototype<T extends (...args: any[]) => any> = T extends (
 	color: Color,
 	...args: infer A
 ) => infer R
-	? (...args: A) => R
+	? T extends { returns: "color" }
+		? (...args: A) => Color
+		: (...args: A) => R
 	: never;
 
 /** Proxy used for space accessors */
