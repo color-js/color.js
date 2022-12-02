@@ -2,6 +2,7 @@
  * Relative luminance
  */
 import get from "./get.js";
+import set from "./set.js";
 import xyz_d65 from "./spaces/xyz-d65.js";
 
 export function getLuminance (color) {
