@@ -46,6 +46,12 @@ export interface DefineFunctionOptions {
 
 export type DefineFunctionHybrid = DefineFunctionCode & DefineFunctionOptions;
 
+export interface ToStringOptions {
+	precision?: number | undefined;
+	format?: ((coord: number) => string) | string | undefined;
+	commas?: boolean | undefined;
+}
+
 /** Remove the first element of an array type */
 type RemoveFirstElement<T extends any[]> = T extends [any, ...infer R]
 	? R
@@ -117,6 +123,8 @@ declare class Color {
 	display(
 		...args: RemoveFirstElement<Parameters<typeof display>>
 	): string & { color: Color };
+
+	toString(options: ToStringOptions): string;
 
 	toJSON(): ColorConstructor;
 
