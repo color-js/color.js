@@ -22,9 +22,10 @@ import {
 export type Coords = [number, number, number];
 
 export interface ColorObject {
-	space: ColorSpace;
+	spaceId?: string | ColorSpace | undefined;
+	space?: string | ColorSpace | undefined;
 	coords: Coords;
-	alpha?: number;
+	alpha?: number | undefined;
 }
 
 export interface ColorConstructor {
@@ -80,7 +81,7 @@ declare namespace Color {
 
 declare class Color {
 	constructor(color: ColorTypes);
-	constructor(space: string | ColorSpace, coords: Coords, alpha: number);
+	constructor(space: string | ColorSpace, coords: Coords, alpha?: number);
 
 	// These signatures should always be the same as the constructor
 	static get(color: ColorTypes): Color;
