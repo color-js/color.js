@@ -37,7 +37,7 @@ export type ColorTypes = Color | ColorObject | ColorConstructor | string;
 
 export type DefineFunctionCode = (
 	...args: any[]
-) => ColorTypes | ColorTypes[] | ((...args: any[]) => ColorTypes);
+) => ColorTypes | ColorTypes[] | ((...args: any[]) => ColorTypes) | any;
 
 export interface DefineFunctionOptions {
 	instance?: boolean | undefined;
