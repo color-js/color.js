@@ -1,10 +1,16 @@
 import Color, { ColorObject } from "./color";
 import ColorSpace from "./space";
 
-export default function toGamut<T extends Color | ColorObject>(
+declare namespace toGamut {
+	let returns: "color";
+}
+
+declare function toGamut<T extends Color | ColorObject>(
 	color: T,
 	options?: {
 		method?: string | undefined;
 		space?: string | ColorSpace | undefined;
 	}
 ): T;
+
+export default toGamut;
