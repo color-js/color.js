@@ -19,4 +19,8 @@ color.clone(); // $ExpectType Color
 color.display();
 color.display({ space: "srgb" });
 
+// The module augmentation shouldn't be happening with this import, so this property shouldn't exist
+// @ts-expect-error
+Color.contrast;
+
 // Most other color methods are those defined in other files, so they aren't tested her
