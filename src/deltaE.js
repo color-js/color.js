@@ -1,7 +1,7 @@
 import getColor from "./getColor.js";
 import defaults from "./defaults.js";
 import {isString} from "./util.js";
-import * as deltaEMethods from "./deltaE/index.js";
+import deltaEMethods from "./deltaE/index.js";
 
 export default function deltaE (c1, c2, o = {}) {
 	if (isString(o)) {
