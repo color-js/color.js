@@ -9,7 +9,7 @@ export function getLuminance (color) {
 	return get(color, [xyz_d65, "y"]);
 }
 
-export function setLuminance (color) {
+export function setLuminance (color, value) {
 	set(color, [xyz_d65, "y"], value);
 }
 
