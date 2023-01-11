@@ -28,6 +28,7 @@ range("red", "blue", {
 	outputSpace: "srgb_linear",
 	progression: (_: number) => 1,
 	premultiplied: false,
+	hue: "raw",
 });
 
 // @ts-expect-error
@@ -47,7 +48,24 @@ mix("red", "blue", {
 });
 
 steps("red", "blue"); // $ExpectType Color[]
-steps(r, " blue"); // $ExpectType Color[]
+// $ExpectType Color[]
+steps("red", "blue", {
+	maxDeltaE: 1,
+	deltaEMethod: "2000",
+	steps: 10,
+	maxSteps: 100,
+});
+steps(r); // $ExpectType Color[]
+// $ExpectType Color[]
+steps(r, {
+	maxDeltaE: 1,
+	deltaEMethod: "2000",
+	steps: 10,
+	maxSteps: 100,
+});
+
+// @ts-expect-error
+steps(r, "blue"); // $ExpectType Color[]
 
 // @ts-expect-error
 register();

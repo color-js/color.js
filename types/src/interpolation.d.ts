@@ -1,5 +1,6 @@
 import Color, { ColorTypes } from "./color";
 import ColorSpace from "./space";
+import { Methods } from "./deltaE/index";
 
 export type Range = ((percentage: number) => number) & {
 	rangeArgs: { colors: [Color, Color]; options: Record<string, any> };
@@ -12,6 +13,7 @@ export interface RangeOptions {
 	outputSpace?: string | ColorSpace | undefined;
 	progression?: ((percentage: number) => number) | undefined;
 	premultiplied?: boolean | undefined;
+	hue?: "longer" | "shorter" | "increasing" | "decreasing" | "raw" | undefined;
 }
 
 export function range(range: Range, options?: RangeOptions): Range;
@@ -39,6 +41,14 @@ export function mix(
 	options?: MixOptions
 ): number;
 
-export function steps(color1: ColorTypes | Range, color2: ColorTypes): Color[];
+export interface StepsOptions extends RangeOptions {
+	maxDeltaE?: number | undefined;
+	deltaEMethod?: Methods | undefined;
+	steps?: number | undefined;
+	maxSteps?: number | undefined;
+}
+
+export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): Color[];
+export function steps(range: Range, options?: StepsOptions): Color[];
 
 export function register(color: typeof Color): void;
