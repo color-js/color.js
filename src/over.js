@@ -1,4 +1,5 @@
 import getColor from "./getColor.js";
+import ColorSpace from "./space.js";
 import xyz_d65 from "./spaces/xyz-d65.js";
 import to from "./to.js";
 
@@ -8,6 +9,13 @@ export default function over (source, backdrop, {
 } = {}) {
 	source = getColor(source);
 	backdrop = getColor(backdrop);
+
+	space = ColorSpace.get(space);
+	outputSpace = ColorSpace.get(outputSpace);
+
+	if (space.isPolar) {
+		throw new Error("Compositing in polar color spaces is not supported.");
+	}
 
 	let result;
 
@@ -20,6 +28,7 @@ export default function over (source, backdrop, {
 	else {
 		let source_xyz = to(source, space);
 		let backdrop_xyz = to(backdrop, space);
+
 		result = {
 			space,
 			coords: source_xyz.map((s, i) => {
