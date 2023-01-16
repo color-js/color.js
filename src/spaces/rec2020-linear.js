@@ -22,5 +22,8 @@ export default new RGBColorSpace({
 	name: "Linear REC.2020",
 	white: "D65",
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
+	formats: {
+		color: {},
+	}
 });
