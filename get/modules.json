@@ -80,7 +80,7 @@
 			"id": "rec2100hlg",
 			"dependencies": ["rec2020"],
 			"url": "https://en.wikipedia.org/wiki/Rec._2100",
-			"description": "One of the two HDR forms of Rec.2020; HLG stands for Hybrid Log-Gamma and is designed to maximise compatibility with SDR broadcast standards. REC.2100-HLG encodes relative scene luminance, so that it can be adapted to a wide range of viewing conditions and display peak luminances. Media white is encoded at a value of 0.75, values brighter than that are highlights. NOTE currently broken in color.js, do not use until fixed!"
+			"description": "One of the two HDR forms of Rec.2020; HLG stands for Hybrid Log-Gamma and is designed to maximise compatibility with SDR broadcast standards. REC.2100-HLG encodes relative scene luminance, so that it can be adapted to a wide range of viewing conditions and display peak luminances. Media white is encoded at a value of 0.75, values brighter than that are highlights."
 		},
 		{
 			"name": "ProPhoto",
