@@ -13,7 +13,10 @@ setLuminance();
 // @ts-expect-error
 setLuminance("red");
 
+// @ts-expect-error
 setLuminance(new Color("red"));
+setLuminance(new Color("red"), 1);
+setLuminance(new Color("red"), () => 1);
 
 // @ts-expect-error
 register();
