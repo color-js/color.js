@@ -19,4 +19,4 @@ color.clone(); // $ExpectType Color
 color.display();
 color.display({ space: "srgb" });
 
-// Most other color methods are those defined in other files, so they aren't tested her
+// Most other color methods are those defined in other files, so they aren't tested here

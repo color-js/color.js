@@ -1,6 +1,6 @@
-import { uv, xy } from "../src/chromaticity";
-import ColorImport, { ToColorPrototype } from "../src/color";
-import contrast from "../src/contrast";
+import { uv, xy } from "./chromaticity";
+import Color from "./color";
+import contrast from "./contrast";
 import {
 	contrastWCAG21,
 	contrastAPCA,
@@ -8,8 +8,8 @@ import {
 	contrastWeber,
 	contrastLstar,
 	contrastDeltaPhi,
-} from "../src/contrast/index";
-import deltaE from "../src/deltaE";
+} from "./contrast/index";
+import deltaE from "./deltaE";
 import {
 	deltaE76,
 	deltaECMC,
@@ -17,77 +17,73 @@ import {
 	deltaEJz,
 	deltaEITP,
 	deltaEOK,
-} from "../src/deltaE/index";
-import { mix, range, steps } from "../src/interpolation";
-import { getLuminance } from "../src/luminance";
-import { lighten, darken } from "../src/variations";
+} from "./deltaE/index";
+import { mix, range, steps } from "./interpolation";
+import { getLuminance } from "./luminance";
+import { lighten, darken } from "./variations";
 
-declare namespace Color {
-	// contrast
-	export { contrast };
-	// contrastMethods
-	export {
-		contrastWCAG21,
-		contrastAPCA,
-		contrastMichelson,
-		contrastWeber,
-		contrastLstar,
-		contrastDeltaPhi,
-	};
-	// deltaE
-	export {
-		deltaE,
-		deltaE76,
-		deltaECMC,
-		deltaE2000,
-		deltaEJz,
-		deltaEITP,
-		deltaEOK,
-	};
-	// interpolation
-	export { mix, range, steps };
-	// variations
-	export { lighten, darken };
-}
+// Augment existing Color object
+declare module "./color" {
+	export default class Color {
+		// chromaticity
+		uv: ToColorPrototype<typeof uv>;
+		xy: ToColorPrototype<typeof xy>;
 
-declare class Color extends ColorImport {
-	// chromaticity
-	uv: ToColorPrototype<typeof uv>;
-	xy: ToColorPrototype<typeof xy>;
+		// contrast
+		contrast: ToColorPrototype<typeof contrast>;
+		static contrast: typeof contrast;
 
-	// contrast
-	contrast: ToColorPrototype<typeof contrast>;
+		// contrastMethods
+		contrastWCAG21: ToColorPrototype<typeof contrastWCAG21>;
+		contrastAPCA: ToColorPrototype<typeof contrastAPCA>;
+		contrastMichelson: ToColorPrototype<typeof contrastMichelson>;
+		contrastWeber: ToColorPrototype<typeof contrastWeber>;
+		contrastLstar: ToColorPrototype<typeof contrastLstar>;
+		contrastDeltaPhi: ToColorPrototype<typeof contrastDeltaPhi>;
 
-	// contrastMethods
-	contrastWCAG21: ToColorPrototype<typeof contrastWCAG21>;
-	contrastAPCA: ToColorPrototype<typeof contrastAPCA>;
-	contrastMichelson: ToColorPrototype<typeof contrastMichelson>;
-	contrastWeber: ToColorPrototype<typeof contrastWeber>;
-	contrastLstar: ToColorPrototype<typeof contrastLstar>;
-	contrastDeltaPhi: ToColorPrototype<typeof contrastDeltaPhi>;
+		static contrastWCAG21: typeof contrastWCAG21;
+		static contrastAPCA: typeof contrastAPCA;
+		static contrastMichelson: typeof contrastMichelson;
+		static contrastWeber: typeof contrastWeber;
+		static contrastLstar: typeof contrastLstar;
+		static contrastDeltaPhi: typeof contrastDeltaPhi;
 
-	// deltaE
-	deltaE: ToColorPrototype<typeof deltaE>;
-	deltaE76: ToColorPrototype<typeof deltaE76>;
-	deltaECMC: ToColorPrototype<typeof deltaECMC>;
-	deltaE2000: ToColorPrototype<typeof deltaE2000>;
-	deltaEJz: ToColorPrototype<typeof deltaEJz>;
-	deltaEITP: ToColorPrototype<typeof deltaEITP>;
-	deltaEOK: ToColorPrototype<typeof deltaEOK>;
+		// deltaE
+		deltaE: ToColorPrototype<typeof deltaE>;
+		deltaE76: ToColorPrototype<typeof deltaE76>;
+		deltaECMC: ToColorPrototype<typeof deltaECMC>;
+		deltaE2000: ToColorPrototype<typeof deltaE2000>;
+		deltaEJz: ToColorPrototype<typeof deltaEJz>;
+		deltaEITP: ToColorPrototype<typeof deltaEITP>;
+		deltaEOK: ToColorPrototype<typeof deltaEOK>;
 
-	// interpolation
-	mix: ToColorPrototype<typeof mix>;
-	range: ToColorPrototype<typeof range>;
-	steps: ToColorPrototype<typeof steps>;
+		static deltaE: typeof deltaE;
+		static deltaE76: typeof deltaE76;
+		static deltaECMC: typeof deltaECMC;
+		static deltaE2000: typeof deltaE2000;
+		static deltaEJz: typeof deltaEJz;
+		static deltaEITP: typeof deltaEITP;
+		static deltaEOK: typeof deltaEOK;
 
-	// luminance
-	get luminance(): ReturnType<typeof getLuminance>;
-	// the definition for this set in the orignial code like it doesn't actually use the parameter?
-	set luminance(_: number);
+		// interpolation
+		mix: ToColorPrototype<typeof mix>;
+		range: ToColorPrototype<typeof range>;
+		steps: ToColorPrototype<typeof steps>;
+		static mix: typeof mix;
+		static range: typeof range;
+		static steps: typeof steps;
 
-	// variations
-	lighten: ToColorPrototype<typeof lighten>;
-	darken: ToColorPrototype<typeof darken>;
+		// luminance
+		get luminance(): ReturnType<typeof getLuminance>;
+		// the definition for this set in the orignial code like it doesn't actually use the parameter?
+		set luminance(_: number);
+
+		// variations
+		lighten: ToColorPrototype<typeof lighten>;
+		darken: ToColorPrototype<typeof darken>;
+		static lighten: typeof lighten;
+		static darken: typeof darken;
+	}
 }
 
 export default Color;
