@@ -1,6 +1,6 @@
 {
 	"name": "colorjs.io",
-	"version": "0.4.2",
+	"version": "0.4.3",
 	"description": "Let’s get serious about color",
 	"files": [
 		"dist/color.cjs",
