@@ -27,7 +27,7 @@ export default new RGBColorSpace({
 			if (val <= 0.5) {
 				return (val ** 2) / 3 * scale;
 			}
-			return Math.exp(((val - c) / a) + b) / 12 * scale;
+			return ((Math.exp((val - c) / a) + b) / 12) * scale;
 		});
 	},
 	fromBase (RGB) {
