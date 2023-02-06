@@ -24,10 +24,10 @@ export function adjust (arc, angles) {
 	else if (arc === "longer") {
 		if (-180 < angleDiff && angleDiff < 180) {
 			if (angleDiff > 0) {
-				a2 += 360;
+				a1 += 360;
 			}
 			else {
-				a1 += 360;
+				a2 += 360;
 			}
 		}
 	}
