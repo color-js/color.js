@@ -30,9 +30,7 @@ export default function parse (str) {
 						// From https://drafts.csswg.org/css-color-4/#color-function
 						// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
 						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
-						let argCount = Object.keys(space.coords).length;
-						let coords = Array(argCount).fill(0);
-						coords.forEach((_, i) => coords[i] = env.parsed.args[i] || 0);
+						const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
 
 						return {spaceId: space.id, coords, alpha};
 					}
