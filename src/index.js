@@ -6,10 +6,11 @@ import "./spaces/index.js";
 
 // Import all DeltaE methods
 import deltaE from "./deltaE.js";
-import * as deltaEMethods from "./deltaE/index.js";
+import deltaEMethods from "./deltaE/index.js";
 
 Color.extend(deltaEMethods);
 Color.extend({deltaE});
+Object.assign(Color, {deltaEMethods});
 
 // Import optional modules
 import * as variations from "./variations.js";

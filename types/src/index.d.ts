@@ -10,7 +10,7 @@ import {
 	contrastDeltaPhi,
 } from "./contrast/index";
 import deltaE from "./deltaE";
-import {
+import deltaEMethods, {
 	deltaE76,
 	deltaECMC,
 	deltaE2000,
@@ -64,6 +64,7 @@ declare module "./color" {
 		static deltaEJz: typeof deltaEJz;
 		static deltaEITP: typeof deltaEITP;
 		static deltaEOK: typeof deltaEOK;
+		static deltaEMethods: typeof deltaEMethods;
 
 		// interpolation
 		mix: ToColorPrototype<typeof mix>;
