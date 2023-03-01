@@ -1,4 +1,4 @@
-import Color, { ColorTypes } from "./color";
+import Color, { ColorTypes, PlainColorObject } from "./color";
 import ColorSpace from "./space";
 import { Methods } from "./deltaE/index";
 
@@ -33,13 +33,13 @@ export function mix(
 	color1: ColorTypes,
 	color2: ColorTypes,
 	options?: MixOptions
-): number;
+): PlainColorObject;
 export function mix(
 	color1: ColorTypes,
 	color2: ColorTypes,
 	p: number,
 	options?: MixOptions
-): number;
+): PlainColorObject;
 
 export interface StepsOptions extends RangeOptions {
 	maxDeltaE?: number | undefined;
@@ -48,7 +48,7 @@ export interface StepsOptions extends RangeOptions {
 	maxSteps?: number | undefined;
 }
 
-export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): Color[];
-export function steps(range: Range, options?: StepsOptions): Color[];
+export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): PlainColorObject[];
+export function steps(range: Range, options?: StepsOptions): PlainColorObject[];
 
 export function register(color: typeof Color): void;

@@ -28,13 +28,19 @@ export interface ColorObject {
 	alpha?: number | undefined;
 }
 
+export interface PlainColorObject {
+	space: ColorSpace;
+	coords: Coords;
+	alpha: number;
+}
+
 export interface ColorConstructor {
 	spaceId: string;
 	coords: Coords;
 	alpha: number | undefined;
 }
 
-export type ColorTypes = Color | ColorObject | ColorConstructor | string;
+export type ColorTypes = ColorObject | ColorConstructor | string | PlainColorObject;
 
 export type DefineFunctionCode = (...args: any[]) => any;
 
@@ -79,7 +85,7 @@ declare namespace Color {
 	export const spaces: typeof ColorSpace["registry"];
 }
 
-declare class Color {
+declare class Color implements PlainColorObject {
 	constructor(color: ColorTypes);
 	constructor(space: string | ColorSpace, coords: Coords, alpha?: number);
 

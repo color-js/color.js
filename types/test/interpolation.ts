@@ -36,27 +36,27 @@ mix();
 // @ts-expect-error
 mix("red");
 
-mix("red", "blue"); // $ExpectType number
-mix("red", "blue", 0.5); // $ExpectType number
-mix("red", "blue", {}); // $ExpectType number
-mix("red", "blue", 0.5, {}); // $ExpectType number
-// $ExpectType number
+mix("red", "blue"); // $ExpectType PlainColorObject
+mix("red", "blue", 0.5); // $ExpectType PlainColorObject
+mix("red", "blue", {}); // $ExpectType PlainColorObject
+mix("red", "blue", 0.5, {}); // $ExpectType PlainColorObject
+// $ExpectType PlainColorObject
 mix("red", "blue", {
 	space: "srgb",
 	outputSpace: "srgb_linear",
 	premultiplied: true,
 });
 
-steps("red", "blue"); // $ExpectType Color[]
-// $ExpectType Color[]
+steps("red", "blue"); // $ExpectType PlainColorObject[]
+// $ExpectType PlainColorObject[]
 steps("red", "blue", {
 	maxDeltaE: 1,
 	deltaEMethod: "2000",
 	steps: 10,
 	maxSteps: 100,
 });
-steps(r); // $ExpectType Color[]
-// $ExpectType Color[]
+steps(r); // $ExpectType PlainColorObject[]
+// $ExpectType PlainColorObject[]
 steps(r, {
 	maxDeltaE: 1,
 	deltaEMethod: "2000",
@@ -65,7 +65,7 @@ steps(r, {
 });
 
 // @ts-expect-error
-steps(r, "blue"); // $ExpectType Color[]
+steps(r, "blue"); // $ExpectType PlainColorObject[]
 
 // @ts-expect-error
 register();
