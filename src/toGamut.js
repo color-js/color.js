@@ -7,6 +7,7 @@ import to from "./to.js";
 import get from "./get.js";
 import set from "./set.js";
 import clone from "./clone.js";
+import getColor from "./getColor.js";
 
 /**
  * Force coordinates to be in gamut of a certain color space.
@@ -27,7 +28,7 @@ export default function toGamut (color, {method = defaults.gamut_mapping, space 
 	space = ColorSpace.get(space);
 
 	if (inGamut(color, space, {epsilon: 0})) {
-		return color;
+		return getColor(color);
 	}
 
 	// 3 spaces:
