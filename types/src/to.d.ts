@@ -1,4 +1,4 @@
-import { ColorObject, ColorTypes } from "./color";
+import { PlainColorObject, ColorTypes } from "./color";
 import ColorSpace from "./space";
 
 declare namespace to {
@@ -9,6 +9,6 @@ declare function to(
 	color: ColorTypes,
 	space: string | ColorSpace,
 	options?: { inGamut?: boolean | undefined }
-): ColorObject;
+): PlainColorObject;
 
 export default to;

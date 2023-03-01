@@ -4,13 +4,13 @@ import { lighten, darken } from "colorjs.io/src/variations";
 // @ts-expect-error
 lighten();
 
-lighten("red"); // $ExpectType Color
-lighten(new Color("red")); // $ExpectType Color
-lighten("red", 25); // $ExpectType Color
+lighten("red"); // $ExpectType PlainColorObject
+lighten(new Color("red")); // $ExpectType PlainColorObject
+lighten("red", 25); // $ExpectType PlainColorObject
 
 // @ts-expect-error
 darken();
 
-darken("red"); // $ExpectType Color
-darken(new Color("red")); // $ExpectType Color
-darken("red", 25); // $ExpectType Color
+darken("red"); // $ExpectType PlainColorObject
+darken(new Color("red")); // $ExpectType PlainColorObject
+darken("red", 25); // $ExpectType PlainColorObject

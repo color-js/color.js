@@ -1,3 +1,3 @@
-import Color from "./color";
+import { PlainColorObject } from "./color";
 
-export default function clone(color: Color): Color;
+export default function clone(color: PlainColorObject): PlainColorObject;

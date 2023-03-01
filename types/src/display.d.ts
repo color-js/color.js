@@ -1,7 +1,7 @@
-import Color, { ColorObject, ColorTypes } from "./color";
+import { PlainColorObject, ColorTypes } from "./color";
 import ColorSpace from "./space";
 
-export type Display = string & { color: ColorObject };
+export type Display = string & { color: PlainColorObject };
 
 export default function display(
 	color: ColorTypes,
