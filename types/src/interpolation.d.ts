@@ -2,7 +2,7 @@ import Color, { ColorTypes } from "./color";
 import ColorSpace from "./space";
 import { Methods } from "./deltaE/index";
 
-export type Range = ((percentage: number) => number) & {
+export type Range = ((percentage: number) => Color) & {
 	rangeArgs: { colors: [Color, Color]; options: Record<string, any> };
 };
 
