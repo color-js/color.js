@@ -29,7 +29,7 @@ const LabtoLMS_M = [
 
 export default new ColorSpace({
 	id: "oklab",
-    name: "OKLab",
+    name: "Oklab",
     coords: {
 		l: {
 			refRange: [0, 1],
