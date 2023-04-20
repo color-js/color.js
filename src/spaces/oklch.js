@@ -4,7 +4,7 @@ import {constrain as constrainAngle} from "../angles.js";
 
 export default new ColorSpace({
 	id: "oklch",
-	name: "OKLCh",
+	name: "Oklch",
 	coords: {
 		l: {
 			refRange: [0, 1],
