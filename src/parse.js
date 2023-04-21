@@ -71,26 +71,30 @@ export default function parse (str, {verbose} = {}) {
 
 					let coords = env.parsed.args;
 
+					let argTypes;
+
 					if (format.coordGrammar) {
-						Object.entries(space.coords).forEach(([id, coordMeta], i) => {
+						argTypes = Object.entries(space.coords).map(([id, coordMeta], i) => {
 							let coordGrammar = format.coordGrammar[i];
 							let providedType = coords[i]?.type;
 
 							// Find grammar alternative that matches the provided type
 							// Non-strict equals is intentional because we are comparing w/ string objects
-							coordGrammar = coordGrammar.find(c => c == providedType);
+							let type = coordGrammar.find(c => c == providedType);
 
 							// Check that each coord conforms to its grammar
-							if (!coordGrammar) {
+							if (!type) {
 								// Type does not exist in the grammar, throw
 								let coordName = coordMeta.name || id;
 								throw new TypeError(`${providedType} not allowed for ${coordName} in ${name}()`);
 							}
 
-							let fromRange = coordGrammar.range;
+							let range = type.range || coordMeta.range || coordMeta.refRange;
+							let fromRange = type.range;
 
 							if (providedType === "<percentage>") {
 								fromRange ||= [0, 1];
+								range = [0, 100];
 							}
 
 							let toRange = coordMeta.range || coordMeta.refRange;
@@ -98,6 +102,8 @@ export default function parse (str, {verbose} = {}) {
 							if (fromRange && toRange) {
 								coords[i] = util.mapRange(fromRange, toRange, coords[i]);
 							}
+
+							return {type: type + "", range};
 						});
 					}
 
@@ -106,7 +112,7 @@ export default function parse (str, {verbose} = {}) {
 						coords, alpha
 					};
 
-					return verbose? {color, formatId: format.name} : color;
+					return verbose? {color, formatId: format.name, argTypes} : color;
 				}
 			}
 		}
