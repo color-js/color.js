@@ -22,6 +22,12 @@ export default class ColorSpace {
 		// Coordinate metadata
 
 		let coords = options.coords ?? this.base.coords;
+
+		for (let name in coords) {
+			if (!(name in coords[name])) {
+				coords[name].name = name;
+			}
+		}
 		this.coords = coords;
 
 		// White point
