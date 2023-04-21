@@ -2,13 +2,20 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 
-// CSS color to Color object
-export default function parse (str) {
+/**
+ * Convert a CSS Color string to a color object
+ * @param {string} str
+ * @param {object} options
+ * @param {boolean} options.verbose - If true, return an object with more information
+ * @returns { Color | { color: Color, formatId: string } }
+ */
+export default function parse (str, {verbose} = {}) {
 	let env = {"str": String(str)?.trim()};
 	hooks.run("parse-start", env);
 
 	if (env.color) {
-		return env.color;
+		let color = env.color;
+		return verbose? {color} : env.color;
 	}
 
 	env.parsed = util.parseFunction(env.str);
@@ -32,7 +39,8 @@ export default function parse (str) {
 						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
 						const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
 
-						return {spaceId: space.id, coords, alpha};
+						let color = {spaceId: space.id, coords, alpha};
+						return verbose? {color, formatId: "color"} : color;
 					}
 				}
 			}
@@ -47,6 +55,7 @@ export default function parse (str) {
 					didYouMean = `Did you mean color(${cssId})?`;
 				}
 			}
+
 			throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
 		}
 		else {
@@ -87,16 +96,17 @@ export default function parse (str) {
 							let toRange = coordMeta.range || coordMeta.refRange;
 
 							if (fromRange && toRange) {
-
 								coords[i] = util.mapRange(fromRange, toRange, coords[i]);
 							}
 						});
 					}
 
-					return {
+					let color = {
 						spaceId: space.id,
 						coords, alpha
 					};
+
+					return verbose? {color, formatId: format.name} : color;
 				}
 			}
 		}
@@ -104,7 +114,6 @@ export default function parse (str) {
 	else {
 		// Custom, colorspace-specific format
 		for (let space of ColorSpace.all) {
-
 			for (let formatId in space.formats) {
 				let format = space.formats[formatId];
 
@@ -120,7 +129,8 @@ export default function parse (str) {
 
 				if (color) {
 					color.alpha ??= 1;
-					return color;
+
+					return verbose? {color, formatId} : color;
 				}
 			}
 		}
