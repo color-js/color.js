@@ -24,7 +24,7 @@ export default class ColorSpace {
 		let coords = options.coords ?? this.base.coords;
 
 		for (let name in coords) {
-			if (!(name in coords[name])) {
+			if (!("name" in coords[name])) {
 				coords[name].name = name;
 			}
 		}
