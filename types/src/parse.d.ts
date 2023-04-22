@@ -1,4 +1,4 @@
-import { PlainColorObject } from "./color";
+import { ColorConstructor } from "./color";
 
 export interface Options {
 	meta?: object | undefined;
@@ -7,4 +7,4 @@ export interface Options {
 export default function parse(
 	str: string,
 	options?: Options & Record<string, any>
-): PlainColorObject;
+): ColorConstructor;
