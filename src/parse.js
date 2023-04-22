@@ -5,7 +5,7 @@ import ColorSpace from "./space.js";
 /**
  * Convert a CSS Color string to a color object
  * @param {string} str
- * @param {object} options
+ * @param {object} [options]
  * @param {object} [options.meta] - Object for additional information about the parsing
  * @returns { Color } }
  */
