@@ -71,10 +71,10 @@ export default function parse (str, {verbose} = {}) {
 
 					let coords = env.parsed.args;
 
-					let argTypes;
+					let types;
 
 					if (format.coordGrammar) {
-						argTypes = Object.entries(space.coords).map(([id, coordMeta], i) => {
+						types = Object.entries(space.coords).map(([id, coordMeta], i) => {
 							let coordGrammar = format.coordGrammar[i];
 							let providedType = coords[i]?.type;
 
@@ -89,12 +89,10 @@ export default function parse (str, {verbose} = {}) {
 								throw new TypeError(`${providedType} not allowed for ${coordName} in ${name}()`);
 							}
 
-							let range = type.range || coordMeta.range || coordMeta.refRange;
 							let fromRange = type.range;
 
 							if (providedType === "<percentage>") {
 								fromRange ||= [0, 1];
-								range = [0, 100];
 							}
 
 							let toRange = coordMeta.range || coordMeta.refRange;
@@ -103,7 +101,7 @@ export default function parse (str, {verbose} = {}) {
 								coords[i] = util.mapRange(fromRange, toRange, coords[i]);
 							}
 
-							return {type: type + "", range};
+							return type;
 						});
 					}
 
@@ -112,7 +110,7 @@ export default function parse (str, {verbose} = {}) {
 						coords, alpha
 					};
 
-					return verbose? {color, formatId: format.name, argTypes} : color;
+					return verbose? {color, formatId: format.name, types} : color;
 				}
 			}
 		}
