@@ -6,16 +6,15 @@ import ColorSpace from "./space.js";
  * Convert a CSS Color string to a color object
  * @param {string} str
  * @param {object} options
- * @param {boolean} options.verbose - If true, return an object with more information
- * @returns { Color | { color: Color, formatId: string } }
+ * @param {object} [options.meta] - Object for additional information about the parsing
+ * @returns { Color } }
  */
-export default function parse (str, {verbose} = {}) {
+export default function parse (str, {meta} = {}) {
 	let env = {"str": String(str)?.trim()};
 	hooks.run("parse-start", env);
 
 	if (env.color) {
-		let color = env.color;
-		return verbose? {color} : env.color;
+		return env.color;
 	}
 
 	env.parsed = util.parseFunction(env.str);
@@ -39,8 +38,11 @@ export default function parse (str, {verbose} = {}) {
 						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
 						const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
 
-						let color = {spaceId: space.id, coords, alpha};
-						return verbose? {color, formatId: "color"} : color;
+						if (meta) {
+							meta.formatId = "color";
+						}
+
+						return {spaceId: space.id, coords, alpha};
 					}
 				}
 			}
@@ -105,12 +107,14 @@ export default function parse (str, {verbose} = {}) {
 						});
 					}
 
-					let color = {
+					if (meta) {
+						Object.assign(meta, {formatId: format.name, types});
+					}
+
+					return {
 						spaceId: space.id,
 						coords, alpha
 					};
-
-					return verbose? {color, formatId: format.name, types} : color;
 				}
 			}
 		}
@@ -134,7 +138,11 @@ export default function parse (str, {verbose} = {}) {
 				if (color) {
 					color.alpha ??= 1;
 
-					return verbose? {color, formatId} : color;
+					if (meta) {
+						meta.formatId = formatId;
+					}
+
+					return color;
 				}
 			}
 		}
