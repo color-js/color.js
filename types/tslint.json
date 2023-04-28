@@ -1,4 +1,7 @@
 {
 	"extends": "@definitelytyped/dtslint/dtslint.json",
-	"rules": { "space-before-function-paren": false }
+	"rules": {
+		"no-redundant-jsdoc": false,
+		"space-before-function-paren": false
+	}
 }
