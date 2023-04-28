@@ -1,3 +1,10 @@
 import { ColorConstructor } from "./color";
 
-export default function parse(str: string): ColorConstructor;
+export interface Options {
+	meta?: object | undefined;
+}
+
+export default function parse(
+	str: string,
+	options?: Options & Record<string, any>
+): ColorConstructor;

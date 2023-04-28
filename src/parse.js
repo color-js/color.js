@@ -2,8 +2,14 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 
-// CSS color to Color object
-export default function parse (str) {
+/**
+ * Convert a CSS Color string to a color object
+ * @param {string} str
+ * @param {object} [options]
+ * @param {object} [options.meta] - Object for additional information about the parsing
+ * @returns { Color }
+ */
+export default function parse (str, {meta} = {}) {
 	let env = {"str": String(str)?.trim()};
 	hooks.run("parse-start", env);
 
@@ -32,6 +38,10 @@ export default function parse (str) {
 						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
 						const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
 
+						if (meta) {
+							meta.formatId = "color";
+						}
+
 						return {spaceId: space.id, coords, alpha};
 					}
 				}
@@ -47,6 +57,7 @@ export default function parse (str) {
 					didYouMean = `Did you mean color(${cssId})?`;
 				}
 			}
+
 			throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
 		}
 		else {
@@ -62,23 +73,25 @@ export default function parse (str) {
 
 					let coords = env.parsed.args;
 
+					let types;
+
 					if (format.coordGrammar) {
-						Object.entries(space.coords).forEach(([id, coordMeta], i) => {
+						types = Object.entries(space.coords).map(([id, coordMeta], i) => {
 							let coordGrammar = format.coordGrammar[i];
 							let providedType = coords[i]?.type;
 
 							// Find grammar alternative that matches the provided type
 							// Non-strict equals is intentional because we are comparing w/ string objects
-							coordGrammar = coordGrammar.find(c => c == providedType);
+							let type = coordGrammar.find(c => c == providedType);
 
 							// Check that each coord conforms to its grammar
-							if (!coordGrammar) {
+							if (!type) {
 								// Type does not exist in the grammar, throw
 								let coordName = coordMeta.name || id;
 								throw new TypeError(`${providedType} not allowed for ${coordName} in ${name}()`);
 							}
 
-							let fromRange = coordGrammar.range;
+							let fromRange = type.range;
 
 							if (providedType === "<percentage>") {
 								fromRange ||= [0, 1];
@@ -87,10 +100,15 @@ export default function parse (str) {
 							let toRange = coordMeta.range || coordMeta.refRange;
 
 							if (fromRange && toRange) {
-
 								coords[i] = util.mapRange(fromRange, toRange, coords[i]);
 							}
+
+							return type;
 						});
+					}
+
+					if (meta) {
+						Object.assign(meta, {formatId: format.name, types});
 					}
 
 					return {
@@ -104,7 +122,6 @@ export default function parse (str) {
 	else {
 		// Custom, colorspace-specific format
 		for (let space of ColorSpace.all) {
-
 			for (let formatId in space.formats) {
 				let format = space.formats[formatId];
 
@@ -120,6 +137,11 @@ export default function parse (str) {
 
 				if (color) {
 					color.alpha ??= 1;
+
+					if (meta) {
+						meta.formatId = formatId;
+					}
+
 					return color;
 				}
 			}
