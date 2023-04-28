@@ -62,7 +62,7 @@ export default class ColorSpace {
 			writable: false,
 			enumerable: true,
 			configurable: true,
-		})
+		});
 
 		hooks.run("colorspace-init-end", this);
 	}

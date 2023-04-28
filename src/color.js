@@ -55,7 +55,6 @@ export default class Color {
 			[space, coords, alpha] = args;
 		}
 
-
 		Object.defineProperty(this, "space", {
 			value: ColorSpace.get(space),
 			writable: false,
