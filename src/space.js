@@ -144,7 +144,7 @@ export default class ColorSpace {
 
 		space = ColorSpace.get(space);
 
-		if (this === space) {
+		if (this.equals(space)) {
 			// Same space, no change needed
 			return coords;
 		}
