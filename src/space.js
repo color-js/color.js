@@ -57,7 +57,12 @@ export default class ColorSpace {
 		this.referred = options.referred;
 
 		// Compute ancestors and store them, since they will never change
-		this.#path = this.#getPath().reverse();
+		Object.defineProperty(this, "path", {
+			value: getPath(this).reverse(),
+			writable: false,
+			enumerable: true,
+			configurable: true,
+		});
 
 		hooks.run("colorspace-init-end", this);
 	}
@@ -104,58 +109,9 @@ export default class ColorSpace {
 		return false;
 	}
 
-	#processFormat (format) {
-		if (format.coords && !format.coordGrammar) {
-			format.type ||= "function";
-			format.name ||= "color";
-
-			// Format has not been processed
-			format.coordGrammar = parseCoordGrammar(format.coords);
-
-			let coordFormats = Object.entries(this.coords).map(([id, coordMeta], i) => {
-				// Preferred format for each coord is the first one
-				let outputType = format.coordGrammar[i][0];
-
-				let fromRange = coordMeta.range || coordMeta.refRange;
-				let toRange = outputType.range, suffix = "";
-
-				// Non-strict equals intentional since outputType could be a string object
-				if (outputType == "<percentage>") {
-					toRange = [0, 100];
-					suffix = "%";
-				}
-				else if (outputType == "<angle>") {
-					suffix = "deg";
-				}
-
-				return  {fromRange, toRange, suffix};
-			});
-
-			format.serializeCoords = (coords, precision) => {
-				return coords.map((c, i) => {
-					let {fromRange, toRange, suffix} = coordFormats[i];
-
-					if (fromRange && toRange) {
-						c = mapRange(fromRange, toRange, c);
-					}
-
-					c = toPrecision(c, precision);
-
-					if (suffix) {
-						c += suffix;
-					}
-
-					return c;
-				});
-			};
-		}
-
-		return format;
-	}
-
 	getFormat (format) {
 		if (typeof format === "object") {
-			format = this.#processFormat(format);
+			format = processFormat(format, this);
 			return format;
 		}
 
@@ -169,23 +125,16 @@ export default class ColorSpace {
 		}
 
 		if (ret) {
-			ret = this.#processFormat(ret);
+			ret = processFormat(ret, this);
 			return ret;
 		}
 
 		return null;
 	}
 
-	#path;
-
-	#getPath () {
-		let ret = [this];
-
-		for (let space = this; space = space.base;) {
-			ret.push(space);
-		}
-
-		return ret;
+	// We cannot rely on simple === because then ColorSpace objects cannot be proxied
+	equals (space) {
+		return this === space || this.id === space.id;
 	}
 
 	to (space, coords) {
@@ -195,7 +144,7 @@ export default class ColorSpace {
 
 		space = ColorSpace.get(space);
 
-		if (this === space) {
+		if (this.equals(space)) {
 			// Same space, no change needed
 			return coords;
 		}
@@ -204,13 +153,13 @@ export default class ColorSpace {
 		coords = coords.map(c => Number.isNaN(c)? 0 : c);
 
 		// Find connection space = lowest common ancestor in the base tree
-		let myPath = this.#path;
-		let otherPath = space.#path;
+		let myPath = this.path;
+		let otherPath = space.path;
 
 		let connectionSpace, connectionSpaceIndex;
 
 		for (let i=0; i < myPath.length; i++) {
-			if (myPath[i] === otherPath[i]) {
+			if (myPath[i].equals(otherPath[i])) {
 				connectionSpace = myPath[i];
 				connectionSpaceIndex = i;
 			}
@@ -396,4 +345,63 @@ export default class ColorSpace {
 		type: "functions",
 		name: "color",
 	};
+}
+
+function getPath (space) {
+	let ret = [space];
+
+	for (let s = space; s = s.base;) {
+		ret.push(s);
+	}
+
+	return ret;
+}
+
+function processFormat (format, {coords} = {}) {
+	if (format.coords && !format.coordGrammar) {
+		format.type ||= "function";
+		format.name ||= "color";
+
+		// Format has not been processed
+		format.coordGrammar = parseCoordGrammar(format.coords);
+
+		let coordFormats = Object.entries(coords).map(([id, coordMeta], i) => {
+			// Preferred format for each coord is the first one
+			let outputType = format.coordGrammar[i][0];
+
+			let fromRange = coordMeta.range || coordMeta.refRange;
+			let toRange = outputType.range, suffix = "";
+
+			// Non-strict equals intentional since outputType could be a string object
+			if (outputType == "<percentage>") {
+				toRange = [0, 100];
+				suffix = "%";
+			}
+			else if (outputType == "<angle>") {
+				suffix = "deg";
+			}
+
+			return  {fromRange, toRange, suffix};
+		});
+
+		format.serializeCoords = (coords, precision) => {
+			return coords.map((c, i) => {
+				let {fromRange, toRange, suffix} = coordFormats[i];
+
+				if (fromRange && toRange) {
+					c = mapRange(fromRange, toRange, c);
+				}
+
+				c = toPrecision(c, precision);
+
+				if (suffix) {
+					c += suffix;
+				}
+
+				return c;
+			});
+		};
+	}
+
+	return format;
 }

@@ -55,7 +55,12 @@ export default class Color {
 			[space, coords, alpha] = args;
 		}
 
-		this.#space = ColorSpace.get(space);
+		Object.defineProperty(this, "space", {
+			value: ColorSpace.get(space),
+			writable: false,
+			enumerable: true,
+			configurable: true, // see note in https://262.ecma-international.org/8.0/#sec-proxy-object-internal-methods-and-internal-slots-get-p-receiver
+		});
 		this.coords = coords? coords.slice() : [0, 0, 0];
 		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
 
@@ -67,7 +72,7 @@ export default class Color {
 		}
 
 		// Define getters and setters for each coordinate
-		for (let id in this.#space.coords) {
+		for (let id in this.space.coords) {
 			Object.defineProperty(this, id, {
 				get: () => this.get(id),
 				set: value => this.set(id, value)
@@ -75,14 +80,8 @@ export default class Color {
 		}
 	}
 
-	#space;
-
-	get space () {
-		return this.#space;
-	}
-
 	get spaceId () {
-		return this.#space.id;
+		return this.space.id;
 	}
 
 	clone () {
