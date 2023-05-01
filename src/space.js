@@ -134,6 +134,10 @@ export default class ColorSpace {
 
 	// We cannot rely on simple === because then ColorSpace objects cannot be proxied
 	equals (space) {
+		if (!space) {
+			return false;
+		}
+
 		return this === space || this.id === space.id;
 	}
 
