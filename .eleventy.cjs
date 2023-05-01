@@ -1,5 +1,3 @@
-let markdownIt = require("markdown-it");
-
 module.exports = config => {
 	let data = {
 		"layout": "page.njk",
@@ -17,12 +15,6 @@ module.exports = config => {
 		// Optional, default is "---"
 		excerpt_separator: "<!-- more -->"
 	});
-
-	config.setLibrary("md", markdownIt({
-			html: true,
-		})
-		.disable("code")
-	);
 
 	// config.addFilter("readable_date", date => {
 	// 	return new Date(date).toLocaleString("en-US", {

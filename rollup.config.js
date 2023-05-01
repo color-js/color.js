@@ -1,4 +1,4 @@
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 
 let bundles = [
 	{
@@ -25,10 +25,7 @@ bundles = bundles.flatMap(bundle => {
 	let minBundle = Object.assign({}, bundle);
 	minBundle.file = minBundle.file.replace(/\.\w+$/, ".min$&");
 	minBundle.plugins ||= [];
-	minBundle.plugins.push(terser({
-		compress: true,
-		mangle: true
-	}));
+	minBundle.plugins.push(terser());
 
 	return [bundle, minBundle];
 });
