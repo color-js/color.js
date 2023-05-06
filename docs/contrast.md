@@ -104,6 +104,18 @@ The formula for negative polarity is
 
 > WC<sub>np</sub> = (Y<sub>text</sub> - Y<sub>background</sub>) / Y<sub>text</sub>
 
+In another paper, Hwang and Peli proposed to add
+a fixed luminance to both colors to account for viewing flare:
+
+> WC = (Y<sub>max</sub> - Y<sub>min</sub>) / (Y<sub>min</sub> + Y<sub>ambient</sub>)
+
+The value of that offset depends on the viewing conditions.
+
+```js
+let color1 = new Color("p3", [0.9, 0.8, 0.1]);
+let color2 = new Color("slategrey");
+let contrast = color1.contrast(color2, {algorithm: "weber", offset: .05});
+```
 
 ## Michelson Contrast
 
@@ -128,6 +140,22 @@ The lighter of the two will be detected automatically.
 let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
 let contrast = color1.contrast(color2, "Michelson");
+```
+
+## Stevens Contrast
+
+Stevens contrast is often considered to supersede the Weber contrast.
+It is based on powers rather than logarithms.
+
+> SC = Y<sub>max</sub><sup>exp</sup> - Y<sub>min</sub><sup>exp</sup>
+
+The value of that exponent depends on the viewing conditions.
+It is also possible to use an offset to model flare.
+
+```js
+let color1 = new Color("p3", [0.9, 0.8, 0.1]);
+let color2 = new Color("slategrey");
+let contrast = color1.contrast(color2, {algorithm: "stevens", exponent: 1 / 3, offset: .0025});
 ```
 
 ## Accessible Perceptual Contrast Algorithm (APCA)
@@ -265,6 +293,8 @@ let contrast = color1.contrast(color2, "WCAG21");
 - Kyoko Fujita, Koichi Oda, Junko Watanabe & Mitsuko Yuzawa (2008) _How normal eyes perform in reading low-contrast texts_. Japanese Journal of Ophthalmology vol **52**, pp. 44–47 [abstract](https://link.springer.com/article/10.1007/s10384-007-0494-6)
 
 - Alex D. Hwang and Eli Peli (2016) _Positive and negative polarity contrast sensitivity measuring app_. IS&T Int Symp Electron Imaging 2016: 10.2352. [full article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5481843/)
+
+- Alex D. Hwang and Eli Peli (2016) _New Contrast Metric for Realistic Display Performance Measure._. Dig Tech Pap. 2016: 10.1002. [full article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5489230/)
 
 - Gordon E. Legge, David H. Parish, Andrew Luebker, and Lee H. Wurm (1990)  _Psychophysics of reading. XI. Comparing color contrast and luminance contrast_. Journal of the Optical Society of America vol **7** issue 10 pp. 2002-2010 [https://doi.org/10.1364/JOSAA.7.002002](https://doi.org/10.1364/JOSAA.7.002002)
 
