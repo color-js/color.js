@@ -97,6 +97,73 @@
 </section>
 
 <section>
+	<h1>Oklab colors</h1>
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
+		<tr>
+			<td>oklab(100% 0 0)</td>
+			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="alpha">
+			<td>oklab(100% 0 0 / 0.5)</td>
+			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="case">
+			<td>OKLab(100% 0 0)</td>
+			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="all percentages">
+			<td>oklab(42% 100% -50%)</td>
+			<td>{"spaceId":"oklab","coords":[0.42,0.4,-0.2],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers">
+			<td>oklab(1 -0.20 0.20)</td>
+			<td>{"spaceId":"oklab","coords":[1,-0.2,0.2],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers out of range">
+			<td>oklab(10 -0.80 0.80)</td>
+			<td>{"spaceId":"oklab","coords":[10,-0.8,0.8],"alpha":1}</td>
+		</tr>
+	</table>
+</section>
+<section>
+	<h1>Oklch colors</h1>
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
+		<tr>
+			<td>oklch(100% 0 0)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="alpha">
+			<td>oklch(100% 0 0 / 50%)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="case">
+			<td>OKLch(100% 0 0)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers">
+			<td>oklch(1 0.2 50)</td>
+			<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers out of range">
+			<td>oklch(10 2 500 / 10)</td>
+			<td>{"spaceId":"oklch","coords":[10,2,500],"alpha":1}</td>
+		</tr>
+		<tr title="C as percentage">
+			<td>oklch(100% 50% 50)</td>
+			<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
+		</tr>
+		<tr title="C as percentage over 100%">
+			<td>oklch(100% 150% 50)</td>
+			<td>{"spaceId":"oklch","coords":[1,0.6000000000000001,50],"alpha":1}</td>
+		</tr>
+		<tr title="H as degrees">
+			<td>oklch(100% 0 30deg)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,30],"alpha":1}</td>
+		</tr>
+	</table>
+</section>
+
+<section>
 	<h1>color()</h1>
 
 	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">

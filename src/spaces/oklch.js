@@ -62,7 +62,7 @@ export default new ColorSpace({
 
 	formats: {
 		"oklch": {
-			coords: ["<number> | <percentage>", "<number>", "<number> | <angle>"],
+			coords: ["<number> | <percentage>", "<number> | <percentage>[0,1]", "<number> | <angle>"],
 		}
 	}
 });
