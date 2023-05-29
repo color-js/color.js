@@ -81,6 +81,14 @@
 			<td>lab(100 -50 50)</td>
 			<td>{"spaceId":"lab","coords":[100,-50,50],"alpha":1}</td>
 		</tr>
+		<tr title="lab percentage">
+			<td>lab(50% 25% -25% / 50%)</td>
+			<td>{"spaceId":"lab","coords":[50,31.25,-31.25],"alpha":0.5}</td>
+		</tr>
+		<tr title="lab transparency">
+			<td>lab(100 -50 5 / .5)</td>
+			<td>{"spaceId":"lab","coords":[100,-50,5],"alpha":0.5}</td>
+		</tr>
 		<tr>
 			<td>lch(100% 0 0)</td>
 			<td>{"spaceId":"lch","coords":[100,0,0],"alpha":1}</td>
@@ -89,9 +97,80 @@
 			<td>lch(100 50 50)</td>
 			<td>{"spaceId":"lch","coords":[100,50,50],"alpha":1}</td>
 		</tr>
+		<tr title="lch percentage">
+			<td>lch(50% 50% 50 / 50%)</td>
+			<td>{"spaceId":"lch","coords":[50,75,50],"alpha":0.5}</td>
+		</tr>
 		<tr title="Hue over 360">
 			<td>lch(100 50 450)</td>
 			<td>{"spaceId":"lch","coords":[100,50,450],"alpha":1}</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>Oklab colors</h1>
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
+		<tr>
+			<td>oklab(100% 0 0)</td>
+			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="alpha">
+			<td>oklab(100% 0 0 / 0.5)</td>
+			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="case">
+			<td>OKLab(100% 0 0)</td>
+			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="all percentages">
+			<td>oklab(42% 100% -50%)</td>
+			<td>{"spaceId":"oklab","coords":[0.42,0.4,-0.2],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers">
+			<td>oklab(1 -0.20 0.20)</td>
+			<td>{"spaceId":"oklab","coords":[1,-0.2,0.2],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers out of range">
+			<td>oklab(10 -0.80 0.80)</td>
+			<td>{"spaceId":"oklab","coords":[10,-0.8,0.8],"alpha":1}</td>
+		</tr>
+	</table>
+</section>
+<section>
+	<h1>Oklch colors</h1>
+	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
+		<tr>
+			<td>oklch(100% 0 0)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="alpha">
+			<td>oklch(100% 0 0 / 50%)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="case">
+			<td>OKLch(100% 0 0)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers">
+			<td>oklch(1 0.2 50)</td>
+			<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
+		</tr>
+		<tr title="all numbers out of range">
+			<td>oklch(10 2 500 / 10)</td>
+			<td>{"spaceId":"oklch","coords":[10,2,500],"alpha":1}</td>
+		</tr>
+		<tr title="C as percentage">
+			<td>oklch(100% 50% 50)</td>
+			<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
+		</tr>
+		<tr title="C as percentage over 100%">
+			<td>oklch(100% 150% 50)</td>
+			<td>{"spaceId":"oklch","coords":[1,0.6000000000000001,50],"alpha":1}</td>
+		</tr>
+		<tr title="H as degrees">
+			<td>oklch(100% 0 30deg)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,30],"alpha":1}</td>
 		</tr>
 	</table>
 </section>
@@ -105,7 +184,15 @@
 			<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
+			<td>color(srgb 0 100% 50%)</td>
+			<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
 			<td>color(srgb-linear 0 1 .5)</td>
+			<td>{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(srgb-linear 0 100% 50%)</td>
 			<td>{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
@@ -113,7 +200,15 @@
 			<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
+			<td>color(display-p3 0% 100% 50%)</td>
+			<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
 			<td>color(rec2020 0 1 .5)</td>
+			<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(rec2020 0 100% 50%)</td>
 			<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
@@ -121,21 +216,31 @@
 			<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
+			<td>color(a98-rgb 0 100% 50%)</td>
+			<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
 			<td>color(prophoto-rgb 0 1 .5)</td>
+			<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(prophoto-rgb 0 100% 50%)</td>
 			<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
 			<td>color(acescc 0 1 .5)</td>
 			<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
+		<tr>
+			<td>color(acescc 0 100% 50%)</td>
+			<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
 			<td>color(acescg 0 1 .5)</td>
 			<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
-		</tr>
 		<tr>
-			<td>color(acescg 0 1 .5)</td>
+			<td>color(acescg 0 100% 50%)</td>
 			<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
@@ -143,11 +248,23 @@
 			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
+			<td>color(xyz 0 100% 50%)</td>
+			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
 			<td>color(xyz-d65 0 1 .5)</td>
 			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr>
+			<td>color(xyz-d65 0 100% 50%)</td>
+			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
 			<td>color(xyz-d50 0 1 .5)</td>
+			<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
+		</tr>
+		<tr>
+			<td>color(xyz-d50 0 100% 50%)</td>
 			<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
 		</tr>
 		<tr title="With transparency">

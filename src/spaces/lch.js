@@ -61,7 +61,7 @@ export default new ColorSpace({
 
 	formats: {
 		"lch": {
-			coords: ["<number> | <percentage>", "<number>", "<number> | <angle>"],
+			coords: ["<number> | <percentage>", "<number> | <percentage>", "<number> | <angle>"],
 		}
 	}
 });
