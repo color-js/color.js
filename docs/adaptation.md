@@ -58,7 +58,7 @@ but there is a lot of experimental data measured with it
 so it is useful to adapt _from_).
 
 Illuminant D65 represents the light in the shade (no direct sunlight) at noon,
-and has a color temperature of 6500K.
+and has a color temperature of 6504K.
 
 Illuminant D50 is similar but represents direct sunlight at noon.
 Illuminant F2 is a particular type of fluorescent lamp, and so on.
