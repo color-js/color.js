@@ -87,7 +87,7 @@ An iterative approach may be better:
 ```js
 let green = new Color("lch", [80, 80, 120]);
 let cssColor = green.toString();
-if (!CSS.supports("color", cssColor))
+if (!CSS.supports("p3", cssColor))
 	cssColor = green.to("p3").toString();
 if (!CSS.supports("color", cssColor))
 	cssColor = green.to("srgb").toString();
