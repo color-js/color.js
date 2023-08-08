@@ -47,16 +47,16 @@ mix("red", "blue", {
 	premultiplied: true,
 });
 
-steps("red", "blue"); // $ExpectType PlainColorObject[]
-// $ExpectType PlainColorObject[]
+steps("red", "blue"); // $ExpectType Color[]
+// $ExpectType Color[]
 steps("red", "blue", {
 	maxDeltaE: 1,
 	deltaEMethod: "2000",
 	steps: 10,
 	maxSteps: 100,
 });
-steps(r); // $ExpectType PlainColorObject[]
-// $ExpectType PlainColorObject[]
+steps(r); // $ExpectType Color[]
+// $ExpectType Color[]
 steps(r, {
 	maxDeltaE: 1,
 	deltaEMethod: "2000",
@@ -65,7 +65,12 @@ steps(r, {
 });
 
 // @ts-expect-error
-steps(r, "blue"); // $ExpectType PlainColorObject[]
+steps(r, "blue");
+
+// Test steps on Color class
+Color.steps(Color.range("red", "blue")); // $ExpectType Color[]
+Color.steps("red", "blue"); // $ExpectType Color[]
+new Color("red").steps("blue"); // $ExpectType Color[]
 
 // @ts-expect-error
 register();

@@ -48,7 +48,7 @@ export interface StepsOptions extends RangeOptions {
 	maxSteps?: number | undefined;
 }
 
-export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): PlainColorObject[];
-export function steps(range: Range, options?: StepsOptions): PlainColorObject[];
+export function steps(range: Range, options?: StepsOptions): Color[];
+export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): Color[];
 
 export function register(color: typeof Color): void;
