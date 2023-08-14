@@ -1,4 +1,4 @@
-import Color from "colorjs.io/src/color";
+import Color from "colorjs.io/src";
 import { sRGB, sRGB_Linear } from "colorjs.io/src/index-fn";
 import {
 	isRange,
@@ -47,16 +47,26 @@ mix("red", "blue", {
 	premultiplied: true,
 });
 
-steps("red", "blue"); // $ExpectType Color[]
-// $ExpectType Color[]
+// Test mix on Color class
+Color.mix("red", "blue"); // $ExpectType Color
+Color.mix("red", "blue", 123); // $ExpectType Color
+Color.mix("red", "blue", { space: "srgb" }); // $ExpectType Color
+Color.mix("red", "blue", 123, { space: "srgb" }); // $ExpectType Color
+new Color("red").mix("blue"); // $ExpectType Color
+new Color("red").mix("blue", 123); // $ExpectType Color
+new Color("red").mix("blue", { space: "srgb" }); // $ExpectType Color
+new Color("red").mix("blue", 123, { space: "srgb" }); // $ExpectType Color
+
+steps("red", "blue"); // $ExpectType PlainColorObject[]
+// $ExpectType PlainColorObject[]
 steps("red", "blue", {
 	maxDeltaE: 1,
 	deltaEMethod: "2000",
 	steps: 10,
 	maxSteps: 100,
 });
-steps(r); // $ExpectType Color[]
-// $ExpectType Color[]
+steps(r); // $ExpectType PlainColorObject[]
+// $ExpectType PlainColorObject[]
 steps(r, {
 	maxDeltaE: 1,
 	deltaEMethod: "2000",
@@ -64,13 +74,13 @@ steps(r, {
 	maxSteps: 100,
 });
 
-// @ts-expect-error
-steps(r, "blue");
-
 // Test steps on Color class
 Color.steps(Color.range("red", "blue")); // $ExpectType Color[]
 Color.steps("red", "blue"); // $ExpectType Color[]
 new Color("red").steps("blue"); // $ExpectType Color[]
+
+// @ts-expect-error
+steps(r, "blue"); // $ExpectType PlainColorObject[]
 
 // @ts-expect-error
 register();
