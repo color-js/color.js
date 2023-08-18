@@ -43,6 +43,13 @@ export function toPrecision (n, precision) {
 	}
 }
 
+const angleFactor = {
+	deg: 1,
+	grad: 0.9,
+	rad: 180/Math.PI,
+	turn: 360,
+};
+
 /**
 * Parse a CSS function, regardless of its name and arguments
 * @param String str String to parse
@@ -57,23 +64,30 @@ export function parseFunction (str) {
 
 	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
 	const isNumberRegex = /^-?[\d.]+$/;
+	const unitValueRegex = /%|deg|g?rad|turn$/;
 	let parts = str.match(isFunctionRegex);
 
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg)?)/g, ($0, arg) => {
-			if (/%$/.test(arg)) {
-				// Convert percentages to 0-1 numbers
-				arg = new Number(arg.slice(0, -1) / 100);
-				arg.type = "<percentage>";
-			}
-			else if (/deg$/.test(arg)) {
-				// Drop deg from degrees and convert to number
-				// TODO handle other units too
-				arg = new Number(+arg.slice(0, -3));
-				arg.type = "<angle>";
-				arg.unit = "deg";
+		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg|g?rad|turn)?)/g, ($0, arg) => {
+			let match = arg.match(unitValueRegex);
+			if (match) {
+				let unit = match[0];
+				// Drop unit from value
+				let unitlessArg = arg.slice(0, -unit.length);
+
+				if (unit === "%") {
+					// Convert percentages to 0-1 numbers
+					arg = new Number(unitlessArg / 100);
+					arg.type = "<percentage>";
+				}
+				else {
+					// Multiply angle by appropriate factor for its unit
+					arg = new Number(unitlessArg * angleFactor[unit]);
+					arg.type = "<angle>";
+					arg.unit = unit;
+				}
 			}
 			else if (isNumberRegex.test(arg)) {
 				// Convert numerical args to numbers
