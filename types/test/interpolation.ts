@@ -1,4 +1,4 @@
-import Color from "colorjs.io/src/color";
+import Color from "colorjs.io/src";
 import { sRGB, sRGB_Linear } from "colorjs.io/src/index-fn";
 import {
 	isRange,
@@ -47,6 +47,16 @@ mix("red", "blue", {
 	premultiplied: true,
 });
 
+// Test mix on Color class
+Color.mix("red", "blue"); // $ExpectType Color
+Color.mix("red", "blue", 123); // $ExpectType Color
+Color.mix("red", "blue", { space: "srgb" }); // $ExpectType Color
+Color.mix("red", "blue", 123, { space: "srgb" }); // $ExpectType Color
+new Color("red").mix("blue"); // $ExpectType Color
+new Color("red").mix("blue", 123); // $ExpectType Color
+new Color("red").mix("blue", { space: "srgb" }); // $ExpectType Color
+new Color("red").mix("blue", 123, { space: "srgb" }); // $ExpectType Color
+
 steps("red", "blue"); // $ExpectType PlainColorObject[]
 // $ExpectType PlainColorObject[]
 steps("red", "blue", {
@@ -63,6 +73,11 @@ steps(r, {
 	steps: 10,
 	maxSteps: 100,
 });
+
+// Test steps on Color class
+Color.steps(Color.range("red", "blue")); // $ExpectType Color[]
+Color.steps("red", "blue"); // $ExpectType Color[]
+new Color("red").steps("blue"); // $ExpectType Color[]
 
 // @ts-expect-error
 steps(r, "blue"); // $ExpectType PlainColorObject[]

@@ -18,7 +18,7 @@ import deltaEMethods, {
 	deltaEITP,
 	deltaEOK,
 } from "./deltaE/index";
-import { mix, range, steps } from "./interpolation";
+import { range, Range, MixOptions, StepsOptions } from "./interpolation";
 import { getLuminance } from "./luminance";
 import { lighten, darken } from "./variations";
 
@@ -67,12 +67,31 @@ declare module "./color" {
 		static deltaEMethods: typeof deltaEMethods;
 
 		// interpolation
-		mix: ToColorPrototype<typeof mix>;
+		// These signatures should always match those in interpolation.d.ts,
+		// including the static versions
+		mix(color2: ColorTypes, options?: MixOptions): Color;
+		mix(color2: ColorTypes, p: number, options?: MixOptions): Color;
 		range: ToColorPrototype<typeof range>;
-		steps: ToColorPrototype<typeof steps>;
-		static mix: typeof mix;
+		steps(color2: ColorTypes, options?: StepsOptions): Color[];
+
+		static mix(
+			color1: ColorTypes,
+			color2: ColorTypes,
+			options?: MixOptions
+		): Color;
+		static mix(
+			color1: ColorTypes,
+			color2: ColorTypes,
+			p: number,
+			options?: MixOptions
+		): Color;
 		static range: typeof range;
-		static steps: typeof steps;
+		static steps(
+			color1: ColorTypes,
+			color2: ColorTypes,
+			options?: StepsOptions
+		): Color[];
+		static steps(range: Range, options?: StepsOptions): Color[];
 
 		// luminance
 		get luminance(): ReturnType<typeof getLuminance>;
