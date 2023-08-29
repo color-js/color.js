@@ -34,6 +34,12 @@ is the primary factor affecting reading speed,
 and that adding chromatic contrast does not further increase reading speed.
 This is true for both those with low vision and those with normal vision.
 
+Indeed, Zuffi _et. al._ (2009) 
+found that for more muted color combinations,
+the presence of chromatic contrast (measured as Δab)
+_impaired_ reading performance,
+compared to luminance contrast (measured as ΔL) alone.
+
 Color.js provides several methods to estimate luminance contrast.
 Most methods report a contrast of 0 for a color on itself
 (WCAG 2.1 gives 1),
@@ -103,7 +109,6 @@ and wrote:
 The formula for negative polarity is
 
 > WC<sub>np</sub> = (Y<sub>text</sub> - Y<sub>background</sub>) / Y<sub>text</sub>
-
 
 ## Michelson Contrast
 
@@ -185,6 +190,8 @@ let color1 = new Color("p3", [0.9, 0.8, 0.1]);
 let color2 = new Color("slategrey");
 let contrast = color1.contrast(color2, "Lstar");
 ```
+
+Zuffi _et. al._ found that a lightness difference of 30 units in CIE **L<sup>*</sup>** was sufficient for legible contrast.
 
 Google Material Design uses a color model called
 Hue, Chroma, Tone (HCT) (O'Leary)
@@ -285,3 +292,5 @@ let contrast = color1.contrast(color2, "WCAG21");
 
 -  Sam Waller (2022) _Does the contrast ratio actually predict the legibility of website text?_  [https://www.cedc.tools/article.html](https://www.cedc.tools/article.html)
 
+- Silvia Zuffi, Carla Brambilla, Giordano Beretta, and Paolo Scala (2009) _Understanding the readability of colored text by crowd-sourcing on the Web_
+ [full article](http://www.hpl.hp.com/techreports/2009/HPL-2009-182.pdf)
