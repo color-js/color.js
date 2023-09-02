@@ -2,7 +2,6 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import getColor from "./getColor.js";
-import to from "./to.js";
 import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
 import clone from "./clone.js";
@@ -77,7 +76,9 @@ export default function serialize (color, {
 			alpha = util.toPrecision(alpha, precision);
 		}
 
-		let strAlpha = color.alpha < 1 && !format.noAlpha? `${format.commas? "," : " /"} ${alpha}` : "";
+		let strAlpha = (format.withAlpha || (format.withAlpha === undefined && alpha < 1))
+			? `${format.commas? "," : " /"} ${alpha}`
+			: "";
 		ret = `${name}(${args.join(format.commas? ", " : " ")}${strAlpha})`;
 	}
 

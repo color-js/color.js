@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Color parse tests</title>
+
+<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+<script src="https://htest.dev/htest.js" crossorigin></script>
+<link rel="stylesheet" href="style.css" />
+
+<script src="../color.js" type="module"></script>
+<script>
+	function serializeTest(format) {
+		let td = document.currentScript.parentNode.previousElementSibling;
+
+		$out(() => {
+			let color = new Color(td.textContent);
+			return color.toString({format});
+		});
+	}
+</script>
+
+</head>
+<body>
+
+<h1>Color serialize Tests</h1>
+<p>These tests serialize different color formats and compare the result as strings.</p>
+
+<section>
+	<h1>sRGB colors</h1>
+	<table class="reftest" data-columns="3" data-colors="1">
+
+		<tr title="format sRGB:rgb">
+			<td>rgb(255 0 120 / 1)</td>
+			<td><script>serializeTest("rgb");</script></td>
+			<td>rgb(100% 0% 47.059%)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / .5)</td>
+			<td><script>serializeTest("rgb");</script></td>
+			<td>rgb(100% 0% 47.059% / 0.5)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / 0)</td>
+			<td><script>serializeTest("rgb");</script></td>
+			<td>rgb(100% 0% 47.059% / 0)</td>
+		</tr>
+
+		<tr title="format sRGB:rgb_number">
+			<td>rgb(255 0 120 / 1)</td>
+			<td><script>serializeTest("rgb_number");</script></td>
+			<td>rgb(255, 0, 120)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / .5)</td>
+			<td><script>serializeTest("rgb_number");</script></td>
+			<td>rgb(255, 0, 120)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / 0)</td>
+			<td><script>serializeTest("rgb_number");</script></td>
+			<td>rgb(255, 0, 120)</td>
+		</tr>
+
+		<tr title="format sRGB:rgba">
+			<td>rgb(255 0 120 / 1)</td>
+			<td><script>serializeTest("rgba");</script></td>
+			<td>rgba(100%, 0%, 47.059%, 1)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / .5)</td>
+			<td><script>serializeTest("rgba");</script></td>
+			<td>rgba(100%, 0%, 47.059%, 0.5)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / 0)</td>
+			<td><script>serializeTest("rgba");</script></td>
+			<td>rgba(100%, 0%, 47.059%, 0)</td>
+		</tr>
+
+		<tr title="format sRGB:rgba_number">
+			<td>rgb(255 0 120 / 1)</td>
+			<td><script>serializeTest("rgba_number");</script></td>
+			<td>rgba(255, 0, 120, 1)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / .5)</td>
+			<td><script>serializeTest("rgba_number");</script></td>
+			<td>rgba(255, 0, 120, 0.5)</td>
+		</tr>
+		<tr>
+			<td>rgb(255 0 120 / 0)</td>
+			<td><script>serializeTest("rgba_number");</script></td>
+			<td>rgba(255, 0, 120, 0)</td>
+		</tr>
+
+		<tr title="format HSL:hsl">
+			<td>hsl(180 50% 50% / 1)</td>
+			<td><script>serializeTest("hsl");</script></td>
+			<td>hsl(180 50% 50%)</td>
+		</tr>
+		<tr>
+			<td>hsl(180 50% 50% / .5)</td>
+			<td><script>serializeTest("hsl");</script></td>
+			<td>hsl(180 50% 50% / 0.5)</td>
+		</tr>
+		<tr>
+			<td>hsl(180 50% 50% / 0)</td>
+			<td><script>serializeTest("hsl");</script></td>
+			<td>hsl(180 50% 50% / 0)</td>
+		</tr>
+
+		<tr title="format HSL:hsla">
+			<td>hsl(180 50% 50% / 1)</td>
+			<td><script>serializeTest("hsla");</script></td>
+			<td>hsla(180, 50%, 50%, 1)</td>
+		</tr>
+		<tr>
+			<td>hsl(180 50% 50% / .5)</td>
+			<td><script>serializeTest("hsla");</script></td>
+			<td>hsla(180, 50%, 50%, 0.5)</td>
+		</tr>
+		<tr>
+			<td>hsl(180 50% 50% / 0)</td>
+			<td><script>serializeTest("hsla");</script></td>
+			<td>hsla(180, 50%, 50%, 0)</td>
+		</tr>
+
+	</table>
+</section>
+
+<script src="index.js" type="module"></script>
+</body>
+</html>
