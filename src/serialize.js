@@ -12,11 +12,13 @@ import clone from "./clone.js";
  * @param {Object} options
  * @param {number} options.precision - Significant digits
  * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
+ * @param {boolean} options.stripNone - Strip none values from output (converting them to 0)? [default: false]
  */
 export default function serialize (color, {
 	precision = defaults.precision,
 	format = "default",
 	inGamut = true,
+	stripNone = true,
 	...customOptions
 } = {}) {
 	let ret;
@@ -30,14 +32,15 @@ export default function serialize (color, {
 
 	inGamut ||= format.toGamut;
 
-	let coords = color.coords;
+	let coords = color.coords.slice(); // clone so we can manipulate it
 
-	// Convert NaN to zeros to have a chance at a valid CSS color
-	// Also convert -0 to 0
-	// This also clones it so we can manipulate it
-	coords = coords.map(c => c? c : 0);
+	if (stripNone) {
+		// Convert NaN to zeros
+		coords = coords.map(c => c? c : 0);
+	}
 
 	if (inGamut && !checkInGamut(color)) {
+		// FIXME what happens if the color contains NaNs?
 		coords = toGamut(clone(color), inGamut === true? undefined : inGamut).coords;
 	}
 
@@ -60,7 +63,9 @@ export default function serialize (color, {
 		}
 		else {
 			if (precision !== null) {
-				coords = coords.map(c => util.toPrecision(c, precision));
+				coords = coords.map(c => {
+					return util.serializeNumber(c, {precision});
+				});
 			}
 		}
 
@@ -74,10 +79,10 @@ export default function serialize (color, {
 
 		let alpha = color.alpha;
 		if (precision !== null) {
-			alpha = util.toPrecision(alpha, precision);
+			alpha = util.serializeNumber(alpha, {precision});
 		}
 
-		let strAlpha = color.alpha < 1 && !format.noAlpha? `${format.commas? "," : " /"} ${alpha}` : "";
+		let strAlpha = color.alpha >= 1 || format.noAlpha? "" : `${format.commas? "," : " /"} ${alpha}`;
 		ret = `${name}(${args.join(format.commas? ", " : " ")}${strAlpha})`;
 	}
 

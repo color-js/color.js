@@ -24,6 +24,14 @@ export function type (o) {
 	return (str.match(/^\[object\s+(.*?)\]$/)[1] || "").toLowerCase();
 }
 
+export function serializeNumber (n, {precision, unit }) {
+	if (Number.isNaN(n) || (n instanceof Number && n?.none)) {
+		return "none";
+	}
+
+	return toPrecision(n, precision) + (unit ??  "");
+}
+
 /**
  * Round a number to a certain number of significant digits
  * @param {number} n - The number to round

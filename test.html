@@ -5,25 +5,19 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Experiment</title>
-
-
 </head>
 <body>
 <script type="module">
-	// import Color from "./src/index.js";
+	import Color from "./src/index.js";
 	// import Color2 from "https://colorjs.io/src/index.js";
-	import ColorSpace from "./src/space.js";
-	import "./src/spaces/index.js";
-	import set from "./src/set.js";
-	// import * as util from "./src/util.js";
+	// import ColorSpace from "./src/space.js";
+	// import "./src/spaces/index.js";
 
 	// window.ColorSpace = ColorSpace;
-	// window.Color = Color;
+	window.Color = Color;
 	// window.util = util;
-	// new Color("hsl(0 80% 50%)").set("lch.l", 94).toString()
-	let color = {spaceId: "hsl", coords: [0, 80, 50]};
-	set(color, "lch.l", 94);
-	console.log(color.coords);
+	console.log(new Color("hsl(0 none 50% / none)") + "");
+
 </script>
 </body>
 </html>

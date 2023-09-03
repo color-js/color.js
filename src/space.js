@@ -1,4 +1,4 @@
-import {type, parseCoordGrammar, toPrecision, mapRange} from "./util.js";
+import {type, parseCoordGrammar, serializeNumber, mapRange} from "./util.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
 
@@ -396,11 +396,7 @@ function processFormat (format, {coords} = {}) {
 					c = mapRange(fromRange, toRange, c);
 				}
 
-				c = toPrecision(c, precision);
-
-				if (suffix) {
-					c += suffix;
-				}
+				c = serializeNumber(c, {precision, unit: suffix});
 
 				return c;
 			});
