@@ -61,8 +61,11 @@ export default class Color {
 			enumerable: true,
 			configurable: true, // see note in https://262.ecma-international.org/8.0/#sec-proxy-object-internal-methods-and-internal-slots-get-p-receiver
 		});
+
 		this.coords = coords? coords.slice() : [0, 0, 0];
-		this.alpha = alpha < 1? alpha : 1; // this also deals with NaN etc
+
+		// Clamp alpha to [0, 1]
+		this.alpha = alpha > 1? 1 : (alpha < 0? 0 : alpha);
 
 		// Convert "NaN" to NaN
 		for (let i = 0; i < this.coords.length; i++) {

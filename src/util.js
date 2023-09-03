@@ -65,7 +65,7 @@ export function parseFunction (str) {
 	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
 	const isNumberRegex = /^-?[\d.]+$/;
 	const unitValueRegex = /%|deg|g?rad|turn$/;
-	const singleArgument = /\/?\s*([-\w.]+(?:%|deg|g?rad|turn)?)/g;
+	const singleArgument = /\/?\s*(none|[-\w.]+(?:%|deg|g?rad|turn)?)/g;
 	let parts = str.match(isFunctionRegex);
 
 	if (parts) {
@@ -97,6 +97,10 @@ export function parseFunction (str) {
 				arg = new Number(arg);
 				arg.type = "<number>";
 			}
+			else if (arg === "none") {
+				arg = new Number(NaN);
+				arg.none = true;
+			}
 
 			if ($0.startsWith("/")) {
 				// It's alpha
@@ -104,7 +108,9 @@ export function parseFunction (str) {
 				arg.alpha = true;
 			}
 
-			arg.raw = rawArg;
+			if (typeof arg === "object" && arg instanceof Number) {
+				arg.raw = rawArg;
+			}
 
 			args.push(arg);
 		});

@@ -2,6 +2,8 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 
+const noneTypes = new Set(["<number>", "<percentage>", "<angle>"]);
+
 /**
  * Convert a CSS Color string to a color object
  * @param {string} str
@@ -78,11 +80,18 @@ export default function parse (str, {meta} = {}) {
 					if (format.coordGrammar) {
 						types = Object.entries(space.coords).map(([id, coordMeta], i) => {
 							let coordGrammar = format.coordGrammar[i];
-							let providedType = coords[i]?.type;
+							let arg = coords[i];
+							let providedType = arg?.type;
 
 							// Find grammar alternative that matches the provided type
 							// Non-strict equals is intentional because we are comparing w/ string objects
-							let type = coordGrammar.find(c => c == providedType);
+							let type;
+							if (arg.none) {
+								type = coordGrammar.find(c => noneTypes.has(c));
+							}
+							else {
+								type = coordGrammar.find(c => c == providedType);
+							}
 
 							// Check that each coord conforms to its grammar
 							if (!type) {
