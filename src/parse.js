@@ -88,7 +88,7 @@ export default function parse (str, {meta} = {}) {
 							if (!type) {
 								// Type does not exist in the grammar, throw
 								let coordName = coordMeta.name || id;
-								throw new TypeError(`${providedType} not allowed for ${coordName} in ${name}()`);
+								throw new TypeError(`${providedType ?? arg.raw} not allowed for ${coordName} in ${name}()`);
 							}
 
 							let fromRange = type.range;
