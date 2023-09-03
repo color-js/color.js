@@ -77,6 +77,10 @@
 			<td>Lab(100% 0 0)</td>
 			<td>{"spaceId":"lab","coords":[100,0,0],"alpha":1}</td>
 		</tr>
+		<tr title="no percent">
+			<td>lab(80 0 0)</td>
+			<td>{"spaceId":"lab","coords":[80,0,0],"alpha":1}</td>
+		</tr>
 		<tr>
 			<td>lab(100 -50 50)</td>
 			<td>{"spaceId":"lab","coords":[100,-50,50],"alpha":1}</td>
@@ -93,7 +97,7 @@
 			<td>lch(100% 0 0)</td>
 			<td>{"spaceId":"lch","coords":[100,0,0],"alpha":1}</td>
 		</tr>
-		<tr>
+		<tr title="no percentage">
 			<td>lch(100 50 50)</td>
 			<td>{"spaceId":"lch","coords":[100,50,50],"alpha":1}</td>
 		</tr>
@@ -104,6 +108,10 @@
 		<tr title="Hue over 360">
 			<td>lch(100 50 450)</td>
 			<td>{"spaceId":"lch","coords":[100,50,450],"alpha":1}</td>
+		</tr>
+		<tr title="none hue">
+			<td>lch(100 0 none)</td>
+			<td>{"spaceId":"lch","coords":[100,00,NaN],"alpha":1}</td>
 		</tr>
 	</table>
 </section>
@@ -171,6 +179,14 @@
 		<tr title="H as degrees">
 			<td>oklch(100% 0 30deg)</td>
 			<td>{"spaceId":"oklch","coords":[1,0,30],"alpha":1}</td>
+		</tr>
+		<tr title="none hue">
+			<td>oklch(1 0 none)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,NaN],"alpha":1}</td>
+		</tr>
+		<tr title="none alpha">
+			<td>oklch(1 0  120 / none)</td>
+			<td>{"spaceId":"oklch","coords":[1,0,120],"alpha":NaN}</td>
 		</tr>
 	</table>
 </section>
@@ -290,6 +306,10 @@
 			<td>color(display-p3 1 / .5)</td>
 			<td>{"spaceId":"p3","coords":[1,0,0],"alpha":0.5}</td>
 		</tr>
+		<tr title="none red">
+			<td>color(display-p3 none 1 .5)</td>
+			<td>{"spaceId":"p3","coords":[NaN,1,0.5],"alpha":1}</td>
+		</tr>
 
 	</table>
 </section>
@@ -326,6 +346,18 @@
 			<td>hsl(0.25turn 0% 0% / .5)</td>
 			<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
 		</tr>
+		<tr title="hsla(), none hue, spaces and slash">
+			<td>hsl(none 0% 0% / .5)</td>
+			<td>{"spaceId":"hsl","coords":[NaN,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="hsla(), oog color(rec2020 0 0 1)">
+			<td>hsl(90deg 0% 0% / .5)</td>
+			<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
+		</tr>
+		<tr title="hsl(), none hue ">
+			<td>hsl(none, 50%, 50%)</td>
+			<td>{"spaceId":"hsl","coords":[NaN,50,50],"alpha":1}</td>
+		</tr>
 	</table>
 </section>
 
@@ -336,6 +368,10 @@
 		<tr>
 			<td>hwb(180 20% 30%)</td>
 			<td>{"spaceId":"hwb","coords":[180,20,30],"alpha":1}</td>
+		</tr>
+		<tr  title="none hue">
+			<td>hwb(none 20% 30%)</td>
+			<td>{"spaceId":"hwb","coords":[NaN,20,30],"alpha":1}</td>
 		</tr>
 	</table>
 </section>
