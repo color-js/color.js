@@ -65,12 +65,13 @@ export function parseFunction (str) {
 	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
 	const isNumberRegex = /^-?[\d.]+$/;
 	const unitValueRegex = /%|deg|g?rad|turn$/;
+	const singleArgument = /\/?\s*([-\w.]+(?:%|deg|g?rad|turn)?)/g;
 	let parts = str.match(isFunctionRegex);
 
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg|g?rad|turn)?)/g, ($0, rawArg) => {
+		parts[2].replace(singleArgument, ($0, rawArg) => {
 			let match = rawArg.match(unitValueRegex);
 			let arg = rawArg;
 
