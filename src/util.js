@@ -70,8 +70,10 @@ export function parseFunction (str) {
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg|g?rad|turn)?)/g, ($0, arg) => {
-			let match = arg.match(unitValueRegex);
+		parts[2].replace(/\/?\s*([-\w.]+(?:%|deg|g?rad|turn)?)/g, ($0, rawArg) => {
+			let match = rawArg.match(unitValueRegex);
+			let arg = rawArg;
+
 			if (match) {
 				let unit = match[0];
 				// Drop unit from value
@@ -100,6 +102,8 @@ export function parseFunction (str) {
 				arg = arg instanceof Number? arg : new Number(arg);
 				arg.alpha = true;
 			}
+
+			arg.raw = rawArg;
 
 			args.push(arg);
 		});
