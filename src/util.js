@@ -25,11 +25,27 @@ export function type (o) {
 }
 
 export function serializeNumber (n, {precision, unit }) {
-	if (Number.isNaN(n) || (n instanceof Number && n?.none)) {
+	if (isNone(n)) {
 		return "none";
 	}
 
 	return toPrecision(n, precision) + (unit ??  "");
+}
+
+/**
+ * Check if a value corresponds to a none argument
+ * @param {*} n - Value to check
+ * @returns {boolean}
+ */
+export function isNone (n) {
+	return Number.isNaN(n) || (n instanceof Number && n?.none);
+}
+
+/**
+ * Replace none values with 0
+ */
+export function skipNone (n) {
+	return isNone(n)? 0 : n;
 }
 
 /**

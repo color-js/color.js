@@ -1,12 +1,9 @@
-import * as util from "./util.js";
+import { isNone, skipNone } from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
-import getColor from "./getColor.js";
 import to from "./to.js";
-import checkInGamut from "./inGamut.js";
-import toGamut from "./toGamut.js";
-import clone from "./clone.js";
 import serialize from "./serialize.js";
+import clone from "./clone.js";
 import REC2020 from "./spaces/rec2020.js";
 import P3 from "./spaces/p3.js";
 import Lab from "./spaces/lab.js";
@@ -14,6 +11,8 @@ import sRGB from "./spaces/srgb.js";
 
 // Default space for CSS output. Code in Color.js makes this wider if there's a DOM available
 defaults.display_space = sRGB;
+
+let supportsNone;
 
 if (typeof CSS !== "undefined" && CSS.supports) {
 	// Find widest supported color space for CSS
@@ -50,8 +49,33 @@ export default function display (color, {space = defaults.display_space, ...opti
 	}
 	else {
 		// If we're here, what we were about to output is not supported
+		let fallbackColor = color;
+
+		// First, check if the culprit is none values
+		let hasNone = color.coords.some(isNone) || isNone(color.alpha);
+
+		if (hasNone) {
+			// Does the browser support none values?
+			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
+				// Nope, try again without none
+				fallbackColor = clone(color);
+				fallbackColor.coords = fallbackColor.coords.map(skipNone);
+				fallbackColor.alpha = skipNone(fallbackColor.alpha);
+
+				ret = serialize(fallbackColor, options);
+
+				if (CSS.supports("color", ret)) {
+					// We're done, now it's supported
+					ret = new String(ret);
+					ret.color = fallbackColor;
+					return ret;
+				}
+			}
+		}
+
+		// If we're here, the color function is not supported
 		// Fall back to fallback space
-		let fallbackColor = to(color, space);
+		fallbackColor = to(fallbackColor, space);
 		ret = new String(serialize(fallbackColor, options));
 		ret.color = fallbackColor;
 	}
