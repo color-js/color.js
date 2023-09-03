@@ -12,13 +12,11 @@ import clone from "./clone.js";
  * @param {Object} options
  * @param {number} options.precision - Significant digits
  * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
- * @param {boolean} options.stripNone - Strip none values from output (converting them to 0)? [default: false]
  */
 export default function serialize (color, {
 	precision = defaults.precision,
 	format = "default",
 	inGamut = true,
-	stripNone = true,
 	...customOptions
 } = {}) {
 	let ret;
@@ -33,11 +31,6 @@ export default function serialize (color, {
 	inGamut ||= format.toGamut;
 
 	let coords = color.coords.slice(); // clone so we can manipulate it
-
-	if (stripNone) {
-		// Convert NaN to zeros
-		coords = coords.map(c => c? c : 0);
-	}
 
 	if (inGamut && !checkInGamut(color)) {
 		// FIXME what happens if the color contains NaNs?
