@@ -19,6 +19,15 @@ export default class ColorSpace {
 			this.toBase = options.toBase;
 		}
 
+		if (options.gamutCheck)	{
+			if (options.gamutCheck === "self") {
+				this.gamutCheck = this;
+			}
+			else {
+				this.gamutCheck = ColorSpace.get(options.gamutCheck);
+			}
+		}
+
 		// Coordinate metadata
 
 		let coords = options.coords ?? this.base.coords;
@@ -68,8 +77,17 @@ export default class ColorSpace {
 	}
 
 	inGamut (coords, {epsilon = ε} = {}) {
-		if (this.isPolar) {
+		// If the gamutCheck space is specified and not ourself then
+		// use the gamutCheck space to check if the coords are in gamut
+		if (this.gamutCheck && !this.equals(this.gamutCheck)) {
+			coords = this.to(this.gamutCheck, coords);
+			return this.gamutCheck.inGamut(coords, {epsilon});
+		}
+
+		if (this.isPolar && !this.equals(this.gamutCheck)) {
 			// Do not check gamut through polar coordinates
+			// unless this space is the gamutCheck space
+
 			coords = this.toBase(coords);
 
 			return this.base.inGamut(coords, {epsilon});

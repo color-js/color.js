@@ -37,6 +37,7 @@ export interface Options {
 	cssId?: string | undefined;
 	referred?: string | undefined;
 	formats?: Record<string, Format> | undefined;
+	gamutCheck?: string | ColorSpace | null | undefined;
 }
 
 export type Ref =

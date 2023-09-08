@@ -37,6 +37,9 @@ let convertToOK = convertTo("oklab");
 let convertToOKLCh = convertTo("oklch");
 let convertTosrgbLin = convertTo("srgb-linear");
 let convertToHSV = convertTo("hsv");
+let convertToLuv = convertTo("luv");
+let convertToHSLuv = convertTo("hsluv");
+let convertToHPLuv = convertTo("hpluv");
 
 </script>
 
@@ -1019,6 +1022,245 @@ let convertToHSV = convertTo("hsv");
 		</tr>
 	</table>
 </section>
+
+<section>
+	<h1>Luv to (D65) XYZ and Back</h1>
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
+		<tr title="XYZ-D65 to Luv">
+			<td>color(xyz-d65 0.41239 0.21264 0.01933)</td>
+			<td>
+				<script>
+					convertToLuv();
+				</script>
+			</td>
+			<td>53.23722349423123, 175.00857887972651, 37.765709486538924</td>
+		</tr>
+		<tr title="XYZ-D65 (black) to Luv">
+			<td>color(xyz-d65 0 0 0)</td>
+			<td>
+				<script>
+					convertToLuv();
+				</script>
+			</td>
+			<td>0, 0, 0</td>
+		</tr>
+		<tr title="XYZ-D65 (D65 white) to Luv">
+			<td>color(xyz-d65 0.95045592705 1 1.08905775076)</td>
+			<td>
+				<script>
+					convertToLuv();
+				</script>
+			</td>
+			<td>100, 0, 0</td>
+		</tr>
+		<tr title="XYZ-D65 (slategray) to Luv">
+			<td>color(xyz-d65 0.186455 0.19935 0.284575)</td>
+			<td>
+				<script>
+					convertToLuv();
+				</script>
+			</td>
+			<td>51.763618682080377, -8.6016481223411709, -15.591207397376769</td>
+		</tr>
+		<tr title="Luv to XYZ-D65">
+			<td>color(--luv 53.23722349423123 175.00857887972651 37.765709486538924)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0.41239, 0.21264, 0.01933</td>
+		</tr>
+		<tr title="Luv (black) to XYZ-D65">
+			<td>color(--luv 0 0 0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0, 0, 0</td>
+		</tr>
+		<tr title="Luv (white) to XYZ-D65">
+			<td>color(--luv 100 0 0)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0.95045592705, 1, 1.08905775076</td>
+		</tr>
+		<tr title="Luv (slategray) to XYZ-D65">
+			<td>color(--luv 51.763618682080377 -8.6016481223411709 -15.591207397376769)</td>
+			<td>
+				<script>
+					convertToXYZ();
+				</script>
+			</td>
+			<td>0.186455, 0.19935, 0.284575</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>HSLuv to RGB and back</h1>
+	<p>Conversions tested against results from <a href="https://github.com/hsluv/hsluv/blob/c6227fb52a095cd0f93ab5e985600bc1ceed4f1c/snapshots/snapshot-rev4.json">published test data</a></p>
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
+		<tr>
+			<td>color(--hsluv 127.478988192005161, 100, 82.5213119008325577)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.0666666666666666657, 0.933333333333333348, 0</td>
+		</tr>
+		<tr>
+			<td>color(--hsluv 206.653495587531239, 100, 69.3970058395379397)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0, 0.733333333333333282, 0.8</td>
+		</tr>
+		<tr>
+			<td>color(--hsluv 265.874320218178866 221.531011478982748 47.8629477245616854)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.4,0.4,0.8</td>
+		</tr>
+		<tr>
+			<td>color(--hsluv 215.786316478612605 162.428807277722512 81.3185562290371848)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.0666666666666666657, 0.866666666666666696, 1</td>
+		</tr>
+		<tr>
+			<td>#11ee00</td>
+			<td>
+				<script>
+					convertToHSLuv();
+				</script>
+			</td>
+			<td>127.478988192005161, 100.000000000002416, 82.5213119008325577</td>
+		</tr>
+		<tr>
+			<td>#00bbcc</td>
+			<td>
+				<script>
+					convertToHSLuv();
+				</script>
+			</td>
+			<td>206.653495587531239, 99.9999999999915161, 69.3970058395379397</td>
+		</tr>
+		<tr>
+			<td>#6666cc</td>
+			<td>
+				<script>
+					convertToHSLuv();
+				</script>
+			</td>
+			<td>265.874320218178866, 66.0482344892977693, 47.8629477245616854</td>
+		</tr>
+		<tr>
+			<td>#11ddff</td>
+			<td>
+				<script>
+					convertToHSLuv();
+				</script>
+			</td>
+			<td>215.786316478612605, 99.9999999999959925, 81.3185562290371848</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>HPLuv to RGB and back</h1>
+	<p>Conversions tested against results from <a href="https://github.com/hsluv/hsluv/blob/c6227fb52a095cd0f93ab5e985600bc1ceed4f1c/snapshots/snapshot-rev4.json">published test data</a></p>
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
+		<tr>
+			<td>color(--hpluv 127.478988192005161 308.195222762673438 82.5213119008325577)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.0666666666666666657, 0.933333333333333348, 0</td>
+		</tr>
+		<tr>
+			<td>color(--hpluv 206.653495587531239 106.116119046155191 69.3970058395379397)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0, 0.733333333333333282, 0.8</td>
+		</tr>
+		<tr>
+			<td>color(--hpluv 265.874320218178866 221.531011478982748 47.8629477245616854)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.4,0.4,0.8</td>
+		</tr>
+		<tr>
+			<td>color(--hpluv 215.786316478612605 162.428807277722512 81.3185562290371848)</td>
+			<td>
+				<script>
+					convertToSRGB();
+				</script>
+			</td>
+			<td>0.0666666666666666657, 0.866666666666666696, 1</td>
+		</tr>
+		<tr>
+			<td>#11ee00</td>
+			<td>
+				<script>
+					convertToHPLuv();
+				</script>
+			</td>
+			<td>127.478988192005161, 308.195222762673438, 82.5213119008325577</td>
+		</tr>
+		<tr>
+			<td>#00bbcc</td>
+			<td>
+				<script>
+					convertToHPLuv();
+				</script>
+			</td>
+			<td>206.653495587531239, 106.116119046155191, 69.3970058395379397</td>
+		</tr>
+		<tr>
+			<td>#6666cc</td>
+			<td>
+				<script>
+					convertToHPLuv();
+				</script>
+			</td>
+			<td>265.874320218178866, 221.531011478982748, 47.8629477245616854</td>
+		</tr>
+		<tr>
+			<td>#11ddff</td>
+			<td>
+				<script>
+					convertToHPLuv();
+				</script>
+			</td>
+			<td>215.786316478612605, 162.428807277722512, 81.3185562290371848</td>
+		</tr>
+	</table>
+</section>
+
+
+
 
 <script src="index.js" type="module"></script>
 </body>

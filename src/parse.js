@@ -5,6 +5,56 @@ import ColorSpace from "./space.js";
 const noneTypes = new Set(["<number>", "<percentage>", "<angle>"]);
 
 /**
+ * Validates the coordinates of a color against a format's coord grammar and
+ * maps the coordinates to the range or refRange of the coordinates.
+ * @param {ColorSpace} space - Colorspace the coords are in
+ * @param {object} format - the format object to validate against
+ * @param {string} name - the name of the color function. e.g. "oklab" or "color"
+ * @returns {object[]} - an array of type metadata for each coordinate
+ */
+function coerceCoords (space, format, name, coords) {
+	let types = Object.entries(space.coords).map(([id, coordMeta], i) => {
+		let coordGrammar = format.coordGrammar[i];
+		let arg = coords[i];
+		let providedType = arg?.type;
+
+		// Find grammar alternative that matches the provided type
+		// Non-strict equals is intentional because we are comparing w/ string objects
+		let type;
+		if (arg.none) {
+			type = coordGrammar.find(c => noneTypes.has(c));
+		}
+		else {
+			type = coordGrammar.find(c => c == providedType);
+		}
+
+		// Check that each coord conforms to its grammar
+		if (!type) {
+			// Type does not exist in the grammar, throw
+			let coordName = coordMeta.name || id;
+			throw new TypeError(`${providedType ?? arg.raw} not allowed for ${coordName} in ${name}()`);
+		}
+
+		let fromRange = type.range;
+
+		if (providedType === "<percentage>") {
+			fromRange ||= [0, 1];
+		}
+
+		let toRange = coordMeta.range || coordMeta.refRange;
+
+		if (fromRange && toRange) {
+			coords[i] = util.mapRange(fromRange, toRange, coords[i]);
+		}
+
+		return type;
+	});
+
+	return types;
+}
+
+
+/**
  * Convert a CSS Color string to a color object
  * @param {string} str
  * @param {object} [options]
@@ -24,7 +74,6 @@ export default function parse (str, {meta} = {}) {
 	if (env.parsed) {
 		// Is a functional syntax
 		let name = env.parsed.name;
-
 		if (name === "color") {
 			// color() function
 			let id = env.parsed.args.shift();
@@ -40,8 +89,14 @@ export default function parse (str, {meta} = {}) {
 						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
 						const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
 
+						let types;
+
+						if (colorSpec.coordGrammar) {
+							types = coerceCoords(space, colorSpec, "color", coords);
+						}
+
 						if (meta) {
-							meta.formatId = "color";
+							Object.assign(meta, {formatId: "color", types});
 						}
 
 						return {spaceId: space.id, coords, alpha};
@@ -74,46 +129,10 @@ export default function parse (str, {meta} = {}) {
 					}
 
 					let coords = env.parsed.args;
-
 					let types;
 
 					if (format.coordGrammar) {
-						types = Object.entries(space.coords).map(([id, coordMeta], i) => {
-							let coordGrammar = format.coordGrammar[i];
-							let arg = coords[i];
-							let providedType = arg?.type;
-
-							// Find grammar alternative that matches the provided type
-							// Non-strict equals is intentional because we are comparing w/ string objects
-							let type;
-							if (arg.none) {
-								type = coordGrammar.find(c => noneTypes.has(c));
-							}
-							else {
-								type = coordGrammar.find(c => c == providedType);
-							}
-
-							// Check that each coord conforms to its grammar
-							if (!type) {
-								// Type does not exist in the grammar, throw
-								let coordName = coordMeta.name || id;
-								throw new TypeError(`${providedType ?? arg.raw} not allowed for ${coordName} in ${name}()`);
-							}
-
-							let fromRange = type.range;
-
-							if (providedType === "<percentage>") {
-								fromRange ||= [0, 1];
-							}
-
-							let toRange = coordMeta.range || coordMeta.refRange;
-
-							if (fromRange && toRange) {
-								coords[i] = util.mapRange(fromRange, toRange, coords[i]);
-							}
-
-							return type;
-						});
+						types = coerceCoords(space, format, name, coords);
 					}
 
 					if (meta) {

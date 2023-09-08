@@ -146,7 +146,9 @@ declare class Color implements PlainColorObject {
 	a98rgb_linear: SpaceAccessor;
 	acescc: SpaceAccessor;
 	acescg: SpaceAccessor;
+	hpluv: SpaceAccessor;
 	hsl: SpaceAccessor;
+	hsluv: SpaceAccessor;
 	hsv: SpaceAccessor;
 	hwb: SpaceAccessor;
 	ictcp: SpaceAccessor;
@@ -155,6 +157,8 @@ declare class Color implements PlainColorObject {
 	lab: SpaceAccessor;
 	lab_d65: SpaceAccessor;
 	lch: SpaceAccessor;
+	lchuv: SpaceAccessor;
+	luv: SpaceAccessor;
 	oklab: SpaceAccessor;
 	oklch: SpaceAccessor;
 	p3: SpaceAccessor;

@@ -153,6 +153,33 @@
 			"id": "acescg",
 			"url": "https://en.wikipedia.org/wiki/Academy_Color_Encoding_System",
 			"description": "Scene-referred Academy Color Encoding System, using the wide gamut but physically realizable AP1 primaries and linear-light encoding. Used for physical rendering."
+		},
+		{
+			"name": "Luv",
+			"id": "luv",
+			"url": "https://en.wikipedia.org/wiki/CIELUV",
+			"description": ""
+		},
+		{
+			"name": "LCHuv",
+			"id": "lchuv",
+			"dependencies": ["luv"],
+			"url": "https://en.wikipedia.org/wiki/CIELUV",
+			"description": "The polar (Hue, Chroma) form of CIE Luv."
+		},
+		{
+			"name": "HSLuv",
+			"id": "hsluv",
+			"dependencies": ["lchuv"],
+			"url": "https://www.hsluv.org/comparison/",
+			"description": "The HSLuv color space is a perceptually uniform adaptation of the traditional HSL (Hue, Saturation, Lightness) color model. Engineered upon the foundations of the CIELUV color space, HSLuv ensures that colors that appear equally spaced in its representation also present consistent perceptual differences to the human observer. This results in a color space where changes in hue, saturation, or lightness produce predictable and coherent visual outcomes, addressing inconsistencies and unpredictable color shifts often found in standard HSL."
+		},
+		{
+			"name": "HPLuv",
+			"id": "hpluv",
+			"dependencies": ["lchuv"],
+			"url": "https://www.hsluv.org/comparison/",
+			"description": "The HPLuv color space emphasizes perceptual uniformity specifically in its lightness component. HPLuv ensures that changes in lightness are consistently perceived by the human eye, regardless of the hue or saturation of the color. The resulting palette is a subset of sRGB and the colors are mainly pastel."
 		}
 	],
 	"optional": [
