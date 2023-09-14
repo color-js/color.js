@@ -12,6 +12,8 @@ import {
 	PlainColorObject,
 	SpaceAccessor,
 	ToColorPrototype,
+	// Re-exported from src/adapt.d.ts
+	White,
 	// Re-exported from src/CATs.d.ts
 	CAT,
 	// Re-exported from src/display.d.ts
