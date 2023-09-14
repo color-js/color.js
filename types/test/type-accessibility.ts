@@ -23,6 +23,8 @@ import {
 	RangeOptions,
 	MixOptions,
 	StepsOptions,
+	// Re-exported from src/parse.d.ts
+	ParseOptions,
 	// Re-exported from src/rgbspace.d.ts
 	RGBOptions,
 	// Re-exported from src/serialize.d.ts
