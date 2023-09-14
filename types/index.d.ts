@@ -37,5 +37,5 @@ export type {
 	Format as SpaceFormat,
 	CoordMeta,
 	Ref,
-	Options as SpacecOptions,
+	Options as SpaceOptions,
 } from "./src/space";
