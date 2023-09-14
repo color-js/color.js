@@ -13,6 +13,8 @@ export type {
 	ToColorPrototype,
 } from "./src/color";
 
+export type { White } from "./src/adapt";
+
 export type { CAT } from "./src/CATs";
 
 export type { Display } from "./src/display";
