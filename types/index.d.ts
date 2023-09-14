@@ -1,7 +1,17 @@
 // Definitions by: Adam Thompson-Sharpe <https://github.com/MysteryBlokHed>
 // Minimum TypeScript Version: 4.1
 export { default } from "./dist/color";
-export type * from "./src/color";
+export type {
+	ColorConstructor,
+	ColorObject,
+	ColorTypes,
+	Coords,
+	DefineFunctionCode,
+	DefineFunctionOptions,
+	DefineFunctionHybrid,
+	SpaceAccessor,
+	ToColorPrototype,
+} from "./src/color";
 
 export type { CAT } from "./src/CATs";
 
