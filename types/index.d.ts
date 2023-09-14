@@ -24,6 +24,8 @@ export type {
 	StepsOptions,
 } from "./src/interpolation";
 
+export type { Options as ParseOptions } from "./src/parse";
+
 export type { RGBOptions } from "./src/rgbspace";
 
 export type { Options as SerializeOptions } from "./src/serialize";
