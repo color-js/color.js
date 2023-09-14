@@ -33,5 +33,5 @@ import {
 	SpaceFormat,
 	CoordMeta,
 	Ref,
-	SpacecOptions,
+	SpaceOptions,
 } from "colorjs.io";
