@@ -9,6 +9,7 @@ import {
 	DefineFunctionCode,
 	DefineFunctionOptions,
 	DefineFunctionHybrid,
+	PlainColorObject,
 	SpaceAccessor,
 	ToColorPrototype,
 	// Re-exported from src/CATs.d.ts
