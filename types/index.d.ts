@@ -9,6 +9,7 @@ export type {
 	DefineFunctionCode,
 	DefineFunctionOptions,
 	DefineFunctionHybrid,
+	PlainColorObject,
 	SpaceAccessor,
 	ToColorPrototype,
 } from "./src/color";
