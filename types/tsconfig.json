@@ -10,6 +10,6 @@
 		"noEmit": true,
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
-		"paths": { "colorjs.io/*": ["./*"] }
+		"paths": { "colorjs.io": ["."], "colorjs.io/*": ["./*"] }
 	}
 }
