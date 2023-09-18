@@ -12,7 +12,7 @@ import getColor from "./getColor.js";
 /**
  * Force coordinates to be in gamut of a certain color space.
  * Mutates the color it is passed.
- * @param {Object} options
+ * @param {Object|string} options object or spaceId string
  * @param {string} options.method - How to force into gamut.
  *        If "clip", coordinates are just clipped to their reference range.
  *        If in the form [colorSpaceId].[coordName], that coordinate is reduced

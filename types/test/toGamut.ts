@@ -10,3 +10,4 @@ toGamut("red"); // $ExpectType PlainColorObject
 toGamut(new Color("red")); // $ExpectType PlainColorObject
 toGamut(new Color("red"), { method: "clip", space: "srgb" }); // $ExpectType PlainColorObject
 toGamut(new Color("red"), { method: "clip", space: sRGB }); // $ExpectType PlainColorObject
+toGamut(new Color("red"), "srgb"); // $ExpectType PlainColorObject

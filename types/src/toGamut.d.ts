@@ -10,7 +10,7 @@ declare function toGamut(
 	options?: {
 		method?: string | undefined;
 		space?: string | ColorSpace | undefined;
-	}
+	} | string
 ): PlainColorObject;
 
 export default toGamut;
