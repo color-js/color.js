@@ -68,7 +68,6 @@ export default new ColorSpace({
 
 	formats: {
 		"hsl": {
-			toGamut: true,
 			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 		},
 		"hsla": {

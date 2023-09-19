@@ -36,6 +36,7 @@ let convertToRec2020 = convertTo("rec2020");
 let convertToOK = convertTo("oklab");
 let convertToOKLCh = convertTo("oklch");
 let convertTosrgbLin = convertTo("srgb-linear");
+let convertToHSV = convertTo("hsv");
 
 </script>
 
@@ -172,6 +173,39 @@ let convertTosrgbLin = convertTo("srgb-linear");
 				</script>
 			</td>
 			<td>NaN, 100, 0</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h1>Out of RGB gamut conversions</h1>
+	<table class="reftest" data-test="numbers" data-columns="3" data-colors="1">
+		<tr title="HWB">
+			<td>color(rec2020 0 0 1)</td>
+			<td>
+				<script>
+					convertToHWB();
+				</script>
+			</td>
+			<td>230.639, -29.921, -5.0489</td>
+		</tr>
+		<tr title="HSL">
+			<td>color(rec2020 0 0 1)</td>
+			<td>
+				<script>
+					convertToHSL();
+				</script>
+			</td>
+			<td>230.639, 179.655, 37.564</td>
+		</tr>
+		<tr title="HSV">
+			<td>color(rec2020 0 0 1)</td>
+			<td>
+				<script>
+					convertToHSV();
+				</script>
+			</td>
+			<td>230.639, 128.483, 105.0489</td>
 		</tr>
 	</table>
 </section>
