@@ -1,6 +1,7 @@
-export type Algorithms = keyof typeof import(".") extends `contrast${infer Alg}`
-	? Alg
-	: string;
+export type Algorithms =
+	keyof typeof import("./index.js") extends `contrast${infer Alg}`
+		? Alg
+		: string;
 
 export { default as contrastWCAG21 } from "./WCAG21.js";
 export { default as contrastAPCA } from "./APCA.js";

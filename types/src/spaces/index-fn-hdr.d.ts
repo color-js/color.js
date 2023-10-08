@@ -1,4 +1,4 @@
-export type HDRSpaces = keyof typeof import("./index-fn-hdr");
+export type HDRSpaces = keyof typeof import("./index-fn-hdr.js");
 
 export { default as Jzazbz } from "./jzazbz.js";
 export { default as JzCzHz } from "./jzczhz.js";

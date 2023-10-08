@@ -5,7 +5,7 @@ export { default as deltaEJz } from "./deltaEJz.js";
 export { default as deltaEITP } from "./deltaEITP.js";
 export { default as deltaEOK } from "./deltaEOK.js";
 
-declare const deltaEMethods: Omit<typeof import("./index"), "default">;
+declare const deltaEMethods: Omit<typeof import("./index.js"), "default">;
 export default deltaEMethods;
 
 export type Methods = keyof typeof deltaEMethods extends `deltaE${infer Method}`

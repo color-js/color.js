@@ -1,4 +1,4 @@
-export type Spaces = keyof typeof import("./index-fn");
+export type Spaces = keyof typeof import("./index-fn.js");
 
 export { default as XYZ_D65 } from "./xyz-d65.js";
 export { default as XYZ_D50 } from "./xyz-d50.js";
