@@ -1,5 +1,5 @@
 import { uv, xy } from "./chromaticity.js";
-import Color from "./color.js";
+import Color, { ColorTypes, ToColorPrototype } from "./color.js";
 import contrast from "./contrast.js";
 import {
 	contrastWCAG21,
