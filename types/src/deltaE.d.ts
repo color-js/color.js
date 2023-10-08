@@ -1,5 +1,5 @@
-import { ColorTypes } from "./color";
-import { Methods } from "./deltaE/index";
+import { ColorTypes } from "./color.js";
+import { Methods } from "./deltaE/index.js";
 
 /**
  * @param options deltaE method to use as well as any other options to pass to the deltaE function

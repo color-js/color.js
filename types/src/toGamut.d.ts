@@ -1,5 +1,5 @@
-import { ColorTypes, PlainColorObject } from "./color";
-import ColorSpace from "./space";
+import { ColorTypes, PlainColorObject } from "./color.js";
+import ColorSpace from "./space.js";
 
 declare namespace toGamut {
 	let returns: "color";

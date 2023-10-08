@@ -1,5 +1,5 @@
-import { PlainColorObject, ColorTypes } from "./color";
-import ColorSpace from "./space";
+import { PlainColorObject, ColorTypes } from "./color.js";
+import ColorSpace from "./space.js";
 
 export type Display = string & { color: PlainColorObject };
 

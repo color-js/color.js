@@ -1,8 +1,8 @@
-import { WHITES } from "./adapt";
-import defaults from "./defaults";
-import hooks from "./hooks";
-import * as util from "./util";
-import ColorSpace from "./space";
+import { WHITES } from "./adapt.js";
+import defaults from "./defaults.js";
+import hooks from "./hooks.js";
+import * as util from "./util.js";
+import ColorSpace from "./space.js";
 
 import {
 	to,
@@ -17,7 +17,7 @@ import {
 	set,
 	setAll,
 	display,
-} from "./index-fn";
+} from "./index-fn.js";
 
 export type Coords = [number, number, number];
 

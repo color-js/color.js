@@ -1,4 +1,4 @@
-import { White } from "./adapt";
+import { White } from "./adapt.js";
 
 export interface CAT {
 	id: string;

@@ -1,4 +1,4 @@
-import { ColorConstructor } from "./color";
+import { ColorConstructor } from "./color.js";
 
 export interface Options {
 	meta?: object | undefined;

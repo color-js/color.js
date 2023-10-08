@@ -1,4 +1,4 @@
-import * as spaces from "./index-fn";
+import * as spaces from "./index-fn.js";
 
-export { Spaces } from "./index-fn";
+export { Spaces } from "./index-fn.js";
 export { spaces };

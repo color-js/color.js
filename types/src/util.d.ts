@@ -1,4 +1,4 @@
-export { default as multiplyMatrices } from "./multiply-matrices";
+export { default as multiplyMatrices } from "./multiply-matrices.js";
 
 /**
  * Check if a value is a string
