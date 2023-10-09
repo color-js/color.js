@@ -1,6 +1,6 @@
-import Color, { ColorTypes, PlainColorObject } from "./color";
-import ColorSpace from "./space";
-import { Methods } from "./deltaE/index";
+import Color, { ColorTypes, PlainColorObject } from "./color.js";
+import ColorSpace from "./space.js";
+import { Methods } from "./deltaE/index.js";
 
 export type Range = ((percentage: number) => Color) & {
 	rangeArgs: { colors: [Color, Color]; options: Record<string, any> };

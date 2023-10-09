@@ -1,4 +1,4 @@
-import Color, { ColorObject } from "./color";
+import Color, { ColorObject } from "./color.js";
 
 export function uv(color: Color | ColorObject): [number, number];
 

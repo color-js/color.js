@@ -1,6 +1,6 @@
 // Definitions by: Adam Thompson-Sharpe <https://github.com/MysteryBlokHed>
 // Minimum TypeScript Version: 4.1
-export { default } from "./dist/color";
+export { default } from "./dist/color.js";
 export type {
 	ColorConstructor,
 	ColorObject,
@@ -12,30 +12,30 @@ export type {
 	PlainColorObject,
 	SpaceAccessor,
 	ToColorPrototype,
-} from "./src/color";
+} from "./src/color.js";
 
-export type { White } from "./src/adapt";
+export type { White } from "./src/adapt.js";
 
-export type { CAT } from "./src/CATs";
+export type { CAT } from "./src/CATs.js";
 
-export type { Display } from "./src/display";
+export type { Display } from "./src/display.js";
 
 export type {
 	Range,
 	RangeOptions,
 	MixOptions,
 	StepsOptions,
-} from "./src/interpolation";
+} from "./src/interpolation.js";
 
-export type { Options as ParseOptions } from "./src/parse";
+export type { Options as ParseOptions } from "./src/parse.js";
 
-export type { RGBOptions } from "./src/rgbspace";
+export type { RGBOptions } from "./src/rgbspace.js";
 
-export type { Options as SerializeOptions } from "./src/serialize";
+export type { Options as SerializeOptions } from "./src/serialize.js";
 
 export type {
 	Format as SpaceFormat,
 	CoordMeta,
 	Ref,
 	Options as SpaceOptions,
-} from "./src/space";
+} from "./src/space.js";

@@ -1,5 +1,5 @@
-import { White } from "./adapt";
-import Color, { ColorConstructor, ColorObject, Coords } from "./color";
+import { White } from "./adapt.js";
+import Color, { ColorConstructor, ColorObject, Coords } from "./color.js";
 
 export interface Format {
 	type?: string | undefined;

@@ -1,6 +1,6 @@
-import { uv, xy } from "./chromaticity";
-import Color from "./color";
-import contrast from "./contrast";
+import { uv, xy } from "./chromaticity.js";
+import Color, { ColorTypes, ToColorPrototype } from "./color.js";
+import contrast from "./contrast.js";
 import {
 	contrastWCAG21,
 	contrastAPCA,
@@ -8,8 +8,8 @@ import {
 	contrastWeber,
 	contrastLstar,
 	contrastDeltaPhi,
-} from "./contrast/index";
-import deltaE from "./deltaE";
+} from "./contrast/index.js";
+import deltaE from "./deltaE.js";
 import deltaEMethods, {
 	deltaE76,
 	deltaECMC,
@@ -17,10 +17,10 @@ import deltaEMethods, {
 	deltaEJz,
 	deltaEITP,
 	deltaEOK,
-} from "./deltaE/index";
-import { range, Range, MixOptions, StepsOptions } from "./interpolation";
-import { getLuminance } from "./luminance";
-import { lighten, darken } from "./variations";
+} from "./deltaE/index.js";
+import { range, Range, MixOptions, StepsOptions } from "./interpolation.js";
+import { getLuminance } from "./luminance.js";
+import { lighten, darken } from "./variations.js";
 
 // Augment existing Color object
 declare module "./color" {

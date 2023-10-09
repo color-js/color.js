@@ -1,5 +1,5 @@
-import Color, { ColorTypes } from "./color";
-import { Ref } from "./space";
+import Color, { ColorTypes } from "./color.js";
+import { Ref } from "./space.js";
 
 export default function set(
 	color: ColorTypes,

@@ -1,5 +1,5 @@
-import Color, { ColorObject } from "./color";
-import ColorSpace from "./space";
+import Color, { ColorObject } from "./color.js";
+import ColorSpace from "./space.js";
 
 export default function getAll(
 	color: Color | ColorObject,

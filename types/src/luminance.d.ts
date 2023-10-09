@@ -1,4 +1,4 @@
-import Color, { ColorObject } from "./color";
+import Color, { ColorObject } from "./color.js";
 
 export function getLuminance(color: Color | ColorObject): number;
 
