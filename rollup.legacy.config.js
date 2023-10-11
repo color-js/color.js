@@ -10,10 +10,12 @@ const legacyPlugins = [
 	babel({ babelHelpers: "bundled", exclude: "node_modules/**" }),
 ];
 
-export default Object.assign(defaultConfig, {
-	output: defaultConfig.output.map(bundle => ({
-		...bundle,
-		file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
-	})),
-	plugins: [...(defaultConfig.plugins || []), ...legacyPlugins]
-});
+export default defaultConfig.map(config =>
+	 Object.assign(config, {
+		output: config.output.map(bundle => ({
+			...bundle,
+			file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
+		})),
+		plugins: [...(config.plugins || []), ...legacyPlugins]
+	})
+)

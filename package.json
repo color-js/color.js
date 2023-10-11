@@ -3,14 +3,8 @@
 	"version": "0.4.5",
 	"description": "Let’s get serious about color",
 	"files": [
-		"dist/color.cjs",
-		"dist/color.cjs.map",
-		"dist/color.js",
-		"dist/color.js.map",
-		"dist/color.legacy.cjs",
-		"dist/color.legacy.cjs.map",
-		"dist/color.legacy.js",
-		"dist/color.legacy.js.map",
+		"dist/color-fn.*",
+		"dist/color.*",
 		"src/",
 		"types/dist/",
 		"types/src/",
@@ -24,7 +18,8 @@
 		},
 		"./fn": {
 			"types": "./types/src/index-fn.d.ts",
-			"import": "./src/index-fn.js"
+			"import": "./src/index-fn.js",
+			"require": "./dist/color-fn.cjs"
 		},
 		"./dist/*": "./dist/*"
 	},

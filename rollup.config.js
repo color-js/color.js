@@ -20,22 +20,44 @@ let bundles = [
 	},
 ];
 
+let fnBundles = [
+	{
+		"file": "dist/color-fn.cjs",
+		"format": "cjs",
+		"sourcemap": true,
+		"exports": "named",
+	},
+];
+
 // Add minified versions of every bundle
-bundles = bundles.flatMap(bundle => {
-	let minBundle = Object.assign({}, bundle);
-	minBundle.file = minBundle.file.replace(/\.\w+$/, ".min$&");
-	minBundle.plugins ||= [];
-	minBundle.plugins.push(terser());
+let addMinBundle = (bundles) => {
+	return bundles.flatMap(bundle => {
+		let minBundle = Object.assign({}, bundle);
+		minBundle.file = minBundle.file.replace(/\.\w+$/, ".min$&");
+		minBundle.plugins ||= [];
+		minBundle.plugins.push(terser());
 
-	return [bundle, minBundle];
-});
+		return [bundle, minBundle];
+	})
+}
 
-export default {
-	input: "src/index.js",
-	output: bundles,
-	onwarn (warning, rollupWarn) {
-		if (warning.code !== "CIRCULAR_DEPENDENCY") {
-			rollupWarn(warning);
+export default [
+	{
+		input: "src/index.js",
+		output: addMinBundle(bundles),
+		onwarn (warning, rollupWarn) {
+			if (warning.code !== "CIRCULAR_DEPENDENCY") {
+				rollupWarn(warning);
+			}
 		}
-	}
-};
+	},
+	{
+		input: "src/index-fn.js",
+		output: addMinBundle(fnBundles),
+		onwarn (warning, rollupWarn) {
+			if (warning.code !== "CIRCULAR_DEPENDENCY") {
+				rollupWarn(warning);
+			}
+		}
+	},
+]
