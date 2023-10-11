@@ -32,9 +32,7 @@ export function mix (c1, c2, p = .5, o = {}) {
 		[p, o] = [.5, p];
 	}
 
-	let {space, outputSpace, premultiplied} = o;
-
-	let r = range(c1, c2, {space, outputSpace, premultiplied});
+	let r = range(c1, c2, o);
 	return r(p);
 }
 
@@ -166,7 +164,16 @@ export function range (color1, color2, options = {}) {
 		let arc = options.hue = options.hue || "shorter";
 
 		let hue = [space, "h"];
-		let [θ1, θ2] = [get(color1, hue), get(color2, hue)];
+		let [θ1, θ2] = [parseFloat(get(color1, hue)), parseFloat(get(color2, hue))];
+		// Undefined hues must be evaluated before hue fix-up to properly
+		// calculate hue arcs between undefined and defined hues.
+		// See https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545
+		if (isNaN(θ1) && !isNaN(θ2)) {
+			θ1 = θ2;
+		}
+		else if (isNaN(θ2) && !isNaN(θ1)) {
+			θ2 = θ1;
+		}
 		[θ1, θ2] = angles.adjust(arc, [θ1, θ2]);
 		set(color1, hue, θ1);
 		set(color2, hue, θ2);
