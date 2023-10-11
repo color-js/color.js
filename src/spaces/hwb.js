@@ -52,7 +52,6 @@ export default new ColorSpace({
 
 	formats: {
 		"hwb": {
-			toGamut: true,
 			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 		}
 	}
