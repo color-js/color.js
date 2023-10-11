@@ -164,7 +164,7 @@ export function range (color1, color2, options = {}) {
 		let arc = options.hue = options.hue || "shorter";
 
 		let hue = [space, "h"];
-		let [θ1, θ2] = [parseFloat(get(color1, hue)), parseFloat(get(color2, hue))];
+		let [θ1, θ2] = [get(color1, hue), get(color2, hue)];
 		// Undefined hues must be evaluated before hue fix-up to properly
 		// calculate hue arcs between undefined and defined hues.
 		// See https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545
