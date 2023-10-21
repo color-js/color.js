@@ -14,6 +14,15 @@ const π = Math.PI;
 const r2d = 180 / π;
 const d2r = π / 180;
 
+function pow7 (x) {
+	// Faster than x ** 7 or Math.pow(x, 7)
+
+	const x2 = x * x;
+	const x7 = x2 * x2 * x2 * x;
+
+	return x7;
+}
+
 export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// Given this color as the reference
 	// and the function parameter as the sample,
@@ -46,7 +55,7 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 
 	// calculate a-axis asymmetry factor from mean Chroma
 	// this turns JND ellipses for near-neutral colors back into circles
-	let C7 = Cbar ** 7;
+	let C7 = pow7(Cbar);
 
 	let G = 0.5 * (1 - Math.sqrt(C7/(C7 + Gfactor)));
 
@@ -107,7 +116,7 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// calculate mean Lightness and Chroma
 	let Ldash = (L1 + L2)/2;
 	let Cdash = (Cdash1 + Cdash2)/2;
-	let Cdash7 = Math.pow(Cdash, 7);
+	let Cdash7 = pow7(Cdash);
 
 	// Compensate for non-linearity in the blue region of Lab.
 	// Four possibilities for hue weighting factor,
