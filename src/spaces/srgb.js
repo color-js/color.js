@@ -32,7 +32,7 @@ export default new RGBColorSpace({
 			let sign = val < 0? -1 : 1;
 			let abs = val * sign;
 
-			if (abs < 0.04045) {
+			if (abs <= 0.04045) {
 				return val / 12.92;
 			}
 
