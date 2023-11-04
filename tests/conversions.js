@@ -581,6 +581,4 @@ const tests = {
 	]
 };
 
-tests.tests[0].tests = tests.tests[0].tests.slice(0, 1);
-
 export default tests;
