@@ -1,4 +1,4 @@
-import RefTest from "https://htest.dev/src/reftest.js";
+import RefTest from "https://htest.dev/src/html/reftest.js";
 
 RefTest.hooks.add("reftest-testrow", function (env) {
 	let table = this.table;
