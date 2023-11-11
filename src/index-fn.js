@@ -15,6 +15,7 @@ export {default as inGamut}   from "./inGamut.js";
 export {default as toGamut}   from "./toGamut.js";
 export {default as distance}  from "./distance.js";
 export {default as equals}    from "./equals.js";
+export {default as over}  from "./over.js";
 export {default as contrast}  from "./contrast.js";
 export {default as clone}     from "./clone.js";
 export {
