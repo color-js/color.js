@@ -1,5 +1,8 @@
 let tests = await Promise.all([
 	"conversions",
+	"adapt",
+	"angles",
+	"construct",
 ].map(name => import(`./${name}.js`).then(module => module.default)));
 
 
