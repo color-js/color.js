@@ -43,7 +43,7 @@
 		"test": "tests"
 	},
 	"scripts": {
-		"test": "cd tests && htest",
+		"test": "npx htest ./tests",
 		"dtslint": "dtslint types",
 		"lint": "eslint . --fix --ext .js --ext .ts --ext .js --ext .cjs",
 		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
