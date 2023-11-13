@@ -17,7 +17,7 @@ export default function to (color, space, {inGamut} = {}) {
 	let ret = {space, coords, alpha: color.alpha};
 
 	if (inGamut) {
-		ret = toGamut(ret);
+		ret = toGamut(ret, inGamut === true? undefined : inGamut);
 	}
 
 	return ret;
