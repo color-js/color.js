@@ -1,4 +1,3 @@
-import Color from "../src/index.js";
 import {WHITES} from "../src/adapt.js";
 import {adapt} from "../src/CATs.js";
 
