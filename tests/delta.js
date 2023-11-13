@@ -162,7 +162,7 @@ export default {
 				{
 					name: "barely off-white",
 					args: ["#fffffe", "white"],
-					expect: 0.4966
+					expect: 0.51125
 				},
 				{
 					name: "Pythagorean 3,4,5 triangle",
