@@ -3,6 +3,8 @@ let tests = await Promise.all([
 	"adapt",
 	"angles",
 	"construct",
+	"delta",
+	"gamut",
 ].map(name => import(`./${name}.js`).then(module => module.default)));
 
 
