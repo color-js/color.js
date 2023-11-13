@@ -1,3 +1,8 @@
+const check = await importWithFallback("../node_modules/htest.dev/src/check.js", "https://htest.dev/src/check.js");
+const map = await importWithFallback("../node_modules/htest.dev/src/map.js", "https://htest.dev/src/map.js");
+
+export { check, map };
+
 export async function importWithFallback (...specifiers) {
 	for (let i = 0; i < specifiers.length; i++) {
 		let specifier = specifiers[i];

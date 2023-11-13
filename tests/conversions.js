@@ -1,7 +1,5 @@
 import Color from "../src/index.js";
-import { importWithFallback } from "./util.mjs";
-
-const check = await importWithFallback("../node_modules/htest.dev/src/check.js", "https://htest.dev/src/check.js");
+import { check } from "./util.mjs";
 
 const tests = {
 	name: "Color conversion Tests",
