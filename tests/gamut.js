@@ -6,7 +6,8 @@ export default {
 	description: "These tests check how coords are shrunk to smaller gamuts.",
 	run (colorStr, args) {
 		let color = new Color(colorStr);
-		let color2 = color.to(this.data.toSpace, {inGamut: args ?? true});
+		let inGamut = this.data.method ? {method: this.data.method} : true;
+		let color2 = color.to(this.data.toSpace, {inGamut});
 		return color2;
 	},
 	map (c) {
@@ -50,42 +51,44 @@ export default {
 				},
 				{
 					name: "Using HSL saturation reduction",
+					data: {method: "hsl.s"},
 					tests: [
 						{
-							args: ["color(display-p3 1 0 0)", {method: "hsl.s"}],
+							args: ["color(display-p3 1 0 0)"],
 							expect: "rgb(100% 0% 0%)"
 						},
 						{
-							args: ["color(display-p3 0 1 0)", {method: "hsl.s"}],
+							args: ["color(display-p3 0 1 0)"],
 							expect: "rgb(0% 100% 0%)"
 						},
 						{
-							args: ["color(display-p3 0 0 1)", {method: "hsl.s"}],
+							args: ["color(display-p3 0 0 1)"],
 							expect: "rgb(0% 0% 100%)"
 						},
 						{
-							args: ["color(display-p3 1 1 0)", {method: "hsl.s"}],
+							args: ["color(display-p3 1 1 0)"],
 							expect: "rgb(100% 100% 0%)"
 						},
 						{
-							args: ["color(display-p3 0 1 1)", {method: "hsl.s"}],
+							args: ["color(display-p3 0 1 1)"],
 							expect: "rgb(0% 100% 100%)"
 						},
 						{
-							args: ["color(display-p3 1 0 1)", {method: "hsl.s"}],
+							args: ["color(display-p3 1 0 1)"],
 							expect: "rgb(100% 0% 100%)"
 						}
 					]
 				},
 				{
 					name: "Using clipping",
+					data: {method: "clip"},
 					tests: [
 						{
-							args: ["color(display-p3 1 0 0)", {method: "clip"}],
+							args: ["color(display-p3 1 0 0)"],
 							expect: "rgb(100% 0% 0%)"
 						},
 						{
-							args: ["color(display-p3 0 1 0)", {method: "clip"}],
+							args: ["color(display-p3 0 1 0)"],
 							expect: "rgb(0% 100% 0%)"
 						},
 					]
