@@ -127,6 +127,7 @@ toGamut.returns = "color";
 export function toGamutCSS(origin, { space = origin.space }) {
 	const JND = 0.02;
 	const ε = 0.0001;
+	const returnSpace = origin.space;
 
 	if (space.isUnbounded) return to(origin, space);
 
@@ -137,15 +138,15 @@ export function toGamutCSS(origin, { space = origin.space }) {
 	if (L >= 1) {
 		const white = to(parse('white'), space);
 		white.alpha = origin.alpha;
-		return white;
+		return to(white, returnSpace);
 	}
 	if (L <= 0) {
 		const black = to(parse('black'), space);
 		black.alpha = origin.alpha;
-		return black;
+		return to(black, returnSpace);
 	};
 
-	if (inGamut(origin_OKLCH, space)) return to(origin_OKLCH, space);
+	if (inGamut(origin_OKLCH, space)) return to(origin_OKLCH, returnSpace);
 
 	function clip(_color) {
 		const destColor = to(_color, space);
@@ -191,5 +192,5 @@ export function toGamutCSS(origin, { space = origin.space }) {
 			}
 		}
 	}
-	return to(current, origin.space);
+	return to(current, returnSpace);
 }
