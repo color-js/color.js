@@ -51,15 +51,20 @@ sRGB_lime; // still out of gamut
 ```
 
 Perhaps most important is the `method` parameter, which controls the algorithm used for gamut mapping.
+
+The default method is `"css"`, which uses the binary search algorithm from [CSS Color Module Level 4](https://drafts.csswg.org/css-color/#css-gamut-mapping). The mapping is done in the Oklch space, and works by finding a chroma value where there is minimal difference between the mapped color and a clipped version. This difference is called the just noticeable difference, and is calculated in deltaEOK.
+
+If the Oklch representation of the color has a lightness of less than or equal to 0, black is returned. Similarly, if the color has a lightness of greater than or equal to 1, white is returned.
+
 You can pass `"clip"` to use simple clipping (not recommended), or any coordinate of any imported color space, which will make Color.js reduce that coordinate until the color is in gamut.
 
-The default method is `"lch.c"` which means LCH hue and lightness remain constant while chroma is reduced until the color fits in gamut.
+The default method before implementing the CSS Color 4 algorithm was `"lch.c"` which means LCH hue and lightness remain constant while chroma is reduced until the color fits in gamut.
 Simply reducing chroma tends to produce good results for most colors, but most notably fails on yellows:
 
 ![chroma-reduction](images/p3-yellow-lab.svg)
 
-Here is P3 yellow, with LCH Chroma reduced to the neutral axis. The RGB values are linear-light P3. The color wedge shows sRGB values, if in gamut; salmon, if outside sRGB and red if outside P3. Notice the red curve goes up (so, out of gamut) before finally dropping again. The chroma of P3 yellow is 123, while the chroma of the gamut-mapped result is far to low, only 25!
+Here is P3 yellow, with LCH Chroma reduced to the neutral axis. The RGB values are linear-light P3. The color wedge shows sRGB values, if in gamut; salmon, if outside sRGB and red if outside P3. Notice the red curve goes up (so, out of gamut) before finally dropping again. The chroma of P3 yellow is 123, while the chroma of the gamut-mapped result is far too low, only 25!
 
-Instead, the default algorithm reduces chroma (by binary search) and also, at each stage, calculates the deltaE2000 between the current estimate and a channel-clipped version of that color. If the deltaE is less than 2, the clipped color is displayed. Notice the red curve hugs the top edge now because clipping to sRGB also means it is inside P3 gamut. Notice how we get an in-gamut color much earlier. This method produces an in-gamut color with chroma 103.
+Instead, the `"lch.c"` method reduces chroma (by binary search) and also, at each stage, calculates the deltaE2000 between the current estimate and a channel-clipped version of that color. If the deltaE is less than 2, the clipped color is displayed. Notice the red curve hugs the top edge now because clipping to sRGB also means it is inside P3 gamut. Notice how we get an in-gamut color much earlier. This method produces an in-gamut color with chroma 103.
 
 ![chroma-reduction-clip](images/p3-yellow-lab-clip.svg)
