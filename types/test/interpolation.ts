@@ -42,9 +42,10 @@ mix("red", "blue", {}); // $ExpectType PlainColorObject
 mix("red", "blue", 0.5, {}); // $ExpectType PlainColorObject
 // $ExpectType PlainColorObject
 mix("red", "blue", {
-	space: "srgb",
+	space: "hsl",
 	outputSpace: "srgb_linear",
 	premultiplied: true,
+	hue: "shorter",
 });
 
 // Test mix on Color class
@@ -55,7 +56,7 @@ Color.mix("red", "blue", 123, { space: "srgb" }); // $ExpectType Color
 new Color("red").mix("blue"); // $ExpectType Color
 new Color("red").mix("blue", 123); // $ExpectType Color
 new Color("red").mix("blue", { space: "srgb" }); // $ExpectType Color
-new Color("red").mix("blue", 123, { space: "srgb" }); // $ExpectType Color
+new Color("red").mix("blue", 123, { space: "hsl", hue: "shorter" }); // $ExpectType Color
 
 steps("red", "blue"); // $ExpectType PlainColorObject[]
 // $ExpectType PlainColorObject[]
