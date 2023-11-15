@@ -77,7 +77,7 @@
 		"@11ty/eleventy": "^2.0",
 		"@babel/core": "^7.21.4",
 		"@babel/preset-env": "^7.21.4",
-		"@definitelytyped/dtslint": "latest",
+		"@definitelytyped/dtslint": "0.0.182",
 		"@rollup/plugin-babel": "^6.0.3",
 		"@rollup/plugin-commonjs": "^24.1.0",
 		"@rollup/plugin-node-resolve": "^15.0.2",

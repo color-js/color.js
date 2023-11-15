@@ -21,7 +21,7 @@
 		"no-useless-call": 1,
 		"brace-style": [1, "stroustrup"],
 		"no-mixed-spaces-and-tabs": [1, "smart-tabs"],
-		"quotes": [1, "double", "avoid-escape", "allow-template-literals"],
+		"quotes": [1, "double", {"avoidEscape": true, "allowTemplateLiterals": true}],
 		"spaced-comment": [1, "always", {
 			"block": {
 				"exceptions": ["*"]

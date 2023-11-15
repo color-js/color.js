@@ -11,4 +11,4 @@ let tests = await Promise.all([
 export default {
 	name: "All Color.js tests",
 	tests
-}
+};
