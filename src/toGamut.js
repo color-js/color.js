@@ -189,25 +189,18 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		current.coords[1] = chroma;
 		if (min_inGamut && inGamut(current, space)) {
 			min = chroma;
-			continue;
 		}
 		else if (!inGamut(current, space)) {
 			const clipped = clip(current);
 			const E = deltaEOK(clipped, current);
+			// Note- this is missing several steps of the CSS Gamut Mapping
+			// Algorithm at this point.
 			if (E < JND) {
-				if ((JND - E < ε)) {
-					// match found
-					current = clipped;
-					break;
-				}
-				else {
-					min_inGamut = false;
-					min = chroma;
-				}
+				current = clipped;
+				break;
 			}
 			else {
 				max = chroma;
-				continue;
 			}
 		}
 	}
