@@ -38,7 +38,7 @@ export default function toGamut (color, { method = defaults.gamut_mapping, space
 
 	let spaceColor = to(color, space);
 	if (method === "css") {
-		spaceColor = to(toGamutCSS(color, space), color.space);
+		spaceColor = to(toGamutCSS(color, {space}), color.space);
 	}
 	else {
 		if (inGamut(color, space, { epsilon: 0 })) {
