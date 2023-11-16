@@ -2,7 +2,7 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import deltaE2000 from "./deltaE/deltaE2000.js";
-import deltaEOK from './deltaE/deltaEOK.js';
+import deltaEOK from "./deltaE/deltaEOK.js";
 import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
@@ -24,7 +24,7 @@ import getColor from "./getColor.js";
  * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
  */
 
-export default function toGamut(color, { method = defaults.gamut_mapping, space = color.space } = {}) {
+export default function toGamut (color, { method = defaults.gamut_mapping, space = color.space } = {}) {
 	if (util.isString(arguments[1])) {
 		space = arguments[1];
 	}
@@ -37,9 +37,10 @@ export default function toGamut(color, { method = defaults.gamut_mapping, space 
 	// mapSpace: space with the coord we're reducing
 
 	let spaceColor = to(color, space);
-	if (method === 'css') {
-		spaceColor = toGamutCSS(color, space);
-	} else {
+	if (method === "css") {
+		spaceColor = to(toGamutCSS(color, space), color.space);
+	}
+	else {
 		if (inGamut(color, space, { epsilon: 0 })) {
 			return getColor(color);
 		}
@@ -115,47 +116,55 @@ toGamut.returns = "color";
 
 /**
  * toGamutCSS
- * Given a color `origin`, returns a new color that is in gamut using the CSS
- * Gamut Mapping Algorithm. If `space` is specified, it will be in gamut in
- * `space`. Otherwise, it will be in gamut in the color space of `origin`. It
- * will always be returned in the original color space.
- * @param {Object} origin 
- * @param {Object} options 
- * @param {ColorSpace} options.space 
- * @returns 
+ *
+ * Given a color `origin`, returns a new color that is in gamut using
+ * the CSS Gamut Mapping Algorithm. If `space` is specified, it will be in gamut
+ * in `space`, and returned in `space`. Otherwise, it will be in gamut and
+ * returned in the color space of `origin`.
+ * @param {Object} origin
+ * @param {Object} options
+ * @param {ColorSpace} options.space
+ * @returns
  */
-export function toGamutCSS(origin, { space = origin.space }) {
+export function toGamutCSS (origin, { space = origin.space }) {
 	const JND = 0.02;
 	const ε = 0.0001;
-	const returnSpace = origin.space;
 
-	if (space.isUnbounded) return to(origin, space);
+	if (space.isUnbounded) {
+		return to(origin, space);
+	}
 
-	const origin_OKLCH = to(origin, ColorSpace.get('oklch'));
+	const origin_OKLCH = to(origin, ColorSpace.get("oklch"));
 	let L = origin_OKLCH.coords[0];
 
 	// return media white or black, if lightness is out of range
 	if (L >= 1) {
-		const white = to(parse('white'), space);
+		const white = to(parse("white"), space);
 		white.alpha = origin.alpha;
-		return to(white, returnSpace);
+		return to(white, space);
 	}
 	if (L <= 0) {
-		const black = to(parse('black'), space);
+		const black = to(parse("black"), space);
 		black.alpha = origin.alpha;
-		return to(black, returnSpace);
+		return to(black, space);
 	};
 
-	if (inGamut(origin_OKLCH, space)) return to(origin_OKLCH, returnSpace);
+	if (inGamut(origin_OKLCH, space)) {
+		return to(origin_OKLCH, space);
+	}
 
-	function clip(_color) {
+	function clip (_color) {
 		const destColor = to(_color, space);
 		const spaceCoords = Object.values(space.coords);
 		destColor.coords = destColor.coords.map((coord, index) => {
 			const spaceCoord = spaceCoords[index];
-			if (('range' in spaceCoord)) {
-				if (coord < spaceCoord.range[0]) return spaceCoord.range[0];
-				if (coord > spaceCoord.range[1]) return spaceCoord.range[1];
+			if (("range" in spaceCoord)) {
+				if (coord < spaceCoord.range[0]) {
+					return spaceCoord.range[0];
+				}
+				if (coord > spaceCoord.range[1]) {
+					return spaceCoord.range[1];
+				}
 			}
 			return coord;
 		});
@@ -174,7 +183,8 @@ export function toGamutCSS(origin, { space = origin.space }) {
 		if (min_inGamut && inGamut(current, space)) {
 			min = chroma;
 			continue;
-		} else if (!inGamut(current, space)) {
+		}
+		else if (!inGamut(current, space)) {
 			const clipped = clip(current);
 			const E = deltaEOK(clipped, current);
 			if (E < JND) {
@@ -182,15 +192,17 @@ export function toGamutCSS(origin, { space = origin.space }) {
 					// match found
 					current = clipped;
 					break;
-				} else {
+				}
+				else {
 					min_inGamut = false;
 					min = chroma;
 				}
-			} else {
+			}
+			else {
 				max = chroma;
 				continue;
 			}
 		}
 	}
-	return to(current, returnSpace);
+	return to(current, space);
 }

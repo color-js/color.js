@@ -95,8 +95,8 @@ export default class ColorSpace {
 		});
 	}
 
-	get isUnbounded() {
-		return Object.values(this.coords).every(coord=> !('range' in coord));
+	get isUnbounded () {
+		return Object.values(this.coords).every(coord => !("range" in coord));
 	}
 
 	get cssId () {

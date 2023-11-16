@@ -12,7 +12,7 @@ export {default as to}        from "./to.js";
 export {default as serialize} from "./serialize.js";
 export {default as display}   from "./display.js";
 export {default as inGamut}   from "./inGamut.js";
-export {default as toGamut}   from "./toGamut.js";
+export {default as toGamut, toGamutCSS}   from "./toGamut.js";
 export {default as distance}  from "./distance.js";
 export {default as equals}    from "./equals.js";
 export {default as contrast}  from "./contrast.js";
