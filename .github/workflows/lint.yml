@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
     lint:
+        name: Lint & Test Types
         runs-on: ubuntu-latest
 
         steps:
@@ -19,4 +20,4 @@ jobs:
                   node-version: "lts/*"
 
             - run: npm install
-            - run: npm run lint
+            - run: npm run lint:ci
