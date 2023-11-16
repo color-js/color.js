@@ -33,7 +33,7 @@ export default new ColorSpace({
     coords: {
 		l: {
 			refRange: [0, 1],
-			name: "L"
+			name: "Lightness"
 		},
 		a: {
 			refRange: [-0.4, 0.4]

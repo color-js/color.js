@@ -23,11 +23,8 @@ export function range(
 	options?: RangeOptions & Record<string, any>
 ): Range;
 
-export interface MixOptions {
-	space?: string | ColorSpace | undefined;
-	outputSpace?: string | ColorSpace | undefined;
-	premultiplied?: boolean | undefined;
-}
+// tslint:disable-next-line:no-empty-interface
+export interface MixOptions extends RangeOptions {}
 
 export function mix(
 	color1: ColorTypes,
