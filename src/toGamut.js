@@ -38,7 +38,7 @@ export default function toGamut (color, { method = defaults.gamut_mapping, space
 
 	let spaceColor = to(color, space);
 	if (method === "css") {
-		spaceColor = to(toGamutCSS(color, {space}), color.space);
+		spaceColor = to(toGamutCSS(color, { space }), color.space);
 	}
 	else {
 		if (inGamut(color, space, { epsilon: 0 })) {
@@ -114,6 +114,14 @@ export default function toGamut (color, { method = defaults.gamut_mapping, space
 
 toGamut.returns = "color";
 
+// The reference colors to be used if lightness is out of the range 0-1 in the
+// `Oklch` space. These are created in the `Oklab` space, as it is used by the
+// DeltaEOK calculation, so it is guaranteed to be imported.
+const COLORS = {
+	WHITE: { space: "oklab", coords: [1, 0, 0] },
+	BLACK: { space: "oklab", coords: [0, 0, 0] }
+};
+
 /**
  * Given a color `origin`, returns a new color that is in gamut using
  * the CSS Gamut Mapping Algorithm. If `space` is specified, it will be in gamut
@@ -138,12 +146,12 @@ export function toGamutCSS (origin, { space = origin.space }) {
 
 	// return media white or black, if lightness is out of range
 	if (L >= 1) {
-		const white = to(parse("white"), space);
+		const white = to(COLORS.WHITE, space);
 		white.alpha = origin.alpha;
 		return to(white, space);
 	}
 	if (L <= 0) {
-		const black = to(parse("black"), space);
+		const black = to(COLORS.BLACK, space);
 		black.alpha = origin.alpha;
 		return to(black, space);
 	};
