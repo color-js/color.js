@@ -249,19 +249,13 @@
 							"name": "options.method",
 							"optional": true,
 							"type": "string",
-							"description": "How to force into gamut. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"lch.c\"`."
+							"description": "How to force into gamut. If \"css\", chroma is reduced in the Oklch space using the algorithm defined by CSS Color 4. If \"clip\", coordinates are just clipped to their reference range (don't do that unless you have a reason, it produces very poor results). If in the form [colorSpaceId].[coordName], that coordinate is reduced until the color is in gamut. Please note that this may produce nonsensical results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut. Defaults to `\"css\"`."
 						},
 						{
 							"name": "options.space",
 							"optional": true,
 							"type": "ColorSpace",
 							"description": "Color space whose gamut we are mapping to. Defaults to the current color space."
-						},
-						{
-							"name": "options.inPlace",
-							"optional": true,
-							"type": "boolean",
-							"description": "If true, modifies the current color instead of returning a new one. Defaults to false."
 						}
 					],
 					"returnType": "Color",

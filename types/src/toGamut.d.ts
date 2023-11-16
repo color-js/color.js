@@ -16,3 +16,10 @@ declare function toGamut(
 ): PlainColorObject;
 
 export default toGamut;
+
+export function toGamutCSS(
+	color: ColorTypes,
+	options?: {
+		space?: string | ColorSpace | undefined;
+	},
+): PlainColorObject;

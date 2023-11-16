@@ -9,7 +9,7 @@ const noneTypes = new Set(["<number>", "<percentage>", "<angle>"]);
  * @param {string} str
  * @param {object} [options]
  * @param {object} [options.meta] - Object for additional information about the parsing
- * @returns { Color }
+ * @returns {Color}
  */
 export default function parse(str, { meta } = {}) {
 	let env = { str: String(str)?.trim() };

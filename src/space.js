@@ -96,6 +96,10 @@ export default class ColorSpace {
 		});
 	}
 
+	get isUnbounded() {
+		return Object.values(this.coords).every((coord) => !("range" in coord));
+	}
+
 	get cssId() {
 		return this.formats.functions?.color?.id || this.id;
 	}
