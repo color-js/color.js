@@ -1,5 +1,4 @@
 import { isNone, skipNone } from "./util.js";
-import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import to from "./to.js";
 import serialize from "./serialize.js";
@@ -18,7 +17,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 	// Find widest supported color space for CSS
 	for (let space of [Lab, REC2020, P3]) {
 		let coords = space.getMinCoords();
-		let color = {space, coords, alpha: 1};
+		let color = { space, coords, alpha: 1 };
 		let str = serialize(color);
 
 		if (CSS.supports("color", str)) {
@@ -40,14 +39,20 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * @param {ColorSpace | string} [options.space = defaults.display_space] Color space to use for serialization if default is not supported
  * @returns {String} String object containing the serialized color with a color property containing the converted color (or the original, if no conversion was necessary)
  */
-export default function display (color, {space = defaults.display_space, ...options} = {}) {
+export default function display(
+	color,
+	{ space = defaults.display_space, ...options } = {},
+) {
 	let ret = serialize(color, options);
 
-	if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.display_space) {
+	if (
+		typeof CSS === "undefined" ||
+		CSS.supports("color", ret) ||
+		!defaults.display_space
+	) {
 		ret = new String(ret);
 		ret.color = color;
-	}
-	else {
+	} else {
 		// If we're here, what we were about to output is not supported
 		let fallbackColor = color;
 
@@ -56,7 +61,9 @@ export default function display (color, {space = defaults.display_space, ...opti
 
 		if (hasNone) {
 			// Does the browser support none values?
-			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
+			if (
+				!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))
+			) {
 				// Nope, try again without none
 				fallbackColor = clone(color);
 				fallbackColor.coords = fallbackColor.coords.map(skipNone);

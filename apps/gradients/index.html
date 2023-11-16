@@ -1,118 +1,181 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Interpolation</title>
+		<link rel="stylesheet" href="https://get.mavo.io/mavo.css" />
+		<link rel="stylesheet" href="style.css" />
 
-<meta charset="UTF-8">
-<title>Interpolation</title>
-<link rel="stylesheet" href="https://get.mavo.io/mavo.css">
-<link rel="stylesheet" href="style.css">
-
-<script src="https://get.mavo.io/stable/mavo.js"></script>
-<script src="../../color.js" type="module"></script>
-
-</head>
-<body mv-app mv-storage="local" mv-autosave mv-mode="edit">
-
-<div class="inputs">
-	<label>
-		Color 1:
-		[if(!color1.inGamut(outputSpace), "OOG")]
-		<input property type="text" id="colorStr1" mv-default="[url('color1') or 'hsl(90 50% 45%)']" style="--color: [color1.to('srgb') & '']" />
-		<meta property="color1" content="[getColor(colorStr1)]">
-	</label>
-
-	<label>
-		Color 2:
-		[if(!color2.inGamut(outputSpace), "OOG")]
-		<input type="text" property id="colorStr2" mv-default="[url('color2') or 'hsl(210 80% 55%)']" style="--color: [color2.to('srgb') & '']" />
-		<meta property="color2" content="[getColor(colorStr2)]">
-	</label>
-
-	<label>
-		<input type="checkbox" property="showGradient" checked>
-		Gradient?
-	</label>
-
-	Output space: <span property="outputSpace" mv-edit="#space" mv-default="[color1.spaceId]"></span>
-
-	<label>
-		<input type="checkbox" property="gamutMapping" checked>
-		Allow gamut mapping
-	</label>
-
-	<a href="?color1=[encodeURIComponent(colorStr1)]&color2=[encodeURIComponent(colorStr2)]">Permalink</a>
-
-
-
-</div>
-
-<div id="output">
-	<article property="gradient" mv-multiple style="--gradient:[cssGradient]">
-		<details open>
-			<summary>
-				<span property="space" mv-edit="#space" mv-default="lch"></span> interpolation,
-				<label><input type="number" property="numSteps" value="10" min="2" /> steps</label>
-				<input type="number" property="delta" value="" min="0" /> max ΔE
-				<em>(<span property="stepCount">[count(step)]</span> resulting steps)</em>
-			</summary>
-
-			<div>
-				Colors:
-				<div mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, maxDeltaE: delta, deltaEMethod: '2000', space: space, outputSpace: space)), outputSpace, gamutMapping)" mv-multiple="step" style="--color: [outputColor & ''];">
-					<code>[color & ""]</code> &rarr; <code>[outputColor & ""]</code>
-					<meta property="color" />
-					<meta property="outputColor" content="[color.to(outputSpace)]" />
-
-					<span mv-if="$previous.color">ΔE [color.deltaE2000($previous.color)]</span>
-					<meta property="gradientStep" content="[if(showGradient, outputColor & '', outputColor & ' 0 ' & (($index + 1) * (100 / stepCount)) & '%')]" />
-				</div>
-			</div>
+		<script src="https://get.mavo.io/stable/mavo.js"></script>
+		<script src="../../color.js" type="module"></script>
+	</head>
+	<body mv-app mv-storage="local" mv-autosave mv-mode="edit">
+		<div class="inputs">
+			<label>
+				Color 1: [if(!color1.inGamut(outputSpace), "OOG")]
+				<input
+					property
+					type="text"
+					id="colorStr1"
+					mv-default="[url('color1') or 'hsl(90 50% 45%)']"
+					style="
+						--color: [color1.to(&quot;srgb&quot;) & &quot;&quot;];
+					"
+				/>
+				<meta property="color1" content="[getColor(colorStr1)]" />
+			</label>
 
 			<label>
-				CSS gradient:
-				<textarea property="cssGradient">linear-gradient(to right, [join(step.gradientStep ', ')])</textarea>
+				Color 2: [if(!color2.inGamut(outputSpace), "OOG")]
+				<input
+					type="text"
+					property
+					id="colorStr2"
+					mv-default="[url('color2') or 'hsl(210 80% 55%)']"
+					style="
+						--color: [color2.to(&quot;srgb&quot;) & &quot;&quot;];
+					"
+				/>
+				<meta property="color2" content="[getColor(colorStr2)]" />
 			</label>
-		</details>
-	</article>
-</div>
 
-<div hidden>
-	<select id="space">
-		<option mv-value="ColorSpaces" mv-multiple="colorSpace" mv-group value="[colorSpace.id]">[colorSpace.name]</option>
-	</select>
-</div>
-<script type="module">
-	window.ColorSpaces = Object.values(Color.spaces).map(s => {
-		return {id: s.id, name: s.name}
-	});
+			<label>
+				<input type="checkbox" property="showGradient" checked />
+				Gradient?
+			</label>
 
-	// Map steps to objects with a color property
-	// because Mavo fiddles with object data
-	window.colorSteps = function(steps, outputSpace, gamutMapping) {
-		gamutMapping = Mavo.value(gamutMapping);
+			Output space:
+			<span
+				property="outputSpace"
+				mv-edit="#space"
+				mv-default="[color1.spaceId]"
+			></span>
 
-		return steps.map(c => {
-			if (!gamutMapping) {
-				c = c.inGamut(outputSpace)? c : new Color("black");
-			}
+			<label>
+				<input type="checkbox" property="gamutMapping" checked />
+				Allow gamut mapping
+			</label>
 
-			return {color: c}
-		});
-	}
+			<a
+				href="?color1=[encodeURIComponent(colorStr1)]&color2=[encodeURIComponent(colorStr2)]"
+				>Permalink</a
+			>
+		</div>
 
-	// Just to swallow errors
-	window.getColor = function(str) {
-		try {
-			return new Color(str);
-		}
-		catch (e) {
-			if (e instanceof TypeError) {
-				return null;
-			}
+		<div id="output">
+			<article
+				property="gradient"
+				mv-multiple
+				style="--gradient: [cssGradient]"
+			>
+				<details open>
+					<summary>
+						<span
+							property="space"
+							mv-edit="#space"
+							mv-default="lch"
+						></span>
+						interpolation,
+						<label
+							><input
+								type="number"
+								property="numSteps"
+								value="10"
+								min="2"
+							/>
+							steps</label
+						>
+						<input
+							type="number"
+							property="delta"
+							value=""
+							min="0"
+						/>
+						max ΔE
+						<em
+							>(<span property="stepCount">[count(step)]</span>
+							resulting steps)</em
+						>
+					</summary>
 
-			throw e;
-		}
-	}
-</script>
-</body>
+					<div>
+						Colors:
+						<div
+							mv-value="colorSteps(color1.steps(color2, group(steps: numSteps, maxDeltaE: delta, deltaEMethod: '2000', space: space, outputSpace: space)), outputSpace, gamutMapping)"
+							mv-multiple="step"
+							style="--color: [outputColor & &quot;&quot;]"
+						>
+							<code>[color & ""]</code> &rarr;
+							<code>[outputColor & ""]</code>
+							<meta property="color" />
+							<meta
+								property="outputColor"
+								content="[color.to(outputSpace)]"
+							/>
+
+							<span mv-if="$previous.color"
+								>ΔE [color.deltaE2000($previous.color)]</span
+							>
+							<meta
+								property="gradientStep"
+								content="[if(showGradient, outputColor & '', outputColor & ' 0 ' & (($index + 1) * (100 / stepCount)) & '%')]"
+							/>
+						</div>
+					</div>
+
+					<label>
+						CSS gradient:
+						<textarea property="cssGradient">
+linear-gradient(to right, [join(step.gradientStep ', ')])</textarea
+						>
+					</label>
+				</details>
+			</article>
+		</div>
+
+		<div hidden>
+			<select id="space">
+				<option
+					mv-value="ColorSpaces"
+					mv-multiple="colorSpace"
+					mv-group
+					value="[colorSpace.id]"
+				>
+					[colorSpace.name]
+				</option>
+			</select>
+		</div>
+		<script type="module">
+			window.ColorSpaces = Object.values(Color.spaces).map((s) => {
+				return { id: s.id, name: s.name };
+			});
+
+			// Map steps to objects with a color property
+			// because Mavo fiddles with object data
+			window.colorSteps = function (steps, outputSpace, gamutMapping) {
+				gamutMapping = Mavo.value(gamutMapping);
+
+				return steps.map((c) => {
+					if (!gamutMapping) {
+						c = c.inGamut(outputSpace) ? c : new Color("black");
+					}
+
+					return { color: c };
+				});
+			};
+
+			// Just to swallow errors
+			window.getColor = function (str) {
+				try {
+					return new Color(str);
+				} catch (e) {
+					if (e instanceof TypeError) {
+						return null;
+					}
+
+					throw e;
+				}
+			};
+		</script>
+	</body>
 </html>

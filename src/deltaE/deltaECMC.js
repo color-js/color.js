@@ -12,7 +12,7 @@ import lch from "../spaces/lch.js";
 const π = Math.PI;
 const d2r = π / 180;
 
-export default function (color, sample, {l = 2, c = 1} = {}) {
+export default function (color, sample, { l = 2, c = 1 } = {}) {
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE CMC.
@@ -55,7 +55,7 @@ export default function (color, sample, {l = 2, c = 1} = {}) {
 
 	// weighted Hue difference, less for larger Chroma difference
 
-	let H2 = (Δa ** 2) + (Δb ** 2) - (ΔC ** 2);
+	let H2 = Δa ** 2 + Δb ** 2 - ΔC ** 2;
 	// due to roundoff error it is possible that, for zero a and b,
 	// ΔC > Δa + Δb is 0, resulting in attempting
 	// to take the square root of a negative number
@@ -74,24 +74,24 @@ export default function (color, sample, {l = 2, c = 1} = {}) {
 	// These are all trying to make JND ellipsoids more like spheres
 
 	// SL Lightness crispening factor, depends entirely on L1 not L2
-	let SL = 0.511;	// linear portion of the Y to L transfer function
-	if (L1 >= 16) {	// cubic portion
+	let SL = 0.511; // linear portion of the Y to L transfer function
+	if (L1 >= 16) {
+		// cubic portion
 		SL = (0.040975 * L1) / (1 + 0.01765 * L1);
 	}
 
 	// SC Chroma factor
-	let SC = ((0.0638 * C1) / (1 + 0.0131 * C1)) + 0.638;
+	let SC = (0.0638 * C1) / (1 + 0.0131 * C1) + 0.638;
 
 	// Cross term T for blue non-linearity
 	let T;
-	if ( Number.isNaN(H1)) {
+	if (Number.isNaN(H1)) {
 		H1 = 0;
 	}
 
 	if (H1 >= 164 && H1 <= 345) {
 		T = 0.56 + Math.abs(0.2 * Math.cos((H1 + 168) * d2r));
-	}
-	else {
+	} else {
 		T = 0.36 + Math.abs(0.4 * Math.cos((H1 + 35) * d2r));
 	}
 	// console.log({T});
@@ -99,13 +99,13 @@ export default function (color, sample, {l = 2, c = 1} = {}) {
 	// SH Hue factor also depends on C1,
 	let C4 = Math.pow(C1, 4);
 	let F = Math.sqrt(C4 / (C4 + 1900));
-	let SH = SC * ((F * T) + 1 - F);
+	let SH = SC * (F * T + 1 - F);
 
 	// Finally calculate the deltaE, term by term as root sume of squares
 	let dE = (ΔL / (l * SL)) ** 2;
 	dE += (ΔC / (c * SC)) ** 2;
-	dE += (H2 / (SH ** 2));
+	dE += H2 / SH ** 2;
 	// dE += (ΔH / SH)  ** 2;
 	return Math.sqrt(dE);
 	// Yay!!!
-};
+}

@@ -1,6 +1,6 @@
 import ColorSpace from "../space.js";
 import OKLab from "./oklab.js";
-import {constrain as constrainAngle} from "../angles.js";
+import { constrain as constrainAngle } from "../angles.js";
 
 export default new ColorSpace({
 	id: "oklch",
@@ -8,22 +8,22 @@ export default new ColorSpace({
 	coords: {
 		l: {
 			refRange: [0, 1],
-			name: "Lightness"
+			name: "Lightness",
 		},
 		c: {
 			refRange: [0, 0.4],
-			name: "Chroma"
+			name: "Chroma",
 		},
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
-		}
+			name: "Hue",
+		},
 	},
 	white: "D65",
 
 	base: OKLab,
-	fromBase (oklab) {
+	fromBase(oklab) {
 		// Convert to polar form
 		let [L, a, b] = oklab;
 		let h;
@@ -31,19 +31,18 @@ export default new ColorSpace({
 
 		if (Math.abs(a) < ε && Math.abs(b) < ε) {
 			h = NaN;
-		}
-		else {
-			h = Math.atan2(b, a) * 180 / Math.PI;
+		} else {
+			h = (Math.atan2(b, a) * 180) / Math.PI;
 		}
 
 		return [
 			L, // OKLab L is still L
 			Math.sqrt(a ** 2 + b ** 2), // Chroma
-			constrainAngle(h) // Hue, in degrees [0 to 360)
+			constrainAngle(h), // Hue, in degrees [0 to 360)
 		];
 	},
 	// Convert from polar form
-	toBase (oklch) {
+	toBase(oklch) {
 		let [L, C, h] = oklch;
 		let a, b;
 
@@ -51,18 +50,21 @@ export default new ColorSpace({
 		if (isNaN(h)) {
 			a = 0;
 			b = 0;
-		}
-		else {
-			a = C * Math.cos(h * Math.PI / 180);
-			b = C * Math.sin(h * Math.PI / 180);
+		} else {
+			a = C * Math.cos((h * Math.PI) / 180);
+			b = C * Math.sin((h * Math.PI) / 180);
 		}
 
-		return [ L, a, b ];
+		return [L, a, b];
 	},
 
 	formats: {
-		"oklch": {
-			coords: ["<number> | <percentage>", "<number> | <percentage>[0,1]", "<number> | <angle>"],
-		}
-	}
+		oklch: {
+			coords: [
+				"<number> | <percentage>",
+				"<number> | <percentage>[0,1]",
+				"<number> | <angle>",
+			],
+		},
+	},
 });

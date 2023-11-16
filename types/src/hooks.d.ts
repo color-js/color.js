@@ -6,7 +6,7 @@ export class Hooks {
 	add(
 		name: string | string[],
 		callback: (env: Record<string, any>) => void,
-		first?: boolean
+		first?: boolean,
 	): void;
 	run(name: string, env?: { context?: Record<string, any> }): void;
 }

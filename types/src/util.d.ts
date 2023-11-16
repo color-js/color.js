@@ -48,13 +48,13 @@ export function interpolate(start: number, end: number, p: number): number;
 export function interpolateInv(
 	start: number,
 	end: number,
-	value: number
+	value: number,
 ): number;
 
 export function mapRange(
 	from: [number, number],
 	to: [number, number],
-	value: number
+	value: number,
 ): number;
 
 export function parseCoordGrammar(coordGrammars: string[]): string[];

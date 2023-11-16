@@ -1,103 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Benchmark</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Benchmark</title>
+	</head>
+	<body>
+		<canvas id="colorjs_canvas" width="360" height="200"></canvas>
+		<canvas id="culori_canvas" width="360" height="200"></canvas>
 
-<canvas id="colorjs_canvas" width="360" height="200"></canvas>
-<canvas id="culori_canvas" width="360" height="200"></canvas>
+		<script type="module">
+			function test(lib, canvas, f) {
+				let ctx = canvas.getContext("2d");
+				let w = canvas.width;
+				let i = 0,
+					j = 0;
+				let timeTaken = { create: 0, to_srgb: 0, in: 0, str: 0 };
 
-<script type="module">
+				outerloop: for (let h = 0; h <= 360; h += 1) {
+					for (let l = 0; l <= 1; l += 0.05) {
+						for (let c = 0; c <= 0.4; c += 0.02) {
+							let start;
+							start = performance.now();
+							let color = f.create(l, c, h);
+							timeTaken.create += performance.now() - start;
 
-function test(lib, canvas, f) {
-	let ctx = canvas.getContext("2d");
-	let w = canvas.width;
-	let i=0, j=0;
-	let timeTaken = {create: 0, to_srgb: 0, in: 0, str: 0};
+							start = performance.now();
+							let color_srgb = f.to_srgb(color);
+							timeTaken.to_srgb += performance.now() - start;
 
-	outerloop: for (let h = 0; h <= 360; h += 1) {
-		for (let l = 0; l <= 1; l+=.05) {
-			for (let c = 0; c <= 0.4; c+=.02) {
-				let start;
-				start = performance.now();
-				let color = f.create(l, c, h);
-				timeTaken.create += performance.now() - start;
+							start = performance.now();
+							let inSRGB = f.in(color_srgb, color);
+							timeTaken.in += performance.now() - start;
 
-				start = performance.now();
-				let color_srgb = f.to_srgb(color);
-				timeTaken.to_srgb += performance.now() - start;
+							let colorStr;
 
-				start = performance.now();
-				let inSRGB = f.in(color_srgb, color);
-				timeTaken.in += performance.now() - start;
+							if (inSRGB) {
+								start = performance.now();
+								colorStr = f.str(color_srgb, color, inSRGB);
 
-				let colorStr;
+								timeTaken.str += performance.now() - start;
+							}
 
-				if (inSRGB) {
-					start = performance.now();
-					colorStr = f.str(color_srgb, color, inSRGB);
+							if (inSRGB) {
+								ctx.fillStyle = colorStr;
 
-					timeTaken.str += performance.now() - start;
+								let x = i % w;
+								let y = (i - x) / w;
+
+								ctx.fillRect(x, y, 1, 1);
+								i++;
+							}
+							j++;
+						}
+					}
+
+					//console.log(`${h}/360 done, taken ${timeTaken}ms so far`);
 				}
 
-				if (inSRGB) {
-					ctx.fillStyle = colorStr;
-
-					let x = i % w;
-					let y = (i - x) / w;
-
-					ctx.fillRect(x, y, 1, 1);
-					i++;
-				}
-				j++;
-
+				let totalTime =
+					timeTaken.create +
+					timeTaken.to_srgb +
+					timeTaken.in +
+					timeTaken.str;
+				console.log(
+					`${lib}: ${i}/${j} colors in gamut, took ${totalTime}ms (${timeTaken.create}ms creation, ${timeTaken.to_srgb}ms conversion to srgb, ${timeTaken.in} in gamut check, ${timeTaken.str} serialization)`,
+				);
 			}
-		}
 
-		//console.log(`${h}/360 done, taken ${timeTaken}ms so far`);
-	}
+			import Color from "../src/color.js";
+			import srgb from "../src/spaces/srgb.js";
+			import oklch from "../src/spaces/oklch.js";
+			// import to from "../src/to.js";
+			// import inGamut from "../src/inGamut.js";
+			// import serialize from "../src/serialize.js";
+			import { to, inGamut, serialize } from "../src/index-fn.js";
 
-	let totalTime = timeTaken.create + timeTaken.to_srgb + timeTaken.in + timeTaken.str;
-	console.log(`${lib}: ${i}/${j} colors in gamut, took ${totalTime}ms (${timeTaken.create}ms creation, ${timeTaken.to_srgb}ms conversion to srgb, ${timeTaken.in} in gamut check, ${timeTaken.str} serialization)`);
-}
+			test("Color.js", colorjs_canvas, {
+				create: (l, c, h) => ({ space: oklch, coords: [l, c, h] }),
+				to_srgb: (color) => to(color, srgb),
+				in: (color_srgb) => inGamut(color_srgb, srgb, { epsilon: 0 }),
+				str: (color_srgb) => serialize(color_srgb),
+			});
 
-import Color from "../src/color.js";
-import srgb from "../src/spaces/srgb.js";
-import oklch from "../src/spaces/oklch.js";
-// import to from "../src/to.js";
-// import inGamut from "../src/inGamut.js";
-// import serialize from "../src/serialize.js";
-import {to, inGamut, serialize} from "../src/index-fn.js";
+			// test("Color.js", colorjs_canvas, {
+			// 	create: (l, c, h) => new Color(oklch, [l, c, h]),
+			// 	to_srgb: color => color.to(srgb),
+			// 	in: color_srgb => color_srgb.inGamut(srgb, {epsilon: 0}),
+			// 	str: color_srgb => color_srgb.toString(color_srgb)
+			// });
 
-test("Color.js", colorjs_canvas, {
-	create: (l, c, h) => ({space: oklch, coords: [l, c, h]}),
-	to_srgb: color => to(color, srgb),
-	in: color_srgb => inGamut(color_srgb, srgb, {epsilon: 0}),
-	str: color_srgb => serialize(color_srgb)
-});
+			import {
+				displayable,
+				rgb,
+				formatRgb,
+			} from "https://cdn.skypack.dev/culori";
 
-// test("Color.js", colorjs_canvas, {
-// 	create: (l, c, h) => new Color(oklch, [l, c, h]),
-// 	to_srgb: color => color.to(srgb),
-// 	in: color_srgb => color_srgb.inGamut(srgb, {epsilon: 0}),
-// 	str: color_srgb => color_srgb.toString(color_srgb)
-// });
-
-
-import { displayable, rgb, formatRgb } from 'https://cdn.skypack.dev/culori';
-
-test("culori", culori_canvas, {
-	create: (l, c, h) => ({ mode: 'oklch', l, c, h }),
-	to_srgb: color => rgb(color),
-	in: color => displayable(color),
-	str: color => formatRgb(color)
-});
-
-
-</script>
-</body>
+			test("culori", culori_canvas, {
+				create: (l, c, h) => ({ mode: "oklch", l, c, h }),
+				to_srgb: (color) => rgb(color),
+				in: (color) => displayable(color),
+				str: (color) => formatRgb(color),
+			});
+		</script>
+	</body>
 </html>

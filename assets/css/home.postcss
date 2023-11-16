@@ -7,7 +7,7 @@ body > header {
 	margin: 1em auto;
 	width: fit-content;
 	display: grid;
-	grid-gap: .3em 0;
+	grid-gap: 0.3em 0;
 	grid-template-columns: minmax(1em, auto) 1fr;
 	font-size: 200%;
 
@@ -16,7 +16,7 @@ body > header {
 		color: hsl(var(--gray) 48%);
 		font-family: var(--font-sans);
 		font-weight: 700;
-		letter-spacing: -.03em;
+		letter-spacing: -0.03em;
 	}
 
 	& h2 {
@@ -53,28 +53,28 @@ body > header {
 	}
 }
 
-	#features article {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		grid-gap: .1em .5em;
-	}
+#features article {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 0.1em 0.5em;
+}
 
-	#features article::before {
-		content: "✓";
-		color: var(--color-green);
-		font-size: 300%;
-		line-height: .8;
-		grid-row: 1 / span 2;
-	}
+#features article::before {
+	content: "✓";
+	color: var(--color-green);
+	font-size: 300%;
+	line-height: 0.8;
+	grid-row: 1 / span 2;
+}
 
-	#features h4 {
-		margin: 0;
-	}
+#features h4 {
+	margin: 0;
+}
 
-	#features p {
-		margin: 0;
-		font-size: 75%;
-	}
+#features p {
+	margin: 0;
+	font-size: 75%;
+}
 
 .readme-only {
 	display: none;
@@ -84,7 +84,7 @@ body > header {
 	font-size: 40%;
 	vertical-align: super;
 	letter-spacing: 0;
-	text-indent: -.4em;
+	text-indent: -0.4em;
 	margin-left: -0.3em;
 	color: var(--color-green);
 
@@ -92,6 +92,6 @@ body > header {
 		background: var(--rainbow);
 		animation: var(--rainbow-scroll);
 		-webkit-text-fill-color: transparent;
-		-webkit-background-clip: text
+		-webkit-background-clip: text;
 	}
 }

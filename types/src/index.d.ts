@@ -77,19 +77,19 @@ declare module "./color" {
 		static mix(
 			color1: ColorTypes,
 			color2: ColorTypes,
-			options?: MixOptions
+			options?: MixOptions,
 		): Color;
 		static mix(
 			color1: ColorTypes,
 			color2: ColorTypes,
 			p: number,
-			options?: MixOptions
+			options?: MixOptions,
 		): Color;
 		static range: typeof range;
 		static steps(
 			color1: ColorTypes,
 			color2: ColorTypes,
-			options?: StepsOptions
+			options?: StepsOptions,
 		): Color[];
 		static steps(range: Range, options?: StepsOptions): Color[];
 

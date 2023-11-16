@@ -8,7 +8,7 @@ declare namespace to {
 declare function to(
 	color: ColorTypes,
 	space: string | ColorSpace,
-	options?: { inGamut?: boolean | undefined }
+	options?: { inGamut?: boolean | undefined },
 ): PlainColorObject;
 
 export default to;

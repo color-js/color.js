@@ -13,14 +13,20 @@ export interface RangeOptions {
 	outputSpace?: string | ColorSpace | undefined;
 	progression?: ((percentage: number) => number) | undefined;
 	premultiplied?: boolean | undefined;
-	hue?: "longer" | "shorter" | "increasing" | "decreasing" | "raw" | undefined;
+	hue?:
+		| "longer"
+		| "shorter"
+		| "increasing"
+		| "decreasing"
+		| "raw"
+		| undefined;
 }
 
 export function range(range: Range, options?: RangeOptions): Range;
 export function range(
 	color1: ColorTypes,
 	color2: ColorTypes,
-	options?: RangeOptions & Record<string, any>
+	options?: RangeOptions & Record<string, any>,
 ): Range;
 
 export interface MixOptions {
@@ -32,13 +38,13 @@ export interface MixOptions {
 export function mix(
 	color1: ColorTypes,
 	color2: ColorTypes,
-	options?: MixOptions
+	options?: MixOptions,
 ): PlainColorObject;
 export function mix(
 	color1: ColorTypes,
 	color2: ColorTypes,
 	p: number,
-	options?: MixOptions
+	options?: MixOptions,
 ): PlainColorObject;
 
 export interface StepsOptions extends RangeOptions {
@@ -48,7 +54,11 @@ export interface StepsOptions extends RangeOptions {
 	maxSteps?: number | undefined;
 }
 
-export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): PlainColorObject[];
+export function steps(
+	color1: ColorTypes,
+	color2: ColorTypes,
+	options?: StepsOptions,
+): PlainColorObject[];
 export function steps(range: Range, options?: StepsOptions): PlainColorObject[];
 
 export function register(color: typeof Color): void;

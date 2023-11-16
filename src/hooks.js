@@ -2,32 +2,32 @@
  * A class for adding deep extensibility to any piece of JS code
  */
 export class Hooks {
-	add (name, callback, first) {
+	add(name, callback, first) {
 		if (typeof arguments[0] != "string") {
 			// Multiple hooks
-			for (var name in arguments[0]) {
-				this.add(name, arguments[0][name], arguments[1]);
+			for (var _name in arguments[0]) {
+				this.add(_name, arguments[0][_name], arguments[1]);
 			}
 
 			return;
 		}
 
-		(Array.isArray(name)? name : [name]).forEach(function (name) {
+		(Array.isArray(name) ? name : [name]).forEach(function (name) {
 			this[name] = this[name] || [];
 
 			if (callback) {
-				this[name][first? "unshift" : "push"](callback);
+				this[name][first ? "unshift" : "push"](callback);
 			}
 		}, this);
 	}
 
-	run (name, env) {
+	run(name, env) {
 		this[name] = this[name] || [];
 		this[name].forEach(function (callback) {
-			callback.call(env && env.context? env.context : env, env);
+			callback.call(env && env.context ? env.context : env, env);
 		});
 	}
-};
+}
 
 /**
  * The instance of {@link Hooks} used throughout Color.js

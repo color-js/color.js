@@ -6,5 +6,5 @@ export interface Options {
 
 export default function parse(
 	str: string,
-	options?: Options & Record<string, any>
+	options?: Options & Record<string, any>,
 ): ColorConstructor;

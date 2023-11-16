@@ -2,7 +2,7 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import defaults from "./defaults.js";
 import ColorSpace from "./space.js";
-import {WHITES} from "./adapt.js";
+import { WHITES } from "./adapt.js";
 import {
 	getColor,
 	parse,
@@ -18,7 +18,6 @@ import {
 	setAll,
 	display,
 } from "./index-fn.js";
-
 
 import "./spaces/xyz-d50.js";
 import "./spaces/srgb.js";
@@ -36,7 +35,7 @@ export default class Color {
 	 * - `new Color(space, coords, alpha)`
 	 * - `new Color(spaceId, coords, alpha)`
 	 */
-	constructor (...args) {
+	constructor(...args) {
 		let color;
 
 		if (args.length === 1) {
@@ -49,8 +48,7 @@ export default class Color {
 			space = color.space || color.spaceId;
 			coords = color.coords;
 			alpha = color.alpha;
-		}
-		else {
+		} else {
 			// default signature new Color(ColorSpace, array [, alpha])
 			[space, coords, alpha] = args;
 		}
@@ -62,10 +60,10 @@ export default class Color {
 			configurable: true, // see note in https://262.ecma-international.org/8.0/#sec-proxy-object-internal-methods-and-internal-slots-get-p-receiver
 		});
 
-		this.coords = coords? coords.slice() : [0, 0, 0];
+		this.coords = coords ? coords.slice() : [0, 0, 0];
 
 		// Clamp alpha to [0, 1]
-		this.alpha = alpha > 1? 1 : (alpha < 0? 0 : alpha);
+		this.alpha = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha;
 
 		// Convert "NaN" to NaN
 		for (let i = 0; i < this.coords.length; i++) {
@@ -78,28 +76,30 @@ export default class Color {
 		for (let id in this.space.coords) {
 			Object.defineProperty(this, id, {
 				get: () => this.get(id),
-				set: value => this.set(id, value)
+				set: (value) => {
+					this.set(id, value);
+				},
 			});
 		}
 	}
 
-	get spaceId () {
+	get spaceId() {
 		return this.space.id;
 	}
 
-	clone () {
+	clone() {
 		return new Color(this.space, this.coords, this.alpha);
 	}
 
-	toJSON () {
+	toJSON() {
 		return {
 			spaceId: this.spaceId,
 			coords: this.coords,
-			alpha: this.alpha
+			alpha: this.alpha,
 		};
 	}
 
-	display (...args) {
+	display(...args) {
 		let ret = display(this, ...args);
 
 		// Convert color object to Color instance
@@ -112,7 +112,7 @@ export default class Color {
 	 * Get a color from the argument passed
 	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
 	 */
-	static get (color, ...args) {
+	static get(color, ...args) {
 		if (color instanceof Color) {
 			return color;
 		}
@@ -120,16 +120,15 @@ export default class Color {
 		return new Color(color, ...args);
 	}
 
-	static defineFunction (name, code, o = code) {
-		let {instance = true, returns} = o;
+	static defineFunction(name, code, o = code) {
+		let { instance = true, returns } = o;
 
 		let func = function (...args) {
 			let ret = code(...args);
 
 			if (returns === "color") {
 				ret = Color.get(ret);
-			}
-			else if (returns === "function<color>") {
+			} else if (returns === "function<color>") {
 				let f = ret;
 				ret = function (...args) {
 					let ret = f(...args);
@@ -137,9 +136,8 @@ export default class Color {
 				};
 				// Copy any function metadata
 				Object.assign(ret, f);
-			}
-			else if (returns === "array<color>") {
-				ret = ret.map(c => Color.get(c));
+			} else if (returns === "array<color>") {
+				ret = ret.map((c) => Color.get(c));
 			}
 
 			return ret;
@@ -156,24 +154,23 @@ export default class Color {
 		}
 	}
 
-	static defineFunctions (o) {
+	static defineFunctions(o) {
 		for (let name in o) {
 			Color.defineFunction(name, o[name], o[name]);
 		}
 	}
 
-	static extend (exports) {
+	static extend(exports) {
 		if (exports.register) {
 			exports.register(Color);
-		}
-		else {
+		} else {
 			// No register method, just add the module's functions
 			for (let name in exports) {
 				Color.defineFunction(name, exports[name]);
 			}
 		}
 	}
-};
+}
 
 Color.defineFunctions({
 	get,
@@ -197,5 +194,5 @@ Object.assign(Color, {
 	parse,
 
 	// Global defaults one may want to configure
-	defaults
+	defaults,
 });

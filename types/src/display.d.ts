@@ -7,5 +7,5 @@ export default function display(
 	color: ColorTypes,
 	options?: {
 		space?: string | ColorSpace | undefined;
-	} & Record<string, any>
+	} & Record<string, any>,
 ): Display;

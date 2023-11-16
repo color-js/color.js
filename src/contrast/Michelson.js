@@ -4,9 +4,9 @@
 // No black level compensation for flare.
 
 import getColor from "../getColor.js";
-import {getLuminance} from "../luminance.js";
+import { getLuminance } from "../luminance.js";
 
-export default function contrastMichelson (color1, color2) {
+export default function contrastMichelson(color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 
@@ -17,6 +17,6 @@ export default function contrastMichelson (color1, color2) {
 		[Y1, Y2] = [Y2, Y1];
 	}
 
-	let denom = (Y1 + Y2);
+	let denom = Y1 + Y2;
 	return denom === 0 ? 0 : (Y1 - Y2) / denom;
-};
+}

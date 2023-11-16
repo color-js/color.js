@@ -1,7 +1,7 @@
-module.exports = config => {
+module.exports = (config) => {
 	let data = {
-		"layout": "page.njk",
-		"permalink": "{{ page.filePathStem }}.html",
+		layout: "page.njk",
+		permalink: "{{ page.filePathStem }}.html",
 	};
 
 	for (let p in data) {
@@ -13,7 +13,7 @@ module.exports = config => {
 	config.setFrontMatterParsingOptions({
 		excerpt: true,
 		// Optional, default is "---"
-		excerpt_separator: "<!-- more -->"
+		excerpt_separator: "<!-- more -->",
 	});
 
 	// config.addFilter("readable_date", date => {
@@ -23,34 +23,32 @@ module.exports = config => {
 	// 	});
 	// });
 
-	config.addFilter(
-		"relative",
-		page => {
-			let path = page.url.replace(/[^/]+$/, "");
-			let ret = require("path").relative(path, "/");
+	config.addFilter("relative", (page) => {
+		let path = page.url.replace(/[^/]+$/, "");
+		let ret = require("path").relative(path, "/");
 
-			return ret || ".";
-		}
+		return ret || ".";
+	});
+
+	config.addFilter("unslugify", (slug) =>
+		slug.replace(
+			/(^|-)([a-z])/g,
+			($0, $1, $2) => ($1 ? " " : "") + $2.toUpperCase(),
+		),
 	);
 
-	config.addFilter(
-		"unslugify",
-		slug => slug.replace(/(^|-)([a-z])/g, ($0, $1, $2) => ($1? " " : "") + $2.toUpperCase())
-	);
-
-	config.addFilter(
-		"first_heading",
-		content => {
-			// console.log(content);
-			return content? content.match(/^#+\s*(.+)/)?.[1] ?? "NO_HEADING_FOUND" : "EMPTY_CONTENT";
-		}
-	);
+	config.addFilter("first_heading", (content) => {
+		// console.log(content);
+		return content
+			? content.match(/^#+\s*(.+)/)?.[1] ?? "NO_HEADING_FOUND"
+			: "EMPTY_CONTENT";
+	});
 
 	return {
 		markdownTemplateEngine: "njk",
 		templateFormats: ["md", "njk"],
 		dir: {
-			output: "."
-		}
+			output: ".",
+		},
 	};
 };

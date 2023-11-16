@@ -8,5 +8,5 @@ import { Algorithms } from "./contrast/index.js";
 export default function contrast(
 	background: ColorTypes,
 	foreground: ColorTypes,
-	options: Algorithms | ({ algorithm: Algorithms } & Record<string, any>)
+	options: Algorithms | ({ algorithm: Algorithms } & Record<string, any>),
 ): number;

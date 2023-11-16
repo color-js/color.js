@@ -1,6 +1,10 @@
 body {
 	background: hsl(152.32 0% 46.63%); /* lab(50% 0 0) */
-	font: 120%/1.5 Helvetica Neue, Helvetica, Segoe UI, sans-serif;
+	font:
+		120%/1.5 Helvetica Neue,
+		Helvetica,
+		Segoe UI,
+		sans-serif;
 	width: fit-content;
 	width: 50em;
 	max-width: 90vw;
@@ -17,10 +21,10 @@ input {
 	width: 100%;
 	border: 5px solid var(--color);
 	border-right-width: 2em;
-	background: hsla(0 0% 100% / .5);
+	background: hsla(0 0% 100% / 0.5);
 	color: black;
 	font-size: 150%;
-	padding: 0 .2em;
+	padding: 0 0.2em;
 }
 
 .inputs label {
@@ -38,40 +42,43 @@ input {
 }
 
 [property="gradient"] details {
-	padding: .5em;
-	background: hsl(0 0% 100% / .5);
+	padding: 0.5em;
+	background: hsl(0 0% 100% / 0.5);
 }
 
-	[property="gradient"] details input,
-	[property="gradient"] details textarea {
-		background: hsl(0 0% 100% / .5);
-		border: 1px solid white;
-	}
+[property="gradient"] details input,
+[property="gradient"] details textarea {
+	background: hsl(0 0% 100% / 0.5);
+	border: 1px solid white;
+}
 
-	input[type=number] {
-		width: 4em;
-		padding: 0 .2em;
-		font-weight: bold;
-	}
+input[type="number"] {
+	width: 4em;
+	padding: 0 0.2em;
+	font-weight: bold;
+}
 
-	textarea {
-		display: block;
-		margin-top: .5em;
-		width: 100%;
-		font: 80%/1.4 Consolas, Monaco, monospace;
-		height: 7em;
-	}
+textarea {
+	display: block;
+	margin-top: 0.5em;
+	width: 100%;
+	font:
+		80%/1.4 Consolas,
+		Monaco,
+		monospace;
+	height: 7em;
+}
 
 [property="step"] {
-	padding: .4em;
+	padding: 0.4em;
 	background: var(--color);
 	font-weight: bold;
 	font-size: 90%;
 }
 
-	[property="step"] code {
-		font-family: Consolas, Monaco, monospace;
-	}
+[property="step"] code {
+	font-family: Consolas, Monaco, monospace;
+}
 
 meta[property][mv-mode="edit"] {
 	display: none;

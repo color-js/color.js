@@ -1,5 +1,5 @@
 import ColorSpace from "./space.js";
-import {isString} from "./util.js";
+import { isString } from "./util.js";
 import parse from "./parse.js";
 
 /**
@@ -7,7 +7,7 @@ import parse from "./parse.js";
  * @param {Color | {space, coords, alpha} | string} color
  * @returns {{space, coords, alpha}}
  */
-export default function getColor (color) {
+export default function getColor(color) {
 	if (!color) {
 		throw new TypeError("Empty color reference");
 	}

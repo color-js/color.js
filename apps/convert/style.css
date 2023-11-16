@@ -1,5 +1,5 @@
 :root {
-	--font-ui: system-ui, Helvetica Neue, Helvetica, Segoe UI, sans-serif
+	--font-ui: system-ui, Helvetica Neue, Helvetica, Segoe UI, sans-serif;
 }
 
 body {
@@ -14,7 +14,7 @@ input {
 	font: inherit;
 	font-size: 150%;
 	width: 100%;
-	padding: 0 .2em;
+	padding: 0 0.2em;
 	box-sizing: border-box;
 }
 
@@ -29,16 +29,16 @@ input {
 	margin: 3em 0;
 }
 
-	.inputs input {
-		display: block;
-	}
+.inputs input {
+	display: block;
+}
 
 table {
 	width: 100%;
 }
 
 td {
-	padding: .3em .5em;
+	padding: 0.3em 0.5em;
 	font-family: Consolas, Monaco, monospace;
 }
 
@@ -46,50 +46,57 @@ td {
 	display: flex;
 }
 
-	.serialization a {
-		display: flex;
-		font: inherit;
-		color: inherit;
-		text-decoration: none;
-		white-space: nowrap;
-	}
+.serialization a {
+	display: flex;
+	font: inherit;
+	color: inherit;
+	text-decoration: none;
+	white-space: nowrap;
+}
 
-	.serialization a:hover {
-		cursor: pointer;
-		text-decoration: underline;
-	}
+.serialization a:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
 
-	.serialization.out-of-gamut {
-		color: hsl(0 90% 38%);
-	}
+.serialization.out-of-gamut {
+	color: hsl(0 90% 38%);
+}
 
-	.serialization.gamut-mapped::after {
-		content: "Gamut\amapped";
-		display: inline-block;
-		font: bold 9px/1 var(--font-ui);
-		background: hsl(0 40% 50% / .15);
-		text-transform: uppercase;
-		white-space: pre-line;
-		padding: .4em .6em;
-		border-radius: .3em;
-		margin: auto 0 auto .5em;
-	}
+.serialization.gamut-mapped::after {
+	content: "Gamut\amapped";
+	display: inline-block;
+	font: bold 9px/1 var(--font-ui);
+	background: hsl(0 40% 50% / 0.15);
+	text-transform: uppercase;
+	white-space: pre-line;
+	padding: 0.4em 0.6em;
+	border-radius: 0.3em;
+	margin: auto 0 auto 0.5em;
+}
 
-	.serialization button {
-		order: 4;
-	}
+.serialization button {
+	order: 4;
+}
 
 tr:nth-child(even) {
-	background: rgba(0,0,0,.05);
+	background: rgba(0, 0, 0, 0.05);
 }
 
 #colorOutput {
 	position: absolute;
-	top: 0; left: 0; right: 0;
+	top: 0;
+	left: 0;
+	right: 0;
 	width: 100%;
 	height: 2em;
-	--red-stripe-stops: transparent calc(50% - .05em), red 0 calc(50% + .05em), transparent 0;
-	--error-background: linear-gradient(to bottom right, var(--red-stripe-stops)), linear-gradient(to top right, var(--red-stripe-stops)) gray;
+	--red-stripe-stops: transparent calc(50% - 0.05em), red 0 calc(50% + 0.05em),
+		transparent 0;
+	--error-background: linear-gradient(
+			to bottom right,
+			var(--red-stripe-stops)
+		),
+		linear-gradient(to top right, var(--red-stripe-stops)) gray;
 }
 
 button.copy {
@@ -102,5 +109,5 @@ button.copy {
 }
 
 button.copy:not(:hover) {
-	filter: grayscale() opacity(.6);
+	filter: grayscale() opacity(0.6);
 }

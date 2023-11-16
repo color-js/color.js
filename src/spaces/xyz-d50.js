@@ -7,9 +7,9 @@ export default new ColorSpace({
 	name: "XYZ D50",
 	white: "D50",
 	base: XYZ_D65,
-	fromBase: coords => adapt(XYZ_D65.white, "D50", coords),
-	toBase: coords => adapt("D50", XYZ_D65.white, coords),
+	fromBase: (coords) => adapt(XYZ_D65.white, "D50", coords),
+	toBase: (coords) => adapt("D50", XYZ_D65.white, coords),
 	formats: {
-		color: {}
+		color: {},
 	},
 });

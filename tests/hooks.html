@@ -1,49 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Hooks tests</title>
 
-<meta charset="UTF-8">
-<title>Hooks tests</title>
+		<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+		<script src="https://htest.dev/htest.js" crossorigin></script>
+		<link rel="stylesheet" href="style.css" />
 
-<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
-<script src="https://htest.dev/htest.js" crossorigin></script>
-<link rel="stylesheet" href="style.css" />
+		<script src="../color.js" type="module"></script>
+		<script></script>
+	</head>
+	<body>
+		<h1>Hooks Tests</h1>
+		<p>TBD</p>
 
+		<section>
+			<h1>sRGB to LCH</h1>
+			<table class="reftest">
+				<tr title="parse-start">
+					<td>
+						<script>
+							$out(() => {
+								Color.hooks.add("parse-start", (env) => {
+									if (env.str === "foo") {
+										return (env.color = {
+											spaceId: "sRGB",
+											coords: [1, 0.5, 0.5],
+										});
+									}
+								});
 
-<script src="../color.js" type="module"></script>
-<script>
+								return new Color("foo").toJSON();
+							});
+						</script>
+					</td>
+					<td>
+						{ "spaceId": "srgb", "coords": [ 1, 0.5, 0.5 ], "alpha":
+						1 }
+					</td>
+				</tr>
+			</table>
+		</section>
 
-</script>
-
-</head>
-<body>
-
-<h1>Hooks Tests</h1>
-<p>TBD</p>
-
-<section>
-	<h1>sRGB to LCH</h1>
-	<table class="reftest">
-		<tr title="parse-start">
-			<td>
-				<script>
-					$out(() => {
-						Color.hooks.add("parse-start", env => {
-							if (env.str === "foo") {
-								return env.color = {spaceId: "sRGB", coords: [1, .5, .5]};
-							}
-						});
-
-						return new Color("foo").toJSON();
-					});
-				</script>
-			</td>
-			<td>{ "spaceId": "srgb", "coords": [ 1, 0.5, 0.5 ], "alpha": 1 }</td>
-		</tr>
-	</table>
-</section>
-
-<script src="../assets/reftests.js" type="module"></script>
-
-</body>
+		<script src="../assets/reftests.js" type="module"></script>
+	</body>
 </html>

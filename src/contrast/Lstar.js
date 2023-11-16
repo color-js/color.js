@@ -6,7 +6,7 @@ import getColor from "../getColor.js";
 import get from "../get.js";
 import lab from "../spaces/lab.js";
 
-export default function contrastLstar (color1, color2) {
+export default function contrastLstar(color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 
@@ -14,4 +14,4 @@ export default function contrastLstar (color1, color2) {
 	let L2 = get(color2, [lab, "l"]);
 
 	return Math.abs(L1 - L2);
-};
+}

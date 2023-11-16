@@ -9,5 +9,5 @@ export interface Options {
 
 export default function serialize(
 	color: ColorTypes,
-	options?: Options & Record<string, any>
+	options?: Options & Record<string, any>,
 ): string;

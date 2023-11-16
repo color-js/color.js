@@ -1,39 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Convert</title>
+		<link rel="shortcut icon" href="" />
+		<link rel="stylesheet" href="style.css" />
+		<script src="../../color.js" type="module"></script>
+	</head>
+	<body>
+		<output id="colorOutput"></output>
+		<div class="inputs">
+			<label> Color: <input id="colorInput" value="lime" /> </label>
 
-<meta charset="UTF-8">
-<title>Convert</title>
-<link rel="shortcut icon" href="">
-<link rel="stylesheet" href="style.css">
-<script src="../../color.js" type="module"></script>
+			<label>
+				Precision:
+				<input type="number" id="precisionInput" value="4" max="21" />
+			</label>
+		</div>
 
-</head>
-<body>
-<output id="colorOutput"></output>
-<div class="inputs">
-	<label>
-		Color: <input id="colorInput" value="lime" />
-	</label>
+		<table id="output">
+			<thead>
+				<tr>
+					<th>Color space</th>
+					<th>Raw coords</th>
+					<th>Serialized color</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 
-	<label>
-		Precision: <input type="number" id="precisionInput" value="4" max="21">
-	</label>
-</div>
-
-<table id="output">
-	<thead>
-		<tr>
-			<th>Color space</th>
-			<th>Raw coords</th>
-			<th>Serialized color</th>
-		</tr>
-	</thead>
-	<tbody>
-
-	</tbody>
-</table>
-
-<script type="module" src="convert.js"></script>
-</body>
+		<script type="module" src="convert.js"></script>
+	</body>
 </html>

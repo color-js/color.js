@@ -5,5 +5,5 @@
  */
 export default function multiplyMatrices(
 	a: number[] | number[][],
-	b: number[] | number[][]
+	b: number[] | number[][],
 ): number[];

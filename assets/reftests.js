@@ -7,7 +7,9 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 		return;
 	}
 
-	let colorCols = new Set(table.dataset.colors.split(/\s*,\s*/).map(i => i - 1));
+	let colorCols = new Set(
+		table.dataset.colors.split(/\s*,\s*/).map((i) => i - 1),
+	);
 
 	for (let i = 0; i < env.cells.length; i++) {
 		if (!colorCols.has(i)) {
@@ -19,12 +21,13 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 
 		try {
 			color = new Color(cell.textContent);
-		}
-		catch (e) {
+		} catch (e) {
 			return;
 		}
 
 		cell.style.setProperty("--color", color.display());
-		cell.classList.add(color.luminance > .5 || color.alpha < .5? "light" : "dark");
+		cell.classList.add(
+			color.luminance > 0.5 || color.alpha < 0.5 ? "light" : "dark",
+		);
 	}
 });

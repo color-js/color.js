@@ -3,9 +3,9 @@
 // Symmetric, does not matter which is foreground and which is background
 
 import getColor from "../getColor.js";
-import {getLuminance} from "../luminance.js";
+import { getLuminance } from "../luminance.js";
 
-export default function contrastWCAG21 (color1, color2) {
+export default function contrastWCAG21(color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 
@@ -16,5 +16,5 @@ export default function contrastWCAG21 (color1, color2) {
 		[Y1, Y2] = [Y2, Y1];
 	}
 
-	return (Y1 + .05) / (Y2 + .05);
-};
+	return (Y1 + 0.05) / (Y2 + 0.05);
+}

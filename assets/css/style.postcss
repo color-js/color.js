@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap');
-@import url('prism.css');
-@import url('carbon.css');
-@import url('../../notebook/color-notebook.css');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap");
+@import url("prism.css");
+@import url("carbon.css");
+@import url("../../notebook/color-notebook.css");
 
 :root {
 	--gray: 220 10%;
@@ -25,13 +25,22 @@
 	--page-margin: calc((100vw - var(--page-width)) / 2);
 
 	--rainbow-width: 150vw;
-	--rainbow: linear-gradient(to right, var(--gradient-steps, var(--color-red), var(--color-green), var(--color-blue), var(--color-red)))
-	           var(--rainbow-width) 0 / var(--rainbow-width) .3em fixed;
+	--rainbow: linear-gradient(
+			to right,
+			var(
+				--gradient-steps,
+				var(--color-red),
+				var(--color-green),
+				var(--color-blue),
+				var(--color-red)
+			)
+		)
+		var(--rainbow-width) 0 / var(--rainbow-width) 0.3em fixed;
 	--rainbow-scroll: rainbow-scroll 20s linear 2 both;
 
 	@supports (width: max(1px, 1rem)) {
 		--page-margin: max(1rem, (100vw - var(--page-width)) / 2);
-		--rainbow-width: max(150vw, 900px)
+		--rainbow-width: max(150vw, 900px);
 	}
 
 	@supports (-moz-margin-start: 0) {
@@ -65,7 +74,12 @@ body {
 	}
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: var(--font-headings);
 	font-weight: 900;
 	line-height: 1;
@@ -91,7 +105,7 @@ img {
 
 fieldset {
 	border: 1px solid hsl(var(--gray) 80%);
-	border-radius: .2em;
+	border-radius: 0.2em;
 
 	& legend {
 		font: 700 120%/1 var(--font-headings);
@@ -101,7 +115,7 @@ fieldset {
 table {
 	width: 100%;
 	border: 5px solid transparent;
-	border-radius: .2em;
+	border-radius: 0.2em;
 	border-spacing: 0;
 	border-collapse: collapse;
 	background: var(--rainbow);
@@ -110,7 +124,7 @@ table {
 	& th,
 	& td {
 		text-align: left;
-		padding: .2em .4em;
+		padding: 0.2em 0.4em;
 	}
 
 	& thead {
@@ -124,14 +138,14 @@ table {
 	& tfoot {
 		& th,
 		& td {
-			background: hsla(0 0% 100% / .95);
+			background: hsla(0 0% 100% / 0.95);
 			border: 1px solid transparent;
 		}
 
 		& tr:nth-of-type(even) {
 			& td,
 			& th {
-				background: hsla(0 0% 100% / .8);
+				background: hsla(0 0% 100% / 0.8);
 			}
 		}
 	}
@@ -139,11 +153,11 @@ table {
 
 dl {
 	display: grid;
-	grid-gap: 0 .3em;
+	grid-gap: 0 0.3em;
 
 	& dt {
 		grid-column: 1;
-		opacity: .75;
+		opacity: 0.75;
 	}
 
 	& dd {
@@ -156,7 +170,7 @@ figure {
 	width: fit-content;
 
 	& figcaption {
-		margin-top: .5em;
+		margin-top: 0.5em;
 		font-size: 70%;
 		color: hsl(var(--gray) 35%);
 		text-align: center;
@@ -182,7 +196,7 @@ body > footer {
 				margin: 0;
 				list-style: none;
 				background: white;
-				box-shadow: .1em .5em 1em hsl(0 0% 0% / .1);
+				box-shadow: 0.1em 0.5em 1em hsl(0 0% 0% / 0.1);
 				border-radius: 4px;
 				transition: 150ms;
 
@@ -205,7 +219,7 @@ body > footer {
 		& > .menu > a,
 		& a:not(.logo) {
 			flex: 1;
-			padding: .6em;
+			padding: 0.6em;
 			font-weight: 800;
 			white-space: nowrap;
 
@@ -234,18 +248,21 @@ body > header > h1 {
 	margin: 0;
 	color: hsl(220, 10%, 48%);
 	font: 600 300% var(--font-sans);
-	letter-spacing: -.03em;
-	margin: .5em 0;
+	letter-spacing: -0.03em;
+	margin: 0.5em 0;
 }
 
 body > header {
 	display: flex;
 	flex-flow: column;
 	--bg: var(--gray) 96%;
-	background: linear-gradient(hsl(var(--bg) / .85), hsl(var(--bg) / .8)) 0 .3em no-repeat fixed,
-		var(--rainbow)
-		hsl(var(--bg));
-	background-size: 100% 2.3em, var(--rainbow-width) 2.6em;
+	background:
+		linear-gradient(hsl(var(--bg) / 0.85), hsl(var(--bg) / 0.8)) 0 0.3em
+			no-repeat fixed,
+		var(--rainbow) hsl(var(--bg));
+	background-size:
+		100% 2.3em,
+		var(--rainbow-width) 2.6em;
 	background-repeat: no-repeat, repeat-x;
 
 	& nav {
@@ -269,7 +286,7 @@ body > header {
 			& img {
 				height: 2.15em;
 				margin-bottom: -1.5em;
-				margin-left: -.3em;
+				margin-left: -0.3em;
 			}
 		}
 	}
@@ -277,8 +294,7 @@ body > header {
 
 body > footer {
 	padding-top: 1rem;
-	background: var(--rainbow),
-		hsl(var(--gray) 20%);
+	background: var(--rainbow), hsl(var(--gray) 20%);
 	animation: var(--rainbow-scroll);
 	background-position-y: bottom;
 	background-repeat: repeat-x;
@@ -315,7 +331,6 @@ main {
 		color: var(--color-red);
 
 		& > a {
-
 			color: inherit;
 
 			&[href^="#"] {
@@ -353,15 +368,15 @@ main {
 	&::before {
 		content: "✏️";
 		display: inline-block;
-		vertical-align: .4em;
-		width: .8em;
-		height: .8em;
-		border: .1em solid;
-		border-radius: .15em;
-		margin-right: .5em;
+		vertical-align: 0.4em;
+		width: 0.8em;
+		height: 0.8em;
+		border: 0.1em solid;
+		border-radius: 0.15em;
+		margin-right: 0.5em;
 		background: var(--color-blue-lighter);
-		line-height: .2;
-		text-indent: -.45em;
+		line-height: 0.2;
+		text-indent: -0.45em;
 	}
 
 	&:not(:hover):not(:focus) {
@@ -381,7 +396,11 @@ pre {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-	background: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .02) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
+	background: repeating-conic-gradient(
+			transparent 0 25%,
+			rgb(0 0 0 / 0.02) 0 50%
+		)
+		0 0 / 1.5em 1.5em content-box border-box;
 	background-color: hsl(var(--gray) 98%);
 }
 
@@ -415,8 +434,8 @@ pre[class*="language-"] {
 .note {
 	position: relative;
 	background: var(--color-light);
-	padding: .8em 1em;
-	border-left: .3em solid var(--color);
+	padding: 0.8em 1em;
+	border-left: 0.3em solid var(--color);
 
 	&::before {
 		content: var(--label) ": ";
@@ -429,14 +448,14 @@ pre[class*="language-"] {
 	&::after {
 		content: var(--emoji);
 		position: absolute;
-		top: -.7em;
-		left: -.6em;
+		top: -0.7em;
+		left: -0.6em;
 		font-size: 200%;
-		text-shadow: .02em .05em .1em rgb(0 0 0 /.2);
+		text-shadow: 0.02em 0.05em 0.1em rgb(0 0 0 /0.2);
 	}
 
 	& code:not(.foo) {
-		background: hsl(0 0% 100% / .5);
+		background: hsl(0 0% 100% / 0.5);
 	}
 }
 
@@ -460,4 +479,3 @@ pre[class*="language-"] {
 	--label: "Note";
 	--emoji: "👉🏼";
 }
-

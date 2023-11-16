@@ -40,7 +40,11 @@ export interface ColorConstructor {
 	alpha: number | undefined;
 }
 
-export type ColorTypes = ColorObject | ColorConstructor | string | PlainColorObject;
+export type ColorTypes =
+	| ColorObject
+	| ColorConstructor
+	| string
+	| PlainColorObject;
 
 export type DefineFunctionCode = (...args: any[]) => any;
 
@@ -82,7 +86,7 @@ declare namespace Color {
 		serialize as toString,
 	};
 	export { util, hooks, WHITES, ColorSpace as Space, parse, defaults };
-	export const spaces: typeof ColorSpace["registry"];
+	export const spaces: (typeof ColorSpace)["registry"];
 }
 
 declare class Color implements PlainColorObject {
@@ -94,14 +98,14 @@ declare class Color implements PlainColorObject {
 	static get(
 		space: string | ColorSpace,
 		coords: Coords,
-		alpha: number
+		alpha: number,
 	): Color;
 
 	static defineFunction(name: string, code: DefineFunctionHybrid): void;
 	static defineFunction(
 		name: string,
 		code: DefineFunctionCode,
-		options: DefineFunctionOptions
+		options: DefineFunctionOptions,
 	): void;
 
 	static defineFunctions(objects: Record<string, DefineFunctionHybrid>): void;
@@ -109,7 +113,7 @@ declare class Color implements PlainColorObject {
 	static extend(
 		exports:
 			| { register: (color: typeof Color) => void }
-			| Record<string, DefineFunctionHybrid>
+			| Record<string, DefineFunctionHybrid>,
 	): void;
 
 	get space(): ColorSpace;

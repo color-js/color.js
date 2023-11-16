@@ -9,15 +9,15 @@ import toGamut from "./toGamut.js";
  * @param {boolean} options.inGamut - Whether to force resulting color in gamut
  * @returns {Color}
  */
-export default function to (color, space, {inGamut} = {}) {
+export default function to(color, space, { inGamut } = {}) {
 	color = getColor(color);
 	space = ColorSpace.get(space);
 
 	let coords = space.from(color);
-	let ret = {space, coords, alpha: color.alpha};
+	let ret = { space, coords, alpha: color.alpha };
 
 	if (inGamut) {
-		ret = toGamut(ret, inGamut === true? undefined : inGamut);
+		ret = toGamut(ret, inGamut === true ? undefined : inGamut);
 	}
 
 	return ret;

@@ -7,5 +7,5 @@ export default function (
 		kL?: number | undefined;
 		kC?: number | undefined;
 		kH?: number | undefined;
-	}
+	},
 ): number;

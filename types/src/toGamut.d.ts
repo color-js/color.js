@@ -7,10 +7,12 @@ declare namespace toGamut {
 
 declare function toGamut(
 	color: ColorTypes,
-	options?: {
-		method?: string | undefined;
-		space?: string | ColorSpace | undefined;
-	} | string
+	options?:
+		| {
+				method?: string | undefined;
+				space?: string | ColorSpace | undefined;
+		  }
+		| string,
 ): PlainColorObject;
 
 export default toGamut;

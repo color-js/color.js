@@ -1,103 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Angle pre-interpolation adjustment tests</title>
+		<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+		<script src="https://htest.dev/htest.js" crossorigin></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body data-epsilon=".0005">
+		<h1>Angle pre-interpolation adjustment tests</h1>
+		<p>
+			These tests test how angles adapt to different hue interpolation
+			strategies.
+		</p>
 
-<meta charset="UTF-8">
-<title>Angle pre-interpolation adjustment tests</title>
-<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
-<script src="https://htest.dev/htest.js" crossorigin></script>
-<link rel="stylesheet" href="style.css" />
+		<section>
+			<h1>angles.adjust()</h1>
 
-</head>
-<body data-epsilon=".0005">
+			<table class="reftest" data-test="angle_adjust" data-columns="3">
+				<tr>
+					<td>-20 380</td>
+					<td>340 20</td>
+				</tr>
+				<tr>
+					<td>increasing -20 380</td>
+					<td>340 380</td>
+				</tr>
+				<tr>
+					<td>decreasing -20 380</td>
+					<td>340 20</td>
+				</tr>
+				<tr>
+					<td>longer -20 380</td>
+					<td>340 20</td>
+				</tr>
+				<tr>
+					<td>shorter -20 380</td>
+					<td>340 380</td>
+				</tr>
+				<tr>
+					<td>raw -20 380</td>
+					<td>-20 380</td>
+				</tr>
+			</table>
+		</section>
 
-<h1>Angle pre-interpolation adjustment tests</h1>
-<p>These tests test how angles adapt to different hue interpolation strategies.</p>
+		<script type="module">
+			import { adjust } from "../src/angles.js";
+			import { equals } from "https://htest.dev/src/content.js";
 
-<section>
-	<h1>angles.adjust()</h1>
+			window.angle_adjust = function angle_adjust(
+				test,
+				result,
+				expected,
+			) {
+				var err;
 
-	<table class="reftest" data-test="angle_adjust" data-columns="3">
-		<tr>
-			<td>
-				-20 380
-			</td>
-			<td>
-				340 20
-			</td>
-		</tr>
-		<tr>
-			<td>
-				increasing -20 380
-			</td>
-			<td>
-				340 380
-			</td>
-		</tr>
-		<tr>
-			<td>
-				decreasing -20 380
-			</td>
-			<td>
-				340 20
-			</td>
-		</tr>
-		<tr>
-			<td>
-				longer -20 380
-			</td>
-			<td>
-				340 20
-			</td>
-		</tr>
-		<tr>
-			<td>
-				shorter -20 380
-			</td>
-			<td>
-				340 380
-			</td>
-		</tr>
-		<tr>
-			<td>
-				raw -20 380
-			</td>
-			<td>
-				-20 380
-			</td>
-		</tr>
-	</table>
-</section>
+				try {
+					var args = test.textContent.trim().split(/\s+/);
 
-<script type="module">
-import {adjust} from "../src/angles.js";
-import {equals} from "https://htest.dev/src/content.js";
+					if (args.length === 2) {
+						args.unshift(undefined);
+					}
 
-window.angle_adjust = function angle_adjust(test, result, expected) {
-	var err;
+					let [arc, ...angles] = args;
+					angles = angles.map((c) => +c);
 
-	try {
-		var args = test.textContent.trim().split(/\s+/);
+					result.textContent = adjust(arc, angles).join(" ");
 
-		if (args.length === 2) {
-			args.unshift(undefined);
-		}
+					if (
+						equals(
+							result.textContent.trim(),
+							expected.textContent.trim(),
+						)
+					) {
+						return true;
+					}
+				} catch (e) {
+					result.textContent = err = e;
+				}
 
-		let [arc, ...angles] = args;
-		angles = angles.map(c => +c);
-
-		result.textContent = adjust(arc, angles).join(" ");
-
-		if (equals(result.textContent.trim(), expected.textContent.trim())) {
-			return true;
-		}
-	}
-	catch(e) {
-		result.textContent = err = e;
-	}
-
-	return err || false;
-}
-</script>
-</body>
+				return err || false;
+			};
+		</script>
+	</body>
 </html>

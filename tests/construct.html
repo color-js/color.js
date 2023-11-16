@@ -1,90 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" style="--foo: lime">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Constructor tests</title>
 
-<meta charset="UTF-8">
-<title>Constructor tests</title>
+		<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+		<script src="https://htest.dev/htest.js" crossorigin></script>
 
-<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
-<script src="https://htest.dev/htest.js" crossorigin></script>
+		<script src="../color.js" type="module"></script>
+	</head>
+	<body>
+		<h1 id="testElement" style="--foo: hsl(10, 50%, 50%)">
+			Constructor Tests
+		</h1>
+		<p>These tests check that the various constructor signatures work.</p>
 
-<script src="../color.js" type="module"></script>
-
-</head>
-<body>
-
-<h1 id="testElement" style="--foo: hsl(10, 50%, 50%)">Constructor Tests</h1>
-<p>These tests check that the various constructor signatures work.</p>
-
-<section>
-	<h1>Basic constructors</h1>
-	<table class="reftest">
-		<tr title="new Color(spaceId, coords)">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("P3", [0, 1, 0]);
-						return color.toJSON();
-					});
-				</script>
-			</td>
-			<td>
-				{ "spaceId": "p3", "coords": [ 0, 1, 0 ], "alpha": 1 }
-			</td>
-		</tr>
-		<tr title="new Color(keyword)">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("red");
-						return color.toJSON();
-					});
-				</script>
-			</td>
-			<td>
-				{ "spaceId": "srgb", "coords": [ 1, 0, 0 ], "alpha": 1 }
-			</td>
-		</tr>
-		<tr title="new Color(hsl string)">
-			<td>
-				<script>
-					$out(() => {
-						return new Color("hsl(10, 50%, 50%)").toJSON();
-					});
-				</script>
-			</td>
-			<td>
-				{ "spaceId": "hsl", "coords": [ 10, 50, 50 ], "alpha": 1 }
-			</td>
-		</tr>
-		<tr title="new Color({spaceId, coords})">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color({spaceId: "p3", coords: [0, 1, 0]});
-						return color.toJSON();
-					});
-				</script>
-			</td>
-			<td>
-				{ "spaceId": "p3", "coords": [ 0, 1, 0 ], "alpha": 1 }
-			</td>
-		</tr>
-		<tr title="new Color(spaceId, coords)">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("rec2100pq", [0.34, 0.34, 0.34]);
-						return color.toJSON();
-					});
-				</script>
-			</td>
-			<td>
-				{ "spaceId": "rec2100pq", "coords": [ 0.34, 0.34, 0.34 ], "alpha": 1 }
-			</td>
-		</tr>
-	</table>
-
-
-</body>
+		<section>
+			<h1>Basic constructors</h1>
+			<table class="reftest">
+				<tr title="new Color(spaceId, coords)">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("P3", [0, 1, 0]);
+								return color.toJSON();
+							});
+						</script>
+					</td>
+					<td>
+						{ "spaceId": "p3", "coords": [ 0, 1, 0 ], "alpha": 1 }
+					</td>
+				</tr>
+				<tr title="new Color(keyword)">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("red");
+								return color.toJSON();
+							});
+						</script>
+					</td>
+					<td>
+						{ "spaceId": "srgb", "coords": [ 1, 0, 0 ], "alpha": 1 }
+					</td>
+				</tr>
+				<tr title="new Color(hsl string)">
+					<td>
+						<script>
+							$out(() => {
+								return new Color("hsl(10, 50%, 50%)").toJSON();
+							});
+						</script>
+					</td>
+					<td>
+						{ "spaceId": "hsl", "coords": [ 10, 50, 50 ], "alpha": 1
+						}
+					</td>
+				</tr>
+				<tr title="new Color({spaceId, coords})">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color({
+									spaceId: "p3",
+									coords: [0, 1, 0],
+								});
+								return color.toJSON();
+							});
+						</script>
+					</td>
+					<td>
+						{ "spaceId": "p3", "coords": [ 0, 1, 0 ], "alpha": 1 }
+					</td>
+				</tr>
+				<tr title="new Color(spaceId, coords)">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color(
+									"rec2100pq",
+									[0.34, 0.34, 0.34],
+								);
+								return color.toJSON();
+							});
+						</script>
+					</td>
+					<td>
+						{ "spaceId": "rec2100pq", "coords": [ 0.34, 0.34, 0.34
+						], "alpha": 1 }
+					</td>
+				</tr>
+			</table>
+		</section>
+	</body>
 </html>

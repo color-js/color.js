@@ -23,7 +23,6 @@ main {
 		}
 	}
 
-
 	@media (max-width: 1480px), (max-height: 30rem) {
 		/* Hide all but next, current, prev */
 		& > ul {
@@ -34,7 +33,7 @@ main {
 	}
 
 	& ul ul {
-		list-style: square
+		list-style: square;
 	}
 
 	& .previous,
@@ -44,7 +43,7 @@ main {
 			content: attr(aria-label) ": ";
 			font-size: 85%;
 			font-weight: 600;
-			opacity: .5;
+			opacity: 0.5;
 			text-transform: uppercase;
 		}
 	}
@@ -90,13 +89,13 @@ main {
 
 			& .file {
 				font-style: italic;
-				opacity: .6;
-				filter: saturate(.1);
+				opacity: 0.6;
+				filter: saturate(0.1);
 			}
 		}
 
 		& [property="description"] {
-			margin: .5em 0;
+			margin: 0.5em 0;
 		}
 
 		& dl {
@@ -105,11 +104,11 @@ main {
 			grid-row: 2 / span 3;
 			grid-column: 2;
 			background: hsl(var(--gray) 95%);
-			border-radius: .2em;
+			border-radius: 0.2em;
 			padding: 1em;
 
 			& dt {
-				margin-top: .5em;
+				margin-top: 0.5em;
 				font-size: 80%;
 			}
 
@@ -118,6 +117,4 @@ main {
 			}
 		}
 	}
-
-
 }

@@ -5,5 +5,5 @@ export default function (
 	options?: {
 		l?: number | undefined;
 		c?: number | undefined;
-	}
+	},
 ): number;

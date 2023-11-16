@@ -8,5 +8,5 @@ import { Methods } from "./deltaE/index.js";
 export default function deltaE(
 	color1: ColorTypes,
 	color2: ColorTypes,
-	options: Methods | ({ method: Methods } & Record<string, any>)
+	options: Methods | ({ method: Methods } & Record<string, any>),
 ): number;

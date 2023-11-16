@@ -20,16 +20,14 @@ export default function (color, sample) {
 	let ΔC = Cz1 - Cz2;
 
 	// length of chord for ΔH
-	if ((Number.isNaN(Hz1)) && (Number.isNaN(Hz2))) {
+	if (Number.isNaN(Hz1) && Number.isNaN(Hz2)) {
 		// both undefined hues
 		Hz1 = 0;
 		Hz2 = 0;
-	}
-	else if (Number.isNaN(Hz1)) {
+	} else if (Number.isNaN(Hz1)) {
 		// one undefined, set to the defined hue
 		Hz1 = Hz2;
-	}
-	else if (Number.isNaN(Hz2)) {
+	} else if (Number.isNaN(Hz2)) {
 		Hz2 = Hz1;
 	}
 
@@ -37,4 +35,4 @@ export default function (color, sample) {
 	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * Math.sin((Δh / 2) * (Math.PI / 180));
 
 	return Math.sqrt(ΔJ ** 2 + ΔC ** 2 + ΔH ** 2);
-};
+}

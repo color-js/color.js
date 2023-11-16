@@ -2,30 +2,30 @@ import xyz_d65 from "./spaces/xyz-d65.js";
 import getAll from "./getAll.js";
 
 // Chromaticity coordinates
-export function uv (color) {
+export function uv(color) {
 	let [X, Y, Z] = getAll(color, xyz_d65);
 	let denom = X + 15 * Y + 3 * Z;
-	return [4 * X / denom, 9 * Y / denom];
+	return [(4 * X) / denom, (9 * Y) / denom];
 }
 
-export function xy (color) {
+export function xy(color) {
 	let [X, Y, Z] = getAll(color, xyz_d65);
-	let  sum = X + Y + Z;
+	let sum = X + Y + Z;
 	return [X / sum, Y / sum];
 }
 
-export function register (Color) {
+export function register(Color) {
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
 	Object.defineProperty(Color.prototype, "uv", {
-		get () {
+		get() {
 			return uv(this);
-		}
+		},
 	});
 
 	Object.defineProperty(Color.prototype, "xy", {
-		get () {
+		get() {
 			return xy(this);
-		}
+		},
 	});
 }

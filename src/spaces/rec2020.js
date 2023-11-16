@@ -10,18 +10,18 @@ export default new RGBColorSpace({
 	name: "REC.2020",
 	base: REC2020Linear,
 	// Non-linear transfer function from Rec. ITU-R BT.2020-2 table 4
-	toBase (RGB) {
+	toBase(RGB) {
 		return RGB.map(function (val) {
-			if (val < β * 4.5 ) {
+			if (val < β * 4.5) {
 				return val / 4.5;
 			}
 
-			return Math.pow((val + α -1 ) / α, 1/0.45);
+			return Math.pow((val + α - 1) / α, 1 / 0.45);
 		});
 	},
-	fromBase (RGB) {
+	fromBase(RGB) {
 		return RGB.map(function (val) {
-			if (val >= β ) {
+			if (val >= β) {
 				return α * Math.pow(val, 0.45) - (α - 1);
 			}
 
@@ -30,5 +30,5 @@ export default new RGBColorSpace({
 	},
 	formats: {
 		color: {},
-	}
+	},
 });

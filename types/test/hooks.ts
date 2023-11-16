@@ -5,8 +5,8 @@ hooks.add();
 // @ts-expect-error
 hooks.add("foo");
 
-hooks.add("foo", env => {
-    env; // $ExpectType Record<string, any>
+hooks.add("foo", (env) => {
+	env; // $ExpectType Record<string, any>
 });
 
 hooks.add("bar", () => {}, true);

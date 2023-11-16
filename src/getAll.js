@@ -6,7 +6,7 @@ import ColorSpace from "./space.js";
  * @param {string | ColorSpace} space
  * @returns {number[]}
  */
-export default function getAll (color, space) {
+export default function getAll(color, space) {
 	space = ColorSpace.get(space);
 	return space.from(color);
 }

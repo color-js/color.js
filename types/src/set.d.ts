@@ -4,5 +4,5 @@ import { Ref } from "./space.js";
 export default function set(
 	color: ColorTypes,
 	prop: Ref,
-	value: number | ((coord: number) => number)
+	value: number | ((coord: number) => number),
 ): Color;

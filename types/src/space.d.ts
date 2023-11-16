@@ -16,7 +16,13 @@ export interface Format {
 	noAlpha?: boolean | undefined;
 	test?: ((str: string) => boolean) | undefined;
 	parse?: ((str: string) => ColorConstructor) | undefined;
-	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
+	serialize?:
+		| ((
+				coords: Coords,
+				alpha: number,
+				opts?: Record<string, any>,
+		  ) => string)
+		| undefined;
 }
 
 export interface CoordMeta {
@@ -62,7 +68,7 @@ export default class ColorSpace {
 	 */
 	static resolveCoord(
 		ref: Ref,
-		workingSpace?: string | ColorSpace
+		workingSpace?: string | ColorSpace,
 	): CoordMeta & {
 		id: string;
 		index: string | number;

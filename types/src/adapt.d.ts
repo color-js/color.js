@@ -8,5 +8,5 @@ export default function adapt(
 	w1: White,
 	w2: White,
 	xyz: [number, number, number],
-	options?: { method?: string | undefined }
+	options?: { method?: string | undefined },
 ): void;

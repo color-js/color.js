@@ -13,25 +13,25 @@ export default new ColorSpace({
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
+			name: "Hue",
 		},
 		w: {
 			range: [0, 100],
-			name: "Whiteness"
+			name: "Whiteness",
 		},
 		b: {
 			range: [0, 100],
-			name: "Blackness"
-		}
+			name: "Blackness",
+		},
 	},
 
 	base: HSV,
-	fromBase (hsv) {
+	fromBase(hsv) {
 		let [h, s, v] = hsv;
 
-		return [h, v * (100 - s) / 100, 100 - v];
+		return [h, (v * (100 - s)) / 100, 100 - v];
 	},
-	toBase (hwb) {
+	toBase(hwb) {
 		let [h, w, b] = hwb;
 
 		// Now convert percentages to [0..1]
@@ -41,18 +41,18 @@ export default new ColorSpace({
 		// Achromatic check (white plus black >= 1)
 		let sum = w + b;
 		if (sum >= 1) {
-			 let gray = w / sum;
-			 return [h, 0, gray * 100];
+			let gray = w / sum;
+			return [h, 0, gray * 100];
 		}
 
-		let v = (1 - b);
-		let s = (v === 0) ? 0 : 1 - w / v;
+		let v = 1 - b;
+		let s = v === 0 ? 0 : 1 - w / v;
 		return [h, s * 100, v * 100];
 	},
 
 	formats: {
-		"hwb": {
+		hwb: {
 			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
-		}
-	}
+		},
+	},
 });

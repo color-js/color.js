@@ -1,9 +1,8 @@
 /**
  * Functions related to color interpolation
  */
-import Color from "./color.js";
 import ColorSpace from "./space.js";
-import {type, interpolate} from "./util.js";
+import { type, interpolate } from "./util.js";
 import getColor from "./getColor.js";
 import clone from "./clone.js";
 import to from "./to.js";
@@ -25,11 +24,11 @@ import deltaE from "./deltaE.js";
  * @param {Object} [o={}]
  * @return {Color}
  */
-export function mix (c1, c2, p = .5, o = {}) {
+export function mix(c1, c2, p = 0.5, o = {}) {
 	[c1, c2] = [getColor(c1), getColor(c2)];
 
 	if (type(p) === "object") {
-		[p, o] = [.5, p];
+		[p, o] = [0.5, p];
 	}
 
 	let r = range(c1, c2, o);
@@ -43,7 +42,7 @@ export function mix (c1, c2, p = .5, o = {}) {
  * @param {Object} [options={}]
  * @return {Color[]}
  */
-export function steps (c1, c2, options = {}) {
+export function steps(c1, c2, options = {}) {
 	let colorRange;
 
 	if (isRange(c1)) {
@@ -53,8 +52,10 @@ export function steps (c1, c2, options = {}) {
 	}
 
 	let {
-		maxDeltaE, deltaEMethod,
-		steps = 2, maxSteps = 1000,
+		maxDeltaE,
+		deltaEMethod,
+		steps = 2,
+		maxSteps = 1000,
 		...rangeOptions
 	} = options;
 
@@ -64,7 +65,10 @@ export function steps (c1, c2, options = {}) {
 	}
 
 	let totalDelta = deltaE(c1, c2);
-	let actualSteps = maxDeltaE > 0? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1) : steps;
+	let actualSteps =
+		maxDeltaE > 0
+			? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1)
+			: steps;
 	let ret = [];
 
 	if (maxSteps !== undefined) {
@@ -72,13 +76,12 @@ export function steps (c1, c2, options = {}) {
 	}
 
 	if (actualSteps === 1) {
-		ret = [{p: .5, color: colorRange(.5)}];
-	}
-	else {
+		ret = [{ p: 0.5, color: colorRange(0.5) }];
+	} else {
 		let step = 1 / (actualSteps - 1);
-		ret = Array.from({length: actualSteps}, (_, i) => {
+		ret = Array.from({ length: actualSteps }, (_, i) => {
 			let p = i * step;
-			return {p, color: colorRange(p)};
+			return { p, color: colorRange(p) };
 		});
 	}
 
@@ -98,23 +101,27 @@ export function steps (c1, c2, options = {}) {
 			// We need to do this for all pairs, otherwise the midpoint shifts
 			maxDelta = 0;
 
-			for (let i = 1; (i < ret.length) && (ret.length < maxSteps); i++) {
+			for (let i = 1; i < ret.length && ret.length < maxSteps; i++) {
 				let prev = ret[i - 1];
 				let cur = ret[i];
 
 				let p = (cur.p + prev.p) / 2;
 				let color = colorRange(p);
-				maxDelta = Math.max(maxDelta, deltaE(color, prev.color), deltaE(color, cur.color));
-				ret.splice(i, 0, {p, color: colorRange(p)});
+				maxDelta = Math.max(
+					maxDelta,
+					deltaE(color, prev.color),
+					deltaE(color, cur.color),
+				);
+				ret.splice(i, 0, { p, color: colorRange(p) });
 				i++;
 			}
 		}
 	}
 
-	ret = ret.map(a => a.color);
+	ret = ret.map((a) => a.color);
 
 	return ret;
-};
+}
 
 /**
  * Interpolate to color2 and return a function that takes a 0-1 percentage
@@ -123,15 +130,18 @@ export function steps (c1, c2, options = {}) {
  * @param {Object} [options={}]
  * @returns {Function} A function that takes a 0-1 percentage and returns a color
  */
-export function range (color1, color2, options = {}) {
+export function range(color1, color2, options = {}) {
 	if (isRange(color1)) {
 		// Tweaking existing range
 		let [r, options] = [color1, color2];
 
-		return range(...r.rangeArgs.colors, {...r.rangeArgs.options, ...options});
+		return range(...r.rangeArgs.colors, {
+			...r.rangeArgs.options,
+			...options,
+		});
 	}
 
-	let {space, outputSpace, progression, premultiplied} = options;
+	let { space, outputSpace, progression, premultiplied } = options;
 
 	color1 = getColor(color1);
 	color2 = getColor(color2);
@@ -140,16 +150,16 @@ export function range (color1, color2, options = {}) {
 	color1 = clone(color1);
 	color2 = clone(color2);
 
-	let rangeArgs = {colors: [color1, color2], options};
+	let rangeArgs = { colors: [color1, color2], options };
 
 	if (space) {
 		space = ColorSpace.get(space);
-	}
-	else {
-		space = ColorSpace.registry[defaults.interpolationSpace] || color1.space;
+	} else {
+		space =
+			ColorSpace.registry[defaults.interpolationSpace] || color1.space;
 	}
 
-	outputSpace = outputSpace? ColorSpace.get(outputSpace) : space;
+	outputSpace = outputSpace ? ColorSpace.get(outputSpace) : space;
 
 	color1 = to(color1, space);
 	color2 = to(color2, space);
@@ -161,7 +171,7 @@ export function range (color1, color2, options = {}) {
 	// Handle hue interpolation
 	// See https://github.com/w3c/csswg-drafts/issues/4735#issuecomment-635741840
 	if (space.coords.h && space.coords.h.type === "angle") {
-		let arc = options.hue = options.hue || "shorter";
+		let arc = (options.hue = options.hue || "shorter");
 
 		let hue = [space, "h"];
 		let [θ1, θ2] = [get(color1, hue), get(color2, hue)];
@@ -170,8 +180,7 @@ export function range (color1, color2, options = {}) {
 		// See https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545
 		if (isNaN(θ1) && !isNaN(θ2)) {
 			θ1 = θ2;
-		}
-		else if (isNaN(θ2) && !isNaN(θ1)) {
+		} else if (isNaN(θ2) && !isNaN(θ1)) {
 			θ2 = θ1;
 		}
 		[θ1, θ2] = angles.adjust(arc, [θ1, θ2]);
@@ -181,43 +190,46 @@ export function range (color1, color2, options = {}) {
 
 	if (premultiplied) {
 		// not coping with polar spaces yet
-		color1.coords = color1.coords.map(c => c * color1.alpha);
-		color2.coords = color2.coords.map(c => c * color2.alpha);
+		color1.coords = color1.coords.map((c) => c * color1.alpha);
+		color2.coords = color2.coords.map((c) => c * color2.alpha);
 	}
 
-	return Object.assign(p => {
-		p = progression? progression(p) : p;
-		let coords = color1.coords.map((start, i) => {
-			let end = color2.coords[i];
-			return interpolate(start, end, p);
-		});
+	return Object.assign(
+		(p) => {
+			p = progression ? progression(p) : p;
+			let coords = color1.coords.map((start, i) => {
+				let end = color2.coords[i];
+				return interpolate(start, end, p);
+			});
 
-		let alpha = interpolate(color1.alpha, color2.alpha, p);
-		let ret = {space, coords, alpha};
+			let alpha = interpolate(color1.alpha, color2.alpha, p);
+			let ret = { space, coords, alpha };
 
-		if (premultiplied) {
-			// undo premultiplication
-			ret.coords = ret.coords.map(c => c / alpha);
-		}
+			if (premultiplied) {
+				// undo premultiplication
+				ret.coords = ret.coords.map((c) => c / alpha);
+			}
 
-		if (outputSpace !== space) {
-			ret = to(ret, outputSpace);
-		}
+			if (outputSpace !== space) {
+				ret = to(ret, outputSpace);
+			}
 
-		return ret;
-	}, {
-		rangeArgs
-	});
-};
+			return ret;
+		},
+		{
+			rangeArgs,
+		},
+	);
+}
 
-export function isRange (val) {
+export function isRange(val) {
 	return type(val) === "function" && !!val.rangeArgs;
-};
+}
 
 defaults.interpolationSpace = "lab";
 
-export function register (Color) {
-	Color.defineFunction("mix", mix, {returns: "color"});
-	Color.defineFunction("range", range, {returns: "function<color>"});
-	Color.defineFunction("steps", steps, {returns: "array<color>"});
+export function register(Color) {
+	Color.defineFunction("mix", mix, { returns: "color" });
+	Color.defineFunction("range", range, { returns: "function<color>" });
+	Color.defineFunction("steps", steps, { returns: "array<color>" });
 }

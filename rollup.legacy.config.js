@@ -11,9 +11,9 @@ const legacyPlugins = [
 ];
 
 export default Object.assign(defaultConfig, {
-	output: defaultConfig.output.map(bundle => ({
+	output: defaultConfig.output.map((bundle) => ({
 		...bundle,
 		file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
 	})),
-	plugins: [...(defaultConfig.plugins || []), ...legacyPlugins]
+	plugins: [...(defaultConfig.plugins || []), ...legacyPlugins],
 });

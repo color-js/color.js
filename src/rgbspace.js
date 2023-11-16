@@ -1,5 +1,5 @@
 import ColorSpace from "./space.js";
-import {multiplyMatrices} from "./util.js";
+import { multiplyMatrices } from "./util.js";
 import adapt from "./adapt.js";
 import XYZ_D65 from "./spaces/xyz-d65.js";
 
@@ -17,21 +17,21 @@ export default class RGBColorSpace extends ColorSpace {
 	 * @param {number[][]} options.toXYZ_M - Matrix to convert to XYZ
 	 * @param {number[][]} options.fromXYZ_M - Matrix to convert from XYZ
 	 */
-	constructor (options) {
+	constructor(options) {
 		if (!options.coords) {
 			options.coords = {
 				r: {
 					range: [0, 1],
-					name: "Red"
+					name: "Red",
 				},
 				g: {
 					range: [0, 1],
-					name: "Green"
+					name: "Green",
 				},
 				b: {
 					range: [0, 1],
-					name: "Blue"
-				}
+					name: "Blue",
+				},
 			};
 		}
 
@@ -40,7 +40,7 @@ export default class RGBColorSpace extends ColorSpace {
 		}
 
 		if (options.toXYZ_M && options.fromXYZ_M) {
-			options.toBase ??= rgb => {
+			options.toBase ??= (rgb) => {
 				let xyz = multiplyMatrices(options.toXYZ_M, rgb);
 
 				if (this.white !== this.base.white) {
@@ -51,7 +51,7 @@ export default class RGBColorSpace extends ColorSpace {
 				return xyz;
 			};
 
-			options.fromBase ??= xyz => {
+			options.fromBase ??= (xyz) => {
 				xyz = adapt(this.base.white, this.white, xyz);
 				return multiplyMatrices(options.fromXYZ_M, xyz);
 			};

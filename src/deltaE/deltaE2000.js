@@ -14,7 +14,7 @@ const π = Math.PI;
 const r2d = 180 / π;
 const d2r = π / 180;
 
-function pow7 (x) {
+function pow7(x) {
 	// Faster than x ** 7 or Math.pow(x, 7)
 
 	const x2 = x * x;
@@ -23,7 +23,7 @@ function pow7 (x) {
 	return x7;
 }
 
-export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
+export default function (color, sample, { kL = 1, kC = 1, kH = 1 } = {}) {
 	// Given this color as the reference
 	// and the function parameter as the sample,
 	// calculate deltaE 2000.
@@ -51,13 +51,13 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 		C2 = 0;
 	}
 
-	let Cbar = (C1 + C2)/2; // mean Chroma
+	let Cbar = (C1 + C2) / 2; // mean Chroma
 
 	// calculate a-axis asymmetry factor from mean Chroma
 	// this turns JND ellipses for near-neutral colors back into circles
 	let C7 = pow7(Cbar);
 
-	let G = 0.5 * (1 - Math.sqrt(C7/(C7 + Gfactor)));
+	let G = 0.5 * (1 - Math.sqrt(C7 / (C7 + Gfactor)));
 
 	// scale a axes by asymmetry factor
 	// this by the way is why there is no Lab2000 colorspace
@@ -71,8 +71,8 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// calculate new hues, with zero hue for true neutrals
 	// and in degrees, not radians
 
-	let h1 = (adash1 === 0 && b1 === 0)? 0: Math.atan2(b1, adash1);
-	let h2 = (adash2 === 0 && b2 === 0)? 0: Math.atan2(b2, adash2);
+	let h1 = adash1 === 0 && b1 === 0 ? 0 : Math.atan2(b1, adash1);
+	let h2 = adash2 === 0 && b2 === 0 ? 0 : Math.atan2(b2, adash2);
 
 	if (h1 < 0) {
 		h1 += 2 * π;
@@ -96,26 +96,22 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 
 	if (Cdash1 * Cdash2 === 0) {
 		Δh = 0;
-	}
-	else if (habs <= 180) {
+	} else if (habs <= 180) {
 		Δh = hdiff;
-	}
-	else if (hdiff > 180) {
+	} else if (hdiff > 180) {
 		Δh = hdiff - 360;
-	}
-	else if (hdiff < -180) {
+	} else if (hdiff < -180) {
 		Δh = hdiff + 360;
-	}
-	else {
+	} else {
 		console.log("the unthinkable has happened");
 	}
 
 	// weighted Hue difference, more for larger Chroma
-	let ΔH = 2 * Math.sqrt(Cdash2 * Cdash1) * Math.sin(Δh * d2r / 2);
+	let ΔH = 2 * Math.sqrt(Cdash2 * Cdash1) * Math.sin((Δh * d2r) / 2);
 
 	// calculate mean Lightness and Chroma
-	let Ldash = (L1 + L2)/2;
-	let Cdash = (Cdash1 + Cdash2)/2;
+	let Ldash = (L1 + L2) / 2;
+	let Cdash = (Cdash1 + Cdash2) / 2;
 	let Cdash7 = pow7(Cdash);
 
 	// Compensate for non-linearity in the blue region of Lab.
@@ -123,15 +119,12 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// depending on the angles, to get the correct sign
 	let hdash;
 	if (Cdash1 * Cdash2 === 0) {
-		hdash = hsum;   // which should be zero
-	}
-	else if (habs <= 180) {
+		hdash = hsum; // which should be zero
+	} else if (habs <= 180) {
 		hdash = hsum / 2;
-	}
-	else if (hsum < 360) {
+	} else if (hsum < 360) {
 		hdash = (hsum + 360) / 2;
-	}
-	else {
+	} else {
 		hdash = (hsum - 360) / 2;
 	}
 
@@ -141,17 +134,17 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// SL Lightness crispening factor
 	// a background with L=50 is assumed
 	let lsq = (Ldash - 50) ** 2;
-	let SL = 1 + ((0.015 * lsq) / Math.sqrt(20 + lsq));
+	let SL = 1 + (0.015 * lsq) / Math.sqrt(20 + lsq);
 
 	// SC Chroma factor, similar to those in CMC and deltaE 94 formulae
 	let SC = 1 + 0.045 * Cdash;
 
 	// Cross term T for blue non-linearity
 	let T = 1;
-	T -= (0.17 * Math.cos((     hdash - 30)  * d2r));
-	T += (0.24 * Math.cos(  2 * hdash        * d2r));
-	T += (0.32 * Math.cos(((3 * hdash) + 6)  * d2r));
-	T -= (0.20 * Math.cos(((4 * hdash) - 63) * d2r));
+	T -= 0.17 * Math.cos((hdash - 30) * d2r);
+	T += 0.24 * Math.cos(2 * hdash * d2r);
+	T += 0.32 * Math.cos((3 * hdash + 6) * d2r);
+	T -= 0.2 * Math.cos((4 * hdash - 63) * d2r);
 
 	// SH Hue factor depends on Chroma,
 	// as well as adjusted hue angle like deltaE94.
@@ -161,8 +154,8 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// and Munsell constant hue lines
 	// in the medium-high Chroma blue region
 	// (Hue 225 to 315)
-	let Δθ = 30 * Math.exp(-1 * (((hdash - 275)/25) ** 2));
-	let RC = 2 * Math.sqrt(Cdash7/(Cdash7 + Gfactor));
+	let Δθ = 30 * Math.exp(-1 * ((hdash - 275) / 25) ** 2);
+	let RC = 2 * Math.sqrt(Cdash7 / (Cdash7 + Gfactor));
 	let RT = -1 * Math.sin(2 * Δθ * d2r) * RC;
 
 	// Finally calculate the deltaE, term by term as root sume of squares
@@ -172,4 +165,4 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	dE += RT * (ΔC / (kC * SC)) * (ΔH / (kH * SH));
 	return Math.sqrt(dE);
 	// Yay!!!
-};
+}

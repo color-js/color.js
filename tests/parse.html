@@ -1,404 +1,453 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Color parse tests</title>
+		<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+		<script src="https://htest.dev/htest.js" crossorigin></script>
 
-<meta charset="UTF-8">
-<title>Color parse tests</title>
-<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
-<script src="https://htest.dev/htest.js" crossorigin></script>
+		<link rel="stylesheet" href="style.css" />
 
-<link rel="stylesheet" href="style.css" />
+		<script></script>
+	</head>
+	<body>
+		<h1>Color parse Tests</h1>
+		<p>
+			These tests parse different color formats and compare the result as
+			JSON.
+		</p>
 
-<script>
+		<section>
+			<h1>sRGB colors</h1>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr title="Color keyword">
+					<td>blue</td>
+					<td>{"spaceId":"srgb","coords":[0,0,1],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>transparent</td>
+					<td>{"spaceId":"srgb","coords":[0,0,0],"alpha":0}</td>
+				</tr>
+				<tr title="#rrggbb">
+					<td>#ff0066</td>
+					<td>{"spaceId":"srgb","coords":[1,0,0.4],"alpha":1}</td>
+				</tr>
+				<tr title="#rgb">
+					<td>#f06</td>
+					<td>{"spaceId":"srgb","coords":[1,0,0.4],"alpha":1}</td>
+				</tr>
+				<tr title="#rrggbbaa">
+					<td>#ff006688</td>
+					<td>
+						{"spaceId":"srgb","coords":[1,0,0.4],"alpha":0.5333333333333333}
+					</td>
+				</tr>
+				<tr title="#rgba">
+					<td>#f068</td>
+					<td>
+						{"spaceId":"srgb","coords":[1,0,0.4],"alpha":0.5333333333333333}
+					</td>
+				</tr>
+				<tr title="rgba(% % % / a)">
+					<td>rgba(0% 50% 200% / 0.5)</td>
+					<td>{"spaceId":"srgb","coords":[0,0.5,2],"alpha":0.5}</td>
+				</tr>
+				<tr title="rgb(r g b / a)">
+					<td>rgb(0 127.5 300 / .5)</td>
+					<td>
+						{"spaceId":"srgb","coords":[0,0.5,1.1764705882352942],"alpha":0.5}
+					</td>
+				</tr>
+				<tr title="rgba(n, n, n, a)">
+					<td>rgba(0, 127.5, 300, 0.5)</td>
+					<td>
+						{"spaceId":"srgb","coords":[0,0.5,1.1764705882352942],"alpha":0.5}
+					</td>
+				</tr>
+				<tr title="angles not allowed in rgb()" data-error>
+					<td>rgb(10deg 10 10)</td>
+					<td>TypeError</td>
+				</tr>
+			</table>
+		</section>
 
-</script>
+		<section>
+			<h1>Lab and LCH colors</h1>
 
-</head>
-<body>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr>
+					<td>lab(100% 0 0)</td>
+					<td>{"spaceId":"lab","coords":[100,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="case">
+					<td>Lab(100% 0 0)</td>
+					<td>{"spaceId":"lab","coords":[100,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="no percent">
+					<td>lab(80 0 0)</td>
+					<td>{"spaceId":"lab","coords":[80,0,0],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>lab(100 -50 50)</td>
+					<td>{"spaceId":"lab","coords":[100,-50,50],"alpha":1}</td>
+				</tr>
+				<tr title="lab percentage">
+					<td>lab(50% 25% -25% / 50%)</td>
+					<td>
+						{"spaceId":"lab","coords":[50,31.25,-31.25],"alpha":0.5}
+					</td>
+				</tr>
+				<tr title="lab transparency">
+					<td>lab(100 -50 5 / .5)</td>
+					<td>{"spaceId":"lab","coords":[100,-50,5],"alpha":0.5}</td>
+				</tr>
+				<tr>
+					<td>lch(100% 0 0)</td>
+					<td>{"spaceId":"lch","coords":[100,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="no percentage">
+					<td>lch(100 50 50)</td>
+					<td>{"spaceId":"lch","coords":[100,50,50],"alpha":1}</td>
+				</tr>
+				<tr title="lch percentage">
+					<td>lch(50% 50% 50 / 50%)</td>
+					<td>{"spaceId":"lch","coords":[50,75,50],"alpha":0.5}</td>
+				</tr>
+				<tr title="Hue over 360">
+					<td>lch(100 50 450)</td>
+					<td>{"spaceId":"lch","coords":[100,50,450],"alpha":1}</td>
+				</tr>
+				<tr title="none hue">
+					<td>lch(100 0 none)</td>
+					<td>{"spaceId":"lch","coords":[100,0,null],"alpha":1}</td>
+				</tr>
+			</table>
+		</section>
 
-<h1>Color parse Tests</h1>
-<p>These tests parse different color formats and compare the result as JSON.</p>
+		<section>
+			<h1>Oklab colors</h1>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr>
+					<td>oklab(100% 0 0)</td>
+					<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="alpha">
+					<td>oklab(100% 0 0 / 0.5)</td>
+					<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="case">
+					<td>OKLab(100% 0 0)</td>
+					<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="all percentages">
+					<td>oklab(42% 100% -50%)</td>
+					<td>
+						{"spaceId":"oklab","coords":[0.42,0.4,-0.2],"alpha":1}
+					</td>
+				</tr>
+				<tr title="all numbers">
+					<td>oklab(1 -0.20 0.20)</td>
+					<td>{"spaceId":"oklab","coords":[1,-0.2,0.2],"alpha":1}</td>
+				</tr>
+				<tr title="all numbers out of range">
+					<td>oklab(10 -0.80 0.80)</td>
+					<td>
+						{"spaceId":"oklab","coords":[10,-0.8,0.8],"alpha":1}
+					</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h1>Oklch colors</h1>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr>
+					<td>oklch(100% 0 0)</td>
+					<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="alpha">
+					<td>oklch(100% 0 0 / 50%)</td>
+					<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="case">
+					<td>OKLch(100% 0 0)</td>
+					<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="all numbers">
+					<td>oklch(1 0.2 50)</td>
+					<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
+				</tr>
+				<tr title="all numbers out of range">
+					<td>oklch(10 2 500 / 10)</td>
+					<td>{"spaceId":"oklch","coords":[10,2,500],"alpha":1}</td>
+				</tr>
+				<tr title="C as percentage">
+					<td>oklch(100% 50% 50)</td>
+					<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
+				</tr>
+				<tr title="C as percentage over 100%">
+					<td>oklch(100% 150% 50)</td>
+					<td>
+						{"spaceId":"oklch","coords":[1,0.6000000000000001,50],"alpha":1}
+					</td>
+				</tr>
+				<tr title="H as degrees">
+					<td>oklch(100% 0 30deg)</td>
+					<td>{"spaceId":"oklch","coords":[1,0,30],"alpha":1}</td>
+				</tr>
+				<tr title="none hue">
+					<td>oklch(1 0 none)</td>
+					<td>{"spaceId":"oklch","coords":[1,0,null],"alpha":1}</td>
+				</tr>
+				<tr title="none alpha">
+					<td>oklch(1 0 120 / none)</td>
+					<td>{"spaceId":"oklch","coords":[1,0,120],"alpha":null}</td>
+				</tr>
+			</table>
+		</section>
 
-<section>
-	<h1>sRGB colors</h1>
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr title="Color keyword">
-			<td>blue</td>
-			<td>{"spaceId":"srgb","coords":[0,0,1],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>transparent</td>
-			<td>{"spaceId":"srgb","coords":[0,0,0],"alpha":0}</td>
-		</tr>
-		<tr title="#rrggbb">
-			<td>#ff0066</td>
-			<td>{"spaceId":"srgb","coords":[1,0,0.4],"alpha":1}</td>
-		</tr>
-		<tr title="#rgb">
-			<td>#f06</td>
-			<td>{"spaceId":"srgb","coords":[1,0,0.4],"alpha":1}</td>
-		</tr>
-		<tr title="#rrggbbaa">
-			<td>#ff006688</td>
-			<td>{"spaceId":"srgb","coords":[1,0,0.4],"alpha":0.5333333333333333}</td>
-		</tr>
-		<tr title="#rgba">
-			<td>#f068</td>
-			<td>{"spaceId":"srgb","coords":[1,0,0.4],"alpha":0.5333333333333333}</td>
-		</tr>
-		<tr title="rgba(% % % / a)">
-			<td>rgba(0% 50% 200% / 0.5)</td>
-			<td>{"spaceId":"srgb","coords":[0,0.5,2],"alpha":0.5}</td>
-		</tr>
-		<tr title="rgb(r g b / a)">
-			<td>rgb(0 127.5 300 / .5)</td>
-			<td>{"spaceId":"srgb","coords":[0,0.5,1.1764705882352942],"alpha":0.5}</td>
-		</tr>
-		<tr title="rgba(n, n, n, a)">
-			<td>rgba(0, 127.5, 300, 0.5)</td>
-			<td>{"spaceId":"srgb","coords":[0,0.5,1.1764705882352942],"alpha":0.5}</td>
-		</tr>
-		<tr title="angles not allowed in rgb()" data-error>
-			<td>rgb(10deg 10 10)</td>
-			<td>TypeError</td>
-		</tr>
-	</table>
-</section>
+		<section>
+			<h1>color()</h1>
 
-<section>
-	<h1>Lab and LCH colors</h1>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr>
+					<td>color(srgb 0 1 .5)</td>
+					<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(srgb 0 100% 50%)</td>
+					<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(srgb-linear 0 1 .5)</td>
+					<td>
+						{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}
+					</td>
+				</tr>
+				<tr>
+					<td>color(srgb-linear 0 100% 50%)</td>
+					<td>
+						{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}
+					</td>
+				</tr>
+				<tr>
+					<td>color(display-p3 0 1 .5)</td>
+					<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(display-p3 0% 100% 50%)</td>
+					<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(rec2020 0 1 .5)</td>
+					<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(rec2020 0 100% 50%)</td>
+					<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(a98-rgb 0 1 .5)</td>
+					<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(a98-rgb 0 100% 50%)</td>
+					<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(prophoto-rgb 0 1 .5)</td>
+					<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(prophoto-rgb 0 100% 50%)</td>
+					<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(acescc 0 1 .5)</td>
+					<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(acescc 0 100% 50%)</td>
+					<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(acescg 0 1 .5)</td>
+					<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(acescg 0 100% 50%)</td>
+					<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(xyz 0 1 .5)</td>
+					<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(xyz 0 100% 50%)</td>
+					<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(xyz-d65 0 1 .5)</td>
+					<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(xyz-d65 0 100% 50%)</td>
+					<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(xyz-d50 0 1 .5)</td>
+					<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr>
+					<td>color(xyz-d50 0 100% 50%)</td>
+					<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
+				</tr>
+				<tr title="With transparency">
+					<td>color(display-p3 0 1 0 / .5)</td>
+					<td>{"spaceId":"p3","coords":[0,1,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="No arguments">
+					<td>color(display-p3)</td>
+					<td>{"spaceId":"p3","coords":[0,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="No arguments / alpha">
+					<td>color(display-p3 / .5)</td>
+					<td>{"spaceId":"p3","coords":[0,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="Fewer arguments">
+					<td>color(display-p3 1)</td>
+					<td>{"spaceId":"p3","coords":[1,0,0],"alpha":1}</td>
+				</tr>
+				<tr title="Fewer arguments / alpha">
+					<td>color(display-p3 1 / .5)</td>
+					<td>{"spaceId":"p3","coords":[1,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="none red">
+					<td>color(display-p3 none 1 .5)</td>
+					<td>{"spaceId":"p3","coords":[null,1,0.5],"alpha":1}</td>
+				</tr>
+			</table>
+		</section>
 
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr>
-			<td>lab(100% 0 0)</td>
-			<td>{"spaceId":"lab","coords":[100,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="case">
-			<td>Lab(100% 0 0)</td>
-			<td>{"spaceId":"lab","coords":[100,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="no percent">
-			<td>lab(80 0 0)</td>
-			<td>{"spaceId":"lab","coords":[80,0,0],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>lab(100 -50 50)</td>
-			<td>{"spaceId":"lab","coords":[100,-50,50],"alpha":1}</td>
-		</tr>
-		<tr title="lab percentage">
-			<td>lab(50% 25% -25% / 50%)</td>
-			<td>{"spaceId":"lab","coords":[50,31.25,-31.25],"alpha":0.5}</td>
-		</tr>
-		<tr title="lab transparency">
-			<td>lab(100 -50 5 / .5)</td>
-			<td>{"spaceId":"lab","coords":[100,-50,5],"alpha":0.5}</td>
-		</tr>
-		<tr>
-			<td>lch(100% 0 0)</td>
-			<td>{"spaceId":"lch","coords":[100,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="no percentage">
-			<td>lch(100 50 50)</td>
-			<td>{"spaceId":"lch","coords":[100,50,50],"alpha":1}</td>
-		</tr>
-		<tr title="lch percentage">
-			<td>lch(50% 50% 50 / 50%)</td>
-			<td>{"spaceId":"lch","coords":[50,75,50],"alpha":0.5}</td>
-		</tr>
-		<tr title="Hue over 360">
-			<td>lch(100 50 450)</td>
-			<td>{"spaceId":"lch","coords":[100,50,450],"alpha":1}</td>
-		</tr>
-		<tr title="none hue">
-			<td>lch(100 0 none)</td>
-			<td>{"spaceId":"lch","coords":[100,0,null],"alpha":1}</td>
-		</tr>
-	</table>
-</section>
+		<section>
+			<h1>hsl()</h1>
 
-<section>
-	<h1>Oklab colors</h1>
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr>
-			<td>oklab(100% 0 0)</td>
-			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="alpha">
-			<td>oklab(100% 0 0 / 0.5)</td>
-			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="case">
-			<td>OKLab(100% 0 0)</td>
-			<td>{"spaceId":"oklab","coords":[1,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="all percentages">
-			<td>oklab(42% 100% -50%)</td>
-			<td>{"spaceId":"oklab","coords":[0.42,0.4,-0.2],"alpha":1}</td>
-		</tr>
-		<tr title="all numbers">
-			<td>oklab(1 -0.20 0.20)</td>
-			<td>{"spaceId":"oklab","coords":[1,-0.2,0.2],"alpha":1}</td>
-		</tr>
-		<tr title="all numbers out of range">
-			<td>oklab(10 -0.80 0.80)</td>
-			<td>{"spaceId":"oklab","coords":[10,-0.8,0.8],"alpha":1}</td>
-		</tr>
-	</table>
-</section>
-<section>
-	<h1>Oklch colors</h1>
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr>
-			<td>oklch(100% 0 0)</td>
-			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="alpha">
-			<td>oklch(100% 0 0 / 50%)</td>
-			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="case">
-			<td>OKLch(100% 0 0)</td>
-			<td>{"spaceId":"oklch","coords":[1,0,0],"alpha":1}</td>
-		</tr>
-		<tr title="all numbers">
-			<td>oklch(1 0.2 50)</td>
-			<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
-		</tr>
-		<tr title="all numbers out of range">
-			<td>oklch(10 2 500 / 10)</td>
-			<td>{"spaceId":"oklch","coords":[10,2,500],"alpha":1}</td>
-		</tr>
-		<tr title="C as percentage">
-			<td>oklch(100% 50% 50)</td>
-			<td>{"spaceId":"oklch","coords":[1,0.2,50],"alpha":1}</td>
-		</tr>
-		<tr title="C as percentage over 100%">
-			<td>oklch(100% 150% 50)</td>
-			<td>{"spaceId":"oklch","coords":[1,0.6000000000000001,50],"alpha":1}</td>
-		</tr>
-		<tr title="H as degrees">
-			<td>oklch(100% 0 30deg)</td>
-			<td>{"spaceId":"oklch","coords":[1,0,30],"alpha":1}</td>
-		</tr>
-		<tr title="none hue">
-			<td>oklch(1 0 none)</td>
-			<td>{"spaceId":"oklch","coords":[1,0,null],"alpha":1}</td>
-		</tr>
-		<tr title="none alpha">
-			<td>oklch(1 0  120 / none)</td>
-			<td>{"spaceId":"oklch","coords":[1,0,120],"alpha":null}</td>
-		</tr>
-	</table>
-</section>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr title="hsl(), commas">
+					<td>hsl(180, 50%, 50%)</td>
+					<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
+				</tr>
+				<tr title="hsl(), negative hue">
+					<td>hsl(-180, 50%, 50%)</td>
+					<td>{"spaceId":"hsl","coords":[-180,50,50],"alpha":1}</td>
+				</tr>
+				<tr title="hsl(), hue > 360">
+					<td>hsl(900, 50%, 50%)</td>
+					<td>{"spaceId":"hsl","coords":[900,50,50],"alpha":1}</td>
+				</tr>
+				<tr title="hsla(), degrees for hue, spaces and slash">
+					<td>hsl(90deg 0% 0% / .5)</td>
+					<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="hsla(), rad for hue, spaces and slash">
+					<td>hsl(1.5707963267948966rad 0% 0% / .5)</td>
+					<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="hsla(), grad for hue, spaces and slash">
+					<td>hsl(100grad 0% 0% / .5)</td>
+					<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="hsla(), turns for hue, spaces and slash">
+					<td>hsl(0.25turn 0% 0% / .5)</td>
+					<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="hsla(), none hue, spaces and slash">
+					<td>hsl(none 0% 0% / .5)</td>
+					<td>{"spaceId":"hsl","coords":[null,0,0],"alpha":0.5}</td>
+				</tr>
+				<tr title="hsla(), oog color(rec2020 0 0 1)">
+					<td>hsl(230.6 179.7% 37.56% / 1)</td>
+					<td>
+						{"spaceId":"hsl","coords":[230.6,179.7,37.56],"alpha":1}
+					</td>
+				</tr>
+				<tr title="hsl(), none hue ">
+					<td>hsl(none, 50%, 50%)</td>
+					<td>{"spaceId":"hsl","coords":[null,50,50],"alpha":1}</td>
+				</tr>
+			</table>
+		</section>
 
-<section>
-	<h1>color()</h1>
+		<section>
+			<h1>hwb()</h1>
 
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr>
-			<td>color(srgb 0 1 .5)</td>
-			<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(srgb 0 100% 50%)</td>
-			<td>{"spaceId":"srgb","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(srgb-linear 0 1 .5)</td>
-			<td>{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(srgb-linear 0 100% 50%)</td>
-			<td>{"spaceId":"srgb-linear","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(display-p3 0 1 .5)</td>
-			<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(display-p3 0% 100% 50%)</td>
-			<td>{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(rec2020 0 1 .5)</td>
-			<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(rec2020 0 100% 50%)</td>
-			<td>{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(a98-rgb 0 1 .5)</td>
-			<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(a98-rgb 0 100% 50%)</td>
-			<td>{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(prophoto-rgb 0 1 .5)</td>
-			<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(prophoto-rgb 0 100% 50%)</td>
-			<td>{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(acescc 0 1 .5)</td>
-			<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(acescc 0 100% 50%)</td>
-			<td>{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(acescg 0 1 .5)</td>
-			<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(acescg 0 100% 50%)</td>
-			<td>{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(xyz 0 1 .5)</td>
-			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(xyz 0 100% 50%)</td>
-			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(xyz-d65 0 1 .5)</td>
-			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(xyz-d65 0 100% 50%)</td>
-			<td>{"spaceId":"xyz-d65","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(xyz-d50 0 1 .5)</td>
-			<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr>
-			<td>color(xyz-d50 0 100% 50%)</td>
-			<td>{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}</td>
-		</tr>
-		<tr title="With transparency">
-			<td>color(display-p3 0 1 0 / .5)</td>
-			<td>{"spaceId":"p3","coords":[0,1,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="No arguments">
-			<td>color(display-p3)</td>
-			<td>{"spaceId":"p3","coords":[0,0,0],"alpha":1}</td>
-		</tr>
-		</tr>
-		<tr title="No arguments / alpha">
-			<td>color(display-p3 / .5)</td>
-			<td>{"spaceId":"p3","coords":[0,0,0],"alpha":0.5}</td>
-		</tr>
-		</tr>
-		<tr title="Fewer arguments">
-			<td>color(display-p3 1)</td>
-			<td>{"spaceId":"p3","coords":[1,0,0],"alpha":1}</td>
-		</tr>
-		</tr>
-		<tr title="Fewer arguments / alpha">
-			<td>color(display-p3 1 / .5)</td>
-			<td>{"spaceId":"p3","coords":[1,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="none red">
-			<td>color(display-p3 none 1 .5)</td>
-			<td>{"spaceId":"p3","coords":[null,1,0.5],"alpha":1}</td>
-		</tr>
+			<table
+				class="reftest"
+				data-test="colorParse"
+				data-columns="3"
+				data-colors="1"
+			>
+				<tr>
+					<td>hwb(180 20% 30%)</td>
+					<td>{"spaceId":"hwb","coords":[180,20,30],"alpha":1}</td>
+				</tr>
+				<tr title="none hue">
+					<td>hwb(none 20% 30%)</td>
+					<td>{"spaceId":"hwb","coords":[null,20,30],"alpha":1}</td>
+				</tr>
+			</table>
+		</section>
 
-	</table>
-</section>
+		<script type="module">
+			import Color from "../src/index.js";
 
-<section>
-	<h1>hsl()</h1>
+			window.colorParse = function colorParse(test, result, expected) {
+				var err;
 
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr title="hsl(), commas">
-			<td>hsl(180, 50%, 50%)</td>
-			<td>{"spaceId":"hsl","coords":[180,50,50],"alpha":1}</td>
-		</tr>
-		<tr title="hsl(), negative hue">
-			<td>hsl(-180, 50%, 50%)</td>
-			<td>{"spaceId":"hsl","coords":[-180,50,50],"alpha":1}</td>
-		</tr>
-		<tr title="hsl(), hue > 360">
-			<td>hsl(900, 50%, 50%)</td>
-			<td>{"spaceId":"hsl","coords":[900,50,50],"alpha":1}</td>
-		</tr>
-		<tr title="hsla(), degrees for hue, spaces and slash">
-			<td>hsl(90deg 0% 0% / .5)</td>
-			<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="hsla(), rad for hue, spaces and slash">
-			<td>hsl(1.5707963267948966rad 0% 0% / .5)</td>
-			<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="hsla(), grad for hue, spaces and slash">
-			<td>hsl(100grad 0% 0% / .5)</td>
-			<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="hsla(), turns for hue, spaces and slash">
-			<td>hsl(0.25turn 0% 0% / .5)</td>
-			<td>{"spaceId":"hsl","coords":[90,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="hsla(), none hue, spaces and slash">
-			<td>hsl(none 0% 0% / .5)</td>
-			<td>{"spaceId":"hsl","coords":[null,0,0],"alpha":0.5}</td>
-		</tr>
-		<tr title="hsla(), oog color(rec2020 0 0 1)">
-			<td>hsl(230.6 179.7% 37.56% / 1)</td>
-			<td>{"spaceId":"hsl","coords":[230.6,179.7,37.56],"alpha":1}</td>
-		</tr>
-		<tr title="hsl(), none hue ">
-			<td>hsl(none, 50%, 50%)</td>
-			<td>{"spaceId":"hsl","coords":[null,50,50],"alpha":1}</td>
-		</tr>
-	</table>
-</section>
+				try {
+					var color = new Color(test.textContent);
+					result.textContent = JSON.stringify(color);
+					result.color = color;
 
-<section>
-	<h1>hwb()</h1>
+					if (Test.equals(result.textContent, expected.textContent)) {
+						return true;
+					}
+				} catch (e) {
+					result.textContent = result.color = err = e;
+				}
 
-	<table class="reftest" data-test="colorParse" data-columns="3" data-colors="1">
-		<tr>
-			<td>hwb(180 20% 30%)</td>
-			<td>{"spaceId":"hwb","coords":[180,20,30],"alpha":1}</td>
-		</tr>
-		<tr  title="none hue">
-			<td>hwb(none 20% 30%)</td>
-			<td>{"spaceId":"hwb","coords":[null,20,30],"alpha":1}</td>
-		</tr>
-	</table>
-</section>
-
-<script type="module">
-import Color from "../src/index.js";
-
-window.colorParse = function colorParse(test, result, expected) {
-	var err;
-
-	try {
-		var color = new Color(test.textContent);
-		result.textContent = JSON.stringify(color);
-		result.color = color;
-
-		if (Test.equals(result.textContent, expected.textContent)) {
-			return true;
-		}
-	}
-	catch(e) {
-		result.textContent = result.color = err = e;
-	}
-
-	return err || false;
-}
-</script>
-<script src="../assets/reftests.js" type="module"></script>
-
-</body>
+				return err || false;
+			};
+		</script>
+		<script src="../assets/reftests.js" type="module"></script>
+	</body>
 </html>

@@ -1,46 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="show-changes">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Contrast</title>
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
-	<h1>
-		<span class="black">Black</span>
-		or <span class="white">white</span>?
-	</h1>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Contrast</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<h1>
+			<span class="black">Black</span>
+			or <span class="white">white</span>?
+		</h1>
 
-	<main>
-		<fieldset>
-			<legend>Settings</legend>
-			<label>
-				Contrast algorithm:
-				<select id="contrast_algorithm"></select>
-			</label>
-			<label>
-				Number of colors:
-				<input type="range" id="number_of_colors" min="27" max="1728" value="256">
-			</label>
-			<label>
-				<input type="checkbox" id="show_changes" checked>
-				Show <span class="changed">changes</span> between <span id="previous_algo"></span> and <span id="current_algo"></span>
-			</label>
-			<label>
-				Order by
-				<select id="order_by">
-					<option value="">Inreasing R, G, B</option>
-					<option value="h">Hue</option>
-					<option value="c">Chroma</option>
-					<option value="l" selected>Lightness</option>
-				</select>
-			</label>
-		</fieldset>
-		<div id="colors"></div>
-	</main>
+		<main>
+			<fieldset>
+				<legend>Settings</legend>
+				<label>
+					Contrast algorithm:
+					<select id="contrast_algorithm"></select>
+				</label>
+				<label>
+					Number of colors:
+					<input
+						type="range"
+						id="number_of_colors"
+						min="27"
+						max="1728"
+						value="256"
+					/>
+				</label>
+				<label>
+					<input type="checkbox" id="show_changes" checked />
+					Show <span class="changed">changes</span> between
+					<span id="previous_algo"></span> and
+					<span id="current_algo"></span>
+				</label>
+				<label>
+					Order by
+					<select id="order_by">
+						<option value="">Inreasing R, G, B</option>
+						<option value="h">Hue</option>
+						<option value="c">Chroma</option>
+						<option value="l" selected>Lightness</option>
+					</select>
+				</label>
+			</fieldset>
+			<div id="colors"></div>
+		</main>
 
-	<script src="./index.js" type="module"></script>
-</body>
+		<script src="./index.js" type="module"></script>
+	</body>
 </html>

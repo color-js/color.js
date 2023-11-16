@@ -5,11 +5,13 @@ export default new RGBColorSpace({
 	id: "a98rgb",
 	name: "Adobe® 98 RGB compatible",
 	base: A98Linear,
-	toBase: RGB => RGB.map(val => Math.pow(Math.abs(val), 563 / 256) * Math.sign(val)),
-	fromBase: RGB => RGB.map(val => Math.pow(Math.abs(val), 256 / 563) * Math.sign(val)),
+	toBase: (RGB) =>
+		RGB.map((val) => Math.pow(Math.abs(val), 563 / 256) * Math.sign(val)),
+	fromBase: (RGB) =>
+		RGB.map((val) => Math.pow(Math.abs(val), 256 / 563) * Math.sign(val)),
 	formats: {
 		color: {
-			id: "a98-rgb"
-		}
+			id: "a98-rgb",
+		},
 	},
 });

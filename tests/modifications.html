@@ -1,142 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Color modification tests</title>
 
-<meta charset="UTF-8">
-<title>Color modification tests</title>
+		<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+		<script src="https://htest.dev/htest.js" crossorigin></script>
+		<link rel="stylesheet" href="style.css" />
 
-<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
-<script src="https://htest.dev/htest.js" crossorigin></script>
-<link rel="stylesheet" href="style.css" />
+		<script src="../color.js" type="module"></script>
+		<script></script>
+	</head>
+	<body data-epsilon=".005">
+		<h1>Color modification Tests</h1>
+		<p>These tests modify one or more coordinates and check the result.</p>
 
-<script src="../color.js" type="module"></script>
-<script>
+		<section>
+			<h1>sRGB to LCH</h1>
+			<table class="reftest" data-test="numbers">
+				<tr title="color.lch.c = 13">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.lch.c = 13;
+								return color.lch.c;
+							});
+						</script>
+					</td>
+					<td>13</td>
+				</tr>
+				<tr title="color.set('lch.c', 13)">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.set("lch.c", 13);
+								return color.get("lch.c");
+							});
+						</script>
+					</td>
+					<td>13</td>
+				</tr>
+				<tr title="color.lch[1] = 13">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.lch[1] = 13;
+								return color.lch.c;
+							});
+						</script>
+					</td>
+					<td>13</td>
+				</tr>
+				<tr title="color.set('c', 13)">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray").to("lch");
+								color.set("c", 13);
+								return color.lch.c;
+							});
+						</script>
+					</td>
+					<td>13</td>
+				</tr>
+				<tr title='color.set({"lch.c": 13, "lch.l": 40})'>
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.set({ "lch.c": 13, "lch.l": 40 });
+								return color.lch.c + " " + color.lch.l;
+							});
+						</script>
+					</td>
+					<td>13 40</td>
+				</tr>
+				<tr title="color.set('lch.c', 13)">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.set("lch.c", 13);
+								return color.lch.c;
+							});
+						</script>
+					</td>
+					<td>13</td>
+				</tr>
+				<tr title="chroma *= 1.2">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.lch.c *= 1.2;
+								return color.lch.c;
+							});
+						</script>
+					</td>
+					<td>13.480970445148008</td>
+				</tr>
+				<tr title='color.set("c", c => c * 1.2)'>
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray").to("lch");
+								color.set("c", (c) => c * 1.2);
+								return color.lch.c;
+							});
+						</script>
+					</td>
+					<td>13.480970445148008</td>
+				</tr>
+				<tr title="c *= 1.25 then print lch">
+					<td>
+						<script>
+							$out(() => {
+								var color = new Color("slategray");
+								color.lch.c *= 1.25;
+								return color.lch;
+							});
+						</script>
+					</td>
+					<td>
+						52.69726799102946 14.04267594002497 253.0004426214531
+					</td>
+				</tr>
+			</table>
+		</section>
 
-</script>
-
-</head>
-<body data-epsilon=".005">
-
-<h1>Color modification Tests</h1>
-<p>These tests modify one or more coordinates and check the result.</p>
-
-<section>
-	<h1>sRGB to LCH</h1>
-	<table class="reftest" data-test="numbers">
-		<tr title="color.lch.c = 13">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.lch.c = 13;
-						return color.lch.c
-					});
-				</script>
-			</td>
-			<td>13</td>
-		</tr>
-		<tr title="color.set('lch.c', 13)">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.set('lch.c', 13);
-						return color.get('lch.c');
-					});
-				</script>
-			</td>
-			<td>13</td>
-		</tr>
-		<tr title="color.lch[1] = 13">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.lch[1] = 13;
-						return color.lch.c
-					});
-				</script>
-			</td>
-			<td>13</td>
-		</tr>
-		<tr title="color.set('c', 13)">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray").to("lch");
-						color.set('c', 13)
-						return color.lch.c
-					});
-				</script>
-			</td>
-			<td>13</td>
-		</tr>
-		<tr title='color.set({"lch.c": 13, "lch.l": 40})'>
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.set({"lch.c": 13, "lch.l": 40})
-						return color.lch.c + ' ' + color.lch.l
-					});
-				</script>
-			</td>
-			<td>13 40</td>
-		</tr>
-		<tr title="color.set('lch.c', 13)">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.set('lch.c', 13);
-						return color.lch.c;
-					});
-				</script>
-			</td>
-			<td>13</td>
-		</tr>
-		<tr title="chroma *= 1.2">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.lch.c *= 1.2;
-						return color.lch.c;
-					});
-
-				</script>
-			</td>
-			<td>13.480970445148008</td>
-		</tr>
-		<tr title='color.set("c", c => c * 1.2)'>
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray").to("lch");
-						color.set("c", c => c * 1.2);
-						return color.lch.c;
-					});
-
-				</script>
-			</td>
-			<td>13.480970445148008</td>
-		</tr>
-		<tr title="c *= 1.25 then print lch">
-			<td>
-				<script>
-					$out(() => {
-						var color = new Color("slategray");
-						color.lch.c *= 1.25;
-						return color.lch;
-					});
-				</script>
-			</td>
-			<td>52.69726799102946 14.04267594002497 253.0004426214531</td>
-		</tr>
-	</table>
-</section>
-
-<script src="../assets/reftests.js" type="module"></script>
-
-</body>
+		<script src="../assets/reftests.js" type="module"></script>
+	</body>
 </html>

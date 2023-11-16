@@ -4,132 +4,140 @@
 	--transparency: transparent;
 
 	@supports (background: conic-gradient(red, white)) {
-		--transparency: repeating-conic-gradient(transparent 0 25%, rgb(0 0 0 / .05) 0 50%) 0 0 / 1.5em 1.5em content-box border-box;
+		--transparency: repeating-conic-gradient(
+				transparent 0 25%,
+				rgb(0 0 0 / 0.05) 0 50%
+			)
+			0 0 / 1.5em 1.5em content-box border-box;
 	}
 
-& > pre,
-& > .prism-live {
-	flex: 1;
-	width: 0;
-}
-
-& .cn-results:empty {
-	display: none;
-}
-
-& .cn-results:not(:empty) {
-	display: flex;
-	flex-flow: column;
-	margin-left: .5em;
-	padding-top: .5em;
-	font: bold 65%/1 var(--font-monospace, monospace);
-
-	& > * {
-		margin-bottom: .5em;
-		min-width: 10rem;
-		max-width: 15rem;
-	}
-}
-
-@media (max-width: 900px) {
-	& .cn-results:not(:empty),
 	& > pre,
 	& > .prism-live {
-		transition: .4s width;
+		flex: 1;
+		width: 0;
+	}
+
+	& .cn-results:empty {
+		display: none;
 	}
 
 	& .cn-results:not(:empty) {
-		width: 2em;
-		overflow: hidden;
+		display: flex;
+		flex-flow: column;
+		margin-left: 0.5em;
+		padding-top: 0.5em;
+		font: bold 65%/1 var(--font-monospace, monospace);
 
-		&:hover,
-		&:focus,
-		&:focus-within,
-		&:active {
-			width: auto;
-			overflow: visible;
+		& > * {
+			margin-bottom: 0.5em;
+			min-width: 10rem;
+			max-width: 15rem;
 		}
 	}
-}
 
-& .cn-value {
-	cursor: pointer;
-}
+	@media (max-width: 900px) {
+		& .cn-results:not(:empty),
+		& > pre,
+		& > .prism-live {
+			transition: 0.4s width;
+		}
 
-& .cn-string,
-& .cn-number,
-& .cn-boolean,
-& .cn-error {
-	padding: .3em 0;
-	line-height: 1.2;
-}
+		& .cn-results:not(:empty) {
+			width: 2em;
+			overflow: hidden;
 
-& .cn-error {
-	color: var(--color-red);
-	cursor: help;
-
-	&::before {
-		content: "⚠️";
-		margin-right: .1em;
-		filter: invert() brightness(2) saturate(.7) hue-rotate(130deg);
-	}
-}
-
-& .cn-color,
-& .cn-range {
-	padding: .4em;
-	border-radius: .2em;
-	transition: .3s .15s transform;
-	transform-origin: right;
-
-	&:hover {
-		z-index: 1;
-		transform: scale(2);
-	}
-}
-
-& .cn-range {
-	height: 1em;
-	background: linear-gradient(to right, var(--stops, transparent, transparent)), var(--transparency);
-}
-
-& .cn-color {
-	position: relative;
-	background: linear-gradient(var(--color), var(--color)), var(--transparency);
-	white-space: nowrap;
-
-	&.dark {
-		color: white;
-	}
-
-	&.out-of-gamut {
-		box-shadow: 0 0 .1em .02em var(--out-of-gamut-color, red);
-
-		&.light {
-			--out-of-gamut-color: #b00;
+			&:hover,
+			&:focus,
+			&:focus-within,
+			&:active {
+				width: auto;
+				overflow: visible;
+			}
 		}
 	}
-}
 
-& .cn-array {
-	& > * {
-		display: inline-block;
+	& .cn-value {
+		cursor: pointer;
 	}
 
-	& > .cn-color:hover {
-		transform: scale(4);
+	& .cn-string,
+	& .cn-number,
+	& .cn-boolean,
+	& .cn-error {
+		padding: 0.3em 0;
+		line-height: 1.2;
 	}
-}
 
+	& .cn-error {
+		color: var(--color-red);
+		cursor: help;
+
+		&::before {
+			content: "⚠️";
+			margin-right: 0.1em;
+			filter: invert() brightness(2) saturate(0.7) hue-rotate(130deg);
+		}
+	}
+
+	& .cn-color,
+	& .cn-range {
+		padding: 0.4em;
+		border-radius: 0.2em;
+		transition: 0.3s 0.15s transform;
+		transform-origin: right;
+
+		&:hover {
+			z-index: 1;
+			transform: scale(2);
+		}
+	}
+
+	& .cn-range {
+		height: 1em;
+		background: linear-gradient(
+				to right,
+				var(--stops, transparent, transparent)
+			),
+			var(--transparency);
+	}
+
+	& .cn-color {
+		position: relative;
+		background: linear-gradient(var(--color), var(--color)),
+			var(--transparency);
+		white-space: nowrap;
+
+		&.dark {
+			color: white;
+		}
+
+		&.out-of-gamut {
+			box-shadow: 0 0 0.1em 0.02em var(--out-of-gamut-color, red);
+
+			&.light {
+				--out-of-gamut-color: #b00;
+			}
+		}
+	}
+
+	& .cn-array {
+		& > * {
+			display: inline-block;
+		}
+
+		& > .cn-color:hover {
+			transform: scale(4);
+		}
+	}
 }
 
 [data-varname] {
 	background: var(--color);
-	box-shadow: 0 0 0 .1em var(--color);
-	border-radius: .01em;
+	box-shadow: 0 0 0 0.1em var(--color);
+	border-radius: 0.01em;
 }
 
-	[data-varname].dark {
-		color: white;
-		text-shadow: none;
-	}
+[data-varname].dark {
+	color: white;
+	text-shadow: none;
+}
