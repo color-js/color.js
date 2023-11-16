@@ -123,12 +123,13 @@ toGamut.returns = "color";
  * returned in the color space of `origin`.
  * @param {Object} origin
  * @param {Object} options
- * @param {ColorSpace} options.space
+ * @param {ColorSpace|string} options.space
  * @returns
  */
 export function toGamutCSS (origin, { space = origin.space }) {
 	const JND = 0.02;
 	const ε = 0.0001;
+	space = ColorSpace.get(space);
 
 	if (space.isUnbounded) {
 		return to(origin, space);
