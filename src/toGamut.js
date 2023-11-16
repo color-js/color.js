@@ -115,8 +115,6 @@ export default function toGamut (color, { method = defaults.gamut_mapping, space
 toGamut.returns = "color";
 
 /**
- * toGamutCSS
- *
  * Given a color `origin`, returns a new color that is in gamut using
  * the CSS Gamut Mapping Algorithm. If `space` is specified, it will be in gamut
  * in `space`, and returned in `space`. Otherwise, it will be in gamut and
@@ -124,7 +122,7 @@ toGamut.returns = "color";
  * @param {Object} origin
  * @param {Object} options
  * @param {ColorSpace|string} options.space
- * @returns
+ * @returns {Color}
  */
 export function toGamutCSS (origin, { space = origin.space }) {
 	const JND = 0.02;
