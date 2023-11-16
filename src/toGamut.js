@@ -6,7 +6,7 @@ import deltaEOK from "./deltaE/deltaEOK.js";
 import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
-import parse from "./parse.js";
+import oklab from "./spaces/oklab.js";
 import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
@@ -118,8 +118,8 @@ toGamut.returns = "color";
 // `Oklch` space. These are created in the `Oklab` space, as it is used by the
 // DeltaEOK calculation, so it is guaranteed to be imported.
 const COLORS = {
-	WHITE: { space: "oklab", coords: [1, 0, 0] },
-	BLACK: { space: "oklab", coords: [0, 0, 0] }
+	WHITE: { space: oklab, coords: [1, 0, 0] },
+	BLACK: { space: oklab, coords: [0, 0, 0] }
 };
 
 /**
