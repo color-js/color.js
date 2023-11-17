@@ -193,9 +193,14 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		else if (!inGamut(current, space)) {
 			const clipped = clip(current);
 			const E = deltaEOK(clipped, current);
-			// Note- this is missing several steps of the CSS Gamut Mapping
-			// Algorithm at this point.
 			if (E < JND) {
+				// Note- this implementation does not conform to the CSS Spec.
+				// This removes the check that (JND - E < ε) and its else
+				// statement. For some colors, JND - E was never less than ε, so
+				// the algorithm continued projecting chroma higher, until the
+				// while statement ended. At that point, the chroma was returned
+				// to `max`, which is the original chroma, so the color was
+				// still out of gamut.
 				current = clipped;
 				break;
 			}
