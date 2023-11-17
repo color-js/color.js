@@ -179,30 +179,34 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	}
 	let min = 0;
 	let max = origin_OKLCH.coords[1];
-
 	let min_inGamut = true;
-	let current;
+	let current = clone(origin_OKLCH);
+    let clipped = clip(current);
+
+    let E = deltaEOK(clipped, current);
+    if (E < JND) {
+		return clipped;
+	}
 
 	while ((max - min) > ε) {
 		const chroma = (min + max) / 2;
-		current = clone(origin_OKLCH);
 		current.coords[1] = chroma;
 		if (min_inGamut && inGamut(current, space)) {
 			min = chroma;
 		}
 		else if (!inGamut(current, space)) {
-			const clipped = clip(current);
-			const E = deltaEOK(clipped, current);
+			clipped = clip(current);
+			E = deltaEOK(clipped, current);
 			if (E < JND) {
-				// Note- this implementation does not conform to the CSS Spec.
-				// This removes the check that (JND - E < ε) and its else
-				// statement. For some colors, JND - E was never less than ε, so
-				// the algorithm continued projecting chroma higher, until the
-				// while statement ended. At that point, the chroma was returned
-				// to `max`, which is the original chroma, so the color was
-				// still out of gamut.
-				current = clipped;
-				break;
+				if ((JND - E < ε)) {
+					// match found
+					current = clipped;
+					break;
+				}
+				else {
+					min_inGamut = false;
+					min = chroma;
+				}
 			}
 			else {
 				max = chroma;
