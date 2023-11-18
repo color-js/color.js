@@ -194,7 +194,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		if (min_inGamut && inGamut(current, space)) {
 			min = chroma;
 		}
-		else if (!inGamut(current, space)) {
+		else {
 			clipped = clip(current);
 			E = deltaEOK(clipped, current);
 			if (E < JND) {
