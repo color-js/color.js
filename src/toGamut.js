@@ -200,8 +200,6 @@ export function toGamutCSS (origin, { space = origin.space }) {
 			E = deltaEOK(clipped, current);
 			if (E < JND) {
 				if ((JND - E < ε)) {
-					// match found
-					current = clipped;
 					break;
 				}
 				else {
@@ -214,8 +212,5 @@ export function toGamutCSS (origin, { space = origin.space }) {
 			}
 		}
 	}
-	if (!inGamut(current, space)){
-		current = clipped;
-	}
-	return to(current, space);
+	return clipped;
 }
