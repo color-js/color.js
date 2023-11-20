@@ -136,12 +136,13 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	const JND = 0.02;
 	const ε = 0.0001;
 	space = ColorSpace.get(space);
+	const oklchSpace = ColorSpace.get("oklch");
 
 	if (space.isUnbounded) {
 		return to(origin, space);
 	}
 
-	const origin_OKLCH = to(origin, ColorSpace.get("oklch"));
+	const origin_OKLCH = to(origin, oklchSpace);
 	let L = origin_OKLCH.coords[0];
 
 	// return media white or black, if lightness is out of range
@@ -212,6 +213,9 @@ export function toGamutCSS (origin, { space = origin.space }) {
 				max = chroma;
 			}
 		}
+	}
+	if (!inGamut(current, space)){
+		current = clipped;
 	}
 	return to(current, space);
 }
