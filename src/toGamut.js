@@ -165,14 +165,9 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		const destColor = to(_color, space);
 		const spaceCoords = Object.values(space.coords);
 		destColor.coords = destColor.coords.map((coord, index) => {
-			const spaceCoord = spaceCoords[index];
-			if (("range" in spaceCoord)) {
-				if (coord < spaceCoord.range[0]) {
-					return spaceCoord.range[0];
-				}
-				if (coord > spaceCoord.range[1]) {
-					return spaceCoord.range[1];
-				}
+			if ("range" in spaceCoords[index]) {
+				const [min, max] =  spaceCoords[index].range;
+				return util.clamp(min, coord, max);
 			}
 			return coord;
 		});
