@@ -18,7 +18,7 @@ const tests = {
 		return checkProximity(actual, expect);
 	}),
 	data: {
-		epsilon: .001
+		epsilon: .0001
 	},
 	tests: [
 		{
@@ -30,11 +30,11 @@ const tests = {
 			tests: [
 				{
 					args: "slategray",
-					expect: [52.697472, 11.242899, 253.010088]
+					expect: [52.69734985816035, 11.234156441150068, 253.00263766910288]
 				},
 				{
 					args: "white",
-					expect: [100, 0.0146, null]
+					expect: [100, 0, null]
 				},
 				{
 					args: "black",
