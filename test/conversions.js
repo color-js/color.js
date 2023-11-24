@@ -24,13 +24,16 @@ const tests = {
 		{
 			name: "sRGB to LCH",
 			data: {
-				toSpace: "lch",
-				epsilon: .02,
+				toSpace: "lch"
 			},
 			tests: [
 				{
 					args: "slategray",
 					expect: [52.69734985816035, 11.234156441150068, 253.00263766910288]
+				},
+				{
+					args: "papayawhip",
+					expect: [95.22890204788412, 14.894161408435306, 80.18569512775224]
 				},
 				{
 					args: "white",
