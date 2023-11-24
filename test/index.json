@@ -1,0 +1,13 @@
+{
+	"parse": "Parsing",
+	"construct": "Object construction",
+	"conversions": "Conversions",
+	"delta": "DeltaE",
+	"gamut": "Gamut mapping",
+	"modifications": "Color modification",
+	"contrast": "Contrast",
+	"angles": "Angles",
+	"adapt": "Chromatic adaptation",
+	"multiply-matrices": "Matrix multiplication",
+	"hooks": "Hooks"
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tests</title>
+	<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
+	<script src="https://htest.dev/htest.js" type="module" crossorigin></script>
+	<script>
+		let params = new URLSearchParams(location.search);
+		let test_url = params.get('test');
+
+		if (test_url) {
+			let test_url_ext = test_url.match(/\.(\w+)$/)?.[1];
+
+			if (!test_url_ext) {
+				test_url += '.js';
+			}
+
+			if (/^\w+\.\w+$/.test(test_url)) {
+				test_url = `./${test_url}`;
+			}
+
+			Promise.all([
+				import("https://htest.dev/src/js/render.js").then(m => m.default),
+				import(test_url).then(m => m.default),
+			]).then(([render, test]) => render(test));
+		}
+		else if (parent === self) {
+			document.documentElement.classList.add('index');
+
+			// Index of all tests
+			fetch('./index.json').then(r => r.json()).then(index => {
+				index = Object.entries(index).map(([id, name]) => ({ id, name }));
+
+				document.body.innerHTML = `
+				<section>
+					<h1>Tests</h1>
+
+					<ul id="tests">
+						${index.map(test => `
+							<li>
+								<a href="?test=${test.id}">${test.name}</a>
+							</li>
+						`).join('\n')}
+					</ul>
+				</section>
+				`;
+			});
+		}
+	</script>
+</head>
+<body>
+</body>
+</html>
