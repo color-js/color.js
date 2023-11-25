@@ -426,28 +426,27 @@ const tests = {
 			name: "OKLCh",
 			data: {
 				toSpace: "oklch",
-				epsilon: .02,
 			},
 			tests: [
 				{
-					name: "sRGB white (D65) to OKlab",
+					name: "sRGB white (D65) to OKlch",
 					args: "white",
 					expect: [1.0, 0.0001, NaN]
 				},
 				{
 					name: "sRGB red (D65) to OKlab",
 					args: "red",
-					expect: [0.627954, 0.257627, 29.2271]
+					expect: [0.6279553639214311, 0.2576833038053608, 29.23388027962784]
 				},
 				{
 					name: "sRGB lime (D65) to OKlab",
 					args: "lime",
-					expect: [0.866439, 0.294803, 142.5112]
+					expect: [0.8664396175234368, 0.2948272245426958, 142.4953450414439]
 				},
 				{
 					name: "sRGB blue (D65) to OKlab",
 					args: "blue",
-					expect: [0.452013, 0.313319, 264.058541]
+					expect: [0.45201371817442365, 0.3132143886344849, 264.0520226163699]
 				}
 			]
 		},
