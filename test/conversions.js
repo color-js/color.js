@@ -37,11 +37,11 @@ const tests = {
 				},
 				{
 					args: "white",
-					expect: [100, 0, null]
+					expect: [100, 0, NaN]
 				},
 				{
 					args: "black",
-					expect: [0, 0, null]
+					expect: [0, 0, NaN]
 				}
 			]
 		},
@@ -105,11 +105,11 @@ const tests = {
 				},
 				{
 					args: "black",
-					expect: [null, 0, 100]
+					expect: [NaN, 0, 100]
 				},
 				{
 					args: "white",
-					expect: [null, 100, 0]
+					expect: [NaN, 100, 0]
 				}
 			]
 		},
@@ -138,11 +138,11 @@ const tests = {
 			tests: [
 				{
 					args: "black",
-					expect: [null, 0, 0]
+					expect: [NaN, 0, 0]
 				},
 				{
 					args: "white",
-					expect: [null, 0, 100]
+					expect: [NaN, 0, 100]
 				}
 			]
 		},
