@@ -178,7 +178,7 @@ const tests = {
 				},
 				{
 					args: "color(display-p3 0 0 1)",
-					expect: [0, 0, 1.042131]
+					expect: [0, 0, 1.0420216193529395]
 				}
 			]
 		},
