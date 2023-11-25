@@ -508,7 +508,15 @@ const tests = {
 					name: "ACEScc blue to XYZ",
 					args: "color(acescc 0.0 0.0 1.0)",
 					expect: [37.8833, 12.9243, 243.6027]
+				}
+			]
+		},
+		{
+				name: "ACEScc to Display P3",
+				data: {
+					toSpace: "p3",
 				},
+				tests: [
 				{
 					name: "ACEScc red to P3",
 					args: "color(acescc 1.0 0.0 0.0)",
