@@ -18,27 +18,30 @@ const tests = {
 		return checkProximity(actual, expect);
 	}),
 	data: {
-		epsilon: .001
+		epsilon: .0001
 	},
 	tests: [
 		{
 			name: "sRGB to LCH",
 			data: {
-				toSpace: "lch",
-				epsilon: .02,
+				toSpace: "lch"
 			},
 			tests: [
 				{
 					args: "slategray",
-					expect: [52.697472, 11.242899, 253.010088]
+					expect: [52.69734985816035, 11.234156441150068, 253.00263766910288]
+				},
+				{
+					args: "papayawhip",
+					expect: [95.22890204788412, 14.894161408435306, 80.18569512775224]
 				},
 				{
 					args: "white",
-					expect: [100, 0.0146, null]
+					expect: [100, 0, NaN]
 				},
 				{
 					args: "black",
-					expect: [0, 0, null]
+					expect: [0, 0, NaN]
 				}
 			]
 		},
@@ -102,11 +105,11 @@ const tests = {
 				},
 				{
 					args: "black",
-					expect: [null, 0, 100]
+					expect: [NaN, 0, 100]
 				},
 				{
 					args: "white",
-					expect: [null, 100, 0]
+					expect: [NaN, 100, 0]
 				}
 			]
 		},
@@ -115,15 +118,15 @@ const tests = {
 			tests: [
 				{
 					args: ["color(rec2020 0 0 1)", "hwb"],
-					expect: [230.639, -29.921, -5.0489]
+					expect: [230.63914728691736, -29.9212950204808, -5.0489461007690295]
 				},
 				{
 					args: ["color(rec2020 0 0 1)", "hsl"],
-					expect: [230.639, 179.655, 37.564]
+					expect: [230.63914728691736, 179.65454686851365, 37.563825540144116]
 				},
 				{
 					args: ["color(rec2020 0 0 1)", "hsv"],
-					expect: [230.639, 128.483, 105.0489]
+					expect: [230.63914728691736, 128.48319391208224, 105.04894610076903]
 				}
 			]
 		},
@@ -135,11 +138,11 @@ const tests = {
 			tests: [
 				{
 					args: "black",
-					expect: [null, 0, 0]
+					expect: [NaN, 0, 0]
 				},
 				{
 					args: "white",
-					expect: [null, 0, 100]
+					expect: [NaN, 0, 100]
 				}
 			]
 		},
@@ -175,7 +178,7 @@ const tests = {
 				},
 				{
 					args: "color(display-p3 0 0 1)",
-					expect: [0, 0, 1.042131]
+					expect: [0, 0, 1.0420216193529395]
 				}
 			]
 		},
@@ -423,28 +426,27 @@ const tests = {
 			name: "OKLCh",
 			data: {
 				toSpace: "oklch",
-				epsilon: .02,
 			},
 			tests: [
 				{
-					name: "sRGB white (D65) to OKlab",
+					name: "sRGB white (D65) to OKlch",
 					args: "white",
-					expect: [1.0, 0.0001, NaN]
+					expect: [1.0, 0.0, NaN]
 				},
 				{
 					name: "sRGB red (D65) to OKlab",
 					args: "red",
-					expect: [0.627954, 0.257627, 29.2271]
+					expect: [0.6279553639214311, 0.2576833038053608, 29.23388027962784]
 				},
 				{
 					name: "sRGB lime (D65) to OKlab",
 					args: "lime",
-					expect: [0.866439, 0.294803, 142.5112]
+					expect: [0.8664396175234368, 0.2948272245426958, 142.4953450414439]
 				},
 				{
 					name: "sRGB blue (D65) to OKlab",
 					args: "blue",
-					expect: [0.452013, 0.313319, 264.058541]
+					expect: [0.45201371817442365, 0.3132143886344849, 264.0520226163699]
 				}
 			]
 		},
@@ -506,7 +508,15 @@ const tests = {
 					name: "ACEScc blue to XYZ",
 					args: "color(acescc 0.0 0.0 1.0)",
 					expect: [37.8833, 12.9243, 243.6027]
+				}
+			]
+		},
+		{
+				name: "ACEScc to Display P3",
+				data: {
+					toSpace: "p3",
 				},
+				tests: [
 				{
 					name: "ACEScc red to P3",
 					args: "color(acescc 1.0 0.0 0.0)",

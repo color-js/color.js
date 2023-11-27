@@ -5,6 +5,7 @@ node_modules/
 *.html
 !*.tpl.html
 !tests/*.html
+!test/*.html
 !benchmarks/*.html
 !templates/*.html
 !apps/*/*.html
