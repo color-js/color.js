@@ -12,7 +12,6 @@ const c3 = 2392 / (2 ** 7);
 const p = 1.7 * 2523 / (2 ** 5);
 const pinv = (2 ** 5) / (1.7 * 2523);
 const d = -0.56;
-// eslint-disable-next-line @typescript-eslint/no-loss-of-precision
 const d0 = 1.6295499532821566E-11;
 
 const XYZtoCone_M = [

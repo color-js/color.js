@@ -211,7 +211,7 @@ export default class Notebook {
 			}
 			catch (e) {
 				// Syntax error in the rewritten code
-				var error = e; // eslint-disable-line no-redeclare
+				var error = e;
 			}
 		}
 
@@ -370,7 +370,6 @@ export function walk (pre, callback, filter) {
 	let walker = document.createTreeWalker(pre, filter);
 	let node;
 
-	// eslint-disable-next-line no-cond-assign
 	while (node = walker.nextNode()) {
 		let ret = callback(node);
 
@@ -391,7 +390,6 @@ function getNodeAt (offset, container, {type} = {}) {
 	let node, sum = 0;
 	let walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
 
-	// eslint-disable-next-line no-cond-assign
 	while (node = walk.nextNode()) {
 		sum += node.data.length;
 

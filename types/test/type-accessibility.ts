@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 // Testing whether types can be accessed from the main import
 
 import {

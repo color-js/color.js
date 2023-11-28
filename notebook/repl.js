@@ -49,17 +49,17 @@ let editObserver = new Mavo.Observer(container, "mv-mode", () => {
 
 (async () => {
 
-	await Mavo.ready;
+await Mavo.ready;
 
-	for (let id in extensions) {
-		showdown.extension(id, () => [
-			extensions[id]
-		]);
-	}
+for (let id in extensions) {
+	showdown.extension(id, () => [
+		extensions[id]
+	]);
+}
 
-	let defaultOptions = Mavo.Plugins.loaded.markdown.defaultOptions;
+let defaultOptions = Mavo.Plugins.loaded.markdown.defaultOptions;
 
-	defaultOptions.extensions = defaultOptions.extensions || [];
-	defaultOptions.extensions.push("apiLinks", "callouts");
+defaultOptions.extensions = defaultOptions.extensions || [];
+defaultOptions.extensions.push("apiLinks", "callouts");
 
 })();

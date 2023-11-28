@@ -22,7 +22,7 @@ const deltaYmin = 0.0005;
 const scaleBoW = 1.14;
 const loBoWoffset = 0.027;
 const scaleWoB= 1.14;
-const loWoBoffset = 0.027; // eslint-disable-line @typescript-eslint/no-unused-vars
+const loWoBoffset = 0.027;
 
 function fclamp (Y) {
 	if (Y >= blkThrs) {

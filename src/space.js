@@ -298,7 +298,7 @@ export default class ColorSpace {
 			}
 			else {
 				// Relative coordinate
-				[space, coord] = [, ref]; // eslint-disable-line no-sparse-arrays
+				[space, coord] = [, ref];
 			}
 		}
 		else if (Array.isArray(ref)) {
@@ -358,7 +358,6 @@ export default class ColorSpace {
 function getPath (space) {
 	let ret = [space];
 
-	// eslint-disable-next-line no-cond-assign
 	for (let s = space; s = s.base;) {
 		ret.push(s);
 	}
