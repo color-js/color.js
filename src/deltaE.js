@@ -20,4 +20,4 @@ export default function deltaE (c1, c2, o = {}) {
 	}
 
 	throw new TypeError(`Unknown deltaE method: ${method}`);
-};
+}

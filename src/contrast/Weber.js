@@ -24,4 +24,4 @@ export default function contrastWeber (color1, color2) {
 	}
 
 	return Y2 === 0 ? max : (Y1 - Y2) / Y2;
-};
+}

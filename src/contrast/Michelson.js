@@ -19,4 +19,4 @@ export default function contrastMichelson (color1, color2) {
 
 	let denom = (Y1 + Y2);
 	return denom === 0 ? 0 : (Y1 - Y2) / denom;
-};
+}

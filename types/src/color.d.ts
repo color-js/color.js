@@ -86,46 +86,46 @@ declare namespace Color {
 }
 
 declare class Color implements PlainColorObject {
-	constructor(color: ColorTypes);
-	constructor(space: string | ColorSpace, coords: Coords, alpha?: number);
+	constructor (color: ColorTypes);
+	constructor (space: string | ColorSpace, coords: Coords, alpha?: number);
 
 	// These signatures should always be the same as the constructor
-	static get(color: ColorTypes): Color;
-	static get(
+	static get (color: ColorTypes): Color;
+	static get (
 		space: string | ColorSpace,
 		coords: Coords,
 		alpha: number
 	): Color;
 
-	static defineFunction(name: string, code: DefineFunctionHybrid): void;
-	static defineFunction(
+	static defineFunction (name: string, code: DefineFunctionHybrid): void;
+	static defineFunction (
 		name: string,
 		code: DefineFunctionCode,
 		options: DefineFunctionOptions
 	): void;
 
-	static defineFunctions(objects: Record<string, DefineFunctionHybrid>): void;
+	static defineFunctions (objects: Record<string, DefineFunctionHybrid>): void;
 
-	static extend(
+	static extend (
 		exports:
-			| { register: (color: typeof Color) => void }
-			| Record<string, DefineFunctionHybrid>
+		| { register: (color: typeof Color) => void }
+		| Record<string, DefineFunctionHybrid>
 	): void;
 
-	get space(): ColorSpace;
-	get spaceId(): string;
+	get space (): ColorSpace;
+	get spaceId (): string;
 
 	alpha: number;
 	coords: Coords;
 
-	clone(): this;
+	clone (): this;
 
 	// Copy parameter types from display function, except for the first one
-	display(
+	display (
 		...args: RemoveFirstElement<Parameters<typeof display>>
 	): string & { color: Color };
 
-	toJSON(): ColorConstructor;
+	toJSON (): ColorConstructor;
 
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;

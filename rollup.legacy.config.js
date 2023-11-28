@@ -17,5 +17,5 @@ export default defaultConfig.map(config =>
 		   file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
 	   })),
 	   plugins: [...(config.plugins || []), ...legacyPlugins]
-   })
+	})
 );

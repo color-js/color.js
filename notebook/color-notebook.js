@@ -211,7 +211,7 @@ export default class Notebook {
 			}
 			catch (e) {
 				// Syntax error in the rewritten code
-				var error = e;
+				var error = e; // eslint-disable-line no-redeclare
 			}
 		}
 
@@ -324,7 +324,7 @@ export default class Notebook {
 				let offset = nodeAtOffset.offsetTop - result.offsetTop
 				// Prevent overly tall results (e.g. long arrays of colors)
 				// to make the entire code area super tall
-							 - Math.max(0, result.offsetHeight - 30);
+					- Math.max(0, result.offsetHeight - 30);
 
 				if (offset > 5) {
 					result.style.marginTop = offset + "px";
@@ -370,6 +370,7 @@ export function walk (pre, callback, filter) {
 	let walker = document.createTreeWalker(pre, filter);
 	let node;
 
+	// eslint-disable-next-line no-cond-assign
 	while (node = walker.nextNode()) {
 		let ret = callback(node);
 
@@ -390,6 +391,7 @@ function getNodeAt (offset, container, {type} = {}) {
 	let node, sum = 0;
 	let walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
 
+	// eslint-disable-next-line no-cond-assign
 	while (node = walk.nextNode()) {
 		sum += node.data.length;
 

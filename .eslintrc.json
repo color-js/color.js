@@ -1,4 +1,5 @@
 {
+	"root": true,
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": 6,
@@ -11,27 +12,71 @@
 		"browser": true,
 		"node": true
 	},
+	"globals": { "Proxy": "readonly" },
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@stylistic/disable-legacy"
+	],
+	"plugins": ["@typescript-eslint", "@stylistic"],
 	"rules": {
-		"semi": 1,
+		"@stylistic/arrow-spacing": 1,
+		"@stylistic/brace-style": [1, "stroustrup"],
+		"@stylistic/comma-spacing": 1,
+		"@stylistic/eol-last": 1,
+		"@stylistic/indent": [1, "tab"],
+		"@stylistic/keyword-spacing": 1,
+		"@stylistic/no-mixed-spaces-and-tabs": [1, "smart-tabs"],
+		"@stylistic/no-trailing-spaces": 1,
+		"@stylistic/quotes": [
+			1,
+			"double",
+			{ "avoidEscape": true, "allowTemplateLiterals": true }
+		],
+		"@stylistic/semi": 1,
+		"@stylistic/space-before-function-paren": 1,
+		"@stylistic/spaced-comment": [
+			1,
+			"always",
+			{ "block": { "exceptions": ["*"] } }
+		],
+		"@typescript-eslint/no-explicit-any": 0,
+		"@typescript-eslint/no-loss-of-precision": 1,
+		"@typescript-eslint/no-unused-vars": [1, { "args": "none" }],
+		"curly": 1,
 		"no-dupe-args": 1,
 		"no-dupe-keys": 1,
+		"no-empty": 0,
 		"no-unreachable": 1,
-		"valid-typeof": 1,
-		"curly": 1,
 		"no-useless-call": 1,
-		"brace-style": [1, "stroustrup"],
-		"no-mixed-spaces-and-tabs": [1, "smart-tabs"],
-		"quotes": [1, "double", {"avoidEscape": true, "allowTemplateLiterals": true}],
-		"spaced-comment": [1, "always", {
-			"block": {
-				"exceptions": ["*"]
+		"valid-typeof": 1
+	},
+	"overrides": [
+		{
+			"files": [
+				"apps/**/*",
+				"assets/**/*",
+				"get/**/*",
+				"notebook/**/*",
+				"scripts/**/*",
+				"tests/**/*"
+			],
+			"rules": {
+				"@typescript-eslint/no-unused-vars": 0,
+				"no-undef": 0
 			}
-		}],
-		"arrow-spacing": 1,
-		"comma-spacing": 1,
-		"keyword-spacing": 1,
-		"eol-last": 1,
-		"no-trailing-spaces": 1,
-		"space-before-function-paren": 1
-	}
+		},
+		{
+			"files": ["*.cjs"],
+			"rules": {
+				"@typescript-eslint/no-var-requires": 0
+			}
+		},
+		{
+			"files": ["types/test/**/*"],
+			"rules": {
+				"@typescript-eslint/ban-ts-comment": 0
+			}
+		}
+	]
 }

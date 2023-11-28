@@ -37,4 +37,4 @@ export default function (color, sample) {
 	let ΔH = 2 * Math.sqrt(Cz1 * Cz2) * Math.sin((Δh / 2) * (Math.PI / 180));
 
 	return Math.sqrt(ΔJ ** 2 + ΔC ** 2 + ΔH ** 2);
-};
+}

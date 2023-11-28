@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
+
 import ColorSpace from "../space.js";
 import {multiplyMatrices} from "../util.js";
 import XYZ_Abs_D65 from "./xyz-abs-d65.js";

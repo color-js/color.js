@@ -6,7 +6,6 @@ import deltaEOK from "./deltaE/deltaEOK.js";
 import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
-import parse from "./parse.js";
 import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
@@ -154,7 +153,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		const black = to(COLORS.BLACK, space);
 		black.alpha = origin.alpha;
 		return to(black, space);
-	};
+	}
 
 	if (inGamut(origin_OKLCH, space)) {
 		return to(origin_OKLCH, space);

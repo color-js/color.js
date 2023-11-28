@@ -8,9 +8,9 @@ defineCAT();
 defineCAT({});
 
 defineCAT({
-    id: "abc",
-    toCone_M: [[123]],
-    fromCone_M: [[123]],
+	id: "abc",
+	toCone_M: [[123]],
+	fromCone_M: [[123]],
 });
 
 // @ts-expect-error

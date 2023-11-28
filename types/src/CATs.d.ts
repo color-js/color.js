@@ -8,6 +8,6 @@ export interface CAT {
 
 export const CATs: Record<string, CAT>;
 
-export function defineCAT(cat: CAT): void;
+export function defineCAT (cat: CAT): void;
 
-export function adapt(W1: White, W2: White, id?: string): number[];
+export function adapt (W1: White, W2: White, id?: string): number[];

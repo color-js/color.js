@@ -512,11 +512,11 @@ const tests = {
 			]
 		},
 		{
-				name: "ACEScc to Display P3",
-				data: {
-					toSpace: "p3",
-				},
-				tests: [
+			name: "ACEScc to Display P3",
+			data: {
+				toSpace: "p3",
+			},
+			tests: [
 				{
 					name: "ACEScc red to P3",
 					args: "color(acescc 1.0 0.0 0.0)",

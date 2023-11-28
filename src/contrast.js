@@ -25,4 +25,4 @@ export default function contrast (background, foreground, o = {}) {
 	}
 
 	throw new TypeError(`Unknown contrast algorithm: ${algorithm}`);
-};
+}

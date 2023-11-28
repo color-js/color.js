@@ -19,7 +19,7 @@ hooks.add("chromatic-adaptation-end", env => {
 export function defineCAT ({id, toCone_M, fromCone_M}) {
 	// Use id, toCone_M, fromCone_M like variables
 	CATs[id] = arguments[0];
-};
+}
 
 export function adapt (W1, W2, id = "Bradford") {
 	// adapt from a source whitepoint or illuminant W1
@@ -43,7 +43,7 @@ export function adapt (W1, W2, id = "Bradford") {
 	let adapt_M	= multiplyMatrices(method.fromCone_M, scaled_cone_M);
 	// console.log({scaled_cone_M, adapt_M});
 	return adapt_M;
-};
+}
 
 defineCAT({
 	id: "von Kries",

@@ -78,7 +78,9 @@ export default class Color {
 		for (let id in this.space.coords) {
 			Object.defineProperty(this, id, {
 				get: () => this.get(id),
-				set: value => this.set(id, value)
+				set: value => {
+					this.set(id, value);
+				}
 			});
 		}
 	}
@@ -173,7 +175,7 @@ export default class Color {
 			}
 		}
 	}
-};
+}
 
 Color.defineFunctions({
 	get,

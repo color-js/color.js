@@ -8,8 +8,8 @@ export interface Format {
 	coords?: string[] | undefined;
 	coordGrammar?: Array<string & { range?: [number, number] }> | undefined;
 	serializeCoords?:
-		| ((coords: Coords, precision: number) => [string, string, string])
-		| undefined;
+	| ((coords: Coords, precision: number) => [string, string, string])
+	| undefined;
 	toGamut?: boolean | undefined;
 	commas?: boolean | undefined;
 	lastAlpha?: boolean | undefined;
@@ -45,14 +45,14 @@ export type Ref =
 	| { space: string | ColorSpace; coordId: string };
 
 export default class ColorSpace {
-	constructor(options: Options);
+	constructor (options: Options);
 
 	static DEFAULT_FORMAT: { type: "functions"; name: "color" };
 
 	/**
 	 * @throws {TypeError} If no matching color space is found
 	 */
-	static get(
+	static get (
 		space: ColorSpace | string,
 		...alternatives: Array<ColorSpace | string>
 	): ColorSpace;
@@ -60,7 +60,7 @@ export default class ColorSpace {
 	/**
 	 * @throws {TypeError} If no space or an unknown space is provided
 	 */
-	static resolveCoord(
+	static resolveCoord (
 		ref: Ref,
 		workingSpace?: string | ColorSpace
 	): CoordMeta & {
@@ -72,14 +72,14 @@ export default class ColorSpace {
 	/**
 	 * @throws {TypeError} If a space with the provided id already exists
 	 */
-	static register(space: ColorSpace): ColorSpace;
-	static register(id: string, space: ColorSpace): ColorSpace;
+	static register (space: ColorSpace): ColorSpace;
+	static register (id: string, space: ColorSpace): ColorSpace;
 
 	static registry: Record<string, ColorSpace>;
 
-	get all(): Set<ColorSpace>;
-	get cssId(): string;
-	get isPolar(): boolean;
+	get all (): Set<ColorSpace>;
+	get cssId (): string;
+	get isPolar (): boolean;
 
 	name: string;
 	id: string;
@@ -92,17 +92,17 @@ export default class ColorSpace {
 	referred?: string | undefined;
 	white: White;
 
-	from(color: Color | ColorObject): Coords;
-	from(space: string | ColorSpace, coords: Coords): Coords;
+	from (color: Color | ColorObject): Coords;
+	from (space: string | ColorSpace, coords: Coords): Coords;
 
-	getFormat(format?: string | Format): Format | null;
+	getFormat (format?: string | Format): Format | null;
 
-	getMinCoords(): Coords;
+	getMinCoords (): Coords;
 
-	inGamut(coords: Coords, options?: { epsilon?: number }): boolean;
+	inGamut (coords: Coords, options?: { epsilon?: number }): boolean;
 
-	to(color: Color | ColorObject): Coords;
-	to(space: string | ColorSpace, coords: Coords): Coords;
+	to (color: Color | ColorObject): Coords;
+	to (space: string | ColorSpace, coords: Coords): Coords;
 
-	toString(): string;
+	toString (): string;
 }
