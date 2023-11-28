@@ -24,8 +24,8 @@ export default function serialize (color, {
 
 	let formatId = format;
 	format = color.space.getFormat(format)
-		   ?? color.space.getFormat("default")
-		   ?? ColorSpace.DEFAULT_FORMAT;
+		    ?? color.space.getFormat("default")
+		    ?? ColorSpace.DEFAULT_FORMAT;
 
 	inGamut ||= format.toGamut;
 

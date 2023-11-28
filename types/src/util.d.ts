@@ -33,7 +33,7 @@ export function parseFunction (str: string): {
 		type?: "<angle>" | "<number>" | "<percentage>" | undefined;
 		unit?: "deg" | undefined;
 		alpha?: true | undefined;
-		  })
+	})
 	>;
 };
 
