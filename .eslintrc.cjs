@@ -15,6 +15,7 @@ module.exports = {
 	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/stylistic",
 		"plugin:@stylistic/disable-legacy",
 	],
 	"plugins": ["@typescript-eslint", "@stylistic"],
@@ -27,15 +28,16 @@ module.exports = {
 		"no-setter-return": 0,
 		"no-sparse-arrays": 0,
 
-		// Enable additional ESLint rules
-		"curly": 1,
-		"no-useless-call": 1,
-
 		// Override recommended typescript-eslint rules
 		// https://typescript-eslint.io/rules/
+		"@typescript-eslint/no-empty-function": 0,
 		"@typescript-eslint/no-explicit-any": 0,
 		"@typescript-eslint/no-loss-of-precision": 0,
 		"@typescript-eslint/no-unused-vars": 0,
+
+		// Enable additional ESLint rules
+		"curly": 1,
+		"no-useless-call": 1,
 
 		// Enable ESLint Stylistic rules
 		// https://eslint.style/packages/default#rules

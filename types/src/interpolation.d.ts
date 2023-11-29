@@ -23,8 +23,7 @@ export function range (
 	options?: RangeOptions & Record<string, any>
 ): Range;
 
-// tslint:disable-next-line:no-empty-interface
-export interface MixOptions extends RangeOptions {}
+export type MixOptions = RangeOptions;
 
 export function mix (
 	color1: ColorTypes,

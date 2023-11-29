@@ -6,7 +6,7 @@ export interface Format {
 	name?: string | undefined;
 	id?: string | undefined;
 	coords?: string[] | undefined;
-	coordGrammar?: Array<string & { range?: [number, number] }> | undefined;
+	coordGrammar?: (string & { range?: [number, number] })[] | undefined;
 	serializeCoords?:
 	| ((coords: Coords, precision: number) => [string, string, string])
 	| undefined;
@@ -54,7 +54,7 @@ export default class ColorSpace {
 	 */
 	static get (
 		space: ColorSpace | string,
-		...alternatives: Array<ColorSpace | string>
+		...alternatives: (ColorSpace | string)[]
 	): ColorSpace;
 
 	/**
