@@ -108,4 +108,4 @@ export default function (color, sample, {l = 2, c = 1} = {}) {
 	// dE += (ΔH / SH)  ** 2;
 	return Math.sqrt(dE);
 	// Yay!!!
-};
+}

@@ -69,34 +69,34 @@ declare module "./color" {
 		// interpolation
 		// These signatures should always match those in interpolation.d.ts,
 		// including the static versions
-		mix(color2: ColorTypes, options?: MixOptions): Color;
-		mix(color2: ColorTypes, p: number, options?: MixOptions): Color;
+		mix (color2: ColorTypes, options?: MixOptions): Color;
+		mix (color2: ColorTypes, p: number, options?: MixOptions): Color;
 		range: ToColorPrototype<typeof range>;
-		steps(color2: ColorTypes, options?: StepsOptions): Color[];
+		steps (color2: ColorTypes, options?: StepsOptions): Color[];
 
-		static mix(
+		static mix (
 			color1: ColorTypes,
 			color2: ColorTypes,
 			options?: MixOptions
 		): Color;
-		static mix(
+		static mix (
 			color1: ColorTypes,
 			color2: ColorTypes,
 			p: number,
 			options?: MixOptions
 		): Color;
 		static range: typeof range;
-		static steps(
+		static steps (
 			color1: ColorTypes,
 			color2: ColorTypes,
 			options?: StepsOptions
 		): Color[];
-		static steps(range: Range, options?: StepsOptions): Color[];
+		static steps (range: Range, options?: StepsOptions): Color[];
 
 		// luminance
-		get luminance(): ReturnType<typeof getLuminance>;
+		get luminance (): ReturnType<typeof getLuminance>;
 		// the definition for this set in the orignial code like it doesn't actually use the parameter?
-		set luminance(_: number);
+		set luminance (_: number);
 
 		// variations
 		lighten: ToColorPrototype<typeof lighten>;

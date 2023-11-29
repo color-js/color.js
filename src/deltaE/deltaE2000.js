@@ -172,4 +172,4 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	dE += RT * (ΔC / (kC * SC)) * (ΔH / (kH * SH));
 	return Math.sqrt(dE);
 	// Yay!!!
-};
+}

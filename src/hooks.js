@@ -27,7 +27,7 @@ export class Hooks {
 			callback.call(env && env.context? env.context : env, env);
 		});
 	}
-};
+}
 
 /**
  * The instance of {@link Hooks} used throughout Color.js

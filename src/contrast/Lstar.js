@@ -14,4 +14,4 @@ export default function contrastLstar (color1, color2) {
 	let L2 = get(color2, [lab, "l"]);
 
 	return Math.abs(L1 - L2);
-};
+}

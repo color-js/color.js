@@ -1,7 +1,6 @@
 /**
  * Functions related to color interpolation
  */
-import Color from "./color.js";
 import ColorSpace from "./space.js";
 import {type, interpolate} from "./util.js";
 import getColor from "./getColor.js";
@@ -114,7 +113,7 @@ export function steps (c1, c2, options = {}) {
 	ret = ret.map(a => a.color);
 
 	return ret;
-};
+}
 
 /**
  * Interpolate to color2 and return a function that takes a 0-1 percentage
@@ -208,11 +207,11 @@ export function range (color1, color2, options = {}) {
 	}, {
 		rangeArgs
 	});
-};
+}
 
 export function isRange (val) {
 	return type(val) === "function" && !!val.rangeArgs;
-};
+}
 
 defaults.interpolationSpace = "lab";
 

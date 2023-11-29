@@ -17,4 +17,4 @@ export default function contrastWCAG21 (color1, color2) {
 	}
 
 	return (Y1 + .05) / (Y2 + .05);
-};
+}

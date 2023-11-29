@@ -3,12 +3,12 @@ export class Hooks {
 	// without conflicting with the types of add and run
 	[name: string]: any;
 
-	add(
+	add (
 		name: string | string[],
 		callback: (env: Record<string, any>) => void,
 		first?: boolean
 	): void;
-	run(name: string, env?: { context?: Record<string, any> }): void;
+	run (name: string, env?: { context?: Record<string, any> }): void;
 }
 
 declare const hooks: Hooks;

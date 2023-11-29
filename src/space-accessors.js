@@ -20,11 +20,6 @@ hooks.add("colorspace-init-end", space => {
 });
 
 function addSpaceAccessors (id, space) {
-	// Coordinates can be looked up by both id and name
-	let coordIds = Object.keys(space.coords);
-	let coordNames = Object.values(space.coords).map(c => c.name);
-
-
 	let propId = id.replace(/-/g, "_");
 
 	Object.defineProperty(Color.prototype, propId, {

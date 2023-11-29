@@ -7,7 +7,7 @@ export interface Options {
 	inGamut?: boolean | undefined;
 }
 
-export default function serialize(
+export default function serialize (
 	color: ColorTypes,
 	options?: Options & Record<string, any>
 ): string;

@@ -9,9 +9,9 @@ display("red"); // $ExpectType Display
 display(new Color("red")); // $ExpectType Display
 // $ExpectType Display
 display({
-    space: sRGB,
-    coords: [1, 2, 3],
-    alpha: 1,
+	space: sRGB,
+	coords: [1, 2, 3],
+	alpha: 1,
 });
 display("red", {});
 

@@ -5,7 +5,7 @@ declare namespace to {
 	let returns: "color";
 }
 
-declare function to(
+declare function to (
 	color: ColorTypes,
 	space: string | ColorSpace,
 	options?: { inGamut?: boolean | undefined }

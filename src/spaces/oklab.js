@@ -29,8 +29,8 @@ const LabtoLMS_M = [
 
 export default new ColorSpace({
 	id: "oklab",
-    name: "Oklab",
-    coords: {
+	name: "Oklab",
+	coords: {
 		l: {
 			refRange: [0, 1],
 			name: "Lightness"
@@ -41,10 +41,10 @@ export default new ColorSpace({
 		b: {
 			refRange: [-0.4, 0.4]
 		}
-    },
+	},
 
 	// Note that XYZ is relative to D65
-  white: "D65",
+	white: "D65",
 	base: XYZ_D65,
 	fromBase (XYZ) {
 		// move to LMS cone domain

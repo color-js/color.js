@@ -6,7 +6,7 @@ hooks.add();
 hooks.add("foo");
 
 hooks.add("foo", env => {
-    env; // $ExpectType Record<string, any>
+	env; // $ExpectType Record<string, any>
 });
 
 hooks.add("bar", () => {}, true);

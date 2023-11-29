@@ -6,7 +6,7 @@ export type Range = ((percentage: number) => Color) & {
 	rangeArgs: { colors: [Color, Color]; options: Record<string, any> };
 };
 
-export function isRange(val: any): val is Range;
+export function isRange (val: any): val is Range;
 
 export interface RangeOptions {
 	space?: string | ColorSpace | undefined;
@@ -16,22 +16,21 @@ export interface RangeOptions {
 	hue?: "longer" | "shorter" | "increasing" | "decreasing" | "raw" | undefined;
 }
 
-export function range(range: Range, options?: RangeOptions): Range;
-export function range(
+export function range (range: Range, options?: RangeOptions): Range;
+export function range (
 	color1: ColorTypes,
 	color2: ColorTypes,
 	options?: RangeOptions & Record<string, any>
 ): Range;
 
-// tslint:disable-next-line:no-empty-interface
-export interface MixOptions extends RangeOptions {}
+export type MixOptions = RangeOptions;
 
-export function mix(
+export function mix (
 	color1: ColorTypes,
 	color2: ColorTypes,
 	options?: MixOptions
 ): PlainColorObject;
-export function mix(
+export function mix (
 	color1: ColorTypes,
 	color2: ColorTypes,
 	p: number,
@@ -45,7 +44,7 @@ export interface StepsOptions extends RangeOptions {
 	maxSteps?: number | undefined;
 }
 
-export function steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): PlainColorObject[];
-export function steps(range: Range, options?: StepsOptions): PlainColorObject[];
+export function steps (color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): PlainColorObject[];
+export function steps (range: Range, options?: StepsOptions): PlainColorObject[];
 
-export function register(color: typeof Color): void;
+export function register (color: typeof Color): void;

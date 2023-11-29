@@ -22,4 +22,4 @@ export default function contrastDeltaPhi (color1, color2) {
 	let contrast = Math.pow(deltaPhiStar, (1 / phi)) * Math.SQRT2 - 40;
 
 	return (contrast < 7.5) ? 0.0 : contrast ;
-};
+}

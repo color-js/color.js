@@ -3,7 +3,7 @@ import ColorSpace from "./space.js";
 
 export type Display = string & { color: PlainColorObject };
 
-export default function display(
+export default function display (
 	color: ColorTypes,
 	options?: {
 		space?: string | ColorSpace | undefined;

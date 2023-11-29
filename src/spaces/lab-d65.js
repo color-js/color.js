@@ -40,7 +40,7 @@ export default new ColorSpace({
 		let f = xyz.map(value => value > ε ? Math.cbrt(value) : (κ * value + 16)/116);
 
 		return [
-			(116 * f[1]) - 16, 	 // L
+			(116 * f[1]) - 16,   // L
 			500 * (f[0] - f[1]), // a
 			200 * (f[1] - f[2])  // b
 		];

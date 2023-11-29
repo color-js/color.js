@@ -13,4 +13,4 @@ export default function (color, sample) {
 	let Δa = a1 - a2;
 	let Δb = b1 - b2;
 	return Math.sqrt(ΔL ** 2 + Δa ** 2 + Δb ** 2);
-};
+}

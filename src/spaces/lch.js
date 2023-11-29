@@ -47,7 +47,7 @@ export default new ColorSpace({
 		// Clamp any negative Chroma
 		if (Chroma < 0) {
 			Chroma = 0;
-		};
+		}
 		// Deal with NaN Hue
 		if (isNaN(Hue)) {
 			Hue = 0;
