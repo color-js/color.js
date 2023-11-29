@@ -1,0 +1,23 @@
+name: Lint & Test Types
+on:
+    push:
+    pull_request:
+        types: [reopened]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    lint:
+        name: Lint & Test Types
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "lts/*"
+
+            - run: npm install
+            - run: npm run lint:ci
