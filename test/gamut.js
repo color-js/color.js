@@ -11,7 +11,11 @@ export default {
 		return color2;
 	},
 	map (c) {
-		return new Color(c).coords;
+		const color = new Color(c);
+		return this.data.checkAlpha ? [
+			...color.coords,
+			color.alpha
+		] : color.coords;
 	},
 	check: check.deep(check.proximity({ epsilon: 0.001 })),
 	tests: [
@@ -66,6 +70,36 @@ export default {
 					args: ["color(display-p3 -1 0 0)"],
 					expect: "rgb(0% 0% 0%)"
 				}
+			]
+		},
+		{
+			name: "Maintains alpha",
+			data: { toSpace: "srgb", checkAlpha: true },
+			tests: [
+				{
+					args: ["color(display-p3 1 1 1 / 1)"],
+					expect: "rgb(100% 100% 100%)"
+				},
+				{
+					args: ["color(display-p3 1 1 1 / 0.5)"],
+					expect: "rgb(100% 100% 100% / 0.5)"
+				},
+				{
+					args: ["color(display-p3 1 1 1 / 0)"],
+					expect: "rgb(100% 100% 100% / 0)"
+				},
+				{
+					args: ["color(display-p3 1 0 0 / 1)"],
+					expect: "rgb(100% 4.457% 4.5932%)"
+				},
+				{
+					args: ["color(display-p3 1 0 0 / 0.5)"],
+					expect: "rgb(100% 4.457% 4.5932% / 0.5)"
+				},
+				{
+					args: ["color(display-p3 1 0 0 / 0)"],
+					expect: "rgb(100% 4.457% 4.5932% / 0)"
+				},
 			]
 		},
 		{
