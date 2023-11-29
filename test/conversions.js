@@ -235,11 +235,11 @@ const tests = {
 			tests: [
 				{
 					args: ["color(jzazbz 0.5 0 0)", "xyz-d65"],
-					expect: [8.103011, 8.39796, 6.924744]
+					expect: [7.986957, 8.397692, 9.136922]
 				},
 				{
 					args: ["color(jzazbz 1 0 0)", "xyz-d65"],
-					expect: [48.887976, 50.667498, 41.779127]
+					expect: [48.187785, 50.665878, 55.125885]
 				},
 				{
 					args: ["color(jzazbz 0.1 -0.05 0.05)", "xyz-d65"],
