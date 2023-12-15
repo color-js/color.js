@@ -155,7 +155,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		return to(black, space);
 	}
 
-	if (inGamut(origin_OKLCH, space)) {
+	if (inGamut(origin_OKLCH, space, { epsilon: 0 })) {
 		return to(origin_OKLCH, space);
 	}
 
@@ -180,23 +180,23 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	let max = origin_OKLCH.coords[1];
 
 	let min_inGamut = true;
+	let clipped = clip(clone(origin_OKLCH));
 	let current;
 
 	while ((max - min) > ε) {
 		const chroma = (min + max) / 2;
 		current = clone(origin_OKLCH);
 		current.coords[1] = chroma;
-		if (min_inGamut && inGamut(current, space)) {
+		if (min_inGamut && inGamut(current, space, { epsilon: 0 })) {
 			min = chroma;
 			continue;
 		}
-		else if (!inGamut(current, space)) {
-			const clipped = clip(current);
+		else {
+			clipped = clip(current);
 			const E = deltaEOK(clipped, current);
 			if (E < JND) {
 				if ((JND - E < ε)) {
 					// match found
-					current = clipped;
 					break;
 				}
 				else {
@@ -206,9 +206,8 @@ export function toGamutCSS (origin, { space = origin.space }) {
 			}
 			else {
 				max = chroma;
-				continue;
 			}
 		}
 	}
-	return to(current, space);
+	return to(clipped, space);
 }
