@@ -81,7 +81,7 @@ function update () {
 
 		output.tBodies[0].innerHTML = ret;
 	}
-};
+}
 
 let urlParams = getURLParams();
 

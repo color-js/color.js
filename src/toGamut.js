@@ -155,7 +155,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		const black = to(COLORS.BLACK, space);
 		black.alpha = origin.alpha;
 		return to(black, space);
-	};
+	}
 
 	if (inGamut(origin_OKLCH, space)) {
 		return to(origin_OKLCH, space);

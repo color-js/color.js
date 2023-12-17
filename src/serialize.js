@@ -2,7 +2,6 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import getColor from "./getColor.js";
-import to from "./to.js";
 import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
 import clone from "./clone.js";
@@ -25,8 +24,8 @@ export default function serialize (color, {
 
 	let formatId = format;
 	format = color.space.getFormat(format)
-		   ?? color.space.getFormat("default")
-		   ?? ColorSpace.DEFAULT_FORMAT;
+	       ?? color.space.getFormat("default")
+	       ?? ColorSpace.DEFAULT_FORMAT;
 
 	inGamut ||= format.toGamut;
 

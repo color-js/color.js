@@ -1,5 +1,4 @@
 import { isNone, skipNone } from "./util.js";
-import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import to from "./to.js";
 import serialize from "./serialize.js";

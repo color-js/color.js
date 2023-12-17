@@ -6,5 +6,5 @@ export interface RGBOptions extends Options {
 }
 
 export default class RGBColorSpace extends ColorSpace {
-	constructor(options: RGBOptions);
+	constructor (options: RGBOptions);
 }

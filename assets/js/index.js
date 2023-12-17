@@ -45,7 +45,7 @@ if (!Color.DEBUGGING) {
 		"color-green-blue-light": greenBlue(.5).set({"lch.l": 94}),
 		"color-blue-red-light": blueRed(.5).set({"lch.l": 94}),
 	};
-window.vars = vars;
+	window.vars = vars;
 	$.create("style", {
 		inside: document.head,
 		textContent: `:root {

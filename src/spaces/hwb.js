@@ -41,8 +41,8 @@ export default new ColorSpace({
 		// Achromatic check (white plus black >= 1)
 		let sum = w + b;
 		if (sum >= 1) {
-			 let gray = w / sum;
-			 return [h, 0, gray * 100];
+			let gray = w / sum;
+			return [h, 0, gray * 100];
 		}
 
 		let v = (1 - b);

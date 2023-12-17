@@ -324,7 +324,7 @@ export default class Notebook {
 				let offset = nodeAtOffset.offsetTop - result.offsetTop
 				// Prevent overly tall results (e.g. long arrays of colors)
 				// to make the entire code area super tall
-							 - Math.max(0, result.offsetHeight - 30);
+					- Math.max(0, result.offsetHeight - 30);
 
 				if (offset > 5) {
 					result.style.marginTop = offset + "px";

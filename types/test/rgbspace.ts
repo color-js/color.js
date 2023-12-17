@@ -6,13 +6,13 @@ new RGBColorSpace();
 new RGBColorSpace({});
 
 new RGBColorSpace({
-    name: "RGBSpace",
-    id: "rgbspace",
+	name: "RGBSpace",
+	id: "rgbspace",
 });
 
 new RGBColorSpace({
-    name: "RGBSpace",
-    id: "rgbspace",
-    toXYZ_M: [[1, 2, 3]],
-    fromXYZ_M: [[3, 2, 1]],
+	name: "RGBSpace",
+	id: "rgbspace",
+	toXYZ_M: [[1, 2, 3]],
+	fromXYZ_M: [[3, 2, 1]],
 });

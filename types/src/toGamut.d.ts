@@ -5,7 +5,7 @@ declare namespace toGamut {
 	let returns: "color";
 }
 
-declare function toGamut(
+declare function toGamut (
 	color: ColorTypes,
 	options?: {
 		method?: string | undefined;
@@ -15,7 +15,7 @@ declare function toGamut(
 
 export default toGamut;
 
-export function toGamutCSS(
+export function toGamutCSS (
 	color: ColorTypes,
 	options?: {
 		space?: string | ColorSpace | undefined;

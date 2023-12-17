@@ -1,10 +1,10 @@
 import Color, { ColorObject } from "./color.js";
 
-export function getLuminance(color: Color | ColorObject): number;
+export function getLuminance (color: Color | ColorObject): number;
 
-export function setLuminance(
-    color: Color | ColorObject,
-    value: number | ((coord: number) => number),
+export function setLuminance (
+	color: Color | ColorObject,
+	value: number | ((coord: number) => number),
 ): void;
 
-export function register(color: typeof Color): void;
+export function register (color: typeof Color): void;

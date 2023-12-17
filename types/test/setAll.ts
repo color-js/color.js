@@ -15,11 +15,11 @@ setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType Color
 setAll(new Color("red"), sRGB, [1, 2, 3]); // $ExpectType Color
 // $ExpectType { coords: [number, number, number]; space: RGBColorSpace; alpha: number; }
 setAll(
-    {
-        coords: [1, 2, 3],
-        space: sRGB,
-        alpha: 1,
-    },
-    "srgb_linear",
-    [4, 5, 6],
+	{
+		coords: [1, 2, 3],
+		space: sRGB,
+		alpha: 1,
+	},
+	"srgb_linear",
+	[4, 5, 6],
 );

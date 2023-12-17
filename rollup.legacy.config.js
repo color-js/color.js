@@ -12,10 +12,10 @@ const legacyPlugins = [
 
 export default defaultConfig.map(config =>
 	Object.assign(config, {
-	   output: config.output.map(bundle => ({
-		   ...bundle,
-		   file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
-	   })),
-	   plugins: [...(config.plugins || []), ...legacyPlugins]
-   })
+		output: config.output.map(bundle => ({
+			...bundle,
+			file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
+		})),
+		plugins: [...(config.plugins || []), ...legacyPlugins]
+	})
 );
