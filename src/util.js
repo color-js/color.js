@@ -190,3 +190,14 @@ export function parseCoordGrammar (coordGrammars) {
 		});
 	});
 }
+
+/**
+ * Clamp value between the minimum and maximum
+ * @param {number} min minimum value to return
+ * @param {number} val the value to return if it is between min and max
+ * @param {number} max maximum value to return
+ * @returns number
+ */
+export function clamp (min, val, max){
+	return Math.max(Math.min(max, val), min);
+}
