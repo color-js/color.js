@@ -157,7 +157,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		return to(black, space);
 	}
 
-	if (inGamut(origin_OKLCH, space)) {
+	if (inGamut(origin_OKLCH, space, {epsilon: 0})) {
 		return to(origin_OKLCH, space);
 	}
 
@@ -187,7 +187,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	while ((max - min) > ε) {
 		const chroma = (min + max) / 2;
 		current.coords[1] = chroma;
-		if (min_inGamut && inGamut(current, space)) {
+		if (min_inGamut && inGamut(current, space, {epsilon: 0})) {
 			min = chroma;
 		}
 		else {
