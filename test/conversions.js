@@ -535,6 +535,54 @@ const tests = {
 			]
 		},
 		{
+			name: "CAM16 JMh",
+			data: {
+				toSpace: "cam16-jmh",
+			},
+			tests: [
+				{
+					name: "sRGB white (D65) to CAM16 JMh",
+					args: "white",
+					expect: [100.0, 2.2368984, 209.5333345]
+				},
+				{
+					name: "sRGB red (D65) to CAM16 JMh",
+					args: "red",
+					expect: [46.0257014, 81.2542482, 27.3932566]
+				},
+				{
+					name: "sRGB lime (D65) to CAM16 JMh",
+					args: "lime",
+					expect: [79.1013457, 78.2155217, 142.223421]
+				},
+				{
+					name: "sRGB blue (D65) to CAM16 JMh",
+					args: "blue",
+					expect: [25.0662606, 62.4415253, 282.7545231]
+				},
+				{
+					name: "sRGB cyan (D65) to CAM16 JMh",
+					args: "cyan",
+					expect: [85.061144, 42.6535842, 196.5923625]
+				},
+				{
+					name: "sRGB magenta (D65) to CAM16 JMh",
+					args: "magenta",
+					expect: [54.8633245, 77.1986889, 334.5684187]
+				},
+				{
+					name: "sRGB yellow (D65) to CAM16 JMh",
+					args: "yellow",
+					expect: [94.6823633, 54.500083, 111.1473342]
+				},
+				{
+					name: "sRGB black (D65) to CAM16 JMh",
+					args: "black",
+					expect: [0.0, 0.0, 0.0]
+				}
+			]
+		},
+		{
 			name: "Get coordinates",
 			data: {
 				slategray: new Color("slategray"),
