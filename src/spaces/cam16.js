@@ -322,6 +322,11 @@ export function toCam16 (xyzd65, env) {
 
 
 // Provided as a way to directly evaluate the CAM16 model
+// https://observablehq.com/@jrus/cam16: reference implementation
+// https://arxiv.org/pdf/1802.06067.pdf: Nico Schlömer
+// https://onlinelibrary.wiley.com/doi/pdf/10.1002/col.22324: hue quadrature
+// https://doi.org/10.1002/col.22131: pay walled
+// Results compared against: https://github.com/colour-science/colour
 export default new ColorSpace({
 	id: "cam16-jmh",
 	name: "CAM16-JMh",
