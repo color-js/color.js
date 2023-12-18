@@ -229,10 +229,7 @@ export function spow(base, exp) {
  * @returns number
  */
 export function zdiv(n, d) {
-	if (d === 0) {
-		return 0;
-	}
-	return n / d;
+	return (d === 0) ? 0 : n / d;
 }
 
 /**
