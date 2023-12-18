@@ -19,5 +19,6 @@ export {default as REC_2020_Linear} from "./rec2020-linear.js";
 export {default as REC_2020} from "./rec2020.js";
 export {default as OKLab} from "./oklab.js";
 export {default as OKLCH} from "./oklch.js";
+export {default as CAM16_JMh} from "./cam16.js";
 
 export * from "./index-fn-hdr.js";
