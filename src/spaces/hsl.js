@@ -42,17 +42,17 @@ export default new ColorSpace({
 			h = h * 60;
 		}
 
-	// Very out of gamut colors can produce negative saturation
-    // If so, just rotate the hue by 180 and use a positive saturation
-    // see https://github.com/w3c/csswg-drafts/issues/9222
-    if (s < 0) {
-        h += 180;
-        s = Math.abs(s);
-    }
+		// Very out of gamut colors can produce negative saturation
+		// If so, just rotate the hue by 180 and use a positive saturation
+		// see https://github.com/w3c/csswg-drafts/issues/9222
+		if (s < 0) {
+			h += 180;
+			s = Math.abs(s);
+		}
 
-    if (h >= 360) {
-        h -= 360;
-    }
+		if (h >= 360) {
+			h -= 360;
+		}
 
 		return [h, s * 100, l * 100];
 	},
