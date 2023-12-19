@@ -220,19 +220,19 @@ module.exports = {
 		// Require semicolons instead of ASI
 		// https://eslint.style/rules/default/semi
 		"@stylistic/semi": 1,
-		// Enforce consistent spacing before blocks
+		// Enforce at least one space before blocks
 		// https://eslint.style/rules/default/space-before-blocks
 		"@stylistic/space-before-blocks": 1,
-		// Enforce consistent spacing before `function` definition opening parenthesis
+		// Enforce a space before `function` definition opening parenthesis
 		// https://eslint.style/rules/default/space-before-function-paren
 		"@stylistic/space-before-function-paren": 1,
-		// Require spacing around infix operators
+		// Require spaces around infix operators (e.g. `+`, `=`, `?`, `:`)
 		// https://eslint.style/rules/default/space-infix-ops
 		"@stylistic/space-infix-ops": 1,
-		// Enforce consistent spacing before or after unary operators
+		// Enforce a space after unary word operators (`new`, `delete`, `typeof`, `void`, `yield`)
 		// https://eslint.style/rules/default/space-unary-ops
 		"@stylistic/space-unary-ops": 1,
-		// Enforce consistent spacing after the `//` or `/*` in a comment
+		// Enforce whitespace after the `//` or `/*` in a comment
 		// https://eslint.style/rules/default/spaced-comment
 		"@stylistic/spaced-comment": [
 			1,
