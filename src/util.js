@@ -218,7 +218,7 @@ export function copySign (to, from) {
  * @param {number} - exp the exponent
  * @returns number
  */
-export function spow(base, exp) {
+export function spow (base, exp) {
 	return copySign(Math.abs(base) ** exp, base);
 }
 
@@ -228,7 +228,7 @@ export function spow(base, exp) {
  * @param {number} d - the denominator
  * @returns number
  */
-export function zdiv(n, d) {
+export function zdiv (n, d) {
 	return (d === 0) ? 0 : n / d;
 }
 
@@ -241,7 +241,7 @@ export function zdiv(n, d) {
  * @param {number} hi - used to specify a the high end of a subset of the list
  * @returns number
  */
-export function bisectLeft(arr, value, lo=0, hi=arr.length) {
+export function bisectLeft (arr, value, lo=0, hi=arr.length) {
 	while (lo < hi) {
 		const mid = (lo + hi) >> 1;
 		if (arr[mid] < value) {

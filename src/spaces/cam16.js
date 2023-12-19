@@ -7,7 +7,7 @@ import {WHITES} from "../adapt.js";
 const white = WHITES.D65;
 const adaptedCoef = 0.42;
 const adaptedCoefInv = 1 / adaptedCoef;
-const tau = 2 * Math.PI
+const tau = 2 * Math.PI;
 
 const cat16 = [
 	[  0.401288,  0.650173, -0.051461 ],
@@ -19,26 +19,26 @@ const cat16Inv = [
 	[1.8620678550872327, -1.0112546305316843, 0.14918677544445175],
 	[0.38752654323613717, 0.6214474419314753, -0.008973985167612518],
 	[-0.015841498849333856, -0.03412293802851557, 1.0499644368778496]
-]
+];
 
 const m1 = [
 	[460.0, 451.0, 288.0],
 	[460.0, -891.0, -261.0],
 	[460.0, -220.0, -6300.0]
-]
+];
 
 const surroundMap = {
 	dark: [0.8, 0.525, 0.8],
 	dim: [0.9, 0.59, 0.9],
 	average: [1, 0.69, 1]
-}
+};
 
 const hueQuadMap = {
 	// Red, Yellow, Green, Blue, Red
 	h: [20.14, 90.00, 164.25, 237.53, 380.14],
 	e: [0.8, 0.7, 1.0, 1.2, 0.8],
 	H: [0.0, 100.0, 200.0, 300.0, 400.0]
-}
+};
 
 const rad2deg = 180 / Math.PI;
 const deg2rad = Math.PI / 180;
@@ -60,7 +60,7 @@ export function unadapt (adapted, fl) {
 }
 
 export function hueQuadrature (h) {
-	let hp = constrain(h)
+	let hp = constrain(h);
 	if (hp <= hueQuadMap.h[0]) {
 		hp += 360;
 	}
@@ -115,7 +115,7 @@ export function environment (
 	const rgbW = multiplyMatrices(cat16, xyzW);
 
 	// Surround: dark, dim, and average
-	surround = surroundMap[env.surround]
+	surround = surroundMap[env.surround];
 	const f = surround[0];
 	env.c = surround[1];
 	env.nc = surround[2];
@@ -163,11 +163,11 @@ export function environment (
 const viewingConditions = environment(
 	white,
 	64 / Math.PI * 0.2, 20,
-	'average',
+	"average",
 	false
 );
 
-export function fromCam16(cam16, env) {
+export function fromCam16 (cam16, env) {
 
 	// These check ensure one, and only one attribute for a
 	// given category is provided.
@@ -195,7 +195,7 @@ export function fromCam16(cam16, env) {
 		hRad = constrain(cam16.h) * deg2rad;
 	}
 	else {
-		h_rad = invHueQuadrature(H) * deg2rad;
+		hRad = invHueQuadrature(cam16.H) * deg2rad;
 	}
 
 	const cosh = Math.cos(hRad);
