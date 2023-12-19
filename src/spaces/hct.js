@@ -42,6 +42,8 @@ function fromHct (coords, env) {
     // Calculate the Y we need to target
     let y = fromLstar(t);
 
+    // A better initial guess yields better results. Polynomials come from
+    // curve fitting the T vs J response.
     if (t > 0) {
         j = 0.00379058511492914 * t ** 2 + 0.608983189401032 * t + 0.9155088574762233;
     }
