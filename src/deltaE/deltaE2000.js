@@ -51,13 +51,13 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 		C2 = 0;
 	}
 
-	let Cbar = (C1 + C2)/2; // mean Chroma
+	let Cbar = (C1 + C2) / 2; // mean Chroma
 
 	// calculate a-axis asymmetry factor from mean Chroma
 	// this turns JND ellipses for near-neutral colors back into circles
 	let C7 = pow7(Cbar);
 
-	let G = 0.5 * (1 - Math.sqrt(C7/(C7 + Gfactor)));
+	let G = 0.5 * (1 - Math.sqrt(C7 / (C7 + Gfactor)));
 
 	// scale a axes by asymmetry factor
 	// this by the way is why there is no Lab2000 colorspace
@@ -71,8 +71,8 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// calculate new hues, with zero hue for true neutrals
 	// and in degrees, not radians
 
-	let h1 = (adash1 === 0 && b1 === 0)? 0: Math.atan2(b1, adash1);
-	let h2 = (adash2 === 0 && b2 === 0)? 0: Math.atan2(b2, adash2);
+	let h1 = (adash1 === 0 && b1 === 0) ? 0 : Math.atan2(b1, adash1);
+	let h2 = (adash2 === 0 && b2 === 0) ? 0 : Math.atan2(b2, adash2);
 
 	if (h1 < 0) {
 		h1 += 2 * π;
@@ -114,8 +114,8 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	let ΔH = 2 * Math.sqrt(Cdash2 * Cdash1) * Math.sin(Δh * d2r / 2);
 
 	// calculate mean Lightness and Chroma
-	let Ldash = (L1 + L2)/2;
-	let Cdash = (Cdash1 + Cdash2)/2;
+	let Ldash = (L1 + L2) / 2;
+	let Cdash = (Cdash1 + Cdash2) / 2;
 	let Cdash7 = pow7(Cdash);
 
 	// Compensate for non-linearity in the blue region of Lab.
@@ -161,8 +161,8 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	// and Munsell constant hue lines
 	// in the medium-high Chroma blue region
 	// (Hue 225 to 315)
-	let Δθ = 30 * Math.exp(-1 * (((hdash - 275)/25) ** 2));
-	let RC = 2 * Math.sqrt(Cdash7/(Cdash7 + Gfactor));
+	let Δθ = 30 * Math.exp(-1 * (((hdash - 275) / 25) ** 2));
+	let RC = 2 * Math.sqrt(Cdash7 / (Cdash7 + Gfactor));
 	let RT = -1 * Math.sin(2 * Δθ * d2r) * RC;
 
 	// Finally calculate the deltaE, term by term as root sume of squares

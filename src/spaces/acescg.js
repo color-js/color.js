@@ -6,7 +6,7 @@ import "../CATs.js"; // because of the funky whitepoint
 // see TB-2018-001 Derivation of the ACES White Point CIE Chromaticity Coordinates
 // also https://github.com/ampas/aces-dev/blob/master/documents/python/TB-2018-001/aces_wp.py
 // Similar to D60
-WHITES.ACES = [0.32168/0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767)/0.33767];
+WHITES.ACES = [0.32168 / 0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767) / 0.33767];
 
 // convert an array of linear-light ACEScc values to CIE XYZ
 const toXYZ_M = [

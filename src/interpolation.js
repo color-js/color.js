@@ -63,7 +63,7 @@ export function steps (c1, c2, options = {}) {
 	}
 
 	let totalDelta = deltaE(c1, c2);
-	let actualSteps = maxDeltaE > 0? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1) : steps;
+	let actualSteps = maxDeltaE > 0 ? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1) : steps;
 	let ret = [];
 
 	if (maxSteps !== undefined) {
@@ -148,7 +148,7 @@ export function range (color1, color2, options = {}) {
 		space = ColorSpace.registry[defaults.interpolationSpace] || color1.space;
 	}
 
-	outputSpace = outputSpace? ColorSpace.get(outputSpace) : space;
+	outputSpace = outputSpace ? ColorSpace.get(outputSpace) : space;
 
 	color1 = to(color1, space);
 	color2 = to(color2, space);
@@ -185,7 +185,7 @@ export function range (color1, color2, options = {}) {
 	}
 
 	return Object.assign(p => {
-		p = progression? progression(p) : p;
+		p = progression ? progression(p) : p;
 		let coords = color1.coords.map((start, i) => {
 			let end = color2.coords[i];
 			return interpolate(start, end, p);

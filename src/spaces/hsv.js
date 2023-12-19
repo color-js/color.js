@@ -36,7 +36,7 @@ export default new ColorSpace({
 
 		return [
 			h, // h is the same
-			v === 0? 0 : 200 * (1 - l / v), // s
+			v === 0 ? 0 : 200 * (1 - l / v), // s
 			100 * v
 		];
 	},
@@ -47,11 +47,11 @@ export default new ColorSpace({
 		s /= 100;
 		v /= 100;
 
-		let l = v * (1 - s/2);
+		let l = v * (1 - s / 2);
 
 		return [
 			h, // h is the same
-			(l === 0 || l === 1)? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
+			(l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
 			l * 100
 		];
 	}

@@ -6,7 +6,7 @@ const L_CUTOFF = .65;
 for (let method in Color.prototype) {
 	if (method.startsWith("deltaE")) {
 		method = method.slice(6);
-		let selected = method === "OK"? " selected" : "";
+		let selected = method === "OK" ? " selected" : "";
 		deltaE_method.insertAdjacentHTML("beforeend", `<option${selected}>${method}</option>`);
 	}
 }
@@ -50,7 +50,7 @@ function render () {
 		let deltaE = result.deltaE;
 
 		closest_colors.insertAdjacentHTML("beforeend", `
-		<article class="keyword-color ${keywordColor.oklch.l > L_CUTOFF? "light-color" : "dark-color"}" style="--color: ${keywordColor}">
+		<article class="keyword-color ${keywordColor.oklch.l > L_CUTOFF ? "light-color" : "dark-color"}" style="--color: ${keywordColor}">
 			<code class="keyword">${keyword}</code>
 			<code class="delta-e">${deltaE.toFixed(2)}</code>
 		</article>

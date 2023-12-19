@@ -25,7 +25,7 @@ function update () {
 
 		let title = newParams[0][1] + " convert";
 		let query = newParams.map(pair => `${pair[0]}=${encodeURIComponent(pair[1])}`).join("&");
-		history[(changed? "push" : "replace") + "State"](null, title, "?" + query);
+		history[(changed ? "push" : "replace") + "State"](null, title, "?" + query);
 		document.title = title;
 	}
 	catch (e) {
@@ -66,11 +66,11 @@ function update () {
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
 				<td>
-					<div class="serialization ${inGamut || str === str_mapped? "in-gamut" : "out-of-gamut"} ${!inGamut && str === str_mapped? "gamut-mapped" : ""}">
-						<a href="${permalink}" ${!inGamut? 'title="Out of gamut"' : ""}>${str}</a>
+					<div class="serialization ${inGamut || str === str_mapped ? "in-gamut" : "out-of-gamut"} ${!inGamut && str === str_mapped ? "gamut-mapped" : ""}">
+						<a href="${permalink}" ${!inGamut ? 'title="Out of gamut"' : ""}>${str}</a>
 						<button class="copy" data-clipboard-text="${str}" title="Copy">📋</button>
 					</div>
-					${str !== str_mapped? `
+					${str !== str_mapped ? `
 					<div class="serialization gamut-mapped">
 						<a href="${permalink_mapped}">${str_mapped}</a>
 						<button class="copy" data-clipboard-text="${str_mapped}" title="Copy">📋</button>

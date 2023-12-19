@@ -27,7 +27,7 @@ export function parseFunction (str: string): {
 	name: string;
 	rawName: string;
 	rawArgs: string;
-	args: (| string
+	args: (string
 	| (number & {
 		type?: "<angle>" | "<number>" | "<percentage>" | undefined;
 		unit?: "deg" | undefined;

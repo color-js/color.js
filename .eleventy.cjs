@@ -35,14 +35,14 @@ module.exports = config => {
 
 	config.addFilter(
 		"unslugify",
-		slug => slug.replace(/(^|-)([a-z])/g, ($0, $1, $2) => ($1? " " : "") + $2.toUpperCase())
+		slug => slug.replace(/(^|-)([a-z])/g, ($0, $1, $2) => ($1 ? " " : "") + $2.toUpperCase())
 	);
 
 	config.addFilter(
 		"first_heading",
 		content => {
 			// console.log(content);
-			return content? content.match(/^#+\s*(.+)/)?.[1] ?? "NO_HEADING_FOUND" : "EMPTY_CONTENT";
+			return content ? content.match(/^#+\s*(.+)/)?.[1] ?? "NO_HEADING_FOUND" : "EMPTY_CONTENT";
 		}
 	);
 

@@ -27,7 +27,7 @@ export default new ColorSpace({
 		let max = Math.max(...rgb);
 		let min = Math.min(...rgb);
 		let [r, g, b] = rgb;
-		let [h, s, l] = [NaN, 0, (min + max)/2];
+		let [h, s, l] = [NaN, 0, (min + max) / 2];
 		let d = max - min;
 
 		if (d !== 0) {
@@ -70,7 +70,7 @@ export default new ColorSpace({
 		l /= 100;
 
 		function f (n) {
-			let k = (n + h/30) % 12;
+			let k = (n + h / 30) % 12;
 			let a = s * Math.min(l, 1 - l);
 			return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
 		}

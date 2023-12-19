@@ -25,17 +25,17 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 		}
 
 		cell.style.setProperty("--color", color.display());
-		cell.classList.add(color.luminance > .5 || color.alpha < .5? "light" : "dark");
+		cell.classList.add(color.luminance > .5 || color.alpha < .5 ? "light" : "dark");
 	}
 });
 
 // Get data from old tests and convert them to new tests
-function getTests(table) {
+function getTests (table) {
 	table = table.closest("table");
 	return [...table.querySelectorAll("tbody tr")].map(tr => {
 		let tds = [...tr.cells].map(td => td.textContent.trim());
 		return `{
-	${ tr.title? `name: "${tr.title}",
+	${ tr.title ? `name: "${tr.title}",
 	` : "" }args: "${ tds[0] }",
 	expect: [${ tds[2] ?? tds[1] }]
 }`;

@@ -84,7 +84,7 @@ export default function (color, sample, {l = 2, c = 1} = {}) {
 
 	// Cross term T for blue non-linearity
 	let T;
-	if ( Number.isNaN(H1)) {
+	if (Number.isNaN(H1)) {
 		H1 = 0;
 	}
 

@@ -45,7 +45,7 @@ export function isNone (n) {
  * Replace none values with 0
  */
 export function skipNone (n) {
-	return isNone(n)? 0 : n;
+	return isNone(n) ? 0 : n;
 }
 
 /**
@@ -70,7 +70,7 @@ export function toPrecision (n, precision) {
 const angleFactor = {
 	deg: 1,
 	grad: 0.9,
-	rad: 180/Math.PI,
+	rad: 180 / Math.PI,
 	turn: 360,
 };
 
@@ -128,7 +128,7 @@ export function parseFunction (str) {
 
 			if ($0.startsWith("/")) {
 				// It's alpha
-				arg = arg instanceof Number? arg : new Number(arg);
+				arg = arg instanceof Number ? arg : new Number(arg);
 				arg.alpha = true;
 			}
 
@@ -198,7 +198,7 @@ export function parseCoordGrammar (coordGrammars) {
  * @param {number} max maximum value to return
  * @returns number
  */
-export function clamp (min, val, max){
+export function clamp (min, val, max) {
 	return Math.max(Math.min(max, val), min);
 }
 
@@ -241,7 +241,7 @@ export function zdiv (n, d) {
  * @param {number} hi - used to specify a the high end of a subset of the list
  * @returns number
  */
-export function bisectLeft (arr, value, lo=0, hi=arr.length) {
+export function bisectLeft (arr, value, lo = 0, hi = arr.length) {
 	while (lo < hi) {
 		const mid = (lo + hi) >> 1;
 		if (arr[mid] < value) {

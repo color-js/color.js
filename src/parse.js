@@ -28,7 +28,7 @@ export default function parse (str, {meta} = {}) {
 		if (name === "color") {
 			// color() function
 			let id = env.parsed.args.shift();
-			let alpha = env.parsed.rawArgs.indexOf("/") > 0? env.parsed.args.pop() : 1;
+			let alpha = env.parsed.rawArgs.indexOf("/") > 0 ? env.parsed.args.pop() : 1;
 
 			for (let space of ColorSpace.all) {
 				let colorSpec = space.getFormat("color");

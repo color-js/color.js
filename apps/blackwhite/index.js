@@ -20,7 +20,7 @@ function computeTextColor () {
 		let color = div.color;
 		let onWhite = Math.abs(color.contrast("white", algo));
 		let onBlack = Math.abs(color.contrast("black", algo));
-		let textColor = onWhite > onBlack? "white" : "black";
+		let textColor = onWhite > onBlack ? "white" : "black";
 		let changed = div.style.color && textColor !== div.style.color;
 		div.style.color = textColor;
 		div.classList.toggle("changed", changed);
@@ -35,9 +35,9 @@ function drawColors () {
 	// root.style.setProperty("--granularity", granularity);
 	let increment = 1 / granularity;
 
-	for (let r=0; r<=1; r += increment) {
-		for (let g=0; g<=1; g += increment) {
-			for (let b=0; b<=1; b += increment) {
+	for (let r = 0; r <= 1; r += increment) {
+		for (let g = 0; g <= 1; g += increment) {
+			for (let b = 0; b <= 1; b += increment) {
 				let color = new Color("srgb", [r, g, b]);
 				let [l, c, h] = color.getAll("oklch");
 				l = Math.round(l * 100);

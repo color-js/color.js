@@ -33,7 +33,7 @@ export default function serialize (color, {
 
 	if (inGamut && !checkInGamut(color)) {
 		// FIXME what happens if the color contains NaNs?
-		coords = toGamut(clone(color), inGamut === true? undefined : inGamut).coords;
+		coords = toGamut(clone(color), inGamut === true ? undefined : inGamut).coords;
 	}
 
 	if (format.type === "custom") {
@@ -74,8 +74,8 @@ export default function serialize (color, {
 			alpha = util.serializeNumber(alpha, {precision});
 		}
 
-		let strAlpha = color.alpha >= 1 || format.noAlpha? "" : `${format.commas? "," : " /"} ${alpha}`;
-		ret = `${name}(${args.join(format.commas? ", " : " ")}${strAlpha})`;
+		let strAlpha = color.alpha >= 1 || format.noAlpha ? "" : `${format.commas ? "," : " /"} ${alpha}`;
+		ret = `${name}(${args.join(format.commas ? ", " : " ")}${strAlpha})`;
 	}
 
 	return ret;

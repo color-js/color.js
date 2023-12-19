@@ -17,5 +17,5 @@ export default function (color, sample) {
 	// the 720 is so that 1 deltaE = 1 JND
 	// per  ITU-R BT.2124-0 p.3
 
-	return 720 * Math.sqrt((I1 - I2) ** 2 + (0.25 * (T1 -T2) ** 2) + (P1 - P2) ** 2);
+	return 720 * Math.sqrt((I1 - I2) ** 2 + (0.25 * (T1 - T2) ** 2) + (P1 - P2) ** 2);
 }

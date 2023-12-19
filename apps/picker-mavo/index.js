@@ -91,7 +91,7 @@ window.getSliderSteps = function (spaceId, coords, coord_meta, alpha) {
 
 	let ret = [];
 
-	for (let i=0; i<coord_meta.length; i++) {
+	for (let i = 0; i < coord_meta.length; i++) {
 		let {isHue, min, max} = coord_meta[i];
 
 		let start = coords.slice();

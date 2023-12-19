@@ -11,7 +11,7 @@ import * as acornWalk from "https://cdn.jsdelivr.net/npm/acorn-walk/dist/walk.mj
 import {generate} from "https://cdn.jsdelivr.net/npm/astring@1.7.4/dist/astring.mjs";
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
-const outputSpace = supportsP3? "p3" : "srgb";
+const outputSpace = supportsP3 ? "p3" : "srgb";
 const codes = new WeakMap();
 
 const acornOptions = {ecmaVersion: "2020", sourceType: "module"};
@@ -236,7 +236,7 @@ export default class Notebook {
 			await $.when(win, "load");
 		}
 
-		for (let i=0; i<statements.length; i++) {
+		for (let i = 0; i < statements.length; i++) {
 			let statement = statements[i];
 			let originalStatement = ast.body[i];
 			let lineCode = generate(statement);
@@ -269,7 +269,7 @@ export default class Notebook {
 					let {name, start, end} = node;
 
 					// Wrap variable
-					let text = getNodeAt((start + end)/2, pre);
+					let text = getNodeAt((start + end) / 2, pre);
 					let value = env[name];
 
 					if (value && typeof value === "object" && ("coords" in value)) {
@@ -513,7 +513,7 @@ export function serialize (ret, color, win = window) {
 		element = $.create({
 			...template,
 			className: "cn-object",
-			textContent: `Object {${keys.slice(0, 3).join(", ") + (keys.length > 3? ", ..." : "")}}`
+			textContent: `Object {${keys.slice(0, 3).join(", ") + (keys.length > 3 ? ", ..." : "")}}`
 		});
 	}
 
@@ -557,7 +557,7 @@ export function serialize (ret, color, win = window) {
 }
 
 function lightOrDark (color) {
-	return color.luminance > .5 || color.alpha < .5? "light" : "dark";
+	return color.luminance > .5 || color.alpha < .5 ? "light" : "dark";
 }
 
 Notebook.all = new Set();
