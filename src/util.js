@@ -190,3 +190,66 @@ export function parseCoordGrammar (coordGrammars) {
 		});
 	});
 }
+
+/**
+ * Clamp value between the minimum and maximum
+ * @param {number} min minimum value to return
+ * @param {number} val the value to return if it is between min and max
+ * @param {number} max maximum value to return
+ * @returns number
+ */
+export function clamp (min, val, max){
+	return Math.max(Math.min(max, val), min);
+}
+
+/**
+ * Copy sign of one value to another.
+ * @param {number} - to number to copy sign to
+ * @param {number} - from number to copy sign from
+ * @returns number
+ */
+export function copySign (to, from) {
+	return Math.sign(to) === Math.sign(from) ? to : -to;
+}
+
+/**
+ * Perform pow on a signed number and copy sign to result
+ * @param {number} - base the base number
+ * @param {number} - exp the exponent
+ * @returns number
+ */
+export function spow(base, exp) {
+	return copySign(Math.abs(base) ** exp, base);
+}
+
+/**
+ * Perform a divide, but return zero if the numerator is zero
+ * @param {number} n - the numerator
+ * @param {number} d - the denominator
+ * @returns number
+ */
+export function zdiv(n, d) {
+	return (d === 0) ? 0 : n / d;
+}
+
+/**
+ * Perform a bisect on a sorted list and locate the insertion point for
+ * a value in arr to maintain sorted order.
+ * @param {number[]} arr - array of sorted numbers
+ * @param {number} value - value to find insertion point for
+ * @param {number} lo - used to specify a the low end of a subset of the list
+ * @param {number} hi - used to specify a the high end of a subset of the list
+ * @returns number
+ */
+export function bisectLeft(arr, value, lo=0, hi=arr.length) {
+	while (lo < hi) {
+		const mid = (lo + hi) >> 1;
+		if (arr[mid] < value) {
+			lo = mid + 1;
+		}
+		else {
+			hi = mid;
+		}
+	}
+	return lo;
+}

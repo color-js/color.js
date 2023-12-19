@@ -22,7 +22,7 @@ export default new ColorSpace({
 
 	base: sRGB,
 
-	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
+	// Adapted from https://drafts.csswg.org/css-color-4/better-rgbToHsl.js
 	fromBase: rgb => {
 		let max = Math.max(...rgb);
 		let min = Math.min(...rgb);
@@ -40,6 +40,18 @@ export default new ColorSpace({
 			}
 
 			h = h * 60;
+		}
+
+		// Very out of gamut colors can produce negative saturation
+		// If so, just rotate the hue by 180 and use a positive saturation
+		// see https://github.com/w3c/csswg-drafts/issues/9222
+		if (s < 0) {
+			h += 180;
+			s = Math.abs(s);
+		}
+
+		if (h >= 360) {
+			h -= 360;
 		}
 
 		return [h, s * 100, l * 100];

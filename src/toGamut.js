@@ -6,6 +6,7 @@ import deltaEOK from "./deltaE/deltaEOK.js";
 import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
+import oklab from "./spaces/oklab.js";
 import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
@@ -117,8 +118,8 @@ toGamut.returns = "color";
 // `Oklch` space. These are created in the `Oklab` space, as it is used by the
 // DeltaEOK calculation, so it is guaranteed to be imported.
 const COLORS = {
-	WHITE: { space: "oklab", coords: [1, 0, 0] },
-	BLACK: { space: "oklab", coords: [0, 0, 0] }
+	WHITE: { space: oklab, coords: [1, 0, 0] },
+	BLACK: { space: oklab, coords: [0, 0, 0] }
 };
 
 /**
@@ -135,12 +136,13 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	const JND = 0.02;
 	const ε = 0.0001;
 	space = ColorSpace.get(space);
+	const oklchSpace = ColorSpace.get("oklch");
 
 	if (space.isUnbounded) {
 		return to(origin, space);
 	}
 
-	const origin_OKLCH = to(origin, ColorSpace.get("oklch"));
+	const origin_OKLCH = to(origin, oklchSpace);
 	let L = origin_OKLCH.coords[0];
 
 	// return media white or black, if lightness is out of range
@@ -155,7 +157,7 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		return to(black, space);
 	}
 
-	if (inGamut(origin_OKLCH, space)) {
+	if (inGamut(origin_OKLCH, space, {epsilon: 0})) {
 		return to(origin_OKLCH, space);
 	}
 
@@ -163,14 +165,9 @@ export function toGamutCSS (origin, { space = origin.space }) {
 		const destColor = to(_color, space);
 		const spaceCoords = Object.values(space.coords);
 		destColor.coords = destColor.coords.map((coord, index) => {
-			const spaceCoord = spaceCoords[index];
-			if (("range" in spaceCoord)) {
-				if (coord < spaceCoord.range[0]) {
-					return spaceCoord.range[0];
-				}
-				if (coord > spaceCoord.range[1]) {
-					return spaceCoord.range[1];
-				}
+			if ("range" in spaceCoords[index]) {
+				const [min, max] =  spaceCoords[index].range;
+				return util.clamp(min, coord, max);
 			}
 			return coord;
 		});
@@ -178,25 +175,26 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	}
 	let min = 0;
 	let max = origin_OKLCH.coords[1];
-
 	let min_inGamut = true;
-	let current;
+	let current = clone(origin_OKLCH);
+    let clipped = clip(current);
+
+    let E = deltaEOK(clipped, current);
+    if (E < JND) {
+		return clipped;
+	}
 
 	while ((max - min) > ε) {
 		const chroma = (min + max) / 2;
-		current = clone(origin_OKLCH);
 		current.coords[1] = chroma;
-		if (min_inGamut && inGamut(current, space)) {
+		if (min_inGamut && inGamut(current, space, {epsilon: 0})) {
 			min = chroma;
-			continue;
 		}
-		else if (!inGamut(current, space)) {
-			const clipped = clip(current);
-			const E = deltaEOK(clipped, current);
+		else {
+			clipped = clip(current);
+			E = deltaEOK(clipped, current);
 			if (E < JND) {
 				if ((JND - E < ε)) {
-					// match found
-					current = clipped;
 					break;
 				}
 				else {
@@ -206,9 +204,8 @@ export function toGamutCSS (origin, { space = origin.space }) {
 			}
 			else {
 				max = chroma;
-				continue;
 			}
 		}
 	}
-	return to(current, space);
+	return clipped;
 }
