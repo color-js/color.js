@@ -21,7 +21,7 @@ const deltaYmin = 0.0005;
 // see https://github.com/w3c/silver/issues/645
 const scaleBoW = 1.14;
 const loBoWoffset = 0.027;
-const scaleWoB= 1.14;
+const scaleWoB = 1.14;
 const loWoBoffset = 0.027;
 
 function fclamp (Y) {
@@ -32,7 +32,7 @@ function fclamp (Y) {
 }
 
 function linearize (val) {
-	let sign = val < 0? -1 : 1;
+	let sign = val < 0 ? -1 : 1;
 	let abs = Math.abs(val);
 	return sign * Math.pow(abs, 2.4);
 }

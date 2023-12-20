@@ -25,7 +25,7 @@ export default function multiplyMatrices (A, B) {
 			return ret;
 		}
 
-		for (let i=0; i < row.length; i++) {
+		for (let i = 0; i < row.length; i++) {
 			ret += row[i] * (col[i] || 0);
 		}
 

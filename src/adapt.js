@@ -21,7 +21,7 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 	W2 = getWhite(W2);
 
 	if (!W1 || !W2) {
-		throw new TypeError(`Missing white point to convert ${!W1? "from" : ""}${!W1&&!W2? "/" : ""}${!W2? "to" : ""}`);
+		throw new TypeError(`Missing white point to convert ${!W1 ? "from" : ""}${!W1 && !W2 ? "/" : ""}${!W2 ? "to" : ""}`);
 	}
 
 	if (W1 === W2) {

@@ -158,7 +158,7 @@ export default class ColorSpace {
 		}
 
 		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
-		coords = coords.map(c => Number.isNaN(c)? 0 : c);
+		coords = coords.map(c => Number.isNaN(c) ? 0 : c);
 
 		// Find connection space = lowest common ancestor in the base tree
 		let myPath = this.path;
@@ -166,7 +166,7 @@ export default class ColorSpace {
 
 		let connectionSpace, connectionSpaceIndex;
 
-		for (let i=0; i < myPath.length; i++) {
+		for (let i = 0; i < myPath.length; i++) {
 			if (myPath[i].equals(otherPath[i])) {
 				connectionSpace = myPath[i];
 				connectionSpaceIndex = i;

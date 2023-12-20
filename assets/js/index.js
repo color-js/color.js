@@ -16,7 +16,7 @@ let colors = {
 };
 
 let supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
-let interpolationOptions = {steps: 5, space: "lch", outputSpace: supportsP3? "p3" : "hsl"};
+let interpolationOptions = {steps: 5, space: "lch", outputSpace: supportsP3 ? "p3" : "hsl"};
 
 if (!Color.DEBUGGING) {
 	let redGreen = colors.red.range(colors.green, interpolationOptions);
@@ -76,7 +76,7 @@ for (let code of $$(":not(pre) > code")) {
 
 	if (match) {
 		$.create("a", {
-			href: `/api/#Color${match[1] === "Color"? "." : "#"}${match[2]}`,
+			href: `/api/#Color${match[1] === "Color" ? "." : "#"}${match[2]}`,
 			around: code
 		});
 	}

@@ -104,8 +104,8 @@ export default new ColorSpace({
 		let [ Xm, Ym, Za ] = multiplyMatrices(ConetoXYZ_M, LMS);
 
 		// restore standard D50 relative XYZ, relative to media white
-		let Xa = (Xm + ((b -1) * Za)) / b;
-		let Ya = (Ym + ((g -1) * Xa)) / g;
+		let Xa = (Xm + ((b - 1) * Za)) / b;
+		let Ya = (Ym + ((g - 1) * Xa)) / g;
 		return [ Xa, Ya, Za ];
 	},
 

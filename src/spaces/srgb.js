@@ -14,11 +14,11 @@ export default new RGBColorSpace({
 		// to gamma corrected form
 		// https://en.wikipedia.org/wiki/SRGB
 		return rgb.map(val => {
-			let sign = val < 0? -1 : 1;
+			let sign = val < 0 ? -1 : 1;
 			let abs = val * sign;
 
 			if (abs > 0.0031308) {
-				return sign * (1.055 * (abs ** (1/2.4)) - 0.055);
+				return sign * (1.055 * (abs ** (1 / 2.4)) - 0.055);
 			}
 
 			return 12.92 * val;
@@ -29,7 +29,7 @@ export default new RGBColorSpace({
 		// to linear light (un-companded) form.
 		// https://en.wikipedia.org/wiki/SRGB
 		return rgb.map(val => {
-			let sign = val < 0? -1 : 1;
+			let sign = val < 0 ? -1 : 1;
 			let abs = val * sign;
 
 			if (abs <= 0.04045) {
@@ -94,7 +94,7 @@ export default new RGBColorSpace({
 
 				let hex = coords.map(c => {
 					if (collapsible) {
-						return (c/17).toString(16);
+						return (c / 17).toString(16);
 					}
 
 					return c.toString(16).padStart(2, "0");

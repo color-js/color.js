@@ -3,9 +3,9 @@ import {WHITES} from "../adapt.js";
 import xyz_d65 from "./xyz-d65.js";
 
 // κ * ε  = 2^3 = 8
-const ε = 216/24389;  // 6^3/29^3 == (24/116)^3
-const ε3 = 24/116;
-const κ = 24389/27;   // 29^3/3^3
+const ε = 216 / 24389;  // 6^3/29^3 == (24/116)^3
+const ε3 = 24 / 116;
+const κ = 24389 / 27;   // 29^3/3^3
 
 let white = WHITES.D65;
 
@@ -37,7 +37,7 @@ export default new ColorSpace({
 		let xyz = XYZ.map((value, i) => value / white[i]);
 
 		// now compute f
-		let f = xyz.map(value => value > ε ? Math.cbrt(value) : (κ * value + 16)/116);
+		let f = xyz.map(value => value > ε ? Math.cbrt(value) : (κ * value + 16) / 116);
 
 		return [
 			(116 * f[1]) - 16,   // L
@@ -51,15 +51,15 @@ export default new ColorSpace({
 	toBase (Lab) {
 		// compute f, starting with the luminance-related term
 		let f = [];
-		f[1] = (Lab[0] + 16)/116;
-		f[0] = Lab[1]/500 + f[1];
-		f[2] = f[1] - Lab[2]/200;
+		f[1] = (Lab[0] + 16) / 116;
+		f[0] = Lab[1] / 500 + f[1];
+		f[2] = f[1] - Lab[2] / 200;
 
 		// compute xyz
 		let xyz = [
-			f[0]   > ε3  ?  Math.pow(f[0], 3)            : (116*f[0]-16)/κ,
-			Lab[0] > 8   ?  Math.pow((Lab[0]+16)/116, 3) : Lab[0]/κ,
-			f[2]   > ε3  ?  Math.pow(f[2], 3)            : (116*f[2]-16)/κ
+			f[0]   > ε3 ? Math.pow(f[0], 3)                : (116 * f[0] - 16) / κ,
+			Lab[0] > 8  ? Math.pow((Lab[0] + 16) / 116, 3) : Lab[0] / κ,
+			f[2]   > ε3 ? Math.pow(f[2], 3)                : (116 * f[2] - 16) / κ
 		];
 
 		// Compute XYZ by scaling xyz by reference white

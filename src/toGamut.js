@@ -177,10 +177,10 @@ export function toGamutCSS (origin, { space = origin.space }) {
 	let max = origin_OKLCH.coords[1];
 	let min_inGamut = true;
 	let current = clone(origin_OKLCH);
-    let clipped = clip(current);
+	let clipped = clip(current);
 
-    let E = deltaEOK(clipped, current);
-    if (E < JND) {
+	let E = deltaEOK(clipped, current);
+	if (E < JND) {
 		return clipped;
 	}
 

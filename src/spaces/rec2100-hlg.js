@@ -40,8 +40,8 @@ export default new RGBColorSpace({
 			// now the HLG OETF
 			// ITU-R BT.2390-10 p.23
 			// 6.1 The hybrid log-gamma opto-electronic transfer function (OETF)
-			if (val <= 1/12) {
-				return Math.sqrt( 3 * val);
+			if (val <= 1 / 12) {
+				return Math.sqrt(3 * val);
 			}
 			return a * Math.log(12 * val - b) + c;
 		});

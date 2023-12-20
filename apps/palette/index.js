@@ -20,7 +20,7 @@ function render () {
 	palette.insertAdjacentHTML("beforeend", `<div class="swatch" style="--color: ${color.display()}"></div>`);
 	palette2.insertAdjacentHTML("beforeend", `<div class="swatch" style="--color: ${color.display()}"></div>`);
 
-	for (let i=0; i<n; i++) {
+	for (let i = 0; i < n; i++) {
 		let equidistant = color.clone().set("h", h => h + (i + 1) * increment).display();
 		palette.insertAdjacentHTML("beforeend", `<div class="swatch" style="--color: ${equidistant}"></div>`);
 

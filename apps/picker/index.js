@@ -82,7 +82,7 @@ let app = createApp({
 
 			let ret = [];
 
-			for (let i=0; i<this.coord_meta.length; i++) {
+			for (let i = 0; i < this.coord_meta.length; i++) {
 				let {range, isHue, min, max} = coord_meta[i];
 
 				let start = coords.slice();
