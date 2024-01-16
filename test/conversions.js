@@ -589,42 +589,42 @@ const tests = {
 			},
 			tests: [
 				{
-					name: "sRGB white to CAM16 JMh",
+					name: "sRGB white to HCT",
 					args: "white",
 					expect: [209.5429, 2.871589, 100.0]
 				},
 				{
-					name: "sRGB red to CAM16 JMh",
+					name: "sRGB red to HCT",
 					args: "red",
 					expect: [27.4098, 113.3564, 53.23712]
 				},
 				{
-					name: "sRGB lime to CAM16 JMh",
+					name: "sRGB lime to HCT",
 					args: "lime",
 					expect: [142.1404, 108.4065, 87.73552]
 				},
 				{
-					name: "sRGB blue to CAM16 JMh",
+					name: "sRGB blue to HCT",
 					args: "blue",
 					expect: [282.7622, 87.22804, 32.30087]
 				},
 				{
-					name: "sRGB cyan to CAM16 JMh",
+					name: "sRGB cyan to HCT",
 					args: "cyan",
 					expect: [196.5475, 58.96368, 91.11475]
 				},
 				{
-					name: "sRGB magenta to CAM16 JMh",
+					name: "sRGB magenta to HCT",
 					args: "magenta",
 					expect: [334.6332, 107.3899, 60.32273]
 				},
 				{
-					name: "sRGB yellow to CAM16 JMh",
+					name: "sRGB yellow to HCT",
 					args: "yellow",
 					expect: [111.0456, 75.50438, 97.13856]
 				},
 				{
-					name: "sRGB black to CAM16 JMh",
+					name: "sRGB black to HCT",
 					args: "black",
 					expect: [0.0, 0.0, 0.0]
 				}
