@@ -18,11 +18,12 @@ function fromCmyk (cmyk) {
 function toCmyk (rgb) {
 	// Convert sRGB to CMYK
 	let [r, g, b] = rgb;
-	r /= 100;
+	/*r /= 100;
 	g /= 100;
-	b /= 100;
+	b /= 100;*/
 
 	let k = Math.min(1 - r, 1 - g, 1 - b);
+	console.log("piyush",k);
 	let c = (1 - r - k) / (1 - k);
 	let m = (1 - g - k) / (1 - k);
 	let y = (1 - b - k) / (1 - k);
