@@ -17,7 +17,7 @@ function fromCmyk (cmyk) {
 
 function toCmyk (rgb) {
 	// Convert sRGB to CMYK
-	let [r, g, b] = rgb.map(el => el * 255);
+	let [r, g, b] = rgb;
 	r /= 100;
 	g /= 100;
 	b /= 100;
