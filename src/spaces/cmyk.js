@@ -12,27 +12,27 @@ function fromCmyk (cmyk) {
 	let g = 1 - Math.min(1, m * (1 - k) + k);
 	let b = 1 - Math.min(1, y * (1 - k) + k);
 
-	r = Math.round(r * 2.55);
-	g = Math.round(g * 2.55);
-	b = Math.round(b * 2.55);
+	r = Math.round(r * 255);
+	g = Math.round(g * 255);
+	b = Math.round(b * 255);
 
-	return [r, g, b];
+	return [r/100, g/100, b/100];
 }
 
 function toCmyk (rgb) {
 	// Convert sRGB to CMYK
 	let [r, g, b] = rgb;
-	r /= 255;
-	g /= 255;
-	b /= 255;
+	r /= 100;
+	g /= 100;
+	b /= 100;
 
 	let k = Math.min(1 - r, 1 - g, 1 - b);
 	let c = (1 - r - k) / (1 - k);
 	let m = (1 - g - k) / (1 - k);
 	let y = (1 - b - k) / (1 - k);
 	let a = [c, m, y, k];
-	//let ans = a.map(el => el * 100);
-	return a; //[c, m, y, k].map(el => Math.round(el * 100));
+	let ans = a.map(el => el * 100);
+	return ans; //[c, m, y, k].map(el => Math.round(el * 100));
 }
 
 export default new ColorSpace({
