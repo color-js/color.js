@@ -1,8 +1,8 @@
 import ColorSpace from "../space.js";
 import sRGB from "./srgb.js";
 
-let coordGrammar = Array(4).fill("<percentage> | <number>[0, 100]");
-let coordGrammarNumber = Array(4).fill("<number>[0, 100]");
+let coordGrammar = Array(4).fill("<percentage>[0, 100]");
+let coordGrammarNumber = Array(4).fill("<percentage>[0, 100]");
 
 function fromCmyk (cmyk) {
 	// Convert CMYK to sRGB
