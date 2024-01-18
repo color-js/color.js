@@ -6,7 +6,8 @@ let coordGrammarNumber = Array(4).fill("<percentage>[0, 100]");
 
 function fromCmyk (cmyk) {
 	// Convert CMYK to sRGB
-	let [c, m, y, k] = cmyk;
+	let [c, m, y, k] = cmyk.map(el => el / 100);
+
 	let r = 1 - Math.min(1, c * (1 - k) + k);
 	let g = 1 - Math.min(1, m * (1 - k) + k);
 	let b = 1 - Math.min(1, y * (1 - k) + k);
