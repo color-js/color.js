@@ -12,11 +12,11 @@ function fromCmyk (cmyk) {
 	let g = 1 - Math.min(1, m * (1 - k) + k);
 	let b = 1 - Math.min(1, y * (1 - k) + k);
 
-	r = Math.round(r * 255);
-	g = Math.round(g * 255);
-	b = Math.round(b * 255);
+	//r = Math.round(r * 255);
+	//g = Math.round(g * 255);
+	//b = Math.round(b * 255);
 
-	return [r/100, g/100, b/100];
+	return [r, g, b];
 }
 
 function toCmyk (rgb) {
