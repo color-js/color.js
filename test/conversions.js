@@ -46,6 +46,22 @@ const tests = {
 			]
 		},
 		{
+			name: "sRGB to CMYK",
+			data: {
+				toSpace: "cymk",
+			},
+			tests: [
+				{
+					args: "rgb(255, 0, 0)",
+					expect: [0, 100, 100, 0]
+				},
+				{
+					args: "rgb(0, 0, 0)",
+					expect: [0, 0, 0, 100]
+				}
+			]
+		},
+		{
 			name: "sRGB to (D65) XYZ",
 			data: {
 				toSpace: "xyz-d65",

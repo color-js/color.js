@@ -6,6 +6,7 @@ export {default as Lab} from "./lab.js";
 export {default as LCH} from "./lch.js";
 export {default as sRGB_Linear} from "./srgb-linear.js";
 export {default as sRGB} from "./srgb.js";
+export {default as CMYK} from "./cmyk.js";
 export {default as HSL} from "./hsl.js";
 export {default as HWB} from "./hwb.js";
 export {default as HSV} from "./hsv.js";
