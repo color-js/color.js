@@ -30,8 +30,9 @@ function toCmyk (rgb) {
 	let c = (1 - r - k) / (1 - k);
 	let m = (1 - g - k) / (1 - k);
 	let y = (1 - b - k) / (1 - k);
-
-	return [c, m, y, k];
+	let a = [c, m, y, k];
+	let ans = a.map(el => el * 100);
+	return a; //[c, m, y, k].map(el => Math.round(el * 100));
 }
 
 export default new ColorSpace({
