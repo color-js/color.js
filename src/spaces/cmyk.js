@@ -58,14 +58,13 @@ export default new ColorSpace({
 
 
 
-	fromBase (xyz) {
-		return toCmyk(xyz);
+	fromBase: rgb => {
+		return toCmyk(rgb);
 	},
-	toBase (cmyk) {
+	toBase:  cmyk => {
 		return fromCmyk(cmyk);
 	},
 	formats: {
-		"color": { /* use defaults */ },
 		"cmyk": {
 			coords: coordGrammar,
 		},
