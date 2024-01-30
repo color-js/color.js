@@ -26,4 +26,6 @@ jobs:
               run: echo "count=$(git status --porcelain=v1 2>/dev/null | wc -l)" >> $GITHUB_OUTPUT
             - name: Fail if there are uncommitted changes
               if: steps.changes.outputs.count > 0
-              run: exit 1
+              run: |
+                echo "::error title=Uncommitted changes::run `npm run lint` to fix"
+                exit 1
