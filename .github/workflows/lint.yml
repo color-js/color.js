@@ -27,5 +27,5 @@ jobs:
             - name: Fail if there are uncommitted changes
               if: steps.changes.outputs.count > 0
               run: |
-                echo "::error title=Uncommitted changes::run `npm run lint` to fix"
+                echo "::error title=Uncommitted changes::run \"npm run lint\" to fix"
                 exit 1
