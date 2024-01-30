@@ -12,7 +12,7 @@ for (let space in spaces) {
 }
 
 let template = "declare class CoordAccessors {";
-for (const coord of coords) {
+for (const coord of Array.from(coords).sort()) {
 	template += `\n\t${coord}: number;`;
 }
 template += `
