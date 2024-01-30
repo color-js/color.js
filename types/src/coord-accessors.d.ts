@@ -22,6 +22,5 @@ declare class CoordAccessors {
 	w: number;
 	x: number;
 	y: number;
-	z: number;
 }
 export default CoordAccessors;
