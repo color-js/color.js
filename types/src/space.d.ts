@@ -37,6 +37,7 @@ export interface Options {
 	cssId?: string | undefined;
 	referred?: string | undefined;
 	formats?: Record<string, Format> | undefined;
+	gamutSpace?: "self" | string | ColorSpace | null | undefined;
 }
 
 export type Ref =
@@ -91,6 +92,7 @@ export default class ColorSpace {
 	formats: Record<string, Format>;
 	referred?: string | undefined;
 	white: White;
+	gamutSpace: ColorSpace;
 
 	from (color: Color | ColorObject): Coords;
 	from (space: string | ColorSpace, coords: Coords): Coords;

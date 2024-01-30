@@ -5,20 +5,30 @@
 	"files": [
 		"dist/",
 		"src/",
-		"types/dist/",
 		"types/src/",
-		"types/index.d.ts"
+		"types/index.d.ts",
+		"types/index.d.cts"
 	],
 	"exports": {
 		".": {
-			"types": "./types/index.d.ts",
-			"import": "./dist/color.js",
-			"require": "./dist/color.cjs"
+			"import": {
+				"types": "./types/index.d.ts",
+				"default": "./dist/color.js"
+			},
+			"require": {
+				"types": "./types/index.d.cts",
+				"default": "./dist/color.cjs"
+			}
 		},
 		"./fn": {
-			"types": "./types/src/index-fn.d.ts",
-			"import": "./src/index-fn.js",
-			"require": "./dist/color-fn.cjs"
+			"import": {
+				"types": "./types/src/index-fn.d.ts",
+				"default": "./src/index-fn.js"
+			},
+			"require": {
+				"types": "./types/src/index-fn.d.cts",
+				"default": "./dist/color-fn.cjs"
+			}
 		},
 		"./dist/*": "./dist/*"
 	},

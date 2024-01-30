@@ -29,7 +29,7 @@ export function serializeNumber (n, {precision, unit }) {
 		return "none";
 	}
 
-	return toPrecision(n, precision) + (unit ??  "");
+	return toPrecision(n, precision) + (unit ?? "");
 }
 
 /**
@@ -55,16 +55,12 @@ export function skipNone (n) {
  */
 export function toPrecision (n, precision) {
 	n = +n;
+	if (n === 0) {
+		return 0;
+	}
 	precision = +precision;
-	let integerLength = (Math.floor(n) + "").length;
-
-	if (precision > integerLength) {
-		return +n.toFixed(precision - integerLength);
-	}
-	else {
-		let p10 = 10 ** (integerLength - precision);
-		return Math.round(n / p10) * p10;
-	}
+	const multiplier = Math.pow(10, precision - Math.floor(Math.log10(Math.abs(n))) - 1);
+	return Math.round(n * multiplier) / multiplier;
 }
 
 const angleFactor = {

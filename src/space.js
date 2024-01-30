@@ -53,6 +53,30 @@ export default class ColorSpace {
 			this.formats.color.id = this.id;
 		}
 
+		// Gamut space
+
+		if (options.gamutSpace) {
+			// Gamut space explicitly specified
+			this.gamutSpace = options.gamutSpace === "self" ? this : ColorSpace.get(options.gamutSpace);
+		}
+		else {
+			// No gamut space specified, calculate a sensible default
+			if (this.isPolar) {
+				// Do not check gamut through polar coordinates
+				this.gamutSpace = this.base;
+			}
+			else {
+				this.gamutSpace =  this;
+			}
+		}
+
+		// Optimize inGamut for unbounded spaces
+		if (this.gamutSpace.isUnbounded) {
+			this.inGamut = (coords, options) => {
+				return true;
+			};
+		}
+
 		// Other stuff
 		this.referred = options.referred;
 
@@ -68,11 +92,9 @@ export default class ColorSpace {
 	}
 
 	inGamut (coords, {epsilon = ε} = {}) {
-		if (this.isPolar) {
-			// Do not check gamut through polar coordinates
-			coords = this.toBase(coords);
-
-			return this.base.inGamut(coords, {epsilon});
+		if (!this.equals(this.gamutSpace)) {
+			coords = this.to(this.gamutSpace, coords);
+			return this.gamutSpace.inGamut(coords, {epsilon});
 		}
 
 		let coordMeta = Object.values(this.coords);
