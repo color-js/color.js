@@ -3,6 +3,7 @@ import defaults from "./defaults.js";
 import hooks from "./hooks.js";
 import * as util from "./util.js";
 import ColorSpace from "./space.js";
+import CoordAccessors from "./coord-accessors.js";
 
 import {
 	to,
@@ -85,7 +86,7 @@ declare namespace Color {
 	export const spaces: typeof ColorSpace["registry"];
 }
 
-declare class Color implements PlainColorObject {
+declare class Color extends CoordAccessors implements PlainColorObject {
 	constructor (color: ColorTypes);
 	constructor (space: string | ColorSpace, coords: Coords, alpha?: number);
 
