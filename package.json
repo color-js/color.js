@@ -51,7 +51,7 @@
 		"dtslint": "dtslint --expectOnly types",
 		"eslint": "eslint . --ext .js --ext .ts --ext .cjs",
 		"lint": "run-s build:coord-accessors \"eslint -- --fix\" dtslint",
-		"lint:ci": "run-s \"eslint -- --max-warnings 0\" dtslint",
+		"lint:ci": "run-s build:coord-accessors \"eslint -- --max-warnings 0\" dtslint",
 		"build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
 		"build:html": "npx @11ty/eleventy --config=.eleventy.cjs",
 		"build:js": "rollup -c",
