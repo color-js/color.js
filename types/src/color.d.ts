@@ -3,7 +3,7 @@ import defaults from "./defaults.js";
 import hooks from "./hooks.js";
 import * as util from "./util.js";
 import ColorSpace from "./space.js";
-import CoordAccessors from "./coord-accessors.js";
+import SpaceAccessors from "./space-coord-accessors.js";
 
 import {
 	to,
@@ -19,6 +19,8 @@ import {
 	setAll,
 	display,
 } from "./index-fn.js";
+
+export type { SpaceAccessor } from "./space-coord-accessors.js";
 
 export type Coords = [number, number, number];
 
@@ -67,9 +69,6 @@ export type ToColorPrototype<T extends (...args: any[]) => any> = T extends (
 		: (...args: A) => R
 	: never;
 
-/** Proxy used for space accessors */
-export type SpaceAccessor = Record<string, number> & number[];
-
 declare namespace Color {
 	export {
 		getAll,
@@ -86,7 +85,7 @@ declare namespace Color {
 	export const spaces: typeof ColorSpace["registry"];
 }
 
-declare class Color extends CoordAccessors implements PlainColorObject {
+declare class Color extends SpaceAccessors implements PlainColorObject {
 	constructor (color: ColorTypes);
 	constructor (space: string | ColorSpace, coords: Coords, alpha?: number);
 
@@ -139,39 +138,6 @@ declare class Color extends CoordAccessors implements PlainColorObject {
 	toGamut: ToColorPrototype<typeof toGamut>;
 	distance: ToColorPrototype<typeof distance>;
 	toString: ToColorPrototype<typeof serialize>;
-
-	// Space accessors
-	// A property should technically be added every time a new ColorSpace is initialized,
-	// but I don't know that there's any good way to do that with TypeScript
-	a98rgb: SpaceAccessor;
-	a98rgb_linear: SpaceAccessor;
-	acescc: SpaceAccessor;
-	acescg: SpaceAccessor;
-	hsl: SpaceAccessor;
-	hsv: SpaceAccessor;
-	hwb: SpaceAccessor;
-	ictcp: SpaceAccessor;
-	jzazbz: SpaceAccessor;
-	jzczhz: SpaceAccessor;
-	lab: SpaceAccessor;
-	lab_d65: SpaceAccessor;
-	lch: SpaceAccessor;
-	oklab: SpaceAccessor;
-	oklch: SpaceAccessor;
-	p3: SpaceAccessor;
-	p3_linear: SpaceAccessor;
-	prophoto: SpaceAccessor;
-	prophoto_linear: SpaceAccessor;
-	rec2020: SpaceAccessor;
-	rec2020_linear: SpaceAccessor;
-	rec2100hlg: SpaceAccessor;
-	rec2100pq: SpaceAccessor;
-	srgb: SpaceAccessor;
-	srgb_linear: SpaceAccessor;
-	xyz: SpaceAccessor;
-	xyz_abs_d65: SpaceAccessor;
-	xyz_d50: SpaceAccessor;
-	xyz_d65: SpaceAccessor;
 }
 
 export default Color;
