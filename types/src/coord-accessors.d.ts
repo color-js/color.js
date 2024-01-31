@@ -1,3 +1,4 @@
+// DO NOT EDIT. This file is generated with `npm run build:coord-accessors`.
 declare class CoordAccessors {
 	a: number;
 	az: number;

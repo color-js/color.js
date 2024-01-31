@@ -11,7 +11,8 @@ for (let space in spaces) {
 	}
 }
 
-let template = "declare class CoordAccessors {";
+let template = `// DO NOT EDIT. This file is generated with \`npm run build:coord-accessors\`.
+declare class CoordAccessors {`;
 for (const coord of Array.from(coords).sort()) {
 	template += `\n\t${coord}: number;`;
 }
