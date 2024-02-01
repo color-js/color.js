@@ -153,6 +153,19 @@
 			"id": "acescg",
 			"url": "https://en.wikipedia.org/wiki/Academy_Color_Encoding_System",
 			"description": "Scene-referred Academy Color Encoding System, using the wide gamut but physically realizable AP1 primaries and linear-light encoding. Used for physical rendering."
+		},
+		{
+			"name": "Luv",
+			"id": "luv",
+			"url": "https://en.wikipedia.org/wiki/CIELUV",
+			"description": "CIELUV is a color space developed in 1976 for perceptually uniform color representation, ideal for practical applications like digital displays. It's derived from the CIE 1931 XYZ space and includes L* for luminance, and u*, v* for chromaticity, capturing green–red and blue–yellow dimensions."
+		},
+		{
+			"name": "LCHuv",
+			"id": "lchuv",
+			"dependencies": ["luv"],
+			"url": "https://en.wikipedia.org/wiki/CIELUV",
+			"description": "The polar (Hue, Chroma) form of CIE Luv."
 		}
 	],
 	"optional": [
