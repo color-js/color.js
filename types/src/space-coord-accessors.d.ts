@@ -19,6 +19,8 @@ declare class SpaceAccessors {
 	lab: SpaceAccessor;
 	lab_d65: SpaceAccessor;
 	lch: SpaceAccessor;
+	lchuv: SpaceAccessor;
+	luv: SpaceAccessor;
 	oklab: SpaceAccessor;
 	oklch: SpaceAccessor;
 	p3: SpaceAccessor;
@@ -54,6 +56,7 @@ declare class SpaceAccessors {
 	r: number;
 	s: number;
 	t: number;
+	u: number;
 	v: number;
 	w: number;
 	x: number;

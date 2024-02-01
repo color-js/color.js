@@ -631,6 +631,167 @@ const tests = {
 			]
 		},
 		{
+			name: "Luv",
+			data: {
+				toSpace: "luv",
+			},
+			tests: [
+				{
+					name: "sRGB white to Luv",
+					args: "white",
+					expect: [100.0, 0, 0]
+				},
+				{
+					name: "sRGB red to Luv",
+					args: "red",
+					expect: [53.23711559542937, 175.0098221628849, 37.76509362555986]
+				},
+				{
+					name: "sRGB lime to Luv",
+					args: "lime",
+					expect: [87.73551910966002, -83.06711971440055, 107.41811123934258]
+				},
+				{
+					name: "sRGB blue to Luv",
+					args: "blue",
+					expect: [32.30087290398018, -9.402407214824064, -130.35108850356178]
+				},
+				{
+					name: "sRGB cyan to Luv",
+					args: "cyan",
+					expect: [91.11475231670536, -70.4643799638778, -15.205397466926968]
+				},
+				{
+					name: "sRGB magenta to Luv",
+					args: "magenta",
+					expect: [60.322731354551394, 84.05560198975205, -108.69636549176991]
+				},
+				{
+					name: "sRGB yellow to Luv",
+					args: "yellow",
+					expect: [97.13855934179699, 7.7042191772699375, 106.80811125089548]
+				},
+				{
+					name: "sRGB black to Luv",
+					args: "black",
+					expect: [0.0, 0.0, 0.0]
+				},
+				{
+					name: "XYZ (none x) to Luv",
+					args: "color(xyz-d65 none 0.4 0.5)",
+					expect: [69.46953076845696, -178.66105053418175, 10.54825812268007]
+				},
+				{
+					name: "XYZ (none y) to Luv",
+					args: "color(xyz-d65 0.3 none 0.5)",
+					expect: [0.0, 0.0, 0.0]
+				},
+				{
+					name: "XYZ (none z) to Luv",
+					args: "color(xyz-d65 0.3 0.4 none)",
+					expect: [69.46953076845696, -6.641260059907392, 93.1177575503318]
+				},
+				{
+					name: "LChuv (sRGB white) to Luv",
+					args: "color(--lchuv 100.0 0 0)",
+					expect: [100.0, 0.0, 0.0]
+				},
+				{
+					name: "LChuv (sRGB red) to Luv",
+					args: "color(--lchuv 53.23711559542937 179.038096923620287 12.1770506300617765)",
+					expect: [53.23711559542937, 175.0098221628849, 37.76509362555986]
+				},
+			]
+		},
+		{
+			name: "Luv to sRGB",
+			data: {
+				toSpace: "srgb",
+			},
+			tests: [
+				{
+					name: "Luv (sRGB white) to sRGB",
+					args: "color(--luv 100 0 0)",
+					expect: [1.0, 1.0, 1.0]
+				},
+				{
+					name: "Luv (sRGB red) to sRGB",
+					args: "color(--luv 53.23711559542937 175.0098221628849 37.76509362555986)",
+					expect: [1.0, 0.0, 0.0]
+				},
+				{
+					name: "Luv (sRGB lime) to sRGB",
+					args: "color(--luv 87.73551910966002 -83.06711971440055 107.41811123934258)",
+					expect: [0.0, 1.0, 0.0]
+				},
+				{
+					name: "Luv (sRGB blue) to sRGB",
+					args: "color(--luv 32.30087290398018 -9.402407214824064 -130.35108850356178)",
+					expect: [0.0, 0.0, 1.0]
+				},
+				{
+					name: "Luv (sRGB cyan) to sRGB",
+					args: "color(--luv 91.11475231670536 -70.4643799638778 -15.205397466926968)",
+					expect: [0.0, 1.0, 1.0]
+				},
+				{
+					name: "Luv (sRGB magenta) to sRGB",
+					args: "color(--luv 60.322731354551394 84.05560198975205 -108.69636549176991)",
+					expect: [1.0, 0.0, 1.0]
+				},
+				{
+					name: "Luv (sRGB yellow) to sRGB",
+					args: "color(--luv 97.13855934179699 7.7042191772699375 106.80811125089548)",
+					expect: [1.0, 1.0, 0.0]
+				},
+				{
+					name: "Luv (sRGB black) to sRGB",
+					args: "color(--luv 0 0 0)",
+					expect: [0.0, 0.0, 0.0]
+				},
+				{
+					name:"Luv (none lightness) to sRGB",
+					args: "color(--luv none 50 50)",
+					expect: [0.0, 0.0, 0.0]
+				},
+				{
+					name:"Luv (none u) to sRGB",
+					args: "color(--luv 100% none 0)",
+					expect: [1.0, 1.0, 1.0]
+				},
+				{
+					name:"Luv (none v) to sRGB",
+					args: "color(--luv 100% 0 none)",
+					expect: [1.0, 1.0, 1.0]
+				}
+
+			]
+		},
+		{
+			name: "sRGB to LCHuv",
+			data: {
+				toSpace: "lchuv"
+			},
+			tests: [
+				{
+					args: "#771199",
+					expect: [30.933250438121703, 76.27303932913182, 290.5839513811392]
+				},
+				{
+					args: "#ffee77",
+					expect: [93.33835580058862, 77.48166024357033, 77.51954539527138]
+				},
+				{
+					args: "white",
+					expect: [100, 0, NaN]
+				},
+				{
+					args: "black",
+					expect: [0, 0, NaN]
+				}
+			]
+		},
+		{
 			name: "Get coordinates",
 			data: {
 				slategray: new Color("slategray"),
