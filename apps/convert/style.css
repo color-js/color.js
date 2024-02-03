@@ -10,7 +10,11 @@ body {
 	padding: 0 2em;
 }
 
-input {
+input:is(
+	:not([type]),
+	[type="text"],
+	[type="number"]
+) {
 	font: inherit;
 	font-size: 150%;
 	width: 100%;
@@ -35,6 +39,36 @@ input {
 
 table {
 	width: 100%;
+	display: grid;
+	grid-template-columns: auto auto auto 1fr;
+}
+
+thead, tbody {
+	display: contents;
+}
+
+[colspan="2"] {
+	grid-column-end: span 2;
+}
+
+tr {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column-end: span 4;
+	order: 1;
+
+	thead & {
+		order: -999;
+	}
+
+	&:nth-child(even) {
+		background: hsl(220 10% 50% / 5%);
+	}
+
+	&:has(input[name=pin]:checked) {
+		background: linear-gradient(oklch(88% 0.2 100 / 10%) 0 100%);
+		border-top: 1px solid white;
+	}
 }
 
 td {
@@ -42,28 +76,31 @@ td {
 	font-family: Consolas, Monaco, monospace;
 }
 
-.serialization {
-	display: flex;
+tbody th {
+	text-align: left;
 }
 
-	.serialization a {
+.serialization {
+	display: flex;
+
+	& a {
 		display: flex;
 		font: inherit;
 		color: inherit;
 		text-decoration: none;
 		white-space: nowrap;
+
+		&:hover {
+			cursor: pointer;
+			text-decoration: underline;
+		}
 	}
 
-	.serialization a:hover {
-		cursor: pointer;
-		text-decoration: underline;
-	}
-
-	.serialization.out-of-gamut {
+	&.out-of-gamut {
 		color: hsl(0 90% 38%);
 	}
 
-	.serialization.gamut-mapped::after {
+	&.gamut-mapped::after {
 		content: "Gamut\amapped";
 		display: inline-block;
 		font: bold 9px/1 var(--font-ui);
@@ -75,12 +112,9 @@ td {
 		margin: auto 0 auto .5em;
 	}
 
-	.serialization button {
+	& button {
 		order: 4;
 	}
-
-tr:nth-child(even) {
-	background: rgba(0,0,0,.05);
 }
 
 #colorOutput {
@@ -99,8 +133,28 @@ button.copy {
 	background: transparent;
 	cursor: pointer;
 	margin-left: auto;
+
+	&:not(:hover) {
+		filter: grayscale() opacity(.6);
+	}
 }
 
-button.copy:not(:hover) {
-	filter: grayscale() opacity(.6);
+label.pin {
+	cursor: pointer;
+	filter: var(--filter-1, ) var(--filter-2, );
+
+	input[type=checkbox] {
+		position: absolute;
+		margin-left: 2em;
+		clip: rect(0 0 0 0);
+	}
+
+	&:not(:hover) {
+		--filter-1: grayscale();
+	}
+
+	&:not(:has(> :checked)) {
+		--filter-2: opacity(.4);
+	}
 }
+

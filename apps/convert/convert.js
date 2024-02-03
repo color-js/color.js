@@ -62,7 +62,8 @@ function update () {
 			let permalink = `?color=${encodeURIComponent(str)}&precision=${encodeURIComponent(precision)}`;
 			let permalink_mapped = `?color=${encodeURIComponent(str_mapped)}&precision=${encodeURIComponent(precision)}`;
 
-			ret += `<tr>
+			ret += `<tr id="space-${ space.id }" data-id="${ space.id }">
+				<td><label class="pin" title="Pin to top"><input type=checkbox name="pin" value="${ space.id }">📌</label></td>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
 				<td>
@@ -95,6 +96,7 @@ function updateFromURL () {
 }
 
 updateFromURL();
+updatePinned();
 
 addEventListener("popstate", updateFromURL);
 
@@ -103,16 +105,49 @@ function wait (ms) {
 }
 
 document.body.addEventListener("click", async evt => {
-	let copyButton = evt.target.closest(".copy");
-	if (copyButton) {
+	let control;
+	if (control = evt.target.closest(".copy")) {
 		try {
-			await navigator.clipboard.writeText(copyButton.dataset.clipboardText);
-			copyButton.textContent = "✅";
+			await navigator.clipboard.writeText(control.dataset.clipboardText);
+			control.textContent = "✅";
 			await wait(1000);
-			copyButton.textContent = "📋";
+			control.textContent = "📋";
 		}
 		catch (e) {
 			alert("Failed to copy to clipboard");
 		}
 	}
+	else if (evt.target.matches("label.pin")) {
+		evt.stopImmediatePropagation();
+		let row = evt.target.closest("tr");
+		let id = row.dataset.id;
+		let pinned = getPinned();
+		let isPinned = pinned.includes(id);
+
+		if (isPinned) {
+			pinned = pinned.filter(p => p !== id);
+		}
+		else {
+			pinned.push(id);
+		}
+		localStorage.spaces_pinned = pinned.join(", ");
+		requestAnimationFrame(() => updatePinned(pinned));
+	}
+});
+
+function updatePinned (pinned) {
+	pinned ??= getPinned();
+	let pinnedSet = new Set(pinned);
+	document.getElementsByName("pin").forEach(input => input.checked = pinnedSet.has(input.value));
+	pinned_css.textContent = pinned.map((id, i) => `#space-${id} { order: -${i}; }`).join("\n");
+}
+
+function getPinned () {
+	return (localStorage.spaces_pinned ?? "srgb, hsl, p3, oklch, oklch, lch, lab").split(", ");
+}
+
+import("https://incrementable.verou.me/incrementable.mjs").then(module => {
+	let Incrementable = module.default;
+
+	new Incrementable(colorInput);
 });
