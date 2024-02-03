@@ -111,6 +111,8 @@ export default new ColorSpace({
 
 	formats: {
 		// https://drafts.csswg.org/css-color-hdr/#Jzazbz
-		"color": {}
+		"color": {
+			coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
+		}
 	}
 });
