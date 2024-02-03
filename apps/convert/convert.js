@@ -63,7 +63,7 @@ function update () {
 			let permalink_mapped = `?color=${encodeURIComponent(str_mapped)}&precision=${encodeURIComponent(precision)}`;
 
 			ret += `<tr id="space-${ space.id }" data-id="${ space.id }">
-				<td><label class="pin" title="Pin to top"><input type=checkbox name="pin" value="${ space.id }">📌</label></td>
+				<td><label class="pin" title="Pin / Unpin to top"><input type=checkbox name="pin" value="${ space.id }">📌</label></td>
 				<th>${space.name}</th>
 				<td>${converted.coords.join(", ")}</td>
 				<td>
