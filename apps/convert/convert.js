@@ -81,6 +81,7 @@ function update () {
 		}
 
 		output.tBodies[0].innerHTML = ret;
+		updatePinned();
 	}
 }
 
@@ -96,7 +97,6 @@ function updateFromURL () {
 }
 
 updateFromURL();
-updatePinned();
 
 addEventListener("popstate", updateFromURL);
 
