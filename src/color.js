@@ -64,6 +64,11 @@ export default class Color {
 
 		this.coords = coords ? coords.slice() : [0, 0, 0];
 
+		// Ensure alpha is a number
+		if (!Number.isFinite(alpha)) {
+			alpha = 1;
+		}
+
 		// Clamp alpha to [0, 1]
 		this.alpha = alpha > 1 ? 1 : (alpha < 0 ? 0 : alpha);
 
