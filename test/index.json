@@ -4,6 +4,7 @@
 	"conversions": "Conversions",
 	"delta": "DeltaE",
 	"gamut": "Gamut mapping",
+	"in_gamut": "In gamut",
 	"modifications": "Color modification",
 	"contrast": "Contrast",
 	"angles": "Angles",

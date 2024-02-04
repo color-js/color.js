@@ -10,7 +10,9 @@ declare class SpaceAccessors {
 	acescg: SpaceAccessor;
 	cam16_jmh: SpaceAccessor;
 	hct: SpaceAccessor;
+	hpluv: SpaceAccessor;
 	hsl: SpaceAccessor;
+	hsluv: SpaceAccessor;
 	hsv: SpaceAccessor;
 	hwb: SpaceAccessor;
 	ictcp: SpaceAccessor;

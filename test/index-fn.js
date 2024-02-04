@@ -5,6 +5,7 @@ let tests = await Promise.all([
 	"construct",
 	"delta",
 	"gamut",
+	"in_gamut",
 ].map(name => import(`./${name}.js`).then(module => module.default)));
 
 

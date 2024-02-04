@@ -23,5 +23,7 @@ export { default as OKLab } from "./oklab.js";
 export { default as OKLCH } from "./oklch.js";
 export { default as Luv } from "./luv.js";
 export { default as LCHuv } from "./lchuv.js";
+export { default as HSLuv } from "./hsluv.js";
+export { default as HPLuv } from "./hpluv.js";
 
 export * from "./index-fn-hdr.js";

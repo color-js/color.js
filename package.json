@@ -48,6 +48,7 @@
 	},
 	"scripts": {
 		"test": "npx htest ./test",
+		"test:hsluv": "npx htest ./test/hsluv",
 		"dtslint": "dtslint --expectOnly types",
 		"eslint": "eslint . --ext .js --ext .ts --ext .cjs",
 		"lint": "run-s build:space-accessors \"eslint -- --fix\" dtslint",
