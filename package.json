@@ -101,6 +101,7 @@
 		"postcss": "latest",
 		"postcss-cli": "latest",
 		"postcss-nesting": "latest",
+		"release-it": "^17.0.3",
 		"rollup": "^3.21",
 		"typescript": "^5.0.4"
 	},
