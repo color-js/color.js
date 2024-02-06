@@ -16,7 +16,7 @@ export default new ColorSpace({
 	coords: {
 		l: {
 			refRange: [0, 100],
-			name: "L"
+			name: "Lightness"
 		},
 		// Reference ranges from https://facelessuser.github.io/coloraide/colors/luv/
 		u: {
