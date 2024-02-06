@@ -65,7 +65,7 @@ export default class Color {
 		this.coords = coords ? coords.slice() : [0, 0, 0];
 
 		// Clamp alpha to [0, 1]
-		this.alpha = 0 <= alpha && alpha <= 1? alpha : 1;
+		this.alpha = 0 <= alpha && alpha <= 1 ? alpha : 1;
 
 		// Convert "NaN" to NaN
 		for (let i = 0; i < this.coords.length; i++) {
