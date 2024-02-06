@@ -4,10 +4,16 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a6208d72-3d48-43ab-9132-b9f31f828609/deploy-status)](https://app.netlify.com/sites/colorjs/deploys)
 [![npm](https://img.shields.io/npm/dw/colorjs.io)](https://npmjs.com/package/colorjs.io)
 
-- [Official website](https://colorjs.io)
-- [Contribution guide](CONTRIBUTING.md)
+[Official website](https://colorjs.io) • [Contribution guide](CONTRIBUTING.md)
 
-Features:
+Color.js is a color conversion and modification library created by the editors of the CSS Color specifications (but by now has also attracted a small grassroots team of co-maintainers) and used as a testing ground for ideas about a [native Color object for the web platform](https://github.com/wicg/color-api). 
+
+## Impact
+- Has been used to create demos for several W3C specifications
+- Has been used by browsers to test their implementations
+- Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io)
+
+## Features
 
 - **Color space agnostic**: Each color object is basically a list of coords and a color space reference. Operations are color space agnostic.
 Modules for <a href="https://colorjs.io/docs/spaces.html">a wide variety of color spaces</a>,
