@@ -149,6 +149,8 @@ export default new ColorSpace({
 		return fromHct(hct, viewingConditions);
 	},
 	formats: {
-		color: {}
+		color: {
+			id: "--hct"
+		},
 	},
 });

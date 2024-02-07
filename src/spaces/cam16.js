@@ -359,6 +359,8 @@ export default new ColorSpace({
 		);
 	},
 	formats: {
-		color: {}
+		color: {
+			id: "--cam16-jmh"
+		},
 	},
 });

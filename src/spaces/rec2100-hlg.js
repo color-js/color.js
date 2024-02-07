@@ -11,7 +11,7 @@ const scale = 3.7743;	// Place 18% grey at HLG 0.38, so media white at 0.75
 
 export default new RGBColorSpace({
 	id: "rec2100hlg",
-	cssid: "rec2100-hlg",
+	cssId: "rec2100-hlg",
 	name: "REC.2100-HLG",
 	referred: "scene",
 
