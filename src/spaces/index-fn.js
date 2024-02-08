@@ -23,5 +23,7 @@ export {default as CAM16_JMh} from "./cam16.js";
 export {default as HCT} from "./hct.js";
 export {default as Luv} from "./luv.js";
 export {default as LCHuv} from "./lchuv.js";
+export {default as HSLuv} from "./hsluv.js";
+export {default as HPLuv} from "./hpluv.js";
 
 export * from "./index-fn-hdr.js";

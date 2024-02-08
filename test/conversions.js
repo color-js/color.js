@@ -792,6 +792,175 @@ const tests = {
 			]
 		},
 		{
+			name: "HSLuv to sRGB",
+			data: {
+				toSpace: "srgb",
+			},
+			tests: [
+				{
+					name: "HSLuv (sRGB white) to sRGB",
+					args: "color(--hsluv 0 0 100)",
+					expect: [1.0, 1.0, 1.0]
+				},
+				{
+					name: "HSLuv (sRGB red) to sRGB",
+					args: "color(--hsluv 12.1770506300617765 100 53.23711559542933)",
+					expect: [1.0, 0.0, 0.0]
+				},
+				{
+					name: "HSLuv (sRGB lime) to sRGB",
+					args: "color(--hsluv 127.715012949240474 100 87.7355191096597338)",
+					expect: [0.0, 1.0, 0.0]
+				},
+				{
+					name: "HSLuv (sRGB blue) to sRGB",
+					args: "color(--hsluv 265.8743202181779 100 32.3008729039800215)",
+					expect: [0.0, 0.0, 1.0]
+				},
+				{
+					name: "HSLuv (sRGB cyan) to sRGB",
+					args: "color(--hsluv 192.17705063006116 100 91.114752316705065)",
+					expect: [0.0, 1.0, 1.0]
+				},
+				{
+					name: "HSLuv (#777777) to sRGB",
+					args: "color(--hsluv 0 0 50.0344387925380687)",
+					expect: [0.466666666666666674, 0.466666666666666674, 0.466666666666666674]
+				},
+				{
+					name: "HSLuv (sRGB black) to sRGB",
+					args: "color(--hsluv 0 0 0)",
+					expect: [0.0, 0.0, 0.0]
+				},
+				{
+					name:"HSLuv (#dddddd with none hue) to sRGB",
+					args: "color(--hsluv none 0 88.1154369871094)",
+					expect: [0.866666666666666696, 0.866666666666666696, 0.866666666666666696]
+				},
+				{
+					name:"HSLuv (none saturation) to sRGB",
+					args: "color(--hsluv 80 none 100)",
+					expect: [1.0, 1.0, 1.0]
+				},
+				{
+					name:"HSLuv (none lightness) to sRGB",
+					args: "color(--hsluv 0 50 none)",
+					expect: [0.0, 0.0, 0.0]
+				}
+			]
+		},
+		{
+			name: "sRGB to HSLuv",
+			data: {
+				toSpace: "hsluv"
+			},
+			tests: [
+				{
+					args: "#771199",
+					expect: [290.583951381139741, 94.745562802664864, 30.9332504381216253]
+				},
+				{
+					args: "#ffee77",
+					expect: [77.5195453952684659, 100.00000000002693, 93.3383558005883742]
+				},
+				{
+					args: "white",
+					expect: [0, 0, 100]
+				},
+				{
+					args: "black",
+					expect: [0, 0, 0]
+				}
+			]
+		},
+		{
+			name: "HPLuv to sRGB",
+			data: {
+				toSpace: "srgb",
+			},
+			tests: [
+				{
+					name: "HPLuv (sRGB white) to sRGB",
+					args: "color(--hpluv 0 0 100)",
+					expect: [1.0, 1.0, 1.0]
+				},
+				{
+					name: "HPLuv (sRGB red) to sRGB",
+					args: "color(--hpluv 12.1770506300617765 426.746789183125202 53.23711559542933)",
+					expect: [1.0, 0.0, 0.0]
+				},
+				{
+					name: "HPLuv (sRGB lime) to sRGB",
+					args: "color(--hpluv 127.715012949240474 490.145375063702204 87.7355191096597338)",
+					expect: [0.0, 1.0, 0.0]
+				},
+				{
+					name: "HPLuv (sRGB blue) to sRGB",
+					args: "color(--hpluv 265.8743202181779, 513.41269684428039, 32.3008729039800215)",
+					expect: [0.0, 0.0, 1.0]
+				},
+				{
+					name: "HPLuv (sRGB cyan) to sRGB",
+					args: "color(--hpluv 192.17705063006116 369.190533917051368 91.114752316705065)",
+					expect: [0.0, 1.0, 1.0]
+				},
+				{
+					name: "HPLuv (#777777) to sRGB",
+					args: "color(--hpluv 0 0 50.0344387925380687)",
+					expect: [0.466666666666666674, 0.466666666666666674, 0.466666666666666674]
+				},
+				{
+					name: "HPLuv (#cc99aa) to sRGB",
+					args: "color(--hpluv 349.049331623372325 57.3580941092039609 68.4044417972397838)",
+					expect: [0.8, 0.6, 0.66666666666666663]
+				},
+				{
+					name: "HPLuv (sRGB black) to sRGB",
+					args: "color(--hpluv 0 0 0)",
+					expect: [0.0, 0.0, 0.0]
+				},
+				{
+					name:"HPLuv (#dddddd with none hue) to sRGB",
+					args: "color(--hpluv none 0 88.1154369871094)",
+					expect: [0.866666666666666696, 0.866666666666666696, 0.866666666666666696]
+				},
+				{
+					name:"HPLuv (none saturation) to sRGB",
+					args: "color(--hpluv 80 none 100)",
+					expect: [1.0, 1.0, 1.0]
+				},
+				{
+					name:"HPLuv (none lightness) to sRGB",
+					args: "color(--hpluv 0 50 none)",
+					expect: [0.0, 0.0, 0.0]
+				}
+			]
+		},
+		{
+			name: "sRGB to HPLuv",
+			data: {
+				toSpace: "hpluv"
+			},
+			tests: [
+				{
+					args: "#cc99aa",
+					expect: [349.049331623372325, 57.3580941092039609, 68.4044417972397838]
+				},
+				{
+					args: "cyan",
+					expect: [192.17705063006116, 369.190533917051368, 91.114752316705065]
+				},
+				{
+					args: "white",
+					expect: [0, 0, 100]
+				},
+				{
+					args: "black",
+					expect: [0, 0, 0]
+				}
+			]
+		},
+		{
 			name: "Get coordinates",
 			data: {
 				slategray: new Color("slategray"),
