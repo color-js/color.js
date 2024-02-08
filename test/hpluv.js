@@ -1,21 +1,21 @@
-import Color from "../../src/index.js";
-import { check } from "../util.mjs";
-import { readTestData, normalizeCoords } from "./util.mjs";
+import Color from "../src/index.js";
+import { check } from "./util.mjs";
+import { readTestData, normalizeCoords } from "./hsluv/util.mjs";
 
 let json = readTestData();
-let srgbToHsluv = [];
-let hsluvToSrgb = [];
+let srgbToHpluv = [];
+let hpluvToSrgb = [];
 
 Object.entries(json).forEach(([rgbHex, value]) => {
-	let coords = normalizeCoords(value["hsluv"]);
-	srgbToHsluv.push({ args: rgbHex, expect: coords });
+	let coords = normalizeCoords(value["hpluv"]);
+	srgbToHpluv.push({ args: rgbHex, expect: coords });
 
-	let color = `color(--hsluv ${coords[0]} ${coords[1]} ${coords[2]})`;
-	hsluvToSrgb.push({ args: color, expect: value.rgb });
+	let color = `color(--hpluv ${coords[0]} ${coords[1]} ${coords[2]})`;
+	hpluvToSrgb.push({ args: color, expect: value.rgb });
 });
 
 const tests = {
-	name: "HSLuv Conversion Tests",
+	name: "HPLuv Conversion Tests",
 	description: "These tests compare sRGB values against the HSLuv reference implementation snapshot data.",
 	run (color, spaceId = this.data.toSpace) {
 		color = new Color(color);
@@ -35,18 +35,18 @@ const tests = {
 	},
 	tests: [
 		{
-			name: "sRGB to HSLuv",
+			name: "sRGB to HPLuv",
 			data: {
-				toSpace: "hsluv"
+				toSpace: "hpluv"
 			},
-			tests: srgbToHsluv
+			tests: srgbToHpluv
 		},
 		{
-			name: "HSLuv to sRGB",
+			name: "HPLuv to sRGB",
 			data: {
 				toSpace: "srgb"
 			},
-			tests: hsluvToSrgb
+			tests: hpluvToSrgb
 		}
 	]
 };
