@@ -78,13 +78,15 @@ export default function parse (str, {meta} = {}) {
 		if (name === "color") {
 			// color() function
 			let id = env.parsed.args.shift();
+			let undashedId = id.startsWith("--") ? id.substring(2) : id;
+			let ids = [id, undashedId];
 			let alpha = env.parsed.rawArgs.indexOf("/") > 0 ? env.parsed.args.pop() : 1;
 
 			for (let space of ColorSpace.all) {
 				let colorSpec = space.getFormat("color");
 
 				if (colorSpec) {
-					if (id === colorSpec.id || colorSpec.ids?.includes(id)) {
+					if (ids.includes(colorSpec.id) || colorSpec.ids?.filter((specId) => ids.includes(specId)).length) {
 						// From https://drafts.csswg.org/css-color-4/#color-function
 						// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
 						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
@@ -107,9 +109,10 @@ export default function parse (str, {meta} = {}) {
 
 			// Not found
 			let didYouMean = "";
-			if (id in ColorSpace.registry) {
+			let registryId = id in ColorSpace.registry ? id : undashedId;
+			if (registryId in ColorSpace.registry) {
 				// Used color space id instead of color() id, these are often different
-				let cssId = ColorSpace.registry[id].formats?.functions?.color?.id;
+				let cssId = ColorSpace.registry[registryId].formats?.functions?.color?.id;
 
 				if (cssId) {
 					didYouMean = `Did you mean color(${cssId})?`;
