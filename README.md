@@ -43,20 +43,25 @@ all with sensible defaults
 
 ## Installation
 
-Install via npm:
+Color.js is designed make simple things easy, and complex things possible, and that extends to installation as well.
 
-```
-npm install colorjs.io
-```
-
-For quick experiments, you can just import Color.js directly from the CDN with all modules included:
+For quick experiments, you can just import Color.js directly from the CDN (kindly provided by the awesome folks at [Netlify](https://netlify.com)) with all modules included:
 
 ```js
 import Color from "https://colorjs.io/dist/color.js";
 ```
 
-You can also import specific modules:
+You can also install via npm if you’d prefer:
 
+```
+npm install colorjs.io
+```
+
+Whether you’re using NPM, the CDN, or local files, Color.js allows you to also import specific modules by directly importing from `src`:
+- `https://colorjs.io/src/` for the CDN
+- `node_modules/colorjs.io/src/ for NPM
+
+For example:
 ```js
 import Color from "https://colorjs.io/src/color.js";
 import p3 from "https://colorjs.io/src/spaces/p3.js";
@@ -66,7 +71,9 @@ import deltaE200 from "https://colorjs.io/src/deltaE/deltaE2000.js";
 
 Warning: To use `import` statements in a browser, your `<script>` needs `type="module"`
 
-Or, if you'd rather just have `Color` as a global variable, the classic way, just include the following script in your HTML:
+Are you old school and prefer to simply have a global `Color` variable? 
+We’ve got you covered! 
+Just include the following script in your HTML:
 
 ```html
 <script src="https://colorjs.io/dist/color.global.js"></script>
