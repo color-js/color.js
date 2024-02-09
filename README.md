@@ -28,6 +28,17 @@ all with sensible defaults
 
 </header>
 
+<section>
+	
+## Impact
+
+- Has been used to create demos for several W3C specifications
+- Has been used by browsers to test their CSS Color 4/5 implementations
+- Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io), including [Sass](https://sass-lang.com/), [Open Props](https://open-props.style/), [axe](https://www.deque.com/axe/) accessibility testing engine, and [OddContrast](https://www.oddcontrast.com/) and [CSS HD Gradients](https://gradient.style/) color tools
+- Parts of Color.js’s API are used as a testing ground for the design of a [native `Color` object for the Web platform](https://github.com/wicg/color-api).
+
+</section>
+
 <section class="cn-ignore">
 
 ## Installation
@@ -62,17 +73,6 @@ Or, if you'd rather just have `Color` as a global variable, the classic way, jus
 ```
 
 <p class="read-more"><a href="https://colorjs.io/get">Read more about installation</a></p>
-
-</section>
-
-<section>
-	
-## Impact
-
-- Has been used to create demos for several W3C specifications
-- Has been used by browsers to test their CSS Color 4/5 implementations
-- Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io), including [Sass](https://sass-lang.com/), [Open Props](https://open-props.style/), [axe](https://www.deque.com/axe/) accessibility testing engine, and [OddContrast](https://www.oddcontrast.com/) and [CSS HD Gradients](https://gradient.style/) color tools
-- Parts of Color.js’s API are used as a testing ground for the design of a [native `Color` object for the Web platform](https://github.com/wicg/color-api).
 
 </section>
 
