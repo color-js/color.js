@@ -7,13 +7,8 @@
 
 [Official website](https://colorjs.io) • [Contribution guide](CONTRIBUTING.md)
 
-Color.js is a color conversion and modification library created by the editors of the CSS Color specifications (but by now has also attracted a small grassroots team of co-maintainers) and used as a testing ground for ideas about a [native Color object for the web platform](https://github.com/wicg/color-api).
-
-## Impact
-
-- Has been used to create demos for several W3C specifications
-- Has been used by browsers to test their implementations
-- Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io), including [Sass](https://sass-lang.com/), [Open Props](https://open-props.style/), [axe](https://www.deque.com/axe/) accessibility testing engine, and [OddContrast](https://www.oddcontrast.com/) and [CSS HD Gradients](https://gradient.style/) color tools
+Color.js is a color conversion and modification library originally created by two of the editors of the CSS Color specifications: Lea Verou and Chris Lilley.
+They continue to work on it, but are also joined by an exceptional small grassroots team of co-maintainers.
 
 ## Features
 
@@ -28,7 +23,7 @@ multiple <a href="https://colorjs.io/docs/adaptation.html">chromatic adaptation<
 all with sensible defaults
 - **Up to date with CSS Color 4**: Every <a href="https://drafts.csswg.org/css-color-4/">CSS Color 4</a> format & color space supported for both <a href="docs/the-color-object.html">input</a> and <a href="https://colorjs.io/docs/output.html">output</a>, whether your browser supports it or not.
 - **Readable, object-oriented API**: Color objects for multiple operations on the same color, and static `Color.something()` functions for one-off calculations
-- **Modular & Extensible**: Use only what you need, or a bundle. Client-side or Node. Deep extensibility with <a href="https://colorjs.io/api/#Hooks-hooks.js">hooks</a>. </p>
+- **Modular & Extensible**: Use only what you need, or a bundle. Client-side or Node. Deep extensibility with <a href="https://colorjs.io/api/#Hooks-hooks.js">hooks</a>.
 - **Fast & efficient**: <a href="https://colorjs.io/docs/procedural.html">Procedural, tree-shakeable API</a> available for performance sensitive tasks and reduced bundle size
 
 </header>
@@ -67,6 +62,17 @@ Or, if you'd rather just have `Color` as a global variable, the classic way, jus
 ```
 
 <p class="read-more"><a href="https://colorjs.io/get">Read more about installation</a></p>
+
+</section>
+
+<section>
+	
+## Impact
+
+- Has been used to create demos for several W3C specifications
+- Has been used by browsers to test their CSS Color 4/5 implementations
+- Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io), including [Sass](https://sass-lang.com/), [Open Props](https://open-props.style/), [axe](https://www.deque.com/axe/) accessibility testing engine, and [OddContrast](https://www.oddcontrast.com/) and [CSS HD Gradients](https://gradient.style/) color tools
+- Parts of Color.js’s API are used as a testing ground for the design of a [native `Color` object for the Web platform](https://github.com/wicg/color-api).
 
 </section>
 
