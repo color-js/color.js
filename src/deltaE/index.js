@@ -6,7 +6,15 @@ import deltaEITP from "./deltaEITP.js";
 import deltaEOK from "./deltaEOK.js";
 import deltaEHCT from "./deltaEHCT.js";
 
-export { deltaE76, deltaECMC, deltaE2000, deltaEJz, deltaEITP, deltaEOK, deltaEHCT };
+export {
+	deltaE76,
+	deltaECMC,
+	deltaE2000,
+	deltaEJz,
+	deltaEITP,
+	deltaEOK,
+	deltaEHCT
+};
 
 export default {
 	deltaE76,

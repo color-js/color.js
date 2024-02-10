@@ -14,12 +14,17 @@ import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
 import {WHITES} from "./adapt.js";
 
-
+/**
+ * Calculate the epsilon to 2 degrees smaller than the specified JND.
+ * @param {Number} jnd - The target "just noticeable difference".
+ * @returns {Number}
+ */
 function calcEpsilon (jnd) {
 	// Calculate the epsilon to 2 degrees smaller than the specified JND.
 
 	const order = (!jnd) ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
-	return parseFloat(`1e${order - 2}`);
+	// Limit to an arbitrary value to ensure value is never too small and causes infinite loops.
+	return Math.max(parseFloat(`1e${order - 2}`), 1e-6);
 }
 
 const GMAPPRESET = {
@@ -27,7 +32,7 @@ const GMAPPRESET = {
 		method: "hct.c",
 		jnd: 2,
 		deltaEMethod: "hct",
-		blackWhiteClamp: false
+		blackWhiteClamp: {}
 	},
 	"hct-tonal": {
 		method: "hct.c",
@@ -48,6 +53,13 @@ const GMAPPRESET = {
  *        until the color is in gamut. Please note that this may produce nonsensical
  *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
  * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
+ * @param {string} options.deltaEMethod - The delta E method to use while performing gamut mapping.
+ *        If no method is specified, delta E 2000 is used.
+ * @param {Number} options.jnd - The "just noticeable difference" to target.
+ * @param {Object} options.blackWhiteClamp - Used to configure SDR black and clamping.
+ *        "channel" indicates the "space.channel" to use for determining when to clamp.
+ *        "min" indicates the lower limit for black clamping and "max" indicates the upper
+ *        limit for white clamping.
  */
 
 export default function toGamut (
@@ -101,7 +113,7 @@ export default function toGamut (
 			if (de(color, clipped) > jnd) {
 
 				// Clamp to SDR white and black if required
-				if (Object.keys(blackWhiteClamp).length > 0) {
+				if (Object.keys(blackWhiteClamp).length === 3) {
 					let channelMeta = ColorSpace.resolveCoord(blackWhiteClamp.channel);
 					let channel = get(to(color, channelMeta.space), channelMeta.id);
 					if (util.isNone(channel)) {
@@ -124,11 +136,10 @@ export default function toGamut (
 				let bounds = coordMeta.range || coordMeta.refRange;
 				let min = bounds[0];
 				let ε = calcEpsilon(jnd);
-				let minConverge = Math.max(ε, 1e-6); // limit delta of low and high to prevent infinite looping
 				let low = min;
 				let high = get(mappedColor, coordId);
 
-				while (high - low > minConverge) {
+				while (high - low > ε) {
 					let clipped = clone(mappedColor);
 					clipped = toGamut(clipped, { space, method: "clip" });
 					let deltaE = de(mappedColor, clipped);

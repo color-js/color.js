@@ -5,10 +5,12 @@ const rad2deg = 180 / Math.PI;
 const deg2rad = Math.PI / 180;
 const ucsCoeff = [1.00, 0.007, 0.0228];
 
-
+/**
+* Convert HCT chroma and hue (CAM16 JMh colorfulness and hue) using UCS logic for a and b.
+* @param {number[]} coords - HCT coordinates.
+* @return {number[]}
+*/
 function convertUcsAb (coords) {
-	// Convert HCT chroma and hue (CAM16 JMh colorfulness and hue) using UCS logic for a and b.
-
 	// We want the distance between the actual color.
 	// If chroma is negative, it will throw off our calculations.
 	// Normally, converting back to the base and forward will correct it.
@@ -30,9 +32,13 @@ function convertUcsAb (coords) {
 }
 
 
+/**
+* Color distance using HCT.
+* @param {Color} color - Color to compare.
+* @param {Color} sample - Color to compare.
+* @return {number[]}
+*/
 export default function (color, sample) {
-	// Delta E HCT color distance formula.
-
 	let [ t1, a1, b1 ] = convertUcsAb(hct.from(color));
 	let [ t2, a2, b2 ] = convertUcsAb(hct.from(sample));
 

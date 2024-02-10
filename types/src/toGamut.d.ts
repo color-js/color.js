@@ -10,6 +10,13 @@ declare function toGamut (
 	options?: {
 		method?: string | undefined;
 		space?: string | ColorSpace | undefined;
+		deltaEMethod?: string | undefined;
+		jnd?: number | undefined;
+		blackWhiteClamp?: {
+			channel: string;
+			min: number;
+			max: number;
+		} | undefined;
 	} | string
 ): PlainColorObject;
 
