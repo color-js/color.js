@@ -27,6 +27,10 @@ export default function serialize (color, {
 	       ?? color.space.getFormat("default")
 	       ?? ColorSpace.DEFAULT_FORMAT;
 
+	// The assignment to coords and inGamut needs to stay in the order they are now
+	// The order of the assignment was changed as a workaround for a bug in Next.js
+	// See this issue for details: https://github.com/color-js/color.js/issues/260
+
 	let coords = color.coords.slice(); // clone so we can manipulate it
 
 	inGamut ||= format.toGamut;
