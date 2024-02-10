@@ -27,9 +27,9 @@ export default function serialize (color, {
 	       ?? color.space.getFormat("default")
 	       ?? ColorSpace.DEFAULT_FORMAT;
 
-	inGamut ||= format.toGamut;
-
 	let coords = color.coords.slice(); // clone so we can manipulate it
+
+	inGamut ||= format.toGamut;
 
 	if (inGamut && !checkInGamut(color)) {
 		// FIXME what happens if the color contains NaNs?
