@@ -6,3 +6,7 @@ export default function set (
 	prop: Ref,
 	value: number | ((coord: number) => number)
 ): Color;
+export default function set (
+	color: ColorTypes,
+	props: Record<string, number | ((coord: number) => number)>
+): Color;

@@ -2,7 +2,7 @@ import { WHITES } from "./adapt.js";
 import defaults from "./defaults.js";
 import hooks from "./hooks.js";
 import * as util from "./util.js";
-import ColorSpace from "./space.js";
+import ColorSpace, { Ref } from "./space.js";
 import SpaceAccessors from "./space-coord-accessors.js";
 
 import {
@@ -130,7 +130,6 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;
 	getAll: ToColorPrototype<typeof getAll>;
-	set: ToColorPrototype<typeof set>;
 	setAll: ToColorPrototype<typeof setAll>;
 	to: ToColorPrototype<typeof to>;
 	equals: ToColorPrototype<typeof equals>;
@@ -138,6 +137,11 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	toGamut: ToColorPrototype<typeof toGamut>;
 	distance: ToColorPrototype<typeof distance>;
 	toString: ToColorPrototype<typeof serialize>;
+
+	// Must be manually defined due to overloads
+	// These should always match the signature of the original function
+	set (prop: Ref, value: number | ((coord: number) => number)): Color;
+	set (props: Record<string, number | ((coord: number) => number)>): Color;
 }
 
 export default Color;
