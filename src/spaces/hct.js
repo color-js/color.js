@@ -150,7 +150,8 @@ export default new ColorSpace({
 	},
 	formats: {
 		color: {
-			id: "--hct"
+			id: "--hct",
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
 		},
 	},
 });
