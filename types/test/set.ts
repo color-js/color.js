@@ -10,3 +10,9 @@ set("red");
 set("red", "foo", 123); // $ExpectType Color
 set(new Color("red"), ["srgb", "bar"], (_: number) => 123); // $ExpectType Color
 set(new Color("red"), [sRGB, "bar"], (_: number) => 123); // $ExpectType Color
+
+// $ExpectType Color
+set("red", {
+	foo: 123,
+	bar: (_: number) => 123,
+});
