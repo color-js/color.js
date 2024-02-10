@@ -7,6 +7,9 @@ export default {
 	run (colorStr, args) {
 		let color = new Color(colorStr);
 		let inGamut = this.data.method ? {method: this.data.method} : true;
+		if (this.data.convertAfter) {
+			return color.toGamut({space: this.data.toSpace, method: this.data.method}).to(this.data.toSpace);
+		}
 		let color2 = color.to(this.data.toSpace, {inGamut});
 		return color2;
 	},
@@ -180,6 +183,106 @@ export default {
 					args: ["color(display-p3 0 0 1)"],
 					expect: "rgb(0% 0% 100%)"
 				},
+			]
+		},
+		{
+			name: "P3 primaries to sRGB, HCT chroma reduction",
+			data: { method: "hct", toSpace: "sRGB" },
+			tests: [
+				{
+					args: ["color(display-p3 1 0 0)"],
+					expect: "rgb(100% 5.7911% 0%)"
+				},
+				{
+					args: ["color(display-p3 0 1 0)"],
+					expect: "rgb(0% 99.496% 0%)"
+				},
+				{
+					args: ["color(display-p3 0 0 1)"],
+					expect: "rgb(0% 0% 100%)"
+				},
+				{
+					args: ["color(display-p3 1 1 0)"],
+					expect: "rgb(99.749% 99.792% 0%)"
+				},
+				{
+					args: ["color(display-p3 0 1 1)"],
+					expect: "rgb(0% 100% 99.135%)"
+				},
+				{
+					args: ["color(display-p3 1 0 1)"],
+					expect: "rgb(100% 13.745% 96.626%)"
+				}
+			]
+		},
+		{
+			name: "HCT Gamut Mapping. Demonstrates tonal palettes (blue).",
+			data: { toSpace: "srgb", method: "hct-tonal", convertAfter: true},
+			tests: [
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 0)"],
+					expect: "rgb(0% 0% 0%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 5)"],
+					expect: "rgb(0% 0.07618% 30.577%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 10)"],
+					expect: "rgb(0% 0.12788% 43.024%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 15)"],
+					expect: "rgb(0% 0.16162% 54.996%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 20)"],
+					expect: "rgb(0% 0.16388% 67.479%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 25)"],
+					expect: "rgb(0% 0.10802% 80.421%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 30)"],
+					expect: "rgb(0% 0% 93.775%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 35)"],
+					expect: "rgb(10.099% 12.729% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 40)"],
+					expect: "rgb(20.18% 23.826% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 50)"],
+					expect: "rgb(35.097% 39.075% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 60)"],
+					expect: "rgb(48.508% 51.958% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 70)"],
+					expect: "rgb(61.603% 64.093% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 80)"],
+					expect: "rgb(74.695% 75.961% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 90)"],
+					expect: "rgb(87.899% 87.77% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 95)"],
+					expect: "rgb(94.558% 93.686% 100%)"
+				},
+				{
+					args: ["color(--hct 282.762176394358 87.22803916105873 100)"],
+					expect: "rgb(100% 100% 100%)"
+				}
 			]
 		},
 	]

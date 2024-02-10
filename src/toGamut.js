@@ -7,9 +7,35 @@ import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
 import oklab from "./spaces/oklab.js";
+import xyzd65 from "./spaces/xyz-d65.js";
 import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
+import deltaEMethods from "./deltaE/index.js";
+import {WHITES} from "./adapt.js";
+
+
+function calcEpsilon (jnd) {
+	// Calculate the epsilon to 2 degrees smaller than the specified JND.
+
+	const order = (!jnd) ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
+	return parseFloat(`1e${order - 2}`);
+}
+
+const GMAPPRESET = {
+	"hct": {
+		method: "hct.c",
+		jnd: 2,
+		deltaEMethod: "hct",
+		blackWhiteClamp: false
+	},
+	"hct-tonal": {
+		method: "hct.c",
+		jnd: 0,
+		deltaEMethod: "hct",
+		blackWhiteClamp: { channel: "hct.t", min: 0, max: 100 }
+	},
+};
 
 /**
  * Force coordinates to be in gamut of a certain color space.
@@ -24,7 +50,16 @@ import getColor from "./getColor.js";
  * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
  */
 
-export default function toGamut (color, { method = defaults.gamut_mapping, space = color.space } = {}) {
+export default function toGamut (
+	color,
+	{
+		method = defaults.gamut_mapping,
+		space = color.space,
+		deltaEMethod = "",
+		jnd = 2,
+		blackWhiteClamp = {}
+	} = {}
+) {
 	if (util.isString(arguments[1])) {
 		space = arguments[1];
 	}
@@ -46,26 +81,59 @@ export default function toGamut (color, { method = defaults.gamut_mapping, space
 		}
 
 		if (method !== "clip" && !inGamut(color, space)) {
+
+			if (Object.prototype.hasOwnProperty.call(GMAPPRESET, method)) {
+				({method, jnd, deltaEMethod, blackWhiteClamp} = GMAPPRESET[method]);
+			}
+
+			// Get the correct delta E method
+			let de = deltaE2000;
+			if (deltaEMethod !== "") {
+				for (let m in deltaEMethods) {
+					if ("deltae" + deltaEMethod.toLowerCase() === m.toLowerCase()) {
+						de = deltaEMethods[m];
+						break;
+					}
+				}
+			}
+
 			let clipped = toGamut(clone(spaceColor), { method: "clip", space });
-			if (deltaE2000(color, clipped) > 2) {
+			if (de(color, clipped) > jnd) {
+
+				// Clamp to SDR white and black if required
+				if (Object.keys(blackWhiteClamp).length > 0) {
+					let channelMeta = ColorSpace.resolveCoord(blackWhiteClamp.channel);
+					let channel = get(to(color, channelMeta.space), channelMeta.id);
+					if (util.isNone(channel)) {
+						channel = 0;
+					}
+					if (channel >= blackWhiteClamp.max) {
+						return to({ space: "xyz-d65", coords: WHITES["D65"] }, color.space);
+					}
+					else if (channel <= blackWhiteClamp.min) {
+						return to({ space: "xyz-d65", coords: [0, 0, 0] }, color.space);
+					}
+				}
+
 				// Reduce a coordinate of a certain color space until the color is in gamut
 				let coordMeta = ColorSpace.resolveCoord(method);
 				let mapSpace = coordMeta.space;
 				let coordId = coordMeta.id;
 
-				let mappedColor = to(spaceColor, mapSpace);
+				let mappedColor = to(color, mapSpace);
 				let bounds = coordMeta.range || coordMeta.refRange;
 				let min = bounds[0];
-				let ε = .01; // for deltaE
+				let ε = calcEpsilon(jnd);
+				let minConverge = Math.max(ε, 1e-6); // limit delta of low and high to prevent infinite looping
 				let low = min;
 				let high = get(mappedColor, coordId);
 
-				while (high - low > ε) {
+				while (high - low > minConverge) {
 					let clipped = clone(mappedColor);
 					clipped = toGamut(clipped, { space, method: "clip" });
-					let deltaE = deltaE2000(mappedColor, clipped);
+					let deltaE = de(mappedColor, clipped);
 
-					if (deltaE - 2 < ε) {
+					if (deltaE - jnd < ε) {
 						low = get(mappedColor, coordId);
 					}
 					else {
