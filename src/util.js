@@ -54,13 +54,16 @@ export function skipNone (n) {
  * @param {number} precision - Number of significant digits
  */
 export function toPrecision (n, precision) {
-	n = +n;
 	if (n === 0) {
 		return 0;
 	}
-	precision = +precision;
-	const multiplier = Math.pow(10, precision - Math.floor(Math.log10(Math.abs(n))) - 1);
-	return Math.round(n * multiplier) / multiplier;
+	let integer = ~~n;
+	let digits = 0;
+	if (integer && precision) {
+		digits = ~~Math.log10(Math.abs(integer)) + 1;
+	}
+	const multiplier = 10.0 ** (precision - digits);
+	return Math.floor(n * multiplier + 0.5) / multiplier;
 }
 
 const angleFactor = {
