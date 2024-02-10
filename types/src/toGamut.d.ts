@@ -1,5 +1,5 @@
 import { ColorTypes, PlainColorObject } from "./color.js";
-import ColorSpace from "./space.js";
+import ColorSpace, { Ref } from "./space.js";
 
 declare namespace toGamut {
 	let returns: "color";
@@ -13,7 +13,7 @@ declare function toGamut (
 		deltaEMethod?: string | undefined;
 		jnd?: number | undefined;
 		blackWhiteClamp?: {
-			channel: string;
+			channel: Ref;
 			min: number;
 			max: number;
 		} | undefined;
