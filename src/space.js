@@ -158,13 +158,18 @@ export default class ColorSpace {
 		return null;
 	}
 
-	// We cannot rely on simple === because then ColorSpace objects cannot be proxied
+	/**
+	 * Check if this color space is the same as another color space reference.
+	 * Allows proxying color space objects and comparing color spaces with ids.
+	 * @param {string | ColorSpace} space ColorSpace object or id to compare to
+	 * @returns {boolean}
+	 */
 	equals (space) {
 		if (!space) {
 			return false;
 		}
 
-		return this === space || this.id === space.id;
+		return this === space || this.id === space || this.id === space.id;
 	}
 
 	to (space, coords) {

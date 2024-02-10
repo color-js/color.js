@@ -3,5 +3,5 @@ import ColorSpace from "./space.js";
 
 export default function getAll (
 	color: Color | ColorObject,
-	space: string | ColorSpace
+	space?: string | ColorSpace
 ): [number, number, number];
