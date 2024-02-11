@@ -133,6 +133,12 @@ export default function toGamut (
 				let coordId = coordMeta.id;
 
 				let mappedColor = to(color, mapSpace);
+				// If we were already in the mapped color space, we need to resolve undefined channels
+				mappedColor.coords.forEach((c, i) => {
+					if (util.isNone(c)) {
+						mappedColor.coords[i] = 0;
+					}
+				});
 				let bounds = coordMeta.range || coordMeta.refRange;
 				let min = bounds[0];
 				let ε = calcEpsilon(jnd);
