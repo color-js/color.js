@@ -241,3 +241,9 @@ the choice of source whitepoint, destination whitepoint,
 and CAT method produces a single matrix transform,
 which our code will automatically use
 whenever the source and destination colorspaces have different whitepoints.
+
+**Warning:** Integration of CATs.js is in progress but is incomplete;
+adaptation to and from other white points is supported
+and happens automatically as needed
+(for example, the ACES whitepoint is used with ACEScg and ACEScc)
+but for now, only the linear Bradford method can be used.
