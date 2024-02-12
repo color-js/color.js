@@ -76,7 +76,6 @@ const tests = {
 			name: "Lab and LCH colors",
 			tests: [
 				{
-					name: "lab(100% 0 0)",
 					args: "lab(100% 0 0)",
 					expect: '{"spaceId":"lab","coords":[100,0,0],"alpha":1}'
 				},
@@ -91,7 +90,6 @@ const tests = {
 					expect: '{"spaceId":"lab","coords":[80,0,0],"alpha":1}'
 				},
 				{
-					name: "lab(100 -50 50)",
 					args: "lab(100 -50 50)",
 					expect: '{"spaceId":"lab","coords":[100,-50,50],"alpha":1}'
 				},
@@ -106,7 +104,6 @@ const tests = {
 					expect: '{"spaceId":"lab","coords":[100,-50,5],"alpha":0.5}'
 				},
 				{
-					name: "lch(100% 0 0)",
 					args: "lch(100% 0 0)",
 					expect: '{"spaceId":"lch","coords":[100,0,0],"alpha":1}'
 				},
@@ -136,7 +133,6 @@ const tests = {
 			name: "Oklab colors",
 			tests: [
 				{
-					name: "oklab(100% 0 0)",
 					args: "oklab(100% 0 0)",
 					expect: '{"spaceId":"oklab","coords":[1,0,0],"alpha":1}'
 				},
@@ -171,7 +167,6 @@ const tests = {
 			name: "Oklch colors",
 			tests: [
 				{
-					name: "oklch(100% 0 0)",
 					args: "oklch(100% 0 0)",
 					expect: '{"spaceId":"oklch","coords":[1,0,0],"alpha":1}'
 				},
@@ -416,7 +411,6 @@ const tests = {
 			name: "hwb()",
 			tests: [
 				{
-					name: "hwb(180 20% 30%)",
 					args: "hwb(180 20% 30%)",
 					expect: '{"spaceId":"hwb","coords":[180,20,30],"alpha":1}'
 				},
