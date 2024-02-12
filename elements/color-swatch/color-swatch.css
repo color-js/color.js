@@ -1,3 +1,10 @@
+:host {
+	display: inline-flex;
+	align-items: center;
+	gap: .15em;
+	margin-inline: .1em;
+}
+
 #swatch {
 	--color-image: linear-gradient(var(--color), var(--color));
 	--transparency-tile-size: clamp(6px, .5em, 30px);
@@ -10,9 +17,9 @@
 	vertical-align: calc(-1 * var(--border-width));
 	width: 1.2em;
 	height: 1.2em;
+	height: 1.2em;
 	border: var(--border-width) solid white;
 	box-sizing: border-box;
-	margin: 0 .15em 0 .1em;
 	background: var(--color-image, 0), var(--transparency-grid, canvas);
 
 	box-shadow: calc(var(--box-shadow-blur) * .2) calc(var(--box-shadow-blur) * .2) var(--box-shadow-blur) var(--box-shadow-color);

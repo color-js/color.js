@@ -1,12 +1,14 @@
 import Color from "../../src/index.js";
 
+let styleURL = new URL("./color-swatch.css", import.meta.url);
+
 export default class ColorSwatch extends HTMLElement {
 	#swatch;
 
 	constructor () {
 		super();
 		this.attachShadow({mode: "open"});
-		this.shadowRoot.innerHTML = `<style>@import url("./color-swatch.css");</style>
+		this.shadowRoot.innerHTML = `<style>@import url("${ styleURL }");</style>
 		<div id="swatch" part="swatch"></div>
 		<slot></slot>`;
 		this.#swatch = this.shadowRoot.querySelector("#swatch");
