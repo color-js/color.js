@@ -83,7 +83,7 @@ export default function toGamut (
 	// space: space whose gamut we are mapping to
 	// mapSpace: space with the coord we're reducing
 
-	let spaceColor = to(color, space);
+	let spaceColor;
 	if (method === "css") {
 		spaceColor = to(toGamutCSS(color, { space }), color.space);
 	}
@@ -109,7 +109,7 @@ export default function toGamut (
 				}
 			}
 
-			let clipped = toGamut(clone(spaceColor), { method: "clip", space });
+			let clipped = toGamut(to(color, space), { method: "clip", space });
 			if (de(color, clipped) > jnd) {
 
 				// Clamp to SDR white and black if required
@@ -165,6 +165,9 @@ export default function toGamut (
 			else {
 				spaceColor = clipped;
 			}
+		}
+		else {
+			spaceColor = to(color, space);
 		}
 
 		if (method === "clip" // Dumb coord clipping
