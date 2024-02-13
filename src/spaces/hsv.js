@@ -58,6 +58,7 @@ export default new ColorSpace({
 
 	formats: {
 		color: {
+			id: "--hsv",
 			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
 		}
 	}

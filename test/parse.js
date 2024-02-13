@@ -321,7 +321,7 @@ const tests = {
 					expect: '{"spaceId":"hct","coords":[90,72.5,25],"alpha":1}'
 				},
 				{
-					args: "color(hsv 25deg 50% 75)",
+					args: "color(--hsv 25deg 50% 75)",
 					expect: '{"spaceId":"hsv","coords":[25,50,75],"alpha":1}'
 				},
 				{
