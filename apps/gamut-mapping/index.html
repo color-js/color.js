@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gamut Mapping Experiments</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="module" src="../../elements/css-color/css-color.js"></script>
+	<script type="module" src="index.js"></script>
+</head>
+<body>
+	<dl>
+		<dt>Input</dt>
+		<dd>
+			<css-color swatch="large" id="input_color">
+				<input value="oklch(70% 0.3 138)" id="color_input" />
+			</css-color>
+		</dd>
+
+		<dt>To P3</dt>
+		<dd>
+			<css-color swatch="large" id="to_p3"></css-color>
+		</dd>
+
+		<dt>To P3 Linear</dt>
+		<dd>
+			<css-color swatch="large" id="to_p3linear"></css-color>
+		</dd>
+	</dl>
+
+	<h2>Gamut mapped</h2>
+
+	<dl id="gamut_mapped">
+		<dt>Clip:</dt>
+		<dd>
+			<css-color swatch="large" data-method="clip"></css-color>
+		</dd>
+
+		<dt>CSS:</dt>
+		<dd>
+			<css-color swatch="large" data-method="css"></css-color>
+		</dd>
+
+		<dt>Scale:</dt>
+		<dd>
+			<css-color swatch="large" data-method="scale"></css-color>
+		</dd>
+	</dl>
+</body>
+</html>

@@ -1,0 +1,40 @@
+:root {
+	--font-mono: Consolas, Inconsolata, Monaco, monospace;
+}
+
+body {
+	font: 100%/1.5 system-ui;
+	max-width: 80ch;
+	margin: 1em auto;
+}
+
+input {
+	font: inherit;
+}
+
+css-color input {
+	font-family: var(--font-mono);
+}
+
+dl {
+	display: grid;
+	gap: .5em;
+	grid-auto-flow: row;
+
+	dt {
+		grid-row: 1;
+	}
+
+	dd {
+		grid-row: 2;
+		margin: 0;
+	}
+
+	input {
+		min-width: 25ch;
+	}
+
+	[data-method="scale"] input {
+		min-width: 33ch;
+	}
+}
