@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>&lt;css-color> Web Component</title>
+	<script type="module" src="css-color.js"></script>
+	<style>
+		body {
+			font: 100%/1.5 system-ui;
+			max-width: 50ch;
+			margin: 1em auto;
+		}
+
+		input {
+			font: inherit;
+		}
+	</style>
+</head>
+<body>
+	<h2>Static (not working)</h2>
+	<css-color>oklch(70% 0.25 138)</css-color>
+
+	<h2>Editable</h2>
+	<css-color>
+		<input value="oklch(70% 0.25 138)" />
+	</css-color>
+	<css-color swatch="large">
+		<input value="oklch(70% 0.25 138)" />
+	</css-color>
+</body>
+</html>

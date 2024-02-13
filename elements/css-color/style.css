@@ -1,0 +1,93 @@
+:host {
+	display: inline-flex;
+	gap: .3em;
+	width: min-content;
+	white-space: nowrap;
+}
+
+slot:not([name])::slotted(input) {
+	padding-inline-end: 1em;
+}
+
+#wrapper:has(slot:not([name]):not(::slotted(input))) {
+	padding-inline-end: 2em;
+}
+
+:host([data-gamut="rec2020"]),
+:host([data-gamut="sl"]) {
+	#gamut::after {
+		content: "+";
+	}
+
+	::slotted(input) {
+		/* Accomodate the + suffix */
+		padding-inline-end: 2em;
+	}
+}
+
+#wrapper {
+	display: flex;
+	position: relative;
+	width: min-content;
+}
+
+#gamut {
+	position: absolute;
+	inset: .3em;
+	inset-inline-start: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: .2em;
+	color: white;
+	background: var(--color-neutral-60, hsl(220 10% 60%));
+	font-weight: bold;
+	padding-inline: .3em;
+	line-height: 1;
+	font-size: 80%;
+
+	&:is([data-gamut="srgb"] *) {
+		display: none;
+	}
+
+	&:is(:host([data-gamut="p3"]) *) {
+		background: var(--color-yellow, gold);
+		color: black;
+	}
+
+	&:is(:host([data-gamut="rec2020"]) *) {
+		background: var(--color-orange, orange);
+	}
+
+	&:is(:host([data-gamut="sl"]) *) {
+		background: var(--color-red, red);
+	}
+
+	&:is(:host([data-gamut="rec2020"]) *, :host([data-gamut="sl"]) *) {
+		&::after {
+			content: "+";
+		}
+	}
+}
+
+/* :host(:not([for])) slot[name="swatch"]:empty {
+	display: block;
+	height: 2em;
+	background: var(--color);
+} */
+
+:host(:not([for])) #swatch {
+	display: block;
+	inline-size: 2em;
+	border-radius: .2em;
+	background: var(--color);
+}
+
+:host(:not([for])):host([swatch="large"]) {
+	flex-flow: column;
+}
+
+:host(:not([for])):host([swatch="large"]) #swatch {
+	inline-size: auto;
+	block-size: 5em;
+}
