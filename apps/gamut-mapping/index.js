@@ -37,4 +37,11 @@ color_input.addEventListener("input", evt => {
 	}
 });
 
+let params = new URLSearchParams(location.search);
+let color = params.get("color");
+
+if (color) {
+	input_color.value = color;
+}
+
 color_input.dispatchEvent(new InputEvent("input"));
