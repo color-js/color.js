@@ -27,7 +27,9 @@ export default class CSSColor extends HTMLElement {
 		this.#dom.input = this.querySelector("input");
 		this.#dom.gamutIndicator = this.shadowRoot.querySelector("#gamut");
 
-		this.addEventListener("input", evt => this.#render());
+		(this.#dom.input ?? this).addEventListener("input", evt => {
+			this.#render();
+		});
 	}
 
 	connectedCallback () {
@@ -54,7 +56,6 @@ export default class CSSColor extends HTMLElement {
 		}
 
 		let value = this.value;
-
 		this.#color = null;
 
 		if (value) {
@@ -68,12 +69,7 @@ export default class CSSColor extends HTMLElement {
 				return;
 			}
 
-			try {
-				this.style.setProperty("--color", this.#color.display());
-			}
-			catch (e) {
-				this.style.setProperty("--color", value);
-			}
+			this.#setColor(this.#color);
 
 			this.#dom.input?.setCustomValidity("");
 		}
@@ -83,7 +79,7 @@ export default class CSSColor extends HTMLElement {
 
 	#renderGamut () {
 		if (this.#color) {
-			let gamut = gamuts.find(gamut => this.color.inGamut(gamut)) ?? "";
+			let gamut = gamuts.find(gamut => this.#color.inGamut(gamut)) ?? "";
 			this.dataset.gamut = this.#gamut = gamut;
 		}
 		else {
@@ -102,13 +98,17 @@ export default class CSSColor extends HTMLElement {
 	}
 
 	set value (value) {
+		this.#setValue(value);
+		this.#render();
+	}
+
+	#setValue (value) {
 		if (this.#dom.input) {
 			this.#dom.input.value = value;
 		}
 		else {
 			this.textContent = value;
 		}
-		this.#render();
 	}
 
 	#color
@@ -117,8 +117,24 @@ export default class CSSColor extends HTMLElement {
 	}
 
 	set color (color) {
+		if (typeof color === "string") {
+			color = new Color(color);
+		}
+
+		this.#setColor(color);
+		this.#setValue(color.toString({ precision: 3, inGamut: false}));
+		this.#renderGamut();
+	}
+
+	#setColor (color) {
 		this.#color = color;
-		this.value = color.toString({ precision: 3, inGamut: false});
+
+		try {
+			this.style.setProperty("--color", this.#color.display());
+		}
+		catch (e) {
+			this.style.setProperty("--color", this.value);
+		}
 	}
 
 	static observedAttributes = ["for"];

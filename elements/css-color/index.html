@@ -18,7 +18,7 @@
 	</style>
 </head>
 <body>
-	<h2>Static (not working)</h2>
+	<h2>Static</h2>
 	<css-color>oklch(70% 0.25 138)</css-color>
 	<css-color swatch="large">oklch(70% 0.25 138)</css-color>
 
@@ -29,5 +29,19 @@
 	<css-color swatch="large">
 		<input value="oklch(70% 0.25 138)" />
 	</css-color>
+
+	<h2>Update via JS</h2>
+	<h3>Static</h3>
+	<css-color id="dynamic_static">oklch(70% 0.25 138)</css-color>
+	<script type="module">
+		dynamic_static.color = "oklch(60% 0.15 0)"
+	</script>
+	<h3>Editable</h3>
+	<css-color id="dynamic_editable">
+		<input value="oklch(70% 0.25 138)" />
+	</css-color>
+	<script type="module">
+		dynamic_editable.color = "oklch(60% 0.15 0)"
+	</script>
 </body>
 </html>

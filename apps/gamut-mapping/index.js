@@ -3,9 +3,9 @@ import Color from "../../dist/color.js";
 globalThis.Color = Color;
 
 color_input.addEventListener("input", evt => {
-	console.log(evt)
 	let p3color = input_color.color.to("p3");
 	let p3Linear = input_color.color.to("p3-linear");
+
 	to_p3.color = p3color;
 	to_p3linear.color = p3Linear;
 
@@ -34,7 +34,6 @@ color_input.addEventListener("input", evt => {
 		else {
 			cssColor.color = color.toGamut({ method });
 		}
-
 	}
 });
 
