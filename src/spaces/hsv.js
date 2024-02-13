@@ -54,5 +54,12 @@ export default new ColorSpace({
 			(l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
 			l * 100
 		];
+	},
+
+	formats: {
+		color: {
+			id: "--hsv",
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
+		}
 	}
 });
