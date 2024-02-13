@@ -3,6 +3,7 @@
 	gap: .3em;
 	width: min-content;
 	white-space: nowrap;
+	--background-checkerboard: repeating-conic-gradient(rgb(0 0 0 / .12) 0 25%, transparent 0 50%) 0 0 / 1em 1em;
 }
 
 slot:not([name])::slotted(input) {
@@ -70,17 +71,11 @@ slot:not([name])::slotted(input) {
 	}
 }
 
-/* :host(:not([for])) slot[name="swatch"]:empty {
-	display: block;
-	height: 2em;
-	background: var(--color);
-} */
-
 :host(:not([for])) #swatch {
 	display: block;
 	inline-size: 2em;
 	border-radius: .2em;
-	background: var(--color);
+	background: linear-gradient(var(--color) 0 100%), var(--background-checkerboard);
 }
 
 :host(:not([for])):host([swatch="large"]) {
