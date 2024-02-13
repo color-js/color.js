@@ -3,6 +3,7 @@ import Color from "https://colorjs.io/dist/color.js";
 
 const gamuts = ["srgb", "p3", "rec2020"];
 
+let styleURL = new URL("./style.css", import.meta.url);
 let importIncrementable = import("https://incrementable.verou.me/incrementable.mjs").then(m => m.default);
 
 export default class CSSColor extends HTMLElement {
@@ -12,7 +13,7 @@ export default class CSSColor extends HTMLElement {
 		super();
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.innerHTML = `
-			<style>@import url("./style.css")</style>
+			<style>@import url("${ styleURL }")</style>
 			<slot name="swatch">
 				<div id="swatch" part="swatch"></div>
 			</slot>
