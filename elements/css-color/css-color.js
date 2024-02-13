@@ -1,4 +1,4 @@
-import Color from "https://colorjs.io/dist/color.js";
+import Color from "../../dist/color.js";
 // const styles = await fetch("./style.css").then(r => r.text());
 
 const gamuts = ["srgb", "p3", "rec2020"];
@@ -19,23 +19,30 @@ export default class CSSColor extends HTMLElement {
 			</slot>
 			<div id="wrapper">
 				<slot></slot>
-				<span id="gamut" part="gamut">P3</span>
+				<span id="gamut" part="gamut"></span>
 			</div>
 		`;
 
-		this.#dom.wrapper = this.shadowRoot.querySelector("div");
+		this.#dom.wrapper = this.shadowRoot.querySelector("#wrapper");
 		this.#dom.input = this.querySelector("input");
 		this.#dom.gamutIndicator = this.shadowRoot.querySelector("#gamut");
 
-		if (this.#dom.input) {
-			this.addEventListener("input", evt => this.#render());
-
-			// Increment numbers by keyboard arrow keys
-			importIncrementable.then(Incrementable => new Incrementable(this.#dom.input));
-		}
+		this.addEventListener("input", evt => this.#render());
 	}
 
 	connectedCallback () {
+		if (this.#dom.input) {
+			if (!this.#dom.input.incrementable) {
+				// Increment numbers by keyboard arrow keys
+				importIncrementable.then(Incrementable => new Incrementable(this.#dom.input));
+			}
+			this.#dom.wrapper.classList.remove("static");
+		}
+		else {
+			// This should eventually be a custom state
+			this.#dom.wrapper.classList.add("static");
+		}
+
 		this.#render();
 	}
 
@@ -48,12 +55,13 @@ export default class CSSColor extends HTMLElement {
 			return;
 		}
 
-		let value = this.#dom.input?.value ?? this.textContent.trim();
-		this.style.setProperty("--color", value);
+		let value = this.value;
+
+		this.#color = null;
 
 		if (value) {
 			try {
-				this.color = new Color(value);
+				this.#color = new Color(value);
 			}
 			catch (e) {
 				// Why a timeout? We don't want to produce errors for intermediate states while typing,
@@ -62,15 +70,57 @@ export default class CSSColor extends HTMLElement {
 				return;
 			}
 
-			this.#dom.input?.setCustomValidity("");
+			try {
+				this.style.setProperty("--color", this.#color.display());
+			}
+			catch (e) {
+				this.style.setProperty("--color", value);
+			}
 
-			let gamut = gamuts.find(gamut => this.color.inGamut(gamut)) ?? "sl";
-			this.dataset.gamut = gamut;
+			this.#dom.input?.setCustomValidity("");
+		}
+
+		this.#renderGamut();
+	}
+
+	#renderGamut () {
+		if (this.#color) {
+			let gamut = gamuts.find(gamut => this.color.inGamut(gamut)) ?? "";
+			this.dataset.gamut = this.#gamut = gamut;
 		}
 		else {
-			this.dataset.gamut = "";
+			this.#gamut = null;
+			this.removeAttribute("data-gamut");
 		}
+	}
 
+	#gamut
+	get gamut () {
+		return this.#gamut;
+	}
+
+	get value () {
+		return this.#dom.input?.value ?? this.textContent.trim()
+	}
+
+	set value (value) {
+		if (this.#dom.input) {
+			this.#dom.input.value = value;
+		}
+		else {
+			this.textContent = value;
+		}
+		this.#render();
+	}
+
+	#color
+	get color () {
+		return this.#color;
+	}
+
+	set color (color) {
+		this.#color = color;
+		this.value = color.toString({ precision: 3, inGamut: false});
 	}
 
 	static observedAttributes = ["for"];
