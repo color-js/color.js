@@ -32,7 +32,7 @@ export default class CSSColor extends HTMLElement {
 
 	connectedCallback () {
 		// This should eventually be a custom state
-		this.#dom.wrapper.classList.toggle("static", this.#dom.input);
+		this.#dom.wrapper.classList.toggle("static", !this.#dom.input);
 
 		if (this.#dom.input) {
 			if (!this.#dom.input.incrementable) {
