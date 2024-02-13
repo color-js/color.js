@@ -13,7 +13,15 @@ input {
 }
 
 css-color input {
+	padding: .15em .3em .1em;
+	border: 1px solid hsl(220 10% 78%);
+	border-radius: .25em;
 	font-family: var(--font-mono);
+
+	&:invalid {
+		background-color: hsl(0 60% 95%);
+		border-color: hsl(0 60% 80%);
+	}
 }
 
 dl {
