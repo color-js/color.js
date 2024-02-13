@@ -97,11 +97,11 @@ export default new ColorSpace({
 			name: "Hue"
 		},
 		s: {
-			refRange: [0, 100],
+			range: [0, 100],
 			name: "Saturation"
 		},
 		l: {
-			refRange: [0, 100],
+			range: [0, 100],
 			name: "Lightness"
 		}
 	},
