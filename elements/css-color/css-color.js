@@ -11,7 +11,7 @@ export default class CSSColor extends HTMLElement {
 
 	constructor () {
 		super();
-		this.attachShadow({mode: 'open'});
+		this.attachShadow({mode: "open"});
 		this.shadowRoot.innerHTML = `
 			<style>@import url("${ styleURL }")</style>
 			<slot name="swatch">
@@ -24,7 +24,7 @@ export default class CSSColor extends HTMLElement {
 		`;
 	}
 
-	#initialized
+	#initialized;
 
 	connectedCallback () {
 		if (!this.#initialized) {
@@ -112,13 +112,13 @@ export default class CSSColor extends HTMLElement {
 		}
 	}
 
-	#gamut
+	#gamut;
 	get gamut () {
 		return this.#gamut;
 	}
 
 	get value () {
-		return this.#dom.input?.value ?? this.textContent.trim()
+		return this.#dom.input?.value ?? this.textContent.trim();
 	}
 
 	set value (value) {
@@ -143,7 +143,7 @@ export default class CSSColor extends HTMLElement {
 		}
 	}
 
-	#color
+	#color;
 	get color () {
 		return this.#color;
 	}

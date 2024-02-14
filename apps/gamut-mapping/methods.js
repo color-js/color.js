@@ -34,7 +34,7 @@ const methods = {
 
 			let scaledCoords = deltas.map((delta, i) => {
 				let scaled = delta / scalingFactor;
-				return scaled + .5
+				return scaled + .5;
 			});
 
 			return new Color("p3-linear", scaledCoords).to("p3");
