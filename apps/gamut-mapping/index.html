@@ -50,7 +50,7 @@
 								positive: delta > 0,
 								negative: delta < 0,
 								zero: delta === 0,
-								min: minDeltas[c] === delta,
+								min: minDeltas[c] === abs(delta),
 							}">{{ delta }}</dd>
 						</template>
 					</dl>

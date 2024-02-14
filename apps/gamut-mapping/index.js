@@ -103,6 +103,7 @@ let app = createApp({
 
 	methods: {
 		toPrecision: Color.util.toPrecision,
+		abs: Math.abs
 	},
 
 	watch: {
