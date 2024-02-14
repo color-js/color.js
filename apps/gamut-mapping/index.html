@@ -15,64 +15,66 @@
 		<p>Use keyboard arrow keys to increment/decrement, share by copying the URL</p>
 	</header>
 
-	<section id="rendering">
-		<h2>Browser rendering</h2>
+	<article class="color">
+		<section class="rendering">
+			<h2>Browser rendering</h2>
 
-		<dl class="swatches">
-			<div>
-				<dt>Input
-					<small class="description">The color as displayed directly by the browser.</small>
-				</dt>
-				<dd>
-					<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="colorInput">
-						<input v-model="colorInput" />
-					</css-color>
-					<details class="space-coords">
-						<summary>Raw coordinates</summary>
-						<dl class="space-coords">
-							<div v-for="(space, spaceIndex) of spaces">
-								<dt>{{ space.name }}</dt>
-								<dd>
-									<dl class="coords">
-										<div v-for="(info, c) of space.coords">
-											<dt :title="info.name">{{ c.toUpperCase() }}</dt>
-											<dd>{{ toPrecision(info.value, 3) }}</dd>
-										</div>
-									</dl>
-								</dd>
-							</div>
+			<dl class="swatches">
+				<div>
+					<dt>Input
+						<small class="description">The color as displayed directly by the browser.</small>
+					</dt>
+					<dd>
+						<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="colorInput">
+							<input v-model="colorInput" />
+						</css-color>
+						<details class="space-coords">
+							<summary>Raw coordinates</summary>
+							<dl class="space-coords">
+								<div v-for="(space, spaceIndex) of spaces">
+									<dt>{{ space.name }}</dt>
+									<dd>
+										<dl class="coords">
+											<div v-for="(info, c) of space.coords">
+												<dt :title="info.name">{{ c.toUpperCase() }}</dt>
+												<dd>{{ toPrecision(info.value, 3) }}</dd>
+											</div>
+										</dl>
+									</dd>
+								</div>
+							</dl>
+						</details>
+					</dd>
+				</div>
+			</dl>
+		</section>
+
+		<section class="gamut-mapped">
+			<h2>Gamut mapped</h2>
+
+			<dl class="swatches">
+				<div v-for="(config, method) in methods" :id="'method-' + method" :data-ranking="ranking.findIndex(e => e === mapped[method]?.deltas.E) + 1">
+					<dt>
+						{{ config.label ?? method[0].toUpperCase() + method.slice(1) }}
+						<small v-if="config.description" class="description">{{ config.description }}</small>
+					</dd>
+					<dd>
+						<css-color swatch="large" :color="mapped[method].color"></css-color>
+						<dl class="deltas" v-if="!color.inGamut('p3')">
+							<div v-for="(delta, c) of mapped[method].deltas" :class="'delta-' + c.toLowerCase()">
+								<dt>Δ{{ c }}</dt>
+								<dd :class="{
+									positive: c !== 'E' && delta > 0,
+									negative: delta < 0,
+									zero: delta === 0,
+									min: minDeltas[c] === abs(delta),
+								}">{{ delta }}</dd>
+							</di>
 						</dl>
-					</details>
-				</dd>
-			</div>
-		</dl>
-	</section>
-
-	<section id="gamut-mapped">
-		<h2>Gamut mapped</h2>
-
-		<dl class="swatches" id="gamut_mapped">
-			<div v-for="(config, method) in methods" :id="'method-' + method" :data-ranking="ranking.findIndex(e => e === mapped[method]?.deltas.E) + 1">
-				<dt>
-					{{ config.label ?? method[0].toUpperCase() + method.slice(1) }}
-					<small v-if="config.description" class="description">{{ config.description }}</small>
-				</dd>
-				<dd>
-					<css-color swatch="large" :color="mapped[method].color"></css-color>
-					<dl class="deltas" v-if="!color.inGamut('p3')">
-						<div v-for="(delta, c) of mapped[method].deltas" :class="'delta-' + c.toLowerCase()">
-							<dt>Δ{{ c }}</dt>
-							<dd :class="{
-								positive: c !== 'E' && delta > 0,
-								negative: delta < 0,
-								zero: delta === 0,
-								min: minDeltas[c] === abs(delta),
-							}">{{ delta }}</dd>
-						</di>
-					</dl>
-				</dd>
-			</div>
-		</dl>
-	</section>
+					</dd>
+				</div>
+			</dl>
+		</section>
+	</article>
 </body>
 </html>

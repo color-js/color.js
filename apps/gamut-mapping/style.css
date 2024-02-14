@@ -13,16 +13,19 @@ body {
 		grid-template-columns: auto 1fr;
 		gap: 0em 2em;
 
-		> header {
+		> header,
+		.color {
 			grid-column: 1 / -1;
 		}
 
-		#gamut-mapped {
-			grid-column: 2 / -1;
+		.color {
+			display: grid;
+			grid-template-columns: subgrid;
+			gap: inherit;
 		}
 
-		#coordinates {
-			grid-column: 1 / 3;
+		.gamut-mapped {
+			grid-column: 2 / -1;
 		}
 	}
 }
@@ -235,13 +238,13 @@ dl.deltas {
 	}
 }
 
-#rendering {
+.rendering {
 	.swatches > div > dt {
 		margin-top: 1.1em;
 	}
 }
 
-#gamut-mapped {
+.gamut-mapped {
 	css-color {
 		font-size: 90%;
 	}
