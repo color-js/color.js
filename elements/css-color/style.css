@@ -54,7 +54,6 @@
 #wrapper {
 	display: flex;
 	position: relative;
-	width: min-content;
 
 	&.static {
 		gap: .4em;
@@ -80,12 +79,15 @@
 	}
 }
 
-
 :host(:not([for])) #swatch {
 	display: block;
 	inline-size: 2em;
 	border-radius: .2em;
 	background: linear-gradient(var(--color, transparent) 0 100%), var(--background-checkerboard);
+}
+
+:host([swatch="none"]) #swatch {
+	display: none;
 }
 
 :host(:not([for])):host([swatch="large"]) {
@@ -95,4 +97,9 @@
 :host(:not([for])):host([swatch="large"]) #swatch {
 	inline-size: auto;
 	block-size: 5em;
+}
+
+:host(:not([for])):host([swatch="large"]) #wrapper.static slot {
+	display: flex;
+	flex: 1;
 }
