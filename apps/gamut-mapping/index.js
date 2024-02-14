@@ -8,7 +8,7 @@ const lch = ["L", "C", "H"];
 
 for (let method in methods) {
 	let config = methods[method];
-	let label = config.label ?? config;
+	let label = config.label ?? method[0].toUpperCase() + method.slice(1);
 
 	gamut_mapped.insertAdjacentHTML("beforeend", `
 		<div>
@@ -38,7 +38,7 @@ css_color_input.addEventListener("input", evt => {
 	to_p3linear.color = p3Linear;
 
 	let deltasMap = new Map();
-	let minDeltas = [{value: Infinity}, {value: Infinity}, {value: Infinity}];
+	let minDeltas;
 
 	for (let cssColor of gamut_mapped.querySelectorAll("css-color")) {
 		let method = cssColor.dataset.method;
@@ -58,12 +58,14 @@ css_color_input.addEventListener("input", evt => {
 			continue;
 		}
 
+		minDeltas ??= [{value: Infinity}, {value: Infinity}, {value: Infinity}];
+
 		let mappedColor;
 
 		let methodConfig = methods[method];
 
 		if (methodConfig.compute) {
-			mappedColor = methodConfig.compute(p3Linear);
+			mappedColor = methodConfig.compute(inputColor);
 		}
 		else {
 			mappedColor = color.toGamut({ method });
@@ -76,8 +78,16 @@ css_color_input.addEventListener("input", evt => {
 		let deltas = inputColor.to("oklch").coords.map((c, i) => mappedColorLCH[i] - c);
 		deltasMap.set(cssColor, deltas);
 		stats.innerHTML = deltas.map((delta, i) => {
-			if (minDeltas[i].value > Math.abs(delta)) {
-				minDeltas[i] = {value: Math.abs(delta), stats, index: i};
+			let minDelta = minDeltas[i];
+			if (minDelta.value >= Math.abs(delta)) {
+				if (minDelta.value == Math.abs(delta)) {
+					minDelta.stats = [].concat(minDelta.stats);
+					minDelta.stats.push(stats);
+				}
+				else {
+					minDeltas[i] = {value: Math.abs(delta), stats, index: i};
+				}
+
 			}
 
 			delta = Color.util.toPrecision(delta, 2);
@@ -87,10 +97,14 @@ css_color_input.addEventListener("input", evt => {
 	}
 
 	// Find min deltas
-	for (let minDelta of minDeltas) {
-		// 0 -> 1, 1 -> 3, 2 -> 5
-		let dd = minDelta.stats.children[minDelta.index * 2 + 1];
-		dd.classList.add("min");
+	if (minDeltas) {
+		for (let minDelta of minDeltas) {
+			let index = minDelta.index * 2 + 1;
+			for (let dl of [].concat(minDelta.stats)) {
+				let dd = dl.children[minDelta.index * 2 + 1];
+				dd.classList.add("min");
+			}
+		}
 	}
 });
 

@@ -6,6 +6,17 @@ body {
 	font: 100%/1.5 system-ui;
 	max-width: 80em;
 	margin: 1em auto;
+	padding-inline: 1em;
+}
+
+body > header {
+	text-align: center;
+	margin-bottom: 2em;
+
+	h1 {
+		font-size: calc(200% + 2vh + 2vw);
+		margin-bottom: 0;
+	}
 }
 
 input {
