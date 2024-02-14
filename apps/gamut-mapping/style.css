@@ -16,6 +16,7 @@ body > header {
 	h1 {
 		font-size: calc(200% + 2vh + 2vw);
 		margin-bottom: 0;
+		line-height: 1.1;
 	}
 }
 
