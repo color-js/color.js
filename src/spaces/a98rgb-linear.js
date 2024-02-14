@@ -23,5 +23,10 @@ export default new RGBColorSpace({
 	name: "Linear Adobe® 98 RGB compatible",
 	white: "D65",
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
+	formats: {
+		color: {
+			id: "--a98rgb-linear"
+		}
+	}
 });

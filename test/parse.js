@@ -325,6 +325,38 @@ const tests = {
 					expect: '{"spaceId":"hsv","coords":[25,50,75],"alpha":1}'
 				},
 				{
+					args: "color(--a98rgb-linear 0 1 .5)",
+					expect: '{"spaceId":"a98rgb-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--a98rgb-linear 0 100% 50%)",
+					expect: '{"spaceId":"a98rgb-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--p3-linear 0 1 .5)",
+					expect: '{"spaceId":"p3-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--p3-linear 0% 100% 50%)",
+					expect: '{"spaceId":"p3-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--prophoto-linear 0 1 .5)",
+					expect: '{"spaceId":"prophoto-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--prophoto-linear 0 100% 50%)",
+					expect: '{"spaceId":"prophoto-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--xyz-abs-d65 0 1 .5)",
+					expect: '{"spaceId":"xyz-abs-d65","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--xyz-abs-d65 0 100% 50%)",
+					expect: '{"spaceId":"xyz-abs-d65","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
 					name: "With transparency",
 					args: "color(display-p3 0 1 0 / .5)",
 					expect: '{"spaceId":"p3","coords":[0,1,0],"alpha":0.5}'

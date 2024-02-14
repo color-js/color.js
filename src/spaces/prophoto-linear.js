@@ -23,5 +23,10 @@ export default new RGBColorSpace({
 	white: "D50",
 	base: XYZ_D50,
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
+	formats: {
+		color: {
+			id: "--prophoto-linear"
+		}
+	}
 });

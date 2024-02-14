@@ -17,5 +17,10 @@ export default new RGBColorSpace({
 	name: "Linear P3",
 	white: "D65",
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
+	formats: {
+		color: {
+			id: "--p3-linear"
+		}
+	}
 });

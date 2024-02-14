@@ -35,5 +35,11 @@ export default new ColorSpace({
 	toBase (AbsXYZ) {
 		// Convert to media-white relative XYZ
 		return AbsXYZ.map(v => Math.max(v / Yw, 0));
+	},
+
+	formats: {
+		color: {
+			id: "--xyz-abs-d65"
+		}
 	}
 });
