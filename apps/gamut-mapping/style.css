@@ -7,6 +7,17 @@ body {
 	max-width: 80em;
 	margin: 1em auto;
 	padding-inline: 1em;
+
+	@media (width > 80em) {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0em 2em;
+
+		> header,
+		#gamut-mapped {
+			grid-column: 1 / -1;
+		}
+	}
 }
 
 body > header {
@@ -77,16 +88,38 @@ dl.swatches {
 	}
 }
 
-dl.deltas {
+#coords {
+	display: grid;
+	gap: .5em;
+	grid-template-columns: auto repeat(3, auto);
+
+	> div {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: subgrid;
+	}
+
+	dd {
+		display: contents;
+	}
+
+	dl.coords {
+		grid-column: 2 / span 3;
+		display: grid;
+		grid-template-columns: subgrid;
+	}
+}
+
+dl.deltas,
+dl.coords {
 	display: flex;
 	gap: .1em;
 	margin: 0;
-	margin-top: .6em;
-	border-top: 1px solid hsl(220 10% 80%);
-	padding-block: .1em;
-	padding-left: .1em;
-	padding-right: .5em;
-	width: max-content;
+
+	> div {
+		display: flex;
+		gap: .3em;
+	}
 
 	dt {
 		font-weight: 300;
@@ -100,7 +133,18 @@ dl.deltas {
 	dd {
 		font-weight: bold;
 		margin: 0;
+	}
+}
 
+dl.deltas {
+	border-top: 1px solid hsl(220 10% 80%);
+	padding-block: .1em;
+	padding-left: .1em;
+	padding-right: .5em;
+	width: max-content;
+	margin-top: .6em;
+
+	dd {
 		&.negative,
 		&.positive {
 			color: var(--color-red-40, hsl(0 60% 30%));

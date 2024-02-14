@@ -22,17 +22,15 @@ export default class CSSColor extends HTMLElement {
 				<span id="gamut" part="gamut"></span>
 			</div>
 		`;
-
-		this.#dom.wrapper = this.shadowRoot.querySelector("#wrapper");
-		this.#dom.input = this.querySelector("input");
-		this.#dom.gamutIndicator = this.shadowRoot.querySelector("#gamut");
-
-		(this.#dom.input ?? this).addEventListener("input", evt => {
-			this.#render();
-		});
 	}
 
+	#initialized
+
 	connectedCallback () {
+		if (!this.#initialized) {
+			this.#initialize();
+		}
+
 		// This should eventually be a custom state
 		this.#dom.wrapper.classList.toggle("static", !this.#dom.input);
 
@@ -48,7 +46,24 @@ export default class CSSColor extends HTMLElement {
 
 	#errorTimeout;
 
+	#initialize () {
+		this.#dom.wrapper = this.shadowRoot.querySelector("#wrapper");
+		this.#dom.input = this.querySelector("input");
+		this.#dom.gamutIndicator = this.shadowRoot.querySelector("#gamut");
+
+		if (this.#dom.input) {
+			this.#dom.input.addEventListener("input", evt => {
+				this.#render();
+			});
+		}
+		this.#initialized = true;
+	}
+
 	#render () {
+		if (!this.#initialized) {
+			return;
+		}
+
 		clearTimeout(this.#errorTimeout);
 
 		if (!this.isConnected) {
@@ -65,16 +80,25 @@ export default class CSSColor extends HTMLElement {
 			catch (e) {
 				// Why a timeout? We don't want to produce errors for intermediate states while typing,
 				// but if this is a genuine error, we do want to communicate it.
+
 				this.#errorTimeout = setTimeout(_ => this.#dom.input?.setCustomValidity(e.message), 500);
-				return;
 			}
 
-			this.#setColor(this.#color);
+			if (this.#color) {
+				this.#setColor(this.#color);
+				this.#dom.input?.setCustomValidity("");
+			}
 
-			this.#dom.input?.setCustomValidity("");
+			this.dispatchEvent(new CustomEvent("colorchange", {
+				detail: {
+					color: this.#color
+				}
+			}));
 		}
 
-		this.#renderGamut();
+		if (this.#color) {
+			this.#renderGamut();
+		}
 	}
 
 	#renderGamut () {
@@ -98,11 +122,19 @@ export default class CSSColor extends HTMLElement {
 	}
 
 	set value (value) {
+		let oldValue = this.value;
+		if (value === oldValue) {
+			return;
+		}
 		this.#setValue(value);
 		this.#render();
 	}
 
 	#setValue (value) {
+		if (!this.#initialized) {
+			this.#initialize();
+		}
+
 		if (this.#dom.input) {
 			this.#dom.input.value = value;
 		}
@@ -140,4 +172,4 @@ export default class CSSColor extends HTMLElement {
 	static observedAttributes = ["for"];
 }
 
-customElements.define('css-color', CSSColor);
+customElements.define("css-color", CSSColor);
