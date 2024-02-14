@@ -27,15 +27,34 @@ export interface CoordMeta {
 }
 
 export interface Options {
+	/** Id of this space, used in things such as conversions */
 	id: string;
+	/** The readable name of the space, used in user-facing UI */
 	name: string;
+	/** The base color space */
 	base?: string | ColorSpace | null | undefined;
+	/**
+	 * Function that converts coords in the base color space to coords in this color space.
+	 * Must perform chromatic adaptation if needed
+	*/
 	fromBase?: ((coords: Coords) => number[]) | undefined;
+	/**
+	 * Function that converts coords in this color space to coords in the base color space.
+	 * Must perform chromatic adaptation if needed
+	 */
 	toBase?: ((coords: Coords) => number[]) | undefined;
+	/**
+	 * Object mapping coord ids to coord metadata
+	 * @see {@link CoordMeta}
+	*/
 	coords?: Record<string, CoordMeta> | undefined;
 	white?: string | White | undefined;
 	cssId?: string | undefined;
 	referred?: string | undefined;
+	/**
+	 * Details about string formats to parse from / serialize to
+	 * @see {@link Format}
+	*/
 	formats?: Record<string, Format> | undefined;
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
 }
@@ -45,6 +64,7 @@ export type Ref =
 	| [string | ColorSpace, string]
 	| { space: string | ColorSpace; coordId: string };
 
+/** Class for color spaces. Each color space corresponds to a `ColorSpace` instance */
 export default class ColorSpace {
 	constructor (options: Options);
 
