@@ -41,6 +41,12 @@ body > header {
 	}
 }
 
+h2 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 150%;
+}
+
 input {
 	font: inherit;
 }
@@ -61,6 +67,8 @@ dl.swatches {
 	display: grid;
 	gap: 1.5em;
 	grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+	margin: 0;
+	margin-top: .5rem;
 
 	> div {
 		position: relative;
@@ -252,4 +260,49 @@ dl.deltas {
 	.deltas {
 		justify-content: space-between;
 	}
+}
+
+article.color {
+	position: relative;
+	margin-bottom: 1rem;
+
+	&:not(:first-child) {
+		margin-top: 3rem;
+	}
+}
+
+button {
+	display: flex;
+	align-items: center;
+	padding: .3em .7em;
+	font: inherit;
+	background: hsl(220 10% 94%);
+	border: none;
+	border-radius: .25em;
+	cursor: pointer;
+	transform-origin: bottom;
+	transition: .1s;
+	width: max-content;
+
+	&:hover {
+		background: hsl(220 10% 90%)
+	}
+
+	&:active {
+		scale: .9;
+	}
+
+	svg {
+		height: 1em;
+		margin-right: .3em;
+		opacity: .4;
+	}
+}
+
+.controls {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: flex;
+	gap: .3em;
 }
