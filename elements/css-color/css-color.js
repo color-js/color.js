@@ -154,7 +154,7 @@ export default class CSSColor extends HTMLElement {
 		}
 
 		this.#setColor(color);
-		this.#setValue(color.toString({ precision: 3, inGamut: false}));
+		this.#setValue(color.toString({ precision: 2, inGamut: false}));
 		this.#renderGamut();
 	}
 

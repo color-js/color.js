@@ -56,14 +56,39 @@ css-color input {
 
 dl.swatches {
 	display: grid;
-	gap: 1em;
+	gap: 1.5em;
 	grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
 
 	> div {
+		position: relative;
 		display: grid;
 		grid-template-rows: subgrid;
 		grid-row-end: span 2;
 		gap: .5em;
+
+		&[data-ranking="1"],
+		&[data-ranking="2"],
+		&[data-ranking="3"] {
+			& > dt::before {
+				content: var(--award);
+				position: absolute;
+				top: 0;
+				right: 0;
+				font-size: 200%;
+			}
+		}
+
+		&[data-ranking="1"] {
+			--award: "🥇";
+		}
+
+		&[data-ranking="2"] {
+			--award: "🥈";
+		}
+
+		&[data-ranking="3"] {
+			--award: "🥉";
+		}
 	}
 
 	.description {
@@ -149,9 +174,13 @@ dl.coords {
 	gap: .1em;
 	margin: 0;
 
+	&:has(> div) {
+		gap: .4em;
+	}
+
 	> div {
 		display: flex;
-		gap: .3em;
+		gap: .2em;
 	}
 
 	dt {
@@ -171,11 +200,9 @@ dl.coords {
 
 dl.deltas {
 	border-top: 1px solid hsl(220 10% 80%);
-	padding-block: .1em;
-	padding-left: .1em;
-	padding-right: .5em;
-	width: max-content;
-	margin-top: .6em;
+	padding: .1em 0;
+	margin-top: .8em;
+	font-size: 90%;
 
 	dd {
 		&.negative,
@@ -208,5 +235,9 @@ dl.deltas {
 #gamut-mapped {
 	css-color {
 		font-size: 90%;
+	}
+
+	.deltas {
+		justify-content: space-between;
 	}
 }

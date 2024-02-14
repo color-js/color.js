@@ -67,17 +67,24 @@ let app = createApp({
 				}
 
 				let mappedColorLCH = mappedColor.to("oklch");
-				let deltas = Object.fromEntries(lch.map((c, i) => {
+				let deltas = {E: this.toPrecision(this.color.deltaE(mappedColor, { method: "2000" }), 2)};
+
+				lch.forEach((c, i) => {
 					let delta = mappedColorLCH.coords[i] - this.colorLCH.coords[i];
+
+					if (c === "L") {
+						// L is percentage
+						delta *= 100;
+					}
+					else if (c === "H") {
+						// Hue is angular, so we need to normalize it
+						delta = ((delta % 360) + 720) % 360;
+						delta = Math.min(360 - delta, delta);
+					}
+
 					delta = this.toPrecision(delta, 2);
-					return [c, delta];
-				}));
-
-				deltas.L *= 100; // L is percentage
-
-				// Hue is angular, so we need to normalize it
-				deltas.H = ((deltas.H % 360) + 720) % 360;
-				deltas.H = this.toPrecision(Math.min(360 - deltas.H, deltas.H), 2);
+					deltas[c] = delta;
+				});
 
 				return [method, {color: mappedColor, deltas}];
 			}));
@@ -99,6 +106,13 @@ let app = createApp({
 			}
 			return ret;
 		},
+
+		ranking () {
+			let deltaEs = Object.entries(this.mapped).map(([method, {deltas}]) => deltas.E);
+			deltaEs = deltaEs.map(e => this.toPrecision(e, 2));
+			deltaEs.sort((a, b) => a - b);
+			return deltaEs;
+		}
 	},
 
 	methods: {

@@ -52,7 +52,7 @@
 		<h2>Gamut mapped</h2>
 
 		<dl class="swatches" id="gamut_mapped">
-			<div v-for="(config, method) in methods" :id="'method-' + method">
+			<div v-for="(config, method) in methods" :id="'method-' + method" :data-ranking="ranking.findIndex(e => e === mapped[method]?.deltas.E) + 1">
 				<dt>
 					{{ config.label ?? method[0].toUpperCase() + method.slice(1) }}
 					<small v-if="config.description" class="description">{{ config.description }}</small>
@@ -60,15 +60,15 @@
 				<dd>
 					<css-color swatch="large" :color="mapped[method].color"></css-color>
 					<dl class="deltas" v-if="!color.inGamut('p3')">
-						<template v-for="(delta, c) of mapped[method].deltas">
+						<div v-for="(delta, c) of mapped[method].deltas" :class="'delta-' + c.toLowerCase()">
 							<dt>Δ{{ c }}</dt>
 							<dd :class="{
-								positive: delta > 0,
+								positive: c !== 'E' && delta > 0,
 								negative: delta < 0,
 								zero: delta === 0,
 								min: minDeltas[c] === abs(delta),
-							}">{{ toPrecision(delta, 2) }}</dd>
-						</template>
+							}">{{ delta }}</dd>
+						</di>
 					</dl>
 				</dd>
 			</div>
