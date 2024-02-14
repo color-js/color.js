@@ -17,42 +17,33 @@
 
 	<h2>Browser rendering</h2>
 
-	<dl>
-		<dt>Input</dt>
-		<dd>
-			<css-color swatch="large" id="css_color">
-				<input value="oklch(70% 0.3 138)" id="css_color_input" />
-			</css-color>
-		</dd>
+	<dl class="swatches">
+		<div>
+			<dt>Input</dt>
+			<dd>
+				<css-color swatch="large" id="css_color">
+					<input value="oklch(70% 0.3 138)" id="css_color_input" />
+				</css-color>
+			</dd>
+		</div>
 
-		<dt>To P3</dt>
-		<dd>
-			<css-color swatch="large" id="to_p3"></css-color>
-		</dd>
+		<div>
+			<dt>To P3</dt>
+			<dd>
+				<css-color swatch="large" id="to_p3"></css-color>
+			</dd>
+		</div>
 
-		<dt>To P3 Linear</dt>
-		<dd>
-			<css-color swatch="large" id="to_p3linear"></css-color>
-		</dd>
+		<div>
+			<dt>To P3 Linear</dt>
+			<dd>
+				<css-color swatch="none" id="to_p3linear"></css-color>
+			</dd>
+		</div>
 	</dl>
 
 	<h2>Gamut mapped</h2>
 
-	<dl id="gamut_mapped">
-		<dt>Clip:</dt>
-		<dd>
-			<css-color swatch="large" data-method="clip"></css-color>
-		</dd>
-
-		<dt>CSS:</dt>
-		<dd>
-			<css-color swatch="large" data-method="css"></css-color>
-		</dd>
-
-		<dt>Scale:</dt>
-		<dd>
-			<css-color swatch="large" data-method="scale"></css-color>
-		</dd>
-	</dl>
+	<dl class="swatches" id="gamut_mapped"></dl>
 </body>
 </html>

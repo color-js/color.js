@@ -5,6 +5,40 @@ globalThis.Color = Color;
 const favicon = document.querySelector('link[rel="shortcut icon"]');
 const lch = ["L", "C", "H"];
 
+let methods = {
+	"clip": "Clip",
+	"css": "CSS",
+	"scale": {
+		label: "Scale",
+		compute: (p3Linear) => {
+			let deltas = p3Linear.coords.map(c => c - .5);
+			let distances = deltas.map(c => Math.abs(c));
+			let max = Math.max(...distances);
+			let factor = max / .5;
+
+			let mapped = deltas.map((delta, i) => {
+				let scaled = delta / factor;
+				return scaled + .5
+			});
+
+			return new Color("p3-linear", mapped).to("p3");
+		}
+	},
+}
+
+for (let method in methods) {
+	let config = methods[method];
+	let label = config.label ?? config;
+
+	gamut_mapped.insertAdjacentHTML("beforeend", `
+		<div>
+			<dt>${ label }:</dd>
+			<dd>
+				<css-color swatch="large" data-method="${ method }"></css-color>
+			</dd>
+		</div>`);
+}
+
 css_color_input.addEventListener("input", evt => {
 	if (css_color.color === null) {
 		// Probably typing
@@ -43,18 +77,10 @@ css_color_input.addEventListener("input", evt => {
 
 		let mappedColor;
 
-		if (method === "scale") {
-			let deltas = p3Linear.coords.map(c => c - .5);
-			let distances = deltas.map(c => Math.abs(c));
-			let max = Math.max(...distances);
-			let factor = max / .5;
+		let methodConfig = methods[method];
 
-			let mapped = deltas.map((delta, i) => {
-				let scaled = delta / factor;
-				return scaled + .5
-			});
-
-			mappedColor = new Color("p3-linear", mapped).to("p3");
+		if (methodConfig.compute) {
+			mappedColor = methodConfig.compute(p3Linear);
 		}
 		else {
 			mappedColor = color.toGamut({ method });

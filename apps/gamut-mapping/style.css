@@ -4,7 +4,7 @@
 
 body {
 	font: 100%/1.5 system-ui;
-	max-width: 90ch;
+	max-width: 80em;
 	margin: 1em auto;
 }
 
@@ -24,21 +24,31 @@ css-color input {
 	}
 }
 
-dl {
+dl.swatches {
 	display: grid;
-	gap: .5em;
-	grid-auto-flow: row;
+	gap: 2em;
+	grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+
+	> div {
+		display: flex;
+		flex-flow: column;
+		gap: .3em;
+	}
 
 	dt {
-		grid-row: 1;
+
 	}
 
 	dd {
-		grid-row: 2;
 		margin: 0;
 	}
 
+	css-color {
+		width: 100%;
+	}
+
 	input {
+		width: 100%;
 		min-width: 25ch;
 	}
 
