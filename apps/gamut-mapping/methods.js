@@ -1,4 +1,5 @@
 import Color from "../../dist/color.js";
+import { WHITES } from "../../src/adapt.js";
 
 const methods = {
 	"clip": {
@@ -20,6 +21,38 @@ const methods = {
 				"oklch.h": lch[2]
 			});
 			return methods.scale.compute(mappedColor);
+		}
+	},
+	"scale-lh2": {
+		label: "Scale LH 2",
+		description: "Identical to Scale LH 2, and handles L=0/1, and noop if already in gamut.",
+		compute: (color) => {
+			if (color.inGamut("p3")) {
+				return color.to("p3");
+			}
+			let [lightness] = color.to("oklch").coords;
+			if (lightness >= 1) {
+				return new Color({ space: "xyz-d65", coords: WHITES["D65"] }).to("p3");
+			}
+			else if (lightness <= 0) {
+				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
+			}
+			let mappedColor = methods.scale.compute(color);
+			let lch = color.to("oklch").coords;
+			mappedColor.set({
+				"oklch.l": lch[0],
+				"oklch.h": lch[2]
+			});
+			// Do not early return if in-gamut already at this point.
+			// The second scale step gets the color closer to the original.
+			mappedColor = methods.scale.compute(mappedColor);
+			if (mappedColor.inGamut("p3")) {
+				return mappedColor;
+			}
+			// Are we mathematically guaranteed to be in gamut at this point?
+			// If not, would a clip suffice?
+			return mappedColor;
+
 		}
 	},
 	"scale": {
