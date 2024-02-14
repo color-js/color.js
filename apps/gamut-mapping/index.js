@@ -1,3 +1,4 @@
+import { createApp } from "https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.prod.js";
 import Color from "../../dist/color.js";
 import methods from "./methods.js";
 
@@ -5,141 +6,140 @@ globalThis.Color = Color;
 
 const favicon = document.querySelector('link[rel="shortcut icon"]');
 const lch = ["L", "C", "H"];
+let spacesToShow = [Color.spaces.oklch, Color.spaces.p3, Color.spaces["p3-linear"]]
 
-for (let method in methods) {
-	let config = methods[method];
-	let label = config.label ?? method[0].toUpperCase() + method.slice(1);
+let app = createApp({
+	data () {
+		let params = new URLSearchParams(location.search);
+		let defaultValue = "oklch(90% .8 250)";
+		let colorInput = params.get("color") || defaultValue;
+		let color;
 
-	gamut_mapped.insertAdjacentHTML("beforeend", `
-		<div>
-			<dt>
-				${ label }
-				${ config.description? `<small class="description">${ config.description }</small>` : "" }
-			</dd>
-			<dd>
-				<css-color swatch="large" data-method="${ method }"></css-color>
-			</dd>
-		</div>`);
-}
-
-css_color_input.addEventListener("input", evt => {
-	if (css_color.color === null) {
-		// Probably typing
-		return;
-	}
-
-	colorUpdated()
-
-	let inputColor = css_color.color;
-	let p3color = inputColor.to("p3");
-	let p3Linear = inputColor.to("p3-linear");
-
-	to_p3.color = p3color;
-	to_p3linear.color = p3Linear;
-
-	let deltasMap = new Map();
-	let minDeltas;
-
-	for (let cssColor of gamut_mapped.querySelectorAll("css-color")) {
-		let method = cssColor.dataset.method;
-		let color = p3color.clone();
-
-		let dd = cssColor.closest("dd");
-		let stats = dd.querySelector(".deltas");
-
-		if (!stats) {
-			dd.insertAdjacentHTML("beforeend", `<dl class="deltas"></dl>`);
-			stats = dd.querySelector(".deltas");
+		try {
+			color = new Color(colorInput);
+		}
+		catch (e) {
+			color = new Color("transparent");
 		}
 
-		if (color.inGamut("p3")) {
-			cssColor.color = color;
-			stats.innerHTML = "";
-			continue;
+		return {
+			color,
+			colorNullable: color,
+			colorInput,
+			defaultValue,
+			methods,
+			params,
+			Color,
+			lch: ["L", "C", "H"],
 		}
+	},
 
-		minDeltas ??= [{value: Infinity}, {value: Infinity}, {value: Infinity}];
+	computed: {
+		colorLCH () {
+			return this.color.to("oklch");
+		},
 
-		let mappedColor;
+		spaces () {
+			/*
+			<div v-for="(c, i) of color.to(space).coords">
+				<dt :title="coordInfo[spaceIndex][i][1].name">{{ coordInfo[spaceIndex][i][0].toUpperCase() }}</dt>
+				<dd>{{ toPrecision(c, 3) }}</dd>
+			</div>
+			*/
+			return spacesToShow.map(space => {
+				let coordInfo = Object.entries(space.coords);
+				let coords = this.color.to(space).coords.map(c => this.toPrecision(c, 3));
+				return {
+					name: space.name,
+					coords: Object.fromEntries(coordInfo.map(([c, info], i) => [c, {value: coords[i], name: info.name, id: c}]))
+				}
+			});
+		},
 
-		let methodConfig = methods[method];
-
-		if (methodConfig.compute) {
-			mappedColor = methodConfig.compute(inputColor);
-		}
-		else {
-			mappedColor = color.toGamut({ method });
-		}
-
-		cssColor.color = mappedColor;
-
-		// Show deltas
-		let mappedColorLCH = mappedColor.to("oklch").coords;
-		let deltas = inputColor.to("oklch").coords.map((c, i) => mappedColorLCH[i] - c);
-		deltasMap.set(cssColor, deltas);
-		stats.innerHTML = deltas.map((delta, i) => {
-			let minDelta = minDeltas[i];
-			if (minDelta.value >= Math.abs(delta)) {
-				if (minDelta.value == Math.abs(delta)) {
-					minDelta.stats = [].concat(minDelta.stats);
-					minDelta.stats.push(stats);
+		mapped () {
+			return Object.fromEntries(Object.entries(this.methods).map(([method, config]) => {
+				let mappedColor;
+				if (config.compute) {
+					mappedColor = config.compute(this.color);
 				}
 				else {
-					minDeltas[i] = {value: Math.abs(delta), stats, index: i};
+					mappedColor = this.color.clone().toGamut({ space: "p3", method });
 				}
 
+				let mappedColorLCH = mappedColor.to("oklch");
+				let deltas = Object.fromEntries(lch.map((c, i) => {
+					let delta = mappedColorLCH.coords[i] - this.colorLCH.coords[i];
+					delta = this.toPrecision(delta, 2);
+					return [c, delta];
+				}));
+
+				deltas.L *= 100; // L is percentage
+
+				// Hue is angular, so we need to normalize it
+				deltas.H = ((deltas.H % 360) + 720) % 360;
+				deltas.H = this.toPrecision(Math.min(360 - deltas.H, deltas.H), 2);
+
+				return [method, {color: mappedColor, deltas}];
+			}));
+		},
+
+		minDeltas () {
+			let ret = {};
+			for (let method in this.mapped) {
+				let {deltas} = this.mapped[method];
+
+				for (let c in deltas) {
+					let delta = Math.abs(deltas[c]);
+					let minDelta = ret[c];
+
+					if (!minDelta || minDelta >= delta) {
+						ret[c] = delta;
+					}
+				}
+			}
+			return ret;
+		},
+	},
+
+	methods: {
+		toPrecision: Color.util.toPrecision,
+		abs: Math.abs
+	},
+
+	watch: {
+		colorNullable () {
+			if (this.colorNullable === null) {
+				// Probably typing
+				return;
 			}
 
-			delta = Color.util.toPrecision(delta, 2);
-			let cl = delta < 0? "negative" : delta > 0? "positive" : "zero";
-			return `<dt>Δ${ lch[i] }</dt><dd class="${ cl }">${ delta }</dd>`
-		}).join("");
-	}
+			this.color = this.colorNullable;
+		},
 
-	// Find min deltas
-	if (minDeltas) {
-		for (let minDelta of minDeltas) {
-			let index = minDelta.index * 2 + 1;
-			for (let dl of [].concat(minDelta.stats)) {
-				let dd = dl.children[minDelta.index * 2 + 1];
-				dd.classList.add("min");
+		colorInput (value) {
+			// Update URL to create a permalink
+			let hadColor = this.params.has("color");
+
+			if (!value || value !== this.defaultValue) {
+				this.params.set("color", value);
 			}
+			else {
+				this.params.delete("color");
+			}
+
+			history[hadColor == this.params.has("color") ? "replaceState" : "pushState"](null, "", "?" + this.params.toString());
+
+			// Update favicon
+			favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${ encodeURIComponent(value) }" /></svg>`;
+
+			// Update title
+			document.title = value + " • Gamut Mapping Playground";
 		}
+	},
+
+	isCustomElement (el) {
+		return el.tagName.toLowerCase() !== "css-color";
 	}
-});
+}).mount(document.body);
 
-let params = new URLSearchParams(location.search);
-let color = params.get("color");
-
-if (color) {
-	css_color.value = color;
-}
-
-css_color_input.dispatchEvent(new InputEvent("input"));
-
-
-
-function colorUpdated () {
-	let input = css_color_input;
-
-	// Update URL to create a permalink
-	let params = new URLSearchParams(location.search);
-	let hadColor = params.has("color");
-	let value = input.value;
-	let defaultValue = input.getAttribute("value");
-
-	if (value !== defaultValue) {
-		params.set("color", value);
-	}
-	else {
-		params.delete("color");
-	}
-
-	history[hadColor == params.has("color") ? "replaceState" : "pushState"](null, "", "?" + params.toString());
-
-	// Update favicon
-	favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${ encodeURIComponent(value) }" /></svg>`;
-
-	// Update title
-	document.title = value + " • Gamut Mapping Playground";
-}
+globalThis.app = app;
