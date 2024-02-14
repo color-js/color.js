@@ -173,6 +173,7 @@ dl.coords {
 	display: flex;
 	gap: .1em;
 	margin: 0;
+	align-items: baseline;
 
 	&:has(> div) {
 		gap: .4em;
@@ -183,9 +184,17 @@ dl.coords {
 		gap: .2em;
 	}
 
+	.delta-e {
+		background: hsl(220 10% 50% / .08);
+		border: 1px solid hsl(220 10% 50% / 10%);
+		padding: 0 .3em;
+		border-radius: .2em;
+	}
+
 	dt {
 		font-weight: 300;
 		color: hsl(220 10% 50%);
+		mix-blend-mode: multiply;
 
 		~ dt {
 			margin-left: .5em;
@@ -200,7 +209,7 @@ dl.coords {
 
 dl.deltas {
 	border-top: 1px solid hsl(220 10% 80%);
-	padding: .1em 0;
+	padding-top: .4em;
 	margin-top: .8em;
 	font-size: 90%;
 
