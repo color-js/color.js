@@ -26,8 +26,5 @@ export default new RGBColorSpace({
 	name: "Linear sRGB",
 	white: "D65",
 	toXYZ_M,
-	fromXYZ_M,
-	formats: {
-		color: {}
-	},
+	fromXYZ_M
 });

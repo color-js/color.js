@@ -329,6 +329,7 @@ export function toCam16 (xyzd65, env) {
 // Results compared against: https://github.com/colour-science/colour
 export default new ColorSpace({
 	id: "cam16-jmh",
+	cssId: "--cam16-jmh",
 	name: "CAM16-JMh",
 	coords: {
 		j: {
@@ -357,10 +358,5 @@ export default new ColorSpace({
 			{J: cam16[0], M: cam16[1], h: cam16[2]},
 			viewingConditions
 		);
-	},
-	formats: {
-		color: {
-			id: "--cam16-jmh"
-		},
-	},
+	}
 });

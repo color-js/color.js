@@ -6,6 +6,7 @@ const Et2 = 16 / 512;
 
 export default new RGBColorSpace({
 	id: "prophoto",
+	cssId: "prophoto-rgb",
 	name: "ProPhoto",
 	base: ProPhotoLinear,
 	toBase (RGB) {
@@ -14,10 +15,5 @@ export default new RGBColorSpace({
 	},
 	fromBase (RGB) {
 		return RGB.map(v => v >= Et ? v ** (1 / 1.8) : 16 * v);
-	},
-	formats: {
-		color: {
-			id: "prophoto-rgb"
-		}
-	},
+	}
 });

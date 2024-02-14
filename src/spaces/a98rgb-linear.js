@@ -20,6 +20,7 @@ const fromXYZ_M = [
 
 export default new RGBColorSpace({
 	id: "a98rgb-linear",
+	cssId: "--a98-rgb-linear",
 	name: "Linear Adobe® 98 RGB compatible",
 	white: "D65",
 	toXYZ_M,

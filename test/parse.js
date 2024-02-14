@@ -245,12 +245,36 @@ const tests = {
 					expect: '{"spaceId":"p3","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
+					args: "color(display-p3-linear 0 1 .5)",
+					expect: '{"spaceId":"p3-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--display-p3-linear 0% 100% 50%)",
+					expect: '{"spaceId":"p3-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
 					args: "color(rec2020 0 1 .5)",
 					expect: '{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
 					args: "color(rec2020 0 100% 50%)",
 					expect: '{"spaceId":"rec2020","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(rec2020-linear 0 1 .5)",
+					expect: '{"spaceId":"rec2020-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--rec2020-linear 0 100% 50%)",
+					expect: '{"spaceId":"rec2020-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--rec2100-hlg 0 100% 50%)",
+					expect: '{"spaceId":"rec2100hlg","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--rec2100-pq 0 100% 50%)",
+					expect: '{"spaceId":"rec2100pq","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
 					args: "color(a98-rgb 0 1 .5)",
@@ -261,6 +285,14 @@ const tests = {
 					expect: '{"spaceId":"a98rgb","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
+					args: "color(a98-rgb-linear 0 1 .5)",
+					expect: '{"spaceId":"a98rgb-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--a98-rgb-linear 0 100% 50%)",
+					expect: '{"spaceId":"a98rgb-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
 					args: "color(prophoto-rgb 0 1 .5)",
 					expect: '{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}'
 				},
@@ -269,11 +301,19 @@ const tests = {
 					expect: '{"spaceId":"prophoto","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
+					args: "color(prophoto-rgb-linear 0 1 .5)",
+					expect: '{"spaceId":"prophoto-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
+					args: "color(--prophoto-rgb-linear 0 100% 50%)",
+					expect: '{"spaceId":"prophoto-linear","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
 					args: "color(acescc 0 1 .5)",
 					expect: '{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
-					args: "color(acescc 0 100% 50%)",
+					args: "color(--acescc 0 100% 50%)",
 					expect: '{"spaceId":"acescc","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
@@ -281,7 +321,7 @@ const tests = {
 					expect: '{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
-					args: "color(acescg 0 100% 50%)",
+					args: "color(--acescg 0 100% 50%)",
 					expect: '{"spaceId":"acescg","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
@@ -309,6 +349,10 @@ const tests = {
 					expect: '{"spaceId":"xyz-d50","coords":[0,1,0.5],"alpha":1}'
 				},
 				{
+					args: "color(--xyz-abs-d65 0 100% 50%)",
+					expect: '{"spaceId":"xyz-abs-d65","coords":[0,1,0.5],"alpha":1}'
+				},
+				{
 					args: "color(jzazbz 0 25% -50%)",
 					expect: '{"spaceId":"jzazbz","coords":[0,0.125,-0.25],"alpha":1}'
 				},
@@ -317,12 +361,44 @@ const tests = {
 					expect: '{"spaceId":"jzazbz","coords":[0,0.125,-0.25],"alpha":1}'
 				},
 				{
+					args: "color(jzczhz 0 0.5 75%)",
+					expect: '{"spaceId":"jzczhz","coords":[0,0.5,0.75],"alpha":1}'
+				},
+				{
+					args: "color(--jzczhz 0 0.5 75%)",
+					expect: '{"spaceId":"jzczhz","coords":[0,0.5,0.75],"alpha":1}'
+				},
+				{
 					args: "color(--hct 0.25turn 50% 25)",
 					expect: '{"spaceId":"hct","coords":[90,72.5,25],"alpha":1}'
 				},
 				{
 					args: "color(--hsv 25deg 50% 75)",
 					expect: '{"spaceId":"hsv","coords":[25,50,75],"alpha":1}'
+				},
+				{
+					args: "color(--cam16-jmh 25 50 75)",
+					expect: '{"spaceId":"cam16-jmh","coords":[25,50,75],"alpha":1}'
+				},
+				{
+					args: "color(--hpluv 25deg 50% 75)",
+					expect: '{"spaceId":"hpluv","coords":[25,50,75],"alpha":1}'
+				},
+				{
+					args: "color(--hsluv 25deg 50% 75)",
+					expect: '{"spaceId":"hsluv","coords":[25,50,75],"alpha":1}'
+				},
+				{
+					args: "color(--ictcp 0.5 0 0.25)",
+					expect: '{"spaceId":"ictcp","coords":[0.5,0,0.25],"alpha":1}'
+				},
+				{
+					args: "color(--lchuv 50% 0 25deg)",
+					expect: '{"spaceId":"lchuv","coords":[50,0,25],"alpha":1}'
+				},
+				{
+					args: "color(--luv 50% 1 -1)",
+					expect: '{"spaceId":"luv","coords":[50,1,-1],"alpha":1}'
 				},
 				{
 					name: "With transparency",

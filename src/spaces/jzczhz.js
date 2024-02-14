@@ -4,6 +4,7 @@ import {constrain as constrainAngle} from "../angles.js";
 
 export default new ColorSpace({
 	id: "jzczhz",
+	cssId: "--jzczhz",
 	name: "JzCzHz",
 	coords: {
 		jz: {
@@ -49,8 +50,5 @@ export default new ColorSpace({
 			jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
 			jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180)  // bz
 		];
-	},
-	formats: {
-		color: {}
-	},
+	}
 });

@@ -19,11 +19,9 @@ const fromXYZ_M = [
 
 export default new RGBColorSpace({
 	id: "rec2020-linear",
+	cssId: "--rec2020-linear",
 	name: "Linear REC.2020",
 	white: "D65",
 	toXYZ_M,
-	fromXYZ_M,
-	formats: {
-		color: {},
-	}
+	fromXYZ_M
 });

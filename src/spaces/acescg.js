@@ -22,6 +22,7 @@ const fromXYZ_M = [
 
 export default new RGBColorSpace({
 	id: "acescg",
+	cssId: "--acescg",
 	name: "ACEScg",
 
 	// ACEScg – A scene-referred, linear-light encoding of ACES Data
@@ -47,11 +48,7 @@ export default new RGBColorSpace({
 	white: WHITES.ACES,
 
 	toXYZ_M,
-	fromXYZ_M,
-
-	formats: {
-		color: {}
-	},
+	fromXYZ_M
 });
 
 // export default Color;

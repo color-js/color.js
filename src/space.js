@@ -45,12 +45,12 @@ export default class ColorSpace {
 			format.name ||= name;
 		}
 
-		if (options.cssId && !this.formats.functions?.color) {
+		if (options.cssId && !this.formats.color) {
 			this.formats.color = { id: options.cssId };
 			Object.defineProperty(this, "cssId", {value: options.cssId});
 		}
-		else if (this.formats?.color && !this.formats?.color.id) {
-			this.formats.color.id = this.id;
+		else if (!this.formats.color?.id) {
+			this.formats.color = { ...this.formats.color ?? {}, id: this.id };
 		}
 
 		// Gamut space
@@ -122,7 +122,7 @@ export default class ColorSpace {
 	}
 
 	get cssId () {
-		return this.formats.functions?.color?.id || this.id;
+		return this.formats?.color?.id || this.id;
 	}
 
 	get isPolar () {

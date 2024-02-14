@@ -14,6 +14,7 @@ const fromXYZ_M = [
 
 export default new RGBColorSpace({
 	id: "p3-linear",
+	cssId: "--display-p3-linear",
 	name: "Linear P3",
 	white: "D65",
 	toXYZ_M,
