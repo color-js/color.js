@@ -27,16 +27,24 @@ css-color input {
 dl.swatches {
 	display: grid;
 	gap: 2em;
-	grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
 
 	> div {
-		display: flex;
-		flex-flow: column;
-		gap: .3em;
+		display: grid;
+		grid-template-rows: subgrid;
+		grid-row-end: span 2;
+		gap: .5em;
+	}
+
+	.description {
+		display: block;
+		font-size: 70%;
+		color: hsl(220 10% 50%);
+		text-wrap: balance;
 	}
 
 	dt {
-
+		margin-top: auto;
 	}
 
 	dd {
