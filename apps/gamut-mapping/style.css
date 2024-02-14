@@ -4,18 +4,25 @@
 
 body {
 	font: 100%/1.5 system-ui;
-	max-width: 80em;
+	max-width: 84em;
 	margin: 1em auto;
 	padding-inline: 1em;
 
-	@media (width > 80em) {
+	@media (width > 70em) {
 		display: grid;
 		grid-template-columns: auto 1fr;
 		gap: 0em 2em;
 
-		> header,
-		#gamut-mapped {
+		> header {
 			grid-column: 1 / -1;
+		}
+
+		#gamut-mapped {
+			grid-column: 2 / -1;
+		}
+
+		#coordinates {
+			grid-column: 1 / 3;
 		}
 	}
 }
@@ -49,8 +56,8 @@ css-color input {
 
 dl.swatches {
 	display: grid;
-	gap: 2em;
-	grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
+	gap: 1em;
+	grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
 
 	> div {
 		display: grid;
@@ -163,5 +170,17 @@ dl.deltas {
 		&.zero {
 			color: var(--color-green-40, hsl(85 100% 28%));
 		}
+	}
+}
+
+#rendering {
+	dt {
+		margin-top: 1.1em;
+	}
+}
+
+#gamut-mapped {
+	css-color {
+		font-size: 90%;
 	}
 }
