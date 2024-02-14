@@ -68,7 +68,7 @@ let app = createApp({
 
 				let mappedColorLCH = mappedColor.to("oklch");
 				let deltas = Object.fromEntries(lch.map((c, i) => {
-					let delta = this.colorLCH.coords[i] - mappedColorLCH.coords[i];
+					let delta = mappedColorLCH.coords[i] - this.colorLCH.coords[i];
 					delta = this.toPrecision(delta, 2);
 					return [c, delta];
 				}));

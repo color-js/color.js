@@ -27,6 +27,22 @@
 					<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="colorInput">
 						<input v-model="colorInput" />
 					</css-color>
+					<details class="space-coords">
+						<summary>Raw coordinates</summary>
+						<dl class="space-coords">
+							<div v-for="(space, spaceIndex) of spaces">
+								<dt>{{ space.name }}</dt>
+								<dd>
+									<dl class="coords">
+										<div v-for="(info, c) of space.coords">
+											<dt :title="info.name">{{ c.toUpperCase() }}</dt>
+											<dd>{{ toPrecision(info.value, 3) }}</dd>
+										</div>
+									</dl>
+								</dd>
+							</div>
+						</dl>
+					</details>
 				</dd>
 			</div>
 		</dl>
@@ -53,23 +69,6 @@
 								min: minDeltas[c] === abs(delta),
 							}">{{ delta }}</dd>
 						</template>
-					</dl>
-				</dd>
-			</div>
-		</dl>
-	</section>
-
-	<section id="coordinates">
-		<h2>Coordinates</h2>
-		<dl id="coords">
-			<div v-for="(space, spaceIndex) of spaces">
-				<dt>{{ space.name }}</dt>
-				<dd>
-					<dl class="coords">
-						<div v-for="(info, c) of space.coords">
-							<dt :title="info.name">{{ c.toUpperCase() }}</dt>
-							<dd>{{ toPrecision(info.value, 3) }}</dd>
-						</div>
 					</dl>
 				</dd>
 			</div>

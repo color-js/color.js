@@ -95,15 +95,41 @@ dl.swatches {
 	}
 }
 
-#coords {
+details.space-coords {
+	font-size: 70%;
+	margin-top: 1em;
+
+	> summary {
+		margin-bottom: .2rem;
+		font-size: .8rem;
+		text-transform: uppercase;
+		font-weight: 520;
+		color: hsl(220 10% 40%);
+	}
+}
+
+dl.space-coords {
 	display: grid;
-	gap: .5em;
 	grid-template-columns: auto repeat(3, auto);
+	border-block: 1px solid hsl(220 10% 90%);
+	margin: 0;
 
 	> div {
 		grid-column: 1 / -1;
 		display: grid;
 		grid-template-columns: subgrid;
+		border-block: 1px solid hsl(220 10% 90%);
+		padding-block: .3em;
+
+		&:not(:first-child) {
+			border-top: none;
+		}
+
+		> dt {
+			text-transform: uppercase;
+			font-weight: 520;
+			color: hsl(220 10% 40%);
+		}
 	}
 
 	dd {
@@ -174,7 +200,7 @@ dl.deltas {
 }
 
 #rendering {
-	dt {
+	.swatches > div > dt {
 		margin-top: 1.1em;
 	}
 }
