@@ -45,12 +45,11 @@ export default class ColorSpace {
 			format.name ||= name;
 		}
 
-		if (options.cssId && !this.formats.color) {
-			this.formats.color = { id: options.cssId };
-			Object.defineProperty(this, "cssId", {value: options.cssId});
-		}
-		else if (!this.formats.color?.id) {
-			this.formats.color = { ...this.formats.color ?? {}, id: this.id };
+		if (!this.formats.color?.id) {
+			this.formats.color = {
+				...this.formats.color ?? {},
+				id: options.cssId || this.id
+			};
 		}
 
 		// Gamut space
