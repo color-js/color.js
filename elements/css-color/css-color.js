@@ -130,7 +130,7 @@ export default class CSSColor extends HTMLElement {
 		this.#color = color;
 
 		try {
-			this.style.setProperty("--color", this.#color.display());
+			this.style.setProperty("--color", this.#color.display({inGamut: false}));
 		}
 		catch (e) {
 			this.style.setProperty("--color", this.value);
