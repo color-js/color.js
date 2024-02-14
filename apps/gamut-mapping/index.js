@@ -130,24 +130,27 @@ let app = createApp({
 			this.color = this.colorNullable;
 		},
 
-		colorInput (value) {
-			// Update URL to create a permalink
-			let hadColor = this.params.has("color");
+		colorInput: {
+			handler (value) {
+				// Update URL to create a permalink
+				let hadColor = this.params.has("color");
 
-			if (!value || value !== this.defaultValue) {
-				this.params.set("color", value);
-			}
-			else {
-				this.params.delete("color");
-			}
+				if (!value || value !== this.defaultValue) {
+					this.params.set("color", value);
+				}
+				else {
+					this.params.delete("color");
+				}
 
-			history[hadColor == this.params.has("color") ? "replaceState" : "pushState"](null, "", "?" + this.params.toString());
+				history[hadColor == this.params.has("color") ? "replaceState" : "pushState"](null, "", "?" + this.params.toString());
 
-			// Update favicon
-			favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${ encodeURIComponent(value) }" /></svg>`;
+				// Update favicon
+				favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${ encodeURIComponent(value) }" /></svg>`;
 
-			// Update title
-			document.title = value + " • Gamut Mapping Playground";
+				// Update title
+				document.title = value + " • Gamut Mapping Playground";
+			},
+			immediate: true,
 		}
 	},
 
