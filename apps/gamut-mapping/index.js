@@ -37,7 +37,6 @@ css_color_input.addEventListener("input", evt => {
 	to_p3.color = p3color;
 	to_p3linear.color = p3Linear;
 
-	let deltasMap = new Map();
 	let minDeltas;
 
 	for (let cssColor of gamut_mapped.querySelectorAll("css-color")) {
@@ -58,7 +57,7 @@ css_color_input.addEventListener("input", evt => {
 			continue;
 		}
 
-		minDeltas ??= [{value: Infinity}, {value: Infinity}, {value: Infinity}];
+		minDeltas ??= [];
 
 		let mappedColor;
 
@@ -74,23 +73,9 @@ css_color_input.addEventListener("input", evt => {
 		cssColor.color = mappedColor;
 
 		// Show deltas
-		let mappedColorLCH = mappedColor.to("oklch").coords;
-		let deltas = inputColor.to("oklch").coords.map((c, i) => mappedColorLCH[i] - c);
-		deltasMap.set(cssColor, deltas);
+		let deltas = getDeltas(inputColor, mappedColor, minDeltas, stats);
+
 		stats.innerHTML = deltas.map((delta, i) => {
-			let minDelta = minDeltas[i];
-			if (minDelta.value >= Math.abs(delta)) {
-				if (minDelta.value == Math.abs(delta)) {
-					minDelta.stats = [].concat(minDelta.stats);
-					minDelta.stats.push(stats);
-				}
-				else {
-					minDeltas[i] = {value: Math.abs(delta), stats, index: i};
-				}
-
-			}
-
-			delta = Color.util.toPrecision(delta, 2);
 			let cl = delta < 0? "negative" : delta > 0? "positive" : "zero";
 			return `<dt>Δ${ lch[i] }</dt><dd class="${ cl }">${ delta }</dd>`
 		}).join("");
@@ -142,4 +127,34 @@ function colorUpdated () {
 
 	// Update title
 	document.title = value + " • Gamut Mapping Playground";
+}
+
+function getDeltas (inputColor, mappedColor, minDeltas, stats) {
+	let mappedColorLCH = mappedColor.to("oklch").coords;
+	let deltas = inputColor.to("oklch").coords.map((c, i) => {
+		let delta = mappedColorLCH[i] - c;
+
+		if (i === 2) {
+			// Hue is angular, so we need to normalize it
+			delta = (delta + 720) % 360;
+			delta = delta > 180 ? 360 - delta : delta;
+		}
+
+		delta = Color.util.toPrecision(delta, 2);
+
+		let minDelta = minDeltas[i];
+		if (!minDelta || minDelta.value >= Math.abs(delta)) {
+			if (minDelta && minDelta.value == Math.abs(delta)) {
+				minDelta.stats = [].concat(minDelta.stats);
+				minDelta.stats.push(stats);
+			}
+			else {
+				minDeltas[i] = {value: Math.abs(delta), stats, index: i};
+			}
+
+		}
+
+		return delta;
+	})
+	return deltas;
 }
