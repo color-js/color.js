@@ -2,7 +2,7 @@ import Color from "../../dist/color.js";
 import methods from "./methods.js";
 
 const lch = ["L", "C", "H"];
-let spacesToShow = [Color.spaces.oklch, Color.spaces.p3, Color.spaces["p3-linear"]]
+let spacesToShow = [Color.spaces.oklch, Color.spaces.p3, Color.spaces["p3-linear"]];
 
 export default {
 	props: {
@@ -50,7 +50,7 @@ export default {
 				return {
 					name: space.name,
 					coords: Object.fromEntries(coordInfo.map(([c, info], i) => [c, {value: coords[i], name: info.name, id: c}]))
-				}
+				};
 			});
 		},
 
