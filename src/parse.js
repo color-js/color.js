@@ -104,10 +104,10 @@ export default function parse (str, {meta} = {}) {
 						}
 
 						if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
-							console.warn(`color(${id}) used instead of prefixed color(${colorSpec.id}).`);
+							console.warn(`Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
 						}
 						if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
-							console.warn(`color(${id}) used instead of unprefixed color(${colorSpec.id}).`);
+							console.warn(`Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
 						}
 
 						return {spaceId: space.id, coords, alpha};
