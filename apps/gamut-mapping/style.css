@@ -4,9 +4,27 @@
 
 body {
 	font: 100%/1.5 system-ui;
-	max-width: 80em;
+	max-width: 84em;
 	margin: 1em auto;
 	padding-inline: 1em;
+
+	@media (width > 70em) {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0em 2em;
+
+		> header {
+			grid-column: 1 / -1;
+		}
+
+		#gamut-mapped {
+			grid-column: 2 / -1;
+		}
+
+		#coordinates {
+			grid-column: 1 / 3;
+		}
+	}
 }
 
 body > header {
@@ -16,6 +34,7 @@ body > header {
 	h1 {
 		font-size: calc(200% + 2vh + 2vw);
 		margin-bottom: 0;
+		line-height: 1.1;
 	}
 }
 
@@ -37,8 +56,8 @@ css-color input {
 
 dl.swatches {
 	display: grid;
-	gap: 2em;
-	grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
+	gap: 1em;
+	grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
 
 	> div {
 		display: grid;
@@ -76,16 +95,64 @@ dl.swatches {
 	}
 }
 
-dl.deltas {
+details.space-coords {
+	font-size: 70%;
+	margin-top: 1em;
+
+	> summary {
+		margin-bottom: .2rem;
+		font-size: .8rem;
+		text-transform: uppercase;
+		font-weight: 520;
+		color: hsl(220 10% 40%);
+	}
+}
+
+dl.space-coords {
+	display: grid;
+	grid-template-columns: auto repeat(3, auto);
+	border-block: 1px solid hsl(220 10% 90%);
+	margin: 0;
+
+	> div {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: subgrid;
+		border-block: 1px solid hsl(220 10% 90%);
+		padding-block: .3em;
+
+		&:not(:first-child) {
+			border-top: none;
+		}
+
+		> dt {
+			text-transform: uppercase;
+			font-weight: 520;
+			color: hsl(220 10% 40%);
+		}
+	}
+
+	dd {
+		display: contents;
+	}
+
+	dl.coords {
+		grid-column: 2 / span 3;
+		display: grid;
+		grid-template-columns: subgrid;
+	}
+}
+
+dl.deltas,
+dl.coords {
 	display: flex;
 	gap: .1em;
 	margin: 0;
-	margin-top: .6em;
-	border-top: 1px solid hsl(220 10% 80%);
-	padding-block: .1em;
-	padding-left: .1em;
-	padding-right: .5em;
-	width: max-content;
+
+	> div {
+		display: flex;
+		gap: .3em;
+	}
 
 	dt {
 		font-weight: 300;
@@ -99,7 +166,18 @@ dl.deltas {
 	dd {
 		font-weight: bold;
 		margin: 0;
+	}
+}
 
+dl.deltas {
+	border-top: 1px solid hsl(220 10% 80%);
+	padding-block: .1em;
+	padding-left: .1em;
+	padding-right: .5em;
+	width: max-content;
+	margin-top: .6em;
+
+	dd {
 		&.negative,
 		&.positive {
 			color: var(--color-red-40, hsl(0 60% 30%));
@@ -118,5 +196,17 @@ dl.deltas {
 		&.zero {
 			color: var(--color-green-40, hsl(85 100% 28%));
 		}
+	}
+}
+
+#rendering {
+	.swatches > div > dt {
+		margin-top: 1.1em;
+	}
+}
+
+#gamut-mapped {
+	css-color {
+		font-size: 90%;
 	}
 }
