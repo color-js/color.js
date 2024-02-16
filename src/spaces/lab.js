@@ -15,14 +15,14 @@ export default new ColorSpace({
 	coords: {
 		l: {
 			refRange: [0, 100],
-			name: "Lightness"
+			name: "Lightness",
 		},
 		a: {
-			refRange: [-125, 125]
+			refRange: [-125, 125],
 		},
 		b: {
-			refRange: [-125, 125]
-		}
+			refRange: [-125, 125],
+		},
 	},
 
 	// Assuming XYZ is relative to D50, convert to CIE Lab
@@ -42,7 +42,7 @@ export default new ColorSpace({
 		return [
 			(116 * f[1]) - 16,   // L
 			500 * (f[0] - f[1]), // a
-			200 * (f[1] - f[2])  // b
+			200 * (f[1] - f[2]),  // b
 		];
 	},
 	// Convert Lab to D50-adapted XYZ
@@ -59,7 +59,7 @@ export default new ColorSpace({
 		let xyz = [
 			f[0]   > ε3 ? Math.pow(f[0], 3)                : (116 * f[0] - 16) / κ,
 			Lab[0] > 8  ? Math.pow((Lab[0] + 16) / 116, 3) : Lab[0] / κ,
-			f[2]   > ε3 ? Math.pow(f[2], 3)                : (116 * f[2] - 16) / κ
+			f[2]   > ε3 ? Math.pow(f[2], 3)                : (116 * f[2] - 16) / κ,
 		];
 
 		// Compute XYZ by scaling xyz by reference white
@@ -69,6 +69,6 @@ export default new ColorSpace({
 	formats: {
 		"lab": {
 			coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
-		}
-	}
+		},
+	},
 });

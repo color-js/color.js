@@ -10,6 +10,6 @@ export default new ColorSpace({
 	fromBase: coords => adapt(XYZ_D65.white, "D50", coords),
 	toBase: coords => adapt("D50", XYZ_D65.white, coords),
 	formats: {
-		color: {}
+		color: {},
 	},
 });

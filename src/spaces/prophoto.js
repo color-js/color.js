@@ -17,7 +17,7 @@ export default new RGBColorSpace({
 	},
 	formats: {
 		color: {
-			id: "prophoto-rgb"
-		}
+			id: "prophoto-rgb",
+		},
 	},
 });

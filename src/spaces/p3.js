@@ -12,6 +12,6 @@ export default new RGBColorSpace({
 	formats: {
 		color: {
 			id: "display-p3",
-		}
+		},
 	},
 });

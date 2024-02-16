@@ -13,94 +13,94 @@ export default {
 		{
 			name: "HSLuv (gamutSpace of srgb)",
 			data: {
-				gamut: "hsluv"
+				gamut: "hsluv",
 			},
 			tests: [
 				{
 					args: "red",
-					expect: true
+					expect: true,
 				},
 				{
 					args: "color(--hsluv 150 100% 100%)",
-					expect: true
+					expect: true,
 				},
 				{
 					args: "color(display-p3 1 0 0)",
-					expect: false
+					expect: false,
 				},
 				{
 					args: "color(--hsluv 150 101% 50%)",
-					expect: false
+					expect: false,
 				},
-			]
+			],
 		},
 		{
 			name: "HPLuv (gamutSpace of 'self')",
 			data: {
-				gamut: "hpluv"
+				gamut: "hpluv",
 			},
 			tests: [
 				{
 					args: "#cc99aa",
-					expect: true
+					expect: true,
 				},
 				{
 					args: "color(--hpluv 90 25% 75)",
-					expect: true
+					expect: true,
 				},
 				{
 					args: "red",
-					expect: false
+					expect: false,
 				},
 				{
 					args: "color(display-p3 1 0 0)",
-					expect: false
+					expect: false,
 				},
-			]
+			],
 		},
 		{
 			name: "Lab (unbounded color space)",
 			data: {
-				gamut: "lab"
+				gamut: "lab",
 			},
 			tests: [
 				{
 					args: "lab(1000 1000 1000)",
-					expect: true
-				}
-			]
+					expect: true,
+				},
+			],
 		},
 		{
 			name: "HSL (polar space, defaults to the base space)",
 			data: {
-				gamut: "hsl"
+				gamut: "hsl",
 			},
 			tests: [
 				{
 					args: "hsl(0 100% 50%)",
-					expect: true
+					expect: true,
 				},
 				{
 					args: "hsl(0 101% 50%)",
-					expect: false
+					expect: false,
 				},
 				{
 					args: "color(display-p3 1 0 0)",
-					expect: false
-				}
-			]
+					expect: false,
+				},
+			],
 		},
 		{
 			name: "Angle coordinates should not be gamut checked",
 			data: {
-				gamut: "hpluv"
+				gamut: "hpluv",
 			},
 			tests: [
 				{
 					args: "color(--hpluv 720 50 25)",
-					expect: true
-				}
-			]
-		}
-	]
+					expect: true,
+				},
+			],
+		},
+	],
 };

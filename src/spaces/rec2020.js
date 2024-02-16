@@ -30,5 +30,5 @@ export default new RGBColorSpace({
 	},
 	formats: {
 		color: {},
-	}
+	},
 });

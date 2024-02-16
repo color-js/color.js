@@ -61,7 +61,7 @@ function makePageToc (pageToc) {
 		}
 
 		let a = $.create("a", {
-			href: "#" + h2.id
+			href: "#" + h2.id,
 		});
 
 		// Linkify heading
@@ -78,7 +78,7 @@ function makePageToc (pageToc) {
 
 		$.create("li", {
 			contents: toc_a,
-			inside: pageToc
+			inside: pageToc,
 		});
 	});
 }
@@ -108,7 +108,7 @@ if (location.pathname.indexOf("/spaces") > -1) {
 					id,
 					name: meta.name,
 					min: range?.[0],
-					max: range?.[1]
+					max: range?.[1],
 				};
 			}),
 			whitePoint: Object.entries(Color.WHITES).find(([name, white]) => white === space.white)?.[0],
@@ -117,7 +117,7 @@ if (location.pathname.indexOf("/spaces") > -1) {
 	});
 
 	Mavo.all.colorSpaces.load({
-		data: {space: spaces}
+		data: {space: spaces},
 	});
 
 	Mavo.hooks.add("getdata-end", function (env) {

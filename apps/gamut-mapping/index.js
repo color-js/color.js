@@ -29,7 +29,7 @@ let app = createApp({
 
 	methods: {
 		toPrecision: Color.util.toPrecision,
-		abs: Math.abs
+		abs: Math.abs,
 	},
 
 	watch: {
@@ -54,12 +54,12 @@ let app = createApp({
 				document.title = value.join(", ") + " • Gamut Mapping Playground";
 			},
 			immediate: true,
-			deep: true
-		}
+			deep: true,
+		},
 	},
 
 	components: {
-		"map-color": MapColor
+		"map-color": MapColor,
 	},
 }).mount(document.body);
 

@@ -58,7 +58,7 @@ export default new RGBColorSpace({
 		"rgba_number": {
 			name: "rgba",
 			commas: true,
-			coords: coordGrammarNumber
+			coords: coordGrammarNumber,
 		},
 		"hex": {
 			type: "custom",
@@ -78,11 +78,11 @@ export default new RGBColorSpace({
 				return {
 					spaceId: "srgb",
 					coords: rgba.slice(0, 3),
-					alpha: rgba.slice(3)[0]
+					alpha: rgba.slice(3)[0],
 				};
 			},
 			serialize: (coords, alpha, {
-				collapse = true // collapse to 3-4 digit hex when possible?
+				collapse = true, // collapse to 3-4 digit hex when possible?
 			} = {}) => {
 				if (alpha < 1) {
 					coords.push(alpha);
@@ -101,7 +101,7 @@ export default new RGBColorSpace({
 				}).join("");
 
 				return "#" + hex;
-			}
+			},
 		},
 		"keyword": {
 			type: "custom",
@@ -121,7 +121,7 @@ export default new RGBColorSpace({
 				if (ret.coords) {
 					return ret;
 				}
-			}
+			},
 		},
-	}
+	},
 });

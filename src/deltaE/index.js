@@ -13,7 +13,7 @@ export {
 	deltaEJz,
 	deltaEITP,
 	deltaEOK,
-	deltaEHCT
+	deltaEHCT,
 };
 
 export default {
@@ -23,5 +23,5 @@ export default {
 	deltaEJz,
 	deltaEITP,
 	deltaEOK,
-	deltaEHCT
+	deltaEHCT,
 };
