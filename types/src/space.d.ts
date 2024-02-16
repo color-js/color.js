@@ -2,7 +2,9 @@ import { White } from "./adapt.js";
 import Color, { ColorConstructor, ColorObject, Coords } from "./color.js";
 
 export interface Format {
+	/** @default "function" */
 	type?: string | undefined;
+	/** @default "color" */
 	name?: string | undefined;
 	id?: string | undefined;
 	coords?: string[] | undefined;
@@ -10,12 +12,21 @@ export interface Format {
 	serializeCoords?:
 	| ((coords: Coords, precision: number) => [string, string, string])
 	| undefined;
+	/** Whether to adjust the coordinates to fit in the gamut */
 	toGamut?: boolean | undefined;
+	/** Whether commas should separate arguments for a format */
 	commas?: boolean | undefined;
+	/** Whether the last coordinate is the alpha coordinate */
 	lastAlpha?: boolean | undefined;
+	/** Whether the format has an alpha channel */
 	noAlpha?: boolean | undefined;
 	test?: ((str: string) => boolean) | undefined;
+	/** Function to parse a string into a color */
 	parse?: ((str: string) => ColorConstructor) | undefined;
+	/**
+	 * Serialize coordinates and an alpha channel into a string.
+	 * Must be defined for a format to support serialization
+	*/
 	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
 }
 
