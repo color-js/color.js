@@ -189,6 +189,9 @@ module.exports = {
 		// Enforce consistent brace style for blocks
 		// https://eslint.style/rules/default/brace-style
 		"@stylistic/brace-style": [1, "stroustrup"],
+		// Enforce trailing commas unless closing `]` or `}` is on the same line
+		// https://eslint.style/rules/default/comma-dangle
+		"@stylistic/comma-dangle": [1, "always-multiline"],
 		// Enforce no space before and one or more spaces after a comma
 		// https://eslint.style/rules/default/comma-spacing
 		"@stylistic/comma-spacing": 1,

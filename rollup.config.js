@@ -5,7 +5,7 @@ const bundles = [
 		"file": "dist/color.global.js",
 		"format": "iife",
 		"sourcemap": true,
-		"name": "Color"
+		"name": "Color",
 	},
 	{
 		"file": "dist/color.js",
@@ -49,7 +49,7 @@ export default [
 			if (warning.code !== "CIRCULAR_DEPENDENCY") {
 				rollupWarn(warning);
 			}
-		}
+		},
 	},
 	{
 		input: "src/index-fn.js",
@@ -58,6 +58,6 @@ export default [
 			if (warning.code !== "CIRCULAR_DEPENDENCY") {
 				rollupWarn(warning);
 			}
-		}
+		},
 	},
 ];

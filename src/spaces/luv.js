@@ -16,15 +16,15 @@ export default new ColorSpace({
 	coords: {
 		l: {
 			refRange: [0, 100],
-			name: "Lightness"
+			name: "Lightness",
 		},
 		// Reference ranges from https://facelessuser.github.io/coloraide/colors/luv/
 		u: {
-			refRange: [-215, 215]
+			refRange: [-215, 215],
 		},
 		v: {
-			refRange: [-215, 215]
-		}
+			refRange: [-215, 215],
+		},
 	},
 
 	white: white,
@@ -47,7 +47,7 @@ export default new ColorSpace({
 		return [
 			L,
 			13 * L * (up - U_PRIME_WHITE),
-			13 * L * (vp - V_PRIME_WHITE)
+			13 * L * (vp - V_PRIME_WHITE),
 		 ];
 	},
 
@@ -72,14 +72,14 @@ export default new ColorSpace({
 		return [
 			y * ((9 * up) / (4 * vp)),
 			y,
-			y * ((12 - 3 * up - 20 * vp) / (4 * vp))
+			y * ((12 - 3 * up - 20 * vp) / (4 * vp)),
 		];
 	},
 
 	formats: {
 		color: {
 			id: "--luv",
-			coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"]
-		}
+			coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
+		},
 	},
 });

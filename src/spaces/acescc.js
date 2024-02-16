@@ -26,16 +26,16 @@ export default new RGBColorSpace({
 	coords: {
 		r: {
 			range: [ACES_min_nonzero, ACES_cc_max],
-			name: "Red"
+			name: "Red",
 		},
 		g: {
 			range: [ACES_min_nonzero, ACES_cc_max],
-			name: "Green"
+			name: "Green",
 		},
 		b: {
 			range: [ACES_min_nonzero, ACES_cc_max],
-			name: "Blue"
-		}
+			name: "Blue",
+		},
 	},
 	referred: "scene",
 

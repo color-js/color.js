@@ -4,7 +4,6 @@ import {constrain as constrainAngle} from "../angles.js";
 
 export default new ColorSpace({
 	id: "jzczhz",
-	cssId: "--jzczhz",
 	name: "JzCzHz",
 	coords: {
 		jz: {
@@ -19,7 +18,7 @@ export default new ColorSpace({
 			refRange: [0, 360],
 			type: "angle",
 			name: "Hue",
-		}
+		},
 	},
 
 	base: Jzazbz,
@@ -39,7 +38,7 @@ export default new ColorSpace({
 		return [
 			Jz, // Jz is still Jz
 			Math.sqrt(az ** 2 + bz ** 2), // Chroma
-			constrainAngle(hue) // Hue, in degrees [0 to 360)
+			constrainAngle(hue), // Hue, in degrees [0 to 360)
 		];
 	},
 	toBase (jzczhz) {
@@ -48,7 +47,7 @@ export default new ColorSpace({
 		return [
 			jzczhz[0], // Jz is still Jz
 			jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180), // az
-			jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180)  // bz
+			jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180),  // bz
 		];
 	},
 });

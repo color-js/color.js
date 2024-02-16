@@ -15,7 +15,7 @@ const im2 = 32 / 2523;
 const XYZtoLMS_M = [
 	[  0.3592832590121217,  0.6976051147779502, -0.0358915932320290 ],
 	[ -0.1920808463704993,  1.1004767970374321,  0.0753748658519118 ],
-	[  0.0070797844607479,  0.0748396662186362,  0.8433265453898765 ]
+	[  0.0070797844607479,  0.0748396662186362,  0.8433265453898765 ],
 ];
 // linear-light Rec.2020 to LMS, again with crosstalk
 // rational terms from Jan Fröhlich,
@@ -35,14 +35,14 @@ const Rec2020toLMS_M = [
 const LMStoIPT_M = [
 	[  2048 / 4096,   2048 / 4096,       0      ],
 	[  6610 / 4096, -13613 / 4096,  7003 / 4096 ],
-	[ 17933 / 4096, -17390 / 4096,  -543 / 4096 ]
+	[ 17933 / 4096, -17390 / 4096,  -543 / 4096 ],
 ];
 
 // inverted matrices, calculated from the above
 const IPTtoLMS_M = [
 	[ 0.9999999999999998,  0.0086090370379328,  0.1110296250030260 ],
 	[ 0.9999999999999998, -0.0086090370379328, -0.1110296250030259 ],
-	[ 0.9999999999999998,  0.5600313357106791, -0.3206271749873188 ]
+	[ 0.9999999999999998,  0.5600313357106791, -0.3206271749873188 ],
 ];
 /*
 const LMStoRec2020_M = [
@@ -54,7 +54,7 @@ const LMStoRec2020_M = [
 const LMStoXYZ_M = [
 	[  2.0701522183894223, -1.3263473389671563,  0.2066510476294053 ],
 	[  0.3647385209748072,  0.6805660249472273, -0.0453045459220347 ],
-	[ -0.0497472075358123, -0.0492609666966131,  1.1880659249923042 ]
+	[ -0.0497472075358123, -0.0492609666966131,  1.1880659249923042 ],
 ];
 
 // Only the PQ form of ICtCp is implemented here. There is also an HLG form.
@@ -66,7 +66,6 @@ const LMStoXYZ_M = [
 // https://professional.dolby.com/siteassets/pdfs/dolby-vision-measuring-perceptual-color-volume-v7.1.pdf
 export default new ColorSpace({
 	id: "ictcp",
-	cssId: "--ictcp",
 	name: "ICTCP",
 	// From BT.2100-2 page 7:
 	// During production, signal values are expected to exceed the
@@ -80,16 +79,16 @@ export default new ColorSpace({
 	coords: {
 		i: {
 			refRange: [0, 1],	// Constant luminance,
-			name: "I"
+			name: "I",
 		},
 		ct: {
 			refRange: [-0.5, 0.5],	// Full BT.2020 gamut in range [-0.5, 0.5]
-			name: "CT"
+			name: "CT",
 		},
 		cp: {
 			refRange: [-0.5, 0.5],
-			name: "CP"
-		}
+			name: "CP",
+		},
 	},
 
 	base: XYZ_Abs_D65,

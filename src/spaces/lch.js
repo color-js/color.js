@@ -8,17 +8,17 @@ export default new ColorSpace({
 	coords: {
 		l: {
 			refRange: [0, 100],
-			name: "Lightness"
+			name: "Lightness",
 		},
 		c: {
 			refRange: [0, 150],
-			name: "Chroma"
+			name: "Chroma",
 		},
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
-		}
+			name: "Hue",
+		},
 	},
 
 	base: Lab,
@@ -38,7 +38,7 @@ export default new ColorSpace({
 		return [
 			L, // L is still L
 			Math.sqrt(a ** 2 + b ** 2), // Chroma
-			constrainAngle(hue) // Hue, in degrees [0 to 360)
+			constrainAngle(hue), // Hue, in degrees [0 to 360)
 		];
 	},
 	toBase (LCH) {
@@ -55,13 +55,13 @@ export default new ColorSpace({
 		return [
 			Lightness, // L is still L
 			Chroma * Math.cos(Hue * Math.PI / 180), // a
-			Chroma * Math.sin(Hue * Math.PI / 180)  // b
+			Chroma * Math.sin(Hue * Math.PI / 180),  // b
 		];
 	},
 
 	formats: {
 		"lch": {
 			coords: ["<number> | <percentage>", "<number> | <percentage>", "<number> | <angle>"],
-		}
-	}
+		},
+	},
 });

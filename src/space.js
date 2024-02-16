@@ -48,7 +48,7 @@ export default class ColorSpace {
 		if (!this.formats.color?.id) {
 			this.formats.color = {
 				...this.formats.color ?? {},
-				id: options.cssId || this.id
+				id: options.cssId || this.id,
 			};
 		}
 

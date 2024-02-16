@@ -81,6 +81,6 @@ function addSpaceAccessors (id, space) {
 			this.setAll(id, coords);
 		},
 		configurable: true,
-		enumerable: true
+		enumerable: true,
 	});
 }

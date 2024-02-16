@@ -109,7 +109,7 @@ export const viewingConditions = environment(
 	white, 200 / Math.PI * fromLstar(50.0),
 	fromLstar(50.0) * 100,
 	"average",
-	false
+	false,
 );
 
 // https://material.io/blog/science-of-color-design
@@ -137,7 +137,7 @@ export default new ColorSpace({
 		t: {
 			refRange: [0, 100],
 			name: "Tone",
-		}
+		},
 	},
 
 	base: xyz_d65,
@@ -151,7 +151,7 @@ export default new ColorSpace({
 	formats: {
 		color: {
 			id: "--hct",
-			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
 		},
 	},
 });

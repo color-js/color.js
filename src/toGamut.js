@@ -32,13 +32,13 @@ const GMAPPRESET = {
 		method: "hct.c",
 		jnd: 2,
 		deltaEMethod: "hct",
-		blackWhiteClamp: {}
+		blackWhiteClamp: {},
 	},
 	"hct-tonal": {
 		method: "hct.c",
 		jnd: 0,
 		deltaEMethod: "hct",
-		blackWhiteClamp: { channel: "hct.t", min: 0, max: 100 }
+		blackWhiteClamp: { channel: "hct.t", min: 0, max: 100 },
 	},
 };
 
@@ -69,8 +69,8 @@ export default function toGamut (
 		space = color.space,
 		deltaEMethod = "",
 		jnd = 2,
-		blackWhiteClamp = {}
-	} = {}
+		blackWhiteClamp = {},
+	} = {},
 ) {
 	if (util.isString(arguments[1])) {
 		space = arguments[1];
@@ -207,7 +207,7 @@ toGamut.returns = "color";
 // DeltaEOK calculation, so it is guaranteed to be imported.
 const COLORS = {
 	WHITE: { space: oklab, coords: [1, 0, 0] },
-	BLACK: { space: oklab, coords: [0, 0, 0] }
+	BLACK: { space: oklab, coords: [0, 0, 0] },
 };
 
 /**

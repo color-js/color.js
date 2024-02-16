@@ -20,12 +20,12 @@ export function register (Color) {
 	Object.defineProperty(Color.prototype, "uv", {
 		get () {
 			return uv(this);
-		}
+		},
 	});
 
 	Object.defineProperty(Color.prototype, "xy", {
 		get () {
 			return xy(this);
-		}
+		},
 	});
 }

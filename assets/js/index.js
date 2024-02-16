@@ -12,7 +12,7 @@ let root_cs = getComputedStyle(root);
 let colors = {
 	red: new Color(root_cs.getPropertyValue("--color-red")),
 	green: new Color(root_cs.getPropertyValue("--color-green")),
-	blue: new Color(root_cs.getPropertyValue("--color-blue"))
+	blue: new Color(root_cs.getPropertyValue("--color-blue")),
 };
 
 let supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
@@ -27,7 +27,7 @@ if (!Color.DEBUGGING) {
 		"gradient-steps": [
 			...Color.steps(redGreen, interpolationOptions),
 			...Color.steps(greenBlue, interpolationOptions),
-			...Color.steps(blueRed, interpolationOptions)
+			...Color.steps(blueRed, interpolationOptions),
 		],
 		"color-red-light": colors.red.clone().set({"lch.l": 80}),
 		"color-green-light": colors.green.clone().set({"lch.l": 80}),
@@ -51,7 +51,7 @@ if (!Color.DEBUGGING) {
 		textContent: `:root {
 			${Object.entries(vars).map(pair => `--${pair[0]}: ${pair[1]}`).join(";\n")};
 			--scrolltop: ${root.scrollTop};
-		}`
+		}`,
 	});
 }
 
@@ -77,7 +77,7 @@ for (let code of $$(":not(pre) > code")) {
 	if (match) {
 		$.create("a", {
 			href: `/api/#Color${match[1] === "Color" ? "." : "#"}${match[2]}`,
-			around: code
+			around: code,
 		});
 	}
 }
