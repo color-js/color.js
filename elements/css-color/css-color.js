@@ -91,8 +91,8 @@ export default class CSSColor extends HTMLElement {
 
 			this.dispatchEvent(new CustomEvent("colorchange", {
 				detail: {
-					color: this.#color
-				}
+					color: this.#color,
+				},
 			}));
 		}
 

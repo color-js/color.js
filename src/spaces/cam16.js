@@ -12,32 +12,32 @@ const tau = 2 * Math.PI;
 const cat16 = [
 	[  0.401288,  0.650173, -0.051461 ],
 	[ -0.250268,  1.204414,  0.045854 ],
-	[ -0.002079,  0.048952,  0.953127 ]
+	[ -0.002079,  0.048952,  0.953127 ],
 ];
 
 const cat16Inv = [
 	[1.8620678550872327, -1.0112546305316843, 0.14918677544445175],
 	[0.38752654323613717, 0.6214474419314753, -0.008973985167612518],
-	[-0.015841498849333856, -0.03412293802851557, 1.0499644368778496]
+	[-0.015841498849333856, -0.03412293802851557, 1.0499644368778496],
 ];
 
 const m1 = [
 	[460.0, 451.0, 288.0],
 	[460.0, -891.0, -261.0],
-	[460.0, -220.0, -6300.0]
+	[460.0, -220.0, -6300.0],
 ];
 
 const surroundMap = {
 	dark: [0.8, 0.525, 0.8],
 	dim: [0.9, 0.59, 0.9],
-	average: [1, 0.69, 1]
+	average: [1, 0.69, 1],
 };
 
 const hueQuadMap = {
 	// Red, Yellow, Green, Blue, Red
 	h: [20.14, 90.00, 164.25, 237.53, 380.14],
 	e: [0.8, 0.7, 1.0, 1.2, 0.8],
-	H: [0.0, 100.0, 200.0, 300.0, 400.0]
+	H: [0.0, 100.0, 200.0, 300.0, 400.0],
 };
 
 const rad2deg = 180 / Math.PI;
@@ -83,7 +83,7 @@ export function invHueQuadrature (H) {
 
 	return constrain(
 		(Hp * (eii * hi - ei * hii) - 100 * hi * eii) /
-		(Hp * (eii - ei) - 100 * eii)
+		(Hp * (eii - ei) - 100 * eii),
 	);
 }
 
@@ -92,7 +92,7 @@ export function environment (
 	adaptingLuminance,
 	backgroundLuminance,
 	surround,
-	discounting
+	discounting,
 ) {
 
 	const env = {};
@@ -138,7 +138,7 @@ export function environment (
 		1 :
 		Math.max(
 			Math.min(f * (1 - 1 / 3.6 * Math.exp((-env.la - 42) / 92)), 1),
-			0
+			0,
 		);
 	env.dRgb = rgbW.map(c => {
 		return interpolate(1, yw / c, d);
@@ -164,7 +164,7 @@ const viewingConditions = environment(
 	white,
 	64 / Math.PI * 0.2, 20,
 	"average",
-	false
+	false,
 );
 
 export function fromCam16 (cam16, env) {
@@ -223,7 +223,7 @@ export function fromCam16 (cam16, env) {
 	}
 	const t = spow(
 		alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73),
-		10 / 9
+		10 / 9,
 	);
 
 	// Eccentricity
@@ -247,13 +247,13 @@ export function fromCam16 (cam16, env) {
 		multiplyMatrices(m1, [p2, a, b]).map(c => {
 			return c * 1 / 1403;
 		}),
-		env.fl
+		env.fl,
 	);
 	return multiplyMatrices(
 		cat16Inv,
 		rgb_c.map((c, i) => {
 			return c * env.dRgbInv[i];
-		})
+		}),
 	).map(c => {
 		return c / 100;
 	});
@@ -269,7 +269,7 @@ export function toCam16 (xyzd65, env) {
 		multiplyMatrices(cat16, xyz100).map((c, i) => {
 			return c * env.dRgb[i];
 		}),
-		env.fl
+		env.fl,
 	);
 
 	// Calculate hue from red-green and yellow-blue components
@@ -284,7 +284,7 @@ export function toCam16 (xyzd65, env) {
 		5e4 / 13 * env.nc * env.ncb *
 		zdiv(
 			et * Math.sqrt(a ** 2 + b ** 2),
-			rgbA[0] + rgbA[1] + 1.05 * rgbA[2] + 0.305
+			rgbA[0] + rgbA[1] + 1.05 * rgbA[2] + 0.305,
 		)
 	);
 	const alpha = spow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, env.n), 0.73);
@@ -343,7 +343,7 @@ export default new ColorSpace({
 			refRange: [0, 360],
 			type: "angle",
 			name: "Hue",
-		}
+		},
 	},
 
 	base: xyz_d65,
@@ -355,12 +355,12 @@ export default new ColorSpace({
 	toBase (cam16) {
 		return fromCam16(
 			{J: cam16[0], M: cam16[1], h: cam16[2]},
-			viewingConditions
+			viewingConditions,
 		);
 	},
 	formats: {
 		color: {
-			id: "--cam16-jmh"
+			id: "--cam16-jmh",
 		},
 	},
 });

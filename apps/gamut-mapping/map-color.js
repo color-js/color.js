@@ -6,7 +6,7 @@ let spacesToShow = [Color.spaces.oklch, Color.spaces.p3, Color.spaces["p3-linear
 
 export default {
 	props: {
-		modelValue: String
+		modelValue: String,
 	},
 	emits: ["update:modelValue"],
 	data () {
@@ -37,7 +37,7 @@ export default {
 			},
 			set (value) {
 				this.$emit("update:modelValue", value);
-			}
+			},
 		},
 		colorLCH () {
 			return this.color.to("oklch");
@@ -49,7 +49,7 @@ export default {
 				let coords = this.color.to(space).coords.map(c => this.toPrecision(c, 3));
 				return {
 					name: space.name,
-					coords: Object.fromEntries(coordInfo.map(([c, info], i) => [c, {value: coords[i], name: info.name, id: c}]))
+					coords: Object.fromEntries(coordInfo.map(([c, info], i) => [c, {value: coords[i], name: info.name, id: c}])),
 				};
 			});
 		},
@@ -110,12 +110,12 @@ export default {
 			deltaEs = deltaEs.map(e => this.toPrecision(e, 2));
 			deltaEs.sort((a, b) => a - b);
 			return deltaEs;
-		}
+		},
 	},
 
 	methods: {
 		toPrecision: Color.util.toPrecision,
-		abs: Math.abs
+		abs: Math.abs,
 	},
 
 	watch: {
@@ -194,5 +194,5 @@ export default {
 					</dd>
 				</div>
 			</dl>
-		</section>`
+		</section>`,
 };

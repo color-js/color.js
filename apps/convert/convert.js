@@ -13,7 +13,7 @@ function update () {
 		let oldParams = getURLParams();
 		let newParams = [
 			["color", colorInput.value],
-			["precision", precisionInput.value || "0"]
+			["precision", precisionInput.value || "0"],
 		];
 
 		let changed = ![...new URL(location).searchParams].every((pair, i) => {

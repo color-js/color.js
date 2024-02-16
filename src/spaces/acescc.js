@@ -25,16 +25,16 @@ export default new RGBColorSpace({
 	coords: {
 		r: {
 			range: [ACES_min_nonzero, ACES_cc_max],
-			name: "Red"
+			name: "Red",
 		},
 		g: {
 			range: [ACES_min_nonzero, ACES_cc_max],
-			name: "Green"
+			name: "Green",
 		},
 		b: {
 			range: [ACES_min_nonzero, ACES_cc_max],
-			name: "Blue"
-		}
+			name: "Blue",
+		},
 	},
 	referred: "scene",
 
@@ -73,6 +73,6 @@ export default new RGBColorSpace({
 	// encoded media white (rgb 1,1,1) => linear  [ 222.861, 222.861, 222.861 ]
 	// encoded media black (rgb 0,0,0) => linear [ 0.0011857, 0.0011857, 0.0011857]
 	formats: {
-		color: {}
-	}
+		color: {},
+	},
 });

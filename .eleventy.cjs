@@ -13,7 +13,7 @@ module.exports = config => {
 	config.setFrontMatterParsingOptions({
 		excerpt: true,
 		// Optional, default is "---"
-		excerpt_separator: "<!-- more -->"
+		excerpt_separator: "<!-- more -->",
 	});
 
 	// config.addFilter("readable_date", date => {
@@ -30,12 +30,12 @@ module.exports = config => {
 			let ret = require("path").relative(path, "/");
 
 			return ret || ".";
-		}
+		},
 	);
 
 	config.addFilter(
 		"unslugify",
-		slug => slug.replace(/(^|-)([a-z])/g, ($0, $1, $2) => ($1 ? " " : "") + $2.toUpperCase())
+		slug => slug.replace(/(^|-)([a-z])/g, ($0, $1, $2) => ($1 ? " " : "") + $2.toUpperCase()),
 	);
 
 	config.addFilter(
@@ -43,14 +43,14 @@ module.exports = config => {
 		content => {
 			// console.log(content);
 			return content ? content.match(/^#+\s*(.+)/)?.[1] ?? "NO_HEADING_FOUND" : "EMPTY_CONTENT";
-		}
+		},
 	);
 
 	return {
 		markdownTemplateEngine: "njk",
 		templateFormats: ["md", "njk"],
 		dir: {
-			output: "."
-		}
+			output: ".",
+		},
 	};
 };

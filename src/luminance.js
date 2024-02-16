@@ -20,6 +20,6 @@ export function register (Color) {
 		},
 		set (value) {
 			setLuminance(this, value);
-		}
+		},
 	});
 }

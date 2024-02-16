@@ -63,16 +63,16 @@ export default new ColorSpace({
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
+			name: "Hue",
 		},
 		s: {
 			range: [0, 100],
-			name: "Saturation"
+			name: "Saturation",
 		},
 		l: {
 			range: [0, 100],
-			name: "Lightness"
-		}
+			name: "Lightness",
+		},
 	},
 
 	base: LCHuv,
@@ -124,7 +124,7 @@ export default new ColorSpace({
 	formats: {
 		color: {
 			id: "--hpluv",
-			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
-		}
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
+		},
 	},
 });
