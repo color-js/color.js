@@ -269,8 +269,16 @@ const tests = {
 					expect: '{"spaceId":"rec2020-linear","coords":[0,1,0.5],"alpha":1}',
 				},
 				{
+					args: "color(rec2100-hlg 0 100% 50%)",
+					expect: '{"spaceId":"rec2100hlg","coords":[0,1,0.5],"alpha":1}',
+				},
+				{
 					args: "color(--rec2100-hlg 0 100% 50%)",
 					expect: '{"spaceId":"rec2100hlg","coords":[0,1,0.5],"alpha":1}',
+				},
+				{
+					args: "color(rec2100-pq 0 100% 50%)",
+					expect: '{"spaceId":"rec2100pq","coords":[0,1,0.5],"alpha":1}',
 				},
 				{
 					args: "color(--rec2100-pq 0 100% 50%)",
@@ -387,6 +395,10 @@ const tests = {
 				{
 					args: "color(--hsluv 25deg 50% 75)",
 					expect: '{"spaceId":"hsluv","coords":[25,50,75],"alpha":1}',
+				},
+				{
+					args: "color(ictcp 0.5 0 0.25)",
+					expect: '{"spaceId":"ictcp","coords":[0.5,0,0.25],"alpha":1}',
 				},
 				{
 					args: "color(--ictcp 0.5 0 0.25)",

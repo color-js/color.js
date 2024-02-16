@@ -66,7 +66,6 @@ const LMStoXYZ_M = [
 // https://professional.dolby.com/siteassets/pdfs/dolby-vision-measuring-perceptual-color-volume-v7.1.pdf
 export default new ColorSpace({
 	id: "ictcp",
-	cssId: "--ictcp",
 	name: "ICTCP",
 	// From BT.2100-2 page 7:
 	// During production, signal values are expected to exceed the
