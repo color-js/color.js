@@ -103,7 +103,7 @@ export default new ColorSpace({
 		let LMS = ICtCptoLMS(ICtCp);
 
 		return multiplyMatrices(LMStoXYZ_M, LMS);
-	}
+	},
 });
 
 function LMStoICtCp (LMS) {

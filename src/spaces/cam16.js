@@ -358,5 +358,5 @@ export default new ColorSpace({
 			{J: cam16[0], M: cam16[1], h: cam16[2]},
 			viewingConditions
 		);
-	}
+	},
 });

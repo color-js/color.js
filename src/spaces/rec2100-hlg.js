@@ -45,5 +45,5 @@ export default new RGBColorSpace({
 			}
 			return a * Math.log(12 * val - b) + c;
 		});
-	}
+	},
 });

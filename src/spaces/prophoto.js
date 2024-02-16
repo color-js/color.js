@@ -15,5 +15,5 @@ export default new RGBColorSpace({
 	},
 	fromBase (RGB) {
 		return RGB.map(v => v >= Et ? v ** (1 / 1.8) : 16 * v);
-	}
+	},
 });

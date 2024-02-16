@@ -33,5 +33,5 @@ export default new RGBColorSpace({
 
 			return ((num / denom)  ** m);
 		});
-	}
+	},
 });

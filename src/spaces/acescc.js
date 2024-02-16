@@ -70,7 +70,7 @@ export default new RGBColorSpace({
 				return  (Math.log2(val) + 9.72) / 17.52;
 			}
 		});
-	}
+	},
 	// encoded media white (rgb 1,1,1) => linear  [ 222.861, 222.861, 222.861 ]
 	// encoded media black (rgb 0,0,0) => linear [ 0.0011857, 0.0011857, 0.0011857]
 });

@@ -48,7 +48,7 @@ export default new RGBColorSpace({
 	white: WHITES.ACES,
 
 	toXYZ_M,
-	fromXYZ_M
+	fromXYZ_M,
 });
 
 // export default Color;

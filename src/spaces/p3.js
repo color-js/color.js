@@ -9,5 +9,5 @@ export default new RGBColorSpace({
 	base: P3Linear,
 	// Gamma encoding/decoding is the same as sRGB
 	fromBase: sRGB.fromBase,
-	toBase: sRGB.toBase
+	toBase: sRGB.toBase,
 });
