@@ -53,7 +53,7 @@ await Mavo.ready;
 
 for (let id in extensions) {
 	showdown.extension(id, () => [
-		extensions[id]
+		extensions[id],
 	]);
 }
 

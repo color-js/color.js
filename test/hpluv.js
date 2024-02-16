@@ -31,24 +31,24 @@ const tests = {
 		return checkProximity(actual, expect);
 	}),
 	data: {
-		epsilon: .00000001
+		epsilon: .00000001,
 	},
 	tests: [
 		{
 			name: "sRGB to HPLuv",
 			data: {
-				toSpace: "hpluv"
+				toSpace: "hpluv",
 			},
-			tests: srgbToHpluv
+			tests: srgbToHpluv,
 		},
 		{
 			name: "HPLuv to sRGB",
 			data: {
-				toSpace: "srgb"
+				toSpace: "srgb",
 			},
-			tests: hpluvToSrgb
-		}
-	]
+			tests: hpluvToSrgb,
+		},
+	],
 };
 
 export default tests;

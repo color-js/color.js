@@ -110,7 +110,7 @@ let app = createApp({
 			ret.push(steps);
 
 			return ret;
-		}
+		},
 	},
 	watch: {
 		spaceId (newSpaceId, oldSpaceId) {
@@ -131,8 +131,8 @@ let app = createApp({
 				let {spaceId, coords, alpha} = this;
 				localStorage.picker_color = JSON.stringify({spaceId, coords, alpha});
 			});
-		}
-	}
+		},
+	},
 }).mount("#app");
 
 window.CSS_color_to_LCH = function CSS_color_to_LCH (str) {

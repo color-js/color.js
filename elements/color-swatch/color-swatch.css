@@ -1,7 +1,7 @@
 :host {
 	display: inline-flex;
-	align-items: center;
-	gap: .15em;
+	align-items: baseline;
+	gap: .2em;
 	margin-inline: .1em;
 }
 
@@ -13,15 +13,13 @@
 	--box-shadow-blur: clamp(2px, .1em, 5px);
 	--box-shadow-color: rgb(0 0 0 / .3);
 
-	display: inline-flex;
-	vertical-align: calc(-1 * var(--border-width));
+	position: relative;
+	bottom: calc(-1 * var(--border-width) - .1em);
 	width: 1.2em;
-	height: 1.2em;
 	height: 1.2em;
 	border: var(--border-width) solid white;
 	box-sizing: border-box;
 	background: var(--color-image, 0), var(--transparency-grid, canvas);
-
 	box-shadow: calc(var(--box-shadow-blur) * .2) calc(var(--box-shadow-blur) * .2) var(--box-shadow-blur) var(--box-shadow-color);
 	border-radius: clamp(1px, .1em, 10px);
 }

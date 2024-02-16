@@ -15,64 +15,22 @@
 		<p>Use keyboard arrow keys to increment/decrement, share by copying the URL</p>
 	</header>
 
-	<section id="rendering">
-		<h2>Browser rendering</h2>
-
-		<dl class="swatches">
-			<div>
-				<dt>Input
-					<small class="description">The color as displayed directly by the browser.</small>
-				</dt>
-				<dd>
-					<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="colorInput">
-						<input v-model="colorInput" />
-					</css-color>
-					<details class="space-coords">
-						<summary>Raw coordinates</summary>
-						<dl class="space-coords">
-							<div v-for="(space, spaceIndex) of spaces">
-								<dt>{{ space.name }}</dt>
-								<dd>
-									<dl class="coords">
-										<div v-for="(info, c) of space.coords">
-											<dt :title="info.name">{{ c.toUpperCase() }}</dt>
-											<dd>{{ toPrecision(info.value, 3) }}</dd>
-										</div>
-									</dl>
-								</dd>
-							</div>
-						</dl>
-					</details>
-				</dd>
-			</div>
-		</dl>
-	</section>
-
-	<section id="gamut-mapped">
-		<h2>Gamut mapped</h2>
-
-		<dl class="swatches" id="gamut_mapped">
-			<div v-for="(config, method) in methods" :id="'method-' + method" :data-ranking="ranking.findIndex(e => e === mapped[method]?.deltas.E) + 1">
-				<dt>
-					{{ config.label ?? method[0].toUpperCase() + method.slice(1) }}
-					<small v-if="config.description" class="description">{{ config.description }}</small>
-				</dd>
-				<dd>
-					<css-color swatch="large" :color="mapped[method].color"></css-color>
-					<dl class="deltas" v-if="!color.inGamut('p3')">
-						<div v-for="(delta, c) of mapped[method].deltas" :class="'delta-' + c.toLowerCase()">
-							<dt>Δ{{ c }}</dt>
-							<dd :class="{
-								positive: c !== 'E' && delta > 0,
-								negative: delta < 0,
-								zero: delta === 0,
-								min: minDeltas[c] === abs(delta),
-							}">{{ delta }}</dd>
-						</di>
-					</dl>
-				</dd>
-			</div>
-		</dl>
-	</section>
+	<article class="color" v-for="(color, i) of colors">
+		<div class="controls">
+			<button @click="colors.splice(i, 0, color)">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 464H288c8.8 0 16-7.2 16-16V384h48v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V224c0-35.3 28.7-64 64-64h64v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16zM224 304H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H224c-8.8 0-16 7.2-16 16V288c0 8.8 7.2 16 16 16zm-64-16V64c0-35.3 28.7-64 64-64H448c35.3 0 64 28.7 64 64V288c0 35.3-28.7 64-64 64H224c-35.3 0-64-28.7-64-64z"/></svg>
+				Duplicate
+			</button>
+			<button @click="colors.splice(i, 1)">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+				Delete
+			</button>
+		</div>
+		<map-color v-model="colors[i]"></map-color>
+	</article>
+	<button @click="colors.push(colors.at(-1))">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+		Add another color
+	</button>
 </body>
 </html>

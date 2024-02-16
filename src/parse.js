@@ -156,7 +156,7 @@ export default function parse (str, {meta} = {}) {
 
 					return {
 						spaceId: space.id,
-						coords, alpha
+						coords, alpha,
 					};
 				}
 			}

@@ -18,16 +18,16 @@ new ColorSpace({
 	coords: {
 		a: {
 			refRange: [0, 360],
-			name: "A"
+			name: "A",
 		},
 		b: {
 			range: [0, 100],
-			name: "B"
+			name: "B",
 		},
 		c: {
 			range: [0, 100],
-			name: "C"
-		}
+			name: "C",
+		},
 	},
 	white: "D50",
 	cssId: "abc",

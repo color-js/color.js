@@ -13,16 +13,16 @@ export default new ColorSpace({
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
+			name: "Hue",
 		},
 		w: {
 			range: [0, 100],
-			name: "Whiteness"
+			name: "Whiteness",
 		},
 		b: {
 			range: [0, 100],
-			name: "Blackness"
-		}
+			name: "Blackness",
+		},
 	},
 
 	base: HSV,
@@ -53,6 +53,6 @@ export default new ColorSpace({
 	formats: {
 		"hwb": {
 			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
-		}
-	}
+		},
+	},
 });

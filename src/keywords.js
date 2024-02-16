@@ -154,5 +154,5 @@ export default {
 	"white": [1, 1, 1],
 	"whitesmoke": [245 / 255, 245 / 255, 245 / 255],
 	"yellow": [1, 1, 0],
-	"yellowgreen": [154 / 255, 205 / 255, 50 / 255]
+	"yellowgreen": [154 / 255, 205 / 255, 50 / 255],
 };

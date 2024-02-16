@@ -8,17 +8,17 @@ export default new ColorSpace({
 	coords: {
 		l: {
 			refRange: [0, 1],
-			name: "Lightness"
+			name: "Lightness",
 		},
 		c: {
 			refRange: [0, 0.4],
-			name: "Chroma"
+			name: "Chroma",
 		},
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
-		}
+			name: "Hue",
+		},
 	},
 	white: "D65",
 
@@ -39,7 +39,7 @@ export default new ColorSpace({
 		return [
 			L, // OKLab L is still L
 			Math.sqrt(a ** 2 + b ** 2), // Chroma
-			constrainAngle(h) // Hue, in degrees [0 to 360)
+			constrainAngle(h), // Hue, in degrees [0 to 360)
 		];
 	},
 	// Convert from polar form
@@ -63,6 +63,6 @@ export default new ColorSpace({
 	formats: {
 		"oklch": {
 			coords: ["<percentage> | <number>", "<number> | <percentage>[0,1]", "<number> | <angle>"],
-		}
-	}
+		},
+	},
 });
