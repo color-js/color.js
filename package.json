@@ -47,7 +47,7 @@
 		"test": "tests"
 	},
 	"scripts": {
-		"test": "NODE_ENV=test npx htest ./test",
+		"test": "npx htest ./test",
 		"dtslint": "dtslint --expectOnly types",
 		"eslint": "eslint . --ext .js --ext .ts --ext .cjs",
 		"lint": "run-s build:space-accessors \"eslint -- --fix\" dtslint",

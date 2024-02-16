@@ -9,10 +9,6 @@
 <script src="https://htest.dev/htest.js" crossorigin></script>
 <link rel="stylesheet" href="style.css" />
 
-<script type="module">
-	globalThis.process = { env: { NODE_ENV: "test" } };
-</script>
-
 <script src="../dist/color.global.js"></script>
 <script>
 function gamutTest(toSpace, args) {
