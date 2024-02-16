@@ -103,13 +103,15 @@ export default function parse (str, {meta} = {}) {
 							Object.assign(meta, {formatId: "color", types});
 						}
 
-						if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
-							console.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-							             `Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
-						}
-						if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
-							console.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
-							             `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
+						if (globalThis?.process?.env?.NODE_ENV?.toLocaleLowerCase() !== "test") {
+							if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
+								console.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
+								             `Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
+							}
+							if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
+								console.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
+								             `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
+							}
 						}
 
 						return {spaceId: space.id, coords, alpha};

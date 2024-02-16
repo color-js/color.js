@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
 <script src="https://htest.dev/htest.js" crossorigin></script>
 
+<script type="module">
+	globalThis.process = { env: { NODE_ENV: "test" } };
+</script>
+
 <script src="../color.js" type="module"></script>
 
 </head>
