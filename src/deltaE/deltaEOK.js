@@ -2,8 +2,12 @@
 // than the simple 1976 Euclidean distance in CIE Lab
 
 import oklab from "../spaces/oklab.js";
+import getColor from "../getColor.js";
 
 export default function (color, sample) {
+	color = getColor(color);
+	sample = getColor(sample);
+
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaEOK, term by term as root sum of squares

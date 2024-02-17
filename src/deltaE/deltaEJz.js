@@ -1,4 +1,5 @@
 import jzczhz from "../spaces/jzczhz.js";
+import getColor from "../getColor.js";
 
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in Lab
@@ -8,6 +9,9 @@ import jzczhz from "../spaces/jzczhz.js";
 // gives good results.
 
 export default function (color, sample) {
+	color = getColor(color);
+	sample = getColor(sample);
+
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE in JzCzHz.
