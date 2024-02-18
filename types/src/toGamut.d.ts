@@ -26,13 +26,7 @@ export interface Options {
 	 * `min` indicates the lower limit for black clamping and `max` indicates the upper
 	 * limit for white clamping
 	 */
-	blackWhiteClamp?:
-		| {
-			channel: Ref;
-			min: number;
-			max: number;
-		  }
-		| undefined;
+	blackWhiteClamp?: { channel: Ref; min: number; max: number } | undefined;
 }
 
 declare namespace toGamut {
