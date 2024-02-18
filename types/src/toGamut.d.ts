@@ -14,7 +14,6 @@ export interface Options {
 	 * if reducing the coordinate never brings the color in gamut
 	 * @default "css"
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	method?: "css" | "clip" | (string & {}) | undefined;
 	/** The color whose space is being mapped to. Defaults to the current space */
 	space?: string | ColorSpace | undefined;
