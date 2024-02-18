@@ -12,6 +12,7 @@ export interface Options {
 	 * until the color is in gamut. Please note that this may produce nonsensical
 	 * results for certain coordinates (e.g. hue) or infinite loops
 	 * if reducing the coordinate never brings the color in gamut
+	 * @default "css"
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	method?: "css" | "clip" | (string & {}) | undefined;

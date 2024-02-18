@@ -60,6 +60,7 @@ export interface Options {
 	*/
 	coords?: Record<string, CoordMeta> | undefined;
 	white?: string | White | undefined;
+	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
 	cssId?: string | undefined;
 	referred?: string | undefined;
 	/**
@@ -110,6 +111,7 @@ export default class ColorSpace {
 	static registry: Record<string, ColorSpace>;
 
 	get all (): Set<ColorSpace>;
+	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
 	get cssId (): string;
 	get isPolar (): boolean;
 
