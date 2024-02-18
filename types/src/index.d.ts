@@ -69,11 +69,20 @@ declare module "./color" {
 		// interpolation
 		// These signatures should always match those in interpolation.d.ts,
 		// including the static versions
+		/** Create color mixtures in any desired proportion between two colors */
 		mix (color2: ColorTypes, options?: MixOptions): Color;
 		mix (color2: ColorTypes, p: number, options?: MixOptions): Color;
+		/**
+		 * Creates a function that accepts a number and returns a color.
+		 * For numbers in the range 0 to 1, the function interpolates;
+		 * for numbers outside that range, the function extrapolates
+		 * (and thus may not return the results you expect)
+		 */
 		range: ToColorPrototype<typeof range>;
+		/** Get an array of discrete steps */
 		steps (color2: ColorTypes, options?: StepsOptions): Color[];
 
+		/** Create color mixtures in any desired proportion between two colors */
 		static mix (
 			color1: ColorTypes,
 			color2: ColorTypes,
@@ -85,7 +94,14 @@ declare module "./color" {
 			p: number,
 			options?: MixOptions
 		): Color;
+		/**
+		 * Creates a function that accepts a number and returns a color.
+		 * For numbers in the range 0 to 1, the function interpolates;
+		 * for numbers outside that range, the function extrapolates
+		 * (and thus may not return the results you expect)
+		 */
 		static range: typeof range;
+		/** Get an array of discrete steps */
 		static steps (
 			color1: ColorTypes,
 			color2: ColorTypes,

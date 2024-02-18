@@ -252,7 +252,13 @@ module.exports = {
 		"@typescript-eslint/ban-ts-comment": 1,
 		// Disallow certain built-in types
 		// https://typescript-eslint.io/rules/ban-types
-		"@typescript-eslint/ban-types": 1,
+		"@typescript-eslint/ban-types": [
+			1,
+			{
+				extendDefaults: true,
+				types: { "{}": false },
+			},
+		],
 		// Disallow generic `Array` constructors
 		// https://typescript-eslint.io/rules/no-array-constructor
 		"@typescript-eslint/no-array-constructor": 1,
