@@ -41,7 +41,7 @@ const methods = {
 			let lch = color.to("oklch").coords;
 			mappedColor.set({
 				"oklch.l": lch[0],
-				"oklch.h": lch[2]
+				"oklch.h": lch[2],
 			});
 			// Do not early return if in-gamut already at this point.
 			// The second scale step gets the color closer to the original.
@@ -53,7 +53,7 @@ const methods = {
 			// If not, would a clip suffice?
 			return mappedColor;
 
-		}
+		},
 	},
 	"scale": {
 		label: "Scale",
