@@ -71,7 +71,7 @@ export function calculateBoundingLines (l) {
 		b0s: s1b / s3b,
 		b0i: s2b * l / s3b,
 		b1s: s1b / (s3b + 126452),
-		b1i: (s2b - 769860) * l / (s3b + 126452)
+		b1i: (s2b - 769860) * l / (s3b + 126452),
 	};
 }
 
@@ -94,16 +94,16 @@ export default new ColorSpace({
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
+			name: "Hue",
 		},
 		s: {
 			range: [0, 100],
-			name: "Saturation"
+			name: "Saturation",
 		},
 		l: {
 			range: [0, 100],
-			name: "Lightness"
-		}
+			name: "Lightness",
+		},
 	},
 
 	base: LCHuv,
@@ -156,7 +156,7 @@ export default new ColorSpace({
 	formats: {
 		color: {
 			id: "--hsluv",
-			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
-		}
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
+		},
 	},
 });

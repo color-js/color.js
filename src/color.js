@@ -95,7 +95,7 @@ export default class Color {
 		return {
 			spaceId: this.spaceId,
 			coords: this.coords,
-			alpha: this.alpha
+			alpha: this.alpha,
 		};
 	}
 
@@ -197,5 +197,5 @@ Object.assign(Color, {
 	parse,
 
 	// Global defaults one may want to configure
-	defaults
+	defaults,
 });

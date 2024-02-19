@@ -12,16 +12,17 @@ WHITES.ACES = [0.32168 / 0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767) / 0.337
 const toXYZ_M = [
 	[  0.6624541811085053,   0.13400420645643313,  0.1561876870049078  ],
 	[  0.27222871678091454,  0.6740817658111484,   0.05368951740793705 ],
-	[ -0.005574649490394108, 0.004060733528982826, 1.0103391003129971  ]
+	[ -0.005574649490394108, 0.004060733528982826, 1.0103391003129971  ],
 ];
 const fromXYZ_M = [
 	[  1.6410233796943257,   -0.32480329418479,    -0.23642469523761225  ],
 	[ -0.6636628587229829,    1.6153315916573379,   0.016756347685530137 ],
-	[  0.011721894328375376, -0.008284441996237409, 0.9883948585390215   ]
+	[  0.011721894328375376, -0.008284441996237409, 0.9883948585390215   ],
 ];
 
 export default new RGBColorSpace({
 	id: "acescg",
+	cssId: "--acescg",
 	name: "ACEScg",
 
 	// ACEScg – A scene-referred, linear-light encoding of ACES Data
@@ -30,16 +31,16 @@ export default new RGBColorSpace({
 	coords: {
 		r: {
 			range: [0, 65504],
-			name: "Red"
+			name: "Red",
 		},
 		g: {
 			range: [0, 65504],
-			name: "Green"
+			name: "Green",
 		},
 		b: {
 			range: [0, 65504],
-			name: "Blue"
-		}
+			name: "Blue",
+		},
 	},
 
 	referred: "scene",
@@ -48,10 +49,6 @@ export default new RGBColorSpace({
 
 	toXYZ_M,
 	fromXYZ_M,
-
-	formats: {
-		color: {}
-	},
 });
 
 // export default Color;

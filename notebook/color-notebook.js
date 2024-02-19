@@ -57,7 +57,7 @@ export default class Notebook {
 		this.wrapper = $.create("div", {
 			className: "cn-wrapper",
 			around: this.pre,
-			contents: {className: "cn-results"}
+			contents: {className: "cn-results"},
 		});
 
 		// Create Prism Live instance if not already present
@@ -89,7 +89,7 @@ export default class Notebook {
 			<style>:root {--color-red: hsl(0 80% 50%); --color-green: hsl(90 50% 45%); --color-blue: hsl(210 80% 55%)}</style>`,
 			// sandbox: "allow-scripts allow-same-origin",
 			inside: document.body,
-			hidden: true
+			hidden: true,
 		});
 
 		this.initialized = true;
@@ -256,7 +256,7 @@ export default class Notebook {
 			if (ret instanceof win.Error) {
 				console.log(
 					"Error during statement evaluation:", ret,
-					"Statement was:", lineCode
+					"Statement was:", lineCode,
 				);
 			}
 			else {
@@ -291,7 +291,7 @@ export default class Notebook {
 							className: "variable",
 							"data-varname": name,
 							"data-line": i,
-							around: text
+							around: text,
 						});
 
 						try {
@@ -428,15 +428,15 @@ export function serialize (ret, color, win = window) {
 			className: "cn-error",
 			textContent: ret.name,
 			title: ret + ". Click to see error in the console.",
-			onclick: _ => console.error(ret)
+			onclick: _ => console.error(ret),
 		});
 	}
 
 	let template = {
 		title: "Click to see value in the console",
 		events: {
-			click: _ => console.log(ret)
-		}
+			click: _ => console.log(ret),
+		},
 	};
 
 	if (ret instanceof Color) {
@@ -444,7 +444,7 @@ export function serialize (ret, color, win = window) {
 
 		element = $.create({
 			...template,
-			textContent: ret.toString({precision: 3, inGamut: false})
+			textContent: ret.toString({precision: 3, inGamut: false}),
 		});
 
 		flag = true;
@@ -461,8 +461,8 @@ export function serialize (ret, color, win = window) {
 					}
 
 					return color;
-				})
-			}
+				}),
+			},
 		});
 	}
 	else if (Array.isArray(ret)) {
@@ -484,28 +484,28 @@ export function serialize (ret, color, win = window) {
 		return $.create({
 			...template,
 			className: "cn-value cn-array",
-			contents
+			contents,
 		});
 	}
 	else if (typeof ret === "number") {
 		element = $.create({
 			...template,
 			className: "cn-number",
-			textContent: util.toPrecision(ret, 3) + ""
+			textContent: util.toPrecision(ret, 3) + "",
 		});
 	}
 	else if (typeof ret === "boolean") {
 		element = $.create({
 			...template,
 			className: "cn-boolean",
-			textContent: ret
+			textContent: ret,
 		});
 	}
 	else if (util.isString(ret)) {
 		element = $.create({
 			...template,
 			className: "cn-string",
-			textContent: `"${ret}"`
+			textContent: `"${ret}"`,
 		});
 	}
 	else if (ret && typeof ret === "object") {
@@ -513,7 +513,7 @@ export function serialize (ret, color, win = window) {
 		element = $.create({
 			...template,
 			className: "cn-object",
-			textContent: `Object {${keys.slice(0, 3).join(", ") + (keys.length > 3 ? ", ..." : "")}}`
+			textContent: `Object {${keys.slice(0, 3).join(", ") + (keys.length > 3 ? ", ..." : "")}}`,
 		});
 	}
 
@@ -545,11 +545,11 @@ export function serialize (ret, color, win = window) {
 
 		$.set(element, {
 			style: {
-				"--color": color.to(outputSpace)
+				"--color": color.to(outputSpace),
 			},
 			properties: {
-				color
-			}
+				color,
+			},
 		});
 	}
 

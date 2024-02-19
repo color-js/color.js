@@ -12,7 +12,7 @@ export default new ColorSpace({
 	formats: {
 		color: {
 			ids: ["xyz-d65", "xyz"],
-		}
+		},
 	},
 	aliases: ["xyz"],
 });

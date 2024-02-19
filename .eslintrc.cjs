@@ -189,6 +189,9 @@ module.exports = {
 		// Enforce consistent brace style for blocks
 		// https://eslint.style/rules/default/brace-style
 		"@stylistic/brace-style": [1, "stroustrup"],
+		// Enforce trailing commas unless closing `]` or `}` is on the same line
+		// https://eslint.style/rules/default/comma-dangle
+		"@stylistic/comma-dangle": [1, "always-multiline"],
 		// Enforce no space before and one or more spaces after a comma
 		// https://eslint.style/rules/default/comma-spacing
 		"@stylistic/comma-spacing": 1,
@@ -249,7 +252,13 @@ module.exports = {
 		"@typescript-eslint/ban-ts-comment": 1,
 		// Disallow certain built-in types
 		// https://typescript-eslint.io/rules/ban-types
-		"@typescript-eslint/ban-types": 1,
+		"@typescript-eslint/ban-types": [
+			1,
+			{
+				extendDefaults: true,
+				types: { "{}": false },
+			},
+		],
 		// Disallow generic `Array` constructors
 		// https://typescript-eslint.io/rules/no-array-constructor
 		"@typescript-eslint/no-array-constructor": 1,

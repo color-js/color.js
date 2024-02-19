@@ -78,8 +78,9 @@ export default function parse (str, {meta} = {}) {
 		if (name === "color") {
 			// color() function
 			let id = env.parsed.args.shift();
-			let undashedId = id.startsWith("--") ? id.substring(2) : id;
-			let ids = [id, undashedId];
+			// Check against both <dashed-ident> and <ident> versions
+			let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
+			let ids = [id, alternateId];
 			let alpha = env.parsed.rawArgs.indexOf("/") > 0 ? env.parsed.args.pop() : 1;
 
 			for (let space of ColorSpace.all) {
@@ -102,6 +103,15 @@ export default function parse (str, {meta} = {}) {
 							Object.assign(meta, {formatId: "color", types});
 						}
 
+						if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
+							console.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
+							             `Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
+						}
+						if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
+							console.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
+							             `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
+						}
+
 						return {spaceId: space.id, coords, alpha};
 					}
 				}
@@ -109,10 +119,10 @@ export default function parse (str, {meta} = {}) {
 
 			// Not found
 			let didYouMean = "";
-			let registryId = id in ColorSpace.registry ? id : undashedId;
+			let registryId = id in ColorSpace.registry ? id : alternateId;
 			if (registryId in ColorSpace.registry) {
 				// Used color space id instead of color() id, these are often different
-				let cssId = ColorSpace.registry[registryId].formats?.functions?.color?.id;
+				let cssId = ColorSpace.registry[registryId].formats?.color?.id;
 
 				if (cssId) {
 					didYouMean = `Did you mean color(${cssId})?`;
@@ -146,7 +156,7 @@ export default function parse (str, {meta} = {}) {
 
 					return {
 						spaceId: space.id,
-						coords, alpha
+						coords, alpha,
 					};
 				}
 			}

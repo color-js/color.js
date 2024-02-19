@@ -28,7 +28,4 @@ export default new RGBColorSpace({
 			return 4.5 * val;
 		});
 	},
-	formats: {
-		color: {},
-	}
 });

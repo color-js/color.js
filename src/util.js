@@ -144,7 +144,7 @@ export function parseFunction (str) {
 			rawArgs: parts[2],
 			// An argument could be (as of css-color-4):
 			// a number, percentage, degrees (hue), ident (in color())
-			args
+			args,
 		};
 	}
 }

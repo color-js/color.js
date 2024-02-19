@@ -205,7 +205,7 @@ export function range (color1, color2, options = {}) {
 
 		return ret;
 	}, {
-		rangeArgs
+		rangeArgs,
 	});
 }
 

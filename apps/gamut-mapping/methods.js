@@ -18,10 +18,10 @@ const methods = {
 			let lch = color.to("oklch").coords;
 			mappedColor.set({
 				"oklch.l": lch[0],
-				"oklch.h": lch[2]
+				"oklch.h": lch[2],
 			});
 			return methods.scale.compute(mappedColor);
-		}
+		},
 	},
 	"scale-lh2": {
 		label: "Scale LH 2",
@@ -71,7 +71,7 @@ const methods = {
 			});
 
 			return new Color("p3-linear", scaledCoords).to("p3");
-		}
+		},
 	},
 	// "scale125": {
 	// 	label: "Scale from 0.125",

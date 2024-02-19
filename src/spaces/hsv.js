@@ -13,16 +13,16 @@ export default new ColorSpace({
 		h: {
 			refRange: [0, 360],
 			type: "angle",
-			name: "Hue"
+			name: "Hue",
 		},
 		s: {
 			range: [0, 100],
-			name: "Saturation"
+			name: "Saturation",
 		},
 		v: {
 			range: [0, 100],
-			name: "Value"
-		}
+			name: "Value",
+		},
 	},
 
 	base: HSL,
@@ -37,7 +37,7 @@ export default new ColorSpace({
 		return [
 			h, // h is the same
 			v === 0 ? 0 : 200 * (1 - l / v), // s
-			100 * v
+			100 * v,
 		];
 	},
 	// https://en.wikipedia.org/wiki/HSL_and_HSV#Interconversion
@@ -52,14 +52,14 @@ export default new ColorSpace({
 		return [
 			h, // h is the same
 			(l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
-			l * 100
+			l * 100,
 		];
 	},
 
 	formats: {
 		color: {
 			id: "--hsv",
-			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
-		}
-	}
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
+		},
+	},
 });

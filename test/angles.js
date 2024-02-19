@@ -9,27 +9,27 @@ export default {
 	tests: [
 		{
 			args: [undefined, [-20, 380]],
-			expect: [340, 20]
+			expect: [340, 20],
 		},
 		{
 			args: ["increasing", [-20, 380]],
-			expect: [340, 380]
+			expect: [340, 380],
 		},
 		{
 			args: ["decreasing", [-20, 380]],
-			expect: [340, 20]
+			expect: [340, 20],
 		},
 		{
 			args: ["longer", [-20, 380]],
-			expect: [340, 20]
+			expect: [340, 20],
 		},
 		{
 			args: ["shorter", [-20, 380]],
-			expect: [340, 380]
+			expect: [340, 380],
 		},
 		{
 			args: ["raw", [-20, 380]],
-			expect: [-20, 380]
+			expect: [-20, 380],
 		},
-	]
+	],
 };

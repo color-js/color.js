@@ -22,16 +22,16 @@ export default class RGBColorSpace extends ColorSpace {
 			options.coords = {
 				r: {
 					range: [0, 1],
-					name: "Red"
+					name: "Red",
 				},
 				g: {
 					range: [0, 1],
-					name: "Green"
+					name: "Green",
 				},
 				b: {
 					range: [0, 1],
-					name: "Blue"
-				}
+					name: "Blue",
+				},
 			};
 		}
 

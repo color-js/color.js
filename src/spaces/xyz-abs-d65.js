@@ -9,6 +9,7 @@ export default new ColorSpace({
 // SDR spaces are converted per BT.2048
 // so that diffuse, media white is 203 cd/m²
 	id: "xyz-abs-d65",
+	cssId: "--xyz-abs-d65",
 	name: "Absolute XYZ D65",
 	coords: {
 		x: {
@@ -22,7 +23,7 @@ export default new ColorSpace({
 		z: {
 			refRange: [0, 10888.3],
 			name: "Za",
-		}
+		},
 	},
 
 	base: XYZ_D65,
@@ -35,5 +36,5 @@ export default new ColorSpace({
 	toBase (AbsXYZ) {
 		// Convert to media-white relative XYZ
 		return AbsXYZ.map(v => Math.max(v / Yw, 0));
-	}
+	},
 });
