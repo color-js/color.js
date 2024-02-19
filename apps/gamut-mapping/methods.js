@@ -50,14 +50,14 @@ const methods = {
 				let chroma = mapColor.coords[1];
 				method.scale(gamutColor, achroma);
 				let chroma2 = gamutColor.oklch.c;
-				mapColor.set('c', ((chroma2 - chroma) < 2) ? method.lerp(chroma, chroma2, 0.9) : chroma2 + 0.1);
+				mapColor.set("c", ((chroma2 - chroma) < 2) ? method.lerp(chroma, chroma2, 0.9) : chroma2 + 0.1);
 				let [red, green, blue] = mapColor.to("p3-linear").coords;
 				gamutColor.set({r: red, g: green, b: blue});
 			}
 
 			method.scale(gamutColor, achroma);
 			return gamutColor.to("p3");
-		}
+		},
 	},
 
 	"scale-lh-achromatic": {
@@ -95,7 +95,7 @@ const methods = {
 			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
 			let gamutColor = mapColor.clone().to("p3-linear");
 			let lightness = mapColor.coords[0];
-			methods['scale-achromatic'].scale(gamutColor, achroma);
+			methods["scale-achromatic"].scale(gamutColor, achroma);
 			return gamutColor.to("p3");
 		},
 
@@ -110,7 +110,7 @@ const methods = {
 		},
 
 		scale: (color, achroma) => {
-			let deltas = []
+			let deltas = [];
 			let method = methods["scale-achromatic"];
 			color.coords.forEach((c, i) => {
 				if (c > 1) {
@@ -126,10 +126,10 @@ const methods = {
 				color.set({
 					r: method.lerp(color.coords[0], achroma.coords[0], maxDelta),
 					g: method.lerp(color.coords[1], achroma.coords[1], maxDelta),
-					b: method.lerp(color.coords[2], achroma.coords[2], maxDelta)
+					b: method.lerp(color.coords[2], achroma.coords[2], maxDelta),
 				});
 			}
-		}
+		},
 	},
 	"scale": {
 		label: "Scale",
