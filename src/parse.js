@@ -106,11 +106,11 @@ export default function parse (str, {meta} = {}) {
 
 						if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
 							defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-								            `Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
+							              `Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
 						}
 						if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
 							defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
-								            `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
+							              `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
 						}
 
 						return {spaceId: space.id, coords, alpha};
