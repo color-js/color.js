@@ -1,4 +1,5 @@
 import Color from "../../dist/color.js";
+import { WHITES } from "../../src/adapt.js";
 
 const methods = {
 	"clip": {
