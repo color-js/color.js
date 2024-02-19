@@ -103,9 +103,6 @@ export default new ColorSpace({
 
 		return multiplyMatrices(LMStoXYZ_M, LMS);
 	},
-	formats: {
-		color: {},
-	},
 });
 
 function LMStoICtCp (LMS) {

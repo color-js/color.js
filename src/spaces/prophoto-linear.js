@@ -19,6 +19,7 @@ const fromXYZ_M = [
 
 export default new RGBColorSpace({
 	id: "prophoto-linear",
+	cssId: "--prophoto-rgb-linear",
 	name: "Linear ProPhoto",
 	white: "D50",
 	base: XYZ_D50,

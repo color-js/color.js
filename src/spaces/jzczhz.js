@@ -50,7 +50,4 @@ export default new ColorSpace({
 			jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180),  // bz
 		];
 	},
-	formats: {
-		color: {},
-	},
 });

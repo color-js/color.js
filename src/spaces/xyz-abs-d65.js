@@ -9,6 +9,7 @@ export default new ColorSpace({
 // SDR spaces are converted per BT.2048
 // so that diffuse, media white is 203 cd/m²
 	id: "xyz-abs-d65",
+	cssId: "--xyz-abs-d65",
 	name: "Absolute XYZ D65",
 	coords: {
 		x: {
