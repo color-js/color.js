@@ -51,7 +51,7 @@ const methods = {
 				let chroma = mapColor.coords[1];
 				method.scale(gamutColor, achroma);
 				let chroma2 = gamutColor.oklch.c;
-				mapColor.set("c", ((chroma2 - chroma) < 2) ? method.lerp(chroma, chroma2, 0.9) : chroma2 + 0.1);
+				mapColor.set("c", ((chroma2 - chroma) < 2) ? method.lerp(chroma, chroma2, 0.85) : chroma2 + 0.1);
 				let [red, green, blue] = mapColor.to("p3-linear").coords;
 				gamutColor.set({r: red, g: green, b: blue});
 			}
