@@ -57,6 +57,7 @@ const methods = {
 		},
 
 		lrgbToSrgb: (lrgb) => {
+			// From Prismatic https://studylib.net/doc/14656976/the-prismatic-color-space-for-rgb-computations
 			let rgb = lrgb.slice(1);
 			let l = lrgb[0];
 			let mx = Math.max(...rgb);
@@ -72,6 +73,7 @@ const methods = {
 		},
 
 		srgbToLrgb: (rgb) => {
+			// To Prismatic https://studylib.net/doc/14656976/the-prismatic-color-space-for-rgb-computations
 			let lrgb = [Math.max(...rgb)];
 			let s = rgb.reduce((a, b) => a + b, 0);
 			if (s != 0) {
@@ -90,7 +92,6 @@ const methods = {
 		},
 
 		ilerp: (p0, p1, t) => {
-
 			let d = (p1 - p0);
 			return d !== 0 ? ((t - p0) / d) : 0;
 		},
@@ -99,10 +100,10 @@ const methods = {
 			let delta = 0;
 			let method = methods["scale-lh-achromatic"];
 			let lrgb1 = method.srgbToLrgb(color.coords);
-			let l = lrgb1[0];
 			let lrgb2 = method.srgbToLrgb(achroma.coords);
+			let l = lrgb1[0];
 
-			// Approach the gamut boundary
+			// Find the minimum required delta to get the color into gamut
 			lrgb1.forEach((c, i) => {
 				let d;
 				if (c > 1) {
@@ -116,16 +117,13 @@ const methods = {
 				}
 			});
 
+			// Scale non lightness components
 			if (delta) {
 				lrgb1 = lrgb1.map((c, i) => {
 					return method.lerp(c, lrgb2[i], delta);
 				});
 				let rgb = method.lrgbToSrgb([l, ...lrgb1.slice(1)]);
-				color.set({
-					r: rgb[0],
-					g: rgb[1],
-					b: rgb[2],
-				});
+				color.set({ r: rgb[0], g: rgb[1], b: rgb[2] });
 			}
 		},
 	},
