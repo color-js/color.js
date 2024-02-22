@@ -53,7 +53,7 @@ const methods = {
 				});
 			}
 
-			return gamutColor.toGamut({method: 'clip'}).to("p3");
+			return gamutColor.toGamut({method: "clip"}).to("p3");
 		},
 
 		lrgbToSrgb: (lrgb) => {
@@ -99,7 +99,7 @@ const methods = {
 			let delta = 0;
 			let method = methods["scale-lh-achromatic"];
 			let lrgb1 = method.srgbToLrgb(color.coords);
-			let l = lrgb1[0]
+			let l = lrgb1[0];
 			let lrgb2 = method.srgbToLrgb(achroma.coords);
 
 			// Approach the gamut boundary
@@ -127,7 +127,7 @@ const methods = {
 					b: rgb[2],
 				});
 			}
-		}
+		},
 	},
 	"scale": {
 		label: "Scale",
