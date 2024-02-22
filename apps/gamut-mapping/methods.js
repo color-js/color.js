@@ -22,6 +22,113 @@ const methods = {
 			return methods.scale.compute(mappedColor);
 		},
 	},
+	"scale-lh-achromatic": {
+		label: "Scale LH Achromatic",
+		description: "Like Scale LH, but scales color towards the achromatic version of the color.",
+		compute: (color) => {
+
+			if (color.inGamut("p3", { epsilon: 0 })) {
+				return color.to("p3");
+			}
+
+			let method = methods["scale-lh-achromatic"];
+			let mapColor = color.to("oklch");
+			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
+			let gamutColor = mapColor.clone().to("p3-linear");
+			let lightness = mapColor.coords[0];
+			let iterations = 3;
+
+			if (lightness >= 1) {
+				return new Color({ space: "xyz-d65", coords: WHITES["D65"] }).to("p3");
+			}
+			else if (lightness <= 0) {
+				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
+			}
+
+			while (iterations--) {
+				method.scale(gamutColor, achroma);
+				gamutColor.set({
+					"oklch.l": mapColor.coords[0],
+					"oklch.h": mapColor.coords[2],
+				});
+			}
+
+			return gamutColor.toGamut({method: 'clip'}).to("p3");
+		},
+
+		lrgbToSrgb: (lrgb) => {
+			let rgb = lrgb.slice(1);
+			let l = lrgb[0];
+			let mx = Math.max(...rgb);
+			if (mx != 0) {
+				rgb = rgb.map((c, i) => {
+					return (l * c) / mx;
+				});
+			}
+			else {
+				rgb = [0, 0, 0];
+			}
+			return rgb;
+		},
+
+		srgbToLrgb: (rgb) => {
+			let lrgb = [Math.max(...rgb)];
+			let s = rgb.reduce((a, b) => a + b, 0);
+			if (s != 0) {
+				rgb.forEach((c, i) => {
+					lrgb.push((c / s));
+				});
+			}
+			else {
+				lrgb = [lrgb[0], 0, 0, 0];
+			}
+			return lrgb;
+		},
+
+		lerp: (p0, p1, t) => {
+			return p0 + (p1 - p0) * t;
+		},
+
+		ilerp: (p0, p1, t) => {
+
+			let d = (p1 - p0);
+			return d !== 0 ? ((t - p0) / d) : 0;
+		},
+
+		scale: (color, achroma) => {
+			let delta = 0;
+			let method = methods["scale-lh-achromatic"];
+			let lrgb1 = method.srgbToLrgb(color.coords);
+			let l = lrgb1[0]
+			let lrgb2 = method.srgbToLrgb(achroma.coords);
+
+			// Approach the gamut boundary
+			lrgb1.forEach((c, i) => {
+				let d;
+				if (c > 1) {
+					d = method.ilerp(c, lrgb2[i], 1);
+				}
+				else if (c < 0) {
+					d = method.ilerp(c, lrgb2[i], 0);
+				}
+				if (Math.abs(d) > Math.abs(delta)) {
+					delta = d;
+				}
+			});
+
+			if (delta) {
+				lrgb1 = lrgb1.map((c, i) => {
+					return method.lerp(c, lrgb2[i], delta);
+				});
+				let rgb = method.lrgbToSrgb([l, ...lrgb1.slice(1)]);
+				color.set({
+					r: rgb[0],
+					g: rgb[1],
+					b: rgb[2],
+				});
+			}
+		}
+	},
 	"scale": {
 		label: "Scale",
 		description: "Using a midpoint of 0.5, scale the color to fit within the linear P3 gamut.",
