@@ -59,7 +59,7 @@ const methods = {
 			else if (lightness <= 0) {
 				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
 			}
-			return methods.raytrace.trace(mapColor, [0.88, 0.98]);
+			return methods.raytrace.trace(mapColor, [0.88, 0.99]);
 		},
 		trace: (mapColor, backoff) => {
 			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
@@ -74,9 +74,7 @@ const methods = {
 					gamutColor.set({r: r, g: g, b: b});
 					gamutColor.set({
 						"oklch.c": c => {
-							let d = mapColor.coords[1] - c;
-							let b = d * backoff[iter];
-							return (d > 0.05) ? (mapColor.coords[1] - b) : c;
+							return mapColor.coords[1] - ((mapColor.coords[1] - c) * backoff[iter]);
 						},
 						"oklch.l": mapColor.coords[0],
 						"oklch.h": mapColor.coords[2],
@@ -233,7 +231,7 @@ const methods = {
 			else if (lightness <= 0) {
 				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
 			}
-			return methods.raytrace.trace(mapColor, [0.9, 0.95, 0.98]);
+			return methods.raytrace.trace(mapColor, [0.9, 0.95, 0.99]);
 		},
 	},
 	// "scale125": {
