@@ -8,6 +8,10 @@ import parse from "./parse.js";
  * @returns {{space, coords, alpha}}
  */
 export default function getColor (color) {
+	if (Array.isArray(color)) {
+		return color.map(getColor);
+	}
+
 	if (!color) {
 		throw new TypeError("Empty color reference");
 	}
