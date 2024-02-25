@@ -11,10 +11,11 @@ const SLICES = 400;
  */
 export function makeEdgeSeeker (rgbToOklch) {
 	const lut = makeLut(rgbToOklch, SLICES);
-	return function getMaxChroma (l, h) {
+	return function getMaxChroma (l, h = 0) {
 		if (l <= 0 || l >= 1) {
 			return 0;
 		}
+		h = h < 0 ? (h % 360) + 360 : h % 360;
 		const lutItem = getLutItem(h, lut);
 
 		// The bottom (dark) part is always a straight line
