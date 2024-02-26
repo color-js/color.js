@@ -13,3 +13,6 @@ distance(c1);
 distance(c1, c2); // $ExpectType number
 distance(c1, c2, space); // $ExpectType number
 distance(c1, c2, "srgb"); // $ExpectType number
+distance("red", "blue"); // $ExpectType number
+
+c1.distance(c2); // $ExpectType number
