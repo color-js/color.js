@@ -6,8 +6,7 @@ import getColor from "../getColor.js";
 // formulae from ITU Rec. ITU-R BT.2124-0
 
 export default function (color, sample) {
-	color = getColor(color);
-	sample = getColor(sample);
+	[color, sample] = getColor([color, sample]);
 
 	// Given this color as the reference
 	// and a sample,

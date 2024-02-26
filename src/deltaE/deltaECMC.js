@@ -14,8 +14,7 @@ const π = Math.PI;
 const d2r = π / 180;
 
 export default function (color, sample, {l = 2, c = 1} = {}) {
-	color = getColor(color);
-	sample = getColor(sample);
+	[color, sample] = getColor([color, sample]);
 
 	// Given this color as the reference
 	// and a sample,

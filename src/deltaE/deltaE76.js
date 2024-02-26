@@ -2,5 +2,6 @@ import distance from "../distance.js";
 import getColor from "../getColor.js";
 
 export default function deltaE76 (color, sample) {
-	return distance(getColor(color), getColor(sample), "lab");
+	// Assume getColor() is called in the distance function
+	return distance(color, sample, "lab");
 }

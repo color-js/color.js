@@ -25,8 +25,7 @@ function pow7 (x) {
 }
 
 export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
-	color = getColor(color);
-	sample = getColor(sample);
+	[color, sample] = getColor([color, sample]);
 
 	// Given this color as the reference
 	// and the function parameter as the sample,

@@ -5,8 +5,7 @@ import oklab from "../spaces/oklab.js";
 import getColor from "../getColor.js";
 
 export default function (color, sample) {
-	color = getColor(color);
-	sample = getColor(sample);
+	[color, sample] = getColor([color, sample]);
 
 	// Given this color as the reference
 	// and a sample,

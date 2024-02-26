@@ -40,8 +40,7 @@ function convertUcsAb (coords) {
 * @return {number[]}
 */
 export default function (color, sample) {
-	color = getColor(color);
-	sample = getColor(sample);
+	[color, sample] = getColor([color, sample]);
 
 	let [ t1, a1, b1 ] = convertUcsAb(hct.from(color));
 	let [ t2, a2, b2 ] = convertUcsAb(hct.from(sample));

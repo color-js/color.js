@@ -9,8 +9,7 @@ import getColor from "../getColor.js";
 // gives good results.
 
 export default function (color, sample) {
-	color = getColor(color);
-	sample = getColor(sample);
+	[color, sample] = getColor([color, sample]);
 
 	// Given this color as the reference
 	// and a sample,
