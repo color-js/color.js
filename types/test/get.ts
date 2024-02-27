@@ -9,3 +9,6 @@ get(new Color("red"));
 get(new Color("red"), "p3.r"); // $ExpectType number
 get(new Color("red"), ["p3", "r"]); // $ExpectType number
 get(new Color("red"), { space: "p3", coordId: "r" }); // $ExpectType number
+get("red", "p3.r"); // $ExpectType number
+
+new Color("red").get("p3.r"); // $ExpectType number

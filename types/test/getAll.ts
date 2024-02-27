@@ -5,6 +5,9 @@ import sRGB from "colorjs.io/src/spaces/srgb";
 // @ts-expect-error
 getAll();
 
-getAll(new Color("red")); // $ExpectType [number, number, number]
-getAll(new Color("red"), "srgb"); // $ExpectType [number, number, number]
-getAll(new Color("red"), sRGB); // $ExpectType [number, number, number]
+getAll(new Color("red")); // $ExpectType Coords
+getAll(new Color("red"), "srgb"); // $ExpectType Coords
+getAll(new Color("red"), sRGB); // $ExpectType Coords
+getAll("red", sRGB); // $ExpectType Coords
+
+new Color("red").getAll(); // $ExpectType Coords
