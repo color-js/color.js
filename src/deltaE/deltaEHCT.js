@@ -1,5 +1,6 @@
 import hct from "../spaces/hct.js";
 import {viewingConditions} from "../spaces/hct.js";
+import getColor from "../getColor.js";
 
 const rad2deg = 180 / Math.PI;
 const deg2rad = Math.PI / 180;
@@ -39,6 +40,8 @@ function convertUcsAb (coords) {
 * @return {number[]}
 */
 export default function (color, sample) {
+	[color, sample] = getColor([color, sample]);
+
 	let [ t1, a1, b1 ] = convertUcsAb(hct.from(color));
 	let [ t2, a2, b2 ] = convertUcsAb(hct.from(sample));
 

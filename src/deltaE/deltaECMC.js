@@ -1,5 +1,6 @@
 import lab from "../spaces/lab.js";
 import lch from "../spaces/lch.js";
+import getColor from "../getColor.js";
 
 // More accurate color-difference formulae
 // than the simple 1976 Euclidean distance in Lab
@@ -13,6 +14,8 @@ const π = Math.PI;
 const d2r = π / 180;
 
 export default function (color, sample, {l = 2, c = 1} = {}) {
+	[color, sample] = getColor([color, sample]);
+
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE CMC.

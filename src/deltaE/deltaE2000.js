@@ -1,5 +1,7 @@
+import defaults from "../defaults.js";
 import lab from "../spaces/lab.js";
 import lch from "../spaces/lch.js";
+import getColor from "../getColor.js";
 
 // deltaE2000 is a statistically significant improvement
 // and is recommended by the CIE and Idealliance
@@ -24,6 +26,8 @@ function pow7 (x) {
 }
 
 export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
+	[color, sample] = getColor([color, sample]);
+
 	// Given this color as the reference
 	// and the function parameter as the sample,
 	// calculate deltaE 2000.
@@ -107,7 +111,7 @@ export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 		Δh = hdiff + 360;
 	}
 	else {
-		console.log("the unthinkable has happened");
+		defaults.warn("the unthinkable has happened");
 	}
 
 	// weighted Hue difference, more for larger Chroma

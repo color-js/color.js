@@ -1,10 +1,13 @@
 import ictcp from "../spaces/ictcp.js";
+import getColor from "../getColor.js";
 
 // Delta E in ICtCp space,
 // which the ITU calls Delta E ITP, which is shorter
 // formulae from ITU Rec. ITU-R BT.2124-0
 
 export default function (color, sample) {
+	[color, sample] = getColor([color, sample]);
+
 	// Given this color as the reference
 	// and a sample,
 	// calculate deltaE in ICtCp

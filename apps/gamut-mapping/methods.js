@@ -1,5 +1,14 @@
 import Color from "../../dist/color.js";
 import { WHITES } from "../../src/adapt.js";
+import * as util from "../../src/util.js";
+import { makeEdgeSeeker } from "./edge-seeker/makeEdgeSeeker.js";
+
+// Make a function to get the maximum chroma for a given lightness and hue
+// Lookup table is created once and reused
+const p3EdgeSeeker = makeEdgeSeeker((r, g, b) => {
+	const [l, c, h = 0] = new Color("p3", [r, g, b]).to("oklch").coords;
+	return {l, c, h};
+});
 
 const methods = {
 	"clip": {
@@ -71,6 +80,204 @@ const methods = {
 			});
 
 			return new Color("p3-linear", scaledCoords).to("p3");
+		},
+	},
+	"raytrace": {
+		label: "Raytrace",
+		description: "Uses ray tracing to find a color with reduced chroma on the RGB surface.",
+		compute: (color) => {
+			if (color.inGamut("p3", { epsilon: 0 })) {
+				return color.to("p3");
+			}
+
+			let mapColor = color.to("oklch");
+			let lightness = mapColor.coords[0];
+
+			if (lightness >= 1) {
+				return new Color({ space: "xyz-d65", coords: WHITES["D65"] }).to("p3");
+			}
+			else if (lightness <= 0) {
+				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
+			}
+			return methods.raytrace.trace(mapColor);
+		},
+		trace: (mapColor) => {
+			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
+			let gamutColor = mapColor.clone().to("p3-linear");
+
+			// Create a line from our color to color with zero lightness.
+			// Trace the line to the RGB cube finding the face and the point where it intersects.
+			// Take two rounds to get us as close as we can get.
+			let size = [1, 1, 1];
+			let iter = 2;
+			while (iter--) {
+				let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
+				if (face) {
+					let [r, g, b] = intersection;
+					gamutColor.set({r: r, g: g, b: b});
+					gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
+				}
+			}
+
+			// We might be under saturated now, so extend the vector out,
+			// ignoring the original point and find the surface one last
+			// Give us the most saturated color at that point on the RGB cube.
+			let [x1, y1, z1] = achroma.coords;
+			let [x2, y2, z2] = gamutColor.coords;
+			let x3 = x2 + (x2 - x1) * 100;
+			let y3 = y2 + (y2 - y1) * 100;
+			let z3 = z2 + (z2 - z1) * 100;
+			let [face, intersection] = methods.raytrace.raytrace_box(size, [x3, y3, z3], achroma.coords);
+			if (face) {
+				let [r, g, b] = intersection;
+				gamutColor.set({r: r, g: g, b: b});
+				gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
+			}
+
+			gamutColor.set(
+				{
+					r: c => {
+						return util.clamp(0, c, 1);
+					},
+					g: c => {
+						return util.clamp(0, c, 1);
+					},
+					b: c => {
+						return util.clamp(0, c, 1);
+					},
+				},
+			);
+
+			return gamutColor.to("p3");
+		},
+		raytrace_box: (size, start, end) => {
+			// Returns the face and the intersection point as a tuple, with
+			// - 0: None, (point is None)
+			// - 1: intersection with x==0 face,
+			// - 2: intersection with x==size[0] face,
+			// - 3: intersection with y==0 face,
+			// - 4: intersection with y==size[1] face,
+			// - 5: intersection with z==0 face,
+			// - 6: intersection with z==size[2] face,
+			// that the ray from start to end intersects first,
+			// given an axis-aligned box (0,0,0)-(size[0],size[1],size[2]).
+			// https://math.stackexchange.com/a/3775967
+
+			// Negated deltas
+			let ndx = start[0] - end[0];
+			let ndy = start[1] - end[1];
+			let ndz = start[2] - end[2];
+
+			// Sizes scaled by the negated deltas
+			let sxy = ndx * size[1];
+			let sxz = ndx * size[2];
+			let syx = ndy * size[0];
+			let syz = ndy * size[2];
+			let szx = ndz * size[0];
+			let szy = ndz * size[1];
+
+			// Cross terms
+			let cxy = end[0] * start[1] - end[1] * start[0];
+			let cxz = end[0] * start[2] - end[2] * start[0];
+			let cyz = end[1] * start[2] - end[2] * start[1];
+
+			// Absolute delta products
+			let axy = Math.abs(ndx * ndy);
+			let axz = Math.abs(ndx * ndz);
+			let ayz = Math.abs(ndy * ndz);
+			let axyz = Math.abs(ndz * axy);
+
+			// Default to "no intersection"
+			let face_num = 0;
+			let face_tau = Math.abs(ndz * axy);
+			let tau = 0;
+
+			if (start[0] < 0 && 0 < end[0]) {
+				// Face 1: x == 0
+				tau = -start[0] * ayz;
+				if (tau < face_tau && cxy >= 0 && cxz >= 0 && cxy <= -sxy && cxz <= -sxz) {
+					face_tau = tau;
+					face_num = 1;
+				}
+			}
+
+			else if (end[0] < size[0] && size[0] < start[0]) {
+				// Face 2: x == size[0]
+				tau = (start[0] - size[0]) * ayz;
+				if (tau < face_tau && cxy <= syx && cxz <= szx && cxy >= syx - sxy && cxz >= szx - sxz) {
+					face_tau = tau;
+					face_num = 2;
+				}
+			}
+
+			if (start[1] < 0 && end[1] > 0) {
+				// Face 3: y == 0
+				tau = -start[1] * axz;
+				if (tau < face_tau && cxy <= 0 && cyz >= 0 && cxy >= syx && cyz <= -syz) {
+					face_tau = tau;
+					face_num = 3;
+				}
+			}
+
+			else if (start[1] > size[1] && end[1] < size[1]) {
+				// Face 4: y == size[1]
+				tau = (start[1] - size[1]) * axz;
+				if (tau < face_tau && cxy >= -sxy && cyz <= szy && cxy <= syx - sxy && cyz >= szy - syz) {
+					face_tau = tau;
+					face_num = 4;
+				}
+			}
+
+			if (start[2] < 0 && end[2] > 0) {
+				// Face 5: z == 0
+				tau = -start[2] * axy;
+				if (tau < face_tau && cxz <= 0 && cyz <= 0 && cxz >= szx && cyz >= szy) {
+					face_tau = tau;
+					face_num = 5;
+				}
+			}
+
+			else if (start[2] > size[2] && end[2] < size[2]) {
+				// Face 6: z == size[2]
+				tau = (start[2] - size[2]) * axy;
+				if ((tau < face_tau && cxz >= -sxz && cyz >= -syz && cxz <= szx - sxz && cyz <= szy - syz)) {
+					face_tau = tau;
+					face_num = 6;
+				}
+			}
+
+			if (face_num > 0) {
+				const tend = face_tau / axyz;
+				const tstart = 1.0 - tend;
+				return [
+					face_num,
+					[
+						tstart * start[0] + tend * end[0],
+						tstart * start[1] + tend * end[1],
+						tstart * start[2] + tend * end[2],
+					],
+				];
+			}
+			return [0, []];
+		},
+	},
+	"edge-seeker": {
+		label: "Edge Seeker",
+		description: "Using a LUT to detect edges of the gamut and reduce chroma accordingly.",
+		compute: (color) => {
+			let [l, c, h] = color.to("oklch").coords;
+			if (l <= 0) {
+				return new Color("oklch", [0, 0, h]);
+			}
+			if (l >= 1) {
+				return new Color("oklch", [1, 0, h]);
+			}
+			let maxChroma = p3EdgeSeeker(l, h || 0);
+			if (c > maxChroma) {
+				c = maxChroma;
+			}
+			// At this point it is safe to clip the values
+			return new Color("oklch", [l, c, h]).toGamut({space: "p3", method: "clip"});
 		},
 	},
 	// "scale125": {
