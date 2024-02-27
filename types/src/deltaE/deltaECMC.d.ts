@@ -1,7 +1,7 @@
-import Color, { ColorObject } from "../color.js";
+import { ColorTypes } from "../color.js";
 export default function (
-	color: Color | ColorObject,
-	sample: Color | ColorObject,
+	color: ColorTypes,
+	sample: ColorTypes,
 	options?: {
 		l?: number | undefined;
 		c?: number | undefined;
