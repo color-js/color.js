@@ -7,7 +7,6 @@ import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
 import oklab from "./spaces/oklab.js";
-import xyzd65 from "./spaces/xyz-d65.js";
 import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
@@ -83,15 +82,15 @@ export default function toGamut (
 	// space: space whose gamut we are mapping to
 	// mapSpace: space with the coord we're reducing
 
+	if (inGamut(color, space, { epsilon: 0 })) {
+		return getColor(color);
+	}
+
 	let spaceColor;
 	if (method === "css") {
-		spaceColor = to(toGamutCSS(color, { space }), color.space);
+		spaceColor = toGamutCSS(color, { space });
 	}
 	else {
-		if (inGamut(color, space, { epsilon: 0 })) {
-			return getColor(color);
-		}
-
 		if (method !== "clip" && !inGamut(color, space)) {
 
 			if (Object.prototype.hasOwnProperty.call(GMAPPRESET, method)) {

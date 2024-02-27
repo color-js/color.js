@@ -106,6 +106,20 @@ export default {
 			],
 		},
 		{
+			name: "Does not alter in-gamut colors",
+			data: { toSpace: "hsl" },
+			tests: [
+				{
+					args: ["hsl(0 50% 50%)"],
+					expect: "hsl(0 50% 50%)",
+				},
+				{
+					args: ["hsl(360 50% 50%)"],
+					expect: "hsl(360 50% 50%)",
+				},
+			],
+		},
+		{
 			name: "P3 primaries to sRGB, LCH chroma Reduction",
 			data: { toSpace: "srgb", method: "lch.c" },
 			tests: [
