@@ -52,7 +52,7 @@ const methods = {
 	},
 	"raytrace": {
 		label: "Raytrace",
-		description: "Uses ray tracing find a color with reduced chroma on the RGB surface.",
+		description: "Uses ray tracing to find a color with reduced chroma on the RGB surface.",
 		compute: (color) => {
 			if (color.inGamut("p3", { epsilon: 0 })) {
 				return color.to("p3");
@@ -72,42 +72,49 @@ const methods = {
 		trace: (mapColor) => {
 			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
 			let gamutColor = mapColor.clone().to("p3-linear");
+
+			// Create a line from our color to color with zero lightness.
+			// Trace the line to the RGB cube finding the face and the point where it intersects.
+			// Take two rounds to get us as close as we can get.
 			let size = [1, 1, 1];
-			let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
-
-			// Intersect with the RGB cube
-			if (face) {
-				let [r, g, b] = intersection;
-				gamutColor.set({r: r, g: g, b: b});
-				gamutColor.set({
-					"oklch.l": mapColor.coords[0],
-					"oklch.h": mapColor.coords[2],
-				});
-
-				// See if we are still in/on the cube after correction
-				[face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
+			let iter = 2;
+			while (iter--) {
+				let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
 				if (face) {
 					let [r, g, b] = intersection;
 					gamutColor.set({r: r, g: g, b: b});
-					gamutColor.set({
-						"oklch.l": mapColor.coords[0],
-						"oklch.h": mapColor.coords[2],
-					});
+					gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
 				}
 			}
 
-			// We may be under saturated, so extend the vector outside the cube and make one final pass.
-			// This will place us on the cube surface with reduced chroma and very little to no lightness or hue shift.
+			// We might be under saturated now, so extend the vector out,
+			// ignoring the original point and find the surface one last
+			// Give us the most saturated color at that point on the RGB cube.
 			let [x1, y1, z1] = achroma.coords;
 			let [x2, y2, z2] = gamutColor.coords;
 			let x3 = x2 + (x2 - x1) * 100;
 			let y3 = y2 + (y2 - y1) * 100;
 			let z3 = z2 + (z2 - z1) * 100;
-			[face, intersection] = methods.raytrace.raytrace_box(size, [x3, y3, z3], achroma.coords);
+			let [face, intersection] = methods.raytrace.raytrace_box(size, [x3, y3, z3], achroma.coords);
 			if (face) {
 				let [r, g, b] = intersection;
 				gamutColor.set({r: r, g: g, b: b});
+				gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
 			}
+
+			gamutColor.set(
+				{
+					r: c => {
+						return util.clamp(0, c, 1);
+					},
+					g: c => {
+						return util.clamp(0, c, 1);
+					},
+					b: c => {
+						return util.clamp(0, c, 1);
+					},
+				},
+			);
 
 			return gamutColor.to("p3");
 		},
