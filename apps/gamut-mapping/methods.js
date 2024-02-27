@@ -43,8 +43,8 @@ const methods = {
 		},
 	},
 	"raytrace": {
-		label: "Raytrace 2X",
-		description: "Uses raytracing to find chroma intersect with RGB cube, sets L & H back to the original, and backs off chroma in OkLCh. Repeats 2X and clips.",
+		label: "Raytrace",
+		description: "Uses ray tracing find a color with reduced chroma on the RGB surface.",
 		compute: (color) => {
 			if (color.inGamut("p3", { epsilon: 0 })) {
 				return color.to("p3");
@@ -59,47 +59,47 @@ const methods = {
 			else if (lightness <= 0) {
 				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
 			}
-			return methods.raytrace.trace(mapColor, [0.88, 0.99]);
+			return methods.raytrace.trace(mapColor);
 		},
-		trace: (mapColor, backoff) => {
+		trace: (mapColor) => {
 			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
 			let gamutColor = mapColor.clone().to("p3-linear");
 			let size = [1, 1, 1];
-			let maxIter = backoff.length;
-			let iter = 0;
-			while (iter < maxIter) {
-				let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
+			let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
+
+			// Intersect with the RGB cube
+			if (face) {
+				let [r, g, b] = intersection;
+				gamutColor.set({r: r, g: g, b: b});
+				gamutColor.set({
+					"oklch.l": mapColor.coords[0],
+					"oklch.h": mapColor.coords[2],
+				});
+
+				// See if we are still in/on the cube after correction
+				[face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
 				if (face) {
 					let [r, g, b] = intersection;
 					gamutColor.set({r: r, g: g, b: b});
 					gamutColor.set({
-						"oklch.c": c => {
-							return mapColor.coords[1] - ((mapColor.coords[1] - c) * backoff[iter]);
-						},
 						"oklch.l": mapColor.coords[0],
 						"oklch.h": mapColor.coords[2],
 					});
 				}
-				else {
-					break;
-				}
-				iter++;
 			}
 
-			// Finally, clip the color
-			gamutColor.set(
-				{
-					r: c => {
-						return util.clamp(0, c, 1);
-					},
-					g: c => {
-						return util.clamp(0, c, 1);
-					},
-					b: c => {
-						return util.clamp(0, c, 1);
-					},
-				},
-			);
+			// We may be under saturated, so extend the vector outside the cube and make one final pass.
+			// This will place us on the cube surface with reduced chroma and very little to no lightness or hue shift.
+			let [x1, y1, z1] = achroma.coords;
+			let [x2, y2, z2] = gamutColor.coords;
+			let x3 = x2 + (x2 - x1) * 100;
+			let y3 = y2 + (y2 - y1) * 100;
+			let z3 = z2 + (z2 - z1) * 100;
+			[face, intersection] = methods.raytrace.raytrace_box(size, [x3, y3, z3], achroma.coords);
+			if (face) {
+				let [r, g, b] = intersection;
+				gamutColor.set({r: r, g: g, b: b});
+			}
 
 			return gamutColor.to("p3");
 		},
@@ -212,26 +212,6 @@ const methods = {
 				];
 			}
 			return [0, []];
-		},
-	},
-	"raytrace3x": {
-		label: "Raytrace 3X",
-		description: "Like Raytrace 2X, but takes 3 passes.",
-		compute: (color) => {
-			if (color.inGamut("p3", { epsilon: 0 })) {
-				return color.to("p3");
-			}
-
-			let mapColor = color.to("oklch");
-			let lightness = mapColor.coords[0];
-
-			if (lightness >= 1) {
-				return new Color({ space: "xyz-d65", coords: WHITES["D65"] }).to("p3");
-			}
-			else if (lightness <= 0) {
-				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
-			}
-			return methods.raytrace.trace(mapColor, [0.9, 0.95, 0.99]);
 		},
 	},
 	// "scale125": {
