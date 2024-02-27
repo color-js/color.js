@@ -65,14 +65,19 @@ export default function toGamut (
 	color,
 	{
 		method = defaults.gamut_mapping,
-		space = color.space,
+		space = undefined,
 		deltaEMethod = "",
 		jnd = 2,
 		blackWhiteClamp = {},
 	} = {},
 ) {
+	color = getColor(color);
+
 	if (util.isString(arguments[1])) {
 		space = arguments[1];
+	}
+	else if (!space) {
+		space = color.space;
 	}
 
 	space = ColorSpace.get(space);
@@ -83,7 +88,7 @@ export default function toGamut (
 	// mapSpace: space with the coord we're reducing
 
 	if (inGamut(color, space, { epsilon: 0 })) {
-		return getColor(color);
+		return color;
 	}
 
 	let spaceColor;
@@ -219,9 +224,16 @@ const COLORS = {
  * @param {ColorSpace|string} options.space
  * @returns {Color}
  */
-export function toGamutCSS (origin, { space = origin.space }) {
+export function toGamutCSS (origin, {space} = {}) {
 	const JND = 0.02;
 	const ε = 0.0001;
+
+	origin = getColor(origin);
+
+	if (!space) {
+		space = origin.space;
+	}
+
 	space = ColorSpace.get(space);
 	const oklchSpace = ColorSpace.get("oklch");
 

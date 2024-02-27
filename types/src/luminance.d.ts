@@ -1,9 +1,9 @@
-import Color, { ColorObject } from "./color.js";
+import Color, { ColorTypes } from "./color.js";
 
-export function getLuminance (color: Color | ColorObject): number;
+export function getLuminance (color: ColorTypes): number;
 
 export function setLuminance (
-	color: Color | ColorObject,
+	color: ColorTypes,
 	value: number | ((coord: number) => number),
 ): void;
 

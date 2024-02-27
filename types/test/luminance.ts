@@ -3,10 +3,11 @@ import { getLuminance, setLuminance, register } from "colorjs.io/src/luminance";
 
 // @ts-expect-error
 getLuminance();
-// @ts-expect-error
-getLuminance("red");
 
+getLuminance("red"); // $ExpectType number
 getLuminance(new Color("red")); // $ExpectType number
+new Color("red").luminance; // $ExpectType number
+
 
 // @ts-expect-error
 setLuminance();
@@ -15,8 +16,11 @@ setLuminance("red");
 
 // @ts-expect-error
 setLuminance(new Color("red"));
+
 setLuminance(new Color("red"), 1);
 setLuminance(new Color("red"), () => 1);
+setLuminance("red", 1);
+new Color("red").luminance = 1;
 
 // @ts-expect-error
 register();
