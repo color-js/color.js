@@ -10,6 +10,7 @@ distance();
 // @ts-expect-error
 distance(c1);
 
+distance("red", "blue"); // $ExpectType number
 distance(c1, c2); // $ExpectType number
 distance(c1, c2, space); // $ExpectType number
 distance(c1, c2, "srgb"); // $ExpectType number

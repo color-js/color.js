@@ -1,4 +1,5 @@
 import ColorSpace from "./space.js";
+import getColor from "./getColor.js";
 
 /**
  * Get the coordinates of a color in any color space
@@ -7,6 +8,8 @@ import ColorSpace from "./space.js";
  * @returns {number[]} The color coordinates in the given color space
  */
 export default function getAll (color, space) {
+	color = getColor(color);
+
 	if (!space || color.space.equals(space)) {
 		// No conversion needed
 		return color.coords.slice();

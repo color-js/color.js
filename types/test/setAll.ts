@@ -26,3 +26,6 @@ setAll(
 
 new Color("red").setAll("srgb", [1, 2, 3]); // $ExpectType Color
 new Color("red").setAll(sRGB, [1, 2, 3]); // $ExpectType Color
+
+Color.setAll("red", "srgb", [1, 2, 3]); // $ExpectType Color
+Color.setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType Color

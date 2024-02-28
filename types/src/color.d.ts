@@ -6,17 +6,16 @@ import ColorSpace, { Ref } from "./space.js";
 import SpaceAccessors from "./space-coord-accessors.js";
 
 import {
-	to,
+	to as toType,
 	parse,
 	serialize,
 	inGamut,
-	toGamut,
+	toGamut as toGamutType,
 	distance,
 	equals,
 	get,
 	getAll,
-	set,
-	setAll,
+	setAll as setAllType,
 	display,
 } from "./index-fn.js";
 
@@ -69,20 +68,33 @@ export type ToColorPrototype<T extends (...args: any[]) => any> = T extends (
 		: (...args: A) => R
 	: never;
 
+/** Convert a function to a Color namespace property (returning a Color) */
+export type ToColorNamespace<T extends (...args: any[]) => any> = T extends (
+	...args: infer A
+) => infer R
+	? T extends { returns: "color" }
+		? (...args: A) => Color
+		: (...args: A) => R
+	: never;
+
 declare namespace Color {
 	export {
 		getAll,
-		set,
-		setAll,
-		to,
 		equals,
 		inGamut,
-		toGamut,
 		distance,
 		serialize as toString,
 	};
 	export { util, hooks, WHITES, ColorSpace as Space, parse, defaults };
+	export const setAll: ToColorNamespace<typeof setAllType>;
+	export const to: ToColorNamespace<typeof toType>;
+	export const toGamut: ToColorNamespace<typeof toGamutType>;
 	export const spaces: typeof ColorSpace["registry"];
+
+	// Must be manually defined due to overloads
+	// These should always match the signature of the original function
+	export function set (color: ColorTypes, prop: Ref, value: number | ((coord: number) => number)): Color;
+	export function set (color: ColorTypes, props: Record<string, number | ((coord: number) => number)>): Color;
 }
 
 declare class Color extends SpaceAccessors implements PlainColorObject {
@@ -130,11 +142,11 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;
 	getAll: ToColorPrototype<typeof getAll>;
-	setAll: ToColorPrototype<typeof setAll>;
-	to: ToColorPrototype<typeof to>;
+	setAll: ToColorPrototype<typeof setAllType>;
+	to: ToColorPrototype<typeof toType>;
 	equals: ToColorPrototype<typeof equals>;
 	inGamut: ToColorPrototype<typeof inGamut>;
-	toGamut: ToColorPrototype<typeof toGamut>;
+	toGamut: ToColorPrototype<typeof toGamutType>;
 	distance: ToColorPrototype<typeof distance>;
 	toString: ToColorPrototype<typeof serialize>;
 
