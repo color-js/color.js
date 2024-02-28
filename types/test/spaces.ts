@@ -1,3 +1,4 @@
+import Color from "colorjs.io/src";
 import ColorSpace from "colorjs.io/src/space";
 
 // @ts-expect-error
@@ -47,3 +48,16 @@ ColorSpace.registry["abc"]; // $ExpectType ColorSpace
 
 ColorSpace.resolveCoord("p3.0", "p3");
 ColorSpace.resolveCoord(["p3", "r"], "p3");
+
+space.to(new Color("red")); // $ExpectType Coords
+space.to({space: space, coords: [1, 2, 3], alpha: 1}); // $ExpectType Coords
+space.to({space: space, coords: [1, 2, 3]}); // $ExpectType Coords
+space.to(space, [1, 2, 3]); // $ExpectType Coords
+space.to("srgb", [1, 2, 3]); // $ExpectType Coords
+
+space.from(new Color("red")); // $ExpectType Coords
+space.from({space: space, coords: [1, 2, 3], alpha: 1}); // $ExpectType Coords
+space.from({space: space, coords: [1, 2, 3]}); // $ExpectType Coords
+space.from(space, [1, 2, 3]); // $ExpectType Coords
+space.from("srgb", [1, 2, 3]); // $ExpectType Coords
+
