@@ -18,6 +18,5 @@ set("red", {
 });
 
 new Color("red").set("foo", 123); // $ExpectType Color
-
 Color.set("red", "foo", 123); // $ExpectType Color
 Color.set(new Color("red"), "foo", 123); // $ExpectType Color

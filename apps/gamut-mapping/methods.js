@@ -1,6 +1,14 @@
 import Color from "../../dist/color.js";
 import { WHITES } from "../../src/adapt.js";
 import * as util from "../../src/util.js";
+import { makeEdgeSeeker } from "./edge-seeker/makeEdgeSeeker.js";
+
+// Make a function to get the maximum chroma for a given lightness and hue
+// Lookup table is created once and reused
+const p3EdgeSeeker = makeEdgeSeeker((r, g, b) => {
+	const [l, c, h = 0] = new Color("p3", [r, g, b]).to("oklch").coords;
+	return {l, c, h};
+});
 
 const methods = {
 	"clip": {
@@ -43,8 +51,8 @@ const methods = {
 		},
 	},
 	"raytrace": {
-		label: "Raytrace 2X",
-		description: "Uses raytracing to find chroma intersect with RGB cube, sets L & H back to the original, and backs off chroma in OkLCh. Repeats 2X and clips.",
+		label: "Raytrace",
+		description: "Uses ray tracing to find a color with reduced chroma on the RGB surface.",
 		compute: (color) => {
 			if (color.inGamut("p3", { epsilon: 0 })) {
 				return color.to("p3");
@@ -59,34 +67,41 @@ const methods = {
 			else if (lightness <= 0) {
 				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
 			}
-			return methods.raytrace.trace(mapColor, [0.88, 0.99]);
+			return methods.raytrace.trace(mapColor);
 		},
-		trace: (mapColor, backoff) => {
+		trace: (mapColor) => {
 			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
 			let gamutColor = mapColor.clone().to("p3-linear");
+
+			// Create a line from our color to color with zero lightness.
+			// Trace the line to the RGB cube finding the face and the point where it intersects.
+			// Take two rounds to get us as close as we can get.
 			let size = [1, 1, 1];
-			let maxIter = backoff.length;
-			let iter = 0;
-			while (iter < maxIter) {
+			let iter = 2;
+			while (iter--) {
 				let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
 				if (face) {
 					let [r, g, b] = intersection;
 					gamutColor.set({r: r, g: g, b: b});
-					gamutColor.set({
-						"oklch.c": c => {
-							return mapColor.coords[1] - ((mapColor.coords[1] - c) * backoff[iter]);
-						},
-						"oklch.l": mapColor.coords[0],
-						"oklch.h": mapColor.coords[2],
-					});
+					gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
 				}
-				else {
-					break;
-				}
-				iter++;
 			}
 
-			// Finally, clip the color
+			// We might be under saturated now, so extend the vector out,
+			// ignoring the original point and find the surface one last
+			// Give us the most saturated color at that point on the RGB cube.
+			let [x1, y1, z1] = achroma.coords;
+			let [x2, y2, z2] = gamutColor.coords;
+			let x3 = x2 + (x2 - x1) * 100;
+			let y3 = y2 + (y2 - y1) * 100;
+			let z3 = z2 + (z2 - z1) * 100;
+			let [face, intersection] = methods.raytrace.raytrace_box(size, [x3, y3, z3], achroma.coords);
+			if (face) {
+				let [r, g, b] = intersection;
+				gamutColor.set({r: r, g: g, b: b});
+				gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
+			}
+
 			gamutColor.set(
 				{
 					r: c => {
@@ -214,24 +229,23 @@ const methods = {
 			return [0, []];
 		},
 	},
-	"raytrace3x": {
-		label: "Raytrace 3X",
-		description: "Like Raytrace 2X, but takes 3 passes.",
+	"edge-seeker": {
+		label: "Edge Seeker",
+		description: "Using a LUT to detect edges of the gamut and reduce chroma accordingly.",
 		compute: (color) => {
-			if (color.inGamut("p3", { epsilon: 0 })) {
-				return color.to("p3");
+			let [l, c, h] = color.to("oklch").coords;
+			if (l <= 0) {
+				return new Color("oklch", [0, 0, h]);
 			}
-
-			let mapColor = color.to("oklch");
-			let lightness = mapColor.coords[0];
-
-			if (lightness >= 1) {
-				return new Color({ space: "xyz-d65", coords: WHITES["D65"] }).to("p3");
+			if (l >= 1) {
+				return new Color("oklch", [1, 0, h]);
 			}
-			else if (lightness <= 0) {
-				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
+			let maxChroma = p3EdgeSeeker(l, h || 0);
+			if (c > maxChroma) {
+				c = maxChroma;
 			}
-			return methods.raytrace.trace(mapColor, [0.9, 0.95, 0.99]);
+			// At this point it is safe to clip the values
+			return new Color("oklch", [l, c, h]).toGamut({space: "p3", method: "clip"});
 		},
 	},
 	// "scale125": {
