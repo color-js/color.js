@@ -87,6 +87,13 @@ export default class Color {
 		return this.space.id;
 	}
 
+	/**
+	 * Get the Color.prototype.property name for the color space
+	 */
+	get spaceKey () {
+		return this.space.id.replace("-", "_");
+	}
+
 	clone () {
 		return new Color(this.space, this.coords, this.alpha);
 	}
