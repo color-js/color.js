@@ -6,6 +6,7 @@ import ColorSpace from "./space.js";
 export default function distance (color1, color2, space = "lab") {
 	space = ColorSpace.get(space);
 
+	// Assume getColor() is called on color in space.from()
 	let coords1 = space.from(color1);
 	let coords2 = space.from(color2);
 
