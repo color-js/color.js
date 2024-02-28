@@ -3,14 +3,14 @@ import getAll from "./getAll.js";
 
 // Chromaticity coordinates
 export function uv (color) {
-	// Assume getColor() is called on color in getAll()
+	// Assumes getAll() calls getColor() on color
 	let [X, Y, Z] = getAll(color, xyz_d65);
 	let denom = X + 15 * Y + 3 * Z;
 	return [4 * X / denom, 9 * Y / denom];
 }
 
 export function xy (color) {
-	// Assume getColor() is called on color in getAll()
+	// Assumes getAll() calls getColor() on color
 	let [X, Y, Z] = getAll(color, xyz_d65);
 	let  sum = X + Y + Z;
 	return [X / sum, Y / sum];
