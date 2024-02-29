@@ -59,7 +59,7 @@
 		"build:space-accessors": "node ./scripts/generate-space-accessor-types.js",
 		"build": "run-s build:html build:css build:js build:js:legacy build:space-accessors",
 		"watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs --watch",
-		"watch:html": "npx @11ty/eleventy --config=.eleventy.cjs --watch",
+		"watch:html": "npx @11ty/eleventy --config=.eleventy.cjs --watch --serve",
 		"watch:js": "rollup -c --watch",
 		"watch": "run-p watch:*",
 		"prepack": "npm run build",
