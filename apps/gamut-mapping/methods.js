@@ -24,14 +24,7 @@ const methods = {
 		description: "Runs Scale, sets L, H to those of the original color, then runs Scale again.",
 		compute: (color) => {
 			if (color.inGamut("p3", { epsilon: 0 })) {
-				return color.to("p3");
-			}
-			let [lightness] = color.to("oklch").coords;
-			if (lightness >= 1) {
-				return new Color({ space: "xyz-d65", coords: WHITES["D65"] }).to("p3");
-			}
-			else if (lightness <= 0) {
-				return new Color({ space: "xyz-d65", coords: [0, 0, 0] }).to("p3");
+				return color;
 			}
 			let mappedColor = methods.scale.compute(color);
 			let lch = color.to("oklch").coords;
