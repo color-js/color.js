@@ -80,51 +80,35 @@ const methods = {
 			return methods.raytrace.trace(mapColor);
 		},
 		trace: (mapColor) => {
-			let achroma = mapColor.clone().set("c", 0).to("p3-linear");
+			let achroma = mapColor.clone().set("c", 0).to("p3-linear").coords;
 			let gamutColor = mapColor.clone().to("p3-linear");
 
 			// Create a line from our color to color with zero lightness.
 			// Trace the line to the RGB cube finding the face and the point where it intersects.
 			// Take two rounds to get us as close as we can get.
 			let size = [1, 1, 1];
-			let iter = 2;
-			while (iter--) {
-				let [face, intersection] = methods.raytrace.raytrace_box(size, gamutColor.coords, achroma.coords);
-				if (face) {
-					let [r, g, b] = intersection;
-					gamutColor.set({r: r, g: g, b: b});
+			let coords;
+			let [xa, ya, za] = achroma;
+			for (let i = 0; i < 3; i++) {
+				// On subsequent runs correct L and H before continuing and
+				// then extend the vector in case we are now under saturated
+				if (i) {
 					gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
+					let [r, g, b] = gamutColor.coords;
+					coords = [xa + (r - xa) * 100, ya + (g - ya) * 100, za + (b - za) * 100];
 				}
-			}
+				else {
+					coords = gamutColor.coords;
+				}
+				let [face, intersection] = methods.raytrace.raytrace_box(size, coords, achroma);
+				if (face) {
+					gamutColor.setAll(gamutColor.space, intersection);
+					continue;
+				}
 
-			// We might be under saturated now, so extend the vector out,
-			// ignoring the original point and find the surface one last
-			// Give us the most saturated color at that point on the RGB cube.
-			let [x1, y1, z1] = achroma.coords;
-			let [x2, y2, z2] = gamutColor.coords;
-			let x3 = x2 + (x2 - x1) * 100;
-			let y3 = y2 + (y2 - y1) * 100;
-			let z3 = z2 + (z2 - z1) * 100;
-			let [face, intersection] = methods.raytrace.raytrace_box(size, [x3, y3, z3], achroma.coords);
-			if (face) {
-				let [r, g, b] = intersection;
-				gamutColor.set({r: r, g: g, b: b});
-				gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
+				// If there was no change, we are done
+				break;
 			}
-
-			gamutColor.set(
-				{
-					r: c => {
-						return util.clamp(0, c, 1);
-					},
-					g: c => {
-						return util.clamp(0, c, 1);
-					},
-					b: c => {
-						return util.clamp(0, c, 1);
-					},
-				},
-			);
 
 			return gamutColor.to("p3");
 		},

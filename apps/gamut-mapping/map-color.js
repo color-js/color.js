@@ -180,7 +180,7 @@ export default {
 					</dt>
 					<dd>
 						<css-color swatch="large" :color="mapped[method].color"></css-color>
-						<dl class="deltas" v-if="!color.inGamut('p3')">
+						<dl class="deltas" v-if="!Object.values(mapped[method].deltas).every(d => d === 0)">
 							<div v-for="(delta, c) of mapped[method].deltas" :class="'delta-' + c.toLowerCase()">
 								<dt>Δ{{ c }}</dt>
 								<dd :class="{

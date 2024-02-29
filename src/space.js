@@ -1,6 +1,7 @@
 import {type, parseCoordGrammar, serializeNumber, mapRange} from "./util.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
+import getColor from "./getColor.js";
 
 const ε = .000075;
 
@@ -173,7 +174,8 @@ export default class ColorSpace {
 
 	to (space, coords) {
 		if (arguments.length === 1) {
-			[space, coords] = [space.space, space.coords];
+			const color = getColor(space);
+			[space, coords] = [color.space, color.coords];
 		}
 
 		space = ColorSpace.get(space);
@@ -222,7 +224,8 @@ export default class ColorSpace {
 
 	from (space, coords) {
 		if (arguments.length === 1) {
-			[space, coords] = [space.space, space.coords];
+			const color = getColor(space);
+			[space, coords] = [color.space, color.coords];
 		}
 
 		space = ColorSpace.get(space);

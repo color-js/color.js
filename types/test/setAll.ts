@@ -11,9 +11,9 @@ setAll(new Color("red"), "srgb");
 // @ts-expect-error
 setAll(new Color("red"), sRGB);
 
-setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType Color
-setAll(new Color("red"), sRGB, [1, 2, 3]); // $ExpectType Color
-// $ExpectType { coords: [number, number, number]; space: RGBColorSpace; alpha: number; }
+setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType PlainColorObject
+setAll(new Color("red"), sRGB, [1, 2, 3]); // $ExpectType PlainColorObject
+// $ExpectType PlainColorObject
 setAll(
 	{
 		coords: [1, 2, 3],
@@ -23,3 +23,8 @@ setAll(
 	"srgb_linear",
 	[4, 5, 6],
 );
+
+new Color("red").setAll("srgb", [1, 2, 3]); // $ExpectType Color
+new Color("red").setAll(sRGB, [1, 2, 3]); // $ExpectType Color
+Color.setAll("red", "srgb", [1, 2, 3]); // $ExpectType Color
+Color.setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType Color
