@@ -6,16 +6,16 @@ import ColorSpace, { Ref } from "./space.js";
 import SpaceAccessors from "./space-coord-accessors.js";
 
 import {
-	to as toType,
+	to as toFn,
 	parse,
 	serialize,
-	inGamut,
-	toGamut as toGamutType,
-	distance,
-	equals,
+	inGamut as inGamutFn,
+	toGamut as toGamutFn,
+	distance as distanceFn,
+	equals as equalsFn,
 	get,
-	getAll,
-	setAll as setAllType,
+	getAll as getAllFn,
+	setAll as setAllFn,
 	display,
 } from "./index-fn.js";
 
@@ -78,17 +78,16 @@ export type ToColorNamespace<T extends (...args: any[]) => any> = T extends (
 	: never;
 
 declare namespace Color {
-	export {
-		getAll,
-		equals,
-		inGamut,
-		distance,
-		serialize as toString,
-	};
+	// Functions defined using Color.defineFunctions
+	export const getAll: ToColorNamespace<typeof getAllFn>;
+	export const setAll: ToColorNamespace<typeof setAllFn>;
+	export const to: ToColorNamespace<typeof toFn>;
+	export const equals: ToColorNamespace<typeof equalsFn>;
+	export const inGamut: ToColorNamespace<typeof inGamutFn>;
+	export const toGamut: ToColorNamespace<typeof toGamutFn>;
+	export const distance: ToColorNamespace<typeof distanceFn>;
+
 	export { util, hooks, WHITES, ColorSpace as Space, parse, defaults };
-	export const setAll: ToColorNamespace<typeof setAllType>;
-	export const to: ToColorNamespace<typeof toType>;
-	export const toGamut: ToColorNamespace<typeof toGamutType>;
 	export const spaces: typeof ColorSpace["registry"];
 
 	// Must be manually defined due to overloads
@@ -141,13 +140,13 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;
-	getAll: ToColorPrototype<typeof getAll>;
-	setAll: ToColorPrototype<typeof setAllType>;
-	to: ToColorPrototype<typeof toType>;
-	equals: ToColorPrototype<typeof equals>;
-	inGamut: ToColorPrototype<typeof inGamut>;
-	toGamut: ToColorPrototype<typeof toGamutType>;
-	distance: ToColorPrototype<typeof distance>;
+	getAll: ToColorPrototype<typeof getAllFn>;
+	setAll: ToColorPrototype<typeof setAllFn>;
+	to: ToColorPrototype<typeof toFn>;
+	equals: ToColorPrototype<typeof equalsFn>;
+	inGamut: ToColorPrototype<typeof inGamutFn>;
+	toGamut: ToColorPrototype<typeof toGamutFn>;
+	distance: ToColorPrototype<typeof distanceFn>;
 	toString: ToColorPrototype<typeof serialize>;
 
 	// Must be manually defined due to overloads
