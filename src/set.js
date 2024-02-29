@@ -29,3 +29,5 @@ export default function set (color, prop, value) {
 
 	return color;
 }
+
+set.returns = "color";

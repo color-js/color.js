@@ -6,17 +6,16 @@ import ColorSpace, { Ref } from "./space.js";
 import SpaceAccessors from "./space-coord-accessors.js";
 
 import {
-	to,
+	to as toFn,
 	parse,
 	serialize,
-	inGamut,
-	toGamut,
-	distance,
-	equals,
+	inGamut as inGamutFn,
+	toGamut as toGamutFn,
+	distance as distanceFn,
+	equals as equalsFn,
 	get,
-	getAll,
-	set,
-	setAll,
+	getAll as getAllFn,
+	setAll as setAllFn,
 	display,
 } from "./index-fn.js";
 
@@ -69,20 +68,34 @@ export type ToColorPrototype<T extends (...args: any[]) => any> = T extends (
 		: (...args: A) => R
 	: never;
 
+/** Convert a function to a Color namespace property (returning a Color) */
+export type ToColorNamespace<T extends (...args: any[]) => any> = T extends (
+	...args: infer A
+) => infer R
+	? T extends { returns: "color" }
+		? (...args: A) => Color
+		: (...args: A) => R
+	: never;
+
 declare namespace Color {
-	export {
-		getAll,
-		set,
-		setAll,
-		to,
-		equals,
-		inGamut,
-		toGamut,
-		distance,
-		serialize as toString,
-	};
+	// Functions defined using Color.defineFunctions
+	export const getAll: ToColorNamespace<typeof getAllFn>;
+	export const setAll: ToColorNamespace<typeof setAllFn>;
+	export const to: ToColorNamespace<typeof toFn>;
+	export const equals: ToColorNamespace<typeof equalsFn>;
+	export const inGamut: ToColorNamespace<typeof inGamutFn>;
+	export const toGamut: ToColorNamespace<typeof toGamutFn>;
+	export const distance: ToColorNamespace<typeof distanceFn>;
+	// `get` is defined below as a static method on the Class,
+	// and `toString` is intentionally not overridden for the namespace
+
 	export { util, hooks, WHITES, ColorSpace as Space, parse, defaults };
 	export const spaces: typeof ColorSpace["registry"];
+
+	// Must be manually defined due to overloads
+	// These should always match the signature of the original function
+	export function set (color: ColorTypes, prop: Ref, value: number | ((coord: number) => number)): Color;
+	export function set (color: ColorTypes, props: Record<string, number | ((coord: number) => number)>): Color;
 }
 
 declare class Color extends SpaceAccessors implements PlainColorObject {
@@ -129,13 +142,13 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;
-	getAll: ToColorPrototype<typeof getAll>;
-	setAll: ToColorPrototype<typeof setAll>;
-	to: ToColorPrototype<typeof to>;
-	equals: ToColorPrototype<typeof equals>;
-	inGamut: ToColorPrototype<typeof inGamut>;
-	toGamut: ToColorPrototype<typeof toGamut>;
-	distance: ToColorPrototype<typeof distance>;
+	getAll: ToColorPrototype<typeof getAllFn>;
+	setAll: ToColorPrototype<typeof setAllFn>;
+	to: ToColorPrototype<typeof toFn>;
+	equals: ToColorPrototype<typeof equalsFn>;
+	inGamut: ToColorPrototype<typeof inGamutFn>;
+	toGamut: ToColorPrototype<typeof toGamutFn>;
+	distance: ToColorPrototype<typeof distanceFn>;
 	toString: ToColorPrototype<typeof serialize>;
 
 	// Must be manually defined due to overloads

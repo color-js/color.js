@@ -1,5 +1,5 @@
 import { White } from "./adapt.js";
-import Color, { ColorConstructor, ColorObject, Coords, PlainColorObject } from "./color.js";
+import { ColorConstructor, Coords, ColorTypes } from "./color.js";
 
 export interface Format {
 	/** @default "function" */
@@ -127,7 +127,7 @@ export default class ColorSpace {
 	white: White;
 	gamutSpace: ColorSpace;
 
-	from (color: {space: ColorSpace, coords: Coords, alpha?: number | undefined}): Coords;
+	from (color: ColorTypes): Coords;
 	from (space: string | ColorSpace, coords: Coords): Coords;
 
 	getFormat (format?: string | Format): Format | null;
@@ -136,7 +136,7 @@ export default class ColorSpace {
 
 	inGamut (coords: Coords, options?: { epsilon?: number }): boolean;
 
-	to (color: {space: ColorSpace, coords: Coords, alpha?: number | undefined}): Coords;
+	to (color: ColorTypes): Coords;
 	to (space: string | ColorSpace, coords: Coords): Coords;
 
 	toString (): string;

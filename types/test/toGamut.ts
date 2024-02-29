@@ -17,3 +17,5 @@ new Color("red").toGamut(); // $ExpectType Color
 new Color("red").toGamut({ method: "clip", space: "srgb" }); // $ExpectType Color
 new Color("red").toGamut({ method: "clip", space: sRGB }); // $ExpectType Color
 new Color("red").toGamut("srgb"); // $ExpectType Color
+Color.toGamut("red"); // $ExpectType Color
+Color.toGamut(new Color("red")); // $ExpectType Color
