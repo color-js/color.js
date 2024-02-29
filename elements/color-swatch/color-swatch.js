@@ -12,6 +12,7 @@ export default class ColorSwatch extends HTMLElement {
 		<div id="swatch" part="swatch"></div>
 		<slot></slot>`;
 		this.#swatch = this.shadowRoot.querySelector("#swatch");
+		this.attributeChangedCallback();
 	}
 
 	connectedCallback () {
@@ -52,8 +53,8 @@ export default class ColorSwatch extends HTMLElement {
 	}
 
 	attributeChangedCallback (name, newValue) {
-		if (name === "value") {
-			this.value = newValue;
+		if (!name && this.hasAttribute("value") || name === "value") {
+			this.value = this.getAttribute("value");
 		}
 	}
 
