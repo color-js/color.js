@@ -86,6 +86,8 @@ declare namespace Color {
 	export const inGamut: ToColorNamespace<typeof inGamutFn>;
 	export const toGamut: ToColorNamespace<typeof toGamutFn>;
 	export const distance: ToColorNamespace<typeof distanceFn>;
+	// `get` is defined below as a static method on the Class,
+	// and `toString` is intentionally not overridden for the namespace
 
 	export { util, hooks, WHITES, ColorSpace as Space, parse, defaults };
 	export const spaces: typeof ColorSpace["registry"];
