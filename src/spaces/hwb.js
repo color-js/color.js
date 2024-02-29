@@ -52,7 +52,7 @@ export default new ColorSpace({
 
 	formats: {
 		"hwb": {
-			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
 		},
 	},
 });
