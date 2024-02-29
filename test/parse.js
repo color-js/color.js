@@ -511,6 +511,10 @@ const tests = {
 					args: "hwb(none 20% 30%)",
 					expect: '{"spaceId":"hwb","coords":[null,20,30],"alpha":1}',
 				},
+				{
+					args: "hwb(180 20 30)",
+					expect: '{"spaceId":"hwb","coords":[180,20,30],"alpha":1}',
+				},
 			],
 		},
 	],
