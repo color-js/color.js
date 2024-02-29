@@ -27,3 +27,37 @@ export * from "./deltaE/index.js";
 export { default as deltaEMethods } from "./deltaE/index.js";
 export * from "./variations.js";
 export * from "./spaces/index-fn.js";
+
+export type {
+	ColorConstructor,
+	ColorObject,
+	ColorTypes,
+	Coords,
+	PlainColorObject,
+} from "./color.js";
+
+export type { White } from "./adapt.js";
+
+export type { CAT } from "./CATs.js";
+
+export type { Display } from "./display.js";
+
+export type {
+	Range,
+	RangeOptions,
+	MixOptions,
+	StepsOptions,
+} from "./interpolation.js";
+
+export type { Options as ParseOptions } from "./parse.js";
+
+export type { RGBOptions } from "./rgbspace.js";
+
+export type { Options as SerializeOptions } from "./serialize.js";
+
+export type {
+	Format as SpaceFormat,
+	CoordMeta,
+	Ref,
+	Options as SpaceOptions,
+} from "./space.js";
