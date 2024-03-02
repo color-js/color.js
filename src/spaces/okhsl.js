@@ -28,23 +28,22 @@ import {fromXYZ_M} from "./srgb-linear.js";
 import {skipNone, spow} from "../util.js";
 import {constrain} from "../angles.js";
 import multiplyMatrices from "../multiply-matrices.js";
-import {calculateBoundingLines} from "./hsluv.js";
 
-const tau = 2 * Math.PI;
+export const tau = 2 * Math.PI;
 
-const toLMS = [
+export const toLMS = [
 	[0.4122214694707629, 0.5363325372617349, 0.051445993267502196],
 	[0.2119034958178251, 0.6806995506452345, 0.10739695353694051],
 	[0.08830245919005637, 0.2817188391361215, 0.6299787016738223],
 ];
 
-const toSRGBLinear = [
+export const toSRGBLinear = [
 	[4.076741636075959, -3.307711539258062, 0.2309699031821041],
 	[-1.2684379732850313, 2.6097573492876878, -0.3413193760026569],
 	[-0.004196076138675526, -0.703418617935936, 1.7076146940746113],
 ];
 
-const RGBCoeff = [
+export const RGBCoeff = [
 	// Red
 	[
 		// Limit
@@ -91,21 +90,21 @@ function vdot (a, b) {
 }
 
 
-function toe (x) {
+export function toe (x) {
 	// Toe function for L_r.
 
 	return 0.5 * (K3 * x - K1 + Math.sqrt((K3 * x - K1) * (K3 * x - K1) + 4 * K2 * K3 * x));
 }
 
 
-function toeInv (x) {
+export function toeInv (x) {
 	// Inverse toe function for L_r.
 
 	return (x ** 2 + K1 * x) / (K3 * (x + K2));
 }
 
 
-function toSt (cusp) {
+export function toSt (cusp) {
 	// To ST.
 
 	let [l, c] = cusp;
@@ -150,7 +149,7 @@ function getStMid (a, b) {
 }
 
 
-function oklabToLinearRGB (lab, lmsToRgb) {
+export function oklabToLinearRGB (lab, lmsToRgb) {
 	// Convert from Oklab to linear RGB.
 	//
 	// Can be any gamut as long as `lmsToRgb` is a matrix
@@ -165,7 +164,7 @@ function oklabToLinearRGB (lab, lmsToRgb) {
 }
 
 
-function findCusp (a, b, lmsToRgb, okCoeff) {
+export function findCusp (a, b, lmsToRgb, okCoeff) {
 	// Finds L_cusp and C_cusp for a given hue.
 	//
 	// `a` and `b` must be normalized so `a^2 + b^2 == 1`.
