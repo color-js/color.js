@@ -108,6 +108,14 @@ const methods = {
 
 			return gamutColor.to("p3");
 		},
+		lerp: (p0, p1, t) => {
+			return p0 + (p1 - p0) * t;
+		},
+		ilerp: (p0, p1, t) => {
+
+			d = (p1 - p0);
+			return d ? ((t - p0) / d) : 0;
+		},
 		raytrace_box: (size, start, end) => {
 			// Returns the face and the intersection point as a tuple, with
 			// - 0: None, (point is None)
@@ -119,7 +127,12 @@ const methods = {
 			// - 6: intersection with z==size[2] face,
 			// that the ray from start to end intersects first,
 			// given an axis-aligned box (0,0,0)-(size[0],size[1],size[2]).
-			// https://math.stackexchange.com/a/3775967
+			// --------------
+			// mwt (https://math.stackexchange.com/users/591865/mwt),
+			// Finding the side of a cube intersecting a line using the shortest computation,
+			// URL (version: 2020-08-01): https://math.stackexchange.com/q/3776157
+			// --------------
+			// - Perpendicular cases were fixed.
 
 			// Negated deltas
 			let ndx = start[0] - end[0];
@@ -153,7 +166,7 @@ const methods = {
 			if (start[0] < 0 && 0 < end[0]) {
 				// Face 1: x == 0
 				tau = -start[0] * ayz;
-				if (tau < face_tau && cxy >= 0 && cxz >= 0 && cxy <= -sxy && cxz <= -sxz) {
+				if (tau <= face_tau && cxy >= 0 && cxz >= 0 && cxy <= -sxy && cxz <= -sxz) {
 					face_tau = tau;
 					face_num = 1;
 				}
@@ -162,7 +175,7 @@ const methods = {
 			else if (end[0] < size[0] && size[0] < start[0]) {
 				// Face 2: x == size[0]
 				tau = (start[0] - size[0]) * ayz;
-				if (tau < face_tau && cxy <= syx && cxz <= szx && cxy >= syx - sxy && cxz >= szx - sxz) {
+				if (tau <= face_tau && cxy <= syx && cxz <= szx && cxy >= syx - sxy && cxz >= szx - sxz) {
 					face_tau = tau;
 					face_num = 2;
 				}
@@ -171,7 +184,7 @@ const methods = {
 			if (start[1] < 0 && end[1] > 0) {
 				// Face 3: y == 0
 				tau = -start[1] * axz;
-				if (tau < face_tau && cxy <= 0 && cyz >= 0 && cxy >= syx && cyz <= -syz) {
+				if (tau <= face_tau && cxy <= 0 && cyz >= 0 && cxy >= syx && cyz <= -syz) {
 					face_tau = tau;
 					face_num = 3;
 				}
@@ -180,7 +193,7 @@ const methods = {
 			else if (start[1] > size[1] && end[1] < size[1]) {
 				// Face 4: y == size[1]
 				tau = (start[1] - size[1]) * axz;
-				if (tau < face_tau && cxy >= -sxy && cyz <= szy && cxy <= syx - sxy && cyz >= szy - syz) {
+				if (tau <= face_tau && cxy >= -sxy && cyz <= szy && cxy <= syx - sxy && cyz >= szy - syz) {
 					face_tau = tau;
 					face_num = 4;
 				}
@@ -189,7 +202,7 @@ const methods = {
 			if (start[2] < 0 && end[2] > 0) {
 				// Face 5: z == 0
 				tau = -start[2] * axy;
-				if (tau < face_tau && cxz <= 0 && cyz <= 0 && cxz >= szx && cyz >= szy) {
+				if (tau <= face_tau && cxz <= 0 && cyz <= 0 && cxz >= szx && cyz >= szy) {
 					face_tau = tau;
 					face_num = 5;
 				}
@@ -198,13 +211,30 @@ const methods = {
 			else if (start[2] > size[2] && end[2] < size[2]) {
 				// Face 6: z == size[2]
 				tau = (start[2] - size[2]) * axy;
-				if ((tau < face_tau && cxz >= -sxz && cyz >= -syz && cxz <= szx - sxz && cyz <= szy - syz)) {
+				if ((tau <= face_tau && cxz >= -sxz && cyz >= -syz && cxz <= szx - sxz && cyz <= szy - syz)) {
 					face_tau = tau;
 					face_num = 6;
 				}
 			}
 
 			if (face_num > 0) {
+				// Handle a cases where the ray is perpendicular (and other similar cases).
+				// Use the face to identify the boundary limit and calculate intersection via interpolation.
+				if (axyz === 0) {
+					let method = methods.raytrace;
+					let idx = Math.floor((face_num - 1) / 2);
+					let limit = ((face_num - 1) % 2) * size[idx];
+					let factor = method.ilerp(start[idx], end[idx], limit);
+					return (
+						face_num,
+						[
+							method.lerp(start[0], end[0], factor),
+							method.lerp(start[1], end[1], factor),
+							method.lerp(start[2], end[2], factor),
+						]
+					);
+				}
+
 				const tend = face_tau / axyz;
 				const tstart = 1.0 - tend;
 				return [
