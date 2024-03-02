@@ -23,6 +23,7 @@ declare class SpaceAccessors {
 	lch: SpaceAccessor;
 	lchuv: SpaceAccessor;
 	luv: SpaceAccessor;
+	okhsl: SpaceAccessor;
 	oklab: SpaceAccessor;
 	oklch: SpaceAccessor;
 	p3: SpaceAccessor;
