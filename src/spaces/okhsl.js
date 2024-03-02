@@ -497,7 +497,7 @@ export default new ColorSpace({
 
 	formats: {
 		color: {
-			id: "--hpluv",
+			id: "--okhsl",
 			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
 		},
 	},
