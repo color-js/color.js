@@ -56,10 +56,10 @@ export default {
 	},
 
 	template: `
-	<div :style="style" class="mapped-gradient">
+	<div class="mapped-gradient">
 		<div class="info"><strong>{{ name }}</strong> {{time}}ms</div>
 		<div class="gradient" :title="name">
-			<div v-for="step in mappedSteps" :style="{'--step-color': step}" :title="step"></div>
+			<div v-for="step in mappedSteps" :style="{'--step-color': step}" :title="name + ' ' + step"></div>
 		</div>
 	</div>
 		`,
