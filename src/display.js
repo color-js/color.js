@@ -13,7 +13,7 @@ defaults.display_space = sRGB;
 
 let supportsNone;
 
-if (typeof CSS !== "undefined" && CSS.supports) {
+if (typeof CSS !== "undefined" && CSS?.supports) {
 	// Find widest supported color space for CSS
 	for (let space of [Lab, REC2020, P3]) {
 		let coords = space.getMinCoords();
