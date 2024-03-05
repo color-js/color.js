@@ -10,20 +10,20 @@ body {
 
 	.gradient {
 		height: 100px;
-    display: flex;
-    > div {
-      flex: auto;
-      background: var(--step-color);
-    }
+		display: flex;
+		> div {
+			flex: auto;
+			background: var(--step-color);
+		}
 	}
-  .color-inputs {
+	.color-inputs {
 		display: flex;
 		justify-content: space-between;
 	}
 
-  .oog .gradient{
-    height: 15px;
-  }
+	.oog .gradient {
+		height: 15px;
+	}
 
 	.method .info {
 		display: none;
