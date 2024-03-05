@@ -96,15 +96,15 @@ const methods = {
 					continue;
 				}
 
-				// Remove noise from floating point math
-				coords = gamutColor.getAll().map(x => {
-					return util.clamp(0.0, x, 1.0);
-				});
-				gamutColor.setAll(gamutColor.space, coords);
-
 				// If there was no change, we are done
 				break;
 			}
+
+			// Remove noise from floating point math
+			coords = gamutColor.getAll().map(x => {
+				return util.clamp(0.0, x, 1.0);
+			});
+			gamutColor.setAll(gamutColor.space, coords);
 
 			return gamutColor.to("p3");
 		},
