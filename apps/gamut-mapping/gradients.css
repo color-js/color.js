@@ -1,0 +1,36 @@
+:root {
+	--font-mono: Consolas, Inconsolata, Monaco, monospace;
+}
+
+body {
+	font: 100%/1.5 system-ui;
+	max-width: 84em;
+	margin: 1em auto;
+	padding-inline: 1em;
+
+	.gradient {
+		height: 100px;
+    display: flex;
+    > div {
+      flex: auto;
+      background: var(--step-color);
+    }
+	}
+  .color-inputs {
+		display: flex;
+		justify-content: space-between;
+	}
+
+  .oog .gradient{
+    height: 15px;
+  }
+
+	.method .info {
+		display: none;
+	}
+	.gradients:not(.flush) {
+		.method .info {
+			display: block;
+		}
+	}
+}

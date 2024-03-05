@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gamut Mapping Experiments - Gradients</title>
+	<link rel="stylesheet" href="gradients.css" />
+	<link rel="shortcut icon" />
+	<script type="module" src="../../elements/css-color/css-color.js"></script>
+	<script type="module" src="gradients.js"></script>
+</head>
+<body>
+	<header>
+		<h1>Gamut Mapping Gradients</h1>
+		<p>Use keyboard arrow keys to increment/decrement, share by copying the URL</p>
+	</header>
+	<div class="controls">
+		<label for="space">Interpolation space:</label>
+		<select v-model="space" name="space">
+			<option v-for="space in interpolationSpaces" :value="space">{{ space }}</option>
+		</select><br/>
+		<label for="maxDeltaE">Max DeltaE between steps:</label>
+		<input v-model="maxDeltaE" type="number" min="1" name="maxDeltaE"/><br/>
+		<div>{{steps.length}} Gradient Steps</div>
+		<label for="flush">Flush:</label> <input type="checkbox" v-model="flush" name="flush">
+	</div>
+	<div class="color-inputs">
+		<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="from">
+			<input v-model="from" />
+		</css-color>
+		<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="to">
+			<input v-model="to" />
+		</css-color>
+	</div>
+	<div class="mapped-gradient oog">
+		<div class="info"><strong>Gamut indicator</strong></div>
+		<div class="gradient">
+			<div v-for="[title, step] in oogSteps" :style="{'--step-color': step}" :title="title"></div>
+		</div> 
+	</div>
+	<div :class="{flush, 'gradients': true}">
+		<article class="method" v-for="(i, method) of methods">
+			<mapped-gradient :key="i" :steps="steps" :method="i"/>
+		</article>
+	</div>
+</body>
+</html>
