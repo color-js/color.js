@@ -1022,7 +1022,7 @@ const tests = {
 				{
 					name: "sRGB red to Okhsv",
 					args: "red",
-					expect: [ 29.233880279627897, 1.0000002264814274, 1.0000000000000002 ]
+					expect: [ 29.233880279627897, 1.0000002264814274, 1.0000000000000002 ],
 				},
 				{
 					name: "sRGB lime to Okhsv",
@@ -1047,7 +1047,7 @@ const tests = {
 				{
 					name: "sRGB yellow to Okhsv",
 					args: "yellow",
-					expect: [ 109.76923612816614, 1.000000019514276, 1.0000000000000002 ]
+					expect: [ 109.76923612816614, 1.000000019514276, 1.0000000000000002 ],
 				},
 				{
 					name: "sRGB black to Okhsv",
