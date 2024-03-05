@@ -42,7 +42,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 export default function display (color, {space = defaults.display_space, ...options} = {}) {
 	let ret = serialize(color, options);
 
-	if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.display_space) {
+	if (typeof CSS === "undefined" || CSS?.supports("color", ret) || !defaults.display_space) {
 		ret = new String(ret);
 		ret.color = color;
 	}
