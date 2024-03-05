@@ -33,4 +33,18 @@ body {
 			display: block;
 		}
 	}
+  .gamut-legend {
+    ul{
+      list-style: none;
+      display: flex;
+      gap: 3em;
+      padding: 0;
+    }
+    .color-block {
+      height: 1em;
+      width: 1em;
+      display: inline-block;
+      background-color: var(--step-color);
+    }
+  }
 }

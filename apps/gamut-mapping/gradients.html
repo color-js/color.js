@@ -33,7 +33,15 @@
 		</css-color>
 	</div>
 	<div class="mapped-gradient oog">
-		<div class="info"><strong>Gamut indicator</strong></div>
+		<details class="gamut-legend"><summary><strong>Gamut indicator</strong></summary>
+			Shows the smallest gamut that the color from the unmapped gradient fits in.
+			<ul>
+				<li><span class="color-block" style="--step-color:yellowgreen"></span> In sRGB</li>
+				<li><span class="color-block" style="--step-color:gold"></span> In p3</li>
+				<li><span class="color-block" style="--step-color:orange"></span> In rec2020</li>
+				<li><span class="color-block" style="--step-color:red"></span> Out of rec2020</li>
+			</ul>
+		</details>
 		<div class="gradient">
 			<div v-for="[title, step] in oogSteps" :style="{'--step-color': step}" :title="title"></div>
 		</div> 
