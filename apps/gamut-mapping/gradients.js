@@ -8,16 +8,16 @@ globalThis.Color = Color;
 let app = createApp({
 	data () {
 		let params = new URLSearchParams(location.search);
-		let urlFromColor = params.getAll("from").filter(Boolean);
-		let urlToColor = params.getAll("to").filter(Boolean);
+		const urlFromColor = params.get("from");
+		const urlToColor = params.get("to");
 		return {
 			methods: ["none", "clip", "scale-lh", "css", "raytrace", "edge-seeker"],
-			Color,
-			from: "oklch(90% .8 250)",
-			to: "oklch(40% .1 20)",
+			from: urlFromColor || "oklch(90% .8 250)",
+			to: urlToColor || "oklch(40% .1 20)",
 			space: "oklch",
 			maxDeltaE: 10,
 			flush: false,
+			params: params,
 			interpolationSpaces: ["oklch", "oklab", "p3", "rec2020", "lab"],
 		};
 	},
@@ -57,7 +57,22 @@ let app = createApp({
 	},
 
 	watch: {
-
+		from: {
+			handler (value) {
+				this.params.set("from", value);
+				history.pushState(null, "", "?" + this.params.toString());
+			},
+			deep: true,
+			immediate: true,
+		},
+		to: {
+			handler (value) {
+				this.params.set("to", value);
+				history.pushState(null, "", "?" + this.params.toString());
+			},
+			deep: true,
+			immediate: true,
+		},
 	},
 
 	components: {
