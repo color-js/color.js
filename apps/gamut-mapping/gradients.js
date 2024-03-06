@@ -10,10 +10,14 @@ let app = createApp({
 		let params = new URLSearchParams(location.search);
 		const urlFromColor = params.get("from");
 		const urlToColor = params.get("to");
+		const from =  urlFromColor || "oklch(90% .8 250)";
+		const to = urlToColor || "oklch(40% .1 20)";
 		return {
 			methods: ["none", "clip", "scale-lh", "css", "raytrace", "edge-seeker"],
-			from: urlFromColor || "oklch(90% .8 250)",
-			to: urlToColor || "oklch(40% .1 20)",
+			from: from,
+			to: to,
+			parsedFrom: this.tryParse(from),
+			parsedTo: this.tryParse(to),
 			space: "oklch",
 			maxDeltaE: 10,
 			flush: false,
@@ -23,14 +27,12 @@ let app = createApp({
 	},
 
 	computed: {
-		colors () {
-			return [this.from, this.to];
-		},
-
 		steps () {
-			const from = new Color(this.colors[0]);
-			const to = new Color(this.colors[1]);
-			let steps = from.steps(to, {
+			if ( !this.parsedFrom || !this.parsedTo) {
+				return [];
+			}
+			const from = new Color(this.parsedFrom);
+			let steps = from.steps(this.parsedTo, {
 				maxDeltaE: this.maxDeltaE,
 				space: this.space,
 			});
@@ -53,7 +55,21 @@ let app = createApp({
 	},
 
 	methods: {
-
+		colorChangeFrom (event) {
+			this.parsedFrom = this.tryParse(event.detail.color) || this.parsedFrom;
+		},
+		colorChangeTo (event) {
+			this.parsedTo = this.tryParse(event.detail.color) || this.parsedFrom;
+		},
+		tryParse (input) {
+			try {
+				const color = new Color.parse(input);
+				return color;
+			}
+			catch (error) {
+				// do nothing
+			}
+		},
 	},
 
 	watch: {
