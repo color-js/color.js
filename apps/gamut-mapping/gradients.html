@@ -25,10 +25,10 @@
 		<label for="flush">Flush:</label> <input type="checkbox" v-model="flush" name="flush">
 	</div>
 	<div class="color-inputs">
-		<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="from">
+		<css-color swatch="large" @colorchange="colorChangeFrom" :value="from">
 			<input v-model="from" />
 		</css-color>
-		<css-color swatch="large" @colorchange="event => colorNullable = event.detail.color" :value="to">
+		<css-color swatch="large" @colorchange="colorChangeTo" :value="to">
 			<input v-model="to" />
 		</css-color>
 	</div>
