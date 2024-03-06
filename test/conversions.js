@@ -961,6 +961,102 @@ const tests = {
 			],
 		},
 		{
+			name: "Okhsl",
+			data: {
+				toSpace: "okhsl",
+			},
+			tests: [
+				{
+					name: "sRGB white to Okhsl",
+					args: "white",
+					expect: [180, 0.6519721306444567, 1.0000000000000002],
+				},
+				{
+					name: "sRGB red to Okhsl",
+					args: "red",
+					expect: [29.233880279627897, 1.0000000995016396, 0.5680846563197034],
+				},
+				{
+					name: "sRGB lime to Okhsl",
+					args: "lime",
+					expect: [142.4953450414439, 1.0000000000000016, 0.8445289714936317],
+				},
+				{
+					name: "sRGB blue to Okhsl",
+					args: "blue",
+					expect: [ 264.05202261636987, 1.0000000005848084, 0.3665653391870817 ],
+				},
+				{
+					name: "sRGB cyan to Okhsl",
+					args: "cyan",
+					expect: [ 194.76895989798186, 1.0000000000000022, 0.8898483085518512 ],
+				},
+				{
+					name: "sRGB magenta to Okhsl",
+					args: "magenta",
+					expect: [ 328.3634151749902, 1, 0.6532987485868166 ],
+				},
+				{
+					name: "sRGB yellow to Okhsl",
+					args: "yellow",
+					expect: [ 109.76923612816614, 1.000000000488464, 0.9627044043394304 ],
+				},
+				{
+					name: "sRGB black to Okhsl",
+					args: "black",
+					expect: [0.0, 0.0, 0.0],
+				},
+			],
+		},
+		{
+			name: "Okhsv",
+			data: {
+				toSpace: "okhsv",
+			},
+			tests: [
+				{
+					name: "sRGB white to Okhsv",
+					args: "white",
+					expect: [ 180, 1.3189507366749435e-15, 1.0000000000000007 ],
+				},
+				{
+					name: "sRGB red to Okhsv",
+					args: "red",
+					expect: [ 29.233880279627897, 1.0000002264814274, 1.0000000000000002 ],
+				},
+				{
+					name: "sRGB lime to Okhsv",
+					args: "lime",
+					expect: [ 142.4953450414439, 0.9999998662472009, 1.0000000000000004 ],
+				},
+				{
+					name: "sRGB blue to Okhsv",
+					args: "blue",
+					expect: [ 264.05202261636987, 1.0000000023007056, 1.0000000000000004 ],
+				},
+				{
+					name: "sRGB cyan to Okhsv",
+					args: "cyan",
+					expect: [ 194.76895989798186, 0.9999996310024463, 1.0000000000000009 ],
+				},
+				{
+					name: "sRGB magenta to Okhsv",
+					args: "magenta",
+					expect: [ 328.3634151749902, 0.999999999954202, 1 ],
+				},
+				{
+					name: "sRGB yellow to Okhsv",
+					args: "yellow",
+					expect: [ 109.76923612816614, 1.000000019514276, 1.0000000000000002 ],
+				},
+				{
+					name: "sRGB black to Okhsv",
+					args: "black",
+					expect: [0.0, 0.0, 0.0],
+				},
+			],
+		},
+		{
 			name: "Get coordinates",
 			data: {
 				slategray: new Color("slategray"),
