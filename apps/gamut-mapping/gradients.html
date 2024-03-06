@@ -48,9 +48,10 @@
 	</div>
 	<div :class="{flush, 'gradients': true}">
 		<article class="method" v-for="(i, method) of methods">
-			<mapped-gradient :key="i" :steps="steps" :method="i"/>
+			<mapped-gradient :key="i" :steps="steps" :method="i" @report-time="reportTime"/>
 		</article>
 	</div>
+	<timing-info :run-results="runResults" />
 	<div class="footer">
 		<a href="./index.html">Gamut mapping Playground</a>
 	</div>

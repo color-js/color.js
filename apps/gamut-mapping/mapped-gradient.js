@@ -6,6 +6,8 @@ export default {
 		steps: Array,
 	},
 
+	emits: ["report-time"],
+
 	data () {
 		return {
 			time: 0,
@@ -36,6 +38,7 @@ export default {
 				return mappedColor;
 			});
 			this.time = Color.util.toPrecision(performance.now() - start, 4);
+			this.$emit("report-time", {time: this.time, method: this.method});
 			this.mappedSteps = steps;
 		},
 	},
