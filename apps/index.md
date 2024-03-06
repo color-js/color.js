@@ -5,11 +5,12 @@ body_classes: language-markup
 
 ## Apps
 
+- [Black or white?](blackwhite)
 - [Color picker for any color space](picker)
 - [Convert across everything](convert)
+- [Gamut Mapping Playground](gamut-mapping)
 - [Gradient interpolation](gradients)
 - [Named color proximity](named)
-- [Black or white?](blackwhite)
 
 ## Elements
 
