@@ -8,6 +8,7 @@ body_classes: language-markup
 - [Black or white?](blackwhite)
 - [Color picker for any color space](picker)
 - [Convert across everything](convert)
+- [Gamut Mapping Gradients](gamut-mapping/gradients)
 - [Gamut Mapping Playground](gamut-mapping)
 - [Gradient interpolation](gradients)
 - [Named color proximity](named)
