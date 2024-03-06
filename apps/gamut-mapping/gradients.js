@@ -1,7 +1,7 @@
 import { createApp } from "https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.js";
 import Color from "../../dist/color.js";
-import methods from "./methods.js";
 import Gradient from "./mapped-gradient.js";
+import TimingInfo from "./timing-info.js";
 
 globalThis.Color = Color;
 
@@ -12,8 +12,11 @@ let app = createApp({
 		const urlToColor = params.get("to");
 		const from =  urlFromColor || "oklch(90% .8 250)";
 		const to = urlToColor || "oklch(40% .1 20)";
+		const methods = ["none", "clip", "scale-lh", "css", "raytrace", "edge-seeker"];
+		const runResults = {};
+		methods.forEach(method => runResults[method] = []);
 		return {
-			methods: ["none", "clip", "scale-lh", "css", "raytrace", "edge-seeker"],
+			methods: methods,
 			from: from,
 			to: to,
 			parsedFrom: this.tryParse(from),
@@ -23,6 +26,7 @@ let app = createApp({
 			flush: false,
 			params: params,
 			interpolationSpaces: ["oklch", "oklab", "p3", "rec2020", "lab"],
+			runResults: runResults,
 		};
 	},
 
@@ -70,6 +74,10 @@ let app = createApp({
 				// do nothing
 			}
 		},
+		reportTime ({time, method}) {
+			this.runResults[method].push(time);
+			this.runResults = {...this.runResults};
+		},
 	},
 
 	watch: {
@@ -93,6 +101,7 @@ let app = createApp({
 
 	components: {
 		"mapped-gradient": Gradient,
+		"timing-info": TimingInfo,
 	},
 	compilerOptions: {
 		isCustomElement (tag) {

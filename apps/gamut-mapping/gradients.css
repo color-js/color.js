@@ -63,3 +63,21 @@ body {
 		text-align: center;
 	}
 }
+details.timing-info {
+	margin-top: 2em;
+	 > dl {
+		display: flex;
+	}
+	.timing-result{
+		padding: 1em;
+		dd {
+			margin: 0;
+		}
+	}
+	.metric > div {
+		display: flex;
+		justify-content: space-between;
+		gap: 1em;
+	}
+	
+}
