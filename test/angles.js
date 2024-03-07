@@ -31,5 +31,10 @@ export default {
 			args: ["raw", [-20, 380]],
 			expect: [-20, 380],
 		},
+		{
+			name: "Longer and Undefined",
+			args: ["longer", [90, NaN]],
+			expect: [90, 450],
+		},
 	],
 };
