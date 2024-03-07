@@ -5,7 +5,7 @@ export function constrain (angle) {
 }
 
 export function adjust (arc, angles) {
-	let [a1, a2] = angles.map(constrain);
+	let [a1, a2] = angles;
 
 	let none1 = util.isNone(a1);
 	let none2 = util.isNone(a2);
@@ -23,6 +23,9 @@ export function adjust (arc, angles) {
 	if (arc === "raw") {
 		return angles;
 	}
+
+	a1 = constrain(a1);
+	a2 = constrain(a2);
 
 	let angleDiff = a2 - a1;
 
