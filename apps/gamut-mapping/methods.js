@@ -73,23 +73,22 @@ const methods = {
 			let achroma = mapColor.clone().set("c", 0).to("p3-linear").coords;
 			let gamutColor = mapColor.clone().to("p3-linear");
 
-			// Create a line from our color to color with zero lightness.
+			// Create a line from our color to color with zero chroma.
 			// Trace the line to the RGB cube finding the face and the point where it intersects.
-			// Take two rounds to get us as close as we can get.
+			// Additional attempts will find the intersection using the zero chroma color
+			// as the origin of the ray and the new color guiding the direction.
 			let coords;
+			let intersection;
 			let [xa, ya, za] = achroma;
 			for (let i = 0; i < 3; i++) {
-				// On subsequent runs correct L and H before continuing and
-				// then extend the vector in case we are now under saturated
+				// On subsequent runs correct L and H before before finding the intersection.
 				if (i) {
 					gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
-					let [r, g, b] = gamutColor.coords;
-					coords = [xa + (r - xa) * 100, ya + (g - ya) * 100, za + (b - za) * 100];
+					intersection = methods.raytrace.raytrace_box(achroma, gamutColor.coords);
 				}
 				else {
-					coords = gamutColor.coords;
+					intersection = methods.raytrace.raytrace_box(gamutColor.coords, achroma);
 				}
-				let intersection = methods.raytrace.raytrace_box(coords, achroma);
 				if (intersection.length) {
 					gamutColor.setAll(gamutColor.space, intersection);
 					continue;
@@ -125,12 +124,6 @@ const methods = {
 				const bx = bmax[i];
 				direction.push(d);
 
-				// Both start and end of ray are outside the box on one side.
-				// Can occur with some parallel cases.
-				if ((a < bn && b < bn) || (a > bx && b > bx)) {
-					return [];
-				}
-
 				// Non parallel cases
 				if (d != 0) {
 					const inv_d = 1 / d;
@@ -141,7 +134,7 @@ const methods = {
 				}
 
 				// Impossible parallel case
-				else if (a < bmin[0] || a > bmax[1]) {
+				else if (a < bn || a > bx) {
 					return [];
 				}
 			}
@@ -149,6 +142,11 @@ const methods = {
 			// No hit
 			if (tnear > tfar || tfar < 0) {
 				return [];
+			}
+
+			// Favor the intersection first in the direction start -> end
+			if (tnear < 0) {
+				tnear = tfar;
 			}
 
 			// Calculate nearest intersection via interpolation
