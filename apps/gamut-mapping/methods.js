@@ -113,7 +113,6 @@ const methods = {
 			// Calculate whether there was a hit
 			let tfar = Infinity;
 			let tnear = -Infinity;
-			let method = methods.raytrace;
 			let direction = [];
 
 			for (let i = 0; i < 3; i++) {
@@ -127,8 +126,8 @@ const methods = {
 				// Non parallel cases
 				if (d != 0) {
 					const inv_d = 1 / d;
-					const t1 = (bmin[i] - a) * inv_d;
-					const t2 = (bmax[i] - a) * inv_d;
+					const t1 = (bn - a) * inv_d;
+					const t2 = (bx - a) * inv_d;
 					tnear = Math.max(Math.min(t1, t2), tnear);
 					tfar = Math.min(Math.max(t1, t2), tfar);
 				}
