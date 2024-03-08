@@ -76,7 +76,6 @@ const methods = {
 			// Create a line from our color to color with zero lightness.
 			// Trace the line to the RGB cube finding the face and the point where it intersects.
 			// Take two rounds to get us as close as we can get.
-			let size = [1, 1, 1];
 			let coords;
 			let [xa, ya, za] = achroma;
 			for (let i = 0; i < 3; i++) {
@@ -90,8 +89,8 @@ const methods = {
 				else {
 					coords = gamutColor.coords;
 				}
-				let [face, intersection] = methods.raytrace.raytrace_box(size, coords, achroma);
-				if (face) {
+				let intersection = methods.raytrace.raytrace_box(coords, achroma);
+				if (intersection.length) {
 					gamutColor.setAll(gamutColor.space, intersection);
 					continue;
 				}
@@ -108,145 +107,56 @@ const methods = {
 
 			return gamutColor.to("p3");
 		},
-		lerp: (p0, p1, t) => {
-			return p0 + (p1 - p0) * t;
-		},
-		ilerp: (p0, p1, t) => {
+		raytrace_box: (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) => {
+			// Use slab method to detect intersection of ray and box and return intersect.
+			// https://en.wikipedia.org/wiki/Slab_method
 
-			d = (p1 - p0);
-			return d ? ((t - p0) / d) : 0;
-		},
-		raytrace_box: (size, start, end) => {
-			// Returns the face and the intersection point as a tuple, with
-			// - 0: None, (point is None)
-			// - 1: intersection with x==0 face,
-			// - 2: intersection with x==size[0] face,
-			// - 3: intersection with y==0 face,
-			// - 4: intersection with y==size[1] face,
-			// - 5: intersection with z==0 face,
-			// - 6: intersection with z==size[2] face,
-			// that the ray from start to end intersects first,
-			// given an axis-aligned box (0,0,0)-(size[0],size[1],size[2]).
-			// --------------
-			// mwt (https://math.stackexchange.com/users/591865/mwt),
-			// Finding the side of a cube intersecting a line using the shortest computation,
-			// URL (version: 2020-08-01): https://math.stackexchange.com/q/3776157
-			// --------------
-			// - Perpendicular cases were fixed.
+			// Calculate whether there was a hit
+			let tfar = Infinity;
+			let tnear = -Infinity;
+			let method = methods.raytrace;
+			let direction = [];
 
-			// Negated deltas
-			let ndx = start[0] - end[0];
-			let ndy = start[1] - end[1];
-			let ndz = start[2] - end[2];
+			for (let i = 0; i < 3; i++) {
+				const a = start[i];
+				const b = end[i];
+				const d = b - a;
+				const bn = bmin[i];
+				const bx = bmax[i];
+				direction.push(d);
 
-			// Sizes scaled by the negated deltas
-			let sxy = ndx * size[1];
-			let sxz = ndx * size[2];
-			let syx = ndy * size[0];
-			let syz = ndy * size[2];
-			let szx = ndz * size[0];
-			let szy = ndz * size[1];
+				// Both start and end of ray are outside the box on one side.
+				// Can occur with some parallel cases.
+				if ((a < bn && b < bn) || (a > bx && b > bx)) {
+					return [];
+				}
 
-			// Cross terms
-			let cxy = end[0] * start[1] - end[1] * start[0];
-			let cxz = end[0] * start[2] - end[2] * start[0];
-			let cyz = end[1] * start[2] - end[2] * start[1];
+				// Non parallel cases
+				if (d != 0) {
+					const inv_d = 1 / d;
+					const t1 = (bmin[i] - a) * inv_d;
+					const t2 = (bmax[i] - a) * inv_d;
+					tnear = Math.max(Math.min(t1, t2), tnear);
+					tfar = Math.min(Math.max(t1, t2), tfar);
+				}
 
-			// Absolute delta products
-			let axy = Math.abs(ndx * ndy);
-			let axz = Math.abs(ndx * ndz);
-			let ayz = Math.abs(ndy * ndz);
-			let axyz = Math.abs(ndz * axy);
-
-			// Default to "no intersection"
-			let face_num = 0;
-			let face_tau = Math.abs(ndz * axy);
-			let tau = 0;
-
-			if (start[0] < 0 && 0 < end[0]) {
-				// Face 1: x == 0
-				tau = -start[0] * ayz;
-				if (tau <= face_tau && cxy >= 0 && cxz >= 0 && cxy <= -sxy && cxz <= -sxz) {
-					face_tau = tau;
-					face_num = 1;
+				// Impossible parallel case
+				else if (a < bmin[0] || a > bmax[1]) {
+					return [];
 				}
 			}
 
-			else if (end[0] < size[0] && size[0] < start[0]) {
-				// Face 2: x == size[0]
-				tau = (start[0] - size[0]) * ayz;
-				if (tau <= face_tau && cxy <= syx && cxz <= szx && cxy >= syx - sxy && cxz >= szx - sxz) {
-					face_tau = tau;
-					face_num = 2;
-				}
+			// No hit
+			if (tnear > tfar || tfar < 0) {
+				return [];
 			}
 
-			if (start[1] < 0 && end[1] > 0) {
-				// Face 3: y == 0
-				tau = -start[1] * axz;
-				if (tau <= face_tau && cxy <= 0 && cyz >= 0 && cxy >= syx && cyz <= -syz) {
-					face_tau = tau;
-					face_num = 3;
-				}
-			}
-
-			else if (start[1] > size[1] && end[1] < size[1]) {
-				// Face 4: y == size[1]
-				tau = (start[1] - size[1]) * axz;
-				if (tau <= face_tau && cxy >= -sxy && cyz <= szy && cxy <= syx - sxy && cyz >= szy - syz) {
-					face_tau = tau;
-					face_num = 4;
-				}
-			}
-
-			if (start[2] < 0 && end[2] > 0) {
-				// Face 5: z == 0
-				tau = -start[2] * axy;
-				if (tau <= face_tau && cxz <= 0 && cyz <= 0 && cxz >= szx && cyz >= szy) {
-					face_tau = tau;
-					face_num = 5;
-				}
-			}
-
-			else if (start[2] > size[2] && end[2] < size[2]) {
-				// Face 6: z == size[2]
-				tau = (start[2] - size[2]) * axy;
-				if ((tau <= face_tau && cxz >= -sxz && cyz >= -syz && cxz <= szx - sxz && cyz <= szy - syz)) {
-					face_tau = tau;
-					face_num = 6;
-				}
-			}
-
-			if (face_num > 0) {
-				// Handle a cases where the ray is perpendicular (and other similar cases).
-				// Use the face to identify the boundary limit and calculate intersection via interpolation.
-				if (axyz === 0) {
-					let method = methods.raytrace;
-					let idx = Math.floor((face_num - 1) / 2);
-					let limit = ((face_num - 1) % 2) * size[idx];
-					let factor = method.ilerp(start[idx], end[idx], limit);
-					return (
-						face_num,
-						[
-							method.lerp(start[0], end[0], factor),
-							method.lerp(start[1], end[1], factor),
-							method.lerp(start[2], end[2], factor),
-						]
-					);
-				}
-
-				const tend = face_tau / axyz;
-				const tstart = 1.0 - tend;
-				return [
-					face_num,
-					[
-						tstart * start[0] + tend * end[0],
-						tstart * start[1] + tend * end[1],
-						tstart * start[2] + tend * end[2],
-					],
-				];
-			}
-			return [0, []];
+			// Calculate nearest intersection via interpolation
+			return [
+				start[0] + direction[0] * tnear,
+				start[1] + direction[1] * tnear,
+				start[2] + direction[2] * tnear,
+			];
 		},
 	},
 	"edge-seeker": {
