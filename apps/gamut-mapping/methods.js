@@ -77,9 +77,7 @@ const methods = {
 			// Trace the line to the RGB cube finding the face and the point where it intersects.
 			// Additional attempts will find the intersection using the zero chroma color
 			// as the origin of the ray and the new color guiding the direction.
-			let coords;
 			let intersection;
-			let [xa, ya, za] = achroma;
 			for (let i = 0; i < 3; i++) {
 				// On subsequent runs correct L and H before before finding the intersection.
 				if (i) {
@@ -99,7 +97,7 @@ const methods = {
 			}
 
 			// Remove noise from floating point math
-			coords = gamutColor.getAll().map(x => {
+			let coords = gamutColor.getAll().map(x => {
 				return util.clamp(0.0, x, 1.0);
 			});
 			gamutColor.setAll(gamutColor.space, coords);
