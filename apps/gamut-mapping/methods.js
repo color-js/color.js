@@ -100,8 +100,8 @@ const methods = {
 				[
 					util.clamp(0.0, coords[0], 1.0),
 					util.clamp(0.0, coords[1], 1.0),
-					util.clamp(0.0, coords[2], 1.0)
-				]
+					util.clamp(0.0, coords[2], 1.0),
+				],
 			);
 
 			return gamutColor.to("p3");
