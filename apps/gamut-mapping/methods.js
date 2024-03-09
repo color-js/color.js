@@ -79,13 +79,15 @@ const methods = {
 			// Correct L and h within the perceptual OkLCh after each attempt.
 			let light = mapColor.coords[0];
 			let hue = mapColor.coords[2];
-			for (let i = 0; i < 3; i++) {
-				const intersection = raytrace(achroma, gamutColor.coords);
-				if (intersection.length) {
-					gamutColor.setAll(gamutColor.space, intersection);
+			for (let i = 0; i < 4; i++) {
+				if (i) {
 					const oklch = gamutColor.oklch;
 					oklch.l = light;
 					oklch.h = hue;
+				}
+				const intersection = raytrace(achroma, gamutColor.coords);
+				if (intersection.length) {
+					gamutColor.setAll(gamutColor.space, intersection);
 					continue;
 				}
 
