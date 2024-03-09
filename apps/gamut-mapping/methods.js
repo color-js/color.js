@@ -70,25 +70,22 @@ const methods = {
 			return methods.raytrace.trace(mapColor);
 		},
 		trace: (mapColor) => {
-			let achroma = mapColor.clone().set("c", 0).to("p3-linear").coords;
-			let gamutColor = mapColor.clone().to("p3-linear");
+			let gamutColor = mapColor.to("p3-linear");
+			let achroma = mapColor.set("c", 0).to("p3-linear").coords;
+			let raytrace = methods.raytrace.raytrace_box;
 
-			// Create a line from our color to color with zero chroma.
-			// Trace the line to the RGB cube finding the face and the point where it intersects.
-			// Additional attempts will find the intersection using the zero chroma color
-			// as the origin of the ray and the new color guiding the direction.
-			let intersection;
+			// Cast a ray from the zero chroma color to the target color.
+			// Trace the line to the RGB cube edge and find where it intersects.
+			// Correct L and h within the perceptual OkLCh after each attempt.
+			let light = mapColor.coords[0];
+			let hue = mapColor.coords[2];
 			for (let i = 0; i < 3; i++) {
-				// On subsequent runs correct L and H before before finding the intersection.
-				if (i) {
-					gamutColor.set({"oklch.l": mapColor.coords[0], "oklch.h": mapColor.coords[2]});
-					intersection = methods.raytrace.raytrace_box(achroma, gamutColor.coords);
-				}
-				else {
-					intersection = methods.raytrace.raytrace_box(gamutColor.coords, achroma);
-				}
+				const intersection = raytrace(achroma, gamutColor.coords);
 				if (intersection.length) {
 					gamutColor.setAll(gamutColor.space, intersection);
+					const oklch = gamutColor.oklch;
+					oklch.l = light;
+					oklch.h = hue;
 					continue;
 				}
 
@@ -96,11 +93,16 @@ const methods = {
 				break;
 			}
 
-			// Remove noise from floating point math
-			let coords = gamutColor.getAll().map(x => {
-				return util.clamp(0.0, x, 1.0);
-			});
-			gamutColor.setAll(gamutColor.space, coords);
+			// Remove noise from floating point math by clipping
+			let coords = gamutColor.coords;
+			gamutColor.setAll(
+				gamutColor.space,
+				[
+					util.clamp(0.0, coords[0], 1.0),
+					util.clamp(0.0, coords[1], 1.0),
+					util.clamp(0.0, coords[2], 1.0)
+				]
+			);
 
 			return gamutColor.to("p3");
 		},
