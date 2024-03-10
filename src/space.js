@@ -1,4 +1,4 @@
-import {type, parseCoordGrammar, serializeNumber, mapRange} from "./util.js";
+import {type, parseCoordGrammar, serializeNumber, mapRange, isNone} from "./util.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
 import getColor from "./getColor.js";
@@ -103,7 +103,7 @@ export default class ColorSpace {
 			let meta = coordMeta[i];
 
 			if (meta.type !== "angle" && meta.range) {
-				if (Number.isNaN(c)) {
+				if (isNone(c)) {
 					// NaN is always in gamut
 					return true;
 				}
@@ -186,7 +186,7 @@ export default class ColorSpace {
 		}
 
 		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
-		coords = coords.map(c => Number.isNaN(c) ? 0 : c);
+		coords = coords.map(c => isNone(c) ? 0 : c);
 
 		// Find connection space = lowest common ancestor in the base tree
 		let myPath = this.path;

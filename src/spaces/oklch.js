@@ -1,6 +1,7 @@
 import ColorSpace from "../space.js";
 import OKLab from "./oklab.js";
 import {constrain as constrainAngle} from "../angles.js";
+import {isNone} from "../util.js";
 
 export default new ColorSpace({
 	id: "oklch",
@@ -48,7 +49,7 @@ export default new ColorSpace({
 		let a, b;
 
 		// check for NaN hue
-		if (isNaN(h)) {
+		if (isNone(h)) {
 			a = 0;
 			b = 0;
 		}
