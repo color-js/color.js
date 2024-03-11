@@ -4,6 +4,7 @@
 
 import getColor from "../getColor.js";
 import to from "../to.js";
+import {isNone} from "../util.js";
 
 // exponents
 const normBG = 0.56;
@@ -54,11 +55,15 @@ export default function contrastAPCA (background, foreground) {
 
 	// Calculates "screen luminance" with non-standard simple gamma EOTF
 	// weights should be from CSS Color 4, not the ones here which are via Myndex and copied from Lindbloom
-	[R, G, B] = foreground.coords;
+	[R, G, B] = foreground.coords.map(c => {
+		return isNone(c) ? 0 : c;
+	});
 	let lumTxt = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
 
 	background = to(background, "srgb");
-	[R, G, B] = background.coords;
+	[R, G, B] = background.coords.map(c => {
+		return isNone(c) ? 0 : c;
+	});
 	let lumBg = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
 
 	// toe clamping of very dark values to account for flare
