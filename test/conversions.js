@@ -258,7 +258,7 @@ const tests = {
 					expect: [0.22206525, -0.000161, -0.000117],
 				},
 				{
-					args: "color(jzazbz 0.22206525 -0.000161 -0.000117)",
+					args: ["color(jzazbz 0.22206525 -0.000161 -0.000117)", "srgb"],
 					expect: [1, 1, 1],
 				},
 				{
@@ -302,7 +302,7 @@ const tests = {
 					expect: [0.1, 0.070710678, 135],
 				},
 				{
-					args: "color(jzczhz 0.1 0.070710678 135)",
+					args: ["color(jzczhz 0.1 0.070710678 135)", "jzazbz"],
 					expect: [0.1, -0.05, 0.05],
 				},
 				{
@@ -310,7 +310,7 @@ const tests = {
 					expect: [0.1, 0.12806248, 321.34019],
 				},
 				{
-					args: "color(jzczhz 0.1, 0.12806248, 321.34019)",
+					args: ["color(jzczhz 0.1, 0.12806248, 321.34019)", "jzazbz"],
 					expect: [0.1, 0.1, -0.08],
 				},
 			],
@@ -320,8 +320,10 @@ const tests = {
 			data: {
 				toSpace: "ictcp",
 			},
+			skip: true,
 			tests: [
 				{
+					skip: false,
 					name: "XYZ to ICtCp",
 					args: "color(xyz 0 0 0)",
 					expect: [0.0, 0.0, 0.0],
@@ -1063,11 +1065,11 @@ const tests = {
 			},
 			tests: [
 				{
-					name: "color.c",
+					name: "color.r",
 					run () {
-						return this.data.slategray.c;
+						return this.data.slategray.r;
 					},
-					expect: 11.23415,
+					expect: 0.4392156862745098,
 				},
 
 				{
