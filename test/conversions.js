@@ -320,57 +320,55 @@ const tests = {
 			data: {
 				toSpace: "ictcp",
 			},
-			skip: true,
 			tests: [
 				{
-					skip: false,
 					name: "XYZ to ICtCp",
 					args: "color(xyz 0 0 0)",
 					expect: [0.0, 0.0, 0.0],
 				},
 				{
 					name: "XYZ of D50 to ICtCp",
-					args: "color(xyz 0.96422, 1.00000, 0.82521)",
-					expect: [0.5820, 0.0344, 0.0001],
+					args: "color(xyz-d50 0.96422, 1.00000, 0.82521)",
+					expect: [0.5806890049863622, 0.00000696242, -0.00002569716],
 				},
 				{
 					name: "sRGB white (D65) to ICtCp",
 					args: "white",
-					expect: [0.5820, 0.0344, 0.0001],
+					expect: [0.5806890049863622, 0.00000696242, -0.00002569716],
 				},
 				{
 					name: "rec2020 white to ICtCp",
 					args: "color(rec2020 1 1 1)",
-					expect: [0.5820, 0.0344, 0.0001],
+					expect: [0.5806890049863622, 0.00000696242, -0.00002569716],
 				},
 				{
 					name: "rec2020 red to ICtCp",
 					args: "color(rec2020 1 0 0)",
-					expect: [0.4413, -0.1164, 0.3985],
+					expect: [0.44707334125327025, -0.12956985056013226, 0.3992012669381549],
 				},
 				{
 					name: "rec2020 green to ICtCp",
 					args: "color(rec2020 0 1 0)",
-					expect: [0.5305, -0.4247, -0.1219],
+					expect: [0.5304887192571797, -0.41543423180389427, -0.1138035187565125],
 				},
 				{
 					name: "rec2020 blue to ICtCp",
 					args: "color(rec2020 0 0 1)",
-					expect: [0.3687,  0.2746,  -0.2406],
+					expect: [0.3447364812349795, 0.26592861954236724, -0.23729937427859088],
 				},
 				{
 					name: "ICtCp rec2020 red back to rec2020",
-					args: ["color(ictcp 0.4413 -0.1164 0.3985)", "rec2020"],
+					args: ["color(ictcp 0.44707334125327025 -0.12956985056013226 0.3992012669381549)", "rec2020"],
 					expect: [1, 0, 0],
 				},
 				{
 					name: "ICtCp rec2020 green back to rec2020",
-					args: ["color(ictcp 0.5305 -0.4247 -0.1219)", "rec2020"],
+					args: ["color(ictcp 0.5304887192571797 -0.41543423180389427 -0.1138035187565125)", "rec2020"],
 					expect: [0, 1, 0],
 				},
 				{
 					name: "ICtCp rec2020 blue back to rec2020",
-					args: ["color(ictcp 0.3687  0.2746  -0.2406)", "rec2020"],
+					args: ["color(ictcp 0.3447364812349795 0.26592861954236724 -0.23729937427859088)", "rec2020"],
 					expect: [0, 0, 1],
 				},
 			],
