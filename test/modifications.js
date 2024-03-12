@@ -4,9 +4,6 @@ import { check } from "./util.mjs";
 export default {
 	name: "Color modification tests",
 	description: "These tests modify one or more coordinates and check the result.",
-	run (func) {
-		return func();
-	},
 	check: check.deep(check.proximity({epsilon: .005})),
 	tests: [
 		{
@@ -14,7 +11,7 @@ export default {
 			tests: [
 				{
 					name: "color.lch.c = 13",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray");
 						color.lch.c = 13;
 						return color.lch.c;
@@ -23,7 +20,7 @@ export default {
 				},
 				{
 					name: "color.set('lch.c', 13)",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray");
 						color.set("lch.c", 13);
 						return color.get("lch.c");
@@ -32,7 +29,7 @@ export default {
 				},
 				{
 					name: "color.lch[1] = 13",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray");
 						color.lch[1] = 13;
 						return color.lch.c;
@@ -41,7 +38,7 @@ export default {
 				},
 				{
 					name: "color.set('c', 13)",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray").to("lch");
 						color.set("c", 13);
 						return color.lch.c;
@@ -50,7 +47,7 @@ export default {
 				},
 				{
 					name: "color.set({'lch.c': 13, 'lch.l': 40})",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray");
 						color.set({"lch.c": 13, "lch.l": 40});
 						return [color.lch.c, color.lch.l];
@@ -59,7 +56,7 @@ export default {
 				},
 				{
 					name: "color.set('lch.c', 13)",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray");
 						color.set("lch.c", 13);
 						return color.lch.c;
@@ -68,7 +65,7 @@ export default {
 				},
 				{
 					name: "chroma *= 1.2",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray");
 						color.lch.c *= 1.2;
 						return color.lch.c;
@@ -77,7 +74,7 @@ export default {
 				},
 				{
 					name: "color.set('c', c => c * 1.2)",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray").to("lch");
 						color.set("c", c => c * 1.2);
 						return color.lch.c;
@@ -86,7 +83,7 @@ export default {
 				},
 				{
 					name: "c *= 1.25",
-					args: () => {
+					run: () => {
 						var color = new Color("slategray").to("lch");
 						color.lch.c *= 1.25;
 						var lch = color.lch;
