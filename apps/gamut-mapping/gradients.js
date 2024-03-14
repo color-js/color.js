@@ -12,7 +12,7 @@ let app = createApp({
 		const urlToColor = params.get("to");
 		const from =  urlFromColor || "oklch(90% .8 250)";
 		const to = urlToColor || "oklch(40% .1 20)";
-		const methods = ["none", "clip", "scale-lh", "css", "raytrace", "edge-seeker"];
+		const methods = ["none", "chromium", "clip", "scale-lh", "css", "raytrace", "edge-seeker"];
 		const runResults = {};
 		methods.forEach(method => runResults[method] = []);
 		return {
