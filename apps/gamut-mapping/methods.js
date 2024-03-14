@@ -50,10 +50,15 @@ const methods = {
 			return new Color("p3-linear", scaledCoords).to("p3");
 		},
 	},
-	"chromium": {
-		label: "Chromium",
-		description: "A port of the Chromium implementation",
+	"baked-in": {
+		label: "Baked in",
+		description: "A port of the Chromium implementation, mapping to an approximation of the rec2020 gamut.",
 		compute: (color) => {
+			// Implementation difference: The reference algorithm does not appear to
+			// return early for in-gamut colors.
+			if (color.inGamut("rec2020")) {
+				return color;
+			}
 			const oklab = color.to("oklab");
 			const [l, a, b] = oklab.coords;
 			// Constants for the normal vector of the plane formed by white, black, and
@@ -167,7 +172,10 @@ const methods = {
 			}
 
 			// Attenuate the ab coordinate by alpha.
-			return oklab.set({a: alpha * a, b: alpha * b});
+			return oklab.set({a: alpha * a, b: alpha * b})
+			// Implementation difference: The reference algorithm does not include a
+			// final clip, so some colors may be outside of `rec2020`.
+				.toGamut({method: "clip", space: "rec2020"});
 		},
 	},
 	"raytrace": {
