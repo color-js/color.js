@@ -873,5 +873,158 @@ export default {
 				},
 			],
 		},
+		{
+			name: "DeltaE OK2",
+			description: "Scaling factor for a,b is 2 (by default, can be changed for experiments). Expected values are those for original DeltaE OK, for comparison.",
+			data: {method: "OK2"},
+			tests: [
+				{
+					name: "100% L = 100",
+					args: ["white", "black"],
+					expect: 1,
+				},
+				{
+					name: "0%L = 0",
+					args: ["white", "white"],
+					expect: 0,
+				},
+				{
+					name: "barely off-white",
+					args: ["#fffffe", "white"],
+					expect: 0.001343,
+				},
+				{
+					name: "Pythagorean 3,4,5 triangle",
+					args: ["lab(50% 30 40)", "lab(50% 0 0)"],
+					expect: 0.118679,
+				},
+				{
+					name: "Sharma test 17: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(73% 25 -18)"],
+					expect: 0.223724,
+				},
+				{
+					name: "Sharma test 18: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(61% -5 29)"],
+					expect: 0.117703,
+				},
+				{
+					name: "Sharma test 19: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(56% -27 -3)"],
+					expect: 0.096109,
+				},
+				{
+					name: "Sharma test 20: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(58% 24 15)"],
+					expect: 0.103834,
+				},
+				// from "Improvement to industrial colour-difference
+				// evaluation. Vienna: CIE Publication No. 142-2001
+				{
+					name: "Sharma test 25: CIE Publication No. 142",
+					args: [
+						"lab(60.2574% -34.0099 36.2677)",
+						"lab(60.4626% -34.1751 39.4387)",
+					],
+					expect: 0.006934,
+				},
+				{
+					name: "Sharma test 26: CIE Publication No. 142",
+					args: [
+						"lab(63.0109% -31.0961 -5.8663)",
+						"lab(62.8187% -29.7946 -4.0864)",
+					],
+					expect: 0.006478,
+				},
+				{
+					name: "Sharma test 27: CIE Publication No. 142",
+					args: [
+						"lab(61.2901% 3.7196 -5.3901)",
+						"lab(61.4292% 2.2480 -4.9620)",
+					],
+					expect: 0.004552,
+				},
+				{
+					name: "Sharma test 28: CIE Publication No. 142",
+					args: [
+						"lab(35.0831% -44.1164 3.7933)",
+						"lab(35.0232% -40.0716 1.5901)",
+					],
+					expect: 0.011480,
+				},
+				{
+					name: "Sharma test 29: CIE Publication No. 142",
+					args: [
+						"lab(22.7233% 20.0904 -46.6940)",
+						"lab(23.0331% 14.9730 -42.5619)",
+					],
+					expect: 0.014549,
+				},
+				{
+					name: "Sharma test 30: CIE Publication No. 142",
+					args: [
+						"lab(36.4612% 47.8580 18.3852)",
+						"lab(36.2715% 50.5065 21.2231)",
+					],
+					expect: 0.009265,
+				},
+				{
+					name: "Sharma test 31: CIE Publication No. 142",
+					args: [
+						"lab(90.8027% -2.0831 1.4410)",
+						"lab(91.1528% -1.6435 0.0447)",
+					],
+					expect: 0.005109,
+				},
+				{
+					name: "Sharma test 32: CIE Publication No. 142",
+					args: [
+						"lab(90.9257% -0.5406 -0.9208)",
+						"lab(88.6381% -0.8985 -0.7239)",
+					],
+					expect: 0.019893,
+				},
+				{
+					name: "Sharma test 33: CIE Publication No. 142",
+					args: [
+						"lab(6.7747% -0.2908 -2.4247)",
+						"lab(5.8714% -0.0985 -2.2286)",
+					],
+					expect: 0.009068,
+				},
+				{
+					name: "Sharma test 34: CIE Publication No. 142",
+					args: [
+						"lab(2.0776% 0.0795 -1.1350)",
+						"lab(0.9033% -0.0636 -0.5514)",
+					],
+					expect: 0.032252,
+				},
+				{
+					name: "Brilliant Yellow with Hue error",
+					args: [
+						"lab(84.25% 5.74 96.00)",
+						"lab(84.46% 8.88 96.49)",
+					],
+					expect: 0.009285,
+				},
+				{
+					name: "Brilliant Yellow with low Chroma error",
+					args: [
+						"lab(84.25% 5.74 96.00)",
+						"lab(84.52% 5.75 93.09)",
+					],
+					expect: 0.0039230,
+				},
+				{
+					name: "Brilliant Yellow with high Chroma error",
+					args: [
+						"lab(84.25% 5.74 96.00)",
+						"lab(84.37% 5.86 99.42)",
+					],
+					expect: 0.003800,
+				},
+			],
+		},
 	],
 };
