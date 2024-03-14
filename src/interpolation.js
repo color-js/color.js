@@ -2,7 +2,7 @@
  * Functions related to color interpolation
  */
 import ColorSpace from "./space.js";
-import {type, interpolate} from "./util.js";
+import {type, interpolate, isNone} from "./util.js";
 import getColor from "./getColor.js";
 import clone from "./clone.js";
 import to from "./to.js";
@@ -167,10 +167,10 @@ export function range (color1, color2, options = {}) {
 		// Undefined hues must be evaluated before hue fix-up to properly
 		// calculate hue arcs between undefined and defined hues.
 		// See https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545
-		if (isNaN(θ1) && !isNaN(θ2)) {
+		if (isNone(θ1) && !isNone(θ2)) {
 			θ1 = θ2;
 		}
-		else if (isNaN(θ2) && !isNaN(θ1)) {
+		else if (isNone(θ2) && !isNone(θ1)) {
 			θ2 = θ1;
 		}
 		[θ1, θ2] = angles.adjust(arc, [θ1, θ2]);

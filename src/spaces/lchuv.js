@@ -1,6 +1,7 @@
 import ColorSpace from "../space.js";
 import Luv from "./luv.js";
 import {constrain as constrainAngle} from "../angles.js";
+import {isNone} from "../util.js";
 
 export default new ColorSpace({
 	id: "lchuv",
@@ -49,7 +50,7 @@ export default new ColorSpace({
 			Chroma = 0;
 		}
 		// Deal with NaN Hue
-		if (isNaN(Hue)) {
+		if (isNone(Hue)) {
 			Hue = 0;
 		}
 		return [

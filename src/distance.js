@@ -1,4 +1,5 @@
 import ColorSpace from "./space.js";
+import {isNone} from "./util.js";
 
 /**
  * Euclidean distance of colors in an arbitrary color space
@@ -12,7 +13,7 @@ export default function distance (color1, color2, space = "lab") {
 
 	return Math.sqrt(coords1.reduce((acc, c1, i) => {
 		let c2 = coords2[i];
-		if (isNaN(c1) || isNaN(c2)) {
+		if (isNone(c1) || isNone(c2)) {
 			return acc;
 		}
 
