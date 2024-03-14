@@ -3,7 +3,6 @@ import { check } from "./util.mjs";
 
 export default {
 	name: "Hooks Tests",
-	description: "TBD",
 	check: check.deep(),
 	tests: [
 		{
