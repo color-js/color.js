@@ -1,5 +1,4 @@
 import Color from "../src/index.js";
-import { check } from "./util.mjs";
 
 export default {
 	name: "In Gamut tests",
@@ -8,7 +7,7 @@ export default {
 		let color = new Color(c1);
 		return color.inGamut(this.data.gamut);
 	},
-	check: check.equals,
+	check: (a, b) => a === b,
 	tests: [
 		{
 			name: "HSLuv (gamutSpace of srgb)",
