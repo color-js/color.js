@@ -1,3 +1,11 @@
+/**
+ * @packageDocumentation
+ * @class Color
+ * Class that represents a single color.
+ * All of Color.js’s tree-shakeable methods are also available as instance methods on this class,
+ * as well as static methods that take the color as the first argument.
+ */
+
 import * as util from "./util.js";
 import hooks from "./hooks.js";
 import defaults from "./defaults.js";
@@ -23,9 +31,6 @@ import {
 import "./spaces/xyz-d50.js";
 import "./spaces/srgb.js";
 
-/**
- * Class that represents a color
- */
 export default class Color {
 	/**
 	 * Creates an instance of Color.

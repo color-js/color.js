@@ -1,4 +1,7 @@
-// Import all modules of Color.js
+/**
+ * Entry point for the OOP flavor of the API
+ * Import as `colorjs.io`
+ */
 import Color from "./color.js";
 
 // Import all color spaces
