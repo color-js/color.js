@@ -174,8 +174,9 @@ const methods = {
 			// Attenuate the ab coordinate by alpha.
 			return oklab.set({a: alpha * a, b: alpha * b})
 			// Implementation difference: The reference algorithm does not include a
-			// final clip, so some colors may be outside of `rec2020`.
-				.toGamut({method: "clip", space: "rec2020"});
+			// final clip, so some resulting colors may be outside of `rec2020`, and
+			// here we clip to p3 for comparison with other methods.
+				.toGamut({method: "clip", space: "p3"});
 		},
 	},
 	"raytrace": {
