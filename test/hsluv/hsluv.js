@@ -1,6 +1,6 @@
-import { to, sRGB, HSLuv } from "../src/index-fn.js";
-import { check } from "./util.mjs";
-import { readTestData, normalizeCoords } from "./hsluv/util.mjs";
+import { to, sRGB, HSLuv } from "../../src/index-fn.js";
+import { check } from "../util.mjs";
+import { readTestData, normalizeCoords } from "./util.mjs";
 
 let json = readTestData();
 let srgbToHsluv = [];
