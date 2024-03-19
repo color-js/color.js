@@ -70,8 +70,8 @@ const methods = {
 			return methods.raytrace.trace(mapColor);
 		},
 		trace: (mapColor) => {
-			let gamutColor = mapColor.to("p3-linear");
 			let achroma = mapColor.set("c", 0).to("p3-linear").coords;
+			let gamutColor = mapColor.set("c", 1e-8).to("p3-linear");
 			let raytrace = methods.raytrace.raytrace_box;
 
 			// Cast a ray from the zero chroma color to the target color.
@@ -79,7 +79,7 @@ const methods = {
 			// Correct L and h within the perceptual OkLCh after each attempt.
 			let light = mapColor.coords[0];
 			let hue = mapColor.coords[2];
-			for (let i = 0; i < 4; i++) {
+			for (let i = 0; i < 3; i++) {
 				if (i) {
 					const oklch = gamutColor.oklch;
 					oklch.l = light;
@@ -148,6 +148,11 @@ const methods = {
 			// Favor the intersection first in the direction start -> end
 			if (tnear < 0) {
 				tnear = tfar;
+			}
+
+			// Result should be finite
+			if (!isFinite(tnear)) {
+				return [];
 			}
 
 			// Calculate nearest intersection via interpolation
