@@ -1,5 +1,6 @@
 !.*
 assets/js/prism.js
+api/
 /dist/
 docs/
 node_modules/
