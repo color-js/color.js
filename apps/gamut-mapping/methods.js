@@ -50,9 +50,9 @@ const methods = {
 			return new Color("p3-linear", scaledCoords).to("p3");
 		},
 	},
-	"baked-in": {
-		label: "Baked in",
-		description: "A port of the Chromium implementation, mapping to an approximation of the rec2020 gamut.",
+	"chromium": {
+		label: "Chromium",
+		description: "A port of the 'baked-in' Chromium implementation, mapping to an approximation of the rec2020 gamut.",
 		compute: (color) => {
 			// Implementation difference: The reference algorithm does not appear to
 			// return early for in-gamut colors.
