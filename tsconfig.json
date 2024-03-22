@@ -7,7 +7,7 @@
 		"skipLibCheck": true
 	},
 	"include": [
-		"src/**/*.js"
+		"types/src/**/*.d.ts"
 	],
 	"exclude": [
 		"node_modules/**"
