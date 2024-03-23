@@ -19,8 +19,12 @@ export default class CSSColor extends HTMLElement {
 				<div id="swatch" part="swatch"></div>
 			</slot>
 			<div id="wrapper">
-				<slot></slot>
-				<color-gamut id="gamut" part="gamut" gamuts="srgb, p3, rec2020: P3+"></color-gamut>
+				<slot name="before-color"></slot>
+				<div part="color-wrapper">
+					<slot></slot>
+					<color-gamut id="gamut" part="gamut" gamuts="srgb, p3, rec2020: P3+"></color-gamut>
+				</div>
+				<slot name="after-color"></slot>
 			</div>
 		`;
 	}

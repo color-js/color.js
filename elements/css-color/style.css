@@ -12,22 +12,32 @@
 
 #wrapper {
 	display: flex;
-	position: relative;
+	flex-flow: inherit;
 
 	&.static {
 		gap: .4em;
 	}
 
 	&:not(.static) {
+
+	}
+}
+
+[part="color-wrapper"] {
+	position: relative;
+	display: flex;
+	gap: .2em;
+
+	&:not(.static *) {
 		#gamut {
 			position: absolute;
 			inset: .3em;
 			inset-inline-start: auto;
 		}
+	}
 
-		::slotted(input) {
-			padding-inline-end: 2em;
-		}
+	::slotted(input) {
+		padding-inline-end: 2em;
 	}
 }
 
@@ -44,6 +54,10 @@
 
 :host(:not([for])):host([swatch="large"]) {
 	flex-flow: column;
+
+	#wrapper {
+		flex-flow: column;
+	}
 }
 
 :host(:not([for])):host([swatch="large"]) #swatch {
