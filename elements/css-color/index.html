@@ -1,47 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-route="/elements/css-color/">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>&lt;css-color> Web Component</title>
-	<script type="module" src="css-color.js"></script>
-	<style>
-		body {
-			font: 100%/1.5 system-ui;
-			max-width: 50ch;
-			margin: 1em auto;
-		}
+<title>&lt;code&gt;&amp;lt;css-color&gt;&lt;/code&gt; Web Component &bull; Color.js</title>
+<meta name="viewport" content="width=device-width" />
+<link rel="shortcut icon" href="../../logo.svg">
+<link rel="stylesheet" href="../../assets/css/style.css">
 
-		input {
-			font: inherit;
-		}
-	</style>
+<script src="../../color.js" type="module"></script>
+
+
+
+
+
 </head>
-<body>
-	<h2>Static</h2>
-	<css-color>oklch(70% 0.25 138)</css-color>
-	<css-color swatch="large">oklch(70% 0.25 138)</css-color>
+<body class=" language-javascript ">
 
-	<h2>Editable</h2>
-	<css-color>
-		<input value="oklch(70% 0.25 138)" />
-	</css-color>
-	<css-color swatch="large">
-		<input value="oklch(70% 0.25 138)" />
-	</css-color>
 
-	<h2>Update via JS</h2>
-	<h3>Static</h3>
-	<css-color id="dynamic_static">oklch(70% 0.25 138)</css-color>
-	<script type="module">
-		dynamic_static.color = "oklch(60% 0.15 0)"
-	</script>
-	<h3>Editable</h3>
-	<css-color id="dynamic_editable">
-		<input value="oklch(70% 0.25 138)" />
-	</css-color>
-	<script type="module">
-		dynamic_editable.color = "oklch(60% 0.15 0)"
-	</script>
+<header>
+	<nav>
+	<a href=".." class="logo"><h1 class="logo"><img src="../../logo.svg" alt="Color.js"></h1></a>
+	<a href="../../get/">Get<span class="wide"> Color.js</span></a>
+<div class="menu">
+	<a href="../../docs/">Docs</a>
+	<ul>
+		<li><a href="../../docs/the-color-object.html">The Color object</a></li>
+<li><a href="../../docs/spaces.html">Supported color spaces</a></li>
+<li><a href="../../docs/color-difference.html">Color difference</a></li>
+<li><a href="../../docs/manipulation.html">Color manipulation</a></li>
+<li><a href="../../docs/contrast.html">Contrast</a></li>
+<li><a href="../../docs/gamut-mapping.html">Gamut Mapping</a></li>
+<li><a href="../../docs/interpolation.html">Interpolation</a></li>
+<li><a href="../../docs/adaptation.html">Chromatic Adaptation</a></li>
+<li><a href="../../docs/output.html">Output</a></li>
+<li><a href="../../docs/procedural.html">Procedural, tree-shakable API</a></li>
+
+	</ul>
+</div>
+<a href="../../api/">API</a>
+<a href="../../notebook/">Play!</a>
+<a href="../../apps/">Demos</a>
+<a href="../../test/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+</nav>
+	<h1>&lt;code&gt;&amp;lt;css-color&gt;&lt;/code&gt; Web Component</h1>
+</header>
+
+<main class="">
+
+<h1><code>&lt;css-color></code> Web Component</h1>
+
+<script src="./css-color.js" type="module"></script>
+<h2>Static</h2>
+<css-color>oklch(70% 0.25 138)</css-color>
+<css-color swatch="large">oklch(70% 0.25 138)</css-color>
+
+<h2>Editable</h2>
+<css-color>
+	<input value="oklch(70% 0.25 138)" />
+</css-color>
+<css-color swatch="large">
+	<input value="oklch(70% 0.25 138)" />
+</css-color>
+
+<h2>Update via JS</h2>
+<h3>Static</h3>
+<css-color id="dynamic_static">oklch(70% 0.25 138)</css-color>
+<script type="module">
+	dynamic_static.color = "oklch(60% 0.15 0)"
+</script>
+<h3>Editable</h3>
+<css-color id="dynamic_editable">
+	<input value="oklch(70% 0.25 138)" />
+</css-color>
+<script type="module">
+	dynamic_editable.color = "oklch(60% 0.15 0)"
+</script>
+
+</main>
+
+
+<aside class="carbon">
+	<script async src="//cdn.carbonads.com/carbon.js?serve=CEAIPK7J&placement=colorjsio" id="_carbonads_js"></script>
+</aside>
+
+<footer>
+	Created by <a href="http://lea.verou.me">Lea Verou</a> (co-editor of CSS Color 4 and 5)
+	and <a href="https://svgees.us">Chris Lilley</a> (co-editor of CSS Color 3, 4, and 5; W3C representative to ICC).
+
+	Co-maintained by <a href="https://github.com/facelessuser">Isaac Muse</a>,
+	<a href="https://github.com/jgerigmeyer">Jonny Gerig Meyer</a>,
+	and
+	<a href="https://github.com/MysteryBlokHed">Adam Thompson-Sharpe</a>,
+	with lots of help from a <a href="https://github.com/color-js/color.js/graphs/contributors">community of contributors</a>.
+
+	<nav>
+		<a href="../../get/">Get<span class="wide"> Color.js</span></a>
+<div class="menu">
+	<a href="../../docs/">Docs</a>
+	<ul>
+		<li><a href="../../docs/the-color-object.html">The Color object</a></li>
+<li><a href="../../docs/spaces.html">Supported color spaces</a></li>
+<li><a href="../../docs/color-difference.html">Color difference</a></li>
+<li><a href="../../docs/manipulation.html">Color manipulation</a></li>
+<li><a href="../../docs/contrast.html">Contrast</a></li>
+<li><a href="../../docs/gamut-mapping.html">Gamut Mapping</a></li>
+<li><a href="../../docs/interpolation.html">Interpolation</a></li>
+<li><a href="../../docs/adaptation.html">Chromatic Adaptation</a></li>
+<li><a href="../../docs/output.html">Output</a></li>
+<li><a href="../../docs/procedural.html">Procedural, tree-shakable API</a></li>
+
+	</ul>
+</div>
+<a href="../../api/">API</a>
+<a href="../../notebook/">Play!</a>
+<a href="../../apps/">Demos</a>
+<a href="../../test/" class="footer">Tests</a>
+<a href="https://github.com/LeaVerou/color.js">GitHub</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+
+	</nav>
+</footer>
+
+<script src="../../assets/js/prism.js"></script>
+<script src="https://blissfuljs.com/bliss.shy.js"></script>
+<script src="https://live.prismjs.com/src/prism-live.js?load=javascript" async></script>
+<script src="../../assets/js/index.js" type="module"></script>
+
 </body>
 </html>

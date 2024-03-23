@@ -8,7 +8,6 @@ node_modules/
 !test/*.html
 !benchmarks/*.html
 !apps/*/*.html
-!elements/*/*.html
 assets/css/style.css
 assets/css/home.css
 assets/css/docs.css

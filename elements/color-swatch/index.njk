@@ -1,0 +1,40 @@
+---
+title: &lt;color-swatch>
+---
+
+
+<script src="color-swatch.js" type="module"></script>
+<style>
+	html {
+		color-scheme: light dark;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		html {
+			background: hsl(220 5% 20%);
+		}
+	}
+
+	color-swatch {
+		display: block;
+		margin: 1em 0;
+	}
+</style>
+
+
+<h1>&lt;color-swatch></h1>
+
+<section>
+	<h2>Different font sizes</h2>
+	<color-swatch style="font-size: 70%" contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch style="font-size: 200%" contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch style="font-size: 400%" contentEditable>lch(50% 40 30)</color-swatch>
+	<color-swatch style="font-size: 800%" contentEditable>lch(50% 40 30)</color-swatch>
+</section>
+
+<p>Semi-transparent color</p>
+<color-swatch>hsl(340 90% 50% / .25)</color-swatch>
+
+<p>Invalid color</p>
+<color-swatch>foobar</color-swatch>
