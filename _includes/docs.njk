@@ -1,10 +1,7 @@
 ---
 layout: "page.njk"
-
-eleventyComputed:
-  default_title: '{{ page.fileSlug | unslugify }}'
-  includes: '<link rel="stylesheet" href="{{ page | relative }}/assets/css/docs.css" />'
 ---
+
 <aside id="toc">
 <ul>
 {% include "partials/_docs-nav.njk" %}

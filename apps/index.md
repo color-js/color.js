@@ -1,7 +1,8 @@
 ---
-title: Demos
 body_classes: language-markup
 ---
+
+# Demos
 
 ## Apps
 

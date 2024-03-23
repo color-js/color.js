@@ -1,7 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html data-route="{{ page.url }}">
 <head>
-<title>{% if title or default_title %}{{ title or default_title }} &bull; Color.js{% else %}Color.js: Let’s get serious about color{% endif %}</title>
+<title>
+	{%- if title -%}
+	{{ title }} &bull; Color.js
+	{%- else -%}
+	Color.js: Let’s get serious about color
+	{%- endif -%}
+</title>
 <meta name="viewport" content="width=device-width" />
 <link rel="shortcut icon" href="{{ page | relative }}/logo.svg">
 <link rel="stylesheet" href="{{ page | relative }}/assets/css/style.css">

@@ -1,3 +1,6 @@
 {
-	"layout": "docs.njk"
+	"layout": "docs.njk",
+	"eleventyComputed": {
+		"includes": "<link rel=stylesheet href='{{ page | relative }}/assets/css/docs.css' />"
+	}
 }

@@ -248,7 +248,7 @@ body > header {
 	background-size: 100% 2.3em, var(--rainbow-width) 2.6em;
 	background-repeat: no-repeat, repeat-x;
 
-	& nav {
+	nav {
 		display: flex;
 		justify-content: stretch;
 		order: 0;
@@ -272,6 +272,10 @@ body > header {
 				margin-left: -.3em;
 			}
 		}
+	}
+
+	&:has(> h1) + main > h1:first-of-type {
+		display: none;
 	}
 }
 
@@ -308,7 +312,7 @@ main {
 	padding: 1em;
 	padding-top: 0;
 
-	& h2 {
+	h2 {
 		position: relative;
 		font-size: 250%;
 		line-height: 1.2;
