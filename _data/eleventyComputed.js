@@ -16,7 +16,7 @@ export default {
 		}
 		else if (ext === "njk") {
 			// First level 1 heading
-			return content.match(/<h1>(.*)<\/h1>/)?.[1];
+			return content.match(/<h1>(.*)<\/h1>/)?.[1]?.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 		}
 	},
 };
