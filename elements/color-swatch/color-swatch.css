@@ -1,4 +1,4 @@
-:host {
+[part="swatch-wrapper"] {
 	display: inline-flex;
 	align-items: baseline;
 	gap: .2em;

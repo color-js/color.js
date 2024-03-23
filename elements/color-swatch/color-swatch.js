@@ -9,8 +9,10 @@ export default class ColorSwatch extends HTMLElement {
 		super();
 		this.attachShadow({mode: "open"});
 		this.shadowRoot.innerHTML = `<style>@import url("${ styleURL }");</style>
-		<div id="swatch" part="swatch"></div>
-		<slot></slot>`;
+		<div part="swatch-wrapper">
+			<div id="swatch" part="swatch"></div>
+			<slot></slot>
+		</div>`;
 		this.#swatch = this.shadowRoot.querySelector("#swatch");
 		this.attributeChangedCallback();
 	}
