@@ -1,6 +1,6 @@
 <header>
 	<nav>
-		<a href=".." class="logo"><h1 class="logo"><img src="../logo.svg" alt="Color.js"></h1></a>
+		<a href=".." class="logo"><h1 class="logo"><img src="{{ page | relative }}/logo.svg" alt="Color.js"></h1></a>
 		{% include "./_nav.njk" %}
 	</nav>
 	<h1>{% if title %}{{ title }}{% else %}{{ default_title }}{% endif %}</h1>

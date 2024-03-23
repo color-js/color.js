@@ -7,7 +7,6 @@ node_modules/
 !tests/*.html
 !test/*.html
 !benchmarks/*.html
-!templates/*.html
 !apps/*/*.html
 !elements/*/*.html
 assets/css/style.css
