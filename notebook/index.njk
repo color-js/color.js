@@ -4,7 +4,10 @@ title: Color Notebook
 has_mavo: true
 ---
 
-{% include "partials/_header.njk" %}
+<header>
+	{% include "../_includes/partials/_nav.njk" %}
+	<h1>Color Notebook</h1>
+</header>
 
 <main mv-app="colorNotebook" mv-plugins="markdown gist" mv-format="markdown" mv-storage="https://gist.github.com">
 

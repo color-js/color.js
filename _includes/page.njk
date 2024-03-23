@@ -2,7 +2,10 @@
 layout: "plain.njk"
 ---
 
-{% include "partials/_header.njk" %}
+<header>
+	{% include "./partials/_nav.njk" %}
+	<h1>{{ title }}</h1>
+</header>
 
 <main class="{{ main_classes }}">
 
