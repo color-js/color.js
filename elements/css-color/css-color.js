@@ -1,4 +1,5 @@
 import Color from "../../dist/color.js";
+import ColorGamut from "../color-gamut/color-gamut.js";
 // const styles = await fetch("./style.css").then(r => r.text());
 
 const gamuts = ["srgb", "p3", "rec2020"];
@@ -19,7 +20,7 @@ export default class CSSColor extends HTMLElement {
 			</slot>
 			<div id="wrapper">
 				<slot></slot>
-				<span id="gamut" part="gamut"></span>
+				<color-gamut id="gamut" part="gamut" gamuts="srgb, p3, rec2020: P3+"></color-gamut>
 			</div>
 		`;
 	}
@@ -95,26 +96,10 @@ export default class CSSColor extends HTMLElement {
 				},
 			}));
 		}
-
-		if (this.#color) {
-			this.#renderGamut();
-		}
 	}
 
-	#renderGamut () {
-		if (this.#color) {
-			let gamut = gamuts.find(gamut => this.#color.inGamut(gamut)) ?? "";
-			this.dataset.gamut = this.#gamut = gamut;
-		}
-		else {
-			this.#gamut = null;
-			this.removeAttribute("data-gamut");
-		}
-	}
-
-	#gamut;
 	get gamut () {
-		return this.#gamut;
+		return this.#dom.gamutIndicator.gamut;
 	}
 
 	get value () {
@@ -155,7 +140,6 @@ export default class CSSColor extends HTMLElement {
 
 		this.#setColor(color);
 		this.#setValue(color.toString({ precision: 2, inGamut: false}));
-		this.#renderGamut();
 	}
 
 	#setColor (color) {
@@ -167,6 +151,8 @@ export default class CSSColor extends HTMLElement {
 		catch (e) {
 			this.style.setProperty("--color", this.value);
 		}
+
+		this.#dom.gamutIndicator.color = this.#color;
 	}
 
 	static observedAttributes = ["for"];

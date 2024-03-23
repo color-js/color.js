@@ -15,3 +15,4 @@ Then just start using it!
 
 - [`<css-color>`](./css-color/)
 - [`<color-swatch>`](./color-swatch/)
+- [`<color-gamut>`](./color-gamut/)

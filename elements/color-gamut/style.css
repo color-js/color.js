@@ -1,0 +1,31 @@
+:host {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: .2em;
+	color: white;
+	background: var(--gamut-color, var(--color-neutral-60, hsl(220 10% 60%)));
+	font-weight: bold;
+	padding-inline: .4em;
+	line-height: 1.4;
+}
+
+:host([gamut="p3"]) {
+	color: black;
+}
+
+:host([gamut="srgb"]) {
+	--gamut-color: var(--color-green, yellowgreen);
+}
+
+:host([gamut="p3"]) {
+	--gamut-color: var(--color-yellow, gold);
+}
+
+:host([gamut="rec2020"]) {
+	--gamut-color: var(--color-orange, orange);
+}
+
+:host([gamut="none"]) {
+	--gamut-color: var(--color-red, red);
+}

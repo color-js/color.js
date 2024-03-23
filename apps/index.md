@@ -14,9 +14,10 @@ body_classes: language-markup
 - [Gradient interpolation](gradients)
 - [Named color proximity](named)
 
-## Elements
+## [Elements](../elements/)
 
 - [`<color-swatch>`](../elements/color-swatch/)
+- [`<css-color>`](../elements/css-color/)
 
 ## External
 

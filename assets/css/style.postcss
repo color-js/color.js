@@ -98,6 +98,20 @@ fieldset {
 	}
 }
 
+input {
+	font: inherit;
+}
+
+input[type=number] {
+	width: 4em;
+	font: inherit;
+
+	@supports (field-sizing: content) {
+		field-sizing: content;
+		width: auto;
+	}
+}
+
 table {
 	width: 100%;
 	border: 5px solid transparent;
