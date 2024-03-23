@@ -21,7 +21,7 @@
 			}
 
 			Promise.all([
-				import("https://htest.dev/src/js/render.js").then(m => m.default),
+				import("https://htest.dev/src/render.js").then(m => m.default),
 				import(test_url).then(m => m.default),
 			]).then(([render, test]) => render(test));
 		}
