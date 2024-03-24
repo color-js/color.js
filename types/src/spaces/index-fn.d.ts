@@ -1,3 +1,9 @@
+/**
+ * @packageDocumentation
+ * Re-exports all the spaces built into Color.js.
+ */
+
+/** A list of all the builtin color spaces. */
 export type Spaces = keyof typeof import("./index-fn.js");
 
 export { default as XYZ_D65 } from "./xyz-d65.js";

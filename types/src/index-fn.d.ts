@@ -1,3 +1,9 @@
+/**
+ * @packageDocumentation
+ * A functional, tree-shakeable version of the Color.js API.
+ * This module allows developers to selectively import
+ * the classes and functions that they wish to use in their project.
+ */
 export { default as ColorSpace } from "./space.js";
 export { default as RGBColorSpace } from "./rgbspace.js";
 export { default as hooks, Hooks } from "./hooks.js";

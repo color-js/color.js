@@ -1,8 +1,6 @@
 /**
  * @packageDocumentation
- * Class that represents a single color.
- * All of Color.js’s tree-shakeable methods are also available as instance methods on this class,
- * as well as static methods that take the color as the first argument.
+ * This module defines the main {@link Color} class as well as the types it uses.
  */
 import { WHITES } from "./adapt.js";
 import defaults from "./defaults.js";
@@ -104,7 +102,11 @@ declare namespace Color {
 	export function set (color: ColorTypes, props: Record<string, number | ((coord: number) => number)>): Color;
 }
 
-/** The main Color class */
+/**
+ * Class that represents a single color.
+ * All of Color.js’s tree-shakeable methods are also available as instance methods on this class,
+ * as well as static methods that take the color as the first argument.
+ */
 declare class Color extends SpaceAccessors implements PlainColorObject {
 	constructor (color: ColorTypes);
 	constructor (space: string | ColorSpace, coords: Coords, alpha?: number);

@@ -18,10 +18,10 @@
 	"kindSortOrder": [
 		"Project",
 		"Module",
-		"Namespace",
 		"Enum",
 		"EnumMember",
 		"Class",
+		"Namespace",
 		"Interface",
 		"TypeAlias",
 		"Constructor",

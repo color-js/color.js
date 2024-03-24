@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * Defines the class and other types related to creating color spaces.
+ * For the builtin color spaces, see the `spaces` module.
+ */
 import { White } from "./adapt.js";
 import { ColorConstructor, Coords, ColorTypes } from "./color.js";
 
@@ -26,7 +31,7 @@ export interface Format {
 	/**
 	 * Serialize coordinates and an alpha channel into a string.
 	 * Must be defined for a format to support serialization
-	*/
+	 */
 	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
 }
 
@@ -47,7 +52,7 @@ export interface Options {
 	/**
 	 * Function that converts coords in the base color space to coords in this color space.
 	 * Must perform chromatic adaptation if needed
-	*/
+	 */
 	fromBase?: ((coords: Coords) => number[]) | undefined;
 	/**
 	 * Function that converts coords in this color space to coords in the base color space.
@@ -57,7 +62,7 @@ export interface Options {
 	/**
 	 * Object mapping coord ids to coord metadata
 	 * @see {@link CoordMeta}
-	*/
+	 */
 	coords?: Record<string, CoordMeta> | undefined;
 	white?: string | White | undefined;
 	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
@@ -66,7 +71,7 @@ export interface Options {
 	/**
 	 * Details about string formats to parse from / serialize to
 	 * @see {@link Format}
-	*/
+	 */
 	formats?: Record<string, Format> | undefined;
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
 }
