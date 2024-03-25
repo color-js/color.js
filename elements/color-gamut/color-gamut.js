@@ -14,6 +14,20 @@ export default class ColorGamut extends HTMLElement {
 			<style>@import url("${ styleURL }")</style>
 			<span id="label" part="label"></span>
 		`;
+	}
+
+	connectedCallback () {
+		this.#initialize();
+		this.#render();
+	}
+
+	#initialized;
+	#initialize () {
+		if (this.#initialized) {
+			return;
+		}
+
+		this.#initialized = true;
 
 		this.attributeChangedCallback();
 
@@ -22,10 +36,6 @@ export default class ColorGamut extends HTMLElement {
 		if (textContent) {
 			this.color ??= this.textContent;
 		}
-	}
-
-	connectedCallback () {
-		this.#render();
 	}
 
 	#render () {
@@ -37,21 +47,7 @@ export default class ColorGamut extends HTMLElement {
 			this.#label = this.shadowRoot.querySelector("#label");
 		}
 
-		if (this.#color) {
-			let gamut = null;
-
-			for (let g in this.gamuts) {
-				if (this.#color.inGamut(g)) {
-					gamut = g;
-					break;
-				}
-			}
-
-			this.#setGamut(gamut);
-		}
-		else {
-			this.#setGamut();
-		}
+		this.#updateGamut();
 	}
 
 	#gamut;
@@ -59,7 +55,22 @@ export default class ColorGamut extends HTMLElement {
 		return this.#gamut;
 	}
 
+	#updateGamut () {
+		if (this.#color) {
+			for (let gamut in this.gamuts) {
+				if (this.#color.inGamut(gamut)) {
+					this.#setGamut(gamut);
+					break;
+				}
+			}
+		}
+		else {
+			this.#setGamut();
+		}
+	}
+
 	#setGamut (gamut) {
+		let oldGamut = this.#gamut;
 		this.#gamut = gamut;
 
 		if (gamut === undefined) {
@@ -86,6 +97,12 @@ export default class ColorGamut extends HTMLElement {
 
 		this.#label.textContent = label;
 		this.style.setProperty("--gamut-level", level);
+
+		if (oldGamut !== gamut) {
+			this.dispatchEvent(new CustomEvent("gamutchange", {
+				detail: {oldGamut, gamut},
+			}));
+		}
 	}
 
 	#color;
@@ -107,9 +124,12 @@ export default class ColorGamut extends HTMLElement {
 
 	attributeChangedCallback (name, oldValue, newValue) {
 		if (!name || name === "gamuts") {
-			if (newValue === undefined) {
-				newValue = this.getAttribute("gamuts");
+			if (!name) {
+				oldValue = null;
+				newValue = this.gamuts;
 			}
+
+			newValue ??= this.getAttribute("gamuts");
 
 			if (oldValue !== newValue) {
 				this.gamuts = this.constructor.parseGamuts(newValue ?? this.constructor.defaultGamuts);
