@@ -8,6 +8,10 @@
 
 #gamut {
 	font-size: 80%;
+
+	&[gamut="srgb"] {
+		display: none;
+	}
 }
 
 #wrapper {
@@ -16,10 +20,6 @@
 
 	&.static {
 		gap: .4em;
-	}
-
-	&:not(.static) {
-
 	}
 }
 

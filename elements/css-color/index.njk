@@ -1,4 +1,4 @@
-<h1><code>&lt;css-color></code> Web Component</h1>
+<h1>&lt;css-color></h1>
 
 <script src="./css-color.js" type="module"></script>
 <h2>Static</h2>
@@ -15,12 +15,17 @@
 
 <h2>With name</h2>
 <css-color>
-	<label slot="before-color" for=c1>Accent color:</label>
+	<label slot="before" for=c1>Accent color:</label>
 	<input value="oklch(70% 0.25 138)" id=c1 />
 </css-color>
 <css-color swatch="large">
-	<label slot="before-color" id=c2>Accent color:</label>
+	<label slot="before" id=c2>Accent color:</label>
 	<input value="oklch(70% 0.25 138)" id=c2 />
+</css-color>
+
+<h2>Bound to CSS property</h2>
+<css-color swatch="large" property="--color-red">
+	<input />
 </css-color>
 
 <h2>Update via JS</h2>

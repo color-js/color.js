@@ -19,12 +19,11 @@ export default class CSSColor extends HTMLElement {
 				<div id="swatch" part="swatch"></div>
 			</slot>
 			<div id="wrapper">
-				<slot name="before-color"></slot>
+				<slot name="before"></slot>
 				<div part="color-wrapper">
 					<slot></slot>
-					<color-gamut id="gamut" part="gamut" gamuts="srgb, p3, rec2020: P3+"></color-gamut>
 				</div>
-				<slot name="after-color"></slot>
+				<slot name="after"></slot>
 			</div>
 		`;
 	}
@@ -50,21 +49,89 @@ export default class CSSColor extends HTMLElement {
 	}
 
 	#errorTimeout;
+	#cs;
+	#scopeRoot;
 
+	// Gets called when the element is connected for the first time
 	#initialize () {
+		if (this.#initialized) {
+			return;
+		}
+
+		this.#initialized = true;
+
 		this.#dom.wrapper = this.shadowRoot.querySelector("#wrapper");
+		this.#dom.colorWrapper = this.shadowRoot.querySelector("[part=color-wrapper]");
 		this.#dom.input = this.querySelector("input");
-		this.#dom.gamutIndicator = this.shadowRoot.querySelector("#gamut");
 
 		if (this.#dom.input) {
 			this.#dom.input.addEventListener("input", evt => {
-				this.#render();
+				this.#render(evt);
 			});
 		}
-		this.#initialized = true;
+
+		this.verbatim = this.hasAttribute("verbatim");
+
+		if (this.verbatim) {
+			// Cannot display gamut info without parsing the color
+			this.setAttribute("gamuts", "none");
+		}
+
+		this.gamuts = null;
+		if (!this.matches('[gamuts="none"]')) {
+			this.gamuts = this.getAttribute("gamuts") ?? "srgb, p3, rec2020: P3+";
+			this.#dom.gamutIndicator = document.createElement("color-gamut");
+
+			Object.assign(this.#dom.gamutIndicator, {
+				gamuts: this.gamuts,
+				id: "gamut",
+				part: "gamut",
+				exportparts: "label: gamutlabel",
+			});
+
+			this.#dom.colorWrapper.appendChild(this.#dom.gamutIndicator);
+
+			this.#dom.gamutIndicator.addEventListener("gamutchange", evt => {
+				this.setAttribute("gamut", evt.detail.gamut);
+				this.dispatchEvent(new CustomEvent("gamutchange", {
+					detail: evt.detail,
+				}));
+			});
+		}
+
+		if (this.hasAttribute("property")) {
+			this.property = this.getAttribute("property");
+			this.scope = this.getAttribute("scope") ?? ":root";
+			this.#dom.style = document.createElement("style");
+			document.head.appendChild(this.#dom.style);
+
+			let varRef = `var(${this.property})`;
+			if (this.verbatim) {
+				this.style.setProperty("--color", varRef);
+				this.value ||= varRef;
+			}
+			else {
+				let scopeRoot = this.closest(this.scope);
+
+				// Is contained within scope root
+				if (scopeRoot) {
+					this.style.setProperty("--color", varRef);
+				}
+
+				scopeRoot ??= document.querySelector(this.scope);
+
+				if (scopeRoot) {
+					let cs = getComputedStyle(scopeRoot);
+					this.value = cs.getPropertyValue(this.property);
+				}
+			}
+
+
+
+		}
 	}
 
-	#render () {
+	#render (evt) {
 		if (!this.#initialized) {
 			return;
 		}
@@ -85,7 +152,6 @@ export default class CSSColor extends HTMLElement {
 			catch (e) {
 				// Why a timeout? We don't want to produce errors for intermediate states while typing,
 				// but if this is a genuine error, we do want to communicate it.
-
 				this.#errorTimeout = setTimeout(_ => this.#dom.input?.setCustomValidity(e.message), 500);
 			}
 
@@ -115,6 +181,7 @@ export default class CSSColor extends HTMLElement {
 		if (value === oldValue) {
 			return;
 		}
+
 		this.#setValue(value);
 		this.#render();
 	}
@@ -143,23 +210,50 @@ export default class CSSColor extends HTMLElement {
 		}
 
 		this.#setColor(color);
-		this.#setValue(color.toString({ precision: 2, inGamut: false}));
+
+		let colorString;
+		if (this.verbatim && this.property) {
+			colorString = `var(${this.property})`;
+		}
+		else {
+			colorString = color.toString({ precision: 2, inGamut: false });
+		}
+		this.#setValue(colorString);
 	}
 
 	#setColor (color) {
 		this.#color = color;
+		let colorString;
 
-		try {
-			this.style.setProperty("--color", this.#color.display({inGamut: false}));
+		if (this.verbatim && this.property) {
+			colorString = `var(${this.property})`;
 		}
-		catch (e) {
-			this.style.setProperty("--color", this.value);
+		else {
+			try {
+				colorString = this.#color.display({inGamut: false});
+
+			}
+			catch (e) {
+				colorString = this.value;
+			}
 		}
 
-		this.#dom.gamutIndicator.color = this.#color;
+		if (this.value === colorString) {
+			return;
+		}
+
+		this.style.setProperty("--color", colorString);
+
+		if (this.property) {
+			this.#dom.style.textContent = `${this.scope} { ${this.property}: ${colorString}; }`;
+		}
+
+		if (this.#dom.gamutIndicator) {
+			this.#dom.gamutIndicator.color = this.#color;
+		}
 	}
 
-	static observedAttributes = ["for"];
+	static observedAttributes = ["for", "property"];
 }
 
 customElements.define("css-color", CSSColor);
