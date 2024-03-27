@@ -1,7 +1,5 @@
 import Color from "../../dist/color.js";
 
-const gamuts = ["srgb", "p3", "rec2020"];
-
 let styleURL = new URL("./style.css", import.meta.url);
 
 export default class ColorGamut extends HTMLElement {
@@ -14,6 +12,10 @@ export default class ColorGamut extends HTMLElement {
 			<style>@import url("${ styleURL }")</style>
 			<span id="label" part="label"></span>
 		`;
+
+		if (this.hasOwnProperty("gamuts")) {
+			this.gamuts = this.gamuts;
+		}
 	}
 
 	connectedCallback () {
@@ -52,57 +54,56 @@ export default class ColorGamut extends HTMLElement {
 
 	#gamut;
 	get gamut () {
-		return this.#gamut;
+		return this.#gamut?.id;
+	}
+
+	get gamutLabel () {
+		return this.#gamut?.label ?? "";
+	}
+
+	#gamuts;
+	get gamuts () {
+		return this.#gamuts;
+	}
+
+	set gamuts (gamuts) {
+
+		this.#gamuts = this.constructor.parseGamuts(gamuts);
 	}
 
 	#updateGamut () {
-		if (this.#color) {
-			for (let gamut in this.gamuts) {
-				if (this.#color.inGamut(gamut)) {
-					this.#setGamut(gamut);
-					break;
-				}
-			}
-		}
-		else {
+		if (!this.#color) {
 			this.#setGamut();
+			return;
 		}
+
+		let gamut = this.gamuts.find(gamut => gamut.id === "none" || this.#color.inGamut(gamut.id));
+		this.#setGamut(gamut);
 	}
 
 	#setGamut (gamut) {
 		let oldGamut = this.#gamut;
-		this.#gamut = gamut;
 
-		if (gamut === undefined) {
-			this.removeAttribute("gamut");
-			this.style.removeProperty("--gamut-level");
-			this.#label.textContent = "";
+		if (gamut === oldGamut) {
 			return;
 		}
 
-		let label = "";
-		let level = -1;
-		let levels = Object.entries(this.gamuts);
-		if (gamut === null) {
-			// Outside all gamuts
-			this.setAttribute("gamut", "none");
-			level = levels.length;
-			label = levels.at(-1)[1] + "+";
-		}
-		else {
-			this.setAttribute("gamut", gamut);
-			label = this.gamuts[gamut];
-			level = levels.findIndex(([id]) => id === gamut);
+		this.#gamut = gamut;
+		this.#label.textContent = this.#gamut?.label ?? "";
+
+		if (!gamut) {
+			this.removeAttribute("gamut");
+			this.style.removeProperty("--gamut-level");
+
+			return;
 		}
 
-		this.#label.textContent = label;
-		this.style.setProperty("--gamut-level", level);
+		this.setAttribute("gamut", gamut.id);
+		this.style.setProperty("--gamut-level", gamut.level);
 
-		if (oldGamut !== gamut) {
-			this.dispatchEvent(new CustomEvent("gamutchange", {
-				detail: {oldGamut, gamut},
-			}));
-		}
+		this.dispatchEvent(new CustomEvent("gamutchange", {
+			detail: {oldGamut, gamut},
+		}));
 	}
 
 	#color;
@@ -111,24 +112,14 @@ export default class ColorGamut extends HTMLElement {
 	}
 
 	set color (color) {
-		if (!(color instanceof Color)) {
-			color = new Color(color);
-		}
-
-		this.#color = color;
+		this.#color = Color.get(color);
 		this.#render();
 	}
 
 	static observedAttributes = ["gamuts"];
-	static defaultGamuts = ["srgb", "p3", "rec2020"];
 
 	attributeChangedCallback (name, oldValue, newValue) {
-		if (!name || name === "gamuts") {
-			if (!name) {
-				oldValue = null;
-				newValue = this.gamuts;
-			}
-
+		if (!name && this.hasAttribute("gamuts") || name === "gamuts") {
 			newValue ??= this.getAttribute("gamuts");
 
 			if (oldValue !== newValue) {
@@ -138,17 +129,44 @@ export default class ColorGamut extends HTMLElement {
 		}
 	}
 
+	static defaultGamuts = ["srgb", "p3", "rec2020"];
+
 	static parseGamuts (gamuts) {
+		if (!gamuts) {
+			return [];
+		}
+
 		if (typeof gamuts === "string") {
 			gamuts = gamuts.trim().split(/\s*,\s*/);
 		}
+		else if (!Array.isArray(gamuts) && typeof gamuts === "object") {
+			// Object
+			return Object.entries(gamuts).map(([id, label]) => {id, label});
+		}
 
-		return Object.fromEntries(gamuts.map(gamut => {
-			gamut = gamut.trim();
-			let [id, label = Color.spaces[gamut]?.name ?? gamut] = gamut.split(/\s*:\s*/);
-			return [id, label];
-		}));
+		let ret = gamuts.map((gamut, level) => {
+			if (gamut?.id && "label" in gamut) {
+				// Already in the correct format
+				return gamut;
+			}
 
+			gamut = gamut.trim().split(/\s*:\s*/);
+			let id = gamut[0];
+			let label = gamut[1] ?? Color.spaces[gamut]?.name ?? id;
+			return {id, label, level};
+		});
+
+		if (!ret.find(gamut => gamut.id === "none")) {
+			ret.push({
+				id: "none",
+				get label () {
+					return ret[this.level - 1].label + "+";
+				},
+				level: ret.length,
+			});
+		}
+
+		return ret;
 	}
 }
 

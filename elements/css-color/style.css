@@ -8,10 +8,6 @@
 
 #gamut {
 	font-size: 80%;
-
-	&[gamut="srgb"] {
-		display: none;
-	}
 }
 
 #wrapper {
