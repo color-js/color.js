@@ -1,0 +1,105 @@
+:host {
+	display: inline-flex;
+	gap: .3em;
+	width: min-content;
+	white-space: nowrap;
+	--background-checkerboard: repeating-conic-gradient(rgb(0 0 0 / .12) 0 25%, transparent 0 50%) 0 0 / 1em 1em;
+}
+
+:host([data-gamut="srgb"]) {
+	--gamut-color: var(--color-green, yellowgreen);
+	--gamut-label: "sRGB";
+}
+
+:host([data-gamut="p3"]) {
+	--gamut-color: var(--color-yellow, gold);
+	--gamut-label: "P3";
+}
+
+:host([data-gamut="rec2020"]) {
+	--gamut-color: var(--color-orange, orange);
+	--gamut-label: "P3+";
+}
+
+:host([data-gamut=""]) {
+	--gamut-color: var(--color-red, red);
+	--gamut-label: "P3+";
+}
+
+#gamut {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: .2em;
+	color: white;
+	background: var(--gamut-color, var(--color-neutral-60, hsl(220 10% 60%)));
+	font-weight: bold;
+	padding-inline: .3em;
+	line-height: 1;
+	font-size: 80%;
+
+	&::before {
+		content: var(--gamut-label);
+	}
+
+	&:is([data-gamut="srgb"] *) {
+		display: none;
+	}
+
+	&:is(:host([data-gamut="p3"]) *) {
+		color: black;
+	}
+}
+
+#wrapper {
+	display: flex;
+	position: relative;
+
+	&.static {
+		gap: .4em;
+	}
+
+	&:not(.static) {
+		#gamut {
+			position: absolute;
+			inset: .3em;
+			inset-inline-start: auto;
+		}
+
+		::slotted(input) {
+			padding-inline-end: 1em;
+		}
+
+		&:is(:host([data-gamut="rec2020"]), :host([data-gamut=""])) {
+			::slotted(input) {
+				/* Accomodate the + suffix */
+				padding-inline-end: 2em;
+			}
+		}
+	}
+}
+
+:host(:not([for])) #swatch {
+	display: block;
+	inline-size: 2em;
+	border-radius: .2em;
+	background: linear-gradient(var(--color, transparent) 0 100%), var(--background-checkerboard);
+}
+
+:host([swatch="none"]) #swatch {
+	display: none;
+}
+
+:host(:not([for])):host([swatch="large"]) {
+	flex-flow: column;
+}
+
+:host(:not([for])):host([swatch="large"]) #swatch {
+	inline-size: auto;
+	block-size: 5em;
+}
+
+:host(:not([for])):host([swatch="large"]) #wrapper.static slot {
+	display: flex;
+	flex: 1;
+}

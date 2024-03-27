@@ -6,7 +6,7 @@
 	<title>Gamut Mapping Experiments - Gradients</title>
 	<link rel="stylesheet" href="gradients.css" />
 	<link rel="shortcut icon" />
-	<script type="module" src="../../elements/css-color/css-color.js"></script>
+	<script type="module" src="../../elements/css-color-0/css-color.js"></script>
 	<script type="module" src="gradients.js"></script>
 </head>
 <body>
@@ -44,7 +44,7 @@
 		</details>
 		<div class="gradient">
 			<div v-for="[title, step] in oogSteps" :style="{'--step-color': step}" :title="title"></div>
-		</div> 
+		</div>
 	</div>
 	<div :class="{flush, 'gradients': true}">
 		<article class="method" v-for="(i, method) of methods">
