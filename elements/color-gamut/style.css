@@ -10,22 +10,23 @@
 	line-height: 1.4;
 }
 
-:host([gamut="p3"]) {
-	color: black;
-}
-
-:host([gamut="srgb"]) {
+:host([level="0"]) {
 	--gamut-color: var(--color-green, yellowgreen);
 }
 
-:host([gamut="p3"]) {
+:host([level="1"]) {
+	color: black;
 	--gamut-color: var(--color-yellow, gold);
 }
 
-:host([gamut="rec2020"]) {
+:host([level="2"]) {
 	--gamut-color: var(--color-orange, orange);
 }
 
-:host([gamut="none"]) {
+:host([level="3"]) {
 	--gamut-color: var(--color-red, red);
+}
+
+:host([gamut="none"]) {
+	--gamut-color: var(--color-red-dark, #b00);
 }

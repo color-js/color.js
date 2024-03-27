@@ -53,8 +53,8 @@ export default class CSSColor extends HTMLElement {
 	#scopeRoot;
 
 	// Gets called when the element is connected for the first time
-	#initialize () {
-		if (this.#initialized) {
+	#initialize ({force} = {}) {
+		if (!force && this.#initialized) {
 			return;
 		}
 
@@ -79,7 +79,7 @@ export default class CSSColor extends HTMLElement {
 
 		this.gamuts = null;
 		if (!this.matches('[gamuts="none"]')) {
-			this.gamuts = this.getAttribute("gamuts") ?? "srgb, p3, rec2020: P3+";
+			this.gamuts = this.getAttribute("gamuts") ?? "srgb, p3, rec2020: P3+, prophoto: PP";
 			this.#dom.gamutIndicator = document.createElement("color-gamut");
 
 			Object.assign(this.#dom.gamutIndicator, {
@@ -125,9 +125,6 @@ export default class CSSColor extends HTMLElement {
 					this.value = cs.getPropertyValue(this.property);
 				}
 			}
-
-
-
 		}
 	}
 

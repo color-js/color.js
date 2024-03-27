@@ -13,9 +13,7 @@ export default class ColorGamut extends HTMLElement {
 			<span id="label" part="label"></span>
 		`;
 
-		if (this.hasOwnProperty("gamuts")) {
-			this.gamuts = this.gamuts;
-		}
+		this.gamuts = this.gamuts ?? this.getAttribute("gamuts") ?? this.constructor.defaultGamuts;
 	}
 
 	connectedCallback () {
@@ -30,8 +28,6 @@ export default class ColorGamut extends HTMLElement {
 		}
 
 		this.#initialized = true;
-
-		this.attributeChangedCallback();
 
 		let textContent = this.textContent;
 
@@ -93,16 +89,19 @@ export default class ColorGamut extends HTMLElement {
 
 		if (!gamut) {
 			this.removeAttribute("gamut");
+			this.removeAttribute("level");
 			this.style.removeProperty("--gamut-level");
 
 			return;
 		}
 
 		this.setAttribute("gamut", gamut.id);
+		this.setAttribute("level", gamut.level);
 		this.style.setProperty("--gamut-level", gamut.level);
 
 		this.dispatchEvent(new CustomEvent("gamutchange", {
 			detail: {oldGamut, gamut},
+			bubbles: true,
 		}));
 	}
 
@@ -129,7 +128,7 @@ export default class ColorGamut extends HTMLElement {
 		}
 	}
 
-	static defaultGamuts = ["srgb", "p3", "rec2020"];
+	static defaultGamuts = ["srgb", "p3", "rec2020", "prophoto"];
 
 	static parseGamuts (gamuts) {
 		if (!gamuts) {
