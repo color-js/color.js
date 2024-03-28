@@ -13,7 +13,7 @@ defaults.display_space = sRGB;
 
 let supportsNone;
 
-if (typeof CSS !== "undefined" && CSS.supports) {
+if (typeof CSS !== "undefined" && CSS?.supports) {
 	// Find widest supported color space for CSS
 	for (let space of [Lab, REC2020, P3]) {
 		let coords = space.getMinCoords();
@@ -42,7 +42,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 export default function display (color, {space = defaults.display_space, ...options} = {}) {
 	let ret = serialize(color, options);
 
-	if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.display_space) {
+	if (typeof CSS === "undefined" || CSS?.supports("color", ret) || !defaults.display_space) {
 		ret = new String(ret);
 		ret.color = color;
 	}
