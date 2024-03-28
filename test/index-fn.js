@@ -7,6 +7,7 @@ let tests = await Promise.all([
 	"gamut",
 	"in_gamut",
 	"parse",
+	"contrast",
 ].map(name => import(`./${name}.js`).then(module => module.default)));
 
 
