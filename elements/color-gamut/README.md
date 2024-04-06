@@ -1,6 +1,3 @@
----
-body_classes: cn-ignore
----
 <script src="color-gamut.js" type="module"></script>
 # &lt;color-gamut>
 

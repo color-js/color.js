@@ -1,4 +1,5 @@
 {
 	"layout": "page",
-	"permalink": "{{ page.filePathStem | replace('README', '') | replace('index', '') }}/index.html"
+	"permalink": "{{ page.filePathStem | replace('README', '') | replace('index', '') }}/index.html",
+	"body_classes": "cn-ignore"
 }
