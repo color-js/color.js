@@ -119,6 +119,7 @@ export default class ColorSpace {
 	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
 	get cssId (): string;
 	get isPolar (): boolean;
+	get isUnbounded (): boolean;
 
 	name: string;
 	id: string;
