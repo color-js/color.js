@@ -5,9 +5,6 @@ import "../../notebook/color-notebook.js";
 import "./colors.js";
 import { styleCallouts } from "./enhance.js";
 
-let $ = Bliss;
-let $$ = $.$;
-
 if (location.pathname.indexOf("/docs/") > -1 && window.toc) {
 	import("./docs.js");
 }
