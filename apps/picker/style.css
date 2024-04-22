@@ -113,7 +113,7 @@ abbr {
 
 .color-slider-label {
 	position: relative;
- }
+}
 
 .color-slider + input[type=number] {
 	position: absolute;
