@@ -23,6 +23,9 @@ const methods = {
 		label: "Scale LH",
 		description: "Runs Scale, sets L, H to those of the original color, then runs Scale again.",
 		compute: (color) => {
+			if (color.inGamut("p3", { epsilon: 0 })) {
+				return color;
+			}
 			let mappedColor = methods.scale.compute(color);
 			let lch = color.to("oklch").coords;
 			mappedColor.set({
