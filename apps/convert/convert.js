@@ -43,10 +43,14 @@ function update () {
 		output.tBodies[0].textContent = "";
 		let ret = "";
 
-		// Prevent aliases showing up in the output
-		let spaces = new Set(Color.Space.all);
+		// Why a set? To prevent aliases showing up in the output
+		let formats = [...new Set(Color.Space.all)].map(space => ({space}));
 
-		for (let space of spaces) {
+		formats.push({space: "srgb", format: "hex"});
+		formats.push({space: "srgb", format: "color"});
+
+		for (let format of formats) {
+			let space = format.space;
 			let id = space.id;
 			let converted = color.to(id);
 
@@ -57,8 +61,8 @@ function update () {
 
 			let precision = precisionInput.value;
 			let inGamut = converted.inGamut();
-			let str = converted.toString({precision, inGamut: false});
-			let str_mapped = converted.toString({precision, inGamut: true});
+			let str = converted.toString({precision, inGamut: false, format});
+			let str_mapped = converted.toString({precision, inGamut: true, format});
 			let permalink = `?color=${encodeURIComponent(str)}&precision=${encodeURIComponent(precision)}`;
 			let permalink_mapped = `?color=${encodeURIComponent(str_mapped)}&precision=${encodeURIComponent(precision)}`;
 
