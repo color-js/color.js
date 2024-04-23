@@ -1,3 +1,5 @@
+import Color from "../../dist/color.js";
+
 let root = document.documentElement;
 let root_cs = getComputedStyle(root);
 let colors = {
