@@ -73,6 +73,13 @@ const angleFactor = {
 	turn: 360,
 };
 
+export const regex = {
+	function: /^([a-z]+)\((.+?)\)$/i,
+	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
+	unitValue: /%|deg|g?rad|turn$/,
+	singleArgument: /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
+};
+
 /**
 * Parse a CSS function, regardless of its name and arguments
 * @param String str String to parse
@@ -85,17 +92,13 @@ export function parseFunction (str) {
 
 	str = str.trim();
 
-	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
-	const isNumberRegex = /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i;
-	const unitValueRegex = /%|deg|g?rad|turn$/;
-	const singleArgument = /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g;
-	let parts = str.match(isFunctionRegex);
+	let parts = str.match(regex.function);
 
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
-		parts[2].replace(singleArgument, ($0, rawArg) => {
-			let match = rawArg.match(unitValueRegex);
+		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
+			let match = rawArg.match(regex.unitValue);
 			let arg = rawArg;
 
 			if (match) {
@@ -115,7 +118,7 @@ export function parseFunction (str) {
 					arg.unit = unit;
 				}
 			}
-			else if (isNumberRegex.test(arg)) {
+			else if (regex.number.test(arg)) {
 				// Convert numerical args to numbers
 				arg = new Number(arg);
 				arg.type = "<number>";

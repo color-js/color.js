@@ -518,7 +518,7 @@ const tests = {
 			],
 		},
 		{
-			name: "Numerical",
+			name: "Different number formats",
 			tests: [
 				{
 					args: "color(srgb +0.9 0 0)",
