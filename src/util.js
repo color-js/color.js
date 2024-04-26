@@ -86,9 +86,9 @@ export function parseFunction (str) {
 	str = str.trim();
 
 	const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
-	const isNumberRegex = /^-?[\d.]+$/;
+	const isNumberRegex = /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i;
 	const unitValueRegex = /%|deg|g?rad|turn$/;
-	const singleArgument = /\/?\s*(none|[-\w.]+(?:%|deg|g?rad|turn)?)/g;
+	const singleArgument = /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g;
 	let parts = str.match(isFunctionRegex);
 
 	if (parts) {
