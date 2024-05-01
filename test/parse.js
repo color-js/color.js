@@ -517,6 +517,35 @@ const tests = {
 				},
 			],
 		},
+		{
+			name: "Different number formats",
+			tests: [
+				{
+					args: "color(srgb +0.9 0 0)",
+					expect: '{"spaceId":"srgb","coords":[0.9,0,0],"alpha":1}',
+				},
+				{
+					args: "color(srgb .9 0 0)",
+					expect: '{"spaceId":"srgb","coords":[0.9,0,0],"alpha":1}',
+				},
+				{
+					args: "color(srgb 9e-1 0 0)",
+					expect: '{"spaceId":"srgb","coords":[0.9,0,0],"alpha":1}',
+				},
+				{
+					args: "color(srgb 9E-1 0 0)",
+					expect: '{"spaceId":"srgb","coords":[0.9,0,0],"alpha":1}',
+				},
+				{
+					args: "color(srgb 0.09e+1 0 0)",
+					expect: '{"spaceId":"srgb","coords":[0.9,0,0],"alpha":1}',
+				},
+				{
+					args: "color(srgb 0.09e1 0 0)",
+					expect: '{"spaceId":"srgb","coords":[0.9,0,0],"alpha":1}',
+				},
+			],
+		},
 	],
 };
 
