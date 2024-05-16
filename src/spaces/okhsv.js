@@ -134,6 +134,11 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 		s = (s0 + tMax) * cv / ((tMax * s0) + tMax * k * cv);
 	}
 
+	if (Math.abs(s) < 1e-4 || v === 0.0) {
+		h = NaN;
+		s = 0.0;
+	}
+
 	return [constrain(h * 360), s, v];
 }
 

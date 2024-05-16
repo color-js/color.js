@@ -458,6 +458,11 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 		}
 	}
 
+	if (Math.abs(s) < 1e-4 || l === 0.0 || Math.abs(1 - l) < 1e-7) {
+		h = NaN;
+		s = 0.0;
+	}
+
 	return [constrain(h * 360), s, l];
 }
 
