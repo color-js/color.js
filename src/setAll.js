@@ -10,7 +10,7 @@ import getColor from "./getColor.js";
  * @param {number} [alpha]
  * @returns {Color}
  */
-export default function setAll (color, space, coords) {
+export default function setAll (color, space, coords, alpha) {
 	color = getColor(color);
 
 	if (Array.isArray(space)) {
