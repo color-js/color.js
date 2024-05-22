@@ -86,6 +86,25 @@ export default {
 					expect: 1,
 				},
 				{
+					name: "color.setAll(newCoords)",
+					run () {
+						let color = new Color("srgb", [0, 1, 0]);
+						color.setAll([1, 0, 1]);
+						return [...color.coords];
+					},
+					expect: [1, 0, 1],
+				},
+				{
+					name: "color.setAll(space, newCoords)",
+					run () {
+						let color = this.data.red_oklch.clone();
+						color.setAll("srgb", [1, 0, 1]);
+						return [...color.coords];
+					},
+					// https://colorjs.io/apps/convert/?color=%23f0f&precision=4
+					expect: [0.7016738591017413, 0.32249098770537216, 328.36341517499017],
+				},
+				{
 					name: "color.coords[index] = value",
 					run () {
 						let color = this.data.red.clone();
@@ -149,7 +168,7 @@ export default {
 					expect: 13.480970445148008,
 				},
 				{
-					name: "color.set(coordsObject)",
+					name: "color.set(object_with_coords)",
 					run () {
 						let color = this.data.red.clone();
 						color.set({"lch.c": 13, "lch.l": 40});
