@@ -423,6 +423,10 @@ function okhslToOklab (hsl, lmsToRgb,  okCoeff) {
 function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsl.
 
+	// Epsilon for lightness should approach close to 32 bit lightness
+	// Epsilon for saturation just needs to be sufficiently close when denoting achromatic
+	let εL = 1e-7;
+	let εS = 1e-4;
 	let L = lab[0];
 	let s = 0.0;
 	let l = toe(L);
@@ -458,7 +462,7 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 		}
 	}
 
-	if (Math.abs(s) < 1e-4 || l === 0.0 || Math.abs(1 - l) < 1e-7) {
+	if (Math.abs(s) < εS || l === 0.0 || Math.abs(1 - l) < εL) {
 		h = NaN;
 		s = 0.0;
 	}

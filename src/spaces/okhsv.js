@@ -95,6 +95,8 @@ function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsv.
 
+	// Epsilon for saturation just needs to be sufficiently close when denoting achromatic
+	let ε = 1e-4;
 	let l = lab[0];
 	let s = 0.0;
 	let v = toe(l);
@@ -134,7 +136,7 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 		s = (s0 + tMax) * cv / ((tMax * s0) + tMax * k * cv);
 	}
 
-	if (Math.abs(s) < 1e-4 || v === 0.0) {
+	if (Math.abs(s) < ε || v === 0.0) {
 		h = NaN;
 		s = 0.0;
 	}
