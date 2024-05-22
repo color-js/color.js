@@ -21,10 +21,15 @@ export default function set (color, prop, value) {
 			value = value(get(color, prop));
 		}
 
-		let {space, index} = ColorSpace.resolveCoord(prop, color.space);
-		let coords = getAll(color, space);
-		coords[index] = value;
-		setAll(color, space, coords);
+		if (prop === "alpha") {
+			color.alpha = value;
+		}
+		else {
+			let {space, index} = ColorSpace.resolveCoord(prop, color.space);
+			let coords = getAll(color, space);
+			coords[index] = value;
+			setAll(color, space, coords);
+		}
 	}
 
 	return color;

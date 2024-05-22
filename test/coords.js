@@ -37,6 +37,13 @@ export default {
 					expect: 0.5,
 				},
 				{
+					name: "color.get('alpha')",
+					run () {
+						return this.data.red_50.get("alpha");
+					},
+					expect: 0.5,
+				},
+				{
 					name: "color.coords[1]",
 					run() {
 						return this.data.red.coords[1];
@@ -105,6 +112,15 @@ export default {
 					expect: [0.7016738591017413, 0.32249098770537216, 328.36341517499017],
 				},
 				{
+					name: "color.setAll(newCoords, alpha)",
+					run () {
+						let color = new Color("srgb", [0, 1, 0]);
+						color.setAll([1, 0, 1], 0.5);
+						return [...color.coords, color.alpha];
+					},
+					expect: [1, 0, 1, 0.5],
+				},
+				{
 					name: "color.coords[index] = value",
 					run () {
 						let color = this.data.red.clone();
@@ -118,6 +134,15 @@ export default {
 					run () {
 						let color = this.data.red.clone();
 						color.alpha = 0.5;
+						return color.alpha;
+					},
+					expect: 0.5,
+				},
+				{
+					name: "color.set('alpha', value)",
+					run () {
+						let color = this.data.red.clone();
+						color.set("alpha", 0.5);
 						return color.alpha;
 					},
 					expect: 0.5,
@@ -175,6 +200,15 @@ export default {
 						return [color.lch.c, color.lch.l];
 					},
 					expect: [13, 40],
+				},
+				{
+					name: "color.set(object_with_coords_and_alpha)",
+					run () {
+						let color = this.data.red.clone();
+						color.set({"lch.c": 13, "alpha": 0.5});
+						return [color.lch.c, color.alpha];
+					},
+					expect: [13, 0.5],
 				},
 			],
 		},

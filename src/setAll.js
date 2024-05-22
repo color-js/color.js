@@ -7,6 +7,7 @@ import getColor from "./getColor.js";
  * @param {Color} color
  * @param {ColorSpace | string} [space=color.space] The color space of the provided coordinates.
  * @param {Array<number>} coords Array of coordinates
+ * @param {number} [alpha]
  * @returns {Color}
  */
 export default function setAll (color, space, coords) {
@@ -19,6 +20,10 @@ export default function setAll (color, space, coords) {
 
 	space = ColorSpace.get(space); // Make sure we have a ColorSpace object
 	color.coords = space === color.space ? coords.slice() : space.to(color.space, coords);
+
+	if (alpha !== undefined) {
+		color.alpha = alpha;
+	}
 
 	return color;
 }
