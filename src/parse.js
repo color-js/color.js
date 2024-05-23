@@ -176,7 +176,7 @@ export const regex = {
 	singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
-const noneTypes = new Set(["<number>", "<percentage>", "<angle>"]);
+
 
 /**
  * Metadata for a parsed argument
@@ -285,29 +285,24 @@ export function parseFunction (str) {
  */
 export function coerceCoords (space, format, name, coords) {
 	let types = Object.entries(space.coords).map(([id, coordMeta], i) => {
-		let coordGrammar = format.coordGrammar[i];
 		let arg = coords[i];
-		let providedType = arg?.type;
+
+		if (isNone(arg)) {
+			// Nothing to do here
+			return "none";
+		}
 
 		// Find grammar alternative that matches the provided type
 		// Non-strict equals is intentional because we are comparing w/ string objects
-		let type;
-		if (isNone(arg)) {
-			type = coordGrammar.find(c => noneTypes.has(c));
-		}
-		else {
-			type = coordGrammar.find(c => c == providedType);
-		}
+		let coordGrammar = format.coordGrammar[i];
+		let providedType = arg.type;
+		let type = coordGrammar.find(c => c == providedType);
 
 		// Check that each coord conforms to its grammar
 		if (!type) {
 			// Type does not exist in the grammar, throw
 			let coordName = coordMeta.name || id;
 			throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${name}()`);
-		}
-
-		if (isNone(arg)) {
-			return "none";
 		}
 
 		let fromRange = type.range;
