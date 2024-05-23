@@ -38,10 +38,12 @@ export default function parse (str, {meta} = {}) {
 
 				if (colorSpec) {
 					if (ids.includes(colorSpec.id) || colorSpec.ids?.filter((specId) => ids.includes(specId)).length) {
-						// From https://drafts.csswg.org/css-color-4/#color-function
-						// If more <number>s or <percentage>s are provided than parameters that the colorspace takes, the excess <number>s at the end are ignored.
-						// If less <number>s or <percentage>s are provided than parameters that the colorspace takes, the missing parameters default to 0. (This is particularly convenient for multichannel printers where the additional inks are spot colors or varnishes that most colors on the page won’t use.)
-						const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
+						let coordCount = Object.keys(space.coords).length;
+						const coords = env.parsed.args;
+
+						if (coords.length !== coordCount) {
+							throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in color(${id}), got ${coords.length}`);
+						}
 
 						let types;
 

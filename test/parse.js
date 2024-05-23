@@ -445,22 +445,32 @@ const tests = {
 				{
 					name: "No arguments",
 					args: "color(display-p3)",
-					expect: {spaceId: "p3", coords: [0, 0, 0], alpha: 1},
+					throws: true,
 				},
 				{
 					name: "No arguments / alpha",
 					args: "color(display-p3 / .5)",
-					expect: {spaceId: "p3", coords: [0, 0, 0], alpha: 0.5},
+					throws: true,
 				},
 				{
 					name: "Fewer arguments",
 					args: "color(display-p3 1)",
-					expect: {spaceId: "p3", coords: [1, 0, 0], alpha: 1},
+					throws: true,
 				},
 				{
 					name: "Fewer arguments / alpha",
 					args: "color(display-p3 1 / .5)",
-					expect: {spaceId: "p3", coords: [1, 0, 0], alpha: 0.5},
+					throws: true,
+				},
+				{
+					name: "More arguments",
+					args: "color(display-p3 1 1 1 1)",
+					throws: true,
+				},
+				{
+					name: "More arguments / alpha",
+					args: "color(display-p3 1 1 1 1 / .5)",
+					throws: true,
 				},
 			],
 		},
