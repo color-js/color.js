@@ -90,7 +90,7 @@ export default function parse (str, {meta} = {}) {
 				if (format && format.type === "function") {
 					let alpha = 1;
 
-					if (format.lastAlpha || env.parsed.args.at(-1).alpha) {
+					if (format.lastAlpha || env.parsed.argMeta.at(-1).alpha) {
 						alpha = env.parsed.args.pop();
 					}
 
