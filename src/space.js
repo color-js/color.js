@@ -1,4 +1,5 @@
-import {type, parseCoordGrammar, serializeNumber, mapRange, isNone} from "./util.js";
+import {type, isNone} from "./util.js";
+import Format from "./Format.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
 import getColor from "./getColor.js";
@@ -136,26 +137,17 @@ export default class ColorSpace {
 	}
 
 	getFormat (format) {
-		if (typeof format === "object") {
-			format = processFormat(format, this);
-			return format;
-		}
-
 		let ret;
-		if (format === "default") {
-			// Get first format
-			ret = Object.values(this.formats)[0];
+
+		if (typeof format === "object") {
+			ret = format;
 		}
 		else {
-			ret = this.formats[format];
+			let name = format === "default" ? Object.keys(this.formats)[0] : format;
+			ret = this.formats[name];
 		}
 
-		if (ret) {
-			ret = processFormat(ret, this);
-			return ret;
-		}
-
-		return null;
+		return ret ? Format.get(ret, this) : null;
 	}
 
 	/**
@@ -309,6 +301,42 @@ export default class ColorSpace {
 	}
 
 	/**
+	 * Look up all color spaces for a format that matches certain criteria
+	 * @param {*} name
+	 * @param {*} filters
+	 * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
+	 */
+	static findFormat (filters, spaces = ColorSpace.all) {
+		if (typeof filters === "string") {
+			filters = {name: filters};
+		}
+
+		for (let space of spaces) {
+			for (let [name, format] of Object.entries(space.formats)) {
+				format.name ??= name;
+				format.type ??= "function";
+
+				let matches = (
+					(!filters.name || format.name === filters.name) &&
+					(!filters.type || format.type === filters.type)
+				);
+
+				if (filters.id) {
+					let ids = format.ids || [format.id];
+					let filterIds = Array.isArray(filters.id) ? filters.id : [filters.id];
+					matches &&= filterIds.some(id => ids.includes(id));
+				}
+
+				if (matches) {
+					return Format.get(format, space);
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get metadata about a coordinate of a color space
 	 *
 	 * @static
@@ -394,47 +422,3 @@ function getPath (space) {
 	return ret;
 }
 
-function processFormat (format, {coords} = {}) {
-	if (format.coords && !format.coordGrammar) {
-		format.type ||= "function";
-		format.name ||= "color";
-
-		// Format has not been processed
-		format.coordGrammar = parseCoordGrammar(format.coords);
-
-		let coordFormats = Object.entries(coords).map(([id, coordMeta], i) => {
-			// Preferred format for each coord is the first one
-			let outputType = format.coordGrammar[i][0];
-
-			let fromRange = coordMeta.range || coordMeta.refRange;
-			let toRange = outputType.range, suffix = "";
-
-			// Non-strict equals intentional since outputType could be a string object
-			if (outputType == "<percentage>") {
-				toRange = [0, 100];
-				suffix = "%";
-			}
-			else if (outputType == "<angle>") {
-				suffix = "deg";
-			}
-
-			return  {fromRange, toRange, suffix};
-		});
-
-		format.serializeCoords = (coords, precision) => {
-			return coords.map((c, i) => {
-				let {fromRange, toRange, suffix} = coordFormats[i];
-
-				if (fromRange && toRange) {
-					c = mapRange(fromRange, toRange, c);
-				}
-
-				c = serializeNumber(c, {precision, unit: suffix});
-
-				return c;
-			});
-		};
-	}
-
-	return format;
-}

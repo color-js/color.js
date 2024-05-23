@@ -24,6 +24,8 @@ export default function parse (str, {meta} = {}) {
 	if (env.parsed) {
 		// Is a functional syntax
 		let name = env.parsed.name;
+		let format;
+		let space;
 
 		if (name === "color") {
 			// color() function
@@ -31,90 +33,64 @@ export default function parse (str, {meta} = {}) {
 			// Check against both <dashed-ident> and <ident> versions
 			let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
 			let ids = [id, alternateId];
-			let alpha = env.parsed.rawArgs.indexOf("/") > 0 ? env.parsed.args.pop() : 1;
+			format = ColorSpace.findFormat({name, id: ids, type: "function"});
 
-			for (let space of ColorSpace.all) {
-				let format = space.getFormat("color");
-
-				if (format) {
-					if (ids.includes(format.id) || format.ids?.filter((specId) => ids.includes(specId)).length) {
-						let coordCount = Object.keys(space.coords).length;
-						const coords = env.parsed.args;
-
-						if (coords.length !== coordCount) {
-							throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in color(${id}), got ${coords.length}`);
-						}
-
-						let types;
-
-						if (format.coordGrammar) {
-							types = coerceCoords(space, format, coords);
-						}
-
-						if (meta) {
-							Object.assign(meta, {formatId: "color", types});
-						}
-
-						if (format.id.startsWith("--") && !id.startsWith("--")) {
-							defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-							              `Use prefixed color(${format.id}) instead of color(${id}).`);
-						}
-						if (id.startsWith("--") && !format.id.startsWith("--")) {
-							defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
-							              `Use color(${format.id}) instead of prefixed color(${id}).`);
-						}
-
-						ret = {spaceId: space.id, coords, alpha};
-					}
-				}
-			}
-
-			if (!ret) {
+			if (!format) {
 				// Not found
-				let didYouMean = "";
+				let didYouMean;
+
 				let registryId = id in ColorSpace.registry ? id : alternateId;
 				if (registryId in ColorSpace.registry) {
 					// Used color space id instead of color() id, these are often different
 					let cssId = ColorSpace.registry[registryId].formats?.color?.id;
 
 					if (cssId) {
-						didYouMean = `Did you mean color(${cssId})?`;
+						let altColor = str.replace("color(" + id, "color(" + cssId);
+						didYouMean = `Did you mean ${ altColor }?`;
 					}
 				}
 
-				throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
+				throw new TypeError(`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"));
+			}
+
+			space = format.space;
+
+			if (format.id.startsWith("--") && !id.startsWith("--")) {
+				defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
+							  `Use prefixed color(${format.id}) instead of color(${id}).`);
+			}
+			if (id.startsWith("--") && !format.id.startsWith("--")) {
+				defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
+							  `Use color(${format.id}) instead of prefixed color(${id}).`);
 			}
 		}
 		else {
-			for (let space of ColorSpace.all) {
-				// color space specific function
-				let format = space.getFormat(name);
-				if (format && format.type === "function") {
-					let alpha = 1;
-
-					if (format.lastAlpha || env.parsed.argMeta.at(-1).alpha) {
-						alpha = env.parsed.args.pop();
-					}
-
-					let coords = env.parsed.args;
-
-					let types;
-
-					if (format.coordGrammar) {
-						types = coerceCoords(space, format, coords);
-					}
-
-					if (meta) {
-						Object.assign(meta, {formatId: format.name, types});
-					}
-
-					ret = {
-						spaceId: space.id,
-						coords, alpha,
-					};
-				}
-			}
+			format = ColorSpace.findFormat({name, type: "function"});
+			space = format.space;
 		}
+
+		let alpha = 1;
+
+		if (format.lastAlpha || env.parsed.lastAlpha) {
+			alpha = env.parsed.args.pop();
+		}
+
+		let coordCount = format.coords.length;
+		let coords = env.parsed.args;
+
+		if (coords.length !== coordCount) {
+			throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`);
+		}
+
+		let types = coords.map(c => c?.type);
+
+		coords = format.coerceCoords(coords);
+
+		if (meta) {
+			Object.assign(meta, {format, formatId: format.name, types});
+		}
+
+		ret = {spaceId: space.id, coords, alpha};
 	}
 	else {
 		// Custom, colorspace-specific format
@@ -134,7 +110,7 @@ export default function parse (str, {meta} = {}) {
 
 				if (color) {
 					if (meta) {
-						meta.formatId = formatId;
+						Object.assign(meta, { format, formatId });
 					}
 
 					ret = color;
@@ -243,13 +219,14 @@ export function parseFunction (str) {
 		// It is a function, parse args
 		let args = [];
 		let argMeta = [];
+		let lastAlpha = false;
 
 		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
 			let {value, meta} = parseArgument(rawArg);
 
 			if ($0.startsWith("/")) {
 				// It's alpha
-				meta.alpha = true;
+				lastAlpha = true;
 			}
 
 			let arg = value;
@@ -271,54 +248,7 @@ export function parseFunction (str) {
 			// a number, percentage, degrees (hue), ident (in color())
 			args,
 			argMeta,
+			lastAlpha,
 		};
 	}
-}
-
-/**
- * Validates the coordinates of a color against a format's coord grammar and
- * maps the coordinates to the range or refRange of the coordinates.
- * @param {ColorSpace} space - Colorspace the coords are in
- * @param {object} format - the format object to validate against
- * @param {string} name - the name of the color function. e.g. "oklab" or "color"
- * @returns {object[]} - an array of type metadata for each coordinate
- */
-export function coerceCoords (space, format, coords) {
-	let types = Object.entries(space.coords).map(([id, coordMeta], i) => {
-		let arg = coords[i];
-
-		if (isNone(arg)) {
-			// Nothing to do here
-			return "none";
-		}
-
-		// Find grammar alternative that matches the provided type
-		// Non-strict equals is intentional because we are comparing w/ string objects
-		let coordGrammar = format.coordGrammar[i];
-		let providedType = arg.type;
-		let type = coordGrammar.find(c => c == providedType);
-
-		// Check that each coord conforms to its grammar
-		if (!type) {
-			// Type does not exist in the grammar, throw
-			let coordName = coordMeta.name || id;
-			throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${format.name}()`);
-		}
-
-		let fromRange = type.range;
-
-		if (providedType === "<percentage>") {
-			fromRange ||= [0, 1];
-		}
-
-		let toRange = coordMeta.range || coordMeta.refRange;
-
-		if (fromRange && toRange) {
-			coords[i] = mapRange(fromRange, toRange, coords[i]);
-		}
-
-		return type;
-	});
-
-	return types;
 }

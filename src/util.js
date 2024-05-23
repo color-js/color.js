@@ -85,24 +85,12 @@ export function interpolateInv (start, end, value) {
 }
 
 export function mapRange (from, to, value) {
+	if (!from || !to || from === to || from[0] === to[0] && from[1] === to[1]) {
+		// Ranges missing or the same
+		return value;
+	}
+
 	return interpolate(to[0], to[1], interpolateInv(from[0], from[1], value));
-}
-
-export function parseCoordGrammar (coordGrammars) {
-	return coordGrammars.map(coordGrammar => {
-		return coordGrammar.split("|").map(type => {
-			type = type.trim();
-			let range = type.match(/^(<[a-z]+>)\[(-?[.\d]+),\s*(-?[.\d]+)\]?$/);
-
-			if (range) {
-				let ret = new String(range[1]);
-				ret.range = [+range[2], +range[3]];
-				return ret;
-			}
-
-			return type;
-		});
-	});
 }
 
 /**
