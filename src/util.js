@@ -66,9 +66,7 @@ export function toPrecision (n, precision) {
 	return Math.floor(n * multiplier + 0.5) / multiplier;
 }
 
-export function last (arr) {
-	return arr[arr.length - 1];
-}
+
 
 export function interpolate (start, end, p) {
 	if (isNaN(start)) {
