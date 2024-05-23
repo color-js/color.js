@@ -73,10 +73,12 @@ const angleFactor = {
 	turn: 360,
 };
 
+const units = ["%", "deg", "rad", "grad", "turn"];
+
 export const regex = {
 	function: /^([a-z]+)\((.+?)\)$/i,
 	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
-	unitValue: /%|deg|g?rad|turn$/,
+	unitValue: RegExp(`(${units.join("|")})$`),
 	singleArgument: /\/?\s*(none|[-+]?[\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
