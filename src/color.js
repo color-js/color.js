@@ -70,7 +70,7 @@ export default class Color {
 		this.coords = coords ? coords.slice() : [0, 0, 0];
 
 		// Clamp alpha to [0, 1]
-		this.alpha = alpha > 1 || alpha === undefined ? 1 : (alpha < 0 ? 0 : alpha);
+		this.alpha = util.isNone(alpha) ? alpha : alpha === undefined ? 1 : util.clamp(0, alpha, 1);
 
 		// Convert "NaN" to NaN
 		for (let i = 0; i < this.coords.length; i++) {

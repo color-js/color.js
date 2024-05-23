@@ -1,4 +1,4 @@
-import { mapRange } from "./util.js";
+import { mapRange, isNone, clamp } from "./util.js";
 import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
@@ -19,6 +19,7 @@ export default function parse (str, {meta} = {}) {
 	}
 
 	env.parsed = parseFunction(env.str);
+	let ret;
 
 	if (env.parsed) {
 		// Is a functional syntax
@@ -61,24 +62,26 @@ export default function parse (str, {meta} = {}) {
 							              `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
 						}
 
-						return {spaceId: space.id, coords, alpha};
+						ret = {spaceId: space.id, coords, alpha};
 					}
 				}
 			}
 
-			// Not found
-			let didYouMean = "";
-			let registryId = id in ColorSpace.registry ? id : alternateId;
-			if (registryId in ColorSpace.registry) {
-				// Used color space id instead of color() id, these are often different
-				let cssId = ColorSpace.registry[registryId].formats?.color?.id;
+			if (!ret) {
+				// Not found
+				let didYouMean = "";
+				let registryId = id in ColorSpace.registry ? id : alternateId;
+				if (registryId in ColorSpace.registry) {
+					// Used color space id instead of color() id, these are often different
+					let cssId = ColorSpace.registry[registryId].formats?.color?.id;
 
-				if (cssId) {
-					didYouMean = `Did you mean color(${cssId})?`;
+					if (cssId) {
+						didYouMean = `Did you mean color(${cssId})?`;
+					}
 				}
-			}
 
-			throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
+				throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
+			}
 		}
 		else {
 			for (let space of ColorSpace.all) {
@@ -103,7 +106,7 @@ export default function parse (str, {meta} = {}) {
 						Object.assign(meta, {formatId: format.name, types});
 					}
 
-					return {
+					ret = {
 						spaceId: space.id,
 						coords, alpha,
 					};
@@ -128,21 +131,26 @@ export default function parse (str, {meta} = {}) {
 				let color = format.parse(env.str);
 
 				if (color) {
-					color.alpha ??= 1;
-
 					if (meta) {
 						meta.formatId = formatId;
 					}
 
-					return color;
+					ret = color;
+					break;
 				}
 			}
 		}
 	}
 
+	if (!ret) {
+		// If we're here, we couldn't parse
+		throw new TypeError(`Could not parse ${str} as a color. Missing a plugin?`);
+	}
 
-	// If we're here, we couldn't parse
-	throw new TypeError(`Could not parse ${str} as a color. Missing a plugin?`);
+	// Clamp alpha to [0, 1]
+	ret.alpha = isNone(ret.alpha) ? ret.alpha : ret.alpha === undefined ? 1 : clamp(0, ret.alpha, 1);
+
+	return ret;
 }
 
 /**
