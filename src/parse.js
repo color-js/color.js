@@ -290,7 +290,7 @@ export function coerceCoords (space, format, name, coords) {
 		// Find grammar alternative that matches the provided type
 		// Non-strict equals is intentional because we are comparing w/ string objects
 		let type;
-		if (arg.none) {
+		if (isNone(arg)) {
 			type = coordGrammar.find(c => noneTypes.has(c));
 		}
 		else {
