@@ -11,7 +11,7 @@ export {default as get}                 from "./get.js";
 export {default as getAll}              from "./getAll.js";
 export {default as set}                 from "./set.js";
 export {default as setAll}              from "./setAll.js";
-export {default as parse}               from "./parse/parse.js";
+export {default as parse}               from "./parse.js";
 export {default as to}                  from "./to.js";
 export {default as serialize}           from "./serialize.js";
 export {default as display}             from "./display.js";
