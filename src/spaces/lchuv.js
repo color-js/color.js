@@ -30,7 +30,7 @@ export default new ColorSpace({
 		const ε = 0.02;
 
 		if (Math.abs(u) < ε && Math.abs(v) < ε) {
-			hue = NaN;
+			hue = null;
 		}
 		else {
 			hue = Math.atan2(v, u) * 180 / Math.PI;
@@ -49,7 +49,7 @@ export default new ColorSpace({
 		if (Chroma < 0) {
 			Chroma = 0;
 		}
-		// Deal with NaN Hue
+
 		if (isNone(Hue)) {
 			Hue = 0;
 		}

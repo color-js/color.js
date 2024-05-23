@@ -29,7 +29,7 @@ export default new ColorSpace({
 		const ε = 0.0002; // chromatic components much smaller than a,b
 
 		if (Math.abs(az) < ε && Math.abs(bz) < ε) {
-			hue = NaN;
+			hue = null;
 		}
 		else {
 			hue = Math.atan2(bz, az) * 180 / Math.PI;

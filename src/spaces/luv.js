@@ -56,7 +56,7 @@ export default new ColorSpace({
 	toBase (Luv) {
 		let [L, u, v] = Luv;
 
-		// Protect against division by zero and NaN Lightness
+		// Protect against division by zero and none Lightness
 		if (L === 0 || isNone(L)) {
 			return [0, 0, 0];
 		}

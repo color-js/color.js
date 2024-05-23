@@ -31,7 +31,7 @@ export default new ColorSpace({
 		const ε = 0.0002; // chromatic components much smaller than a,b
 
 		if (Math.abs(a) < ε && Math.abs(b) < ε) {
-			h = NaN;
+			h = null;
 		}
 		else {
 			h = Math.atan2(b, a) * 180 / Math.PI;
@@ -48,7 +48,6 @@ export default new ColorSpace({
 		let [L, C, h] = oklch;
 		let a, b;
 
-		// check for NaN hue
 		if (isNone(h)) {
 			a = 0;
 			b = 0;

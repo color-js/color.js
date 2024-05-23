@@ -27,7 +27,7 @@ export default new ColorSpace({
 		let max = Math.max(...rgb);
 		let min = Math.min(...rgb);
 		let [r, g, b] = rgb;
-		let [h, s, l] = [NaN, 0, (min + max) / 2];
+		let [h, s, l] = [null, 0, (min + max) / 2];
 		let d = max - min;
 
 		if (d !== 0) {

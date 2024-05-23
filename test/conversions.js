@@ -9,13 +9,9 @@ const tests = {
 		return color.to(spaceId).coords;
 	},
 	check: check.deep(function (actual, expect) {
-		if (expect === null || Number.isNaN(expect)) {
-			// Treat NaN and null as equivalent for now
-			return actual === null || Number.isNaN(actual);
-		}
-
 		let checkProximity = check.proximity({epsilon: this.data.epsilon});
-		return checkProximity(actual, expect);
+		let ret = checkProximity(actual, expect);
+		return ret;
 	}),
 	data: {
 		epsilon: .0001,
@@ -37,11 +33,11 @@ const tests = {
 				},
 				{
 					args: "white",
-					expect: [100, 0, NaN],
+					expect: [100, 0, null],
 				},
 				{
 					args: "black",
-					expect: [0, 0, NaN],
+					expect: [0, 0, null],
 				},
 			],
 		},
@@ -101,15 +97,15 @@ const tests = {
 			tests: [
 				{
 					args: "rgb(60% 20% 20%)",
-					expect: [0, 20, 40],
+					expect: [null, 20, 40],
 				},
 				{
 					args: "black",
-					expect: [NaN, 0, 100],
+					expect: [null, 0, 100],
 				},
 				{
 					args: "white",
-					expect: [NaN, 100, 0],
+					expect: [null, 100, 0],
 				},
 			],
 		},
@@ -138,11 +134,11 @@ const tests = {
 			tests: [
 				{
 					args: "black",
-					expect: [NaN, 0, 0],
+					expect: [null, 0, 0],
 				},
 				{
 					args: "white",
-					expect: [NaN, 0, 100],
+					expect: [null, 0, 100],
 				},
 			],
 		},
@@ -287,15 +283,15 @@ const tests = {
 			tests: [
 				{
 					args: "color(jzazbz 0.5 0 0)",
-					expect: [0.5, 0, NaN],
+					expect: [0.5, 0, null],
 				},
 				{
 					args: "color(jzazbz 0.2 0.000004 -0.000003)",
-					expect: [0.2, 0.000005, NaN],
+					expect: [0.2, 0.000005, null],
 				},
 				{
 					args: "color(jzazbz 0.2 0.000005 -0.000005)",
-					expect: [0.2, 0.00000707, NaN],
+					expect: [0.2, 0.00000707, null],
 				},
 				{
 					args: "color(jzazbz 0.1 -0.05 0.05)",
@@ -431,7 +427,7 @@ const tests = {
 				{
 					name: "sRGB white (D65) to OKlch",
 					args: "white",
-					expect: [1.0, 0.0, NaN],
+					expect: [1.0, 0.0, null],
 				},
 				{
 					name: "sRGB red (D65) to OKlab",
@@ -783,11 +779,11 @@ const tests = {
 				},
 				{
 					args: "white",
-					expect: [100, 0, NaN],
+					expect: [100, 0, null],
 				},
 				{
 					args: "black",
-					expect: [0, 0, NaN],
+					expect: [0, 0, null],
 				},
 			],
 		},
