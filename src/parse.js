@@ -303,7 +303,11 @@ export function coerceCoords (space, format, name, coords) {
 		if (!type) {
 			// Type does not exist in the grammar, throw
 			let coordName = coordMeta.name || id;
-			throw new TypeError(`${providedType ?? arg.raw} not allowed for ${coordName} in ${name}()`);
+			throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${name}()`);
+		}
+
+		if (isNone(arg)) {
+			return "none";
 		}
 
 		let fromRange = type.range;
