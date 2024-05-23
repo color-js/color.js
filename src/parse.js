@@ -48,7 +48,7 @@ export default function parse (str, {meta} = {}) {
 						let types;
 
 						if (format.coordGrammar) {
-							types = coerceCoords(space, format, "color", coords);
+							types = coerceCoords(space, format, coords);
 						}
 
 						if (meta) {
@@ -101,7 +101,7 @@ export default function parse (str, {meta} = {}) {
 					let types;
 
 					if (format.coordGrammar) {
-						types = coerceCoords(space, format, name, coords);
+						types = coerceCoords(space, format, coords);
 					}
 
 					if (meta) {
@@ -283,7 +283,7 @@ export function parseFunction (str) {
  * @param {string} name - the name of the color function. e.g. "oklab" or "color"
  * @returns {object[]} - an array of type metadata for each coordinate
  */
-export function coerceCoords (space, format, name, coords) {
+export function coerceCoords (space, format, coords) {
 	let types = Object.entries(space.coords).map(([id, coordMeta], i) => {
 		let arg = coords[i];
 
@@ -302,7 +302,7 @@ export function coerceCoords (space, format, name, coords) {
 		if (!type) {
 			// Type does not exist in the grammar, throw
 			let coordName = coordMeta.name || id;
-			throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${name}()`);
+			throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${format.name}()`);
 		}
 
 		let fromRange = type.range;
