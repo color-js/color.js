@@ -72,13 +72,6 @@ export default class Color {
 		// Clamp alpha to [0, 1]
 		this.alpha = util.isNone(alpha) ? alpha : alpha === undefined ? 1 : util.clamp(0, alpha, 1);
 
-		// Convert "NaN" to NaN
-		for (let i = 0; i < this.coords.length; i++) {
-			if (this.coords[i] === "NaN") {
-				this.coords[i] = NaN;
-			}
-		}
-
 		// Define getters and setters for each coordinate
 		for (let id in this.space.coords) {
 			Object.defineProperty(this, id, {

@@ -7,6 +7,21 @@ const tests = {
 	run: parse,
 	tests: [
 		{
+			name: "NaN values",
+			tests: [
+				{
+					name: "NaN hue in lch()",
+					arg: "lch(NaN 10 50)",
+					expect: {spaceId: "lch", coords: [NaN, 10, 50], alpha: 1},
+				},
+				{
+					name: "calc(NaN) hue in lch()",
+					arg: "lch(calc(NaN) 10 50)",
+					expect: {spaceId: "lch", coords: [NaN, 10, 50], alpha: 1},
+				},
+			]
+		},
+		{
 			name: "sRGB colors",
 			tests: [
 				{

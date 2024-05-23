@@ -165,12 +165,13 @@ export const units = {
 };
 
 export const regex = {
-	function: /^([a-z]+)\((.+?)\)$/i,
+	// Need to list calc(NaN) explicitly as otherwise its ending paren would terminate the function call
+	function: /^([a-z]+)\(((?:calc\(NaN\)|.)+?)\)$/i,
 	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
 	unitValue: RegExp(`(${Object.keys(units).join("|")})$`),
 
 	// NOTE The -+ are not just for prefix, but also for idents, and e+N notation!
-	singleArgument: /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
+	singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
 const noneTypes = new Set(["<number>", "<percentage>", "<angle>"]);
@@ -210,6 +211,10 @@ export function parseArgument (rawArg) {
 	else if (value === "none") {
 		value = NaN;
 		meta.none = true;
+	}
+	else if (value === "NaN" || value === "calc(NaN)") {
+		value = NaN;
+		meta.type = "<number>";
 	}
 	else {
 		meta.type = "<ident>";
