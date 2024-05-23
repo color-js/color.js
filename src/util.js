@@ -79,7 +79,9 @@ export const regex = {
 	function: /^([a-z]+)\((.+?)\)$/i,
 	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
 	unitValue: RegExp(`(${units.join("|")})$`),
-	singleArgument: /\/?\s*(none|[-+]?[\w.]+(?:%|deg|g?rad|turn)?)/g,
+
+	// NOTE The -+ are not just for prefix, but also for idents, and e+N notation!
+	singleArgument: /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
 /**
