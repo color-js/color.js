@@ -109,7 +109,3 @@ export function parseFunction (str) {
 		};
 	}
 }
-
-export function last (arr) {
-	return arr[arr.length - 1];
-}

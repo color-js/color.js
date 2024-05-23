@@ -1,5 +1,5 @@
 import { mapRange } from "../util.js";
-import { parseFunction, last } from "./util.js";
+import { parseFunction } from "./util.js";
 import hooks from "../hooks.js";
 import ColorSpace from "../space.js";
 import defaults from "../defaults.js";
@@ -140,7 +140,7 @@ export default function parse (str, {meta} = {}) {
 				if (format && format.type === "function") {
 					let alpha = 1;
 
-					if (format.lastAlpha || last(env.parsed.args).alpha) {
+					if (format.lastAlpha || env.parsed.args.at(-1).alpha) {
 						alpha = env.parsed.args.pop();
 					}
 
