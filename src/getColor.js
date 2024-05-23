@@ -1,6 +1,6 @@
 import ColorSpace from "./space.js";
 import {isString} from "./util.js";
-import parse from "./parse.js";
+import parse from "./parse/parse.js";
 
 /**
  * Resolves a color reference (object or string) to a plain color object

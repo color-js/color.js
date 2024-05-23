@@ -1,7 +1,8 @@
-import * as util from "./util.js";
-import hooks from "./hooks.js";
-import ColorSpace from "./space.js";
-import defaults from "./defaults.js";
+import { mapRange } from "../util.js";
+import { parseFunction, last } from "./util.js";
+import hooks from "../hooks.js";
+import ColorSpace from "../space.js";
+import defaults from "../defaults.js";
 
 const noneTypes = new Set(["<number>", "<percentage>", "<angle>"]);
 
@@ -45,7 +46,7 @@ function coerceCoords (space, format, name, coords) {
 		let toRange = coordMeta.range || coordMeta.refRange;
 
 		if (fromRange && toRange) {
-			coords[i] = util.mapRange(fromRange, toRange, coords[i]);
+			coords[i] = mapRange(fromRange, toRange, coords[i]);
 		}
 
 		return type;
@@ -70,7 +71,7 @@ export default function parse (str, {meta} = {}) {
 		return env.color;
 	}
 
-	env.parsed = util.parseFunction(env.str);
+	env.parsed = parseFunction(env.str);
 
 	if (env.parsed) {
 		// Is a functional syntax
@@ -139,7 +140,7 @@ export default function parse (str, {meta} = {}) {
 				if (format && format.type === "function") {
 					let alpha = 1;
 
-					if (format.lastAlpha || util.last(env.parsed.args).alpha) {
+					if (format.lastAlpha || last(env.parsed.args).alpha) {
 						alpha = env.parsed.args.pop();
 					}
 
