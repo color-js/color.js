@@ -34,10 +34,10 @@ export default function parse (str, {meta} = {}) {
 			let alpha = env.parsed.rawArgs.indexOf("/") > 0 ? env.parsed.args.pop() : 1;
 
 			for (let space of ColorSpace.all) {
-				let colorSpec = space.getFormat("color");
+				let format = space.getFormat("color");
 
-				if (colorSpec) {
-					if (ids.includes(colorSpec.id) || colorSpec.ids?.filter((specId) => ids.includes(specId)).length) {
+				if (format) {
+					if (ids.includes(format.id) || format.ids?.filter((specId) => ids.includes(specId)).length) {
 						let coordCount = Object.keys(space.coords).length;
 						const coords = env.parsed.args;
 
@@ -47,21 +47,21 @@ export default function parse (str, {meta} = {}) {
 
 						let types;
 
-						if (colorSpec.coordGrammar) {
-							types = coerceCoords(space, colorSpec, "color", coords);
+						if (format.coordGrammar) {
+							types = coerceCoords(space, format, "color", coords);
 						}
 
 						if (meta) {
 							Object.assign(meta, {formatId: "color", types});
 						}
 
-						if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
+						if (format.id.startsWith("--") && !id.startsWith("--")) {
 							defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-							              `Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
+							              `Use prefixed color(${format.id}) instead of color(${id}).`);
 						}
-						if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
+						if (id.startsWith("--") && !format.id.startsWith("--")) {
 							defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
-							              `Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
+							              `Use color(${format.id}) instead of prefixed color(${id}).`);
 						}
 
 						ret = {spaceId: space.id, coords, alpha};
