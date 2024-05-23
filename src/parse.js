@@ -240,6 +240,7 @@ export function parseFunction (str) {
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
+		let argMeta = [];
 
 		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
 			let {value, meta} = parseArgument(rawArg);
@@ -257,6 +258,7 @@ export function parseFunction (str) {
 			}
 
 			args.push(arg);
+			argMeta.push(meta);
 		});
 
 		return {
@@ -266,6 +268,7 @@ export function parseFunction (str) {
 			// An argument could be (as of css-color-4):
 			// a number, percentage, degrees (hue), ident (in color())
 			args,
+			argMeta,
 		};
 	}
 }
