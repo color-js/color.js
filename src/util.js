@@ -66,23 +66,69 @@ export function toPrecision (n, precision) {
 	return Math.floor(n * multiplier + 0.5) / multiplier;
 }
 
-const angleFactor = {
+/**
+ * Units and multiplication factors for the internally stored numbers
+ */
+export const units = {
+	"%": 0.01,
 	deg: 1,
 	grad: 0.9,
 	rad: 180 / Math.PI,
 	turn: 360,
 };
 
-const units = ["%", "deg", "rad", "grad", "turn"];
-
 export const regex = {
-	function: /^([a-z]+)\((.+?)\)$/i,
+	// Need to list calc(NaN) explicitly as otherwise its ending paren would terminate the function call
+	function: /^([a-z]+)\(((?:calc\(NaN\)|.)+?)\)$/i,
 	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
-	unitValue: RegExp(`(${units.join("|")})$`),
+	unitValue: RegExp(`(${Object.keys(units).join("|")})$`),
 
 	// NOTE The -+ are not just for prefix, but also for idents, and e+N notation!
 	singleArgument: /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
+
+/**
+ * Metadata for a parsed argument
+ * @typedef {object} ArgumentMeta
+ * @property {string} raw - The raw argument string
+ * @property {string} type - The type of the argument, e.g. "<number>", "<angle>", "<percentage>"
+ * @property {string} unit - The unit of the argument, if present e.g. "%", "deg"
+ * @property {number} unitless - The number value of the argument, for arguments that have a unit
+ * @property {boolean} none - Whether the argument is "none"
+ */
+
+/**
+ * Parse a single function argument
+ * @param {string} rawArg
+ * @returns {{value: number, meta: ArgumentMeta}}
+ */
+export function parseArgument (rawArg) {
+	let meta = {};
+	let unit = rawArg.match(regex.unitValue)?.[0];
+	let value = meta.raw = rawArg;
+
+	if (unit) { // It’s a dimension token
+		meta.type = unit === "%" ? "<percentage>" : "<angle>";
+		meta.unit = unit;
+		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
+
+		value = meta.unitless * units[unit];
+	}
+	else if (regex.number.test(value)) { // It's a number
+		// Convert numerical args to numbers
+		value = Number(value);
+		meta.type = "<number>";
+	}
+	else if (value === "none") {
+		value = NaN;
+		meta.none = true;
+	}
+	else {
+		meta.type = "<ident>";
+	}
+
+	return { value, meta };
+}
 
 /**
 * Parse a CSS function, regardless of its name and arguments
@@ -101,45 +147,20 @@ export function parseFunction (str) {
 	if (parts) {
 		// It is a function, parse args
 		let args = [];
+
 		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
-			let match = rawArg.match(regex.unitValue);
-			let arg = rawArg;
-
-			if (match) {
-				let unit = match[0];
-				// Drop unit from value
-				let unitlessArg = arg.slice(0, -unit.length);
-
-				if (unit === "%") {
-					// Convert percentages to 0-1 numbers
-					arg = new Number(unitlessArg / 100);
-					arg.type = "<percentage>";
-				}
-				else {
-					// Multiply angle by appropriate factor for its unit
-					arg = new Number(unitlessArg * angleFactor[unit]);
-					arg.type = "<angle>";
-					arg.unit = unit;
-				}
-			}
-			else if (regex.number.test(arg)) {
-				// Convert numerical args to numbers
-				arg = new Number(arg);
-				arg.type = "<number>";
-			}
-			else if (arg === "none") {
-				arg = new Number(NaN);
-				arg.none = true;
-			}
+			let {value, meta} = parseArgument(rawArg);
 
 			if ($0.startsWith("/")) {
 				// It's alpha
-				arg = arg instanceof Number ? arg : new Number(arg);
-				arg.alpha = true;
+				meta.alpha = true;
 			}
 
-			if (typeof arg === "object" && arg instanceof Number) {
-				arg.raw = rawArg;
+			let arg = value;
+
+			// Objectify and add properties on the object
+			if (typeof value === "number") {
+				arg = Object.assign(new value.constructor(value), meta);
 			}
 
 			args.push(arg);
