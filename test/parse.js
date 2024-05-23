@@ -1,18 +1,10 @@
-import Color from "../src/index.js";
+import "../src/spaces/index.js";
+import parse from "../src/parse.js";
 
 const tests = {
 	name: "Color parse Tests",
 	description: "These tests parse different color formats and compare the result as JSON",
-	run (color, spaceId = this.data.toSpace) {
-		try {
-			color = new Color(color);
-			let {spaceId, coords, alpha} = color;
-			return {spaceId, coords, alpha};
-		}
-		catch (e) {
-			return e.name;
-		}
-	},
+	run: parse,
 	tests: [
 		{
 			name: "sRGB colors",
@@ -65,7 +57,7 @@ const tests = {
 				{
 					name: "angles not allowed in rgb()",
 					args: "rgb(10deg 10 10)",
-					expect: "TypeError",
+					throws: TypeError,
 				},
 			],
 		},
