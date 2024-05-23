@@ -77,7 +77,7 @@ export const regex = {
 	function: /^([a-z]+)\((.+?)\)$/i,
 	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
 	unitValue: /%|deg|g?rad|turn$/,
-	singleArgument: /\/?\s*(none|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
+	singleArgument: /\/?\s*(none|[-+]?[\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
 /**
