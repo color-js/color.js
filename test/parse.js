@@ -7,6 +7,41 @@ const tests = {
 	run: parse,
 	tests: [
 		{
+			name: "none values",
+			tests: [
+				{
+					name: "none hue in lch()",
+					args: "lch(90 0 none)",
+					expect: {spaceId: "lch", coords: [90, 0, null], alpha: 1},
+				},
+				{
+					name: "none hue in oklch()",
+					args: "oklch(1 0 none)",
+					expect: {spaceId: "oklch", coords: [1, 0, null], alpha: 1},
+				},
+				{
+					name: "none hue in hsl()",
+					args: "hsl(none, 50%, 50%)",
+					expect: {spaceId: "hsl", coords: [null, 50, 50], alpha: 1},
+				},
+				{
+					name: "none hue in hwb()",
+					args: "hwb(none 20% 30%)",
+					expect: {spaceId: "hwb", coords: [null, 20, 30], alpha: 1},
+				},
+				{
+					name: "none alpha in oklch()",
+					args: "oklch(1 0  120 / none)",
+					expect: {spaceId: "oklch", coords: [1, 0, 120], alpha: null},
+				},
+				{
+					name: "none red in color(display-p3)",
+					args: "color(display-p3 none 1 .5)",
+					expect: {spaceId: "p3", coords: [null, 1, 0.5], alpha: 1},
+				},
+			],
+		},
+		{
 			name: "NaN values",
 			tests: [
 				{
@@ -126,11 +161,7 @@ const tests = {
 					args: "lch(100 50 450)",
 					expect: {spaceId: "lch", coords: [100, 50, 450], alpha: 1},
 				},
-				{
-					name: "none hue",
-					args: "lch(90 0 none)",
-					expect: {spaceId: "lch", coords: [90, 0, NaN], alpha: 1},
-				},
+
 			],
 		},
 		{
@@ -208,16 +239,6 @@ const tests = {
 					name: "H as degrees",
 					args: "oklch(100% 0 30deg)",
 					expect: {spaceId: "oklch", coords: [1, 0, 30], alpha: 1},
-				},
-				{
-					name: "none hue",
-					args: "oklch(1 0 none)",
-					expect: {spaceId: "oklch", coords: [1, 0, NaN], alpha: 1},
-				},
-				{
-					name: "none alpha",
-					args: "oklch(1 0  120 / none)",
-					expect: {spaceId: "oklch", coords: [1, 0, 120], alpha: NaN},
 				},
 			],
 		},
@@ -441,11 +462,6 @@ const tests = {
 					args: "color(display-p3 1 / .5)",
 					expect: {spaceId: "p3", coords: [1, 0, 0], alpha: 0.5},
 				},
-				{
-					name: "none red",
-					args: "color(display-p3 none 1 .5)",
-					expect: {spaceId: "p3", coords: [NaN, 1, 0.5], alpha: 1},
-				},
 			],
 		},
 		{
@@ -487,20 +503,11 @@ const tests = {
 					expect: {spaceId: "hsl", coords: [90, 0, 0], alpha: 0.5},
 				},
 				{
-					name: "hsla(), none hue, spaces and slash",
-					args: "hsl(none 0% 0% / .5)",
-					expect: {spaceId: "hsl", coords: [NaN, 0, 0], alpha: 0.5},
-				},
-				{
 					name: "hsla(), oog color(rec2020 0 0 1)",
 					args: "hsl(230.6 179.7% 37.56% / 1)",
 					expect: {spaceId: "hsl", coords: [230.6, 179.7, 37.56], alpha: 1},
 				},
-				{
-					name: "hsl(), none hue ",
-					args: "hsl(none, 50%, 50%)",
-					expect: {spaceId: "hsl", coords: [NaN, 50, 50], alpha: 1},
-				},
+
 			],
 		},
 		{
@@ -509,11 +516,6 @@ const tests = {
 				{
 					args: "hwb(180 20% 30%)",
 					expect: {spaceId: "hwb", coords: [180, 20, 30], alpha: 1},
-				},
-				{
-					name: "none hue",
-					args: "hwb(none 20% 30%)",
-					expect: {spaceId: "hwb", coords: [NaN, 20, 30], alpha: 1},
 				},
 				{
 					args: "hwb(180 20 30)",

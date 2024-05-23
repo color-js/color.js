@@ -38,7 +38,7 @@ export function serializeNumber (n, {precision, unit }) {
  * @returns {boolean}
  */
 export function isNone (n) {
-	return Number.isNaN(n) || (n instanceof Number && n?.none);
+	return n === null;
 }
 
 /**

@@ -209,7 +209,7 @@ export function parseArgument (rawArg) {
 		meta.type = "<number>";
 	}
 	else if (value === "none") {
-		value = NaN;
+		value = null;
 		meta.none = true;
 	}
 	else if (value === "NaN" || value === "calc(NaN)") {
