@@ -1,5 +1,7 @@
-import "../src/spaces/index.js";
+import ColorSpace from "../src/spaces/index.js";
 import serialize from "../src/serialize.js";
+
+globalThis.ColorSpace = ColorSpace;
 
 const tests = {
 	name: "Color serialization Tests",

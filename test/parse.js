@@ -1,5 +1,7 @@
-import "../src/spaces/index.js";
+import ColorSpace from "../src/spaces/index.js";
 import parse from "../src/parse.js";
+
+globalThis.ColorSpace = ColorSpace;
 
 const tests = {
 	name: "Color parse Tests",
