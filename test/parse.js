@@ -349,7 +349,7 @@ const tests = {
 				},
 				{
 					args: "color(--acescc 0 100% 50%)",
-					expect: {spaceId: "acescc", coords: [0, 1, 0.5], alpha: 1},
+					expect: {spaceId: "acescc", coords: [0, 1.4679963120447153, 0.5548547410223577], alpha: 1},
 				},
 				{
 					args: "color(acescg 0 1 .5)",
@@ -357,7 +357,7 @@ const tests = {
 				},
 				{
 					args: "color(--acescg 0 100% 50%)",
-					expect: {spaceId: "acescg", coords: [0, 1, 0.5], alpha: 1},
+					expect: {spaceId: "acescg", coords: [0, 65504, 32752], alpha: 1},
 				},
 				{
 					args: "color(xyz 0 1 .5)",
@@ -385,7 +385,7 @@ const tests = {
 				},
 				{
 					args: "color(--xyz-abs-d65 0 100% 50%)",
-					expect: {spaceId: "xyz-abs-d65", coords: [0, 1, 0.5], alpha: 1},
+					expect: {spaceId: "xyz-abs-d65", coords: [0, 10000, 5444.15], alpha: 1},
 				},
 				{
 					args: "color(jzazbz 0 25% -50%)",
