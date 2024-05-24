@@ -97,7 +97,7 @@ const tests = {
 			tests: [
 				{
 					args: "rgb(60% 20% 20%)",
-					expect: [null, 20, 40],
+					expect: [0, 20, 40],
 				},
 				{
 					args: "black",
