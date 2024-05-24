@@ -1,4 +1,4 @@
-import { mapRange, isNone, clamp } from "./util.js";
+import { isNone, clamp } from "./util.js";
 import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";

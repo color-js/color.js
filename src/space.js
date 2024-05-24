@@ -137,17 +137,22 @@ export default class ColorSpace {
 	}
 
 	getFormat (format) {
-		let ret;
-
-		if (typeof format === "object") {
-			ret = format;
-		}
-		else {
+		if (!(typeof format === "object")) {
 			let name = format === "default" ? Object.keys(this.formats)[0] : format;
-			ret = this.formats[name];
+			format = this.formats[name];
 		}
 
-		return ret ? Format.get(ret, this) : null;
+		if (!format) {
+			return null;
+		}
+
+		let ret = Format.get(format, this);
+
+		if (ret !== format && format.name in this.formats) {
+			this.formats[format.name] = ret;
+		}
+
+		return ret;
 	}
 
 	/**
@@ -328,7 +333,13 @@ export default class ColorSpace {
 				}
 
 				if (matches) {
-					return Format.get(format, space);
+					let ret = Format.get(format, space);
+
+					if (ret !== format) {
+						space.formats[format.name] = ret;
+					}
+
+					return ret;
 				}
 			}
 		}

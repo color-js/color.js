@@ -16,6 +16,8 @@ export default function serialize (color, {
 	precision = defaults.precision,
 	format = "default",
 	inGamut = true,
+	coordTypes,
+	alphaType,
 	...customOptions
 } = {}) {
 	let ret;
@@ -54,7 +56,7 @@ export default function serialize (color, {
 		// Functional syntax
 		let name = format.name || "color";
 
-		let args = format.serializeCoords(coords, precision);
+		let args = format.serializeCoords(coords, precision, coordTypes);
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument

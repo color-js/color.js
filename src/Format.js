@@ -34,53 +34,32 @@ export default class Format {
 
 		let spaceCoords = Object.values(space.coords);
 
-		if (this.coords) {
-			// Format has a coord specification
-			this.coords = format.coords.map(coordGrammar => {
-				return coordGrammar.split("|").map(type => {
-					return Type.get(type);
-				});
-			});
-		}
-		else {
-			// Generate coord grammar from color space metadata
+		if (!this.coords) {
 			this.coords = spaceCoords.map(coordMeta => {
-				let {range, refRange} = coordMeta;
-				let ret = [
-					{type: "<number>", range},
-					{type: "<percentage>", range: range ?? refRange ?? [0, 1]},
-				];
+				let ret = ["<number>", "<percentage>"];
 
 				if (coordMeta.type === "angle") {
 					ret.push("<angle>");
 				}
 
-				return ret.map(Type.get);
-			});
+				return ret;
+			})
 		}
 
-		this.coordFormats = spaceCoords.map((coordMeta, i) => {
-			// Preferred format for each coord is the first one
-			let outputType = this.coords[i][0];
+		this.coords = this.coords.map((types, i) => {
+			let coordMeta = spaceCoords[i];
 
-			let fromRange = coordMeta.range || coordMeta.refRange;
+			if (typeof types === "string") {
+				types = types.trim().split(/\s*\|\s*/);
+			}
 
-			let {toRange, suffix} = outputByType[outputType.type] || {toRange: outputType.range, suffix: ""};
-
-			return {fromRange, toRange, suffix};
+			return types.map(type => Type.get(type, coordMeta));
 		});
-
 	}
 
-	serializeCoords (coords, precision) {
-		return coords.map((c, i) => {
-			let {fromRange, toRange, suffix} = this.coordFormats[i];
-
-			c = mapRange(fromRange, toRange, c);
-			c = serializeNumber(c, {precision, unit: suffix});
-
-			return c;
-		});
+	serializeCoords (coords, precision, types) {
+		types = coords.map((_, i) => Type.get(types?.[i] ?? this.coords[i][0]));
+		return coords.map((c, i) => types[i].serialize(c, precision));
 	}
 
 	/**
@@ -95,7 +74,7 @@ export default class Format {
 		return Object.entries(this.space.coords).map(([id, coordMeta], i) => {
 			let arg = coords[i];
 
-			if (isNone(arg)) {
+			if (isNone(arg) || isNaN(arg)) {
 				// Nothing to do here
 				return arg;
 			}
@@ -112,12 +91,7 @@ export default class Format {
 				throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${this.name}()`);
 			}
 
-			let fromRange = type.range;
-			let toRange = coordMeta.range || coordMeta.refRange;
-
-			if (fromRange && toRange) {
-				return mapRange(fromRange, toRange, arg);
-			}
+			arg = type.resolve(arg);
 
 			return arg;
 		});
@@ -137,7 +111,15 @@ export default class Format {
 }
 
 class Type {
-	constructor (type) {
+	constructor (type, coordMeta) {
+		if (typeof type === "object") {
+			this.coordMeta = type;
+		}
+
+		if (coordMeta) {
+			this.coordRange = coordMeta.range ?? coordMeta.refRange;
+		}
+
 		if (typeof type === "string") {
 			let params = type.trim().match(/^(?<type><[a-z]+>)(\[(?<min>-?[.\d]+),\s*(?<max>-?[.\d]+)\])?$/);
 
@@ -151,21 +133,60 @@ class Type {
 			if (min || max) {
 				this.range = [+min, +max];
 			}
-			else if (this.type === "<percentage>") {
+		}
+
+		if (!this.range) {
+			if (this.type === "<percentage>") {
 				this.range = [0, 1];
 			}
-
-		}
-		else {
-			Object.assign(this, type);
+			else if (this.type === "<angle>") {
+				this.range = [0, 360];
+			}
 		}
 	}
 
-	static get (type) {
+	get toRange () {
+		if (this.type === "<percentage>") {
+			return [0, 100];
+		}
+		else if (this.type === "<angle>") {
+			return [0, 360];
+		}
+
+		return null;
+	}
+
+	get unit () {
+		if (this.type === "<percentage>") {
+			return "%";
+		}
+		else if (this.type === "<angle>") {
+			return "deg";
+		}
+
+		return "";
+	}
+
+	resolve (arg) {
+		let fromRange = this.range;
+		let toRange = this.coordRange;
+
+		return mapRange(fromRange, toRange, arg);
+	}
+
+	serialize (number, precision) {
+		let {toRange, unit} = this;
+		number = mapRange(this.coordRange, toRange, number);
+		number = serializeNumber(number, {unit, precision});
+
+		return number;
+	}
+
+	static get (type, ...args) {
 		if (type instanceof Type) {
 			return type;
 		}
 
-		return new Type(type);
+		return new Type(type, ...args);
 	}
 }
