@@ -36,7 +36,7 @@ export default function serialize (color, {
 	inGamut ||= format.toGamut;
 
 	if (inGamut && !checkInGamut(color)) {
-		// FIXME what happens if the color contains NaNs?
+		// FIXME what happens if the color contains none values?
 		coords = toGamut(clone(color), inGamut === true ? undefined : inGamut).coords;
 	}
 
@@ -54,22 +54,11 @@ export default function serialize (color, {
 		// Functional syntax
 		let name = format.name || "color";
 
-		if (format.serializeCoords) {
-			coords = format.serializeCoords(coords, precision);
-		}
-		else {
-			if (precision !== null) {
-				coords = coords.map(c => {
-					return util.serializeNumber(c, {precision});
-				});
-			}
-		}
-
-		let args = [...coords];
+		let args = format.serializeCoords(coords, precision);
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument
-			let cssId = format.id || format.ids?.[0] || color.space.id;
+			let cssId = format.id || format.ids?.[0] || color.space.cssId || color.space.id;
 			args.unshift(cssId);
 		}
 

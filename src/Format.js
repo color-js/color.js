@@ -4,11 +4,11 @@ let instance = Symbol("instance");
 
 const outputByType = {
 	"<percentage>": {
-		range: [0, 100],
+		toRange: [0, 100],
 		suffix: "%"
 	},
 	"<angle>": {
-		range: [0, 360],
+		toRange: [0, 360],
 		suffix: "deg"
 	},
 }
@@ -64,7 +64,8 @@ export default class Format {
 			let outputType = this.coords[i][0];
 
 			let fromRange = coordMeta.range || coordMeta.refRange;
-			let {toRange, suffix} = outputByType[outputType] || {toRange: outputType.range, suffix: ""};
+
+			let {toRange, suffix} = outputByType[outputType.type] || {toRange: outputType.range, suffix: ""};
 
 			return {fromRange, toRange, suffix};
 		});
@@ -75,10 +76,7 @@ export default class Format {
 		return coords.map((c, i) => {
 			let {fromRange, toRange, suffix} = this.coordFormats[i];
 
-			if (fromRange && toRange) {
-				c = mapRange(fromRange, toRange, c);
-			}
-
+			c = mapRange(fromRange, toRange, c);
 			c = serializeNumber(c, {precision, unit: suffix});
 
 			return c;
