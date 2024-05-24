@@ -24,12 +24,14 @@ export function type (o) {
 	return (str.match(/^\[object\s+(.*?)\]$/)[1] || "").toLowerCase();
 }
 
-export function serializeNumber (n, {precision, unit }) {
+export function serializeNumber (n, {precision = 16, unit }) {
 	if (isNone(n)) {
 		return "none";
 	}
 
-	return toPrecision(n, precision) + (unit ?? "");
+	n = +toPrecision(n, precision);
+
+	return n + (unit ?? "");
 }
 
 /**
