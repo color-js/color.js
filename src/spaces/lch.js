@@ -25,39 +25,26 @@ export default new ColorSpace({
 	base: Lab,
 	fromBase (Lab) {
 		// Convert to polar form
+		const ε = Number.EPSILON * 2;
 		let [L, a, b] = Lab;
-		let hue;
-		const ε = 0.02;
+		let isAchromatic = Math.abs(a) < ε && Math.abs(b) < ε;
+		let h = isAchromatic ? null : constrainAngle(Math.atan2(b, a) * 180 / Math.PI);
+		let C = Math.sqrt(a ** 2 + b ** 2);
 
-		if (Math.abs(a) < ε && Math.abs(b) < ε) {
-			hue = null;
-		}
-		else {
-			hue = Math.atan2(b, a) * 180 / Math.PI;
-		}
-
-		return [
-			L, // L is still L
-			Math.sqrt(a ** 2 + b ** 2), // Chroma
-			constrainAngle(hue), // Hue, in degrees [0 to 360)
-		];
+		return [ L, C, h ];
 	},
-	toBase (LCH) {
+	toBase (lch) {
 		// Convert from polar form
-		let [Lightness, Chroma, Hue] = LCH;
-		// Clamp any negative Chroma
-		if (Chroma < 0) {
-			Chroma = 0;
+		let [L, C, h] = lch;
+		let a = null, b = null;
+
+		if (!isNone(h)) {
+			C = C < 0 ? 0 : C; // Clamp negative Chroma
+			a = C * Math.cos(h * Math.PI / 180);
+			b = C * Math.sin(h * Math.PI / 180);
 		}
 
-		if (isNone(Hue)) {
-			Hue = 0;
-		}
-		return [
-			Lightness, // L is still L
-			Chroma * Math.cos(Hue * Math.PI / 180), // a
-			Chroma * Math.sin(Hue * Math.PI / 180),  // b
-		];
+		return [ L, a, b ];
 	},
 
 	formats: {

@@ -1,6 +1,10 @@
 import * as util from "./util.js";
 
 export function constrain (angle) {
+	if (typeof angle !== "number") {
+		return angle;
+	}
+
 	return ((angle % 360) + 360) % 360;
 }
 
