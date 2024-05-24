@@ -87,7 +87,7 @@ export function interpolateInv (start, end, value) {
 }
 
 export function mapRange (from, to, value) {
-	if (!from || !to || from === to || from[0] === to[0] && from[1] === to[1]) {
+	if (!from || !to || from === to || from[0] === to[0] && from[1] === to[1] || isNaN(value) || value === null) {
 		// Ranges missing or the same
 		return value;
 	}
