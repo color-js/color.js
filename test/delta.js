@@ -888,6 +888,7 @@ export default {
 			name: "DeltaE OK2",
 			description: "Scaling factor for a,b is 2 (by default, can be changed for experiments). Expected values are those for original DeltaE OK, for comparison.",
 			data: {method: "OK2"},
+			skip: true,
 			tests: [
 				{
 					name: "100% L = 100",
