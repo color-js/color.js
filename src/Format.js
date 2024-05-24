@@ -91,7 +91,7 @@ export default class Format {
 	 * @param {string} name - the name of the color function. e.g. "oklab" or "color"
 	 * @returns {number[]} - Mapped coords
 	 */
-	coerceCoords (coords) {
+	coerceCoords (coords, types) {
 		return Object.entries(this.space.coords).map(([id, coordMeta], i) => {
 			let arg = coords[i];
 
@@ -102,7 +102,7 @@ export default class Format {
 
 			// Find grammar alternative that matches the provided type
 			// Non-strict equals is intentional because we are comparing w/ string objects
-			let providedType = arg.type;
+			let providedType = types[i];
 			let type = this.coords[i].find(c => c.type == providedType);
 
 			// Check that each coord conforms to its grammar

@@ -26,10 +26,13 @@ export default function parse (str, {meta} = {}) {
 		let name = env.parsed.name;
 		let format;
 		let space;
+		let coords = env.parsed.args;
+		let types = coords.map((c, i) => env.parsed.argMeta[i]?.type);
 
 		if (name === "color") {
 			// color() function
-			let id = env.parsed.args.shift();
+			let id = coords.shift();
+			types.shift();
 			// Check against both <dashed-ident> and <ident> versions
 			let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
 			let ids = [id, alternateId];
@@ -76,15 +79,12 @@ export default function parse (str, {meta} = {}) {
 		}
 
 		let coordCount = format.coords.length;
-		let coords = env.parsed.args;
 
 		if (coords.length !== coordCount) {
 			throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`);
 		}
 
-		let types = coords.map(c => c?.type);
-
-		coords = format.coerceCoords(coords);
+		coords = format.coerceCoords(coords, types);
 
 		if (meta) {
 			Object.assign(meta, {format, formatId: format.name, types});
@@ -188,7 +188,6 @@ export function parseArgument (rawArg) {
 	}
 	else if (value === "none") {
 		value = null;
-		meta.none = true;
 	}
 	else if (value === "NaN" || value === "calc(NaN)") {
 		value = NaN;
@@ -229,26 +228,17 @@ export function parseFunction (str) {
 				lastAlpha = true;
 			}
 
-			let arg = value;
-
-			// Objectify and add properties on the object
-			if (typeof value === "number") {
-				arg = Object.assign(new value.constructor(value), meta);
-			}
-
-			args.push(arg);
+			args.push(value);
 			argMeta.push(meta);
 		});
 
 		return {
 			name: parts[1].toLowerCase(),
-			rawName: parts[1],
-			rawArgs: parts[2],
-			// An argument could be (as of css-color-4):
-			// a number, percentage, degrees (hue), ident (in color())
 			args,
 			argMeta,
 			lastAlpha,
+			rawName: parts[1],
+			rawArgs: parts[2],
 		};
 	}
 }
