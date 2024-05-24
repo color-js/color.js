@@ -49,7 +49,7 @@ export default new ColorSpace({
 
 	formats: {
 		"lch": {
-			coords: ["<number> | <percentage>", "<number> | <percentage>", "<number> | <angle>"],
+			coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"],
 		},
 	},
 });
