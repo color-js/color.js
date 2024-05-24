@@ -395,11 +395,11 @@ const tests = {
 				},
 				{
 					args: "color(jzczhz 0 0.5 75%)",
-					expect: {spaceId: "jzczhz", coords: [0, 0.5, 0.75], alpha: 1},
+					expect: {spaceId: "jzczhz", coords: [0, 0.5, 270], alpha: 1},
 				},
 				{
 					args: "color(--jzczhz 0 0.5 75%)",
-					expect: {spaceId: "jzczhz", coords: [0, 0.5, 0.75], alpha: 1},
+					expect: {spaceId: "jzczhz", coords: [0, 0.5, 270], alpha: 1},
 				},
 				{
 					args: "color(--hct 0.25turn 50% 25)",
