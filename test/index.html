@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Tests</title>
-	<link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
-	<script src="https://htest.dev/htest.js" type="module" crossorigin></script>
+	<link rel="stylesheet" href="../node_modules/htest.dev/htest.css" crossorigin />
+	<script src="../node_modules/htest.dev/htest.js" type="module" crossorigin></script>
 	<script>
 		let params = new URLSearchParams(location.search);
 		let test_url = params.get('test');
@@ -21,7 +21,7 @@
 			}
 
 			Promise.all([
-				import("https://htest.dev/src/render.js").then(m => m.default),
+				import("../node_modules/htest.dev/src/render.js").then(m => m.default),
 				import(test_url).then(m => m.default),
 			]).then(([render, test]) => render(test));
 		}
