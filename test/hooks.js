@@ -1,9 +1,7 @@
 import Color from "../src/index.js";
-import { check } from "./util.mjs";
 
 export default {
 	name: "Hooks Tests",
-	check: check.deep(),
 	tests: [
 		{
 			name: "sRGB to LCH",

@@ -1,7 +1,7 @@
 import {WHITES} from "../src/adapt.js";
 import {adapt} from "../src/CATs.js";
 
-import { check } from "./util.mjs";
+import * as check from "../node_modules/htest.dev/src/check.js";
 
 export default {
 	name: "Chromatic adaptation tests",

@@ -1,6 +1,5 @@
 import Color from "../src/index.js";
-import lch from "../src/spaces/lch.js";
-import { check } from "./util.mjs";
+import * as check from "../node_modules/htest.dev/src/check.js";
 
 export default {
 	name: "Coordinate reading / writing tests",

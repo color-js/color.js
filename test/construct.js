@@ -1,6 +1,4 @@
 import Color from "../src/index.js";
-import { check } from "./util.mjs";
-import { isNone } from "../src/util.js";
 
 export default {
 	name: "Constructor tests",
@@ -9,14 +7,6 @@ export default {
 		let color = new Color(...args);
 		return color.toJSON();
 	},
-	check: check.deep(function (actual, expect) {
-		if (expect === null || isNone(expect)) {
-			// Treat NaN and null as equivalent for now
-			return actual === null || isNone(actual);
-		}
-
-		return check.equals(actual, expect);
-	}),
 	tests: [
 		{
 			name: "Basic constructors",

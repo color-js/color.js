@@ -1,5 +1,5 @@
 import {adjust} from "../src/angles.js";
-import { check } from "./util.mjs";
+import * as check from "../node_modules/htest.dev/src/check.js";
 
 export default {
 	name: "Angle pre-interpolation adjustment tests",
