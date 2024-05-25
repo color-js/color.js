@@ -35,7 +35,7 @@ export default new ColorSpace({
 		let [L, a, b] = Lab;
 		let isAchromatic = Math.abs(a) < this.ε && Math.abs(b) < this.ε;
 		let h = isAchromatic ? null : constrainAngle(Math.atan2(b, a) * 180 / Math.PI);
-		let C = Math.sqrt(a ** 2 + b ** 2);
+		let C = isAchromatic ? 0 : Math.sqrt(a ** 2 + b ** 2);
 
 		return [ L, C, h ];
 	},
