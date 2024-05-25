@@ -32,9 +32,8 @@ export default new ColorSpace({
 		}
 
 		// Convert to polar form
-		const ε = Number.EPSILON * 3;
 		let [L, a, b] = Lab;
-		let isAchromatic = Math.abs(a) < ε && Math.abs(b) < ε;
+		let isAchromatic = Math.abs(a) < this.ε && Math.abs(b) < this.ε;
 		let h = isAchromatic ? null : constrainAngle(Math.atan2(b, a) * 180 / Math.PI);
 		let C = Math.sqrt(a ** 2 + b ** 2);
 
