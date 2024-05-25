@@ -7,8 +7,15 @@ declare namespace setAll {
 
 declare function setAll (
 	color: ColorTypes,
+	coords: [number, number, number],
+	alpha?: number | undefined
+): PlainColorObject;
+
+declare function setAll (
+	color: ColorTypes,
 	space: string | ColorSpace,
-	coords: [number, number, number]
+	coords: [number, number, number],
+	alpha?: number | undefined
 ): PlainColorObject;
 
 export default setAll;

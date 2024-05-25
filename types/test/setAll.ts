@@ -13,6 +13,11 @@ setAll(new Color("red"), sRGB);
 
 setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType PlainColorObject
 setAll(new Color("red"), sRGB, [1, 2, 3]); // $ExpectType PlainColorObject
+
+setAll("red", "srgb", [1, 2, 3], 0.5); // $ExpectType PlainColorObject
+setAll("red", [1, 2, 3]); // $ExpectType PlainColorObject
+setAll("red", [1, 2, 3], 0.5); // $ExpectType PlainColorObject
+
 // $ExpectType PlainColorObject
 setAll(
 	{
@@ -26,5 +31,8 @@ setAll(
 
 new Color("red").setAll("srgb", [1, 2, 3]); // $ExpectType Color
 new Color("red").setAll(sRGB, [1, 2, 3]); // $ExpectType Color
+new Color("red").setAll("srgb", [1, 2, 3], 0.5); // $ExpectType Color
 Color.setAll("red", "srgb", [1, 2, 3]); // $ExpectType Color
 Color.setAll(new Color("red"), "srgb", [1, 2, 3]); // $ExpectType Color
+Color.setAll("red", "srgb", [1, 2, 3], 0.5); // $ExpectType Color
+Color.setAll("red", [1, 2, 3], 0.5); // $ExpectType Color

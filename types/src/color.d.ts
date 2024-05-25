@@ -19,7 +19,6 @@ import {
 	equals as equalsFn,
 	get,
 	getAll as getAllFn,
-	setAll as setAllFn,
 	display,
 } from "./index-fn.js";
 
@@ -84,7 +83,6 @@ export type ToColorNamespace<T extends (...args: any[]) => any> = T extends (
 declare namespace Color {
 	// Functions defined using Color.defineFunctions
 	export const getAll: ToColorNamespace<typeof getAllFn>;
-	export const setAll: ToColorNamespace<typeof setAllFn>;
 	export const to: ToColorNamespace<typeof toFn>;
 	export const equals: ToColorNamespace<typeof equalsFn>;
 	export const inGamut: ToColorNamespace<typeof inGamutFn>;
@@ -100,6 +98,8 @@ declare namespace Color {
 	// These should always match the signature of the original function
 	export function set (color: ColorTypes, prop: Ref, value: number | ((coord: number) => number)): Color;
 	export function set (color: ColorTypes, props: Record<string, number | ((coord: number) => number)>): Color;
+	export function setAll (color: ColorTypes, coords: Coords, alpha?: number): Color;
+	export function setAll (color: ColorTypes, space: string | ColorSpace, coords: Coords, alpha?: number): Color;
 }
 
 /**
@@ -152,7 +152,6 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;
 	getAll: ToColorPrototype<typeof getAllFn>;
-	setAll: ToColorPrototype<typeof setAllFn>;
 	to: ToColorPrototype<typeof toFn>;
 	equals: ToColorPrototype<typeof equalsFn>;
 	inGamut: ToColorPrototype<typeof inGamutFn>;
@@ -164,6 +163,8 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	// These should always match the signature of the original function
 	set (prop: Ref, value: number | ((coord: number) => number)): Color;
 	set (props: Record<string, number | ((coord: number) => number)>): Color;
+	setAll (coords: Coords, alpha?: number): Color;
+	setAll (space: string | ColorSpace, coords: Coords, alpha?: number): Color;
 }
 
 export default Color;
