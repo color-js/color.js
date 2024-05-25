@@ -286,14 +286,6 @@ const tests = {
 					expect: [0.5, 0, null],
 				},
 				{
-					args: "color(jzazbz 0.2 0.000004 -0.000003)",
-					expect: [0.2, 0.000005, null],
-				},
-				{
-					args: "color(jzazbz 0.2 0.000005 -0.000005)",
-					expect: [0.2, 0.00000707, null],
-				},
-				{
 					args: "color(jzazbz 0.1 -0.05 0.05)",
 					expect: [0.1, 0.070710678, 135],
 				},

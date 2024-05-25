@@ -24,6 +24,13 @@ export default new ColorSpace({
 
 	base: Lab,
 	fromBase (Lab) {
+		// These methods are used for other polar forms as well, so we can't hardcode the ε
+		if (this.ε === undefined) {
+			let range = Object.values(this.base.coords)[1].refRange;
+			let extent = range[1] - range[0];
+			this.ε = extent / 10000;
+		}
+
 		// Convert to polar form
 		const ε = Number.EPSILON * 3;
 		let [L, a, b] = Lab;
