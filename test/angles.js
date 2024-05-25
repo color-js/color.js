@@ -33,7 +33,7 @@ export default {
 		},
 		{
 			name: "Longer and Undefined",
-			args: ["longer", [90, NaN]],
+			args: ["longer", [90, null]],
 			expect: [90, 450],
 		},
 		{
