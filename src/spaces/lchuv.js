@@ -1,7 +1,6 @@
 import ColorSpace from "../space.js";
 import Luv from "./luv.js";
-import {constrain as constrainAngle} from "../angles.js";
-import {isNone} from "../util.js";
+import lch from "./lch.js";
 
 export default new ColorSpace({
 	id: "lchuv",
@@ -23,42 +22,8 @@ export default new ColorSpace({
 	},
 
 	base: Luv,
-	fromBase (Luv) {
-		// Convert to polar form
-		let [L, u, v] = Luv;
-		let hue;
-		const ε = 0.02;
-
-		if (Math.abs(u) < ε && Math.abs(v) < ε) {
-			hue = null;
-		}
-		else {
-			hue = Math.atan2(v, u) * 180 / Math.PI;
-		}
-
-		return [
-			L, // L is still L
-			Math.sqrt(u ** 2 + v ** 2), // Chroma
-			constrainAngle(hue), // Hue, in degrees [0 to 360)
-		];
-	},
-	toBase (LCH) {
-		// Convert from polar form
-		let [Lightness, Chroma, Hue] = LCH;
-		// Clamp any negative Chroma
-		if (Chroma < 0) {
-			Chroma = 0;
-		}
-
-		if (isNone(Hue)) {
-			Hue = 0;
-		}
-		return [
-			Lightness, // L is still L
-			Chroma * Math.cos(Hue * Math.PI / 180), // u
-			Chroma * Math.sin(Hue * Math.PI / 180),  // v
-		];
-	},
+	fromBase: lch.fromBase,
+	toBase: lch.toBase,
 
 	formats: {
 		color: {
