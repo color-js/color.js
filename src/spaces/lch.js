@@ -28,7 +28,7 @@ export default new ColorSpace({
 		if (this.ε === undefined) {
 			let range = Object.values(this.base.coords)[1].refRange;
 			let extent = range[1] - range[0];
-			this.ε = extent / 10000;
+			this.ε = extent / 100000;
 		}
 
 		// Convert to polar form
