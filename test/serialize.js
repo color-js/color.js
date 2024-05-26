@@ -84,6 +84,21 @@ const tests = {
 			],
 		},
 		{
+			name: "Custom coord format",
+			tests: [
+				{
+					name: "rgb() with <number> coords",
+					args: ["srgb", [1, 0.5, 0], 1, {coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"]}],
+					expect: "rgb(255 127.5 0)",
+				},
+				{
+					name: "oklch(<percentage> <percentage> <angle>)",
+					args: ["oklch", [0.5, 0.2, 180], 1, {coords: [, "<percentage>", "<angle>"]}],
+					expect: "oklch(50% 50% 180deg)",
+				},
+			],
+		},
+		{
 			name: "Custom alpha format",
 			tests: [
 				{

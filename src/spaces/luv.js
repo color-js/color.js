@@ -79,7 +79,7 @@ export default new ColorSpace({
 	formats: {
 		color: {
 			id: "--luv",
-			coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
+			coords: ["<number> | <percentage>", "<number> | <percentage>", "<number> | <percentage>"],
 		},
 	},
 });

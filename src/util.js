@@ -92,7 +92,21 @@ export function mapRange (from, to, value) {
 		return value;
 	}
 
-	return interpolate(to[0], to[1], interpolateInv(from[0], from[1], value));
+	// Make sure 0 is mapped to 0
+	let [minFrom, maxFrom] = from;
+	let [minTo, maxTo] = to;
+
+	// We assume max* is positive
+	if (value < 0) {
+		maxFrom = Math.min(0, maxFrom);
+		maxTo = Math.min(0, maxTo);
+	}
+	else {
+		minFrom = Math.max(0, minFrom);
+		minTo = Math.max(0, minTo);
+	}
+
+	return interpolate(minTo, maxTo, interpolateInv(minFrom, maxFrom, value));
 }
 
 /**

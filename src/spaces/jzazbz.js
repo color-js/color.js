@@ -112,7 +112,7 @@ export default new ColorSpace({
 	formats: {
 		// https://drafts.csswg.org/css-color-hdr/#Jzazbz
 		"color": {
-			coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
+			coords: ["<number> | <percentage>", "<number> | <percentage>", "<number> | <percentage>"],
 		},
 	},
 });

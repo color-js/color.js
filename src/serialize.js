@@ -67,6 +67,7 @@ export default function serialize (color, {
 			args.unshift(cssId);
 		}
 
+		// Serialize alpha?
 		let alpha = color.alpha;
 
 		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {

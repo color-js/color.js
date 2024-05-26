@@ -32,10 +32,10 @@ export default class Format {
 			return;
 		}
 
-		let spaceCoords = Object.values(space.coords);
+		this.spaceCoords = Object.values(space.coords);
 
 		if (!this.coords) {
-			this.coords = spaceCoords.map(coordMeta => {
+			this.coords = this.spaceCoords.map(coordMeta => {
 				let ret = ["<number>", "<percentage>"];
 
 				if (coordMeta.type === "angle") {
@@ -47,7 +47,7 @@ export default class Format {
 		}
 
 		this.coords = this.coords.map((types, i) => {
-			let coordMeta = spaceCoords[i];
+			let coordMeta = this.spaceCoords[i];
 
 			if (typeof types === "string") {
 				types = types.trim().split(/\s*\|\s*/);
@@ -58,7 +58,7 @@ export default class Format {
 	}
 
 	serializeCoords (coords, precision, types) {
-		types = coords.map((_, i) => Type.get(types?.[i] ?? this.coords[i][0]));
+		types = coords.map((_, i) => Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
 		return coords.map((c, i) => types[i].serialize(c, precision));
 	}
 
@@ -137,23 +137,12 @@ class Type {
 
 		if (!this.range) {
 			if (this.type === "<percentage>") {
-				this.range = [0, 1];
+				this.range = [-1, 1];
 			}
 			else if (this.type === "<angle>") {
 				this.range = [0, 360];
 			}
 		}
-	}
-
-	get toRange () {
-		if (this.type === "<percentage>") {
-			return [0, 100];
-		}
-		else if (this.type === "<angle>") {
-			return [0, 360];
-		}
-
-		return null;
 	}
 
 	get unit () {
@@ -167,15 +156,36 @@ class Type {
 		return "";
 	}
 
-	resolve (arg) {
+	/**
+	 * Map a number to the internal representation
+	 * @param {number} number
+	 * @returns
+	 */
+	resolve (number) {
+		if (this.type === "<angle>") {
+			return number;
+		}
+
 		let fromRange = this.range;
 		let toRange = this.coordRange;
 
-		return mapRange(fromRange, toRange, arg);
+		if (this.type === "<percentage>") {
+			toRange ??= [-1, 1];
+		}
+
+		return mapRange(fromRange, toRange, number);
 	}
 
+	/**
+	 * Serialize a number from the internal representation to a string
+	 * @param {number} number
+	 * @param {number} [precision]
+	 * @returns
+	 */
 	serialize (number, precision) {
-		let {toRange, unit} = this;
+		let toRange = this.type === "<percentage>" ? [-100, 100] : this.range;
+		let unit = this.unit;
+
 		number = mapRange(this.coordRange, toRange, number);
 		number = serializeNumber(number, {unit, precision});
 
