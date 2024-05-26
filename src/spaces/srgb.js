@@ -47,13 +47,13 @@ export default new RGBColorSpace({
 			name: "rgb",
 			commas: true,
 			coords: coordGrammarNumber,
-			noAlpha: true,
+			alpha: false,
 		},
 		"color": { /* use defaults */ },
 		"rgba": {
 			coords: coordGrammar,
 			commas: true,
-			lastAlpha: true,
+			alpha: true,
 		},
 		"rgba_number": {
 			name: "rgba",

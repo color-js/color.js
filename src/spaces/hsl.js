@@ -85,7 +85,7 @@ export default new ColorSpace({
 		"hsla": {
 			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
 			commas: true,
-			lastAlpha: true,
+			alpha: true,
 		},
 	},
 });

@@ -8,16 +8,19 @@ import clone from "./clone.js";
 
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
- * @param {Object} options
- * @param {number} options.precision - Significant digits
- * @param {boolean} options.inGamut - Adjust coordinates to fit in gamut first? [default: false]
+ * @param {Object} [options]
+ * @param {number} [options.precision] - Significant digits
+ * @param {boolean} [options.inGamut=false] - Adjust coordinates to fit in gamut first?
+ * @param {string} [options.format="default"] - Output format id, default is "default"
+ * @param {string} [options.coords] - Coordinate format to override the default
+ * @param {string | boolean | {type: string, include: boolean}} [options.alpha] - Alpha format
  */
 export default function serialize (color, {
 	precision = defaults.precision,
 	format = "default",
 	inGamut = true,
-	coordTypes,
-	alphaType,
+	coords: coordFormat,
+	alpha: alphaFormat,
 	...customOptions
 } = {}) {
 	let ret;
@@ -56,7 +59,7 @@ export default function serialize (color, {
 		// Functional syntax
 		let name = format.name || "color";
 
-		let args = format.serializeCoords(coords, precision, coordTypes);
+		let args = format.serializeCoords(coords, precision, coordFormat);
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument
@@ -65,11 +68,30 @@ export default function serialize (color, {
 		}
 
 		let alpha = color.alpha;
-		if (precision !== null) {
-			alpha = util.serializeNumber(alpha, {precision});
+
+		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {
+			alphaFormat = typeof alphaFormat === "string" ? {type: alphaFormat} : {include: alphaFormat};
 		}
 
-		let strAlpha = color.alpha >= 1 || format.noAlpha ? "" : `${format.commas ? "," : " /"} ${alpha}`;
+		let alphaType = alphaFormat?.type ?? "<number>";
+		let serializeAlpha = alphaFormat?.include === true || format.alpha === true || (alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
+		let strAlpha = "";
+
+		if (serializeAlpha) {
+			if (precision !== null) {
+				let unit;
+
+				if (alphaType === "<percentage>") {
+					unit = "%";
+					alpha *= 100;
+				}
+
+				alpha = util.serializeNumber(alpha, {precision});
+			}
+
+			strAlpha = `${format.commas ? "," : " /"} ${alpha}`;
+		}
+
 		ret = `${name}(${args.join(format.commas ? ", " : " ")}${strAlpha})`;
 	}
 

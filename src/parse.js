@@ -74,7 +74,7 @@ export default function parse (str, {meta} = {}) {
 
 		let alpha = 1;
 
-		if (format.lastAlpha || env.parsed.lastAlpha) {
+		if (format.alpha === true || env.parsed.lastAlpha) {
 			alpha = env.parsed.args.pop();
 		}
 

@@ -21,10 +21,8 @@ export interface Format {
 	toGamut?: boolean | undefined;
 	/** Whether commas should separate arguments for a format */
 	commas?: boolean | undefined;
-	/** Whether the last coordinate is the alpha coordinate */
-	lastAlpha?: boolean | undefined;
-	/** Whether the format has an alpha channel */
-	noAlpha?: boolean | undefined;
+	/** Whether to always have alpha at the end (true), never (false), or auto (undefined) */
+	alpha?: boolean | undefined;
 	test?: ((str: string) => boolean) | undefined;
 	/** Function to parse a string into a color */
 	parse?: ((str: string) => ColorConstructor) | undefined;
