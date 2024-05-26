@@ -15,14 +15,14 @@ import clone from "./clone.js";
  * @param {string} [options.coords] - Coordinate format to override the default
  * @param {string | boolean | {type: string, include: boolean}} [options.alpha] - Alpha format
  */
-export default function serialize (color, {
-	precision = defaults.precision,
-	format = "default",
-	inGamut = true,
-	coords: coordFormat,
-	alpha: alphaFormat,
-	...customOptions
-} = {}) {
+export default function serialize (color, options = {}) {
+	let {
+		precision = defaults.precision,
+		format = "default",
+		inGamut = true,
+		coords: coordFormat,
+		alpha: alphaFormat,
+	} = options;
 	let ret;
 
 	color = getColor(color);
@@ -46,10 +46,8 @@ export default function serialize (color, {
 	}
 
 	if (format.type === "custom") {
-		customOptions.precision = precision;
-
 		if (format.serialize) {
-			ret = format.serialize(coords, color.alpha, customOptions);
+			ret = format.serialize(coords, color.alpha, options);
 		}
 		else {
 			throw new TypeError(`format ${formatId} can only be used to parse colors, not for serialization`);
