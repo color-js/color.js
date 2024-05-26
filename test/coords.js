@@ -16,21 +16,21 @@ export default {
 			tests: [
 				{
 					name: "color.coords",
-					run() {
+					run () {
 						return this.data.red.coords;
 					},
 					expect: [1, 0, 0],
 				},
 				{
 					name: "color.getAll()",
-					run() {
+					run () {
 						return this.data.red.getAll();
 					},
 					expect: [1, 0, 0],
 				},
 				{
 					name: "color.alpha",
-					run() {
+					run () {
 						return this.data.red_50.alpha;
 					},
 					expect: 0.5,
@@ -44,40 +44,40 @@ export default {
 				},
 				{
 					name: "color.coords[1]",
-					run() {
+					run () {
 						return this.data.red.coords[1];
 					},
 					expect: 0,
 				},
 				{
 					name: "color.coordId",
-					run() {
+					run () {
 						return this.data.red_oklch.h;
 					},
 					expect: 30,
 				},
 				{
 					name: "color.get(coordId)",
-					run() {
+					run () {
 						return this.data.red_oklch.get("h");
 					},
 					expect: 30,
 				},
 				{
 					name: "color.otherSpace.coordId",
-					run() {
+					run () {
 						return this.data.red.oklch.h;
 					},
 					expect: 29.23,
 				},
 				{
 					name: "color.get(otherSpace.coordId)",
-					run() {
+					run () {
 						return this.data.red.get("oklch.hue");
 					},
 					expect: 29.23,
 				},
-			]
+			],
 		},
 		{
 			name: "Writing coordinates",

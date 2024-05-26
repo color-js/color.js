@@ -1,6 +1,6 @@
 export function styleCallouts (
 	elements = document.querySelectorAll("p"),
-	labels = ["Tip", "Warning", "Note"]
+	labels = ["Tip", "Warning", "Note"],
 ) {
 	let maxLabelLength = Math.max(...labels.map(l => l.length));
 	labels = new RegExp(`(${labels.join("|")}):`);

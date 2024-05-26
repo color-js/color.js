@@ -140,7 +140,9 @@ export default class ColorGamut extends HTMLElement {
 		}
 		else if (!Array.isArray(gamuts) && typeof gamuts === "object") {
 			// Object
-			return Object.entries(gamuts).map(([id, label]) => {id, label});
+			return Object.entries(gamuts).map(([id, label]) => {
+				id, label;
+			});
 		}
 
 		let ret = gamuts.map((gamut, level) => {

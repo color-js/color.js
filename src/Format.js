@@ -5,13 +5,13 @@ let instance = Symbol("instance");
 const outputByType = {
 	"<percentage>": {
 		toRange: [0, 100],
-		suffix: "%"
+		suffix: "%",
 	},
 	"<angle>": {
 		toRange: [0, 360],
-		suffix: "deg"
+		suffix: "deg",
 	},
-}
+};
 
 /**
  * @class Format
@@ -43,7 +43,7 @@ export default class Format {
 				}
 
 				return ret;
-			})
+			});
 		}
 
 		this.coords = this.coords.map((types, i) => {
