@@ -11,23 +11,28 @@ import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
-import {WHITES} from "./adapt.js";
+import { WHITES } from "./adapt.js";
+
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").ToGamutOptions} ToGamutOptions */
 
 /**
  * Calculate the epsilon to 2 degrees smaller than the specified JND.
- * @param {Number} jnd - The target "just noticeable difference".
- * @returns {Number}
+ * @param {number} jnd The target "just noticeable difference".
+ * @returns {number}
  */
 function calcEpsilon (jnd) {
 	// Calculate the epsilon to 2 degrees smaller than the specified JND.
 
-	const order = (!jnd) ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
+	const order = !jnd ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
 	// Limit to an arbitrary value to ensure value is never too small and causes infinite loops.
 	return Math.max(parseFloat(`1e${order - 2}`), 1e-6);
 }
 
 const GMAPPRESET = {
-	"hct": {
+	hct: {
 		method: "hct.c",
 		jnd: 2,
 		deltaEMethod: "hct",
@@ -44,21 +49,9 @@ const GMAPPRESET = {
 /**
  * Force coordinates to be in gamut of a certain color space.
  * Mutates the color it is passed.
- * @param {Object|string} options object or spaceId string
- * @param {string} options.method - How to force into gamut.
- *        If "clip", coordinates are just clipped to their reference range.
- *        If "css", coordinates are reduced according to the CSS 4 Gamut Mapping Algorithm.
- *        If in the form [colorSpaceId].[coordName], that coordinate is reduced
- *        until the color is in gamut. Please note that this may produce nonsensical
- *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
- * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
- * @param {string} options.deltaEMethod - The delta E method to use while performing gamut mapping.
- *        If no method is specified, delta E 2000 is used.
- * @param {Number} options.jnd - The "just noticeable difference" to target.
- * @param {Object} options.blackWhiteClamp - Used to configure SDR black and clamping.
- *        "channel" indicates the "space.channel" to use for determining when to clamp.
- *        "min" indicates the lower limit for black clamping and "max" indicates the upper
- *        limit for white clamping.
+ * @param {ColorTypes} color
+ * @param {ToGamutOptions} param1
+ * @returns {PlainColorObject}
  */
 
 export default function toGamut (
@@ -97,9 +90,8 @@ export default function toGamut (
 	}
 	else {
 		if (method !== "clip" && !inGamut(color, space)) {
-
 			if (Object.prototype.hasOwnProperty.call(GMAPPRESET, method)) {
-				({method, jnd, deltaEMethod, blackWhiteClamp} = GMAPPRESET[method]);
+				({ method, jnd, deltaEMethod, blackWhiteClamp } = GMAPPRESET[method]);
 			}
 
 			// Get the correct delta E method
@@ -115,7 +107,6 @@ export default function toGamut (
 
 			let clipped = toGamut(to(color, space), { method: "clip", space });
 			if (de(color, clipped) > jnd) {
-
 				// Clamp to SDR white and black if required
 				if (Object.keys(blackWhiteClamp).length === 3) {
 					let channelMeta = ColorSpace.resolveCoord(blackWhiteClamp.channel);
@@ -174,11 +165,12 @@ export default function toGamut (
 			spaceColor = to(color, space);
 		}
 
-		if (method === "clip" // Dumb coord clipping
+		if (
+			method === "clip" || // Dumb coord clipping
 			// finish off smarter gamut mapping with clip to get rid of ε, see #17
-			|| !inGamut(spaceColor, space, { epsilon: 0 })
+			!inGamut(spaceColor, space, { epsilon: 0 })
 		) {
-			let bounds = Object.values(space.coords).map(c => c.range || []);
+			let bounds = Object.values(space.coords).map((c) => c.range || []);
 
 			spaceColor.coords = spaceColor.coords.map((c, i) => {
 				let [min, max] = bounds[i];
@@ -204,6 +196,7 @@ export default function toGamut (
 	return color;
 }
 
+/** @type {"color"} */
 toGamut.returns = "color";
 
 // The reference colors to be used if lightness is out of the range 0-1 in the
@@ -219,12 +212,11 @@ const COLORS = {
  * the CSS Gamut Mapping Algorithm. If `space` is specified, it will be in gamut
  * in `space`, and returned in `space`. Otherwise, it will be in gamut and
  * returned in the color space of `origin`.
- * @param {Object} origin
- * @param {Object} options
- * @param {ColorSpace|string} options.space
- * @returns {Color}
+ * @param {ColorTypes} origin
+ * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @returns {PlainColorObject}
  */
-export function toGamutCSS (origin, {space} = {}) {
+export function toGamutCSS (origin, { space } = {}) {
 	const JND = 0.02;
 	const ε = 0.0001;
 
@@ -256,7 +248,7 @@ export function toGamutCSS (origin, {space} = {}) {
 		return to(black, space);
 	}
 
-	if (inGamut(origin_OKLCH, space, {epsilon: 0})) {
+	if (inGamut(origin_OKLCH, space, { epsilon: 0 })) {
 		return to(origin_OKLCH, space);
 	}
 
@@ -265,7 +257,7 @@ export function toGamutCSS (origin, {space} = {}) {
 		const spaceCoords = Object.values(space.coords);
 		destColor.coords = destColor.coords.map((coord, index) => {
 			if ("range" in spaceCoords[index]) {
-				const [min, max] =  spaceCoords[index].range;
+				const [min, max] = spaceCoords[index].range;
 				return util.clamp(min, coord, max);
 			}
 			return coord;
@@ -283,17 +275,17 @@ export function toGamutCSS (origin, {space} = {}) {
 		return clipped;
 	}
 
-	while ((max - min) > ε) {
+	while (max - min > ε) {
 		const chroma = (min + max) / 2;
 		current.coords[1] = chroma;
-		if (min_inGamut && inGamut(current, space, {epsilon: 0})) {
+		if (min_inGamut && inGamut(current, space, { epsilon: 0 })) {
 			min = chroma;
 		}
 		else {
 			clipped = clip(current);
 			E = deltaEOK(clipped, current);
 			if (E < JND) {
-				if ((JND - E < ε)) {
+				if (JND - E < ε) {
 					break;
 				}
 				else {

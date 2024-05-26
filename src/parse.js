@@ -3,15 +3,20 @@ import hooks from "./hooks.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ArgumentMeta} ArgumentMeta */
+/** @typedef {import("./types.js").ColorConstructor} ColorConstructor */
+/** @typedef {import("./types.js").ParseFunctionReturn} ParseFunctionReturn */
+/** @typedef {import("./types.js").ParseOptions} ParseOptions */
+
 /**
  * Convert a CSS Color string to a color object
  * @param {string} str
- * @param {object} [options]
- * @param {object} [options.meta] - Object for additional information about the parsing
- * @returns {Color}
+ * @param {ParseOptions} options
+ * @returns {ColorConstructor}
  */
-export default function parse (str, {meta} = {}) {
-	let env = {"str": String(str)?.trim()};
+export default function parse (str, { meta } = {}) {
+	let env = { str: String(str)?.trim() };
 	hooks.run("parse-start", env);
 
 	if (env.color) {
@@ -36,7 +41,7 @@ export default function parse (str, {meta} = {}) {
 			// Check against both <dashed-ident> and <ident> versions
 			let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
 			let ids = [id, alternateId];
-			format = ColorSpace.findFormat({name, id: ids, type: "function"});
+			format = ColorSpace.findFormat({ name, id: ids, type: "function" });
 
 			if (!format) {
 				// Not found
@@ -49,26 +54,32 @@ export default function parse (str, {meta} = {}) {
 
 					if (cssId) {
 						let altColor = str.replace("color(" + id, "color(" + cssId);
-						didYouMean = `Did you mean ${ altColor }?`;
+						didYouMean = `Did you mean ${altColor}?`;
 					}
 				}
 
-				throw new TypeError(`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"));
+				throw new TypeError(
+					`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"),
+				);
 			}
 
 			space = format.space;
 
 			if (format.id.startsWith("--") && !id.startsWith("--")) {
-				defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-							  `Use prefixed color(${format.id}) instead of color(${id}).`);
+				defaults.warn(
+					`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
+						`Use prefixed color(${format.id}) instead of color(${id}).`,
+				);
 			}
 			if (id.startsWith("--") && !format.id.startsWith("--")) {
-				defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
-							  `Use color(${format.id}) instead of prefixed color(${id}).`);
+				defaults.warn(
+					`${space.name} is a standard space and supported in the CSS spec. ` +
+						`Use color(${format.id}) instead of prefixed color(${id}).`,
+				);
 			}
 		}
 		else {
-			format = ColorSpace.findFormat({name, type: "function"});
+			format = ColorSpace.findFormat({ name, type: "function" });
 			space = format.space;
 		}
 
@@ -81,16 +92,18 @@ export default function parse (str, {meta} = {}) {
 		let coordCount = format.coords.length;
 
 		if (coords.length !== coordCount) {
-			throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`);
+			throw new TypeError(
+				`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`,
+			);
 		}
 
 		coords = format.coerceCoords(coords, types);
 
 		if (meta) {
-			Object.assign(meta, {format, formatId: format.name, types});
+			Object.assign(meta, { format, formatId: format.name, types });
 		}
 
-		ret = {spaceId: space.id, coords, alpha};
+		ret = { spaceId: space.id, coords, alpha };
 	}
 	else {
 		// Custom, colorspace-specific format
@@ -126,7 +139,11 @@ export default function parse (str, {meta} = {}) {
 	}
 
 	// Clamp alpha to [0, 1]
-	ret.alpha = isNone(ret.alpha) ? ret.alpha : ret.alpha === undefined ? 1 : clamp(0, ret.alpha, 1);
+	ret.alpha = isNone(ret.alpha)
+		? ret.alpha
+		: ret.alpha === undefined
+			? 1
+			: clamp(0, ret.alpha, 1);
 
 	return ret;
 }
@@ -152,36 +169,26 @@ export const regex = {
 	singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
-
-
-/**
- * Metadata for a parsed argument
- * @typedef {object} ArgumentMeta
- * @property {string} raw - The raw argument string
- * @property {string} type - The type of the argument, e.g. "<number>", "<angle>", "<percentage>"
- * @property {string} unit - The unit of the argument, if present e.g. "%", "deg"
- * @property {number} unitless - The number value of the argument, for arguments that have a unit
- * @property {boolean} none - Whether the argument is "none"
- */
-
 /**
  * Parse a single function argument
  * @param {string} rawArg
- * @returns {{value: number, meta: ArgumentMeta}}
+ * @returns {{ value: number, meta: ArgumentMeta }}
  */
 export function parseArgument (rawArg) {
 	let meta = {};
 	let unit = rawArg.match(regex.unitValue)?.[0];
-	let value = meta.raw = rawArg;
+	let value = (meta.raw = rawArg);
 
-	if (unit) { // It’s a dimension token
+	if (unit) {
+		// It’s a dimension token
 		meta.type = unit === "%" ? "<percentage>" : "<angle>";
 		meta.unit = unit;
 		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
 
 		value = meta.unitless * units[unit];
 	}
-	else if (regex.number.test(value)) { // It's a number
+	else if (regex.number.test(value)) {
+		// It's a number
 		// Convert numerical args to numbers
 		value = Number(value);
 		meta.type = "<number>";
@@ -201,10 +208,10 @@ export function parseArgument (rawArg) {
 }
 
 /**
-* Parse a CSS function, regardless of its name and arguments
-* @param String str String to parse
-* @return {{name, args, rawArgs}}
-*/
+ * Parse a CSS function, regardless of its name and arguments
+ * @param {string} str String to parse
+ * @return {ParseFunctionReturn | void}
+ */
 export function parseFunction (str) {
 	if (!str) {
 		return;
@@ -221,7 +228,7 @@ export function parseFunction (str) {
 		let lastAlpha = false;
 
 		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
-			let {value, meta} = parseArgument(rawArg);
+			let { value, meta } = parseArgument(rawArg);
 
 			if ($0.startsWith("/")) {
 				// It's alpha

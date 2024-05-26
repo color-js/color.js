@@ -10,7 +10,7 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import defaults from "./defaults.js";
 import ColorSpace from "./space.js";
-import {WHITES} from "./adapt.js";
+import { WHITES } from "./adapt.js";
 import {
 	getColor,
 	parse,
@@ -26,7 +26,6 @@ import {
 	setAll,
 	display,
 } from "./index-fn.js";
-
 
 import "./spaces/xyz-d50.js";
 import "./spaces/srgb.js";
@@ -70,13 +69,17 @@ export default class Color {
 		this.coords = coords ? coords.slice() : [0, 0, 0];
 
 		// Clamp alpha to [0, 1]
-		this.alpha = util.isNone(alpha) ? alpha : alpha === undefined ? 1 : util.clamp(0, alpha, 1);
+		this.alpha = util.isNone(alpha)
+			? alpha
+			: alpha === undefined
+				? 1
+				: util.clamp(0, alpha, 1);
 
 		// Define getters and setters for each coordinate
 		for (let id in this.space.coords) {
 			Object.defineProperty(this, id, {
 				get: () => this.get(id),
-				set: value => this.set(id, value),
+				set: (value) => this.set(id, value),
 			});
 		}
 	}
@@ -119,7 +122,7 @@ export default class Color {
 	}
 
 	static defineFunction (name, code, o = code) {
-		let {instance = true, returns} = o;
+		let { instance = true, returns } = o;
 
 		let func = function (...args) {
 			let ret = code(...args);
@@ -137,7 +140,7 @@ export default class Color {
 				Object.assign(ret, f);
 			}
 			else if (returns === "array<color>") {
-				ret = ret.map(c => Color.get(c));
+				ret = ret.map((c) => Color.get(c));
 			}
 
 			return ret;

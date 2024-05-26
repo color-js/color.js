@@ -3,9 +3,27 @@ import getColor from "./getColor.js";
 import get from "./get.js";
 import getAll from "./getAll.js";
 import setAll from "./setAll.js";
-import {type} from "./util.js";
+import { type } from "./util.js";
 
-// Set properties and return current instance
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").Ref} Ref */
+
+/**
+ * Set properties and return current instance
+ * @overload
+ * @param {ColorTypes} color
+ * @param {Ref} prop
+ * @param {number | ((coord: number) => number)} value
+ * @returns {PlainColorObject}
+ */
+/**
+ * @overload
+ * @param {ColorTypes} color
+ * @param {Record<string, number | ((coord: number) => number)>} props
+ * @returns {PlainColorObject}
+ */
 export default function set (color, prop, value) {
 	color = getColor(color);
 
@@ -25,7 +43,7 @@ export default function set (color, prop, value) {
 			color.alpha = value;
 		}
 		else {
-			let {space, index} = ColorSpace.resolveCoord(prop, color.space);
+			let { space, index } = ColorSpace.resolveCoord(prop, color.space);
 			let coords = getAll(color, space);
 			coords[index] = value;
 			setAll(color, space, coords);
@@ -35,4 +53,5 @@ export default function set (color, prop, value) {
 	return color;
 }
 
+/** @type {"color"} */
 set.returns = "color";

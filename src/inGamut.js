@@ -1,13 +1,19 @@
 import ColorSpace from "./space.js";
 import getColor from "./getColor.js";
 
-const ε = .000075;
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+
+const ε = 0.000075;
 
 /**
  * Check if a color is in gamut of either its own or another color space
- * @return {Boolean} Is the color in gamut?
+ * @param {ColorTypes} color
+ * @param {string | ColorSpace} space
+ * @param {{ epsilon?: number | undefined }} param2
+ * @returns {boolean}
  */
-export default function inGamut (color, space, {epsilon = ε} = {}) {
+export default function inGamut (color, space, { epsilon = ε } = {}) {
 	color = getColor(color);
 
 	if (!space) {
@@ -21,5 +27,5 @@ export default function inGamut (color, space, {epsilon = ε} = {}) {
 		coords = space.from(color);
 	}
 
-	return space.inGamut(coords, {epsilon});
+	return space.inGamut(coords, { epsilon });
 }

@@ -1,10 +1,15 @@
-import {type, isNone} from "./util.js";
+/**
+ * @packageDocumentation
+ * Defines the class and other types related to creating color spaces.
+ * For the builtin color spaces, see the `spaces` module.
+ */
+import { type, isNone } from "./util.js";
 import Format from "./Format.js";
-import {getWhite} from "./adapt.js";
+import { getWhite } from "./adapt.js";
 import hooks from "./hooks.js";
 import getColor from "./getColor.js";
 
-const ε = .000075;
+const ε = 0.000075;
 
 /**
  * Class to represent a color space
@@ -49,7 +54,7 @@ export default class ColorSpace {
 
 		if (!this.formats.color?.id) {
 			this.formats.color = {
-				...this.formats.color ?? {},
+				...(this.formats.color ?? {}),
 				id: options.cssId || this.id,
 			};
 		}
@@ -58,7 +63,10 @@ export default class ColorSpace {
 
 		if (options.gamutSpace) {
 			// Gamut space explicitly specified
-			this.gamutSpace = options.gamutSpace === "self" ? this : ColorSpace.get(options.gamutSpace);
+			this.gamutSpace =
+				options.gamutSpace === "self"
+					? this
+					: ColorSpace.get(options.gamutSpace);
 		}
 		else {
 			// No gamut space specified, calculate a sensible default
@@ -67,7 +75,7 @@ export default class ColorSpace {
 				this.gamutSpace = this.base;
 			}
 			else {
-				this.gamutSpace =  this;
+				this.gamutSpace = this;
 			}
 		}
 
@@ -92,10 +100,10 @@ export default class ColorSpace {
 		hooks.run("colorspace-init-end", this);
 	}
 
-	inGamut (coords, {epsilon = ε} = {}) {
+	inGamut (coords, { epsilon = ε } = {}) {
 		if (!this.equals(this.gamutSpace)) {
 			coords = this.to(this.gamutSpace, coords);
-			return this.gamutSpace.inGamut(coords, {epsilon});
+			return this.gamutSpace.inGamut(coords, { epsilon });
 		}
 
 		let coordMeta = Object.values(this.coords);
@@ -110,8 +118,10 @@ export default class ColorSpace {
 				}
 
 				let [min, max] = meta.range;
-				return (min === undefined || c >= min - epsilon)
-				    && (max === undefined || c <= max + epsilon);
+				return (
+					(min === undefined || c >= min - epsilon) &&
+					(max === undefined || c <= max + epsilon)
+				);
 			}
 
 			return true;
@@ -119,7 +129,7 @@ export default class ColorSpace {
 	}
 
 	get isUnbounded () {
-		return Object.values(this.coords).every(coord => !("range" in coord));
+		return Object.values(this.coords).every((coord) => !("range" in coord));
 	}
 
 	get cssId () {
@@ -183,7 +193,7 @@ export default class ColorSpace {
 		}
 
 		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
-		coords = coords.map(c => isNone(c) ? 0 : c);
+		coords = coords.map((c) => (isNone(c) ? 0 : c));
 
 		// Find connection space = lowest common ancestor in the base tree
 		let myPath = this.path;
@@ -203,7 +213,9 @@ export default class ColorSpace {
 
 		if (!connectionSpace) {
 			// This should never happen
-			throw new Error(`Cannot convert between color spaces ${this} and ${space}: no connection space was found`);
+			throw new Error(
+				`Cannot convert between color spaces ${this} and ${space}: no connection space was found`,
+			);
 		}
 
 		// Go up from current space to connection space
@@ -313,7 +325,7 @@ export default class ColorSpace {
 	 */
 	static findFormat (filters, spaces = ColorSpace.all) {
 		if (typeof filters === "string") {
-			filters = {name: filters};
+			filters = { name: filters };
 		}
 
 		for (let space of spaces) {
@@ -321,15 +333,14 @@ export default class ColorSpace {
 				format.name ??= name;
 				format.type ??= "function";
 
-				let matches = (
+				let matches =
 					(!filters.name || format.name === filters.name) &&
-					(!filters.type || format.type === filters.type)
-				);
+					(!filters.type || format.type === filters.type);
 
 				if (filters.id) {
 					let ids = format.ids || [format.id];
 					let filterIds = Array.isArray(filters.id) ? filters.id : [filters.id];
-					matches &&= filterIds.some(id => ids.includes(id));
+					matches &&= filterIds.some((id) => ids.includes(id));
 				}
 
 				if (matches) {
@@ -385,17 +396,19 @@ export default class ColorSpace {
 		}
 
 		if (!space) {
-			throw new TypeError(`Cannot resolve coordinate reference ${ref}: No color space specified and relative references are not allowed here`);
+			throw new TypeError(
+				`Cannot resolve coordinate reference ${ref}: No color space specified and relative references are not allowed here`,
+			);
 		}
 
 		coordType = type(coord);
 
-		if (coordType === "number" || coordType === "string" && coord >= 0) {
+		if (coordType === "number" || (coordType === "string" && coord >= 0)) {
 			// Resolve numerical coord
 			let meta = Object.entries(space.coords)[coord];
 
 			if (meta) {
-				return {space, id: meta[0], index: coord, ...meta[1]};
+				return { space, id: meta[0], index: coord, ...meta[1] };
 			}
 		}
 
@@ -407,14 +420,21 @@ export default class ColorSpace {
 		for (let id in space.coords) {
 			let meta = space.coords[id];
 
-			if (id.toLowerCase() === normalizedCoord || meta.name?.toLowerCase() === normalizedCoord) {
-				return {space, id, index: i, ...meta};
+			if (
+				id.toLowerCase() === normalizedCoord ||
+				meta.name?.toLowerCase() === normalizedCoord
+			) {
+				return { space, id, index: i, ...meta };
 			}
 
 			i++;
 		}
 
-		throw new TypeError(`No "${coord}" coordinate found in ${space.name}. Its coordinates are: ${Object.keys(space.coords).join(", ")}`);
+		throw new TypeError(
+			`No "${coord}" coordinate found in ${
+				space.name
+			}. Its coordinates are: ${Object.keys(space.coords).join(", ")}`,
+		);
 	}
 
 	static DEFAULT_FORMAT = {
@@ -426,10 +446,9 @@ export default class ColorSpace {
 function getPath (space) {
 	let ret = [space];
 
-	for (let s = space; s = s.base;) {
+	for (let s = space; (s = s.base); ) {
 		ret.push(s);
 	}
 
 	return ret;
 }
-

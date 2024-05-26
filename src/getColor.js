@@ -1,11 +1,22 @@
 import ColorSpace from "./space.js";
-import {isString} from "./util.js";
+import { isString } from "./util.js";
 import parse from "./parse.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+
 /**
+ * @overload
  * Resolves a color reference (object or string) to a plain color object
- * @param {Color | {space, coords, alpha} | string | Array<Color | {space, coords, alpha} | string> } color
- * @returns {{space, coords, alpha} | Array<{space, coords, alpha}}>
+ * @param {ColorTypes} color
+ * @returns {PlainColorObject}
+ */
+/**
+ * @overload
+ * Resolves a color reference (object or string) to a plain color object
+ * @param {ColorTypes[]} color
+ * @returns {PlainColorObject[]}
  */
 export default function getColor (color) {
 	if (Array.isArray(color)) {

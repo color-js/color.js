@@ -1,5 +1,8 @@
 /**
- * Tree-shakable ES module entry point.
+ * @packageDocumentation
+ * A functional, tree-shakeable version of the Color.js API.
+ * This module allows developers to selectively import
+ * the classes and functions that they wish to use in their project.
  * Import as `colorjs.io/fn`
  */
 export {default as ColorSpace}          from "./space.js";

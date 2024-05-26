@@ -8,6 +8,10 @@ import P3 from "./spaces/p3.js";
 import Lab from "./spaces/lab.js";
 import sRGB from "./spaces/srgb.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").Display} Display */
+
 // Default space for CSS output. Code in Color.js makes this wider if there's a DOM available
 defaults.display_space = sRGB;
 
@@ -17,7 +21,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 	// Find widest supported color space for CSS
 	for (let space of [Lab, REC2020, P3]) {
 		let coords = space.getMinCoords();
-		let color = {space, coords, alpha: 1};
+		let color = { space, coords, alpha: 1 };
 		let str = serialize(color);
 
 		if (CSS.supports("color", str)) {
@@ -32,17 +36,23 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * If the default serialization can be displayed, it is returned.
  * Otherwise, the color is converted to Lab, REC2020, or P3, whichever is the widest supported.
  * In Node.js, this is basically equivalent to `serialize()` but returns a `String` object instead.
- *
- * @export
- * @param {{space, coords} | Color | string} color
- * @param {*} [options={}] Options to be passed to serialize()
- * @param {ColorSpace | string} [options.space = defaults.display_space] Color space to use for serialization if default is not supported
- * @returns {String} String object containing the serialized color with a color property containing the converted color (or the original, if no conversion was necessary)
+ * @param {ColorTypes} color
+ * @param {{ space?: string | ColorSpace | undefined } & Record<string, any>} param1
+ * Options to be passed to `serialize()`
+ * @returns {Display} String object containing the serialized color
+ * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
-export default function display (color, {space = defaults.display_space, ...options} = {}) {
+export default function display (
+	color,
+	{ space = defaults.display_space, ...options } = {},
+) {
 	let ret = serialize(color, options);
 
-	if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.display_space) {
+	if (
+		typeof CSS === "undefined" ||
+		CSS.supports("color", ret) ||
+		!defaults.display_space
+	) {
 		ret = new String(ret);
 		ret.color = color;
 	}
