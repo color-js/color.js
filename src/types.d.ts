@@ -11,6 +11,8 @@ export interface CAT {
 // color.js
 // Since color.js is one of the few files to have a `.d.ts` (due to its complexity),
 // its types are defined in that file and just re-exported here
+import type Color from "./color.js";
+import type { Coords, PlainColorObject } from "./color.js";
 export type * from "./color.js";
 
 // display.js
@@ -108,6 +110,8 @@ export interface SerializeOptions {
 }
 
 // space.js
+import type ColorSpace from "./space.js";
+import type { Format, Ref, SpaceOptions } from "./space.js";
 export type * from "./space.js";
 
 // toGamut.js

@@ -10,10 +10,12 @@
 		"noEmit": true,
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
+		"checkJs": true,
 		"paths": {
-			"colorjs.io": ["."],
-			"colorjs.io/fn": ["./src/index-fn.js"],
-			"colorjs.io/*": ["./*"]
+			"colorjs.io": ["../src"],
+			"colorjs.io/fn": ["../src/index-fn.js"],
+			"colorjs.io/*": ["../*"]
 		}
 	}
 }
+``

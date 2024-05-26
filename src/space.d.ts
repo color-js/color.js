@@ -40,7 +40,7 @@ export interface CoordMeta {
 	refRange?: [number, number] | undefined;
 }
 
-export interface Options {
+export interface SpaceOptions {
 	/** Id of this space, used in things such as conversions */
 	id: string;
 	/** The readable name of the space, used in user-facing UI */
@@ -81,7 +81,7 @@ export type Ref =
 
 /** Class for color spaces. Each color space corresponds to a `ColorSpace` instance */
 export default class ColorSpace {
-	constructor (options: Options);
+	constructor (options: SpaceOptions);
 
 	static DEFAULT_FORMAT: { type: "functions"; name: "color" };
 
