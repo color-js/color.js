@@ -9,7 +9,7 @@ const tests = {
 		return color.to(spaceId).coords;
 	},
 	check: check.deep(function (actual, expect) {
-		let checkProximity = check.proximity({epsilon: this.data.epsilon});
+		let checkProximity = check.shallowEquals({epsilon: this.data.epsilon, subset: true});
 		let ret = checkProximity(actual, expect);
 		return ret;
 	}),
@@ -34,6 +34,14 @@ const tests = {
 				{
 					args: "white",
 					expect: [100, 0, null],
+				},
+				{
+					args: "gray",
+					expect: [, 0, null],
+				},
+				{
+					args: "darkgray",
+					expect: [, 0, null],
 				},
 				{
 					args: "black",
