@@ -28,3 +28,5 @@ export default {
 	deltaEOK2,
 	deltaEHCT,
 };
+
+/** @typedef {keyof typeof import("./index.js").default extends `deltaE${infer Method}` ? Method : string} Methods */

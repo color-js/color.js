@@ -25,6 +25,12 @@ function pow7 (x) {
 	return x7;
 }
 
+/**
+ * @param {import("../types.js").ColorTypes} color
+ * @param {import("../types.js").ColorTypes} sample
+ * @param {{ kL?: number | undefined; kC?: number | undefined; kH?: number | undefined }} options
+ * @returns {number}
+ */
 export default function (color, sample, {kL = 1, kC = 1, kH = 1} = {}) {
 	[color, sample] = getColor([color, sample]);
 

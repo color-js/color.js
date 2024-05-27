@@ -34,11 +34,11 @@ function convertUcsAb (coords) {
 
 
 /**
-* Color distance using HCT.
-* @param {Color} color - Color to compare.
-* @param {Color} sample - Color to compare.
-* @return {number[]}
-*/
+ * Color distance using HCT.
+ * @param {import("../types.js").ColorTypes} color
+ * @param {import("../types.js").ColorTypes} sample
+ * @returns {number}
+ */
 export default function (color, sample) {
 	[color, sample] = getColor([color, sample]);
 
