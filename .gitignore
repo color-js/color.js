@@ -7,6 +7,5 @@ node_modules/
 !tests/*.html
 !test/*.html
 !benchmarks/*.html
-!apps/*/*.html
 
 api/
