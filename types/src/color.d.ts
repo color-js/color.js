@@ -24,7 +24,7 @@ import {
 
 export type { SpaceAccessor } from "./space-coord-accessors.js";
 
-export type Coords = [number, number, number];
+export type Coords = [number | null, number | null, number | null];
 
 export interface ColorObject {
 	spaceId?: string | ColorSpace | undefined;
