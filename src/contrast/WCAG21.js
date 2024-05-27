@@ -5,6 +5,11 @@
 import getColor from "../getColor.js";
 import {getLuminance} from "../luminance.js";
 
+/**
+ * @param {import("../types.js").ColorTypes} color1
+ * @param {import("../types.js").ColorTypes} color2
+ * @returns {number}
+ */
 export default function contrastWCAG21 (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);

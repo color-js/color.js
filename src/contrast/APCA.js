@@ -38,7 +38,12 @@ function linearize (val) {
 	return sign * Math.pow(abs, 2.4);
 }
 
-// Not symmetric, requires a foreground (text) color, and a background color
+/**
+ * Not symmetric, requires a foreground (text) color, and a background color
+ * @param {import("../types.js").ColorTypes} background
+ * @param {import("../types.js").ColorTypes} foreground
+ * @returns {number}
+ */
 export default function contrastAPCA (background, foreground) {
 	foreground = getColor(foreground);
 	background = getColor(background);

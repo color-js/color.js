@@ -6,6 +6,11 @@ import getColor from "../getColor.js";
 import get from "../get.js";
 import lab from "../spaces/lab.js";
 
+/**
+ * @param {import("../types.js").ColorTypes} color1
+ * @param {import("../types.js").ColorTypes} color2
+ * @returns {number}
+ */
 export default function contrastLstar (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
