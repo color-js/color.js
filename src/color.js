@@ -19,6 +19,7 @@ import {
 	inGamut,
 	toGamut,
 	distance,
+	deltas,
 	equals,
 	get,
 	getAll,
@@ -183,6 +184,7 @@ Color.defineFunctions({
 	inGamut,
 	toGamut,
 	distance,
+	deltas,
 	toString: serialize,
 });
 

@@ -18,6 +18,7 @@ export {default as display}             from "./display.js";
 export {default as inGamut}             from "./inGamut.js";
 export {default as toGamut, toGamutCSS} from "./toGamut.js";
 export {default as distance}            from "./distance.js";
+export {default as deltas}              from "./deltas.js";
 export {default as equals}              from "./equals.js";
 export {default as contrast}            from "./contrast.js";
 export {default as clone}               from "./clone.js";
