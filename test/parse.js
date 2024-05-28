@@ -56,7 +56,7 @@ const tests = {
 					arg: "lch(calc(NaN) 10 50)",
 					expect: {spaceId: "lch", coords: [NaN, 10, 50], alpha: 1},
 				},
-			]
+			],
 		},
 		{
 			name: "sRGB colors",
