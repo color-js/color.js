@@ -137,13 +137,13 @@ export default class ColorSpace {
 	}
 
 	getFormat (format) {
+		if (!format) {
+			return null;
+		}
+
 		if (!(typeof format === "object")) {
 			let name = format === "default" ? Object.keys(this.formats)[0] : format;
 			format = this.formats[name];
-		}
-
-		if (!format) {
-			return null;
 		}
 
 		let ret = Format.get(format, this);
@@ -312,6 +312,10 @@ export default class ColorSpace {
 	 * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
 	 */
 	static findFormat (filters, spaces = ColorSpace.all) {
+		if (!filters) {
+			return null;
+		}
+
 		if (typeof filters === "string") {
 			filters = {name: filters};
 		}

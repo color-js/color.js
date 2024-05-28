@@ -81,6 +81,11 @@ const tests = {
 					args: ["srgb", [1, 0.5, 0], 1, {format: "hex"}],
 					expect: "#ff8000",
 				},
+				{
+					name: "Hex on non-sRGB color",
+					args: ["hsl", [0, 100, 50], 1, {format: "hex"}],
+					expect: "#ff0000",
+				},
 			],
 		},
 		{
