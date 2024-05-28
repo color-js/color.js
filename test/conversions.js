@@ -965,7 +965,7 @@ const tests = {
 				{
 					name: "sRGB white to Okhsl",
 					args: "white",
-					expect: [NaN, 0.0, 1.0000000000000002],
+					expect: [ null, 0.0, 1.0000000000000002 ],
 				},
 				{
 					name: "sRGB red to Okhsl",
@@ -1000,7 +1000,7 @@ const tests = {
 				{
 					name: "sRGB black to Okhsl",
 					args: "black",
-					expect: [NaN, 0.0, 0.0],
+					expect: [ null, 0.0, 0.0 ],
 				},
 			],
 		},
@@ -1013,7 +1013,7 @@ const tests = {
 				{
 					name: "sRGB white to Okhsv",
 					args: "white",
-					expect: [ NaN, 0.0, 1.0000000000000007 ],
+					expect: [ null, 1.3189507366749435e-15, 1.0000000000000007 ],
 				},
 				{
 					name: "sRGB red to Okhsv",
@@ -1048,7 +1048,7 @@ const tests = {
 				{
 					name: "sRGB black to Okhsv",
 					args: "black",
-					expect: [NaN, 0.0, 0.0],
+					expect: [ null, 0.0, 0.0],
 				},
 			],
 		},

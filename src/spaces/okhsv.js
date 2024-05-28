@@ -47,8 +47,8 @@ function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 	h = constrain(h) / 360.0;
 
 	let l = toeInv(v);
-	let a = 0.0;
-	let b = 0.0;
+	let a = null;
+	let b = null;
 
 	// Avoid processing gray or colors with undefined hues
 	if (l !== 0.0 && s !== 0.0) {
@@ -137,11 +137,14 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	}
 
 	if (Math.abs(s) < ε || v === 0.0) {
-		h = NaN;
-		s = 0.0;
+		h = null;
 	}
 
-	return [constrain(h * 360), s, v];
+	else {
+		h = constrain(h * 360);
+	}
+
+	return [h, s, v];
 }
 
 
