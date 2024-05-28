@@ -2,6 +2,7 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import getColor from "./getColor.js";
+import to from "./to.js";
 import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
 import clone from "./clone.js";
@@ -29,8 +30,15 @@ export default function serialize (color, options = {}) {
 
 	let formatId = format;
 	format = color.space.getFormat(format)
+	       ?? ColorSpace.findFormat(format)
 	       ?? color.space.getFormat("default")
 	       ?? ColorSpace.DEFAULT_FORMAT;
+
+	if (format.space && format.space !== color.space) {
+		// Format specified belongs to a different color space,
+		// need to convert to it first
+		color = to(color, format.space);
+	}
 
 	// The assignment to coords and inGamut needs to stay in the order they are now
 	// The order of the assignment was changed as a workaround for a bug in Next.js

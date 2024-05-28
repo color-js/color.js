@@ -88,7 +88,7 @@ export default class Format {
 	}
 
 	static get (format, ...args) {
-		if (format instanceof Format) {
+		if (!format || format instanceof Format) {
 			return format;
 		}
 

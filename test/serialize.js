@@ -84,7 +84,12 @@ const tests = {
 				{
 					name: "Hex on non-sRGB color",
 					args: ["hsl", [0, 100, 50], 1, {format: "hex"}],
-					expect: "#ff0000",
+					expect: "#f00",
+				},
+				{
+					name: "Cannot serialize as keyword",
+					args: ["srgb", [1, 0.5, 0], 1, {format: "keyword"}],
+					throws: true,
 				},
 			],
 		},
