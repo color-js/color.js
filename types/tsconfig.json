@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"lib": ["ES2020"],
+		"lib": ["DOM", "ES2020"],
 		"noImplicitAny": true,
 		"noImplicitThis": true,
 		"strictFunctionTypes": true,
