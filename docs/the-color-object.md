@@ -46,7 +46,7 @@ let redClone = new Color(red1);
 Everything in Color.js that accepts a color space id, also accepts a color space object.
 You can find these objects on `Color.spaces` (object, includes aliases) or `Color.Space.all` (array, no aliases).
 They include a lot of metadata about the color space which can be useful to handle color generically
-(e.g. like [this demo](../apps/convert/))
+(e.g. like [this demo](https://apps.colorjs.io/convert/))
 
 ## Color object properties
 

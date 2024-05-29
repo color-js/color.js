@@ -2,6 +2,7 @@ import * as util from "./util.js";
 import ColorSpace from "./space.js";
 import defaults from "./defaults.js";
 import getColor from "./getColor.js";
+import to from "./to.js";
 import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
 import clone from "./clone.js";
@@ -16,26 +17,29 @@ import clone from "./clone.js";
  * @param {SerializeOptions & Record<string, any>} options
  * @returns {string}
  */
-export default function serialize (
-	color,
-	{
+export default function serialize (color, options = {}) {
+	let {
 		precision = defaults.precision,
 		format = "default",
 		inGamut = true,
 		coords: coordFormat,
 		alpha: alphaFormat,
-		...customOptions
-	} = {},
-) {
+	} = options;
 	let ret;
 
 	color = getColor(color);
 
 	let formatId = format;
-	format =
-		color.space.getFormat(format) ??
-		color.space.getFormat("default") ??
-		ColorSpace.DEFAULT_FORMAT;
+	format = color.space.getFormat(format)
+	       ?? ColorSpace.findFormat(format)
+	       ?? color.space.getFormat("default")
+	       ?? ColorSpace.DEFAULT_FORMAT;
+
+	if (format.space && format.space !== color.space) {
+		// Format specified belongs to a different color space,
+		// need to convert to it first
+		color = to(color, format.space);
+	}
 
 	// The assignment to coords and inGamut needs to stay in the order they are now
 	// The order of the assignment was changed as a workaround for a bug in Next.js
@@ -54,10 +58,8 @@ export default function serialize (
 	}
 
 	if (format.type === "custom") {
-		customOptions.precision = precision;
-
 		if (format.serialize) {
-			ret = format.serialize(coords, color.alpha, customOptions);
+			ret = format.serialize(coords, color.alpha, options);
 		}
 		else {
 			throw new TypeError(
@@ -78,6 +80,7 @@ export default function serialize (
 			args.unshift(cssId);
 		}
 
+		// Serialize alpha?
 		let alpha = color.alpha;
 
 		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {

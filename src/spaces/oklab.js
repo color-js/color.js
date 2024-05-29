@@ -68,7 +68,7 @@ export default new ColorSpace({
 
 	formats: {
 		"oklab": {
-			coords: ["<percentage> | <number>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
+			coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <percentage>"],
 		},
 	},
 });

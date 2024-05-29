@@ -140,7 +140,7 @@ element.style.background = `linear-gradient(to right, ${
 })`;
 ```
 
-Play with the parameters above to see what gradient is produced, or use the [gradients demo app](/apps/gradients)!
+Play with the parameters above to see what gradient is produced, or use the [gradients demo app](https://apps.colorjs.io/gradients)!
 
 Note that in the example above, `color.toString()` is called implicitly with no params due to `array.join()`.
 This can produce colors that are not supported by the current browser.

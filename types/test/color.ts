@@ -1,4 +1,4 @@
-import Color from "colorjs.io/src/color";
+import Color, { Coords } from "colorjs.io/src/color";
 
 // @ts-expect-error
 new Color();
@@ -18,5 +18,7 @@ color.clone(); // $ExpectType Color
 
 color.display();
 color.display({ space: "srgb" });
+
+const coords: Coords = [1, 2, null];
 
 // Most other color methods are those defined in other files, so they aren't tested here

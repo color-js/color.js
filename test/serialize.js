@@ -81,6 +81,31 @@ const tests = {
 					args: ["srgb", [1, 0.5, 0], 1, {format: "hex"}],
 					expect: "#ff8000",
 				},
+				{
+					name: "Hex on non-sRGB color",
+					args: ["hsl", [0, 100, 50], 1, {format: "hex"}],
+					expect: "#f00",
+				},
+				{
+					name: "Cannot serialize as keyword",
+					args: ["srgb", [1, 0.5, 0], 1, {format: "keyword"}],
+					throws: true,
+				},
+			],
+		},
+		{
+			name: "Custom coord format",
+			tests: [
+				{
+					name: "rgb() with <number> coords",
+					args: ["srgb", [1, 0.5, 0], 1, {coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"]}],
+					expect: "rgb(255 127.5 0)",
+				},
+				{
+					name: "oklch(<percentage> <percentage> <angle>)",
+					args: ["oklch", [0.5, 0.2, 180], 1, {coords: [, "<percentage>", "<angle>"]}],
+					expect: "oklch(50% 50% 180deg)",
+				},
 			],
 		},
 		{
@@ -90,6 +115,16 @@ const tests = {
 					name: "Force alpha",
 					args: ["srgb", [1, 0.5, 0], 1, {alpha: true}],
 					expect: "rgb(100% 50% 0% / 1)",
+				},
+				{
+					name: "Force alpha in hex",
+					args: ["srgb", [1, 0.5, 0], 1, {format: "hex", alpha: true}],
+					expect: "#ff8000ff",
+				},
+				{
+					name: "Force no alpha in hex",
+					args: ["srgb", [1, 0.5, 0], 0.5, {format: "hex", alpha: false}],
+					expect: "#ff8000",
 				},
 			],
 		},

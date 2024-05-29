@@ -83,8 +83,9 @@ export default new RGBColorSpace({
 			},
 			serialize: (coords, alpha, {
 				collapse = true, // collapse to 3-4 digit hex when possible?
+				alpha: alphaFormat,
 			} = {}) => {
-				if (alpha < 1) {
+				if (alphaFormat !== false && alpha < 1 || alphaFormat === true) {
 					coords.push(alpha);
 				}
 

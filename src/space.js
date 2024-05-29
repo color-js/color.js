@@ -146,19 +146,27 @@ export default class ColorSpace {
 		return false;
 	}
 
+	/**
+	 * Lookup a format in this color space
+	 * @param {string | object | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
+	 * @returns {Format}
+	 */
 	getFormat (format) {
-		if (!(typeof format === "object")) {
-			let name = format === "default" ? Object.keys(this.formats)[0] : format;
-			format = this.formats[name];
-		}
-
 		if (!format) {
 			return null;
+		}
+
+		if (format === "default") {
+			format = Object.values(this.formats)[0];
+		}
+		else if (typeof format === "string") {
+			format = this.formats[format];
 		}
 
 		let ret = Format.get(format, this);
 
 		if (ret !== format && format.name in this.formats) {
+			// Update the format we have on file so we can find it more quickly next time
 			this.formats[format.name] = ret;
 		}
 
@@ -319,11 +327,15 @@ export default class ColorSpace {
 
 	/**
 	 * Look up all color spaces for a format that matches certain criteria
-	 * @param {*} name
-	 * @param {*} filters
+	 * @param {object | string} filters
 	 * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
+	 * @returns {Format | null}
 	 */
 	static findFormat (filters, spaces = ColorSpace.all) {
+		if (!filters) {
+			return null;
+		}
+
 		if (typeof filters === "string") {
 			filters = { name: filters };
 		}

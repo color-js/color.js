@@ -107,7 +107,7 @@ export default {
 						color.setAll("srgb", [1, 0, 1]);
 						return [...color.coords];
 					},
-					// https://colorjs.io/apps/convert/?color=%23f0f&precision=4
+					// https://apps.colorjs.io/convert/?color=%23f0f&precision=4
 					expect: [0.7016738591017413, 0.32249098770537216, 328.36341517499017],
 				},
 				{

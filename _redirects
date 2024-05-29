@@ -1,2 +1,3 @@
-/apps/picker/:space /apps/picker/ 200
 /node_modules/htest.dev/* https://htest.dev/:splat
+/apps/* https://apps.colorjs.io/:splat 301
+/elements/* https://elements.colorjs.io/:splat 301

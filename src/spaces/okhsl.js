@@ -376,8 +376,8 @@ function okhslToOklab (hsl, lmsToRgb,  okCoeff) {
 
 	let [h, s, l] = hsl;
 	let L = toeInv(l);
-	let a = 0.0;
-	let b = 0.0;
+	let a = null;
+	let b = null;
 	h = constrain(h) / 360.0;
 
 	if (L !== 0.0 && L !== 1.0 && s !== 0) {
@@ -423,6 +423,10 @@ function okhslToOklab (hsl, lmsToRgb,  okCoeff) {
 function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsl.
 
+	// Epsilon for lightness should approach close to 32 bit lightness
+	// Epsilon for saturation just needs to be sufficiently close when denoting achromatic
+	let εL = 1e-7;
+	let εS = 1e-4;
 	let L = lab[0];
 	let s = 0.0;
 	let l = toe(L);
@@ -458,7 +462,22 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 		}
 	}
 
-	return [constrain(h * 360), s, l];
+	const achromatic = Math.abs(s) < εS;
+	if (achromatic || l === 0.0 || Math.abs(1 - l) < εL) {
+		h = null;
+		// Due to floating point imprecision near lightness of 1, we can end up
+		// with really high around white, this is to provide consistency as
+		// saturation can be really high for white due this imprecision.
+		if (!achromatic) {
+			s = 0.0;
+		}
+	}
+
+	else {
+		h = constrain(h * 360);
+	}
+
+	return [h, s, l];
 }
 
 

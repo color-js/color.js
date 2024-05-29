@@ -374,7 +374,6 @@ module.exports = {
 		},
 		{
 			"files": [
-				"apps/**/*",
 				"assets/**/*",
 				"get/**/*",
 				"notebook/**/*",
