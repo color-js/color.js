@@ -46,6 +46,9 @@ function distanceFromOriginAngle (slope, intercept, angle) {
 	return d < 0 ? Infinity : d;
 }
 
+/**
+ * @param {number} l
+ */
 export function calculateBoundingLines (l) {
 	const sub1 = Math.pow(l + 16, 3) / 1560896;
 	const sub2 = sub1 > ε ? sub1 : l / κ;

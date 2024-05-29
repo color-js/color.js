@@ -4,6 +4,9 @@ import {constrain} from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
 import {WHITES} from "../adapt.js";
 
+// Type "imports"
+/** @typedef {import("../types.js").Coords} Coords */
+
 const white = WHITES.D65;
 const adaptedCoef = 0.42;
 const adaptedCoefInv = 1 / adaptedCoef;
@@ -43,6 +46,11 @@ const hueQuadMap = {
 const rad2deg = 180 / Math.PI;
 const deg2rad = Math.PI / 180;
 
+/**
+ * @param {Coords} coords
+ * @param {number} fl
+ * @returns {[number, number, number]}
+ */
 export function adapt (coords, fl) {
 	const temp = coords.map(c => {
 		const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
@@ -51,6 +59,11 @@ export function adapt (coords, fl) {
 	return temp;
 }
 
+/**
+ * @param {Coords} adapted
+ * @param {number} fl
+ * @returns {[number, number, number]}
+ */
 export function unadapt (adapted, fl) {
 	const constant = 100 / fl * (27.13 ** adaptedCoefInv);
 	return adapted.map(c => {
@@ -59,6 +72,9 @@ export function unadapt (adapted, fl) {
 	});
 }
 
+/**
+ * @param {number} h
+ */
 export function hueQuadrature (h) {
 	let hp = constrain(h);
 	if (hp <= hueQuadMap.h[0]) {
@@ -74,6 +90,9 @@ export function hueQuadrature (h) {
 	return Hi + (100 * t) / (t + (hii - hp) / eii);
 }
 
+/**
+ * @param {number} H
+ */
 export function invHueQuadrature (H) {
 	let Hp = ((H % 400 + 400) % 400);
 	const i = Math.floor(0.01 * Hp);
@@ -87,6 +106,13 @@ export function invHueQuadrature (H) {
 	);
 }
 
+/**
+ * @param {[number, number, number]} refWhite
+ * @param {number} adaptingLuminance
+ * @param {number} backgroundLuminance
+ * @param {keyof typeof surroundMap} surround
+ * @param {boolean} discounting
+ */
 export function environment (
 	refWhite,
 	adaptingLuminance,
@@ -94,7 +120,6 @@ export function environment (
 	surround,
 	discounting,
 ) {
-
 	const env = {};
 
 	env.discounting = discounting;
