@@ -95,7 +95,7 @@ export function interpolate (start, end, p) {
 /**
  * @param {number} start
  * @param {number} end
- * @param {number} p
+ * @param {number} value
  */
 export function interpolateInv (start, end, value) {
 	return (value - start) / (end - start);
