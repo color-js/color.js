@@ -47,8 +47,8 @@ function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 	h = constrain(h) / 360.0;
 
 	let l = toeInv(v);
-	let a = 0.0;
-	let b = 0.0;
+	let a = null;
+	let b = null;
 
 	// Avoid processing gray or colors with undefined hues
 	if (l !== 0.0 && s !== 0.0) {
@@ -95,6 +95,8 @@ function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsv.
 
+	// Epsilon for saturation just needs to be sufficiently close when denoting achromatic
+	let ε = 1e-4;
 	let l = lab[0];
 	let s = 0.0;
 	let v = toe(l);
@@ -134,7 +136,15 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 		s = (s0 + tMax) * cv / ((tMax * s0) + tMax * k * cv);
 	}
 
-	return [constrain(h * 360), s, v];
+	if (Math.abs(s) < ε || v === 0.0) {
+		h = null;
+	}
+
+	else {
+		h = constrain(h * 360);
+	}
+
+	return [h, s, v];
 }
 
 
