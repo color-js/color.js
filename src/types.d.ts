@@ -1,3 +1,9 @@
+// contrast/
+export type * from "./contrast/index.js";
+
+// deltaE/
+export type * from "./deltaE/index.js";
+
 // adapt.js
 export type White = [number, number, number];
 
