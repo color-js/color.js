@@ -1,13 +1,11 @@
 {
 	"compilerOptions": {
 		"allowJs": true,
-		"lib": [
-			"ESNext"
-		],
+		"lib": ["DOM", "ESNext"],
 		"skipLibCheck": true
 	},
 	"include": [
-		"types/src/**/*.d.ts"
+		"src/**/*.js"
 	],
 	"exclude": [
 		"node_modules/**"
