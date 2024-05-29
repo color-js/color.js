@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * This module defines all the builtin deltaE methods.
+ */
 import deltaE76 from "./deltaE76.js";
 import deltaECMC from "./deltaECMC.js";
 import deltaE2000 from "./deltaE2000.js";
