@@ -92,6 +92,10 @@ export default class Format {
 		});
 	}
 
+	canSerialize () {
+		return this.type === "function" || this.serialize;
+	}
+
 	static get (format, ...args) {
 		if (!format || format instanceof Format) {
 			return format;
