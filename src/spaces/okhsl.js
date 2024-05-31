@@ -90,20 +90,28 @@ function vdot (a, b) {
 }
 
 
+/**
+ * Toe function for L_r
+ * @param {number} x
+ */
 export function toe (x) {
-	// Toe function for L_r.
-
 	return 0.5 * (K3 * x - K1 + Math.sqrt((K3 * x - K1) * (K3 * x - K1) + 4 * K2 * K3 * x));
 }
 
 
+/**
+ * Inverse toe function for L_r
+ * @param {number} x
+ */
 export function toeInv (x) {
-	// Inverse toe function for L_r.
-
 	return (x ** 2 + K1 * x) / (K3 * (x + K2));
 }
 
 
+/**
+ * @param {readonly [number, number]} cusp
+ * @returns {[number, number]}
+ */
 export function toSt (cusp) {
 	// To ST.
 
@@ -148,7 +156,10 @@ function getStMid (a, b) {
 	return [s, t];
 }
 
-
+/**
+ * @param {number[][]} lab
+ * @param {number[][]} lmsToRgb
+ */
 export function oklabToLinearRGB (lab, lmsToRgb) {
 	// Convert from Oklab to linear RGB.
 	//
@@ -163,7 +174,14 @@ export function oklabToLinearRGB (lab, lmsToRgb) {
 	);
 }
 
-
+/**
+ * @param {[number, number]} a
+ * @param {[number, number]} b
+ * @param {number[][]} lmsToRgb
+ * @param {number[][]} okCoeff
+ * @returns {[number, number]}
+ * @todo Could probably make these types more specific/better-documented if desired
+ */
 export function findCusp (a, b, lmsToRgb, okCoeff) {
 	// Finds L_cusp and C_cusp for a given hue.
 	//

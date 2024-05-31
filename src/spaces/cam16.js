@@ -192,6 +192,14 @@ const viewingConditions = environment(
 	false,
 );
 
+/** @typedef {{J: number, C: number, h: number, s: number, Q: number, M: number, H: number}} Cam16Object */
+
+/**
+ * @param {Cam16Object} cam16
+ * @param {Record<string, unknown>} env
+ * @returns {[number, number, number]}
+ * @todo Add types for `env`
+ */
 export function fromCam16 (cam16, env) {
 
 	// These check ensure one, and only one attribute for a
@@ -284,7 +292,12 @@ export function fromCam16 (cam16, env) {
 	});
 }
 
-
+/**
+ * @param {[number, number, number]} xyzd65
+ * @param {Record<string, unknown>} env
+ * @returns {Cam16Object}
+ * @todo Add types for `env`
+ */
 export function toCam16 (xyzd65, env) {
 	// Cone response
 	const xyz100 = xyzd65.map(c => {
