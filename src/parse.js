@@ -116,6 +116,9 @@ export default function parse (str, options) {
 					continue;
 				}
 
+				// Convert to Format object
+				format = space.getFormat(format);
+
 				let color = format.parse(env.str);
 
 				if (color) {
