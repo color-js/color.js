@@ -1,13 +1,28 @@
 import { isNone } from "./util.js";
 import Type from "./Type.js";
 
-let instance = Symbol("instance");
+// Type "imports"
+/** @typedef {import("./types.js").ColorSpace} ColorSpace */
+/** @typedef {import("./types.js").Format} FormatInterface */
+
+export const instance = Symbol("instance");
 
 /**
  * @class Format
  * Class to hold a color serialization format
  */
 export default class Format {
+	// Class properties - declared here so that type inference works
+	type;
+	name;
+	spaceCoords;
+	/** @type {[Type, Type, Type]} */
+	coords;
+
+	/**
+	 * @param {FormatInterface} format
+	 * @param {ColorSpace} space
+	 */
 	constructor (format, space = format.space) {
 		format[instance] = this;
 		this.type = "function";

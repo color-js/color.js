@@ -5,6 +5,8 @@
  */
 import { White } from "./adapt.js";
 import { ColorConstructor, Coords, ColorTypes } from "./color.js";
+import type FormatClasa from "./Format.js";
+import type { instance } from "./Format.js";
 
 export interface Format {
 	/** @default "function" */
@@ -31,6 +33,7 @@ export interface Format {
 	 * Must be defined for a format to support serialization
 	 */
 	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
+	[instance]?: FormatClass | undefined;
 }
 
 export interface CoordMeta {

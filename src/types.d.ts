@@ -118,6 +118,7 @@ export interface SerializeOptions {
 // space.js
 import type ColorSpace from "./space.js";
 import type { Format, Ref, SpaceOptions } from "./space.js";
+export type { ColorSpace };
 export type * from "./space.js";
 
 // toGamut.js
