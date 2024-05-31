@@ -45,7 +45,13 @@ export default class Color {
 		let color;
 
 		if (args.length === 1) {
-			color = getColor(args[0]);
+			let parseMeta = {};
+			color = getColor(args[0], {parseMeta});
+
+			if (parseMeta.format) {
+				// Color actually came from a string
+				this.parseMeta = parseMeta;
+			}
 		}
 
 		let space, coords, alpha;
