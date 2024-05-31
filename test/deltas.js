@@ -45,7 +45,7 @@ export default {
 						{spaceId: "oklch", coords: [null, null, null], alpha: .5},
 					],
 					expect: { spaceId: "oklch", coords: [0, 0, 0], alpha: 0 },
-				}
+				},
 			],
 		},
 		{
