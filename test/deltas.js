@@ -22,6 +22,30 @@ export default {
 					args: ["white", "black"],
 					expect: { spaceId: "srgb", coords: [1, 1, 1], alpha: 0 },
 				},
+				{
+					name: "Hues should never have a difference > 180 by default",
+					args: [
+						{spaceId: "oklch", coords: [.5, .2, -180]},
+						{spaceId: "oklch", coords: [.5, .2, 720]},
+					],
+					expect: { spaceId: "oklch", coords: [0, 0, 180], alpha: 0 },
+				},
+				{
+					name: "If both coords are none, the delta should be none.",
+					args: [
+						{spaceId: "oklch", coords: [null, null, null], alpha: null},
+						{spaceId: "oklch", coords: [null, null, null], alpha: null},
+					],
+					expect: { spaceId: "oklch", coords: [null, null, null], alpha: null },
+				},
+				{
+					name: "If one coord is none, the delta should be 0.",
+					args: [
+						{spaceId: "oklch", coords: [.5, .2, -180], alpha: null},
+						{spaceId: "oklch", coords: [null, null, null], alpha: .5},
+					],
+					expect: { spaceId: "oklch", coords: [0, 0, 0], alpha: 0 },
+				}
 			],
 		},
 		{
