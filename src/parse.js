@@ -79,7 +79,7 @@ export default function parse (str, options) {
 		}
 
 		if (meta) {
-			Object.assign(meta, {format, formatId: format.name, types});
+			Object.assign(meta, {format, formatId: format.name, types, commas: env.parsed.commas});
 		}
 
 		let alpha = 1;
@@ -230,7 +230,7 @@ export function parseFunction (str) {
 		let argMeta = [];
 		let lastAlpha = false;
 
-		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
+		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
 			let {value, meta} = parseArgument(rawArg);
 
 			if ($0.startsWith("/")) {
@@ -240,6 +240,7 @@ export function parseFunction (str) {
 
 			args.push(value);
 			argMeta.push(meta);
+			return "";
 		});
 
 		return {
@@ -247,6 +248,7 @@ export function parseFunction (str) {
 			args,
 			argMeta,
 			lastAlpha,
+			commas: separators.includes(","),
 			rawName: parts[1],
 			rawArgs: parts[2],
 		};
