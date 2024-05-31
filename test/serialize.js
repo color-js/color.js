@@ -117,6 +117,11 @@ const tests = {
 					expect: "rgb(100% 50% 0% / 1)",
 				},
 				{
+					name: "Percentage alpha",
+					args: ["srgb", [1, 0.5, 0], 0.8, {alpha: "<percentage>"}],
+					expect: "rgb(100% 50% 0% / 80%)",
+				},
+				{
 					name: "Force alpha in hex",
 					args: ["srgb", [1, 0.5, 0], 1, {format: "hex", alpha: true}],
 					expect: "#ff8000ff",
