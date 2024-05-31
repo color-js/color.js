@@ -7,11 +7,16 @@ import defaults from "./defaults.js";
  * Convert a CSS Color string to a color object
  * @param {string} str
  * @param {object} [options]
- * @param {object} [options.meta] - Object for additional information about the parsing
+ * @param {object} [options.meta] - Object to hold information about the parsing (format, types, etc.)
+ * @param {object} [options.parseMeta] - More specific alias of options.meta
  * @returns {Color}
  */
-export default function parse (str, {meta} = {}) {
-	let env = {"str": String(str)?.trim()};
+export default function parse (str, options) {
+	let env = {
+		str: String(str)?.trim(),
+		options,
+	};
+
 	hooks.run("parse-start", env);
 
 	if (env.color) {
@@ -20,6 +25,7 @@ export default function parse (str, {meta} = {}) {
 
 	env.parsed = parseFunction(env.str);
 	let ret;
+	let meta = env.options ? env.options.parseMeta ?? env.options.meta : null;
 
 	if (env.parsed) {
 		// Is a functional syntax
