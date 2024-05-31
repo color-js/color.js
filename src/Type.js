@@ -24,15 +24,19 @@ export default class Type {
 				this.range = [+min, +max];
 			}
 		}
+	}
 
-		if (!this.range) {
-			if (this.type === "<percentage>") {
-				this.range = [-1, 1];
-			}
-			else if (this.type === "<angle>") {
-				this.range = [0, 360];
-			}
+	get computedRange () {
+		if (this.range) {
+			return this.range;
 		}
+		if (this.type === "<percentage>") {
+			return [-1, 1];
+		}
+		else if (this.type === "<angle>") {
+			return [0, 360];
+		}
+		return null;
 	}
 
 	get unit () {
@@ -56,7 +60,7 @@ export default class Type {
 			return number;
 		}
 
-		let fromRange = this.range;
+		let fromRange = this.computedRange;
 		let toRange = this.coordRange;
 
 		if (this.type === "<percentage>") {
@@ -73,7 +77,7 @@ export default class Type {
 	 * @returns
 	 */
 	serialize (number, precision) {
-		let toRange = this.type === "<percentage>" ? [-100, 100] : this.range;
+		let toRange = this.type === "<percentage>" ? [-100, 100] : this.computedRange;
 		let unit = this.unit;
 
 		number = mapRange(this.coordRange, toRange, number);
