@@ -86,6 +86,17 @@ export default class Type {
 		return number;
 	}
 
+	toString () {
+		let ret = this.type;
+
+		if (this.range) {
+			let [min = "", max = ""] = this.range;
+			ret += `[${min},${max}]`;
+		}
+
+		return ret;
+	}
+
 	static get (type, ...args) {
 		if (type instanceof this) {
 			return type;
