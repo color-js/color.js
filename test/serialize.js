@@ -109,6 +109,11 @@ const tests = {
 			],
 		},
 		{
+			name: "Force commas",
+			args: ["srgb", [1, 0.5, 0], 1, {commas: true}],
+			expect: "rgb(100%, 50%, 0%)",
+		},
+		{
 			name: "Custom alpha format",
 			tests: [
 				{

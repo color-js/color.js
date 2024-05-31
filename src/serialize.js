@@ -12,9 +12,10 @@ import clone from "./clone.js";
  * @param {Object} [options]
  * @param {number} [options.precision] - Significant digits
  * @param {boolean} [options.inGamut=false] - Adjust coordinates to fit in gamut first?
- * @param {string} [options.format="default"] - Output format id, default is "default"
- * @param {string} [options.coords] - Coordinate format to override the default
- * @param {string | boolean | {type: string, include: boolean}} [options.alpha] - Alpha format
+ * @param {string} [options.format] - Output format id. Defaults to the parsed format, if available (and can serialize), or the color space default otherwise.
+ * @param {string[]} [options.coords] - Coordinate format to override the default
+ * @param {boolean} [options.commas=false] - Force commas as a separator?
+ * @param {"<number>" | "<percentage>" | boolean | {type: "<number>" | "<percentage>", include: boolean}} [options.alpha] - Alpha format
  */
 export default function serialize (color, options = {}) {
 	let {
@@ -23,6 +24,7 @@ export default function serialize (color, options = {}) {
 		inGamut = true,
 		coords: coordFormat,
 		alpha: alphaFormat,
+		commas,
 	} = options;
 	let ret;
 
@@ -84,6 +86,8 @@ export default function serialize (color, options = {}) {
 		let serializeAlpha = alphaFormat?.include === true || format.alpha === true || (alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
 		let strAlpha = "";
 
+		commas ??= format.commas;
+
 		if (serializeAlpha) {
 			if (precision !== null) {
 				let unit;
@@ -96,10 +100,10 @@ export default function serialize (color, options = {}) {
 				alpha = util.serializeNumber(alpha, {precision, unit});
 			}
 
-			strAlpha = `${format.commas ? "," : " /"} ${alpha}`;
+			strAlpha = `${ commas ? "," : " /" } ${alpha}`;
 		}
 
-		ret = `${name}(${args.join(format.commas ? ", " : " ")}${strAlpha})`;
+		ret = `${ name }(${ args.join(commas ? ", " : " ") }${ strAlpha })`;
 	}
 
 	return ret;
