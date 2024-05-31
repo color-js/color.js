@@ -93,7 +93,7 @@ export default function serialize (color, options = {}) {
 					alpha *= 100;
 				}
 
-				alpha = util.serializeNumber(alpha, {precision});
+				alpha = util.serializeNumber(alpha, {precision, unit});
 			}
 
 			strAlpha = `${format.commas ? "," : " /"} ${alpha}`;
