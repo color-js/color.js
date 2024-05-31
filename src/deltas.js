@@ -31,16 +31,19 @@ export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
 		if (coordMeta.type === "angle") {
 			[coord1, coord2] = adjust(hue, [coord1, coord2]);
 		}
-		else if (isNone(coord1) || isNone(coord2)) {
-			// Handle none
-			return coord1 === coord2 ? null : 0;
-		}
 
-		return coord1 - coord2;
+		return subtractCoords(coord1, coord2);
 	});
 
-	let alpha = c1.alpha - c2.alpha;
+	let alpha = subtractCoords(c1.alpha, c2.alpha);
 
 	return { space: c1.space, spaceId: c1.space.id, coords, alpha };
 }
 
+function subtractCoords (c1, c2) {
+	if (isNone(c1) || isNone(c2)) {
+		return c1 === c2 ? null : 0;
+	}
+
+	return c1 - c2;
+}
