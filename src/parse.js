@@ -78,10 +78,18 @@ export default function parse (str, options) {
 			space = format.space;
 		}
 
+		if (meta) {
+			Object.assign(meta, {format, formatId: format.name, types});
+		}
+
 		let alpha = 1;
 
 		if (format.alpha === true || env.parsed.lastAlpha) {
 			alpha = env.parsed.args.pop();
+
+			if (meta) {
+				meta.alphaType = types.pop();
+			}
 		}
 
 		let coordCount = format.coords.length;
@@ -91,10 +99,6 @@ export default function parse (str, options) {
 		}
 
 		coords = format.coerceCoords(coords, types);
-
-		if (meta) {
-			Object.assign(meta, {format, formatId: format.name, types});
-		}
 
 		ret = {spaceId: space.id, coords, alpha};
 	}
