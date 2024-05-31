@@ -2,6 +2,7 @@ import getColor from "./getColor.js";
 import ColorSpace from "./space.js";
 import to from "./to.js";
 import { adjust } from "./angles.js";
+import { isNone } from "./util.js";
 
 /**
  * Get color differences per-component, on any color space
@@ -30,7 +31,7 @@ export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
 		if (coordMeta.type === "angle") {
 			[coord1, coord2] = adjust(hue, [coord1, coord2]);
 		}
-		else if (coord1 === null || coord2 === null) {
+		else if (isNone(coord1) || isNone(coord2)) {
 			// Handle none
 			return coord1 === coord2 ? null : 0;
 		}
