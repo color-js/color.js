@@ -20,6 +20,7 @@ export default new ColorSpace({
 
 	// Note that XYZ is relative to D65
 	white: "D65",
+
 	base: OKLab,
 	fromBase (oklab) {
 		return [toe(oklab[0]), oklab[1], oklab[2]];
