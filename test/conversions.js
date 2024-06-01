@@ -483,7 +483,7 @@ const tests = {
 				{
 					name: "sRGB white (D65) to OKlrch",
 					args: "white",
-					expect: [1.0, 0.0, NaN],
+					expect: [1.0, 0.0, null],
 				},
 				{
 					name: "sRGB red (D65) to OKlrch",
