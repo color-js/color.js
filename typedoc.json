@@ -3,6 +3,7 @@
 	"json": "./api/docs.json",
 	"name": "Color.js API Docs",
 	"entryPoints": [
+		"src/types.d.ts",
 		"src/color.d.ts",
 		"src/space.d.ts",
 		"src/index-fn.js",

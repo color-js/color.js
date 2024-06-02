@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * Defines and re-exports many types for use throughout the library.
+ */
 // contrast/
 export type * from "./contrast/index.js";
 
