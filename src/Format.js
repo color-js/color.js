@@ -5,6 +5,11 @@ import Type from "./Type.js";
 /** @typedef {import("./types.js").ColorSpace} ColorSpace */
 /** @typedef {import("./types.js").Format} FormatInterface */
 
+/**
+ * @internal
+ * Used to index {@link FormatInterface Format} objects and store an instance.
+ * Not meant for external use
+ */
 export const instance = Symbol("instance");
 
 /**
