@@ -112,40 +112,55 @@ input[type=number] {
 }
 
 table {
+	--transparent-canvas: color-mix(in oklab, canvas, oklab(none none none / 0%) 100%);
+	--color-canvastext: color-mix(in oklch, canvastext, oklch(none .05 260) 100%);
+
 	width: 100%;
-	border: 5px solid transparent;
-	border-radius: .2em;
 	border-spacing: 0;
 	border-collapse: collapse;
-	background: var(--rainbow);
-	animation: var(--rainbow-scroll);
+	border: 1px solid transparent;
+	background: color-mix(in oklab, var(--color-canvastext) 11%, var(--transparent-canvas));
 
 	& th,
 	& td {
 		text-align: left;
 		padding: .2em .4em;
+		border: 1px solid transparent;
+		background: color-mix(in oklab, canvas 95%, var(--transparent-canvas)) padding-box;
 	}
 
 	& thead {
 		& th {
-			color: white;
 			font-size: 80%;
+			background-color: color-mix(in oklab, canvas 65%, var(--transparent-canvas));
 		}
 	}
 
 	& tbody,
 	& tfoot {
-		& th,
-		& td {
-			background: hsla(0 0% 100% / .95);
-			border: 1px solid transparent;
-		}
-
 		& tr:nth-of-type(even) {
 			& td,
 			& th {
-				background: hsla(0 0% 100% / .8);
+				background-color: color-mix(in oklab, canvas 80%, var(--transparent-canvas));
 			}
+		}
+	}
+
+	&.fancy {
+		border: 5px solid transparent;
+		border-radius: .2em;
+		background: var(--rainbow);
+		animation: var(--rainbow-scroll);
+
+		& th,
+		& td {
+			background: hsla(0 0% 100% / .95);
+
+		}
+
+		thead th {
+			background: transparent;
+			color: white;
 		}
 	}
 }
