@@ -112,15 +112,7 @@ export default function parse (str, options) {
 
 		coords = format.coerceCoords(coords, types);
 
-<<<<<<< HEAD
-		if (meta) {
-			Object.assign(meta, { format, formatId: format.name, types });
-		}
-
-		ret = { spaceId: space.id, coords, alpha };
-=======
 		ret = {spaceId: space.id, coords, alpha};
->>>>>>> main
 	}
 	else {
 		// Custom, colorspace-specific format
@@ -247,13 +239,8 @@ export function parseFunction (str) {
 		let argMeta = [];
 		let lastAlpha = false;
 
-<<<<<<< HEAD
-		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
-			let { value, meta } = parseArgument(rawArg);
-=======
 		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
 			let {value, meta} = parseArgument(rawArg);
->>>>>>> main
 
 			if ($0.startsWith("/")) {
 				// It's alpha

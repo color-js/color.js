@@ -127,11 +127,7 @@ export default function serialize (color, options = {}) {
 					alpha *= 100;
 				}
 
-<<<<<<< HEAD
-				alpha = util.serializeNumber(alpha, { precision });
-=======
 				alpha = util.serializeNumber(alpha, {precision, unit});
->>>>>>> main
 			}
 
 			strAlpha = `${ commas ? "," : " /" } ${alpha}`;
