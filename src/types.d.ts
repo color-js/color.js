@@ -85,7 +85,10 @@ export interface ArgumentMeta {
 }
 
 export interface ParseOptions {
+	/** Object to hold information about the parsing (format, types, etc.) */
 	meta?: ArgumentMeta | undefined;
+	/** Alias for {@link meta} */
+	parseMeta?: ParseOptions["meta"];
 }
 
 export interface ParseFunctionReturn {
@@ -108,15 +111,26 @@ export interface SerializeOptions {
 	/** Significant digits */
 	precision?: number | undefined;
 	/**
-	 * Output format id
+	 * Output format id.
+	 * Defaults to the parsed format if available (and can serialize),
+	 * or the color space default otherwise
 	 * @default "default"
 	 */
 	format?: string | Format | undefined;
+	/**
+	 * Adjust coordinates to fit in gamut first
+	 * @default false
+	 */
 	inGamut?: boolean | undefined;
 	/** Coordinate format to override the default */
 	coords?: Coords | undefined;
 	/** Alpha format */
-	alpha?: string | boolean | { type: string; include: boolean } | undefined;
+	alpha?: "<number>" | "<percentage>" | boolean | { type: "<number>" | "<percentage>"; include: boolean } | undefined;
+	/**
+	 * Force commas as a separator
+	 * @default false
+	 */
+	commas?: boolean | undefined;
 }
 
 // space.js

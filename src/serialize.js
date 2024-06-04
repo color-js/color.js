@@ -20,22 +20,41 @@ import clone from "./clone.js";
 export default function serialize (color, options = {}) {
 	let {
 		precision = defaults.precision,
-		format = "default",
+		format,
 		inGamut = true,
 		coords: coordFormat,
 		alpha: alphaFormat,
+		commas,
 	} = options;
 	let ret;
 
 	color = getColor(color);
 
 	let formatId = format;
-	format = color.space.getFormat(format)
-	       ?? ColorSpace.findFormat(format)
-	       ?? color.space.getFormat("default")
-	       ?? ColorSpace.DEFAULT_FORMAT;
 
-	if (format.space && format.space !== color.space) {
+	if (color.parseMeta && !format) {
+		if (color.parseMeta.format.canSerialize()) {
+			format = color.parseMeta.format;
+			formatId = color.parseMeta.formatId;
+		}
+
+		coordFormat ??= color.parseMeta.types;
+		alphaFormat ??= color.parseMeta.alphaType;
+		commas ??= color.parseMeta.commas;
+	}
+
+	if (formatId) {
+		// A format is explicitly specified
+		format = color.space.getFormat(format) ?? ColorSpace.findFormat(formatId);
+	}
+
+	if (!format) {
+		// No format specified, or format not found
+		format = color.space.getFormat("default") ?? ColorSpace.DEFAULT_FORMAT;
+		formatId = format.name;
+	}
+
+	if (format && format.space && format.space !== color.space) {
 		// Format specified belongs to a different color space,
 		// need to convert to it first
 		color = to(color, format.space);
@@ -97,6 +116,8 @@ export default function serialize (color, options = {}) {
 			(alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
 		let strAlpha = "";
 
+		commas ??= format.commas;
+
 		if (serializeAlpha) {
 			if (precision !== null) {
 				let unit;
@@ -106,13 +127,17 @@ export default function serialize (color, options = {}) {
 					alpha *= 100;
 				}
 
+<<<<<<< HEAD
 				alpha = util.serializeNumber(alpha, { precision });
+=======
+				alpha = util.serializeNumber(alpha, {precision, unit});
+>>>>>>> main
 			}
 
-			strAlpha = `${format.commas ? "," : " /"} ${alpha}`;
+			strAlpha = `${ commas ? "," : " /" } ${alpha}`;
 		}
 
-		ret = `${name}(${args.join(format.commas ? ", " : " ")}${strAlpha})`;
+		ret = `${ name }(${ args.join(commas ? ", " : " ") }${ strAlpha })`;
 	}
 
 	return ret;

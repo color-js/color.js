@@ -103,8 +103,17 @@ export default class Format {
 
 			arg = type.resolve(arg);
 
+			if (type.range) {
+				// Adjust type to include range
+				types[i] = type.toString();
+			}
+
 			return arg;
 		});
+	}
+
+	canSerialize () {
+		return this.type === "function" || this.serialize;
 	}
 
 	static get (format, ...args) {

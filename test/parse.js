@@ -564,6 +564,21 @@ const tests = {
 				},
 			],
 		},
+		{
+			name: "parsing metadata",
+			run: (str) => {
+				let parseMeta = {};
+				parse(str, {parseMeta});
+				return parseMeta;
+			},
+			check: {subset: true},
+			tests: [
+				{
+					arg: "#ff8000",
+					expect: {formatId: "hex"},
+				},
+			],
+		},
 	],
 };
 

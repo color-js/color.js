@@ -12,11 +12,15 @@ import defaults from "./defaults.js";
 /**
  * Convert a CSS Color string to a color object
  * @param {string} str
- * @param {ParseOptions} options
+ * @param {ParseOptions} [options]
  * @returns {ColorConstructor}
  */
-export default function parse (str, { meta } = {}) {
-	let env = { str: String(str)?.trim() };
+export default function parse (str, options) {
+	let env = {
+		str: String(str)?.trim(),
+		options,
+	};
+
 	hooks.run("parse-start", env);
 
 	if (env.color) {
@@ -25,6 +29,7 @@ export default function parse (str, { meta } = {}) {
 
 	env.parsed = parseFunction(env.str);
 	let ret;
+	let meta = env.options ? env.options.parseMeta ?? env.options.meta : null;
 
 	if (env.parsed) {
 		// Is a functional syntax
@@ -83,10 +88,18 @@ export default function parse (str, { meta } = {}) {
 			space = format.space;
 		}
 
+		if (meta) {
+			Object.assign(meta, {format, formatId: format.name, types, commas: env.parsed.commas});
+		}
+
 		let alpha = 1;
 
 		if (format.alpha === true || env.parsed.lastAlpha) {
 			alpha = env.parsed.args.pop();
+
+			if (meta) {
+				meta.alphaType = types.pop();
+			}
 		}
 
 		let coordCount = format.coords.length;
@@ -99,11 +112,15 @@ export default function parse (str, { meta } = {}) {
 
 		coords = format.coerceCoords(coords, types);
 
+<<<<<<< HEAD
 		if (meta) {
 			Object.assign(meta, { format, formatId: format.name, types });
 		}
 
 		ret = { spaceId: space.id, coords, alpha };
+=======
+		ret = {spaceId: space.id, coords, alpha};
+>>>>>>> main
 	}
 	else {
 		// Custom, colorspace-specific format
@@ -118,6 +135,9 @@ export default function parse (str, { meta } = {}) {
 				if (format.test && !format.test(env.str)) {
 					continue;
 				}
+
+				// Convert to Format object
+				format = space.getFormat(format);
 
 				let color = format.parse(env.str);
 
@@ -227,8 +247,13 @@ export function parseFunction (str) {
 		let argMeta = [];
 		let lastAlpha = false;
 
+<<<<<<< HEAD
 		parts[2].replace(regex.singleArgument, ($0, rawArg) => {
 			let { value, meta } = parseArgument(rawArg);
+=======
+		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
+			let {value, meta} = parseArgument(rawArg);
+>>>>>>> main
 
 			if ($0.startsWith("/")) {
 				// It's alpha
@@ -237,6 +262,7 @@ export function parseFunction (str) {
 
 			args.push(value);
 			argMeta.push(meta);
+			return "";
 		});
 
 		return {
@@ -244,6 +270,7 @@ export function parseFunction (str) {
 			args,
 			argMeta,
 			lastAlpha,
+			commas: separators.includes(","),
 			rawName: parts[1],
 			rawArgs: parts[2],
 		};

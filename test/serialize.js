@@ -109,12 +109,22 @@ const tests = {
 			],
 		},
 		{
+			name: "Force commas",
+			args: ["srgb", [1, 0.5, 0], 1, {commas: true}],
+			expect: "rgb(100%, 50%, 0%)",
+		},
+		{
 			name: "Custom alpha format",
 			tests: [
 				{
 					name: "Force alpha",
 					args: ["srgb", [1, 0.5, 0], 1, {alpha: true}],
 					expect: "rgb(100% 50% 0% / 1)",
+				},
+				{
+					name: "Percentage alpha",
+					args: ["srgb", [1, 0.5, 0], 0.8, {alpha: "<percentage>"}],
+					expect: "rgb(100% 50% 0% / 80%)",
 				},
 				{
 					name: "Force alpha in hex",
