@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import {WHITES} from "../adapt.js";
 import xyz_d65 from "./xyz-d65.js";
 

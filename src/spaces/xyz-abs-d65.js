@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import XYZ_D65 from "./xyz-d65.js";
 
 const Yw = 203;	// absolute luminance of media white

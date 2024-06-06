@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import HSV from "./hsv.js";
 
 // The Hue, Whiteness Blackness (HWB) colorspace

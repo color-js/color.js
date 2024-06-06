@@ -21,7 +21,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import Oklab from "./oklab.js";
 import {LabtoLMS_M} from "./oklab.js";
 import {fromXYZ_M} from "./srgb-linear.js";

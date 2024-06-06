@@ -9,8 +9,8 @@
 import * as util from "./util.js";
 import hooks from "./hooks.js";
 import defaults from "./defaults.js";
-import ColorSpace from "./space.js";
-import { WHITES } from "./adapt.js";
+import ColorSpace from "./ColorSpace.js";
+import {WHITES} from "./adapt.js";
 import {
 	getColor,
 	parse,

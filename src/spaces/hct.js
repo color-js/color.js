@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import {constrain} from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
 import {fromCam16, toCam16, environment} from "./cam16.js";

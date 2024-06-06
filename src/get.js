@@ -1,4 +1,4 @@
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import getAll from "./getAll.js";
 import getColor from "./getColor.js";
 

@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import {WHITES} from "../adapt.js";
 import "../CATs.js"; // because of the funky whitepoint
 

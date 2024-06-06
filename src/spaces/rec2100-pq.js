@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import REC2020Linear from "./rec2020-linear.js";
 
 const Yw = 203;	// absolute luminance of media white, cd/m²

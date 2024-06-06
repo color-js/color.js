@@ -1,5 +1,5 @@
 import getColor from "./getColor.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import toGamut from "./toGamut.js";
 
 // Type "imports"

@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import sRGB from "./srgb.js";
 
 export default new ColorSpace({

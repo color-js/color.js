@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import Luv from "./luv.js";
 import lch from "./lch.js";
 

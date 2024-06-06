@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import LCHuv from "./lchuv.js";
 import sRGB from "./srgb.js";
 import {fromXYZ_M} from "./srgb-linear.js";

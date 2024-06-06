@@ -1,4 +1,4 @@
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import getColor from "./getColor.js";
 
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */

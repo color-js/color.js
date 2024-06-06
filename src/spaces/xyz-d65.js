@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 
 export default new ColorSpace({
 	id: "xyz-d65",

@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 
 // convert an array of linear-light rec2020 values to CIE XYZ
 // using  D65 (no chromatic adaptation)

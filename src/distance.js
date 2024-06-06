@@ -1,5 +1,5 @@
-import ColorSpace from "./space.js";
-import { isNone } from "./util.js";
+import ColorSpace from "./ColorSpace.js";
+import {isNone} from "./util.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */

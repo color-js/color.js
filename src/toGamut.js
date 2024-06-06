@@ -1,5 +1,5 @@
 import * as util from "./util.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";
 import deltaE2000 from "./deltaE/deltaE2000.js";
 import deltaEOK from "./deltaE/deltaEOK.js";

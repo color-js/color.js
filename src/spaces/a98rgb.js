@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import A98Linear from "./a98rgb-linear.js";
 
 export default new RGBColorSpace({

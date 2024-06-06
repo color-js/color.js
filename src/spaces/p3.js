@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import P3Linear from "./p3-linear.js";
 import sRGB from "./srgb.js";
 
