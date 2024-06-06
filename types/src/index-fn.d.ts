@@ -4,8 +4,8 @@
  * This module allows developers to selectively import
  * the classes and functions that they wish to use in their project.
  */
-export { default as ColorSpace } from "./space.js";
-export { default as RGBColorSpace } from "./rgbspace.js";
+export { default as ColorSpace } from "./ColorSpace.js";
+export { default as RGBColorSpace } from "./RGBColorSpace.js";
 export { default as hooks, Hooks } from "./hooks.js";
 export { default as defaults } from "./defaults.js";
 export { default as getColor } from "./getColor.js";
@@ -57,7 +57,7 @@ export type {
 
 export type { Options as ParseOptions } from "./parse.js";
 
-export type { RGBOptions } from "./rgbspace.js";
+export type { RGBOptions } from "./RGBColorSpace.js";
 
 export type { Options as SerializeOptions } from "./serialize.js";
 
@@ -66,4 +66,4 @@ export type {
 	CoordMeta,
 	Ref,
 	Options as SpaceOptions,
-} from "./space.js";
+} from "./ColorSpace.js";

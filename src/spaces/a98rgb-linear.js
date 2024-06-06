@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 
 // convert an array of linear-light a98-rgb values to CIE XYZ
 // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html

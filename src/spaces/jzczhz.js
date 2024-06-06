@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import Jzazbz from "./jzazbz.js";
 import lch from "./lch.js";
 

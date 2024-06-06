@@ -1,5 +1,5 @@
 import Color, { ColorTypes, PlainColorObject } from "./color.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import { Methods } from "./deltaE/index.js";
 
 export type Range = ((percentage: number) => Color) & {

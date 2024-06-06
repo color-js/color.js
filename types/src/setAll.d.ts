@@ -1,5 +1,5 @@
 import { ColorTypes, PlainColorObject } from "./color.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 
 declare namespace setAll {
 	let returns: "color";

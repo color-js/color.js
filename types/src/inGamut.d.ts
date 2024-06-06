@@ -1,5 +1,5 @@
 import { ColorTypes } from "./color.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 
 export default function inGamut (
 	color: ColorTypes,

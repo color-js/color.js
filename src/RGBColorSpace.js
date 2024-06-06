@@ -1,4 +1,4 @@
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import {multiplyMatrices} from "./util.js";
 import adapt from "./adapt.js";
 import XYZ_D65 from "./spaces/xyz-d65.js";

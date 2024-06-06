@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import ProPhotoLinear from "./prophoto-linear.js";
 
 const Et = 1 / 512;

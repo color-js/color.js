@@ -1,5 +1,5 @@
 import getColor from "./getColor.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import to from "./to.js";
 import { adjust } from "./angles.js";
 import { isNone } from "./util.js";

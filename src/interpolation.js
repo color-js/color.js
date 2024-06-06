@@ -1,7 +1,7 @@
 /**
  * Functions related to color interpolation
  */
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import {type, interpolate, isNone} from "./util.js";
 import getColor from "./getColor.js";
 import clone from "./clone.js";

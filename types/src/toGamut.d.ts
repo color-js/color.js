@@ -1,6 +1,6 @@
 import { ColorTypes, PlainColorObject } from "./color.js";
 import { Methods } from "./deltaE/index.js";
-import ColorSpace, { Ref } from "./space.js";
+import ColorSpace, { Ref } from "./ColorSpace.js";
 
 export interface Options {
 	/**

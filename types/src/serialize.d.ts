@@ -1,5 +1,5 @@
 import { ColorTypes } from "./color.js";
-import { Format } from "./space.js";
+import { Format } from "./ColorSpace.js";
 
 export interface Options {
 	precision?: number | undefined;

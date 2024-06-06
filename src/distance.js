@@ -1,4 +1,4 @@
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import {isNone} from "./util.js";
 
 /**

@@ -6,7 +6,7 @@ import { WHITES } from "./adapt.js";
 import defaults from "./defaults.js";
 import hooks from "./hooks.js";
 import * as util from "./util.js";
-import ColorSpace, { Ref } from "./space.js";
+import ColorSpace, { Ref } from "./ColorSpace.js";
 import SpaceAccessors from "./space-coord-accessors.js";
 
 import {

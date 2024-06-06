@@ -2,8 +2,8 @@
  * Tree-shakable ES module entry point.
  * Import as `colorjs.io/fn`
  */
-export {default as ColorSpace}          from "./space.js";
-export {default as RGBColorSpace}       from "./rgbspace.js";
+export {default as ColorSpace}          from "./ColorSpace.js";
+export {default as RGBColorSpace}       from "./RGBColorSpace.js";
 export {default as hooks, Hooks}        from "./hooks.js";
 export {default as defaults}            from "./defaults.js";
 export {default as getColor}            from "./getColor.js";

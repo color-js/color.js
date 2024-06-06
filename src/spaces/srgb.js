@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import sRGBLinear from "./srgb-linear.js";
 import KEYWORDS from "../keywords.js";
 

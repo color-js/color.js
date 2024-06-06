@@ -2,7 +2,7 @@
  * This plugin defines getters and setters for color[spaceId]
  * e.g. color.lch on *any* color gives us the lch coords
  */
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import Color from "./color.js";
 import hooks from "./hooks.js";
 

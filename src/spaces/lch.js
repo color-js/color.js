@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import Lab from "./lab.js";
 import {constrain as constrainAngle} from "../angles.js";
 import {isNone} from "../util.js";

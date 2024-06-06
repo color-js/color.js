@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import * as spaces from "./index-fn.js";
 
 for (let key of Object.keys(spaces)) {

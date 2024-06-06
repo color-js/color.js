@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 
 const toXYZ_M = [
 	[0.4865709486482162, 0.26566769316909306, 0.1982172852343625],

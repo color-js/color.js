@@ -30,7 +30,7 @@ export type {
 
 export type { Options as ParseOptions } from "./src/parse.js";
 
-export type { RGBOptions } from "./src/rgbspace.js";
+export type { RGBOptions } from "./src/RGBColorSpace.js";
 
 export type { Options as SerializeOptions } from "./src/serialize.js";
 
@@ -39,4 +39,4 @@ export type {
 	CoordMeta,
 	Ref,
 	Options as SpaceOptions,
-} from "./src/space.js";
+} from "./src/ColorSpace.js";

@@ -1,6 +1,6 @@
 import { isNone, clamp } from "./util.js";
 import hooks from "./hooks.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";
 
 /**

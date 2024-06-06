@@ -1,5 +1,5 @@
 import * as util from "./util.js";
-import ColorSpace from "./space.js";
+import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";
 import getColor from "./getColor.js";
 import to from "./to.js";

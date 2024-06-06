@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 
 // This is the linear-light version of sRGB
 // as used for example in SVG filters

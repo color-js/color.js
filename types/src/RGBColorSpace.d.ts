@@ -1,4 +1,4 @@
-import ColorSpace, { Options } from "./space.js";
+import ColorSpace, { Options } from "./ColorSpace.js";
 
 export interface RGBOptions extends Options {
 	toXYZ_M?: number[][] | undefined;

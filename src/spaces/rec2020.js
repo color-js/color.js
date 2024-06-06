@@ -1,4 +1,4 @@
-import RGBColorSpace from "../rgbspace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
 import REC2020Linear from "./rec2020-linear.js";
 // import sRGB from "./srgb.js";
 
