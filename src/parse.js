@@ -46,7 +46,7 @@ export default function parse (str, options) {
 			// Check against both <dashed-ident> and <ident> versions
 			let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
 			let ids = [id, alternateId];
-			format = ColorSpace.findFormat({ name, id: ids, type: "function" });
+			format = ColorSpace.findFormat({name, id: ids, type: "function"});
 
 			if (!format) {
 				// Not found
@@ -59,32 +59,26 @@ export default function parse (str, options) {
 
 					if (cssId) {
 						let altColor = str.replace("color(" + id, "color(" + cssId);
-						didYouMean = `Did you mean ${altColor}?`;
+						didYouMean = `Did you mean ${ altColor }?`;
 					}
 				}
 
-				throw new TypeError(
-					`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"),
-				);
+				throw new TypeError(`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"));
 			}
 
 			space = format.space;
 
 			if (format.id.startsWith("--") && !id.startsWith("--")) {
-				defaults.warn(
-					`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-						`Use prefixed color(${format.id}) instead of color(${id}).`,
-				);
+				defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
+							  `Use prefixed color(${format.id}) instead of color(${id}).`);
 			}
 			if (id.startsWith("--") && !format.id.startsWith("--")) {
-				defaults.warn(
-					`${space.name} is a standard space and supported in the CSS spec. ` +
-						`Use color(${format.id}) instead of prefixed color(${id}).`,
-				);
+				defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
+							  `Use color(${format.id}) instead of prefixed color(${id}).`);
 			}
 		}
 		else {
-			format = ColorSpace.findFormat({ name, type: "function" });
+			format = ColorSpace.findFormat({name, type: "function"});
 			space = format.space;
 		}
 
@@ -105,9 +99,7 @@ export default function parse (str, options) {
 		let coordCount = format.coords.length;
 
 		if (coords.length !== coordCount) {
-			throw new TypeError(
-				`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`,
-			);
+			throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`);
 		}
 
 		coords = format.coerceCoords(coords, types);
@@ -151,11 +143,7 @@ export default function parse (str, options) {
 	}
 
 	// Clamp alpha to [0, 1]
-	ret.alpha = isNone(ret.alpha)
-		? ret.alpha
-		: ret.alpha === undefined
-			? 1
-			: clamp(0, ret.alpha, 1);
+	ret.alpha = isNone(ret.alpha) ? ret.alpha : ret.alpha === undefined ? 1 : clamp(0, ret.alpha, 1);
 
 	return ret;
 }
@@ -184,23 +172,21 @@ export const regex = {
 /**
  * Parse a single function argument
  * @param {string} rawArg
- * @returns {{ value: number, meta: ArgumentMeta }}
+ * @returns {{value: number, meta: ArgumentMeta}}
  */
 export function parseArgument (rawArg) {
 	let meta = {};
 	let unit = rawArg.match(regex.unitValue)?.[0];
-	let value = (meta.raw = rawArg);
+	let value = meta.raw = rawArg;
 
-	if (unit) {
-		// It’s a dimension token
+	if (unit) { // It’s a dimension token
 		meta.type = unit === "%" ? "<percentage>" : "<angle>";
 		meta.unit = unit;
 		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
 
 		value = meta.unitless * units[unit];
 	}
-	else if (regex.number.test(value)) {
-		// It's a number
+	else if (regex.number.test(value)) { // It's a number
 		// Convert numerical args to numbers
 		value = Number(value);
 		meta.type = "<number>";
