@@ -2,12 +2,9 @@
 	"compilerOptions": {
 		"allowJs": true,
 		"lib": ["DOM", "ESNext"],
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"noEmit": true
 	},
-	"include": [
-		"src/**/*.js"
-	],
-	"exclude": [
-		"node_modules/**"
-	]
+	"include": ["src/**/*.js", "src/**/*.d.ts"],
+	"exclude": ["node_modules/**"]
 }

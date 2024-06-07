@@ -6,6 +6,7 @@
 export type * from "./contrast/index.js";
 
 // deltaE/
+import type Methods from "./deltaE/index.js";
 export type * from "./deltaE/index.js";
 
 // adapt.js
@@ -62,7 +63,7 @@ export interface StepsOptions extends RangeOptions {
 	/** max deltaE between consecutive steps */
 	maxDeltaE?: number | undefined;
 	/** @see {@link Methods} */
-	deltaEMethod?: Methods | undefined;
+	deltaEMethod?: typeof Methods | undefined;
 	/** The minimum number of steps */
 	steps?: number | undefined;
 	/** The maximum number of steps */
@@ -155,7 +156,7 @@ export interface ToGamutOptions {
 	method?: "css" | "clip" | (string & {}) | undefined;
 	/** The color whose space is being mapped to. Defaults to the current space */
 	space?: string | ColorSpace | undefined;
-	deltaEMethod?: Methods | undefined;
+	deltaEMethod?: typeof Methods | undefined;
 	/** The "just noticeable difference" to target */
 	jnd?: number | undefined;
 	/**

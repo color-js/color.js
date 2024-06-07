@@ -5,7 +5,7 @@
  */
 import { White } from "./adapt.js";
 import { ColorConstructor, Coords, ColorTypes } from "./color.js";
-import type FormatClasa from "./Format.js";
+import type FormatClass from "./Format.js";
 import type { instance } from "./Format.js";
 
 export interface Format {
