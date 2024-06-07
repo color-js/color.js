@@ -13,12 +13,12 @@ import toGamut from "./toGamut.js";
  * @param {{ inGamut?: boolean | undefined }} options
  * @returns {PlainColorObject}
  */
-export default function to (color, space, { inGamut } = {}) {
+export default function to (color, space, {inGamut} = {}) {
 	color = getColor(color);
 	space = ColorSpace.get(space);
 
 	let coords = space.from(color);
-	let ret = { space, coords, alpha: color.alpha };
+	let ret = {space, coords, alpha: color.alpha};
 
 	if (inGamut) {
 		ret = toGamut(ret, inGamut === true ? undefined : inGamut);
