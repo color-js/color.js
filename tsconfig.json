@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"allowJs": true,
+		"checkJs": true,
 		"lib": ["DOM", "ESNext"],
 		"skipLibCheck": true,
 		"noEmit": true
