@@ -11,7 +11,7 @@ import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
-import { WHITES } from "./adapt.js";
+import {WHITES} from "./adapt.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
@@ -26,13 +26,13 @@ import { WHITES } from "./adapt.js";
 function calcEpsilon (jnd) {
 	// Calculate the epsilon to 2 degrees smaller than the specified JND.
 
-	const order = !jnd ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
+	const order = (!jnd) ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
 	// Limit to an arbitrary value to ensure value is never too small and causes infinite loops.
 	return Math.max(parseFloat(`1e${order - 2}`), 1e-6);
 }
 
 const GMAPPRESET = {
-	hct: {
+	"hct": {
 		method: "hct.c",
 		jnd: 2,
 		deltaEMethod: "hct",
@@ -91,7 +91,7 @@ export default function toGamut (
 	else {
 		if (method !== "clip" && !inGamut(color, space)) {
 			if (Object.prototype.hasOwnProperty.call(GMAPPRESET, method)) {
-				({ method, jnd, deltaEMethod, blackWhiteClamp } = GMAPPRESET[method]);
+				({method, jnd, deltaEMethod, blackWhiteClamp} = GMAPPRESET[method]);
 			}
 
 			// Get the correct delta E method
@@ -107,6 +107,7 @@ export default function toGamut (
 
 			let clipped = toGamut(to(color, space), { method: "clip", space });
 			if (de(color, clipped) > jnd) {
+
 				// Clamp to SDR white and black if required
 				if (Object.keys(blackWhiteClamp).length === 3) {
 					let channelMeta = ColorSpace.resolveCoord(blackWhiteClamp.channel);
@@ -165,12 +166,11 @@ export default function toGamut (
 			spaceColor = to(color, space);
 		}
 
-		if (
-			method === "clip" || // Dumb coord clipping
+		if (method === "clip" // Dumb coord clipping
 			// finish off smarter gamut mapping with clip to get rid of ε, see #17
-			!inGamut(spaceColor, space, { epsilon: 0 })
+			|| !inGamut(spaceColor, space, { epsilon: 0 })
 		) {
-			let bounds = Object.values(space.coords).map((c) => c.range || []);
+			let bounds = Object.values(space.coords).map(c => c.range || []);
 
 			spaceColor.coords = spaceColor.coords.map((c, i) => {
 				let [min, max] = bounds[i];
@@ -216,7 +216,7 @@ const COLORS = {
  * @param {{ space?: string | ColorSpace | undefined }} param1
  * @returns {PlainColorObject}
  */
-export function toGamutCSS (origin, { space } = {}) {
+export function toGamutCSS (origin, {space} = {}) {
 	const JND = 0.02;
 	const ε = 0.0001;
 
@@ -248,7 +248,7 @@ export function toGamutCSS (origin, { space } = {}) {
 		return to(black, space);
 	}
 
-	if (inGamut(origin_OKLCH, space, { epsilon: 0 })) {
+	if (inGamut(origin_OKLCH, space, {epsilon: 0})) {
 		return to(origin_OKLCH, space);
 	}
 
@@ -257,7 +257,7 @@ export function toGamutCSS (origin, { space } = {}) {
 		const spaceCoords = Object.values(space.coords);
 		destColor.coords = destColor.coords.map((coord, index) => {
 			if ("range" in spaceCoords[index]) {
-				const [min, max] = spaceCoords[index].range;
+				const [min, max] =  spaceCoords[index].range;
 				return util.clamp(min, coord, max);
 			}
 			return coord;
@@ -275,17 +275,17 @@ export function toGamutCSS (origin, { space } = {}) {
 		return clipped;
 	}
 
-	while (max - min > ε) {
+	while ((max - min) > ε) {
 		const chroma = (min + max) / 2;
 		current.coords[1] = chroma;
-		if (min_inGamut && inGamut(current, space, { epsilon: 0 })) {
+		if (min_inGamut && inGamut(current, space, {epsilon: 0})) {
 			min = chroma;
 		}
 		else {
 			clipped = clip(current);
 			E = deltaEOK(clipped, current);
 			if (E < JND) {
-				if (JND - E < ε) {
+				if ((JND - E < ε)) {
 					break;
 				}
 				else {
