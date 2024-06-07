@@ -1,6 +1,6 @@
 import hooks from "./hooks.js";
-import { multiplyMatrices } from "./util.js";
-import { WHITES } from "./adapt.js";
+import {multiplyMatrices} from "./util.js";
+import {WHITES} from "./adapt.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").White} White */
@@ -9,13 +9,13 @@ import { WHITES } from "./adapt.js";
 /** @type {Record<string, CAT>} */
 export const CATs = {};
 
-hooks.add("chromatic-adaptation-start", (env) => {
+hooks.add("chromatic-adaptation-start", env => {
 	if (env.options.method) {
 		env.M = adapt(env.W1, env.W2, env.options.method);
 	}
 });
 
-hooks.add("chromatic-adaptation-end", (env) => {
+hooks.add("chromatic-adaptation-end", env => {
 	if (!env.M) {
 		env.M = adapt(env.W1, env.W2, env.options.method);
 	}
@@ -24,7 +24,7 @@ hooks.add("chromatic-adaptation-end", (env) => {
 /**
  * @param {CAT} param0
  */
-export function defineCAT ({ id, toCone_M, fromCone_M }) {
+export function defineCAT ({id, toCone_M, fromCone_M}) {
 	// Use id, toCone_M, fromCone_M like variables
 	CATs[id] = arguments[0];
 }
@@ -55,7 +55,7 @@ export function adapt (W1, W2, id = "Bradford") {
 	// console.log({scale});
 
 	let scaled_cone_M = multiplyMatrices(scale, method.toCone_M);
-	let adapt_M = multiplyMatrices(method.fromCone_M, scaled_cone_M);
+	let adapt_M	= multiplyMatrices(method.fromCone_M, scaled_cone_M);
 	// console.log({scaled_cone_M, adapt_M});
 	return adapt_M;
 }
