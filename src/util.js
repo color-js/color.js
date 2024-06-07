@@ -2,7 +2,7 @@
  * Various utility functions
  */
 
-export { default as multiplyMatrices } from "./multiply-matrices.js";
+export {default as multiplyMatrices} from "./multiply-matrices.js";
 
 /**
  * Check if a value is a string (including a String object)
@@ -29,7 +29,7 @@ export function type (o) {
  * @param {{ precision?: number | undefined, unit?: string | undefined }} options
  * @returns {string}
  */
-export function serializeNumber (n, { precision = 16, unit }) {
+export function serializeNumber (n, {precision = 16, unit }) {
 	if (isNone(n)) {
 		return "none";
 	}
@@ -107,14 +107,7 @@ export function interpolateInv (start, end, value) {
  * @param {number} value
  */
 export function mapRange (from, to, value) {
-	if (
-		!from ||
-		!to ||
-		from === to ||
-		(from[0] === to[0] && from[1] === to[1]) ||
-		isNaN(value) ||
-		value === null
-	) {
+	if (!from || !to || from === to || from[0] === to[0] && from[1] === to[1] || isNaN(value) || value === null) {
 		// Ranges missing or the same
 		return value;
 	}
@@ -170,7 +163,7 @@ export function spow (base, exp) {
  * @param {number} d The denominator
  */
 export function zdiv (n, d) {
-	return d === 0 ? 0 : n / d;
+	return (d === 0) ? 0 : n / d;
 }
 
 /**
