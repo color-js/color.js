@@ -1,5 +1,5 @@
 import hooks from "./hooks.js";
-import { multiplyMatrices } from "./util.js";
+import {multiplyMatrices} from "./util.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").White} White */
@@ -37,11 +37,7 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 	W2 = getWhite(W2);
 
 	if (!W1 || !W2) {
-		throw new TypeError(
-			`Missing white point to convert ${!W1 ? "from" : ""}${
-				!W1 && !W2 ? "/" : ""
-			}${!W2 ? "to" : ""}`,
-		);
+		throw new TypeError(`Missing white point to convert ${!W1 ? "from" : ""}${!W1 && !W2 ? "/" : ""}${!W2 ? "to" : ""}`);
 	}
 
 	if (W1 === W2) {
@@ -49,7 +45,7 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 		return XYZ;
 	}
 
-	let env = { W1, W2, XYZ, options };
+	let env = {W1, W2, XYZ, options};
 
 	hooks.run("chromatic-adaptation-start", env);
 
@@ -62,6 +58,7 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 			];
 		}
 		else if (env.W1 === WHITES.D50 && env.W2 === WHITES.D65) {
+
 			env.M = [
 				[ 0.955473421488075, -0.02309845494876471, 0.06325924320057072 ],
 				[ -0.0283697093338637, 1.0099953980813041, 0.021041441191917323 ],
@@ -76,8 +73,6 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 		return multiplyMatrices(env.M, env.XYZ);
 	}
 	else {
-		throw new TypeError(
-			"Only Bradford CAT with white points D50 and D65 supported for now.",
-		);
+		throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
 	}
 }
