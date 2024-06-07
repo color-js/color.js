@@ -32,8 +32,7 @@ export default function setAll (color, space, coords, alpha) {
 	}
 
 	space = ColorSpace.get(space); // Make sure we have a ColorSpace object
-	color.coords =
-		space === color.space ? coords.slice() : space.to(color.space, coords);
+	color.coords = space === color.space ? coords.slice() : space.to(color.space, coords);
 
 	if (alpha !== undefined) {
 		color.alpha = alpha;
