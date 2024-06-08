@@ -18,7 +18,7 @@ export default function get (color, prop) {
 		return color.alpha ?? 1;
 	}
 
-	let { space, index } = ColorSpace.resolveCoord(prop, color.space);
+	let {space, index} = ColorSpace.resolveCoord(prop, color.space);
 	let coords = getAll(color, space);
 	return coords[index];
 }

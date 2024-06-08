@@ -70,10 +70,7 @@ export default function serialize (color, options = {}) {
 
 	if (inGamut && !checkInGamut(color)) {
 		// FIXME what happens if the color contains none values?
-		coords = toGamut(
-			clone(color),
-			inGamut === true ? undefined : inGamut,
-		).coords;
+		coords = toGamut(clone(color), inGamut === true ? undefined : inGamut).coords;
 	}
 
 	if (format.type === "custom") {
@@ -81,9 +78,7 @@ export default function serialize (color, options = {}) {
 			ret = format.serialize(coords, color.alpha, options);
 		}
 		else {
-			throw new TypeError(
-				`format ${formatId} can only be used to parse colors, not for serialization`,
-			);
+			throw new TypeError(`format ${formatId} can only be used to parse colors, not for serialization`);
 		}
 	}
 	else {
@@ -94,8 +89,7 @@ export default function serialize (color, options = {}) {
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument
-			let cssId =
-				format.id || format.ids?.[0] || color.space.cssId || color.space.id;
+			let cssId = format.id || format.ids?.[0] || color.space.cssId || color.space.id;
 			args.unshift(cssId);
 		}
 
@@ -103,17 +97,11 @@ export default function serialize (color, options = {}) {
 		let alpha = color.alpha;
 
 		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {
-			alphaFormat =
-				typeof alphaFormat === "string"
-					? { type: alphaFormat }
-					: { include: alphaFormat };
+			alphaFormat = typeof alphaFormat === "string" ? {type: alphaFormat} : {include: alphaFormat};
 		}
 
 		let alphaType = alphaFormat?.type ?? "<number>";
-		let serializeAlpha =
-			alphaFormat?.include === true ||
-			format.alpha === true ||
-			(alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
+		let serializeAlpha = alphaFormat?.include === true || format.alpha === true || (alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
 		let strAlpha = "";
 
 		commas ??= format.commas;

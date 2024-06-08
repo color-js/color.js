@@ -120,6 +120,7 @@ export function environment (
 	surround,
 	discounting,
 ) {
+
 	const env = {};
 
 	env.discounting = discounting;

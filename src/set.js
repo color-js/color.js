@@ -3,7 +3,7 @@ import getColor from "./getColor.js";
 import get from "./get.js";
 import getAll from "./getAll.js";
 import setAll from "./setAll.js";
-import { type } from "./util.js";
+import {type} from "./util.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
@@ -43,7 +43,7 @@ export default function set (color, prop, value) {
 			color.alpha = value;
 		}
 		else {
-			let { space, index } = ColorSpace.resolveCoord(prop, color.space);
+			let {space, index} = ColorSpace.resolveCoord(prop, color.space);
 			let coords = getAll(color, space);
 			coords[index] = value;
 			setAll(color, space, coords);

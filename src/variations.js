@@ -13,7 +13,7 @@ import set from "./set.js";
 export function lighten (color, amount = 0.25) {
 	let space = ColorSpace.get("oklch", "lch");
 	let lightness = [space, "l"];
-	return set(color, lightness, (l) => l * (1 + amount));
+	return set(color, lightness, l => l * (1 + amount));
 }
 
 /**
@@ -21,8 +21,8 @@ export function lighten (color, amount = 0.25) {
  * @param {number} amount
  * @returns {PlainColorObject}
  */
-export function darken (color, amount = 0.25) {
+export function darken (color, amount = .25) {
 	let space = ColorSpace.get("oklch", "lch");
 	let lightness = [space, "l"];
-	return set(color, lightness, (l) => l * (1 - amount));
+	return set(color, lightness, l => l * (1 - amount));
 }
