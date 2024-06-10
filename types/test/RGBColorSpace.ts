@@ -1,4 +1,4 @@
-import RGBColorSpace from "colorjs.io/src/rgbspace";
+import RGBColorSpace from "colorjs.io/src/RGBColorSpace.js";
 
 // @ts-expect-error
 new RGBColorSpace();
