@@ -60,7 +60,7 @@ npm install colorjs.io
 
 Whether you’re using NPM, the CDN, or local files, Color.js allows you to also import specific modules by directly importing from `src`:
 - `https://colorjs.io/src/` for the CDN
-- `node_modules/colorjs.io/src/ for NPM
+- `node_modules/colorjs.io/src/` for NPM
 
 For example:
 ```js
