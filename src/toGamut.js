@@ -50,7 +50,7 @@ const GMAPPRESET = {
  * Force coordinates to be in gamut of a certain color space.
  * Mutates the color it is passed.
  * @param {ColorTypes} color
- * @param {ToGamutOptions} param1
+ * @param {ToGamutOptions | string} param1
  * @returns {PlainColorObject}
  */
 
