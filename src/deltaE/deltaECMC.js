@@ -14,6 +14,12 @@ import {isNone} from "../util.js";
 const π = Math.PI;
 const d2r = π / 180;
 
+/**
+ * @param {import("../types.js").ColorTypes} color
+ * @param {import("../types.js").ColorTypes} sample
+ * @param {{ l?: number | undefined; c?: number | undefined }} options
+ * @returns {number}
+ */
 export default function (color, sample, {l = 2, c = 1} = {}) {
 	[color, sample] = getColor([color, sample]);
 

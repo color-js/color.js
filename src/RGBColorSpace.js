@@ -3,19 +3,17 @@ import {multiplyMatrices} from "./util.js";
 import adapt from "./adapt.js";
 import XYZ_D65 from "./spaces/xyz-d65.js";
 
-/**
- * Convenience class for RGB color spaces
- * @extends {ColorSpace}
- */
+// Type "imports"
+/** @typedef {import("./types.js").RGBOptions} RGBOptions */
+
+/** Convenience class for RGB color spaces */
 export default class RGBColorSpace extends ColorSpace {
 	/**
 	 * Creates a new RGB ColorSpace.
 	 * If coords are not specified, they will use the default RGB coords.
 	 * Instead of `fromBase()` and `toBase()` functions,
 	 * you can specify to/from XYZ matrices and have `toBase()` and `fromBase()` automatically generated.
-	 * @param {*} options - Same options as {@link ColorSpace} plus:
-	 * @param {number[][]} options.toXYZ_M - Matrix to convert to XYZ
-	 * @param {number[][]} options.fromXYZ_M - Matrix to convert from XYZ
+	 * @param {RGBOptions} options
 	 */
 	constructor (options) {
 		if (!options.coords) {

@@ -1,4 +1,9 @@
-// A is m x n. B is n x p. product is m x p.
+/**
+ * A is m x n. B is n x p. product is m x p.
+ * @param {number[] | number[][]} A Matrix m x n or a vector
+ * @param {number[] | number[][]} B Matrix n x p or a vector
+ * @returns {number[]} Matrix m x p
+ */
 export default function multiplyMatrices (A, B) {
 	let m = A.length;
 

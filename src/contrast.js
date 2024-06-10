@@ -3,6 +3,19 @@ import getColor from "./getColor.js";
 import {isString} from "./util.js";
 import * as contrastAlgorithms from "./contrast/index.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").Algorithms} Algorithms */
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+
+/**
+ *
+ * @param {ColorTypes} background
+ * @param {ColorTypes} foreground
+ * @param {Algorithms | ({ algorithm: Algorithms } & Record<string, any>)} o
+ * Algorithm to use as well as any other options to pass to the contrast function
+ * @returns {number}
+ * @throws {TypeError} Unknown or unspecified algorithm
+ */
 export default function contrast (background, foreground, o = {}) {
 	if (isString(o)) {
 		o = {algorithm: o};

@@ -10,6 +10,11 @@ import lab_d65 from "../spaces/lab-d65.js";
 
 const phi = Math.pow(5, 0.5) * 0.5 + 0.5; // Math.phi can be used if Math.js
 
+/**
+ * @param {import("../types.js").ColorTypes} color1
+ * @param {import("../types.js").ColorTypes} color2
+ * @returns {number}
+ */
 export default function contrastDeltaPhi (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);

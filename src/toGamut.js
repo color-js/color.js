@@ -13,10 +13,15 @@ import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
 import {WHITES} from "./adapt.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").ToGamutOptions} ToGamutOptions */
+
 /**
  * Calculate the epsilon to 2 degrees smaller than the specified JND.
- * @param {Number} jnd - The target "just noticeable difference".
- * @returns {Number}
+ * @param {number} jnd The target "just noticeable difference".
+ * @returns {number}
  */
 function calcEpsilon (jnd) {
 	// Calculate the epsilon to 2 degrees smaller than the specified JND.
@@ -44,21 +49,9 @@ const GMAPPRESET = {
 /**
  * Force coordinates to be in gamut of a certain color space.
  * Mutates the color it is passed.
- * @param {Object|string} options object or spaceId string
- * @param {string} options.method - How to force into gamut.
- *        If "clip", coordinates are just clipped to their reference range.
- *        If "css", coordinates are reduced according to the CSS 4 Gamut Mapping Algorithm.
- *        If in the form [colorSpaceId].[coordName], that coordinate is reduced
- *        until the color is in gamut. Please note that this may produce nonsensical
- *        results for certain coordinates (e.g. hue) or infinite loops if reducing the coordinate never brings the color in gamut.
- * @param {ColorSpace|string} options.space - The space whose gamut we want to map to
- * @param {string} options.deltaEMethod - The delta E method to use while performing gamut mapping.
- *        If no method is specified, delta E 2000 is used.
- * @param {Number} options.jnd - The "just noticeable difference" to target.
- * @param {Object} options.blackWhiteClamp - Used to configure SDR black and clamping.
- *        "channel" indicates the "space.channel" to use for determining when to clamp.
- *        "min" indicates the lower limit for black clamping and "max" indicates the upper
- *        limit for white clamping.
+ * @param {ColorTypes} color
+ * @param {ToGamutOptions} param1
+ * @returns {PlainColorObject}
  */
 
 export default function toGamut (
@@ -97,7 +90,6 @@ export default function toGamut (
 	}
 	else {
 		if (method !== "clip" && !inGamut(color, space)) {
-
 			if (Object.prototype.hasOwnProperty.call(GMAPPRESET, method)) {
 				({method, jnd, deltaEMethod, blackWhiteClamp} = GMAPPRESET[method]);
 			}
@@ -204,6 +196,7 @@ export default function toGamut (
 	return color;
 }
 
+/** @type {"color"} */
 toGamut.returns = "color";
 
 // The reference colors to be used if lightness is out of the range 0-1 in the
@@ -219,10 +212,9 @@ const COLORS = {
  * the CSS Gamut Mapping Algorithm. If `space` is specified, it will be in gamut
  * in `space`, and returned in `space`. Otherwise, it will be in gamut and
  * returned in the color space of `origin`.
- * @param {Object} origin
- * @param {Object} options
- * @param {ColorSpace|string} options.space
- * @returns {Color}
+ * @param {ColorTypes} origin
+ * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @returns {PlainColorObject}
  */
 export function toGamutCSS (origin, {space} = {}) {
 	const JND = 0.02;

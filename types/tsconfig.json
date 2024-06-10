@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"lib": ["ES2020"],
+		"lib": ["DOM", "ES2020"],
 		"noImplicitAny": true,
 		"noImplicitThis": true,
 		"strictFunctionTypes": true,
@@ -10,10 +10,11 @@
 		"noEmit": true,
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
+		"allowJs": true,
 		"paths": {
-			"colorjs.io": ["."],
-			"colorjs.io/fn": ["./src/index-fn.js"],
-			"colorjs.io/*": ["./*"]
+			"colorjs.io": ["../src"],
+			"colorjs.io/fn": ["../src/index-fn.js"],
+			"colorjs.io/*": ["../*"]
 		}
 	}
 }

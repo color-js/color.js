@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * Re-exports all the spaces built into Color.js.
+ */
 export {default as XYZ_D65} from "./xyz-d65.js";
 export {default as XYZ_D50} from "./xyz-d50.js";
 export {default as XYZ_ABS_D65} from "./xyz-abs-d65.js";

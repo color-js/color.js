@@ -1,5 +1,10 @@
 import * as util from "./util.js";
 
+/**
+ * Constrain an angle to 360 degrees
+ * @param {number} angle
+ * @returns {number}
+ */
 export function constrain (angle) {
 	if (typeof angle !== "number") {
 		return angle;
@@ -8,6 +13,11 @@ export function constrain (angle) {
 	return ((angle % 360) + 360) % 360;
 }
 
+/**
+ * @param {"raw" | "increasing" | "decreasing" | "longer" | "shorter"} arc
+ * @param {[number, number]} angles
+ * @returns {[number, number]}
+ */
 export function adjust (arc, angles) {
 	let [a1, a2] = angles;
 

@@ -3,11 +3,12 @@
 	"json": "./api/docs.json",
 	"name": "Color.js API Docs",
 	"entryPoints": [
-		"types/src/color.d.ts",
-		"types/src/space.d.ts",
-		"types/src/index-fn.d.ts",
-		"types/src/spaces/index.d.ts",
-		"types/src/deltaE/index.d.ts"
+		"src/types.d.ts",
+		"src/color.d.ts",
+		"src/space.d.ts",
+		"src/index-fn.js",
+		"src/spaces/index.js",
+		"src/deltaE/index.js"
 	],
 	"entryPointStrategy": "expand",
 	"plugin": [

@@ -1,10 +1,14 @@
 import ictcp from "../spaces/ictcp.js";
 import getColor from "../getColor.js";
 
-// Delta E in ICtCp space,
-// which the ITU calls Delta E ITP, which is shorter
-// formulae from ITU Rec. ITU-R BT.2124-0
-
+/**
+ * Delta E in ICtCp space,
+ * which the ITU calls Delta E ITP, which is shorter.
+ * Formulae from ITU Rec. ITU-R BT.2124-0
+ * @param {import("../types.js").ColorTypes} color
+ * @param {import("../types.js").ColorTypes} sample
+ * @returns {number}
+ */
 export default function (color, sample) {
 	[color, sample] = getColor([color, sample]);
 

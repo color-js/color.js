@@ -13,16 +13,29 @@ import defaults from "./defaults.js";
 import * as angles from "./angles.js";
 import deltaE from "./deltaE.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").MixOptions} MixOptions */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").Range} Range */
+/** @typedef {import("./types.js").RangeOptions} RangeOptions */
+/** @typedef {import("./types.js").StepsOptions} StepsOptions */
+
 /**
  * Return an intermediate color between two colors
- * Signatures: mix(c1, c2, p, options)
- *             mix(c1, c2, options)
- *             mix(color)
- * @param {Color | string} c1 The first color
- * @param {Color | string} [c2] The second color
- * @param {number} [p=.5] A 0-1 percentage where 0 is c1 and 1 is c2
- * @param {Object} [o={}]
- * @return {Color}
+ * @overload
+ * @param {ColorTypes} c1
+ * @param {ColorTypes} c2
+ * @param {MixOptions} o
+ * @returns {PlainColorObject}
+ */
+/**
+ * @overload
+ * @param {ColorTypes} c1
+ * @param {ColorTypes} c2
+ * @param {number} p
+ * @param {MixOptions} o
+ * @returns {PlainColorObject}
  */
 export function mix (c1, c2, p = .5, o = {}) {
 	[c1, c2] = [getColor(c1), getColor(c2)];
@@ -36,11 +49,18 @@ export function mix (c1, c2, p = .5, o = {}) {
 }
 
 /**
- *
- * @param {Color | string | Function} c1 The first color or a range
- * @param {Color | string} [c2] The second color if c1 is not a range
- * @param {Object} [options={}]
- * @return {Color[]}
+ * Get an array of discrete steps
+ * @overload
+ * @param {ColorTypes} c1
+ * @param {ColorTypes} c2
+ * @param {StepsOptions} options
+ * @returns {PlainColorObject[]}
+ */
+/**
+ * @overload
+ * @param {Range} range
+ * @param {StepsOptions} options
+ * @returns {PlainColorObject[]}
  */
 export function steps (c1, c2, options = {}) {
 	let colorRange;
@@ -116,11 +136,21 @@ export function steps (c1, c2, options = {}) {
 }
 
 /**
- * Interpolate to color2 and return a function that takes a 0-1 percentage
- * @param {Color | string | Function} color1 The first color or an existing range
- * @param {Color | string} [color2] If color1 is a color, this is the second color
- * @param {Object} [options={}]
- * @returns {Function} A function that takes a 0-1 percentage and returns a color
+ * Creates a function that accepts a number and returns a color.
+ * For numbers in the range 0 to 1, the function interpolates;
+ * for numbers outside that range, the function extrapolates
+ * (and thus may not return the results you expect)
+ * @overload
+ * @param {Range} range
+ * @param {RangeOptions} options
+ * @returns {Range}
+ */
+/**
+ * @overload
+ * @param {ColorTypes} color1
+ * @param {ColorTypes} color2
+ * @param {RangeOptions & Record<string, any>} options
+ * @returns {Range}
  */
 export function range (color1, color2, options = {}) {
 	if (isRange(color1)) {
@@ -209,12 +239,19 @@ export function range (color1, color2, options = {}) {
 	});
 }
 
+/**
+ * @param {any} val
+ * @returns {val is Range}
+ */
 export function isRange (val) {
 	return type(val) === "function" && !!val.rangeArgs;
 }
 
 defaults.interpolationSpace = "lab";
 
+/**
+ * @param {typeof import("./color.js").default} Color
+ */
 export function register (Color) {
 	Color.defineFunction("mix", mix, {returns: "color"});
 	Color.defineFunction("range", range, {returns: "function<color>"});

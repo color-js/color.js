@@ -1,5 +1,13 @@
 import getColor from "./getColor.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+
+/**
+ * @param {ColorTypes} color1
+ * @param {ColorTypes} color2
+ * @returns {boolean}
+ */
 export default function equals (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);

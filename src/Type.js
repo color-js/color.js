@@ -1,6 +1,15 @@
 import { serializeNumber, mapRange } from "./util.js";
 
 export default class Type {
+	// Class properties - declared here so that type inference works
+	type;
+	coordMeta;
+	coordRange;
+
+	/**
+	 * @param {any} type
+	 * @param {import("./types.js").CoordMeta} coordMeta
+	 */
 	constructor (type, coordMeta) {
 		if (typeof type === "object") {
 			this.coordMeta = type;
@@ -53,7 +62,6 @@ export default class Type {
 	/**
 	 * Map a number to the internal representation
 	 * @param {number} number
-	 * @returns
 	 */
 	resolve (number) {
 		if (this.type === "<angle>") {
@@ -74,7 +82,6 @@ export default class Type {
 	 * Serialize a number from the internal representation to a string
 	 * @param {number} number
 	 * @param {number} [precision]
-	 * @returns
 	 */
 	serialize (number, precision) {
 		let toRange = this.type === "<percentage>" ? [-100, 100] : this.computedRange;

@@ -2,6 +2,11 @@ import hooks from "./hooks.js";
 import {multiplyMatrices} from "./util.js";
 import {WHITES} from "./adapt.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").White} White */
+/** @typedef {import("./types.js").CAT} CAT */
+
+/** @type {Record<string, CAT>} */
 export const CATs = {};
 
 hooks.add("chromatic-adaptation-start", env => {
@@ -16,11 +21,21 @@ hooks.add("chromatic-adaptation-end", env => {
 	}
 });
 
+/**
+ * @param {CAT} param0
+ */
 export function defineCAT ({id, toCone_M, fromCone_M}) {
 	// Use id, toCone_M, fromCone_M like variables
 	CATs[id] = arguments[0];
 }
 
+/**
+ *
+ * @param {White} W1
+ * @param {White} W2
+ * @param {string} id
+ * @returns {number[]}
+ */
 export function adapt (W1, W2, id = "Bradford") {
 	// adapt from a source whitepoint or illuminant W1
 	// to a destination whitepoint or illuminant W2,

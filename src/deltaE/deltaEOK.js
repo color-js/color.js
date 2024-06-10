@@ -1,9 +1,13 @@
-// More accurate color-difference formulae
-// than the simple 1976 Euclidean distance in CIE Lab
-
 import oklab from "../spaces/oklab.js";
 import getColor from "../getColor.js";
 
+/**
+ * More accurate color-difference formulae
+ * than the simple 1976 Euclidean distance in CIE Lab
+ * @param {import("../types.js").ColorTypes} color
+ * @param {import("../types.js").ColorTypes} sample
+ * @returns {number}
+ */
 export default function (color, sample) {
 	[color, sample] = getColor([color, sample]);
 

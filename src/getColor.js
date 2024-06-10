@@ -2,12 +2,24 @@ import ColorSpace from "./ColorSpace.js";
 import {isString} from "./util.js";
 import parse from "./parse.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+
 /**
  * Resolves a color reference (object or string) to a plain color object
- * @param {Color | {space, coords, alpha} | string | Array<Color | {space, coords, alpha} | string> } color
+ * @overload
+ * @param {ColorTypes} color
  * @param {object} [options]
- * @param {boolean} [options.parseMeta] - Optional object to hold parsing metadata
- * @returns {{space, coords, alpha} | Array<{space, coords, alpha}}>
+ * @param {boolean} [options.parseMeta] Optional object to hold parsing metadata
+ * @returns {PlainColorObject}
+ */
+/**
+ * @overload
+ * @param {ColorTypes[]} color
+ * @param {object} [options]
+ * @param {boolean} [options.parseMeta] Optional object to hold parsing metadata
+ * @returns {PlainColorObject[]}
  */
 export default function getColor (color, options) {
 	if (Array.isArray(color)) {

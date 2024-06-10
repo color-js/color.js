@@ -1,12 +1,21 @@
 import hooks from "./hooks.js";
 import {multiplyMatrices} from "./util.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").White} White */
+
+/** @type {Record<string, White>} */
 export const WHITES = {
 	// for compatibility, the four-digit chromaticity-derived ones everyone else uses
 	D50: [0.3457 / 0.3585, 1.00000, (1.0 - 0.3457 - 0.3585) / 0.3585],
 	D65: [0.3127 / 0.3290, 1.00000, (1.0 - 0.3127 - 0.3290) / 0.3290],
 };
 
+/**
+ *
+ * @param {string | White} name
+ * @returns {White}
+ */
 export function getWhite (name) {
 	if (Array.isArray(name)) {
 		return name;
@@ -15,7 +24,14 @@ export function getWhite (name) {
 	return WHITES[name];
 }
 
-// Adapt XYZ from white point W1 to W2
+/**
+ * Adapt XYZ from white point W1 to W2
+ * @param {White} W1
+ * @param {White} W2
+ * @param {[number, number, number]} XYZ
+ * @param {{ method?: string | undefined }} options
+ * @returns {[number, number, number]}
+ */
 export default function adapt (W1, W2, XYZ, options = {}) {
 	W1 = getWhite(W1);
 	W2 = getWhite(W2);

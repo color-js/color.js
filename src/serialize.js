@@ -7,15 +7,15 @@ import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
 import clone from "./clone.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").SerializeOptions} SerializeOptions */
+
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
- * @param {Object} [options]
- * @param {number} [options.precision] - Significant digits
- * @param {boolean} [options.inGamut=false] - Adjust coordinates to fit in gamut first?
- * @param {string} [options.format] - Output format id. Defaults to the parsed format, if available (and can serialize), or the color space default otherwise.
- * @param {string[]} [options.coords] - Coordinate format to override the default
- * @param {boolean} [options.commas=false] - Force commas as a separator?
- * @param {"<number>" | "<percentage>" | boolean | {type: "<number>" | "<percentage>", include: boolean}} [options.alpha] - Alpha format
+ * @param {ColorTypes} color
+ * @param {SerializeOptions & Record<string, any>} options
+ * @returns {string}
  */
 export default function serialize (color, options = {}) {
 	let {

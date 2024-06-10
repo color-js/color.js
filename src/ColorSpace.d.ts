@@ -5,6 +5,8 @@
  */
 import { White } from "./adapt.js";
 import { ColorConstructor, Coords, ColorTypes } from "./color.js";
+import type FormatClass from "./Format.js";
+import type { instance } from "./Format.js";
 
 export interface Format {
 	/** @default "function" */
@@ -31,6 +33,7 @@ export interface Format {
 	 * Must be defined for a format to support serialization
 	 */
 	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
+	[instance]?: FormatClass | undefined;
 }
 
 export interface CoordMeta {
@@ -40,7 +43,7 @@ export interface CoordMeta {
 	refRange?: [number, number] | undefined;
 }
 
-export interface Options {
+export interface SpaceOptions {
 	/** Id of this space, used in things such as conversions */
 	id: string;
 	/** The readable name of the space, used in user-facing UI */
@@ -81,7 +84,7 @@ export type Ref =
 
 /** Class for color spaces. Each color space corresponds to a `ColorSpace` instance */
 export default class ColorSpace {
-	constructor (options: Options);
+	constructor (options: SpaceOptions);
 
 	static DEFAULT_FORMAT: { type: "functions"; name: "color" };
 

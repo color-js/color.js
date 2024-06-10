@@ -6,8 +6,8 @@ export {default as multiplyMatrices} from "./multiply-matrices.js";
 
 /**
  * Check if a value is a string (including a String object)
- * @param {*} str - Value to check
- * @returns {boolean}
+ * @param {any} str - Value to check
+ * @returns {str is string}
  */
 export function isString (str) {
 	return type(str) === "string";
@@ -15,7 +15,7 @@ export function isString (str) {
 
 /**
  * Determine the internal JavaScript [[Class]] of an object.
- * @param {*} o - Value to check
+ * @param {any} o - Value to check
  * @returns {string}
  */
 export function type (o) {
@@ -24,6 +24,11 @@ export function type (o) {
 	return (str.match(/^\[object\s+(.*?)\]$/)[1] || "").toLowerCase();
 }
 
+/**
+ * @param {number} n
+ * @param {{ precision?: number | undefined, unit?: string | undefined }} options
+ * @returns {string}
+ */
 export function serializeNumber (n, {precision = 16, unit }) {
 	if (isNone(n)) {
 		return "none";
@@ -36,8 +41,8 @@ export function serializeNumber (n, {precision = 16, unit }) {
 
 /**
  * Check if a value corresponds to a none argument
- * @param {*} n - Value to check
- * @returns {boolean}
+ * @param {any} n - Value to check
+ * @returns {n is null}
  */
 export function isNone (n) {
 	return n === null;
@@ -45,6 +50,8 @@ export function isNone (n) {
 
 /**
  * Replace none values with 0
+ * @param {number | null} n
+ * @returns {number}
  */
 export function skipNone (n) {
 	return isNone(n) ? 0 : n;
@@ -68,8 +75,11 @@ export function toPrecision (n, precision) {
 	return Math.floor(n * multiplier + 0.5) / multiplier;
 }
 
-
-
+/**
+ * @param {number} start
+ * @param {number} end
+ * @param {number} p
+ */
 export function interpolate (start, end, p) {
 	if (isNaN(start)) {
 		return end;
@@ -82,10 +92,20 @@ export function interpolate (start, end, p) {
 	return start + (end - start) * p;
 }
 
+/**
+ * @param {number} start
+ * @param {number} end
+ * @param {number} value
+ */
 export function interpolateInv (start, end, value) {
 	return (value - start) / (end - start);
 }
 
+/**
+ * @param {[number, number]} from
+ * @param {[number, number]} to
+ * @param {number} value
+ */
 export function mapRange (from, to, value) {
 	if (!from || !to || from === to || from[0] === to[0] && from[1] === to[1] || isNaN(value) || value === null) {
 		// Ranges missing or the same
@@ -114,7 +134,6 @@ export function mapRange (from, to, value) {
  * @param {number} min minimum value to return
  * @param {number} val the value to return if it is between min and max
  * @param {number} max maximum value to return
- * @returns number
  */
 export function clamp (min, val, max) {
 	return Math.max(Math.min(max, val), min);
@@ -122,9 +141,8 @@ export function clamp (min, val, max) {
 
 /**
  * Copy sign of one value to another.
- * @param {number} - to number to copy sign to
- * @param {number} - from number to copy sign from
- * @returns number
+ * @param {number} to - Number to copy sign to
+ * @param {number} from - Number to copy sign from
  */
 export function copySign (to, from) {
 	return Math.sign(to) === Math.sign(from) ? to : -to;
@@ -132,19 +150,17 @@ export function copySign (to, from) {
 
 /**
  * Perform pow on a signed number and copy sign to result
- * @param {number} - base the base number
- * @param {number} - exp the exponent
- * @returns number
+ * @param {number} base The base number
+ * @param {number} exp The exponent
  */
 export function spow (base, exp) {
 	return copySign(Math.abs(base) ** exp, base);
 }
 
 /**
- * Perform a divide, but return zero if the numerator is zero
- * @param {number} n - the numerator
- * @param {number} d - the denominator
- * @returns number
+ * Perform a divide, but return zero if the denominator is zero
+ * @param {number} n The numerator
+ * @param {number} d The denominator
  */
 export function zdiv (n, d) {
 	return (d === 0) ? 0 : n / d;
@@ -157,7 +173,6 @@ export function zdiv (n, d) {
  * @param {number} value - value to find insertion point for
  * @param {number} lo - used to specify a the low end of a subset of the list
  * @param {number} hi - used to specify a the high end of a subset of the list
- * @returns number
  */
 export function bisectLeft (arr, value, lo = 0, hi = arr.length) {
 	while (lo < hi) {

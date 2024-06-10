@@ -1,4 +1,9 @@
-import {type, isNone} from "./util.js";
+/**
+ * @packageDocumentation
+ * Defines the class and other types related to creating color spaces.
+ * For the builtin color spaces, see the `spaces` module.
+ */
+import { type, isNone } from "./util.js";
 import Format from "./Format.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
@@ -444,4 +449,3 @@ function getPath (space) {
 
 	return ret;
 }
-

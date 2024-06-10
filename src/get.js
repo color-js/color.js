@@ -2,6 +2,15 @@ import ColorSpace from "./ColorSpace.js";
 import getAll from "./getAll.js";
 import getColor from "./getColor.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").Ref} Ref */
+
+/**
+ * @param {ColorTypes} color
+ * @param {Ref} prop
+ * @returns {number}
+ */
 export default function get (color, prop) {
 	color = getColor(color);
 

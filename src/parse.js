@@ -3,13 +3,17 @@ import hooks from "./hooks.js";
 import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ArgumentMeta} ArgumentMeta */
+/** @typedef {import("./types.js").ColorConstructor} ColorConstructor */
+/** @typedef {import("./types.js").ParseFunctionReturn} ParseFunctionReturn */
+/** @typedef {import("./types.js").ParseOptions} ParseOptions */
+
 /**
  * Convert a CSS Color string to a color object
  * @param {string} str
- * @param {object} [options]
- * @param {object} [options.meta] - Object to hold information about the parsing (format, types, etc.)
- * @param {object} [options.parseMeta] - More specific alias of options.meta
- * @returns {Color}
+ * @param {ParseOptions} [options]
+ * @returns {ColorConstructor}
  */
 export default function parse (str, options) {
 	let env = {
@@ -165,18 +169,6 @@ export const regex = {
 	singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
 };
 
-
-
-/**
- * Metadata for a parsed argument
- * @typedef {object} ArgumentMeta
- * @property {string} raw - The raw argument string
- * @property {string} type - The type of the argument, e.g. "<number>", "<angle>", "<percentage>"
- * @property {string} unit - The unit of the argument, if present e.g. "%", "deg"
- * @property {number} unitless - The number value of the argument, for arguments that have a unit
- * @property {boolean} none - Whether the argument is "none"
- */
-
 /**
  * Parse a single function argument
  * @param {string} rawArg
@@ -214,10 +206,10 @@ export function parseArgument (rawArg) {
 }
 
 /**
-* Parse a CSS function, regardless of its name and arguments
-* @param String str String to parse
-* @return {{name, args, rawArgs}}
-*/
+ * Parse a CSS function, regardless of its name and arguments
+ * @param {string} str String to parse
+ * @return {ParseFunctionReturn | void}
+ */
 export function parseFunction (str) {
 	if (!str) {
 		return;
