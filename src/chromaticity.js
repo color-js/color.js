@@ -12,7 +12,7 @@ import getAll from "./getAll.js";
  */
 export function uv (color) {
 	// Assumes getAll() calls getColor() on color
-	let [X, Y, Z] = getAll(color, {space: xyz_d65});
+	let [X, Y, Z] = getAll(color, xyz_d65);
 	let denom = X + 15 * Y + 3 * Z;
 	return [4 * X / denom, 9 * Y / denom];
 }
@@ -23,7 +23,7 @@ export function uv (color) {
  */
 export function xy (color) {
 	// Assumes getAll() calls getColor() on color
-	let [X, Y, Z] = getAll(color, {space: xyz_d65});
+	let [X, Y, Z] = getAll(color, xyz_d65);
 	let  sum = X + Y + Z;
 	return [X / sum, Y / sum];
 }

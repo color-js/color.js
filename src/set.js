@@ -44,7 +44,7 @@ export default function set (color, prop, value) {
 		}
 		else {
 			let {space, index} = ColorSpace.resolveCoord(prop, color.space);
-			let coords = getAll(color, {space});
+			let coords = getAll(color, space);
 			coords[index] = value;
 			setAll(color, space, coords);
 		}
