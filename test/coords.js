@@ -29,16 +29,16 @@ export default {
 					expect: [1, 0, 0],
 				},
 				{
-					name: "color.getAll(1)",
+					name: "color.getAll({precision: 1})",
 					run () {
-						return this.data.red_oklch.getAll(1);
+						return this.data.red_oklch.getAll({precision: 1});
 					},
 					expect: [.6, .3, 30],
 				},
 				{
-					name: "color.getAll('oklch', 1)",
+					name: "color.getAll({space: 'oklch', precision: 1})",
 					run () {
-						return this.data.red.getAll("oklch", 1);
+						return this.data.red.getAll({space: "oklch", precision: 1});
 					},
 					expect: [.6, .3, 30],
 				},
