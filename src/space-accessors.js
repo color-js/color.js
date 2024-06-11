@@ -27,7 +27,7 @@ function addSpaceAccessors (id, space) {
 		// Source colorspace: this.spaceId
 		// Target colorspace: id
 		get () {
-			let ret = this.getAll(id);
+			let ret = this.getAll({space: id});
 
 			if (typeof Proxy === "undefined") {
 				// If proxies are not supported, just return a static array

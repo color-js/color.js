@@ -8,17 +8,13 @@ import { toPrecision } from "./util.js";
 /**
  * Get the coordinates of a color in any color space
  * @param {ColorTypes} color
- * @param {string | ColorSpace} space The color space to convert to. Defaults to the color's current space
- * @param {number} [precision] The number of significant digits to round the coordinates to
+ * @param {object} options
+ * @param {string | ColorSpace} [options.space=color.space] The color space to convert to. Defaults to the color's current space
+ * @param {number} [options.precision] The number of significant digits to round the coordinates to
  * @returns {Coords} The color coordinates in the given color space
  */
-export default function getAll (color, space, precision) {
+export default function getAll (color, {space, precision} = {}) {
 	color = getColor(color);
-
-	if (typeof space === "number") {
-		precision = space;
-		space = color.space;
-	}
 
 	let coords;
 	if (!space || color.space.equals(space)) {
