@@ -8,6 +8,11 @@ getAll();
 getAll(new Color("red")); // $ExpectType Coords
 getAll(new Color("red"), "srgb"); // $ExpectType Coords
 getAll(new Color("red"), sRGB); // $ExpectType Coords
+getAll(new Color("red"), sRGB, 1); // $ExpectType Coords
 getAll("red", sRGB); // $ExpectType Coords
+getAll("red", sRGB, 1); // $ExpectType Coords
+getAll("red", 2); // $ExpectType Coords
 
 new Color("red").getAll(); // $ExpectType Coords
+new Color("red").getAll(2); // $ExpectType Coords
+new Color("red").getAll("oklch", 1); // $ExpectType Coords
