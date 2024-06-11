@@ -29,6 +29,20 @@ export default {
 					expect: [1, 0, 0],
 				},
 				{
+					name: "color.getAll(1)",
+					run () {
+						return this.data.red_oklch.getAll(1);
+					},
+					expect: [.6, .3, 30],
+				},
+				{
+					name: "color.getAll('oklch', 1)",
+					run () {
+						return this.data.red.getAll("oklch", 1);
+					},
+					expect: [.6, .3, 30],
+				},
+				{
 					name: "color.alpha",
 					run () {
 						return this.data.red_50.alpha;
