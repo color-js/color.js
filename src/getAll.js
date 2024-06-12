@@ -6,6 +6,15 @@ import { toPrecision, type } from "./util.js";
 /** @typedef {import("./types.js").Coords} Coords */
 
 /**
+ * Options for {@link getAll}
+ * @typedef GetAllOptions
+ * @property {string | ColorSpace | undefined} [space]
+ * The color space to convert to. Defaults to the color's current space
+ * @property {number | undefined} [precision]
+ * The number of significant digits to round the coordinates to
+ */
+
+/**
  * Get the coordinates of a color in any color space
  * @param {ColorTypes} color
  * @param {string | ColorSpace | object} [options=color.space] If a string or ColorSpace, the color space to convert to. Defaults to the color's current space.
