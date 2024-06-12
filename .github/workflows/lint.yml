@@ -1,6 +1,8 @@
 name: Lint & Test Types
 on:
     push:
+        branches:
+            - main
     pull_request:
 
 concurrency:

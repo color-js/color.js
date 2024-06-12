@@ -1,11 +1,13 @@
-/* List of CSS color keywords
- * Note that this does not include currentColor, transparent,
- * or system colors
- */
-
 // To produce: Visit https://www.w3.org/TR/css-color-4/#named-colors
 // and run in the console:
 // copy($$("tr", $(".named-color-table tbody")).map(tr => `"${tr.cells[2].textContent.trim()}": [${tr.cells[4].textContent.trim().split(/\s+/).map(c => c === "0"? "0" : c === "255"? "1" : c + " / 255").join(", ")}]`).join(",\n"))
+
+/** List of CSS color keywords
+ *  Note that this does not include currentColor, transparent,
+ *  or system colors
+ *
+ *  @type {Record<string, [number, number, number]>}
+ */
 export default {
 	"aliceblue": [240 / 255, 248 / 255, 1],
 	"antiquewhite": [250 / 255, 235 / 255, 215 / 255],
