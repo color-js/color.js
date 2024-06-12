@@ -16,8 +16,15 @@ import { toPrecision, type } from "./util.js";
 
 /**
  * Get the coordinates of a color in any color space
+ * @overload
  * @param {ColorTypes} color
- * @param {string | ColorSpace | GetAllOptions} [options=color.space] If a string or ColorSpace, the color space to convert to. Defaults to the color's current space.
+ * @param {string | ColorSpace} [options=color.space] The color space to convert to. Defaults to the color's current space
+ * @returns {Coords} The color coordinates in the given color space
+ */
+/**
+ * @overload
+ * @param {ColorTypes} color
+ * @param {GetAllOptions} [options]
  * @returns {Coords} The color coordinates in the given color space
  */
 export default function getAll (color, options) {
