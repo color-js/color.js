@@ -30,15 +30,8 @@ import { toPrecision, type } from "./util.js";
 export default function getAll (color, options) {
 	color = getColor(color);
 
-	let optionsType = type(options);
-	let space, precision;
-	if (optionsType === "string" || options instanceof ColorSpace) {
-		space = options;
-	}
-	else if (optionsType === "object") {
-		space = options.space;
-		precision = options.precision;
-	}
+	let space = ColorSpace.get(options, options?.space);
+	let precision = options?.precision;
 
 	let coords;
 	if (!space || color.space.equals(space)) {
@@ -46,7 +39,6 @@ export default function getAll (color, options) {
 		coords = color.coords.slice();
 	}
 	else {
-		space = ColorSpace.get(space);
 		coords = space.from(color);
 	}
 
