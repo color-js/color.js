@@ -2,6 +2,7 @@
 	"out": "./api",
 	"json": "./api/docs.json",
 	"name": "Color.js API Docs",
+	"tsconfig": "./tsconfig.typedoc.json",
 	"entryPoints": [
 		"src/types.d.ts",
 		"src/color.d.ts",
