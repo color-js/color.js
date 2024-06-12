@@ -1,6 +1,6 @@
 import ColorSpace from "./ColorSpace.js";
 import getColor from "./getColor.js";
-import { toPrecision, type } from "./util.js";
+import { toPrecision } from "./util.js";
 
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
 /** @typedef {import("./types.js").Coords} Coords */
