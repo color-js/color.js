@@ -17,10 +17,7 @@ import { toPrecision, type } from "./util.js";
 /**
  * Get the coordinates of a color in any color space
  * @param {ColorTypes} color
- * @param {string | ColorSpace | object} [options=color.space] If a string or ColorSpace, the color space to convert to. Defaults to the color's current space.
- *                                       If an object:
- *                                       [options.space=color.space] — the color space to convert to (defaults to the color's current space);
- *                                       [options.precision] — the number of significant digits to round the coordinates to.
+ * @param {string | ColorSpace | GetAllOptions} [options=color.space] If a string or ColorSpace, the color space to convert to. Defaults to the color's current space.
  * @returns {Coords} The color coordinates in the given color space
  */
 export default function getAll (color, options) {
