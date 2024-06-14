@@ -65,6 +65,6 @@ Simply reducing chroma tends to produce good results for most colors, but most n
 
 Here is P3 yellow, with LCH Chroma reduced to the neutral axis. The RGB values are linear-light P3. The color wedge shows sRGB values, if in gamut; salmon, if outside sRGB and red if outside P3. Notice the red curve goes up (so, out of gamut) before finally dropping again. The chroma of P3 yellow is 123, while the chroma of the gamut-mapped result is far too low, only 25!
 
-Instead, the `"lch.c"` method reduces chroma (by binary search) and also, at each stage, calculates the deltaE2000 between the current estimate and a channel-clipped version of that color. If the deltaE is less than 2, the clipped color is displayed. Notice the red curve hugs the top edge now because clipping to sRGB also means it is inside P3 gamut. Notice how we get an in-gamut color much earlier. This method produces an in-gamut color with chroma 103.
+Instead, the `"css"` method reduces chroma (by binary search) and also, at each stage, calculates the deltaE2000 between the current estimate and a channel-clipped version of that color. If the deltaE is less than 2, the clipped color is displayed. Notice the red curve hugs the top edge now because clipping to sRGB also means it is inside P3 gamut. Notice how we get an in-gamut color much earlier. This method produces an in-gamut color with chroma 103.
 
 ![chroma-reduction-clip](images/p3-yellow-lab-clip.svg)
