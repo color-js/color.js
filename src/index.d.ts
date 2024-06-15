@@ -22,6 +22,43 @@ import { range, Range, MixOptions, StepsOptions } from "./interpolation.js";
 import { getLuminance } from "./luminance.js";
 import { lighten, darken } from "./variations.js";
 
+// Type re-exports
+export {
+	// Re-exported from src/color.d.ts
+	ColorConstructor,
+	ColorObject,
+	ColorTypes,
+	Coords,
+	DefineFunctionCode,
+	DefineFunctionOptions,
+	DefineFunctionHybrid,
+	PlainColorObject,
+	SpaceAccessor,
+	ToColorPrototype,
+	// Re-exported from src/adapt.d.ts
+	White,
+	// Re-exported from src/CATs.d.ts
+	CAT,
+	// Re-exported from src/display.d.ts
+	Display,
+	// Re-exported from src/interpolation.d.ts
+	Range,
+	RangeOptions,
+	MixOptions,
+	StepsOptions,
+	// Re-exported from src/parse.d.ts
+	ParseOptions,
+	// Re-exported from src/rgbspace.d.ts
+	RGBOptions,
+	// Re-exported from src/serialize.d.ts
+	SerializeOptions,
+	// Re-exported from src/space.d.ts
+	Format as SpaceFormat,
+	CoordMeta,
+	Ref,
+	SpaceOptions,
+} from "./types.js";
+
 // Augment existing Color object
 declare module "./color" {
 	export default class Color {
