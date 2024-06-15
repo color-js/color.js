@@ -37,7 +37,7 @@ export default {
 				{
 					name: "new Color(hsl string), none alpha",
 					args: ["hsl(10, 50%, 50% / none)"],
-					expect: { "spaceId": "hsl", "coords": [ 10, 50, 50 ], "alpha": NaN },
+					expect: { "spaceId": "hsl", "coords": [ 10, 50, 50 ], "alpha": null },
 				},
 				{
 					name: "new Color({spaceId, coords})",
