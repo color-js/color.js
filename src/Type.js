@@ -40,7 +40,7 @@ export default class Type {
 			return this.range;
 		}
 		if (this.type === "<percentage>") {
-			return [-1, 1];
+			return this.pctRange();
 		}
 		else if (this.type === "<angle>") {
 			return [0, 360];
@@ -72,7 +72,7 @@ export default class Type {
 		let toRange = this.coordRange;
 
 		if (this.type === "<percentage>") {
-			toRange ??= [-1, 1];
+			toRange ??= this.pctRange();
 		}
 
 		return mapRange(fromRange, toRange, number);
@@ -84,7 +84,8 @@ export default class Type {
 	 * @param {number} [precision]
 	 */
 	serialize (number, precision) {
-		let toRange = this.type === "<percentage>" ? [-100, 100] : this.computedRange;
+		let toRange = this.type === "<percentage>" ? this.pctRange(100) : this.computedRange;
+
 		let unit = this.unit;
 
 		number = mapRange(this.coordRange, toRange, number);
@@ -102,6 +103,15 @@ export default class Type {
 		}
 
 		return ret;
+	}
+
+	/**
+	 * Returns a percentage range for values of this type
+	 * @param {number} scale
+	 */
+	pctRange (scale = 1) {
+		let range = this.coordRange && this.coordRange[0] < 0 ? [-1, 1] : [0, 1];
+		return range.map(v => v * scale);
 	}
 
 	static get (type, ...args) {
