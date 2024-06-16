@@ -109,7 +109,7 @@ export default class Type {
 	 * Returns a percentage range for values of this type
 	 * @param {number} scale
 	 */
-	pctRange (scale = 1) {
+	percentageRange (scale = 1) {
 		let range = this.coordRange && this.coordRange[0] < 0 ? [-1, 1] : [0, 1];
 		return range.map(v => v * scale);
 	}
