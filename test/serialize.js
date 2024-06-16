@@ -138,6 +138,46 @@ const tests = {
 				},
 			],
 		},
+		{
+			name: "Values outside of range or refRange",
+			tests: [
+				{
+					name: "sRGB negative %",
+					args: ["srgb", [-0.5, 0, 0], 1, {inGamut: false}],
+					expect: "rgb(-50% 0% 0%)",
+				},
+				{
+					name: "sRGB %",
+					args: ["srgb", [1.5, 0, 0], 1, {inGamut: false}],
+					expect: "rgb(150% 0% 0%)",
+				},
+				{
+					name: "sRGB %, inGamut: true",
+					args: ["srgb", [-0.5, 0, 0], 1],
+					expect: "rgb(0% 0% 0%)",
+				},
+				{
+					name: "rgb()  with <number> coords",
+					args: ["srgb", [2, 2, 2], 1, {inGamut: false, coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"]}],
+					expect: "rgb(510 510 510)",
+				},
+				{
+					name: "oklch negative values",
+					args: ["oklch", [-0.1, -0.6, -50], 1],
+					expect: "oklch(-10% -0.6 -50)",
+				},
+				{
+					name: "hsl negative values",
+					args: ["hsl", [-50, -10, -30], 1, {inGamut: false}],
+					expect: "hsl(-50 -10% -30%)",
+				},
+				{
+					name: "hsl positive values",
+					args: ["hsl", [400, 123, 456], 1, {inGamut: false}],
+					expect: "hsl(400 123% 456%)",
+				},
+			],
+		},
 	],
 };
 
