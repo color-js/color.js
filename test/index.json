@@ -9,6 +9,6 @@
 	"contrast": "Contrast",
 	"angles": "Angles",
 	"adapt": "Chromatic adaptation",
-	"multiply-matrices": "Matrix multiplication",
+	"multiply_matrices": "Matrix multiplication",
 	"hooks": "Hooks"
 }
