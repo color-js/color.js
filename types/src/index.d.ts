@@ -1,5 +1,5 @@
 import { uv, xy } from "./chromaticity.js";
-import Color, { ColorTypes, ToColorPrototype } from "./color.js";
+import BaseColor, { ColorTypes, ToColorPrototype } from "./color.js";
 import contrast from "./contrast.js";
 import {
 	contrastWCAG21,
@@ -24,7 +24,9 @@ import { lighten, darken } from "./variations.js";
 
 // Augment existing Color object
 declare module "./color" {
-	export default class Color {
+	// https://github.com/color-js/color.js/issues/560
+	// Seems to cause problems if the original class is not expicitly extended?
+	export default class Color extends BaseColor {
 		// chromaticity
 		uv: ToColorPrototype<typeof uv>;
 		xy: ToColorPrototype<typeof xy>;
@@ -70,8 +72,8 @@ declare module "./color" {
 		// These signatures should always match those in interpolation.d.ts,
 		// including the static versions
 		/** Create color mixtures in any desired proportion between two colors */
-		mix (color2: ColorTypes, options?: MixOptions): Color;
-		mix (color2: ColorTypes, p: number, options?: MixOptions): Color;
+		mix (color2: ColorTypes, options?: MixOptions): this;
+		mix (color2: ColorTypes, p: number, options?: MixOptions): this;
 		/**
 		 * Creates a function that accepts a number and returns a color.
 		 * For numbers in the range 0 to 1, the function interpolates;
@@ -80,20 +82,20 @@ declare module "./color" {
 		 */
 		range: ToColorPrototype<typeof range>;
 		/** Get an array of discrete steps */
-		steps (color2: ColorTypes, options?: StepsOptions): Color[];
+		steps (color2: ColorTypes, options?: StepsOptions): this[];
 
 		/** Create color mixtures in any desired proportion between two colors */
 		static mix (
 			color1: ColorTypes,
 			color2: ColorTypes,
 			options?: MixOptions
-		): Color;
+		): BaseColor;
 		static mix (
 			color1: ColorTypes,
 			color2: ColorTypes,
 			p: number,
 			options?: MixOptions
-		): Color;
+		): BaseColor;
 		/**
 		 * Creates a function that accepts a number and returns a color.
 		 * For numbers in the range 0 to 1, the function interpolates;
@@ -106,8 +108,8 @@ declare module "./color" {
 			color1: ColorTypes,
 			color2: ColorTypes,
 			options?: StepsOptions
-		): Color[];
-		static steps (range: Range, options?: StepsOptions): Color[];
+		): BaseColor[];
+		static steps (range: Range, options?: StepsOptions): BaseColor[];
 
 		// luminance
 		get luminance (): ReturnType<typeof getLuminance>;
@@ -122,4 +124,4 @@ declare module "./color" {
 	}
 }
 
-export default Color;
+export default BaseColor;
