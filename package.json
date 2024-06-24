@@ -41,11 +41,12 @@
 		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --serve",
 		"build:js": "rollup -c _build/rollup.config.js",
 		"watch:js": "rollup -c _build/rollup.config.js --watch",
+		"build:ts": "tsc && node ./scripts/copy-declarations.js",
 		"build:apidocs": "npx typedoc",
 		"watch:apidocs": "npx typedoc --watch",
 		"build:js:legacy": "rollup -c _build/rollup.legacy.config.js",
 		"build:space-accessors": "node ./scripts/generate-space-accessor-types.js",
-		"build": "run-s build:apidocs build:html build:js build:js:legacy build:space-accessors",
+		"build": "run-s build:apidocs build:html build:js build:ts build:js:legacy build:space-accessors",
 		"watch": "run-p watch:*",
 		"prepack": "npm run build",
 		"release": "release-it"

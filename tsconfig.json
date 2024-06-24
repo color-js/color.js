@@ -3,7 +3,10 @@
 		"checkJs": true,
 		"lib": ["DOM", "ESNext"],
 		"skipLibCheck": true,
-		"noEmit": true
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"declarationMap": true,
+		"outDir": "types/src"
 	},
 	"include": ["src/**/*.js", "src/**/*.d.ts"],
 	"exclude": ["node_modules/**"]
