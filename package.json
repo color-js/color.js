@@ -4,26 +4,39 @@
 	"description": "Let’s get serious about color",
 	"files": [
 		"dist/",
-		"src/"
+		"src/",
+		"types/src/",
+		"types/index.d.ts"
 	],
 	"exports": {
 		".": {
 			"import": {
+				"types": "./types/index.d.ts",
 				"default": "./dist/color.js"
 			},
 			"require": {
+				"types": "./types/index.d.ts",
 				"default": "./dist/color.cjs"
 			}
 		},
 		"./fn": {
 			"import": {
+				"types": "./types/src/index-fn.d.ts",
 				"default": "./src/index-fn.js"
 			},
 			"require": {
+				"types": "./types/src/index-fn.d.ts",
 				"default": "./dist/color-fn.cjs"
 			}
 		},
 		"./dist/*": "./dist/*"
+	},
+	"typesVersions": {
+		"*": {
+			"fn": [
+				"./types/src/index-fn.d.ts"
+			]
+		}
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",
