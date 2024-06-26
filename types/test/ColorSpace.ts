@@ -1,5 +1,5 @@
 import Color from "colorjs.io/src";
-import ColorSpace from "colorjs.io/src/space";
+import ColorSpace from "colorjs.io/src/ColorSpace";
 
 // @ts-expect-error
 new ColorSpace();

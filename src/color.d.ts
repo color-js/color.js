@@ -8,6 +8,7 @@ import hooks from "./hooks.js";
 import * as util from "./util.js";
 import ColorSpace, { Ref } from "./ColorSpace.js";
 import SpaceAccessors from "./space-coord-accessors.js";
+import { ToGamutOptions } from "./types.js";
 
 import {
 	to as toFn,
@@ -86,7 +87,6 @@ declare namespace Color {
 	export const to: ToColorNamespace<typeof toFn>;
 	export const equals: ToColorNamespace<typeof equalsFn>;
 	export const inGamut: ToColorNamespace<typeof inGamutFn>;
-	export const toGamut: ToColorNamespace<typeof toGamutFn>;
 	export const distance: ToColorNamespace<typeof distanceFn>;
 	// `get` is defined below as a static method on the Class,
 	// and `toString` is intentionally not overridden for the namespace
@@ -100,6 +100,8 @@ declare namespace Color {
 	export function set (color: ColorTypes, props: Record<string, number | ((coord: number) => number)>): Color;
 	export function setAll (color: ColorTypes, coords: Coords, alpha?: number): Color;
 	export function setAll (color: ColorTypes, space: string | ColorSpace, coords: Coords, alpha?: number): Color;
+	export function toGamut (color: ColorTypes, options?: ToGamutOptions): Color;
+	export function toGamut (color: ColorTypes, space?: string): Color;
 }
 
 /**
@@ -155,7 +157,6 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	to: ToColorPrototype<typeof toFn>;
 	equals: ToColorPrototype<typeof equalsFn>;
 	inGamut: ToColorPrototype<typeof inGamutFn>;
-	toGamut: ToColorPrototype<typeof toGamutFn>;
 	distance: ToColorPrototype<typeof distanceFn>;
 	toString: ToColorPrototype<typeof serialize>;
 
@@ -165,6 +166,8 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	set (props: Record<string, number | ((coord: number) => number)>): Color;
 	setAll (coords: Coords, alpha?: number): Color;
 	setAll (space: string | ColorSpace, coords: Coords, alpha?: number): Color;
+	toGamut (options?: ToGamutOptions): Color;
+	toGamut (space?: string): Color;
 }
 
 export default Color;
