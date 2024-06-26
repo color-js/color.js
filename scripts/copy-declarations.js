@@ -1,5 +1,5 @@
 // Copy manually-written `.d.ts` files from `src/` to `types/src/`
-import { copyFileSync } from "node:fs";
+import { copyFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
