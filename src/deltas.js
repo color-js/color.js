@@ -4,10 +4,13 @@ import to from "./to.js";
 import { adjust } from "./angles.js";
 import { isNone } from "./util.js";
 
+// Type "imports"
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+
 /**
  * Get color differences per-component, on any color space
- * @param {Color} c1
- * @param {Color} c2
+ * @param {ColorTypes} c1
+ * @param {ColorTypes} c2
  * @param {object} options
  * @param {string | ColorSpace} [options.space=c1.space] - The color space to use for the delta calculation. Defaults to the color space of the first color.
  * @param {string} [options.hue="shorter"] - How to handle hue differences. Same as hue interpolation option.
