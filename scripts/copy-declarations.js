@@ -16,7 +16,6 @@ const TO_COPY = [
 	"hooks.d.ts",
 	"index.d.ts",
 	"space-coord-accessors.d.ts",
-	"space.d.ts",
 	"types.d.ts",
 ];
 
