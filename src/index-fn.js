@@ -34,3 +34,41 @@ export {default as deltaEMethods}       from "./deltaE/index.js";
 export *                                from "./variations.js";
 export { mix, steps, range, isRange }   from "./interpolation.js";
 export *                                from "./spaces/index-fn.js";
+
+// Type re-exports
+// Re-exported from src/color.d.ts
+/** @typedef {import("./types.js").ColorConstructor} ColorConstructor */
+/** @typedef {import("./types.js").ColorObject} ColorObject */
+/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").Coords} Coords */
+/** @typedef {import("./types.js").DefineFunctionCode} DefineFunctionCode */
+/** @typedef {import("./types.js").DefineFunctionOptions} DefineFunctionOptions */
+/** @typedef {import("./types.js").DefineFunctionHybrid} DefineFunctionHybrid */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").SpaceAccessor} SpaceAccessor */
+/**
+ * @typedef {import("./types.js").ToColorPrototype<T>} ToColorPrototype
+ * @template {(...args: any[]) => any} T
+ */
+// Re-exported from src/adapt.d.ts
+/** @typedef {import("./types.js").White} White */
+// Re-exported from src/CATs.d.ts
+/** @typedef {import("./types.js").CAT} CAT */
+// Re-exported from src/display.d.ts
+/** @typedef {import("./types.js").Display} Display */
+// Re-exported from src/interpolation.d.ts
+/** @typedef {import("./types.js").Range} Range */
+/** @typedef {import("./types.js").RangeOptions} RangeOptions */
+/** @typedef {import("./types.js").MixOptions} MixOptions */
+/** @typedef {import("./types.js").StepsOptions} StepsOptions */
+// Re-exported from src/parse.d.ts
+/** @typedef {import("./types.js").ParseOptions} ParseOptions */
+// Re-exported from src/rgbspace.d.ts
+/** @typedef {import("./types.js").RGBOptions} RGBOptions */
+// Re-exported from src/serialize.d.ts
+/** @typedef {import("./types.js").SerializeOptions} SerializeOptions */
+// Re-exported from src/space.d.ts
+/** @typedef {import("./types.js").Format} SpaceFormat */
+/** @typedef {import("./types.js").CoordMeta} CoordMeta */
+/** @typedef {import("./types.js").Ref} Ref */
+/** @typedef {import("./types.js").SpaceOptions} SpaceOptions */
