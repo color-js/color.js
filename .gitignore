@@ -8,4 +8,7 @@ node_modules/
 !test/*.html
 !benchmarks/*.html
 
+# Ignore generated TypeScript files
+types/src/
+
 api/
