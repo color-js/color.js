@@ -11,6 +11,7 @@ import sRGB from "./spaces/srgb.js";
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
 /** @typedef {import("./types.js").Display} Display */
+/** @typedef {import("./ColorSpace.js").default} ColorSpace */
 
 // Default space for CSS output. Code in Color.js makes this wider if there's a DOM available
 defaults.display_space = sRGB;

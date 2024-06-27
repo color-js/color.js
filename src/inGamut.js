@@ -9,8 +9,8 @@ const ε = .000075;
 /**
  * Check if a color is in gamut of either its own or another color space
  * @param {ColorTypes} color
- * @param {string | ColorSpace} space
- * @param {{ epsilon?: number | undefined }} param2
+ * @param {string | ColorSpace} [space]
+ * @param {{ epsilon?: number | undefined }} [param2]
  * @returns {boolean}
  */
 export default function inGamut (color, space, {epsilon = ε} = {}) {
