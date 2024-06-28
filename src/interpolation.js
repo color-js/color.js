@@ -26,7 +26,7 @@ import deltaE from "./deltaE.js";
  * @overload
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
- * @param {MixOptions} o
+ * @param {MixOptions} [options]
  * @returns {PlainColorObject}
  */
 /**
@@ -34,7 +34,7 @@ import deltaE from "./deltaE.js";
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
  * @param {number} p
- * @param {MixOptions} o
+ * @param {MixOptions} [options]
  * @returns {PlainColorObject}
  */
 export function mix (c1, c2, p = .5, o = {}) {
@@ -53,13 +53,13 @@ export function mix (c1, c2, p = .5, o = {}) {
  * @overload
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
- * @param {StepsOptions} options
+ * @param {StepsOptions} [options]
  * @returns {PlainColorObject[]}
  */
 /**
  * @overload
  * @param {Range} range
- * @param {StepsOptions} options
+ * @param {StepsOptions} [options]
  * @returns {PlainColorObject[]}
  */
 export function steps (c1, c2, options = {}) {
@@ -142,14 +142,14 @@ export function steps (c1, c2, options = {}) {
  * (and thus may not return the results you expect)
  * @overload
  * @param {Range} range
- * @param {RangeOptions} options
+ * @param {RangeOptions} [options]
  * @returns {Range}
  */
 /**
  * @overload
  * @param {ColorTypes} color1
  * @param {ColorTypes} color2
- * @param {RangeOptions & Record<string, any>} options
+ * @param {RangeOptions & Record<string, any>} [options]
  * @returns {Range}
  */
 export function range (color1, color2, options = {}) {
