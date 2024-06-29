@@ -178,7 +178,7 @@ export default function toGamut (
 		) {
 			let bounds = Object.values(space.coords).map(c => c.range || []);
 
-			spaceColor.coords = spaceColor.coords.map((c, i) => {
+			spaceColor.coords = /** @type {[number, number, number]} */ (spaceColor.coords.map((c, i) => {
 				let [min, max] = bounds[i];
 
 				if (min !== undefined) {
@@ -190,7 +190,7 @@ export default function toGamut (
 				}
 
 				return c;
-			});
+			}));
 		}
 	}
 
@@ -261,13 +261,13 @@ export function toGamutCSS (origin, {space} = {}) {
 	function clip (_color) {
 		const destColor = to(_color, space);
 		const spaceCoords = Object.values(space.coords);
-		destColor.coords = destColor.coords.map((coord, index) => {
+		destColor.coords = /** @type {[number, number, number]} */ (destColor.coords.map((coord, index) => {
 			if ("range" in spaceCoords[index]) {
 				const [min, max] =  spaceCoords[index].range;
 				return util.clamp(min, coord, max);
 			}
 			return coord;
-		});
+		}));
 		return destColor;
 	}
 	let min = 0;

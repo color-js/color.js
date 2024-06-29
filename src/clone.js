@@ -9,7 +9,7 @@
 export default function clone (color) {
 	return {
 		space: color.space,
-		coords: color.coords.slice(),
+		coords: /** @type {[number, number, number]} */ (color.coords.slice()),
 		alpha: color.alpha,
 	};
 }

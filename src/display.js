@@ -62,7 +62,7 @@ export default function display (color, {space = defaults.display_space, ...opti
 			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
 				// Nope, try again without none
 				fallbackColor = clone(color);
-				fallbackColor.coords = fallbackColor.coords.map(skipNone);
+				fallbackColor.coords = /** @type {[number, number, number]} */ (fallbackColor.coords.map(skipNone));
 				fallbackColor.alpha = skipNone(fallbackColor.alpha);
 
 				ret = serialize(fallbackColor, options);

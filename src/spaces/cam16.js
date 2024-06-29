@@ -52,10 +52,10 @@ const deg2rad = Math.PI / 180;
  * @returns {[number, number, number]}
  */
 export function adapt (coords, fl) {
-	const temp = coords.map(c => {
+	const temp = /** @type {[number, number, number]} */ (coords.map(c => {
 		const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
 		return 400 * copySign(x, c) / (x + 27.13);
-	});
+	}));
 	return temp;
 }
 
@@ -66,10 +66,10 @@ export function adapt (coords, fl) {
  */
 export function unadapt (adapted, fl) {
 	const constant = 100 / fl * (27.13 ** adaptedCoefInv);
-	return adapted.map(c => {
+	return /** @type {[number, number, number]} */ (adapted.map(c => {
 		const cabs = Math.abs(c);
 		return copySign(constant * spow(cabs / (400 - cabs), adaptedCoefInv), c);
-	});
+	}));
 }
 
 /**
@@ -174,9 +174,9 @@ export function environment (
 	});
 
 	// Achromatic response
-	const rgbCW = rgbW.map((c, i) => {
+	const rgbCW = /** @type {[number, number, number]} */ (rgbW.map((c, i) => {
 		return c * env.dRgb[i];
-	});
+	}));
 	const rgbAW = adapt(rgbCW, env.fl);
 	env.aW = env.nbb * (2 * rgbAW[0] + rgbAW[1] + 0.05 * rgbAW[2]);
 
@@ -278,19 +278,20 @@ export function fromCam16 (cam16, env) {
 
 	// Calculate back from cone response to XYZ
 	const rgb_c = unadapt(
-		multiplyMatrices(m1, [p2, a, b]).map(c => {
+		/** @type {[number, number, number]} */
+		(multiplyMatrices(m1, [p2, a, b]).map(c => {
 			return c * 1 / 1403;
-		}),
+		})),
 		env.fl,
 	);
-	return multiplyMatrices(
+	return /** @type {[number, number, number]} */ (multiplyMatrices(
 		cat16Inv,
 		rgb_c.map((c, i) => {
 			return c * env.dRgbInv[i];
 		}),
 	).map(c => {
 		return c / 100;
-	});
+	}));
 }
 
 /**
@@ -305,9 +306,10 @@ export function toCam16 (xyzd65, env) {
 		return c * 100;
 	});
 	const rgbA = adapt(
-		multiplyMatrices(cat16, xyz100).map((c, i) => {
+		/** @type {[number, number, number]} */
+		(multiplyMatrices(cat16, xyz100).map((c, i) => {
 			return c * env.dRgb[i];
-		}),
+		})),
 		env.fl,
 	);
 

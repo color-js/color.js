@@ -5,6 +5,8 @@ export default class Type {
 	type;
 	coordMeta;
 	coordRange;
+	/** @type {[number, number]} */
+	range;
 
 	/**
 	 * @param {any} type
@@ -35,6 +37,7 @@ export default class Type {
 		}
 	}
 
+	/** @returns {[number, number]} */
 	get computedRange () {
 		if (this.range) {
 			return this.range;
@@ -89,9 +92,7 @@ export default class Type {
 		let unit = this.unit;
 
 		number = mapRange(this.coordRange, toRange, number);
-		number = serializeNumber(number, {unit, precision});
-
-		return number;
+		return serializeNumber(number, {unit, precision});
 	}
 
 	toString () {
@@ -108,10 +109,11 @@ export default class Type {
 	/**
 	 * Returns a percentage range for values of this type
 	 * @param {number} scale
+	 * @returns {[number, number]}
 	 */
 	percentageRange (scale = 1) {
 		let range = this.coordRange && this.coordRange[0] < 0 ? [-1, 1] : [0, 1];
-		return range.map(v => v * scale);
+		return /** @type {[number, number]} */ (range.map(v => v * scale));
 	}
 
 	static get (type, ...args) {

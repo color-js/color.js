@@ -210,8 +210,8 @@ export function range (color1, color2, options = {}) {
 
 	if (premultiplied) {
 		// not coping with polar spaces yet
-		color1.coords = color1.coords.map(c => c * color1.alpha);
-		color2.coords = color2.coords.map(c => c * color2.alpha);
+		color1.coords = /** @type {[number, number, number]} */ (color1.coords.map(c => c * color1.alpha));
+		color2.coords = /** @type {[number, number, number]} */ (color2.coords.map(c => c * color2.alpha));
 	}
 
 	return Object.assign(p => {
