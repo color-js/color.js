@@ -21,10 +21,7 @@ hooks.add("chromatic-adaptation-end", env => {
 	}
 });
 
-/**
- * @param {CAT} param0
- */
-export function defineCAT ({id, toCone_M, fromCone_M}) {
+export function defineCAT (/** @type {CAT} */ {id, toCone_M, fromCone_M}) {
 	// Use id, toCone_M, fromCone_M like variables
 	CATs[id] = arguments[0];
 }

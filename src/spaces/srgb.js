@@ -89,7 +89,7 @@ export default new RGBColorSpace({
 					coords.push(alpha);
 				}
 
-				coords = coords.map(c => Math.round(c * 255));
+				coords = /** @type {[number, number, number]} */ (coords.map(c => Math.round(c * 255)));
 
 				let collapsible = collapse && coords.every(c => c % 17 === 0);
 

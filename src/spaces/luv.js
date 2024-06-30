@@ -33,7 +33,7 @@ export default new ColorSpace({
 	// Convert D65-adapted XYZ to Luv
 	// https://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 	fromBase (XYZ) {
-		let xyz = [skipNone(XYZ[0]), skipNone(XYZ[1]), skipNone(XYZ[2])];
+		let xyz = /** @type {[number, number, number]} */ ([skipNone(XYZ[0]), skipNone(XYZ[1]), skipNone(XYZ[2])]);
 		let y = xyz[1];
 
 		let [up, vp] = uv({space: xyz_d65, coords: xyz});

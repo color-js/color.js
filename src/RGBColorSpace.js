@@ -39,7 +39,7 @@ export default class RGBColorSpace extends ColorSpace {
 
 		if (options.toXYZ_M && options.fromXYZ_M) {
 			options.toBase ??= rgb => {
-				let xyz = multiplyMatrices(options.toXYZ_M, rgb);
+				let xyz = /** @type {[number, number, number]} */ (multiplyMatrices(options.toXYZ_M, rgb));
 
 				if (this.white !== this.base.white) {
 					// Perform chromatic adaptation

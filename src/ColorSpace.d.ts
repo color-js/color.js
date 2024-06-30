@@ -127,8 +127,8 @@ export default class ColorSpace {
 	aliases?: string[] | undefined;
 	base: ColorSpace | null;
 	coords: Record<string, CoordMeta>;
-	fromBase?: ((coords: Coords) => number[]) | undefined;
-	toBase?: ((coords: Coords) => number[]) | undefined;
+	fromBase?: ((coords: Coords) => Coords) | undefined;
+	toBase?: ((coords: Coords) => Coords) | undefined;
 	formats: Record<string, Format>;
 	referred?: string | undefined;
 	white: White;

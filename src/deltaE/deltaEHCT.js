@@ -2,13 +2,16 @@ import hct from "../spaces/hct.js";
 import {viewingConditions} from "../spaces/hct.js";
 import getColor from "../getColor.js";
 
+// Type "imports"
+/** @typedef {import("../types.js").Coords} Coords */
+
 const rad2deg = 180 / Math.PI;
 const deg2rad = Math.PI / 180;
 const ucsCoeff = [1.00, 0.007, 0.0228];
 
 /**
 * Convert HCT chroma and hue (CAM16 JMh colorfulness and hue) using UCS logic for a and b.
-* @param {number[]} coords - HCT coordinates.
+* @param {Coords} coords - HCT coordinates.
 * @return {number[]}
 */
 function convertUcsAb (coords) {
