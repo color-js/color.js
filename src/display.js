@@ -7,6 +7,7 @@ import REC2020 from "./spaces/rec2020.js";
 import P3 from "./spaces/p3.js";
 import Lab from "./spaces/lab.js";
 import sRGB from "./spaces/srgb.js";
+import Color from "./color.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
@@ -44,10 +45,12 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
 export default function display (color, {space = defaults.display_space, ...options} = {}) {
-	let ret = serialize(color, options);
+	color = Color.get(color);
 
-	if (typeof CSS === "undefined" || CSS.supports("color", ret) || !defaults.display_space) {
-		ret = new String(ret);
+	let ret = /** @type {Display} */ (serialize(color, options));
+
+	if (typeof CSS === "undefined" || CSS.supports("color", /** @type {string} */ (ret)) || !defaults.display_space) {
+		ret = /** @type {Display} */ (new String(ret));
 		ret.color = color;
 	}
 	else {
@@ -61,15 +64,16 @@ export default function display (color, {space = defaults.display_space, ...opti
 			// Does the browser support none values?
 			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
 				// Nope, try again without none
-				fallbackColor = clone(color);
+				fallbackColor = clone(/** @type {Color} */ (color));
 				fallbackColor.coords = /** @type {[number, number, number]} */ (fallbackColor.coords.map(skipNone));
 				fallbackColor.alpha = skipNone(fallbackColor.alpha);
 
+				// @ts-expect-error This is set to the correct type later
 				ret = serialize(fallbackColor, options);
 
-				if (CSS.supports("color", ret)) {
+				if (CSS.supports("color", /** @type {string} */ (ret))) {
 					// We're done, now it's supported
-					ret = new String(ret);
+					ret = /** @type {Display} */ (new String(ret));
 					ret.color = fallbackColor;
 					return ret;
 				}
@@ -79,7 +83,7 @@ export default function display (color, {space = defaults.display_space, ...opti
 		// If we're here, the color function is not supported
 		// Fall back to fallback space
 		fallbackColor = to(fallbackColor, space);
-		ret = new String(serialize(fallbackColor, options));
+		ret = /** @type {Display} */ (new String(serialize(fallbackColor, options)));
 		ret.color = fallbackColor;
 	}
 
