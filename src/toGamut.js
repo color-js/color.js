@@ -60,6 +60,11 @@ const GMAPPRESET = {
  * @param {string} [space]
  * @returns {PlainColorObject}
  */
+/**
+ * @param {ColorTypes} color
+ * @param {string & Partial<ToGamutOptions> | ToGamutOptions} [space]
+ * @returns {PlainColorObject}
+ */
 export default function toGamut (
 	color,
 	{
@@ -87,7 +92,7 @@ export default function toGamut (
 	// mapSpace: space with the coord we're reducing
 
 	if (inGamut(color, space, { epsilon: 0 })) {
-		return color;
+		return /** @type {PlainColorObject} */ (color);
 	}
 
 	let spaceColor;
@@ -199,18 +204,21 @@ export default function toGamut (
 	}
 
 	color.coords = spaceColor.coords;
-	return color;
+	return /** @type {PlainColorObject} */ (color);
 }
 
 /** @type {"color"} */
 toGamut.returns = "color";
 
-// The reference colors to be used if lightness is out of the range 0-1 in the
-// `Oklch` space. These are created in the `Oklab` space, as it is used by the
-// DeltaEOK calculation, so it is guaranteed to be imported.
+/**
+ * The reference colors to be used if lightness is out of the range 0-1 in the
+ * `Oklch` space. These are created in the `Oklab` space, as it is used by the
+ * DeltaEOK calculation, so it is guaranteed to be imported.
+ * @satisfies {Record<string, ColorTypes>}
+ */
 const COLORS = {
-	WHITE: { space: oklab, coords: [1, 0, 0] },
-	BLACK: { space: oklab, coords: [0, 0, 0] },
+	WHITE: { space: oklab, coords: [1, 0, 0], alpha: 1 },
+	BLACK: { space: oklab, coords: [0, 0, 0], alpha: 1 },
 };
 
 /**
@@ -260,7 +268,7 @@ export function toGamutCSS (origin, {space} = {}) {
 
 	function clip (_color) {
 		const destColor = to(_color, space);
-		const spaceCoords = Object.values(space.coords);
+		const spaceCoords = Object.values(/** @type {ColorSpace} */ (space).coords);
 		destColor.coords = /** @type {[number, number, number]} */ (destColor.coords.map((coord, index) => {
 			if ("range" in spaceCoords[index]) {
 				const [min, max] =  spaceCoords[index].range;
