@@ -87,7 +87,7 @@ Can you notice a difference in the two colors below?
 
 ```js
 let color1 = new Color("lch", [40, 50, 60]);
-let color2 = new Color("lch", [40, 50, 60]);
+let color2 = new Color("lch", [43, 50, 60]);
 
 color1.deltaE(color2, "76");
 color1.deltaE(color2, "CMC");
