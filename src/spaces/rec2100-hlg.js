@@ -1,5 +1,6 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 import REC2020Linear from "./rec2020-linear.js";
+import {spow} from "../util.js";
 
 // FIXME see https://github.com/LeaVerou/color.js/issues/190
 
@@ -41,7 +42,7 @@ export default new RGBColorSpace({
 			// ITU-R BT.2390-10 p.23
 			// 6.1 The hybrid log-gamma opto-electronic transfer function (OETF)
 			if (val <= 1 / 12) {
-				return Math.sqrt(3 * val);
+				return spow(3 * val, 0.5);
 			}
 			return a * Math.log(12 * val - b) + c;
 		});
