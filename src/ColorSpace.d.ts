@@ -16,6 +16,7 @@ export interface Format {
 	id?: string | undefined;
 	coords?: string[] | undefined;
 	coordGrammar?: (string & { range?: [number, number] })[] | undefined;
+	space?: ColorSpace | undefined;
 	serializeCoords?:
 	| ((coords: Coords, precision: number) => [string, string, string])
 	| undefined;
