@@ -3,14 +3,15 @@ import defaults from "./defaults.js";
 import to from "./to.js";
 import serialize from "./serialize.js";
 import clone from "./clone.js";
+import getColor from "./getColor.js";
 import REC2020 from "./spaces/rec2020.js";
 import P3 from "./spaces/p3.js";
 import Lab from "./spaces/lab.js";
 import sRGB from "./spaces/srgb.js";
-import Color from "./color.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
 /** @typedef {import("./types.js").Display} Display */
 /** @typedef {import("./ColorSpace.js").default} ColorSpace */
 
@@ -45,17 +46,17 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
 export default function display (color, {space = defaults.display_space, ...options} = {}) {
-	color = Color.get(color);
+	color = getColor(color);
 
 	let ret = /** @type {Display} */ (serialize(color, options));
 
 	if (typeof CSS === "undefined" || CSS.supports("color", /** @type {string} */ (ret)) || !defaults.display_space) {
 		ret = /** @type {Display} */ (new String(ret));
-		ret.color = color;
+		ret.color = /** @type {PlainColorObject} */ (color);
 	}
 	else {
 		// If we're here, what we were about to output is not supported
-		let fallbackColor = color;
+		let fallbackColor = /** @type {PlainColorObject} */ (color);
 
 		// First, check if the culprit is none values
 		let hasNone = color.coords.some(isNone) || isNone(color.alpha);
@@ -64,7 +65,7 @@ export default function display (color, {space = defaults.display_space, ...opti
 			// Does the browser support none values?
 			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
 				// Nope, try again without none
-				fallbackColor = clone(/** @type {Color} */ (color));
+				fallbackColor = clone(/** @type {PlainColorObject} */ (color));
 				fallbackColor.coords = /** @type {[number, number, number]} */ (fallbackColor.coords.map(skipNone));
 				fallbackColor.alpha = skipNone(fallbackColor.alpha);
 
