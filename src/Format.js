@@ -21,6 +21,7 @@ export const instance = Symbol("instance");
 
 /**
  * @class Format
+ * @implements {Omit<FormatInterface, "coords" | "serializeCoords">}
  * Class to hold a color serialization format
  */
 export default class Format {

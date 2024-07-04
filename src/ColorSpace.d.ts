@@ -138,7 +138,7 @@ export default class ColorSpace {
 	from (color: ColorTypes): Coords;
 	from (space: string | ColorSpace, coords: Coords): Coords;
 
-	getFormat (format?: string | Format): Format | null;
+	getFormat (format?: string | Format | FormatClass): FormatClass | null;
 
 	getMinCoords (): Coords;
 
