@@ -14,6 +14,7 @@ export interface Format {
 	/** @default "color" */
 	name?: string | undefined;
 	id?: string | undefined;
+	ids?: string[] | undefined;
 	coords?: string[] | undefined;
 	coordGrammar?: (string & { range?: [number, number] })[] | undefined;
 	space?: ColorSpace | undefined;
