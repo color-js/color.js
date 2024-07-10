@@ -126,7 +126,15 @@ export interface SerializeOptions {
 	/** Coordinate format to override the default */
 	coords?: Coords | undefined;
 	/** Alpha format */
-	alpha?: "<number>" | "<percentage>" | boolean | { type: "<number>" | "<percentage>"; include: boolean } | undefined;
+	alpha?:
+		| "<number>"
+		| "<percentage>"
+		| boolean
+		| {
+			type?: "<number>" | "<percentage>" | undefined;
+			include?: boolean | undefined;
+		  }
+		| undefined;
 	/**
 	 * Force commas as a separator
 	 * @default false
@@ -156,7 +164,7 @@ export interface ToGamutOptions {
 	method?: "css" | "clip" | (string & {}) | undefined;
 	/** The color whose space is being mapped to. Defaults to the current space */
 	space?: string | ColorSpace | undefined;
-	deltaEMethod?: Methods | undefined;
+	deltaEMethod?: Methods | "" | undefined;
 	/** The "just noticeable difference" to target */
 	jnd?: number | undefined;
 	/**

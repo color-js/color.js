@@ -141,6 +141,7 @@ export function environment (
 	const rgbW = multiplyMatrices(cat16, xyzW);
 
 	// Surround: dark, dim, and average
+	// @ts-expect-error surround is never used again
 	surround = surroundMap[env.surround];
 	const f = surround[0];
 	env.c = surround[1];

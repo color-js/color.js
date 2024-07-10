@@ -2,6 +2,9 @@ import RGBColorSpace from "../RGBColorSpace.js";
 import sRGBLinear from "./srgb-linear.js";
 import KEYWORDS from "../keywords.js";
 
+// Type "imports"
+/** @typedef {import("../types.js").Coords} Coords */
+
 let coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
 let coordGrammarNumber = Array(3).fill("<number>[0, 255]");
 
@@ -70,6 +73,7 @@ export default new RGBColorSpace({
 					str = str.replace(/[a-f0-9]/gi, "$&$&");
 				}
 
+				/** @type {number[]} */
 				let rgba = [];
 				str.replace(/[a-f0-9]{2}/gi, component => {
 					rgba.push(parseInt(component, 16) / 255);
@@ -77,8 +81,8 @@ export default new RGBColorSpace({
 
 				return {
 					spaceId: "srgb",
-					coords: rgba.slice(0, 3),
-					alpha: rgba.slice(3)[0],
+					coords: /** @type {Coords} */ (rgba.slice(0, 3)),
+					alpha: /** @type {number} */ (rgba.slice(3)[0]),
 				};
 			},
 			serialize: (coords, alpha, {

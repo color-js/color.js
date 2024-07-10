@@ -157,8 +157,8 @@ function getStMid (a, b) {
 }
 
 /**
- * @param {number[][]} lab
- * @param {number[][]} lmsToRgb
+ * @param {number[]} lab
+ * @param {number[]} lmsToRgb
  */
 export function oklabToLinearRGB (lab, lmsToRgb) {
 	// Convert from Oklab to linear RGB.
