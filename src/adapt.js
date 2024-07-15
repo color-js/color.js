@@ -26,8 +26,8 @@ export function getWhite (name) {
 
 /**
  * Adapt XYZ from white point W1 to W2
- * @param {White} W1
- * @param {White} W2
+ * @param {White | string} W1
+ * @param {White | string} W2
  * @param {[number, number, number]} XYZ
  * @param {{ method?: string | undefined }} options
  * @returns {[number, number, number]}
