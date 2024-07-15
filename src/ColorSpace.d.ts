@@ -77,6 +77,7 @@ export interface SpaceOptions {
 	 */
 	formats?: Record<string, Format> | undefined;
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
+	aliases?: string[] | undefined;
 }
 
 export type Ref =
@@ -118,7 +119,8 @@ export default class ColorSpace {
 
 	static registry: Record<string, ColorSpace>;
 
-	get all (): Set<ColorSpace>;
+	static get all (): ColorSpace[];
+
 	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
 	get cssId (): string;
 	get isPolar (): boolean;
