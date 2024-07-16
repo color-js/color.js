@@ -99,6 +99,7 @@ export interface ParseFunctionReturn {
 	lastAlpha: boolean;
 	rawName: string;
 	rawArgs: string;
+	commas: boolean;
 }
 
 // rgbspace.js
