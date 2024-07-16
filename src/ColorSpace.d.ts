@@ -107,7 +107,7 @@ export default class ColorSpace {
 		workingSpace?: string | ColorSpace
 	): CoordMeta & {
 		id: string;
-		index: string | number;
+		index: number;
 		space: ColorSpace;
 	};
 
