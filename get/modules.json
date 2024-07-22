@@ -180,6 +180,12 @@
 			"dependencies": ["lchuv"],
 			"url": "https://www.hsluv.org/comparison/",
 			"description": "The HPLuv color space emphasizes perceptual uniformity specifically in its lightness component. HPLuv ensures that changes in lightness are consistently perceived by the human eye, regardless of the hue or saturation of the color. The resulting palette is a subset of sRGB and the colors are mainly pastel."
+		},
+		{
+			"name": "CAM16-JMh",
+			"id": "cam16-jmh",
+			"url": "https://www.researchgate.net/publication/318152296_Comprehensive_color_solutions_CAM16_CAT16_and_CAM16-UCS#fullTextFileContent",
+			"description": "An improved and simplified development from the earlier CIECAM02 Color Appearance Model, CAM16 provides three perceptual attributes: lightness J, colorfulness M and hue quadrature h. The default viewing conditions are: D65 white point, adapting luminance of 64 lux (4 cd/m²), average surround and less than full chromatic adaptation. This does mean that what other color models consider to be achromatic colors may have a non-zero colorfulness (M)."
 		}
 	],
 	"optional": [
