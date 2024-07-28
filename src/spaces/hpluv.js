@@ -114,7 +114,7 @@ export default new ColorSpace({
 		}
 		else {
 			let lines = calculateBoundingLines(l);
-			let max = calcMaxChromaHpluv(lines, h);
+			let max = calcMaxChromaHpluv(lines);
 			c = max / 100 * s;
 		}
 

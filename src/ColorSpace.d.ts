@@ -14,8 +14,10 @@ export interface Format {
 	/** @default "color" */
 	name?: string | undefined;
 	id?: string | undefined;
+	ids?: string[] | undefined;
 	coords?: string[] | undefined;
 	coordGrammar?: (string & { range?: [number, number] })[] | undefined;
+	space?: ColorSpace | undefined;
 	serializeCoords?:
 	| ((coords: Coords, precision: number) => [string, string, string])
 	| undefined;
@@ -75,6 +77,7 @@ export interface SpaceOptions {
 	 */
 	formats?: Record<string, Format> | undefined;
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
+	aliases?: string[] | undefined;
 }
 
 export type Ref =
@@ -104,7 +107,7 @@ export default class ColorSpace {
 		workingSpace?: string | ColorSpace
 	): CoordMeta & {
 		id: string;
-		index: string | number;
+		index: number;
 		space: ColorSpace;
 	};
 
@@ -116,7 +119,8 @@ export default class ColorSpace {
 
 	static registry: Record<string, ColorSpace>;
 
-	get all (): Set<ColorSpace>;
+	static get all (): ColorSpace[];
+
 	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
 	get cssId (): string;
 	get isPolar (): boolean;
@@ -127,8 +131,8 @@ export default class ColorSpace {
 	aliases?: string[] | undefined;
 	base: ColorSpace | null;
 	coords: Record<string, CoordMeta>;
-	fromBase?: ((coords: Coords) => number[]) | undefined;
-	toBase?: ((coords: Coords) => number[]) | undefined;
+	fromBase?: ((coords: Coords) => Coords) | undefined;
+	toBase?: ((coords: Coords) => Coords) | undefined;
 	formats: Record<string, Format>;
 	referred?: string | undefined;
 	white: White;
@@ -137,7 +141,7 @@ export default class ColorSpace {
 	from (color: ColorTypes): Coords;
 	from (space: string | ColorSpace, coords: Coords): Coords;
 
-	getFormat (format?: string | Format): Format | null;
+	getFormat (format?: string | Format | FormatClass): FormatClass | null;
 
 	getMinCoords (): Coords;
 

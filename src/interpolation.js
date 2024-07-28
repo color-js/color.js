@@ -20,6 +20,7 @@ import deltaE from "./deltaE.js";
 /** @typedef {import("./types.js").Range} Range */
 /** @typedef {import("./types.js").RangeOptions} RangeOptions */
 /** @typedef {import("./types.js").StepsOptions} StepsOptions */
+/** @typedef {import("./types.js").Ref} Ref  */
 
 /**
  * Return an intermediate color between two colors
@@ -192,7 +193,7 @@ export function range (color1, color2, options = {}) {
 	if (space.coords.h && space.coords.h.type === "angle") {
 		let arc = options.hue = options.hue || "shorter";
 
-		let hue = [space, "h"];
+		let /** @type {Ref} */ hue = [space, "h"];
 		let [θ1, θ2] = [get(color1, hue), get(color2, hue)];
 		// Undefined hues must be evaluated before hue fix-up to properly
 		// calculate hue arcs between undefined and defined hues.
@@ -210,8 +211,8 @@ export function range (color1, color2, options = {}) {
 
 	if (premultiplied) {
 		// not coping with polar spaces yet
-		color1.coords = color1.coords.map(c => c * color1.alpha);
-		color2.coords = color2.coords.map(c => c * color2.alpha);
+		color1.coords = /** @type {[number, number, number]} */ (color1.coords.map(c => c * color1.alpha));
+		color2.coords = /** @type {[number, number, number]} */ (color2.coords.map(c => c * color2.alpha));
 	}
 
 	return Object.assign(p => {

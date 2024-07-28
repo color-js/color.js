@@ -175,8 +175,10 @@ export const regex = {
  * @returns {{value: number, meta: ArgumentMeta}}
  */
 export function parseArgument (rawArg) {
+	/** @type {Partial<ArgumentMeta>} */
 	let meta = {};
 	let unit = rawArg.match(regex.unitValue)?.[0];
+	/** @type {string | number} */
 	let value = meta.raw = rawArg;
 
 	if (unit) { // It’s a dimension token
@@ -202,7 +204,7 @@ export function parseArgument (rawArg) {
 		meta.type = "<ident>";
 	}
 
-	return { value, meta };
+	return { value: /** @type {number} */ (value), meta: /** @type {ArgumentMeta} */ (meta) };
 }
 
 /**
