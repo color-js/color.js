@@ -31,7 +31,7 @@ export function defineCAT (/** @type {CAT} */ {id, toCone_M, fromCone_M}) {
  * @param {White} W1
  * @param {White} W2
  * @param {string} id
- * @returns {number[]}
+ * @returns {number[][]}
  */
 export function adapt (W1, W2, id = "Bradford") {
 	// adapt from a source whitepoint or illuminant W1

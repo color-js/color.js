@@ -70,7 +70,7 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 	hooks.run("chromatic-adaptation-end", env);
 
 	if (env.M) {
-		return /** @type {[number, number, number]} */ (multiplyMatrices(env.M, env.XYZ));
+		return /** @type {[number, number, number]} */ (multiplyMatrices(/** @type {number[][]}*/ (env.M), env.XYZ));
 	}
 	else {
 		throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
