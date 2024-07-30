@@ -3,6 +3,7 @@ import Type from "./Type.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorSpace} ColorSpace */
+/** @typedef {import("./types.js").Coords} Coords */
 /** @typedef {import("./types.js").Format} FormatInterface */
 
 /**
@@ -13,7 +14,14 @@ import Type from "./Type.js";
 export const instance = Symbol("instance");
 
 /**
+ * Remove the first element of an array type
+ * @template {any[]} T
+ * @typedef {T extends [any, ...infer R] ? R : T[number][]} RemoveFirstElement
+*/
+
+/**
  * @class Format
+ * @implements {Omit<FormatInterface, "coords" | "serializeCoords">}
  * Class to hold a color serialization format
  */
 export default class Format {
@@ -21,7 +29,7 @@ export default class Format {
 	type;
 	name;
 	spaceCoords;
-	/** @type {[Type, Type, Type]} */
+	/** @type {Type[][]} */
 	coords;
 
 	/**
@@ -45,6 +53,7 @@ export default class Format {
 		this.spaceCoords = Object.values(space.coords);
 
 		if (!this.coords) {
+			// @ts-expect-error Strings are converted to the correct type later
 			this.coords = this.spaceCoords.map(coordMeta => {
 				let ret = ["<number>", "<percentage>"];
 
@@ -56,7 +65,7 @@ export default class Format {
 			});
 		}
 
-		this.coords = this.coords.map((types, i) => {
+		this.coords = this.coords.map(/** @param {string | string[] | Type[]} types */ (types, i) => {
 			let coordMeta = this.spaceCoords[i];
 
 			if (typeof types === "string") {
@@ -67,6 +76,11 @@ export default class Format {
 		});
 	}
 
+	/**
+	 * @param {Coords} coords
+	 * @param {number} precision
+	 * @param {Type[]} types
+	 */
 	serializeCoords (coords, precision, types) {
 		types = coords.map((_, i) => Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
 		return coords.map((c, i) => types[i].serialize(c, precision));
@@ -75,10 +89,8 @@ export default class Format {
 	/**
  	 * Validates the coordinates of a color against a format's coord grammar and
 	 * maps the coordinates to the range or refRange of the coordinates.
-	 * @param {ColorSpace} space - Colorspace the coords are in
-	 * @param {object} format - the format object to validate against
-	 * @param {string} name - the name of the color function. e.g. "oklab" or "color"
-	 * @returns {number[]} - Mapped coords
+	 * @param {Coords} coords
+	 * @param {[string, string, string]} types
 	 */
 	coerceCoords (coords, types) {
 		return Object.entries(this.space.coords).map(([id, coordMeta], i) => {
@@ -98,7 +110,7 @@ export default class Format {
 			if (!type) {
 				// Type does not exist in the grammar, throw
 				let coordName = coordMeta.name || id;
-				throw new TypeError(`${ providedType ?? arg?.raw ?? arg } not allowed for ${coordName} in ${this.name}()`);
+				throw new TypeError(`${ providedType ?? /** @type {any} */ (arg)?.raw ?? arg } not allowed for ${coordName} in ${this.name}()`);
 			}
 
 			arg = type.resolve(arg);
@@ -112,13 +124,21 @@ export default class Format {
 		});
 	}
 
+	/**
+	 * @returns {boolean | Required<FormatInterface>["serialize"]}
+	 */
 	canSerialize () {
-		return this.type === "function" || this.serialize;
+		return this.type === "function" || /** @type {any} */ (this).serialize;
 	}
 
+	/**
+	 * @param {Format | FormatInterface} format
+	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
+	 * @returns {Format}
+	 */
 	static get (format, ...args) {
 		if (!format || format instanceof Format) {
-			return format;
+			return /** @type {Format} */ (format);
 		}
 
 		if (format[instance]) {

@@ -36,7 +36,7 @@ function addSpaceAccessors (id, space) {
 
 			// Enable color.spaceId.coordName syntax
 			return new Proxy(ret, {
-				has: (obj, property) => {
+				has: /** @param {string} property */ (obj, property) => {
 					try {
 						ColorSpace.resolveCoord([space, property]);
 						return true;
@@ -58,7 +58,7 @@ function addSpaceAccessors (id, space) {
 				},
 				set: (obj, property, value, receiver) => {
 					if (property && typeof property !== "symbol" && !(property in obj) || property >= 0) {
-						let {index} = ColorSpace.resolveCoord([space, property]);
+						let {index} = ColorSpace.resolveCoord([space, /** @type {string} */ (property)]);
 
 						if (index >= 0) {
 							obj[index] = value;

@@ -18,8 +18,12 @@ const blue: ColorObject = {spaceId: "srgb", coords: [0, 0, 1]};
 deltaE();
 // @ts-expect-error
 deltaE(c1);
+
 // @ts-expect-error
-deltaE(c1, c2);
+deltaE(c1, c2, "abcdef");
+
+// @ts-expect-error
+deltaE(c1, c2, { method: "abcdef" });
 
 deltaE(c1, c2, "2000"); // $ExpectType number
 deltaE(c1, c2, { method: "2000" }); // $ExpectType number
@@ -44,3 +48,14 @@ deltaEJz("red", blue); // $ExpectType number
 
 deltaEOK(c1, c2); // $ExpectType number
 deltaEOK("red", blue); // $ExpectType number
+
+
+// @ts-expect-error
+c1.deltaE(c2, "abcdef");
+
+// @ts-expect-error
+c1.deltaE(c2, { method: "abcdef" });
+
+c1.deltaE(c2); // $ExpectType number
+c1.deltaE(c2, "2000"); // $ExpectType number
+c1.deltaE(c2, { method: "2000" }); // $ExpectType number

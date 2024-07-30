@@ -157,7 +157,7 @@ function getStMid (a, b) {
 }
 
 /**
- * @param {number[][]} lab
+ * @param {number[]} lab
  * @param {number[][]} lmsToRgb
  */
 export function oklabToLinearRGB (lab, lmsToRgb) {
@@ -175,8 +175,8 @@ export function oklabToLinearRGB (lab, lmsToRgb) {
 }
 
 /**
- * @param {[number, number]} a
- * @param {[number, number]} b
+ * @param {number} a
+ * @param {number} b
  * @param {number[][]} lmsToRgb
  * @param {number[][]} okCoeff
  * @returns {[number, number]}

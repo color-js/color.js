@@ -6,7 +6,7 @@
 export type * from "./contrast/index.js";
 
 // deltaE/
-import type Methods from "./deltaE/index.js";
+import type {Methods} from "./deltaE/index.js";
 export type * from "./deltaE/index.js";
 
 // adapt.js
@@ -63,7 +63,7 @@ export interface StepsOptions extends RangeOptions {
 	/** max deltaE between consecutive steps */
 	maxDeltaE?: number | undefined;
 	/** @see {@link Methods} */
-	deltaEMethod?: typeof Methods | undefined;
+	deltaEMethod?: Methods | undefined;
 	/** The minimum number of steps */
 	steps?: number | undefined;
 	/** The maximum number of steps */
@@ -99,6 +99,7 @@ export interface ParseFunctionReturn {
 	lastAlpha: boolean;
 	rawName: string;
 	rawArgs: string;
+	commas: boolean;
 }
 
 // rgbspace.js
@@ -126,7 +127,15 @@ export interface SerializeOptions {
 	/** Coordinate format to override the default */
 	coords?: Coords | undefined;
 	/** Alpha format */
-	alpha?: "<number>" | "<percentage>" | boolean | { type: "<number>" | "<percentage>"; include: boolean } | undefined;
+	alpha?:
+		| "<number>"
+		| "<percentage>"
+		| boolean
+		| {
+			type?: "<number>" | "<percentage>" | undefined;
+			include?: boolean | undefined;
+		  }
+		| undefined;
 	/**
 	 * Force commas as a separator
 	 * @default false
@@ -135,10 +144,10 @@ export interface SerializeOptions {
 }
 
 // space.js
-import type ColorSpace from "./space.js";
-import type { Format, Ref, SpaceOptions } from "./space.js";
+import type ColorSpace from "./ColorSpace.js";
+import type { Format, Ref, SpaceOptions } from "./ColorSpace.js";
 export type { ColorSpace };
-export type * from "./space.js";
+export type * from "./ColorSpace.js";
 
 // toGamut.js
 export interface ToGamutOptions {
@@ -156,7 +165,7 @@ export interface ToGamutOptions {
 	method?: "css" | "clip" | (string & {}) | undefined;
 	/** The color whose space is being mapped to. Defaults to the current space */
 	space?: string | ColorSpace | undefined;
-	deltaEMethod?: typeof Methods | undefined;
+	deltaEMethod?: Methods | "" | undefined;
 	/** The "just noticeable difference" to target */
 	jnd?: number | undefined;
 	/**

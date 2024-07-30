@@ -16,12 +16,12 @@ import * as contrastAlgorithms from "./contrast/index.js";
  * @returns {number}
  * @throws {TypeError} Unknown or unspecified algorithm
  */
-export default function contrast (background, foreground, o = {}) {
+export default function contrast (background, foreground, o) {
 	if (isString(o)) {
 		o = {algorithm: o};
 	}
 
-	let {algorithm, ...rest} = o;
+	let {algorithm, ...rest} = o || {};
 
 	if (!algorithm) {
 		let algorithms = Object.keys(contrastAlgorithms).map(a => a.replace(/^contrast/, "")).join(", ");

@@ -4,26 +4,39 @@
 	"description": "Let’s get serious about color",
 	"files": [
 		"dist/",
-		"src/"
+		"src/",
+		"types/src/",
+		"types/index.d.ts"
 	],
 	"exports": {
 		".": {
 			"import": {
+				"types": "./types/index.d.ts",
 				"default": "./dist/color.js"
 			},
 			"require": {
+				"types": "./types/index.d.ts",
 				"default": "./dist/color.cjs"
 			}
 		},
 		"./fn": {
 			"import": {
+				"types": "./types/src/index-fn.d.ts",
 				"default": "./src/index-fn.js"
 			},
 			"require": {
+				"types": "./types/src/index-fn.d.ts",
 				"default": "./dist/color-fn.cjs"
 			}
 		},
 		"./dist/*": "./dist/*"
+	},
+	"typesVersions": {
+		"*": {
+			"fn": [
+				"./types/src/index-fn.d.ts"
+			]
+		}
 	},
 	"type": "module",
 	"main": "./dist/color.cjs",
@@ -35,17 +48,19 @@
 		"test": "npx htest ./test",
 		"dtslint": "dtslint --expectOnly types",
 		"eslint": "eslint . --ext .js --ext .ts --ext .cjs",
-		"lint": "run-s build:space-accessors \"eslint -- --fix\" dtslint",
-		"lint:ci": "run-s build:space-accessors \"eslint -- --max-warnings 0\" dtslint",
+		"lint": "run-s build:space-accessors \"eslint -- --fix\" build:ts dtslint",
+		"lint:ci": "run-s build:space-accessors \"eslint -- --max-warnings 0\" build:ts dtslint",
 		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js",
 		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --serve",
 		"build:js": "rollup -c _build/rollup.config.js",
 		"watch:js": "rollup -c _build/rollup.config.js --watch",
+		"build:ts": "node ./scripts/copy-declarations.js && tsc || exit 0",
+		"watch:ts": "tsc --watch",
 		"build:apidocs": "npx typedoc",
 		"watch:apidocs": "npx typedoc --watch",
 		"build:js:legacy": "rollup -c _build/rollup.legacy.config.js",
 		"build:space-accessors": "node ./scripts/generate-space-accessor-types.js",
-		"build": "run-s build:apidocs build:html build:js build:js:legacy build:space-accessors",
+		"build": "run-s build:apidocs build:html build:js build:ts build:js:legacy build:space-accessors",
 		"watch": "run-p watch:*",
 		"prepack": "npm run build",
 		"release": "release-it"

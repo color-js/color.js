@@ -20,13 +20,14 @@ import deltaE from "./deltaE.js";
 /** @typedef {import("./types.js").Range} Range */
 /** @typedef {import("./types.js").RangeOptions} RangeOptions */
 /** @typedef {import("./types.js").StepsOptions} StepsOptions */
+/** @typedef {import("./types.js").Ref} Ref  */
 
 /**
  * Return an intermediate color between two colors
  * @overload
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
- * @param {MixOptions} o
+ * @param {MixOptions} [options]
  * @returns {PlainColorObject}
  */
 /**
@@ -34,7 +35,7 @@ import deltaE from "./deltaE.js";
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
  * @param {number} p
- * @param {MixOptions} o
+ * @param {MixOptions} [options]
  * @returns {PlainColorObject}
  */
 export function mix (c1, c2, p = .5, o = {}) {
@@ -53,13 +54,13 @@ export function mix (c1, c2, p = .5, o = {}) {
  * @overload
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
- * @param {StepsOptions} options
+ * @param {StepsOptions} [options]
  * @returns {PlainColorObject[]}
  */
 /**
  * @overload
  * @param {Range} range
- * @param {StepsOptions} options
+ * @param {StepsOptions} [options]
  * @returns {PlainColorObject[]}
  */
 export function steps (c1, c2, options = {}) {
@@ -142,14 +143,14 @@ export function steps (c1, c2, options = {}) {
  * (and thus may not return the results you expect)
  * @overload
  * @param {Range} range
- * @param {RangeOptions} options
+ * @param {RangeOptions} [options]
  * @returns {Range}
  */
 /**
  * @overload
  * @param {ColorTypes} color1
  * @param {ColorTypes} color2
- * @param {RangeOptions & Record<string, any>} options
+ * @param {RangeOptions & Record<string, any>} [options]
  * @returns {Range}
  */
 export function range (color1, color2, options = {}) {
@@ -192,7 +193,7 @@ export function range (color1, color2, options = {}) {
 	if (space.coords.h && space.coords.h.type === "angle") {
 		let arc = options.hue = options.hue || "shorter";
 
-		let hue = [space, "h"];
+		let /** @type {Ref} */ hue = [space, "h"];
 		let [θ1, θ2] = [get(color1, hue), get(color2, hue)];
 		// Undefined hues must be evaluated before hue fix-up to properly
 		// calculate hue arcs between undefined and defined hues.
@@ -210,8 +211,8 @@ export function range (color1, color2, options = {}) {
 
 	if (premultiplied) {
 		// not coping with polar spaces yet
-		color1.coords = color1.coords.map(c => c * color1.alpha);
-		color2.coords = color2.coords.map(c => c * color2.alpha);
+		color1.coords = /** @type {[number, number, number]} */ (color1.coords.map(c => c * color1.alpha));
+		color2.coords = /** @type {[number, number, number]} */ (color2.coords.map(c => c * color2.alpha));
 	}
 
 	return Object.assign(p => {

@@ -26,8 +26,8 @@ export function getWhite (name) {
 
 /**
  * Adapt XYZ from white point W1 to W2
- * @param {White} W1
- * @param {White} W2
+ * @param {White | string} W1
+ * @param {White | string} W2
  * @param {[number, number, number]} XYZ
  * @param {{ method?: string | undefined }} options
  * @returns {[number, number, number]}
@@ -70,7 +70,7 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 	hooks.run("chromatic-adaptation-end", env);
 
 	if (env.M) {
-		return multiplyMatrices(env.M, env.XYZ);
+		return /** @type {[number, number, number]} */ (multiplyMatrices(env.M, env.XYZ));
 	}
 	else {
 		throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");

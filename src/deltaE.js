@@ -10,7 +10,7 @@ import deltaEMethods from "./deltaE/index.js";
  *
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
- * @param {Methods | ({ method: Methods } & Record<string, any>} o
+ * @param {Methods | ({ method?: Methods | undefined } & Record<string, any>)} [o]
  * deltaE method to use as well as any other options to pass to the deltaE function
  * @returns {number}
  * @throws {TypeError} Unknown or unspecified method

@@ -94,6 +94,7 @@ export default function serialize (color, options = {}) {
 		}
 
 		// Serialize alpha?
+		/** @type {string | number} */
 		let alpha = color.alpha;
 
 		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {
