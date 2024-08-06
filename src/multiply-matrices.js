@@ -5,12 +5,12 @@
  * - A becomes 1 x n
  * - B becomes n x 1
  *
- * Returns Matrix m x p or equivalent array or value
+ * Returns Matrix m x p or equivalent array
  *
  * @overload
  * @param {number[]} A Vector 1 x n
  * @param {number[]} B Vector n x 1
- * @returns {number} Value
+ * @returns {number[]} Array with length 1
  *
  * @overload
  * @param {number[][]} A Matrix m x n
@@ -18,8 +18,8 @@
  * @returns {number[]} Array with length m
  *
  * @overload
- * @param {number[]} A vector 1 x n
- * @param {number[][]} B vector n x p
+ * @param {number[]} A Vector 1 x n
+ * @param {number[][]} B Matrix n x p
  * @returns {number[]} Array with length p
  *
  * @overload
@@ -29,7 +29,7 @@
  *
  * @param {number[] | number[][]} A Matrix m x n or a vector
  * @param {number[] | number[][]} B Matrix n x p or a vector
- * @returns {number | number[] | number[][]} Matrix m x p or equivalent array or value
+ * @returns {number[] | number[][]} Matrix m x p or equivalent array
  */
 export default function multiplyMatrices (A, B) {
 	let m = A.length;
@@ -77,13 +77,10 @@ export default function multiplyMatrices (A, B) {
 	}));
 
 	if (m === 1) {
-		product = product[0]; // Avoid [[a, b, c, ...]] and [[a]]
+		product = product[0]; // Avoid [[a, b, c, ...]]
 	}
 	if (p === 1) {
-		if (m === 1) {
-			return product[0]; // Avoid [a]
-		}
-		product = product.map(x => x[0]); // Avoid [[a], [b], [c], ...]]
+		return product.map(x => x[0]); // Avoid [[a], [b], [c], ...]]
 	}
 
 	return product;
