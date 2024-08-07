@@ -1,10 +1,21 @@
 import ColorSpace from "../ColorSpace.js";
-import HSL from "./hsl.js";
+import {rgbToHsl, hslToRgb} from "./hsl.js";
+import sRGB from "./srgb.js";
 
-// The Hue, Whiteness Blackness (HWB) colorspace
-// See https://drafts.csswg.org/css-color-4/#the-hwb-notation
 // Note that, like HSL, calculations are done directly on
 // gamma-corrected sRGB values rather than linearising them first.
+//
+// The current implementation of HSL normalizes negative saturation, and while
+// the resultant values, if used as a base for HSV conversion, are compatible
+// and will round trip well, it can often produce negative saturation in HSV for
+// out of gamut colors in HSV just due to how the HSV algorithm is defined.
+//
+// Additionally, HWB currently uses HSV as a base for conversion and, if HSL
+// negative saturation normalization is propagated through HSL -> HSV -> HWB,
+// round trip can break down as the HWB algorithm does not mathematically
+// account for such normalization. So HSV forces conversion directly through
+// sRGB and will calculate an non-normalized HSL base for conversion. HSV can
+// then be used safely as a base for HWB conversion.
 
 export default new ColorSpace({
 	id: "hsv",
@@ -25,10 +36,10 @@ export default new ColorSpace({
 		},
 	},
 
-	base: HSL,
+	base: sRGB,
 	// https://en.wikipedia.org/wiki/HSL_and_HSV#Interconversion
-	fromBase (hsl) {
-		let [h, s, l] = hsl;
+	fromBase (rgb) {
+		let [h, s, l] = rgbToHsl(rgb);
 		s /= 100;
 		l /= 100;
 
@@ -49,11 +60,13 @@ export default new ColorSpace({
 
 		let l = v * (1 - s / 2);
 
-		return [
+		const hsl = [
 			h, // h is the same
 			(l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
 			l * 100,
 		];
+
+		return hslToRgb(hsl);
 	},
 
 	formats: {
