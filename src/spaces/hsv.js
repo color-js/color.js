@@ -3,18 +3,6 @@ import sRGB from "./srgb.js";
 
 // Note that, like HSL, calculations are done directly on
 // gamma-corrected sRGB values rather than linearising them first.
-//
-// The current implementation of HSL normalizes negative saturation, and while
-// the resultant values, if used as a base for HSV conversion, are compatible
-// and will round trip well, it can often produce negative saturation in HSV for
-// out of gamut colors in HSV just due to how the HSV algorithm is defined.
-//
-// Additionally, HWB currently uses HSV as a base for conversion and, if HSL
-// negative saturation normalization is propagated through HSL -> HSV -> HWB,
-// round trip can break down as the HWB algorithm does not mathematically
-// account for such normalization. So HSV forces conversion directly through
-// sRGB and will calculate an non-normalized HSL base for conversion. HSV can
-// then be used safely as a base for HWB conversion.
 
 export default new ColorSpace({
 	id: "hsv",
