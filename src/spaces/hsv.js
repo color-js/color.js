@@ -1,5 +1,4 @@
 import ColorSpace from "../ColorSpace.js";
-import {rgbToHsl, hslToRgb} from "./hsl.js";
 import sRGB from "./srgb.js";
 
 // Note that, like HSL, calculations are done directly on
@@ -37,36 +36,52 @@ export default new ColorSpace({
 	},
 
 	base: sRGB,
-	// https://en.wikipedia.org/wiki/HSL_and_HSV#Interconversion
+	// https://en.wikipedia.org/wiki/HSL_and_HSV#Formal_derivation
 	fromBase (rgb) {
-		let [h, s, l] = rgbToHsl(rgb);
-		s /= 100;
-		l /= 100;
+		let max = Math.max(...rgb);
+		let min = Math.min(...rgb);
+		let [r, g, b] = rgb;
+		let [h, s, v] = [null, 0, max];
+		let d = max - min;
 
-		let v = l + s * Math.min(l, 1 - l);
+		if (d !== 0) {
+			switch (max) {
+				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+				case g: h = (b - r) / d + 2; break;
+				case b: h = (r - g) / d + 4;
+			}
 
-		return [
-			h, // h is the same
-			v === 0 ? 0 : 200 * (1 - l / v), // s
-			100 * v,
-		];
+			h = h * 60;
+		}
+
+		if (v) {
+			s = d / v;
+		}
+
+		if (h >= 360) {
+			h -= 360;
+		}
+
+		return [h, s * 100, v * 100];
 	},
-	// https://en.wikipedia.org/wiki/HSL_and_HSV#Interconversion
+	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_RGB_alternative
 	toBase (hsv) {
 		let [h, s, v] = hsv;
+		h = h % 360;
+
+		if (h < 0) {
+			h += 360;
+		}
 
 		s /= 100;
 		v /= 100;
 
-		let l = v * (1 - s / 2);
+		function f (n) {
+			let k = (n + h / 60) % 6;
+			return v - v * s * Math.max(0, Math.min(k, 4 - k, 1))
+		}
 
-		const hsl = [
-			h, // h is the same
-			(l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l)) * 100,
-			l * 100,
-		];
-
-		return hslToRgb(hsl);
+		return [f(5), f(3), f(1)];
 	},
 
 	formats: {
