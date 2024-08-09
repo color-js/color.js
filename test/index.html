@@ -4,6 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Tests</title>
 	<link rel="stylesheet" href="../node_modules/htest.dev/htest.css" crossorigin />
+	<script type="importmap">
+		{
+		  "imports": {
+			"mathjs": "https://cdn.jsdelivr.net/npm/mathjs@13.0.0/+esm"
+		  }
+		}
+	</script>
 	<script src="../node_modules/htest.dev/htest.js" type="module" crossorigin></script>
 	<script>
 		let params = new URLSearchParams(location.search);
