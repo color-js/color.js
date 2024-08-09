@@ -5,12 +5,13 @@ import toGamut from "./toGamut.js";
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
 /** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").ToGamutOptions} ToGamutOptions */
 
 /**
  * Convert to color space and return a new color
  * @param {ColorTypes} color
  * @param {string | ColorSpace} space
- * @param {{ inGamut?: boolean | undefined }} options
+ * @param {{ inGamut?: boolean | ToGamutOptions | undefined }} options
  * @returns {PlainColorObject}
  */
 export default function to (color, space, {inGamut} = {}) {
