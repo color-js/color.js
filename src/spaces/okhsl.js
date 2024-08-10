@@ -199,7 +199,19 @@ export function findCusp (a, b, lmsToRgb, okCoeff) {
 }
 
 
-function findGamutIntersection (a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp) {
+/**
+ * @param {number} a
+ * @param {number} b
+ * @param {number} l1
+ * @param {number} c1
+ * @param {number} l0
+ * @param {number[][]} lmsToRgb
+ * @param {number[][]} okCoeff
+ * @param {[number, number]} cusp
+ * @returns {Number}
+ * @todo Could probably make these types more specific/better-documented if desired
+ */
+export function findGamutIntersection (a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp) {
 	// Finds intersection of the line.
 	//
 	// Defined by the following:
