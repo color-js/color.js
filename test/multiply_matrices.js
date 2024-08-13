@@ -77,6 +77,28 @@ export default {
 		].map(testExpected),
 	},
 	{
+		name: "1x1 Edge Cases",
+		description: "Test boundry case for m x n × n x p, where m = n = p = 1.",
+		tests: [
+			{
+				name: "1x1 vectors",
+				args: [[1], [2]],
+			},
+			{
+				name: "1x1 matrices",
+				args: [[[3]], [[4]]],
+			},
+			{
+				name: "1x1 vector × 1x1 matrix",
+				args: [[5], [[6]]],
+			},
+			{
+				name: "1x1 matrix × 1x1 vector",
+				args: [[[7]], [8]],
+			},
+		].map(testExpected),
+	},
+	{
 		name: "Incorrect data",
 		description: "These are expected to fail, as multiplyMatrices does not do dimension checking. The point of them is to see how it fails.",
 		check: (..._args) => {
