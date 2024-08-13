@@ -112,7 +112,6 @@ export default {
 				args: [[1, .5, 0], M_lin_sRGB_to_XYZ],
 				expect: math.multiply(math.matrix(M_lin_sRGB_to_XYZ), math.matrix([1, .5, 0])).valueOf(),
 			},
-
 		],
 	}],
 };
