@@ -1,9 +1,13 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 
+// Type "imports"
+/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+
 // convert an array of linear-light rec2020 values to CIE XYZ
 // using  D65 (no chromatic adaptation)
 // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 // 0 is actually calculated as  4.994106574466076e-17
+/** @type {Matrix3x3} */
 const toXYZ_M = [
 	[ 0.6369580483012914, 0.14461690358620832,  0.1688809751641721  ],
 	[ 0.2627002120112671, 0.6779980715188708,   0.05930171646986196 ],
@@ -11,6 +15,7 @@ const toXYZ_M = [
 ];
 
 // from ITU-R BT.2124-0 Annex 2 p.3
+/** @type {Matrix3x3} */
 const fromXYZ_M = [
 	[  1.716651187971268,  -0.355670783776392, -0.253366281373660  ],
 	[ -0.666684351832489,   1.616481236634939,  0.0157685458139111 ],
