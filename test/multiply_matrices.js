@@ -66,6 +66,14 @@ export default {
 				name: "3x3 matrix with other 3x3 matrix",
 				args: [M_XYZ_to_lin_sRGB, M_lin_sRGB_to_XYZ],
 			},
+			{
+				name: "Vector with 3x3 matrix",
+				args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
+			},
+			{
+				name: "Vector with other 3x3 matrix",
+				args: [[1, 0.5, 0], M_XYZ_to_lin_sRGB],
+			},
 		].map(testExpected),
 	},
 	{
