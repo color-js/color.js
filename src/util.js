@@ -2,7 +2,7 @@
  * Various utility functions
  */
 
-export {default as multiplyMatrices, transform} from "./multiply-matrices.js";
+export {default as multiplyMatrices, multiply_v3_m3x3} from "./multiply-matrices.js";
 
 /**
  * Check if a value is a string (including a String object)

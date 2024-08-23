@@ -136,7 +136,7 @@ function dot3 (a, b) {
  * @param {Vector3} [out]
  * @returns {Vector3}
 */
-export function transform (input, matrix, out = [0, 0, 0]) {
+export function multiply_v3_m3x3 (input, matrix, out = [0, 0, 0]) {
 	const x = dot3(input, matrix[0]);
 	const y = dot3(input, matrix[1]);
 	const z = dot3(input, matrix[2]);

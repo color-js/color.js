@@ -1,5 +1,5 @@
 import * as math from "mathjs"; // Used as test oracle
-import {multiplyMatrices, transform} from "../src/util.js";
+import {multiplyMatrices, multiply_v3_m3x3} from "../src/util.js";
 import * as check from "../node_modules/htest.dev/src/check.js";
 
 // Used to collect expected results from oracle
@@ -106,7 +106,7 @@ export default {
 			{
 				name: "3x3 matrix with vector in place",
 				run (A, B) {
-					transform(A, B, A);
+					multiply_v3_m3x3(A, B, A);
 					return A;
 				},
 				args: [[1, .5, 0], M_lin_sRGB_to_XYZ],

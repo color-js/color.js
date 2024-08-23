@@ -1,5 +1,5 @@
 import ColorSpace from "../ColorSpace.js";
-import {transform} from "../util.js";
+import {multiply_v3_m3x3} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
 
 
@@ -57,25 +57,25 @@ export default new ColorSpace({
 	base: XYZ_D65,
 	fromBase (XYZ) {
 		// move to LMS cone domain
-		let LMS = transform(XYZ, XYZtoLMS_M);
+		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);
 
 		// non-linearity
 		LMS[0] = Math.cbrt(LMS[0]);
 		LMS[1] = Math.cbrt(LMS[1]);
 		LMS[2] = Math.cbrt(LMS[2]);
 
-		return transform(LMS, LMStoLab_M, LMS);
+		return multiply_v3_m3x3(LMS, LMStoLab_M, LMS);
 	},
 	toBase (OKLab) {
 		// move to LMS cone domain
-		let LMSg = transform(OKLab, LabtoLMS_M);
+		let LMSg = multiply_v3_m3x3(OKLab, LabtoLMS_M);
 
 		// restore linearity
 		LMSg[0] = LMSg[0] ** 3;
 		LMSg[1] = LMSg[1] ** 3;
 		LMSg[2] = LMSg[2] ** 3;
 
-		return transform(LMSg, LMStoXYZ_M, LMSg);
+		return multiply_v3_m3x3(LMSg, LMStoXYZ_M, LMSg);
 	},
 
 	formats: {
