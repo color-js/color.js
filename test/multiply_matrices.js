@@ -96,7 +96,7 @@ export default {
 	},
 	{
 		name: "Transform",
-		run: transform,
+		run: multiply_v3_m3x3,
 		tests: [
 			{
 				name: "3x3 matrix with vector",
