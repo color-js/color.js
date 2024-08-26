@@ -1,6 +1,10 @@
 import ColorSpace from "../ColorSpace.js";
-import {multiplyMatrices} from "../util.js";
+import {multiply_v3_m3x3} from "../util.js";
 import XYZ_Abs_D65 from "./xyz-abs-d65.js";
+
+// Type "imports"
+/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @typedef {import("../types.js").Vector3} Vector3 */
 
 const c1 = 3424 / 4096;
 const c2 = 2413 / 128;
@@ -12,6 +16,7 @@ const im2 = 32 / 2523;
 
 // The matrix below includes the 4% crosstalk components
 // and is from the Dolby "What is ICtCp" paper"
+/** @type {Matrix3x3} */
 const XYZtoLMS_M = [
 	[  0.3592832590121217,  0.6976051147779502, -0.0358915932320290 ],
 	[ -0.1920808463704993,  1.1004767970374321,  0.0753748658519118 ],
@@ -32,6 +37,7 @@ const Rec2020toLMS_M = [
 // the rotation, and the scaling to [-0.5,0.5] range
 // rational terms from Fröhlich p.97
 // and ITU-R BT.2124-0 pp.2-3
+/** @type {Matrix3x3} */
 const LMStoIPT_M = [
 	[  2048 / 4096,   2048 / 4096,       0      ],
 	[  6610 / 4096, -13613 / 4096,  7003 / 4096 ],
@@ -39,6 +45,7 @@ const LMStoIPT_M = [
 ];
 
 // inverted matrices, calculated from the above
+/** @type {Matrix3x3} */
 const IPTtoLMS_M = [
 	[ 0.9999999999999998,  0.0086090370379328,  0.1110296250030260 ],
 	[ 0.9999999999999998, -0.0086090370379328, -0.1110296250030259 ],
@@ -51,6 +58,7 @@ const LMStoRec2020_M = [
 	[-0.025646662911506476363, -0.099240248643945566751, 1.1248869115554520431  ]
 ];
 */
+/** @type {Matrix3x3} */
 const LMStoXYZ_M = [
 	[  2.0701522183894223, -1.3263473389671563,  0.2066510476294053 ],
 	[  0.3647385209748072,  0.6805660249472273, -0.0453045459220347 ],
@@ -94,40 +102,50 @@ export default new ColorSpace({
 	base: XYZ_Abs_D65,
 	fromBase (XYZ) {
 		// move to LMS cone domain
-		let LMS = multiplyMatrices(XYZtoLMS_M, XYZ);
+		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);
 
 		return LMStoICtCp(LMS);
 	},
 	toBase (ICtCp) {
 		let LMS = ICtCptoLMS(ICtCp);
 
-		return multiplyMatrices(LMStoXYZ_M, LMS);
+		return multiply_v3_m3x3(LMS, LMStoXYZ_M);
 	},
 });
 
+/**
+ *
+ * @param {Vector3} LMS
+ * @returns {Vector3}
+ */
 function LMStoICtCp (LMS) {
 	// apply the PQ EOTF
 	// we can't ever be dividing by zero because of the "1 +" in the denominator
-	let PQLMS = LMS.map (function (val) {
+	let PQLMS = /** @type {Vector3} */ (LMS.map (function (val) {
 		let num = c1 + (c2 * ((val / 10000) ** m1));
 		let denom = 1 + (c3 * ((val / 10000) ** m1));
 
 		return (num / denom)  ** m2;
-	});
+	}));
 
 	// LMS to IPT, with rotation for Y'C'bC'r compatibility
-	return multiplyMatrices(LMStoIPT_M, PQLMS);
+	return multiply_v3_m3x3(PQLMS, LMStoIPT_M);
 }
 
+/**
+ *
+ * @param {Vector3} ICtCp
+ * @returns {Vector3}
+ */
 function ICtCptoLMS (ICtCp) {
-	let PQLMS = multiplyMatrices(IPTtoLMS_M, ICtCp);
+	let PQLMS = multiply_v3_m3x3(ICtCp, IPTtoLMS_M);
 
 	// From BT.2124-0 Annex 2 Conversion 3
-	let LMS = PQLMS.map (function (val) {
+	let LMS = /** @type {Vector3} */ (PQLMS.map (function (val) {
 		let num  = Math.max((val ** im2) - c1, 0);
 		let denom = (c2 - (c3 * (val ** im2)));
 		return 10000 * ((num / denom) ** im1);
-	});
+	}));
 
 	return LMS;
 }
