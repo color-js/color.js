@@ -430,19 +430,75 @@ const tests = {
 					expect: [1.0, 0.0, null],
 				},
 				{
-					name: "sRGB red (D65) to OKlab",
+					name: "sRGB red (D65) to OKlch",
 					args: "red",
 					expect: [0.6279553639214311, 0.2576833038053608, 29.23388027962784],
 				},
 				{
-					name: "sRGB lime (D65) to OKlab",
+					name: "sRGB lime (D65) to OKlch",
 					args: "lime",
 					expect: [0.8664396175234368, 0.2948272245426958, 142.4953450414439],
 				},
 				{
-					name: "sRGB blue (D65) to OKlab",
+					name: "sRGB blue (D65) to OKlch",
 					args: "blue",
 					expect: [0.45201371817442365, 0.3132143886344849, 264.0520226163699],
+				},
+			],
+		},
+		{
+			name: "OKLrab",
+			data: {
+				toSpace: "oklrab",
+			},
+			tests: [
+				{
+					name: "sRGB white (D65) to OKlrab",
+					args: "white",
+					expect:  [ 1.0000000000000002, -4.996003610813204e-16, 0 ],
+				},
+				{
+					name: "sRGB red (D65) to OKlrab",
+					args: "red",
+					expect: [ 0.5680846563197034, 0.2248630684262744, 0.125846277330585 ],
+				},
+				{
+					name: "sRGB lime (D65) to OKlrab",
+					args: "lime",
+					expect: [ 0.8445289714936317, -0.23388758093655815, 0.1794984451609376 ],
+				},
+				{
+					name: "sRGB blue (D65) to OKlrab",
+					args: "blue",
+					expect: [ 0.3665653391870817, -0.03245697517079771, -0.3115281656775778 ],
+				},
+			],
+		},
+		{
+			name: "OKLrCh",
+			data: {
+				toSpace: "oklrch",
+			},
+			tests: [
+				{
+					name: "sRGB white (D65) to OKlrch",
+					args: "white",
+					expect: [1.0, 0.0, null],
+				},
+				{
+					name: "sRGB red (D65) to OKlrch",
+					args: "red",
+					expect: [0.5680846563197034, 0.2576833038053608, 29.23388027962784],
+				},
+				{
+					name: "sRGB lime (D65) to OKlrch",
+					args: "lime",
+					expect: [0.8445289714936317, 0.2948272245426958, 142.4953450414439],
+				},
+				{
+					name: "sRGB blue (D65) to OKlrch",
+					args: "blue",
+					expect: [0.3665653391870817, 0.3132143886344849, 264.0520226163699],
 				},
 			],
 		},

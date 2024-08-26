@@ -27,6 +27,8 @@ declare class SpaceAccessors {
 	okhsv: SpaceAccessor;
 	oklab: SpaceAccessor;
 	oklch: SpaceAccessor;
+	oklrab: SpaceAccessor;
+	oklrch: SpaceAccessor;
 	p3: SpaceAccessor;
 	p3_linear: SpaceAccessor;
 	prophoto: SpaceAccessor;
