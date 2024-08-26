@@ -181,3 +181,21 @@ export interface ToGamutOptions {
 	 */
 	blackWhiteClamp?: { channel: Ref; min: number; max: number } | undefined;
 }
+
+export type OKCoeff = [
+	[
+		// Red
+		[number, number], // Limit
+		[number, number, number, number, number], // `Kn` coefficients
+	],
+	[
+		// Green
+		[number, number], // Limit
+		[number, number, number, number, number], // `Kn` coefficients
+	],
+	[
+		// Blue
+		[number, number], // Limit
+		[number, number, number, number, number], // `Kn` coefficients
+	],
+];

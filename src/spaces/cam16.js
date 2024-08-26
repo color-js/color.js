@@ -1,29 +1,34 @@
 import ColorSpace from "../ColorSpace.js";
-import {multiplyMatrices, interpolate, copySign, spow, zdiv, bisectLeft} from "../util.js";
+import {multiply_v3_m3x3, interpolate, copySign, spow, zdiv, bisectLeft} from "../util.js";
 import {constrain} from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
 import {WHITES} from "../adapt.js";
 
 // Type "imports"
 /** @typedef {import("../types.js").Coords} Coords */
+/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @typedef {import("../types.js").Vector3} Vector3 */
 
 const white = WHITES.D65;
 const adaptedCoef = 0.42;
 const adaptedCoefInv = 1 / adaptedCoef;
 const tau = 2 * Math.PI;
 
+/** @type {Matrix3x3} */
 const cat16 = [
 	[  0.401288,  0.650173, -0.051461 ],
 	[ -0.250268,  1.204414,  0.045854 ],
 	[ -0.002079,  0.048952,  0.953127 ],
 ];
 
+/** @type {Matrix3x3} */
 const cat16Inv = [
 	[1.8620678550872327, -1.0112546305316843, 0.14918677544445175],
 	[0.38752654323613717, 0.6214474419314753, -0.008973985167612518],
 	[-0.015841498849333856, -0.03412293802851557, 1.0499644368778496],
 ];
 
+/** @type {Matrix3x3} */
 const m1 = [
 	[460.0, 451.0, 288.0],
 	[460.0, -891.0, -261.0],
@@ -126,9 +131,9 @@ export function environment (
 	env.discounting = discounting;
 	env.refWhite = refWhite;
 	env.surround = surround;
-	const xyzW = refWhite.map(c => {
+	const xyzW = /** @type {Vector3} */ (refWhite.map(c => {
 		return c * 100;
-	});
+	}));
 
 	// The average luminance of the environment in `cd/m^2cd/m` (a.k.a. nits)
 	env.la = adaptingLuminance;
@@ -138,7 +143,7 @@ export function environment (
 	const yw = xyzW[1];
 
 	// Cone response for reference white
-	const rgbW = multiplyMatrices(cat16, xyzW);
+	const rgbW = multiply_v3_m3x3(xyzW, cat16);
 
 	// Surround: dark, dim, and average
 	// @ts-expect-error surround is never used again
@@ -279,17 +284,17 @@ export function fromCam16 (cam16, env) {
 
 	// Calculate back from cone response to XYZ
 	const rgb_c = unadapt(
-		/** @type {[number, number, number]} */
-		(multiplyMatrices(m1, [p2, a, b]).map(c => {
+		/** @type {Vector3} */
+		(multiply_v3_m3x3([p2, a, b], m1).map(c => {
 			return c * 1 / 1403;
 		})),
 		env.fl,
 	);
-	return /** @type {[number, number, number]} */ (multiplyMatrices(
-		cat16Inv,
-		rgb_c.map((c, i) => {
+	return /** @type {Vector3} */ (multiply_v3_m3x3(
+		/** @type {Vector3} */(rgb_c.map((c, i) => {
 			return c * env.dRgbInv[i];
-		}),
+		})),
+		cat16Inv,
 	).map(c => {
 		return c / 100;
 	}));
@@ -303,12 +308,12 @@ export function fromCam16 (cam16, env) {
  */
 export function toCam16 (xyzd65, env) {
 	// Cone response
-	const xyz100 = xyzd65.map(c => {
+	const xyz100 = /** @type {Vector3} */ (xyzd65.map(c => {
 		return c * 100;
-	});
+	}));
 	const rgbA = adapt(
 		/** @type {[number, number, number]} */
-		(multiplyMatrices(cat16, xyz100).map((c, i) => {
+		(multiply_v3_m3x3(xyz100, cat16).map((c, i) => {
 			return c * env.dRgb[i];
 		})),
 		env.fl,
