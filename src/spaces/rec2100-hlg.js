@@ -2,7 +2,6 @@ import RGBColorSpace from "../RGBColorSpace.js";
 import REC2020Linear from "./rec2020-linear.js";
 import {spow} from "../util.js";
 
-// FIXME see https://github.com/LeaVerou/color.js/issues/190
 
 const a = 0.17883277;
 const b = 0.28466892; // 1 - (4 * a)
