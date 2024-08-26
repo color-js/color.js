@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import OKLab from "./oklab.js";
 import {toe, toeInv} from "./okhsl.js";
 

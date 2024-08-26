@@ -1,4 +1,4 @@
-import ColorSpace from "../space.js";
+import ColorSpace from "../ColorSpace.js";
 import OKLrab from "./oklrab.js";
 import lch from "./lch.js";
 
