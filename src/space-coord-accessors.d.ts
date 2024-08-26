@@ -35,6 +35,7 @@ declare class SpaceAccessors {
 	prophoto_linear: SpaceAccessor;
 	rec2020: SpaceAccessor;
 	rec2020_linear: SpaceAccessor;
+	rec2100_linear: SpaceAccessor;
 	rec2100hlg: SpaceAccessor;
 	rec2100pq: SpaceAccessor;
 	srgb: SpaceAccessor;

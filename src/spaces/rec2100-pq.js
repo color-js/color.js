@@ -1,5 +1,5 @@
 import RGBColorSpace from "../RGBColorSpace.js";
-import REC2020Linear from "./rec2020-linear.js";
+import REC_2100_Linear from "./rec2100-linear.js";
 
 const Yw = 203;	// absolute luminance of media white, cd/m²
 const n = 2610 / (2 ** 14);
@@ -14,7 +14,7 @@ export default new RGBColorSpace({
 	id: "rec2100pq",
 	cssId: "rec2100-pq",
 	name: "REC.2100-PQ",
-	base: REC2020Linear,
+	base: REC_2100_Linear,
 	toBase (RGB) {
 		// given PQ encoded component in range [0, 1]
 		// return media-white relative linear-light
