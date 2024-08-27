@@ -11,15 +11,17 @@ main {
 	}
 
 	@media (min-width: 1480px) {
-		position: fixed;
-		top: 11rem;
-		right: calc(var(--page-width) + var(--page-margin) + 1em);
-		width: fit-content;
-		max-width: calc(var(--page-margin) - 1em);
-		margin-left: 1em;
+		/* Stretch out #toc in the margin, so it can be a container for the sticky list. */
+		position: absolute;
+		right: 100%;
+		height: 100%;
+		/* This is a quick fix for `fit-content` below not working anymore. */
+		min-width: 220px;
 
-		@supports (top: max(1em, 1px)) {
-			top: max(0em, 11rem - var(--scrolltop) * 1px);
+		& > ul {
+			position: sticky;
+			top: 1em;
+			width: fit-content;
 		}
 	}
 
