@@ -2,6 +2,9 @@ import RGBColorSpace from "../RGBColorSpace.js";
 import {WHITES} from "../adapt.js";
 import "../CATs.js"; // because of the funky whitepoint
 
+// Type "imports"
+/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+
 // The ACES whitepoint
 // see TB-2018-001 Derivation of the ACES White Point CIE Chromaticity Coordinates
 // also https://github.com/ampas/aces-dev/blob/master/documents/python/TB-2018-001/aces_wp.py
@@ -9,11 +12,13 @@ import "../CATs.js"; // because of the funky whitepoint
 WHITES.ACES = [0.32168 / 0.33767, 1.00000, (1.00000 - 0.32168 - 0.33767) / 0.33767];
 
 // convert an array of linear-light ACEScc values to CIE XYZ
+/** @type {Matrix3x3} */
 const toXYZ_M = [
 	[  0.6624541811085053,   0.13400420645643313,  0.1561876870049078  ],
 	[  0.27222871678091454,  0.6740817658111484,   0.05368951740793705 ],
 	[ -0.005574649490394108, 0.004060733528982826, 1.0103391003129971  ],
 ];
+/** @type {Matrix3x3} */
 const fromXYZ_M = [
 	[  1.6410233796943257,   -0.32480329418479,    -0.23642469523761225  ],
 	[ -0.6636628587229829,    1.6153315916573379,   0.016756347685530137 ],

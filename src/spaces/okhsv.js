@@ -23,11 +23,8 @@
 // SOFTWARE.
 import ColorSpace from "../ColorSpace.js";
 import Oklab from "./oklab.js";
-import {LabtoLMS_M} from "./oklab.js";
-import {fromXYZ_M} from "./srgb-linear.js";
-import {skipNone, spow} from "../util.js";
+import {spow, multiply_v3_m3x3} from "../util.js";
 import {constrain} from "../angles.js";
-import multiplyMatrices from "../multiply-matrices.js";
 import {
 	tau,
 	toe,
@@ -39,7 +36,20 @@ import {
 	RGBCoeff,
 } from "./okhsl.js";
 
+// Type "imports"
+/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @typedef {import("../types.js").Vector3} Vector3 */
+/** @typedef {import("../types.js").Coords} Coords */
+/** @typedef {import("../types.js").OKCoeff} OKCoeff */
 
+
+/**
+ *
+ * @param {Vector3} hsv
+ * @param {Matrix3x3} lmsToRgb
+ * @param {OKCoeff} okCoeff
+ * @returns {Coords}
+ */
 function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 	// Convert from Okhsv to Oklab."""
 
@@ -91,7 +101,13 @@ function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 	return [l, a, b];
 }
 
-
+/**
+ *
+ * @param {Vector3} lab
+ * @param {Matrix3x3} lmsToRgb
+ * @param {OKCoeff} okCoeff
+ * @returns {Coords}
+ */
 function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsv.
 

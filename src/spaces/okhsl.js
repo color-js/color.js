@@ -24,25 +24,31 @@
 import ColorSpace from "../ColorSpace.js";
 import Oklab from "./oklab.js";
 import {LabtoLMS_M} from "./oklab.js";
-import {fromXYZ_M} from "./srgb-linear.js";
-import {skipNone, spow} from "../util.js";
+import {spow, multiply_v3_m3x3} from "../util.js";
 import {constrain} from "../angles.js";
-import multiplyMatrices from "../multiply-matrices.js";
+
+// Type "imports"
+/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @typedef {import("../types.js").Vector3} Vector3 */
+/** @typedef {import("../types.js").OKCoeff} OKCoeff */
 
 export const tau = 2 * Math.PI;
 
+/** @type {Matrix3x3} */
 export const toLMS = [
 	[0.4122214694707629, 0.5363325372617349, 0.0514459932675022],
 	[0.2119034958178251, 0.6806995506452344, 0.1073969535369405],
 	[0.0883024591900564, 0.2817188391361215, 0.6299787016738222],
 ];
 
+/** @type {Matrix3x3} */
 export const toSRGBLinear = [
 	[ 4.0767416360759583, -3.3077115392580629,  0.2309699031821043],
 	[-1.2684379732850315,  2.6097573492876882, -0.3413193760026570],
 	[-0.0041960761386756, -0.7034186179359362,  1.7076146940746117],
 ];
 
+/** @type {OKCoeff} */
 export const RGBCoeff = [
 	// Red
 	[
@@ -157,8 +163,8 @@ function getStMid (a, b) {
 }
 
 /**
- * @param {number[]} lab
- * @param {number[][]} lmsToRgb
+ * @param {Vector3} lab
+ * @param {Matrix3x3} lmsToRgb
  */
 export function oklabToLinearRGB (lab, lmsToRgb) {
 	// Convert from Oklab to linear RGB.
@@ -166,19 +172,20 @@ export function oklabToLinearRGB (lab, lmsToRgb) {
 	// Can be any gamut as long as `lmsToRgb` is a matrix
 	// that transform the LMS values to the linear RGB space.
 
-	return multiplyMatrices(
-		lmsToRgb,
-		multiplyMatrices(LabtoLMS_M, lab).map(c => {
-			return c ** 3;
-		}),
-	);
+	let lms = multiply_v3_m3x3(lab, LabtoLMS_M);
+
+	lms[0] = lms[0] ** 3;
+	lms[1] = lms[1] ** 3;
+	lms[2] = lms[2] ** 3;
+
+	return multiply_v3_m3x3(lms, lmsToRgb, lms);
 }
 
 /**
  * @param {number} a
  * @param {number} b
- * @param {number[][]} lmsToRgb
- * @param {number[][]} okCoeff
+ * @param {Matrix3x3} lmsToRgb
+ * @param {OKCoeff} okCoeff
  * @returns {[number, number]}
  * @todo Could probably make these types more specific/better-documented if desired
  */
@@ -205,8 +212,8 @@ export function findCusp (a, b, lmsToRgb, okCoeff) {
  * @param {number} l1
  * @param {number} c1
  * @param {number} l0
- * @param {number[][]} lmsToRgb
- * @param {number[][]} okCoeff
+ * @param {Matrix3x3} lmsToRgb
+ * @param {OKCoeff} okCoeff
  * @param {[number, number]} cusp
  * @returns {Number}
  * @todo Could probably make these types more specific/better-documented if desired

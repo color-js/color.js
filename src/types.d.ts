@@ -2,6 +2,11 @@
  * @packageDocumentation
  * Defines and re-exports many types for use throughout the library.
  */
+
+// muliply-matricies.js
+export type Matrix3x3 = [[number, number, number], [number, number, number], [number, number, number]];
+export type Vector3 = [number, number, number];
+
 // contrast/
 export type * from "./contrast/index.js";
 
@@ -104,8 +109,8 @@ export interface ParseFunctionReturn {
 
 // rgbspace.js
 export interface RGBOptions extends SpaceOptions {
-	toXYZ_M?: number[][] | undefined;
-	fromXYZ_M?: number[][] | undefined;
+	toXYZ_M?: Matrix3x3 | undefined;
+	fromXYZ_M?: Matrix3x3 | undefined;
 }
 
 // serialize.js
@@ -176,3 +181,21 @@ export interface ToGamutOptions {
 	 */
 	blackWhiteClamp?: { channel: Ref; min: number; max: number } | undefined;
 }
+
+export type OKCoeff = [
+	[
+		// Red
+		[number, number], // Limit
+		[number, number, number, number, number], // `Kn` coefficients
+	],
+	[
+		// Green
+		[number, number], // Limit
+		[number, number, number, number, number], // `Kn` coefficients
+	],
+	[
+		// Blue
+		[number, number], // Limit
+		[number, number, number, number, number], // `Kn` coefficients
+	],
+];
