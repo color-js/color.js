@@ -11,6 +11,26 @@ function testExpected (testObj) {
 	return { ...testObj, expect: refMultiply(...testObj.args) };
 }
 
+/**
+ * Converts row-major ordered & pre-multiplication arguments
+ * into column-major ordered & post-multiplication equivalent
+ */
+function reverseExpectedArgs (testObj) {
+	return { ...testObj, expect: refMultiply(testObj.args[1], testObj.args[0]) };
+}
+
+/** Creates in place multiplication tests for `multiply_v3_m3x3` */
+function testInPlace (testObj) {
+	return {
+		...testObj,
+		name: `${testObj.name} in place`,
+		run (A, B) {
+			multiply_v3_m3x3(A, B, A);
+			return A;
+		},
+	};
+}
+
 function expectThrows (testObj) {
 	let refResult;
 	try {
@@ -125,23 +145,13 @@ export default {
 		].map(expectThrows),
 	},
 	{
-		name: "Transform",
+		name: "Specialized Matrix 3x3 and Vector 3 Multiplication",
 		run: multiply_v3_m3x3,
 		tests: [
 			{
 				name: "3x3 matrix with vector",
 				args: [[1, .5, 0], M_lin_sRGB_to_XYZ],
-				expect: math.multiply(math.matrix(M_lin_sRGB_to_XYZ), math.matrix([1, .5, 0])).valueOf(),
 			},
-			{
-				name: "3x3 matrix with vector in place",
-				run (A, B) {
-					multiply_v3_m3x3(A, B, A);
-					return A;
-				},
-				args: [[1, .5, 0], M_lin_sRGB_to_XYZ],
-				expect: math.multiply(math.matrix(M_lin_sRGB_to_XYZ), math.matrix([1, .5, 0])).valueOf(),
-			},
-		],
+		].map(reverseExpectedArgs).flatMap((test) => [test, testInPlace(test)]),
 	}],
 };
