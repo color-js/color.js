@@ -28,6 +28,7 @@ export default config => {
 		markdownTemplateEngine: "njk",
 		templateFormats: ["md", "njk"],
 		dir: {
+			data: "data",
 			output: ".",
 		},
 	};
