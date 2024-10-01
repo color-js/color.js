@@ -82,7 +82,7 @@
 	},
 	"homepage": "https://colorjs.io",
 	"devDependencies": {
-		"@11ty/eleventy": "3.0.0-alpha.5",
+		"@11ty/eleventy": "^3.0.0",
 		"@babel/core": "^7.24.0",
 		"@babel/preset-env": "^7.24.0",
 		"@definitelytyped/dtslint": "0.0.182",
