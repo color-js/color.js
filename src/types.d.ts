@@ -199,3 +199,10 @@ export type OKCoeff = [
 		[number, number, number, number, number], // `Kn` coefficients
 	],
 ];
+
+export interface DeltasReturn {
+	space: ColorSpace;
+	spaceId: string;
+	coords: [number, number, number];
+	alpha: number;
+}
