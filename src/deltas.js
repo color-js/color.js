@@ -6,6 +6,7 @@ import { isNone } from "./util.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @typedef {import("./types.js").DeltasReturn} DeltasReturn */
 
 /**
  * Get color differences per-component, on any color space
@@ -14,6 +15,7 @@ import { isNone } from "./util.js";
  * @param {object} options
  * @param {string | ColorSpace} [options.space=c1.space] - The color space to use for the delta calculation. Defaults to the color space of the first color.
  * @param {Parameters<typeof adjust>[0]} [options.hue="shorter"] - How to handle hue differences. Same as hue interpolation option.
+ * @returns {DeltasReturn}
  */
 export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
 	c1 = getColor(c1);
@@ -37,7 +39,7 @@ export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
 
 	let alpha = subtractCoords(c1.alpha, c2.alpha);
 
-	return { space: c1.space, spaceId: ColorSpace.get(c1.space).id, coords, alpha };
+	return { space: /** @type {ColorSpace} */ (c1.space), spaceId: ColorSpace.get(c1.space).id, coords, alpha };
 }
 
 function subtractCoords (c1, c2) {
