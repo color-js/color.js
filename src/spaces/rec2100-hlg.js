@@ -1,5 +1,5 @@
 import RGBColorSpace from "../RGBColorSpace.js";
-import REC2020Linear from "./rec2020-linear.js";
+import REC_2100_Linear from "./rec2100-linear.js";
 import {spow} from "../util.js";
 
 
@@ -15,7 +15,7 @@ export default new RGBColorSpace({
 	name: "REC.2100-HLG",
 	referred: "scene",
 
-	base: REC2020Linear,
+	base: REC_2100_Linear,
 	toBase (RGB) {
 		// given HLG encoded component in range [0, 1]
 		// return media-white relative linear-light
