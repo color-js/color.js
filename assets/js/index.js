@@ -9,10 +9,13 @@ if (location.pathname.indexOf("/docs/") > -1 && window.toc) {
 	import("./docs.js");
 }
 
-let root = document.documentElement;
-
 styleCallouts();
+let toc = document.getElementById("toc");
 
-document.addEventListener("scroll", evt => {
-	root.style.setProperty("--scrolltop", root.scrollTop);
-}, {passive: true});
+if (toc) {
+	let root = document.documentElement;
+
+	document.addEventListener("scroll", () => {
+		toc.style.setProperty("--scrolltop", root.scrollTop);
+	}, {passive: true});
+}
