@@ -46,33 +46,43 @@ title: Supported Color Spaces
 			</div>
 			<dl class="meta">
 				{% if space.base %}
-					<dt>Base</dt>
-					<dd><a href="#{{ space.base.id }}"><strong>{{ space.base.name }}</strong></a></dd>
+					<div>
+						<dt>Base</dt>
+						<dd><a href="#{{ space.base.id }}"><strong>{{ space.base.name }}</strong></a></dd>
+					</div>
 				{% endif %}
-				<dt>White point:</dt>
-				<dd><strong>{{ space.white or "D65" }}</strong></dd>
+				<div>
+					<dt>White point:</dt>
+					<dd><strong>{{ space.white or "D65" }}</strong></dd>
+				</div>
 
-				<dt>Coordinates:</dt>
-				<dd>
-					<table class="fancy">
-						<thead>
-							<tr>
-								<th>Id</th>
-								<th>Name</th>
-								<th>Ref. range</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for coordId, coord in space.coords %}
+				<div>
+					<dt>Coordinates:</dt>
+					<dd>
+						<table class="fancy">
+							<thead>
 								<tr>
-									<th>{{ coordId }}</th>
-									<th>{{ coord.name }}</th>
-									<td>{{ coord.min | number }} &ndash; {{ coord.max | number }}</td>
+									<th>Id</th>
+									<th>Name</th>
+									<th>Ref. range</th>
 								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</dd>
+							</thead>
+							<tbody>
+								{% for coordId, coord in space.coords %}
+									<tr>
+										{% if coordId === coord.name -%}
+										<th colspan="2">{{ coordId }}</th>
+										{% else %}
+										<th>{{ coordId }}</th>
+										<th>{{ coord.name }}</th>
+										{% endif %}
+										<td>{{ coord.min | number }} &ndash; {{ coord.max | number }}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</dd>
+				</div>
 			</dl>
 
 			<pre><code>let color = new Color("{{ id }}", [

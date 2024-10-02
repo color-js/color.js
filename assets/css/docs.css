@@ -95,6 +95,7 @@ main {
 	}
 
 	dl {
+		align-self: start;
 		min-width: 10em;
 		margin: 0;
 		grid-row: 2 / span 3;
@@ -103,8 +104,11 @@ main {
 		border-radius: .2em;
 		padding: 1em;
 
+		> div:not(:first-child) {
+			margin-block-start: 1em;
+		}
+
 		dt {
-			margin-top: .5em;
 			font-size: 80%;
 		}
 
