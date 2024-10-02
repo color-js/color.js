@@ -5,8 +5,7 @@ let whitePoints = Object.entries(WHITES);
 
 // 11ty chokes on this
 // import modules from "./modules.json" with { type: "json" };
-import { readFileSync } from "fs";
-const modules = JSON.parse(readFileSync("data/modules.json"));
+const modules = await (await fetch(new URL("data/modules.json", import.meta.url)).json());
 
 let spaces = {};
 
