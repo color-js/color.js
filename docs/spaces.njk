@@ -1,9 +1,7 @@
 ---
 title: Supported Color Spaces
-has_mavo: true
-body_classes: cn-ignore
 ---
-{% raw %}
+
 <section class="cn-ignore">
 	<figure>
 		<img src="images/all-spaces.png" alt="">
@@ -29,67 +27,67 @@ body_classes: cn-ignore
 	<p> If you are using the <a href="procedural.html">prodcedural API</a>, you need to register color spaces yourself, by calling <code>ColorSpace.register(colorSpaceReference)</code>.
 </section>
 
-<section mv-app="colorSpaces" mv-bar="none" class="cn-ignore">
-	<div mv-list property="space">
-	<article mv-list-item class="[if(id != originalId, 'alias')">
-		<header>
-			<h2 id="[id]">
-				<span property="name"></span>
-				<code property="id" class="toc-ignore"></code>
-			</h2>
-
-			<a href="https://github.com/LeaVerou/color.js/tree/master/[filePath]" class="file" target="_blank"><code property="filePath">src/spaces/[aliasOf or id].js</code></a>
-		</header>
-
-		<div mv-if="isAlias">
-			<p class="alias-of">Alias of <a href="#[aliasOf]">[aliasOfName]</a></p>
-		</div>
-		<div property class="description" mv-markdown-options></div>
-
-		<dl class="meta">
-			<div mv-if="base">
-				<dt>Base</dt>
-				<dd><a href="#[base]"><strong property="baseName"></strong></a></dd>
+<section>
+	{% for id, space in spaces %}
+		{% set spaceAccessor = id | replace("-", "_") %}
+		<article class="color-space">
+			<header>
+				<h2 id="{{ id }}">{{ space.name }}</h2>
+				{% set filePath = 'src/spaces/' + (space.aliasOf or id) + '.js' %}
+				<a href="https://github.com/LeaVerou/color.js/tree/master/{{ filePath }}" class="file" target="_blank"><code>{{ filePath }}</code></a>
+			</header>
+			{% if space.aliasOf %}
+				<p class="alias-of">Alias of <a href="#{{ space.aliasOf }}">{{ spaces[space.aliasOf].name }}</a></p>
+			{% endif %}
+			<div class="description">
+				{% renderTemplate "njk,md", space %}
+				{{ description }}
+				{% endrenderTemplate %}
 			</div>
-			<dt>White point:</dt>
-			<dd><strong property="whitePoint"></strong></dd>
+			<dl class="meta">
+				{% if space.base %}
+					<dt>Base</dt>
+					<dd><a href="#{{ space.base.id }}"><strong>{{ space.base.name }}</strong></a></dd>
+				{% endif %}
+				<dt>White point:</dt>
+				<dd><strong>{{ space.white or "D65" }}</strong></dd>
 
-			<dt>Coordinates:</dt>
-			<dd>
-				<table class="fancy">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>Name</th>
-							<th>Ref. range</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr mv-multiple property="coord">
-							<th property="id"></th>
-							<th property="name"></th>
-							<td>
-								<span property="min"></span>
-								&ndash;
-								<span property="max"></span>
-								<meta property="codeExample" content="color.[replace(space.id, '-', '_')].[id] = [random(min, max)];">
-								<meta property="randomCoord" content="[random(min, max) & '']">
-							</td>
+				<dt>Coordinates:</dt>
+				<dd>
+					<table class="fancy">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Name</th>
+								<th>Ref. range</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for coordId, coord in space.coords %}
+								<tr>
+									<th>{{ coordId }}</th>
+									<th>{{ coord.name }}</th>
+									<td>{{ coord.min | number }} &ndash; {{ coord.max | number }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</dd>
+			</dl>
 
-						</tr>
-					</tbody>
-				</table>
-			</dd>
-		</dl>
-
-		<pre><code mv-expressions="{{ }}">let color = new Color("{{ space.id }}", [{{randomCoord}}]);
-{{ join(codeExample, "\n") }}
+			<pre><code>let color = new Color("{{ id }}", [
+				{%- for coordId, coord in space.coords -%}
+					{{ coord.max | randomNumber(coord.min) }}{% if not loop.last %}, {% endif %}
+				{%- endfor -%}
+			]);
+{% for coordId, coord in space.coords -%}
+color.{{ spaceAccessor }}.{{ coordId }} = {{ +((coord.min + coord.max) / 2).toPrecision(3) }};
+{% endfor -%}
 color.toString();</code></pre>
+			{% if space.url -%}
+				<a href="{{ space.url }}" target="_blank" class="read-more">Learn more about {{ space.name }}</a>
+			{% endif %}
+		</article>
 
-		<a property="url" class="read-more">Learn more about [name]</a>
-
-	</article>
-	</div>
+	{% endfor %}
 </section>
-<pre class="cn-ignore" id="spaceData" mv-app="colorSpaceData" mv-storage="../data/modules.json"></pre>
-{% endraw %}

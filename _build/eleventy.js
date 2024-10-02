@@ -1,4 +1,5 @@
 import { createRequire } from "module";
+import { EleventyRenderPlugin } from "@11ty/eleventy";
 const require = createRequire(import.meta.url);
 import * as filters from "./filters.js";
 
@@ -23,6 +24,8 @@ export default config => {
 	for (let f in filters) {
 		config.addFilter(f, filters[f]);
 	}
+
+	config.addPlugin(EleventyRenderPlugin);
 
 	return {
 		markdownTemplateEngine: "njk",

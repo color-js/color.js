@@ -12,5 +12,13 @@ export function unslugify (slug) {
 }
 
 export function number (value, options) {
-	return value.toLocaleString("en", options);
+	return value?.toLocaleString("en", options);
+}
+
+export function randomNumber (max, min, step) {
+	step ??= (max - min) / 100;
+	// Round to nearest power of 10
+	step = Math.pow(10, Math.floor(Math.log10(step)));
+
+	return Math.floor(Math.random() * (max - min + step) / step) * step + min;
 }
