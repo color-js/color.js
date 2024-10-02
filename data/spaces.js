@@ -10,12 +10,12 @@ const modules = JSON.parse(readFileSync("data/modules.json"));
 
 let spaces = {};
 
-for (let meta of modules.space) {
-	let id = meta.id;
-	let space = ColorSpace.registry[id];
+modules.space = Object.fromEntries(modules.space.map(meta => [meta.id, meta]));
 
-	spaces[id] = meta;
-	Object.assign(meta, {
+for (let id in ColorSpace.registry) {
+	let space = ColorSpace.registry[id];
+	let meta = spaces[id] = Object.assign(modules.space[id] ?? {}, {
+		name: space.name,
 		white: whitePoints.find(([name, white]) => white === space.white)?.[0] ?? "D65",
 		base: space.base,
 		coords: space.coords,

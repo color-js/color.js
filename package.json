@@ -94,6 +94,7 @@
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
 		"acorn": "latest",
+		"brep": "^0.0.9",
 		"core-js": "^3.36.0",
 		"eslint": "latest",
 		"htest.dev": ">=0.0.14",

@@ -1,0 +1,110 @@
+---
+layout: null
+permalink: /docs/images/spaces.d2
+---
+# WARNING: DO NOT EDIT {{ page.outputPath }} directly.
+# This is generated via {{ page.inputPath }}
+
+vars: {
+	d2-config: {
+		pad: 1
+		layout-engine: dagre
+	}
+	# From Open Color https://yeun.github.io/open-color/
+	oc: {
+		green: {
+			1: "#d3f9d8"
+			2: "#b2f2bb"
+			3: "#8ce99a"
+			7: "#37b24d"
+			9: "#2b8a3e"
+		}
+		lime: {
+			2: "#c0eb75"
+			6: "#82c91e"
+			7: "#74b816"
+			8: "#66a80f"
+			9: "#5c940d"
+		}
+		yellow: {
+			1: "#fff3bf"
+			3: "#ffe066"
+			7: "#f59f00"
+			8: "#f08c00"
+			9: "#e67700"
+		}
+		cyan: {
+			1: "#c5f6fa"
+			7: "#1098ad"
+			9: "#0b7285"
+		}
+		red: {
+			7: "#f03e3e"
+			9: "#c92a2a"
+		}
+		gray: {
+			1: "#f1f3f5"
+			5: "#adb5bd"
+			6: "#868e96"
+			7: "#495057"
+			9: "#212529"
+		}
+	}
+}
+
+direction: right
+
+classes: {
+	node: {
+		style: {
+			fill: ${ oc.yellow.3 }
+			stroke: ${ oc.yellow.7 }
+			stroke-width: 2
+			border-radius: 6
+			font-size: 48
+		}
+	}
+	core: {
+		style: {
+			fill: ${oc.lime.2}
+			stroke: ${oc.lime.8}
+		}
+	}
+	root: {
+		style: {
+			stroke-width: 4
+			font-size: 96
+			border-radius: 100
+		}
+	}
+	edge: {
+		style: {
+			stroke: ${oc.yellow.9}
+			stroke-width: 3
+			border-radius: 10
+		}
+	}
+	core-edge: {
+		style: {
+			stroke: ${oc.lime.8}
+			stroke-width: 7
+			border-radius: 40
+		}
+	}
+}
+
+{% for id, space in spaces %}
+{% if not space.aliasOf %}
+node-{{ id }}: {{ space.name }} {
+	link: "#{{ id}}"
+	class: [node
+		{{ "; core" if not space.base or id.startsWith("xyz") }}
+		{{ "; root" if not space.base }}]
+}
+{% if space.base -%}
+node-{{ space.base.id }} -> node-{{ id }}  {
+	class: {{ "[edge; core-edge]" if not space.base.base or space.base.id.startsWith("xyz") else "edge" }}
+}
+{%- endif %}
+{%- endif %}
+{% endfor %}

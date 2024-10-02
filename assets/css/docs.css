@@ -50,6 +50,28 @@ main {
 	}
 }
 
+#space-tree {
+	width: 100%;
+
+	svg {
+		width: 100%;
+		overflow: visible;
+	}
+
+
+
+	.node text {
+		font-weight: 500;
+		font-size: 44px !important;
+	}
+
+	.root text {
+		font-weight: bold;
+		font-size: 66px !important;
+		translate: 0 -10px;
+	}
+}
+
 .color-space {
 	display: grid;
 	grid-template-columns: 1fr auto;

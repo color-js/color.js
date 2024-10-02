@@ -1,0 +1,521 @@
+# WARNING: DO NOT EDIT ./docs/images/spaces.d2 directly.
+# This is generated via ./docs/images/spaces.njk
+
+vars: {
+	d2-config: {
+		pad: 1
+		layout-engine: dagre
+	}
+	# From Open Color https://yeun.github.io/open-color/
+	oc: {
+		green: {
+			1: "#d3f9d8"
+			2: "#b2f2bb"
+			3: "#8ce99a"
+			7: "#37b24d"
+			9: "#2b8a3e"
+		}
+		lime: {
+			2: "#c0eb75"
+			6: "#82c91e"
+			7: "#74b816"
+			8: "#66a80f"
+			9: "#5c940d"
+		}
+		yellow: {
+			1: "#fff3bf"
+			3: "#ffe066"
+			7: "#f59f00"
+			8: "#f08c00"
+			9: "#e67700"
+		}
+		cyan: {
+			1: "#c5f6fa"
+			7: "#1098ad"
+			9: "#0b7285"
+		}
+		red: {
+			7: "#f03e3e"
+			9: "#c92a2a"
+		}
+		gray: {
+			1: "#f1f3f5"
+			5: "#adb5bd"
+			6: "#868e96"
+			7: "#495057"
+			9: "#212529"
+		}
+	}
+}
+
+direction: right
+
+classes: {
+	node: {
+		style: {
+			fill: ${ oc.yellow.3 }
+			stroke: ${ oc.yellow.7 }
+			stroke-width: 2
+			border-radius: 6
+			font-size: 48
+		}
+	}
+	core: {
+		style: {
+			fill: ${oc.lime.2}
+			stroke: ${oc.lime.8}
+		}
+	}
+	root: {
+		style: {
+			stroke-width: 4
+			font-size: 96
+			border-radius: 100
+		}
+	}
+	edge: {
+		style: {
+			stroke: ${oc.yellow.9}
+			stroke-width: 3
+			border-radius: 10
+		}
+	}
+	core-edge: {
+		style: {
+			stroke: ${oc.lime.8}
+			stroke-width: 7
+			border-radius: 40
+		}
+	}
+}
+
+
+
+node-a98rgb: Adobe® 98 RGB compatible {
+	link: "#a98rgb"
+	class: [node
+		
+		]
+}
+node-a98rgb-linear -> node-a98rgb  {
+	class: edge
+}
+
+
+node-a98rgb-linear: Linear Adobe® 98 RGB compatible {
+	link: "#a98rgb-linear"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-a98rgb-linear  {
+	class: [edge; core-edge]
+}
+
+
+node-acescc: ACEScc {
+	link: "#acescc"
+	class: [node
+		
+		]
+}
+node-acescg -> node-acescc  {
+	class: edge
+}
+
+
+node-acescg: ACEScg {
+	link: "#acescg"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-acescg  {
+	class: [edge; core-edge]
+}
+
+
+node-cam16-jmh: CAM16-JMh {
+	link: "#cam16-jmh"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-cam16-jmh  {
+	class: [edge; core-edge]
+}
+
+
+node-hct: HCT {
+	link: "#hct"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-hct  {
+	class: [edge; core-edge]
+}
+
+
+node-hpluv: HPLuv {
+	link: "#hpluv"
+	class: [node
+		
+		]
+}
+node-lchuv -> node-hpluv  {
+	class: edge
+}
+
+
+node-hsl: HSL {
+	link: "#hsl"
+	class: [node
+		
+		]
+}
+node-srgb -> node-hsl  {
+	class: edge
+}
+
+
+node-hsluv: HSLuv {
+	link: "#hsluv"
+	class: [node
+		
+		]
+}
+node-lchuv -> node-hsluv  {
+	class: edge
+}
+
+
+node-hsv: HSV {
+	link: "#hsv"
+	class: [node
+		
+		]
+}
+node-srgb -> node-hsv  {
+	class: edge
+}
+
+
+node-hwb: HWB {
+	link: "#hwb"
+	class: [node
+		
+		]
+}
+node-hsv -> node-hwb  {
+	class: edge
+}
+
+
+node-ictcp: ICTCP {
+	link: "#ictcp"
+	class: [node
+		
+		]
+}
+node-xyz-abs-d65 -> node-ictcp  {
+	class: [edge; core-edge]
+}
+
+
+node-jzczhz: JzCzHz {
+	link: "#jzczhz"
+	class: [node
+		
+		]
+}
+node-jzazbz -> node-jzczhz  {
+	class: edge
+}
+
+
+node-jzazbz: Jzazbz {
+	link: "#jzazbz"
+	class: [node
+		
+		]
+}
+node-xyz-abs-d65 -> node-jzazbz  {
+	class: [edge; core-edge]
+}
+
+
+node-lch: LCH {
+	link: "#lch"
+	class: [node
+		
+		]
+}
+node-lab -> node-lch  {
+	class: edge
+}
+
+
+node-lchuv: LChuv {
+	link: "#lchuv"
+	class: [node
+		
+		]
+}
+node-luv -> node-lchuv  {
+	class: edge
+}
+
+
+node-lab: Lab {
+	link: "#lab"
+	class: [node
+		
+		]
+}
+node-xyz-d50 -> node-lab  {
+	class: [edge; core-edge]
+}
+
+
+node-lab-d65: Lab D65 {
+	link: "#lab-d65"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-lab-d65  {
+	class: [edge; core-edge]
+}
+
+
+node-luv: Luv {
+	link: "#luv"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-luv  {
+	class: [edge; core-edge]
+}
+
+
+node-oklch: Oklch {
+	link: "#oklch"
+	class: [node
+		
+		]
+}
+node-oklab -> node-oklch  {
+	class: edge
+}
+
+
+node-oklab: Oklab {
+	link: "#oklab"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-oklab  {
+	class: [edge; core-edge]
+}
+
+
+node-oklrch: Oklrch {
+	link: "#oklrch"
+	class: [node
+		
+		]
+}
+node-oklrab -> node-oklrch  {
+	class: edge
+}
+
+
+node-oklrab: Oklrab {
+	link: "#oklrab"
+	class: [node
+		
+		]
+}
+node-oklab -> node-oklrab  {
+	class: edge
+}
+
+
+node-okhsl: Okhsl {
+	link: "#okhsl"
+	class: [node
+		
+		]
+}
+node-oklab -> node-okhsl  {
+	class: edge
+}
+
+
+node-okhsv: Okhsv {
+	link: "#okhsv"
+	class: [node
+		
+		]
+}
+node-oklab -> node-okhsv  {
+	class: edge
+}
+
+
+node-p3: P3 {
+	link: "#p3"
+	class: [node
+		
+		]
+}
+node-p3-linear -> node-p3  {
+	class: edge
+}
+
+
+node-p3-linear: Linear P3 {
+	link: "#p3-linear"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-p3-linear  {
+	class: [edge; core-edge]
+}
+
+
+node-prophoto: ProPhoto {
+	link: "#prophoto"
+	class: [node
+		
+		]
+}
+node-prophoto-linear -> node-prophoto  {
+	class: edge
+}
+
+
+node-prophoto-linear: Linear ProPhoto {
+	link: "#prophoto-linear"
+	class: [node
+		
+		]
+}
+node-xyz-d50 -> node-prophoto-linear  {
+	class: [edge; core-edge]
+}
+
+
+node-rec2020: REC.2020 {
+	link: "#rec2020"
+	class: [node
+		
+		]
+}
+node-rec2020-linear -> node-rec2020  {
+	class: edge
+}
+
+
+node-rec2020-linear: Linear REC.2020 {
+	link: "#rec2020-linear"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-rec2020-linear  {
+	class: [edge; core-edge]
+}
+
+
+node-rec2100hlg: REC.2100-HLG {
+	link: "#rec2100hlg"
+	class: [node
+		
+		]
+}
+node-rec2100-linear -> node-rec2100hlg  {
+	class: edge
+}
+
+
+node-rec2100-linear: Linear REC.2100 {
+	link: "#rec2100-linear"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-rec2100-linear  {
+	class: [edge; core-edge]
+}
+
+
+node-rec2100pq: REC.2100-PQ {
+	link: "#rec2100pq"
+	class: [node
+		
+		]
+}
+node-rec2100-linear -> node-rec2100pq  {
+	class: edge
+}
+
+
+node-xyz-abs-d65: Absolute XYZ D65 {
+	link: "#xyz-abs-d65"
+	class: [node
+		; core
+		]
+}
+node-xyz-d65 -> node-xyz-abs-d65  {
+	class: [edge; core-edge]
+}
+
+
+node-xyz-d50: XYZ D50 {
+	link: "#xyz-d50"
+	class: [node
+		; core
+		]
+}
+node-xyz-d65 -> node-xyz-d50  {
+	class: [edge; core-edge]
+}
+
+
+node-xyz-d65: XYZ D65 {
+	link: "#xyz-d65"
+	class: [node
+		; core
+		; root]
+}
+
+
+
+
+
+node-srgb: sRGB {
+	link: "#srgb"
+	class: [node
+		
+		]
+}
+node-srgb-linear -> node-srgb  {
+	class: edge
+}
+
+
+node-srgb-linear: Linear sRGB {
+	link: "#srgb-linear"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-srgb-linear  {
+	class: [edge; core-edge]
+}
+
