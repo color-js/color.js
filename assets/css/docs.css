@@ -11,17 +11,19 @@ main {
 	}
 
 	@media (min-width: 1480px) {
+		--_gap: 1rem;
+		box-sizing: border-box;
 		/* Stretch out #toc in the margin, so it can be a container for the sticky list. */
 		position: absolute;
 		right: 100%;
 		height: 100%;
-		/* Still sorting what to use for the 3em. */
-		max-width: calc(var(--page-margin) - 3em);
+		padding-inline: var(--_gap);
+		max-width: calc(var(--page-margin) - 2 * var(--_gap));
 		width: max-content;
 
 		& > ul {
 			position: sticky;
-			top: 1em;
+			top: var(--_gap);
 		}
 	}
 
