@@ -6,7 +6,7 @@ let whitePoints = Object.entries(WHITES);
 // 11ty chokes on this
 // import modules from "./modules.json" with { type: "json" };
 let modules;
-let url = new URL("./modules.json", import.meta.url);
+let url = new URL("modules.json", import.meta.url);
 if (url.protocol === "file:") {
 	// We are in Node.js
 	// fetch() doesn't work with file:// URLs
