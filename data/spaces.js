@@ -5,7 +5,7 @@ let whitePoints = Object.entries(WHITES);
 
 // 11ty chokes on this
 // import modules from "./modules.json" with { type: "json" };
-const modules = await (await fetch(new URL("data/modules.json", import.meta.url)).json());
+const modules = await (await fetch(new URL("data/modules.json", import.meta.url))).json();
 
 let spaces = {};
 
