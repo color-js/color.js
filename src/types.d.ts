@@ -202,7 +202,6 @@ export type OKCoeff = [
 
 export interface DeltasReturn {
 	space: ColorSpace;
-	spaceId: string;
 	coords: [number, number, number];
 	alpha: number;
 }
