@@ -72,3 +72,5 @@ export *                                from "./spaces/index-fn.js";
 /** @typedef {import("./types.js").CoordMeta} CoordMeta */
 /** @typedef {import("./types.js").Ref} Ref */
 /** @typedef {import("./types.js").SpaceOptions} SpaceOptions */
+// Re-exported from src/deltas.d.ts
+/** @typedef {import("./types.js").DeltasReturn} DeltasReturn */
