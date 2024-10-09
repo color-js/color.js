@@ -39,7 +39,7 @@ export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
 
 	let alpha = subtractCoords(c1.alpha, c2.alpha);
 
-	return { space: /** @type {ColorSpace} */ (c1.space), spaceId: ColorSpace.get(c1.space).id, coords, alpha };
+	return { space: /** @type {ColorSpace} */ (space), coords, alpha };
 }
 
 function subtractCoords (c1, c2) {
