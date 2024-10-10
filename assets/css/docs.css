@@ -11,15 +11,19 @@ main {
 	}
 
 	@media (min-width: 1480px) {
-		position: fixed;
-		top: 11rem;
-		right: calc(var(--page-width) + var(--page-margin) + 1em);
-		width: fit-content;
-		max-width: calc(var(--page-margin) - 1em);
-		margin-left: 1em;
+		--_gap: 1rem;
+		box-sizing: border-box;
+		/* Stretch out #toc in the margin, so it can be a container for the sticky list. */
+		position: absolute;
+		right: 100%;
+		height: 100%;
+		padding-inline: var(--_gap);
+		max-width: calc(var(--page-margin) - 2 * var(--_gap));
+		width: max-content;
 
-		@supports (top: max(1em, 1px)) {
-			top: max(0em, 11rem - var(--scrolltop) * 1px);
+		& > ul {
+			position: sticky;
+			top: var(--_gap);
 		}
 	}
 
