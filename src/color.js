@@ -47,6 +47,10 @@ export default class Color {
 
 		if (args.length === 1) {
 			let parseMeta = {};
+			// Clone simple objects to avoid mutating original in getColor
+			if (typeof args[0] === "object" && Object.getPrototypeOf(args[0]).constructor === Object) {
+				args[0] = { ...args[0] };
+			}
 			color = getColor(args[0], {parseMeta});
 
 			if (parseMeta.format) {
