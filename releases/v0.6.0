@@ -1,0 +1,173 @@
+# v0.6.0
+
+## ⬇️ 6.5 million downloads! + Making Color.js sustainable
+
+[Color.js has now been downloaded over 6.5 million times on npm!](https://limonte.dev/total-npm-downloads/?package=colorjs.io) That is ⅓ of the way to 10 million!
+
+You may have noticed we removed ads from the Color.js website. While Carbon ads were the good kind of ads (relevant, not intrusive), it was not really worth it, they barely made enough to cover costs like the domain name etc.
+
+Instead, we have started an [Open Collective](https://opencollective.com/color) that you can fund directly. If your company depends on Color.js in any way, it is in your best interest to ensure its future is sustainable.
+
+## Breaking changes
+
+There is a number of breaking changes in this release, but they should only negatively affect some pretty specialized use cases.
+
+### `null` instead of `NaN` to represent `none` values
+
+As [announced](https://github.com/color-js/color.js/releases/tag/v0.5.0) in v0.5.0, we have now switched to using `null` instead of `NaN` to represent `none` values (naturally occurring when converting achromatic colors to certain color spaces).
+Not only is `null` conceptually closer, but since [CSS *also* now has a `NaN` value](https://www.w3.org/TR/css-values-4/#calc-error-constants), this change allows us to represent it properly, using an actual `NaN` value.
+
+`NaN` continues to be parsed (and becomes `NaN` in JS). Instead of being serialized to `NaN` (which is invalid in CSS), it is serialized to `calc(NaN)` which is a valid coordinate in CSS. For roundtripping to work properly, this also means we now parse `calc(NaN)` as well. Slippery slope? We’ll see. 😁 
+
+If you are working with any code that needs to handle `Color` instances/objects generically, without knowing which version of Color.js they come from, you can detect which value is being used and use that instead of a hardcoded `null` or `NaN`:
+
+```js
+let noneCoord = new Color("rgb(none none none)").coords[0];
+const NONE_VALUE = noneCoord?.valueOf() ?? noneCoord;
+```
+
+_(by @leaverou in cdf6f0d5e97caa8e2edfd1e43a7fa1d857f99aa4, @facelessuser in #476, @mysteryblokhed in #530)_
+
+### Plain numbers instead of `Number` objects for coordinates
+
+Previously, coordinates would be parsed into `Number` objects so they could retain metadata about their parsing. From this release onwards, they are plain number primitives, which results in both performance improvements, and improved DX.
+
+Instead, parsing metadata is passed around as a separate object, and stored on `Color` instances under `color.parseMeta`. This happens automatically in the OOP API, but users need to explicitly opt-in when using the procedural API, since that is optimized for high performance use cases.
+
+In addition, this metadata is now far more elaborate and can pretty much recreate the format parsed. Which brings us to…
+
+### Colors now reserialized in the format parsed
+
+We heard you! This has been a longstanding pain point, and it is now fixed. If you’re parsing a hex color, it will be serialized back to a hex color. If you’re specifying your chroma in percentages, percentages you’ll get back. If for some reason, you’re parsing a legacy comma-separated color, lo and behold, you can modify it and get back a legacy comma-separated color without lifting a finger!
+
+Caveats:
+- This only happens automatically in the OOP API. The procedural API does not store parsing metadata by default as it’s optimized for speed, you need to pass a `parseMeta` object explicitly.
+- You can always override this by passing `format` (or `format: "default"` for the color space default, which gives you the previous behavior.
+
+## Other big improvements
+
+### New color spaces
+
+* 🆕 OKHSL and OKHSV by @facelessuser (#469 #517)
+
+### More control over serialization
+
+You can now specify a format from any color space in `serialize()`/`color.toString()` without having to convert the color to a different color space.
+
+And `colorSpace.findFormat()`
+
+Another big pain point was that the way Color.js did serialization made simple things easy (by having sensible defaults and a wide range of predefined formats) and complex things possible (by allowing entirely custom formats to be specified), but the in-between was not smooth at all: the moment you needed anything custom, the only way was to recreate a whole format.
+
+Starting with this release, you can now specify a lot more granular options for serialization, without having to redefine a format:
+- `coords` with an array of coord types (e.g. `["<percentage>", "<number>[0, 100]", "<angle>"]`). Any `undefined` values will just get the default type, so you can even do things like `[, "<percentage>", ]` to e.g. make OKLCh chroma a percentage without having to respecify the default type of any other coord.
+- `alpha` to control display and type of alpha:
+	1. Force alpha to be added even when it’s 100%: `alpha: true`
+	2. Prevent alpha from being added, even when < 100%: `alpha: false`
+	3. Format alpha as a percentage: `alpha: "<percentage>"`
+	4. Do both 1 and 3: `alpha: {include: true, type: "<percentage>"}`
+
+### Switching from TypeScript types to JSDoc
+
+You may have noticed that [our API docs](https://colorjs.io/api/) had not been great in the past. This is because we were describing types in `.d.ts` files, but documentation was in JSDoc comments. However (the otherwise lovely) [Typedoc](https://typedoc.org/) expects a single source of truth for both, which would mean either having untyped API docs, or API docs with *only* types. It also meant that we had to maintain Color.js’s pretty extensive API in two places, which did not scale.
+
+With this release we went all in on JSDoc, thanks to @MysteryBlokHed’s monumental effort in #540.
+
+## Color Elements
+
+You may have noticed our three experimental custom elements in the past — or maybe not, as they were very experimental and thus not featured very prominently.
+
+These have now been split into a separate project, and a separate domain: https://elements.colorjs.io and expanded into a library of 7 web components for building color-related apps (the first library of its kind to our knowledge). They are still experimental, but way more polished than their previous state, and there is heavy activity on the project.
+
+If you were referencing these from their previous URL, there is a redirect in place, but do note their tag names and API has changed.
+
+## Color apps
+
+We have now moved our [Color apps](https://apps.colorjs.io) (which also serve as Color.js demos) into their own repo and domain: https://apps.colorjs.io 
+
+If you have links to these, there’s nothing to worry about: the old URL still works (it just redirects to the new one).
+
+There is also a new app:
+* [Gamut mapping](https://apps.colorjs.io/gamut-mapping/): Explores different gamut mapping algorithms (used in CSS WG research)
+	* [Gamut mapping gradients](https://apps.colorjs.io/gamut-mapping/gradients) by @jamesnw (#471)
+
+## Other changes
+
+### API
+
+- `deltas()` functions for getting coordinate/alpha differences between two colors in any color space. (@LeaVerou in #532)
+- `get()`/`set()`/`setAll()` now support alpha as well (by @leaverou)
+- Hate seeing numbers like 0.30000000000000004 ? Our default number formatting now attempts to limit IEEE 754 precision issues.
+- New DeltaE method: `OK2` (believed to be more perceptually uniform) (by @svgeesus in #486)
+- Longer and undefined/same hues now have parity with CSS spec (thanks @facelessuser in #474)
+- New `colorSpace.isUnbounded` property by @lloydk in https://github.com/color-js/color.js/pull/503
+- Improved number parsing (by @facelessuser in #508)
+- `parse()` now clamps alpha as well, just like the `Color` constructor (by @LeaVerou)
+
+### Performance
+
+- Matrix transform performance improvements by @lloydk that make certain conversions 3x faster (#585 #588)
+
+### Docs
+
+- API docs that are actually up to date, using typedoc! You can find them in (by @leaverou with help from @MysteryBlokHed in #498 #497 #549)
+- Updated color space diagram in https://colorjs.io/docs/spaces which is now dynamically generated via https://d2lang.com/ (by @leaverou)
+
+### For contributors
+
+* Document how to serve in development, and add `--serve` to `watch:html`. by @jamesnw in https://github.com/color-js/color.js/pull/467
+* Testsuite & test coverage improvements (by @lloydk in #480 #481 #482 #483 #484 #489 #490 #500 #556 #565)
+
+**Full Changelog**: https://github.com/color-js/color.js/compare/v0.5.0...v0.6.0
+
+## New Contributors
+* @tychota made their first contribution in https://github.com/color-js/color.js/pull/550
+* @sroucheray made their first contribution in https://github.com/color-js/color.js/pull/570
+* @perey made their first contribution in https://github.com/color-js/color.js/pull/538
+* @epsilonError made their first contribution in https://github.com/color-js/color.js/pull/580
+* @Inwerpsel made their first contribution in https://github.com/color-js/color.js/pull/592
+
+-----
+
+## Remaining Auto-generated release notes (to be removed before release)
+
+Remove those already mentioned above (or so small they don't need to be):
+
+
+* Fix number parsing by @facelessuser in https://github.com/color-js/color.js/pull/508
+* Fix types for `setAll()` by @lloydk in https://github.com/color-js/color.js/pull/520
+* [types] Update `Coords` type to allow `null` by @MysteryBlokHed in https://github.com/color-js/color.js/pull/530
+* Ensure Okhsl and Okhsv return undefined hues for achromatic colors by @facelessuser in https://github.com/color-js/color.js/pull/517
+* [website] Add Discord link to nav links by @MysteryBlokHed in https://github.com/color-js/color.js/pull/533
+* `deltas()` function, closes #437 by @LeaVerou in https://github.com/color-js/color.js/pull/532
+* Update download count in README.md by @MysteryBlokHed in https://github.com/color-js/color.js/pull/539
+* [types] Migrate to JSDoc by @MysteryBlokHed in https://github.com/color-js/color.js/pull/540
+* Fix toGamut() types by @lloydk in https://github.com/color-js/color.js/pull/544
+* Fix RGBColorSpace type tests by @lloydk in https://github.com/color-js/color.js/pull/543
+* Add type for keywords by @lloydk in https://github.com/color-js/color.js/pull/545
+* Fix getAll() types by @lloydk in https://github.com/color-js/color.js/pull/546
+* [getAll] Support precision, closes #542 by @DmitrySharabin in https://github.com/color-js/color.js/pull/548
+* Fix serialization of negative percentages by @lloydk in https://github.com/color-js/color.js/pull/554
+* [types] Re-export types for `index` and `index-fn` by @MysteryBlokHed in https://github.com/color-js/color.js/pull/555
+* [types] Generate declarations from JS by @MysteryBlokHed in https://github.com/color-js/color.js/pull/564
+* Update README.md by @sroucheray in https://github.com/color-js/color.js/pull/570
+* [types] Remove module augmentation (v0.6) by @MysteryBlokHed in https://github.com/color-js/color.js/pull/567
+* Fix remaining type test failures by @lloydk in https://github.com/color-js/color.js/pull/569
+* Run build:ts in lint and lint:ci by @lloydk in https://github.com/color-js/color.js/pull/571
+* Handle negative square roots in a sane manner for Rec. 2100 HLG by @facelessuser in https://github.com/color-js/color.js/pull/575
+* Demonstrate JND with colours that are different by @perey in https://github.com/color-js/color.js/pull/538
+* [types] Fix type errors in codebase by @MysteryBlokHed in https://github.com/color-js/color.js/pull/574
+* [types] overload multiplyMatrices types by @epsilonError in https://github.com/color-js/color.js/pull/580
+* Do not use HSL normalized saturation and hue for certain spaces by @facelessuser in https://github.com/color-js/color.js/pull/582
+* Port Multiply matrices tests to new format by @epsilonError in https://github.com/color-js/color.js/pull/559
+* Set typescript target of ES2018 by @lloydk in https://github.com/color-js/color.js/pull/586
+* Add specialized matrix transform for Vector3 and Matrix3x3 by @lloydk in https://github.com/color-js/color.js/pull/585
+* Change remaining color spaces to use faster matrix multiplication by @lloydk in https://github.com/color-js/color.js/pull/588
+* Add OkLrab and OkLrCh by @facelessuser in https://github.com/color-js/color.js/pull/511
+* Add color space for Linear Rec2100 by @lloydk in https://github.com/color-js/color.js/pull/591
+* Make `space.js` work both in Node.js and client-side by @DmitrySharabin in https://github.com/color-js/color.js/pull/600
+* Avoid style recalculation of all elements on each scroll event by @Inwerpsel in https://github.com/color-js/color.js/pull/592
+* Fix return type for deltas function by @lloydk in https://github.com/color-js/color.js/pull/598
+
+
+
+**Full Changelog**: https://github.com/color-js/color.js/compare/v0.5.0...v0.6.0
