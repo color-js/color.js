@@ -197,7 +197,6 @@ export function isInstance (constructor) {
 				return false;
 			}
 			arg = proto;
-			break;
 		}
 		return false;
 	};
