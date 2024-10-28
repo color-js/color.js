@@ -159,6 +159,10 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 		| Record<string, DefineFunctionHybrid>
 	): void;
 
+	static isColorInstance (arg: any): arg is Color;
+
+	static isColor (arg: any): arg is (Color | { coords: Coords });
+
 	get space (): ColorSpace;
 	get spaceId (): string;
 

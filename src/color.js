@@ -122,7 +122,7 @@ export default class Color {
 	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
 	 */
 	static get (color, ...args) {
-		if (color instanceof Color) {
+		if (Color.isColorInstance(color)) {
 			return color;
 		}
 
@@ -181,6 +181,12 @@ export default class Color {
 				Color.defineFunction(name, exports[name]);
 			}
 		}
+	}
+
+	static isColorInstance = util.isInstance(this);
+
+	static isColor (arg) {
+		return Color.isColorInstance(arg) || Array.isArray(arg?.coords);
 	}
 }
 

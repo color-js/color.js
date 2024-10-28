@@ -1,4 +1,4 @@
-import { serializeNumber, mapRange } from "./util.js";
+import { serializeNumber, mapRange, isInstance } from "./util.js";
 
 export default class Type {
 	// Class properties - declared here so that type inference works
@@ -116,8 +116,10 @@ export default class Type {
 		return /** @type {[number, number]} */ (range.map(v => v * scale));
 	}
 
+	static isType = isInstance(this);
+
 	static get (type, ...args) {
-		if (type instanceof this) {
+		if (Type.isType(type)) {
 			return type;
 		}
 

@@ -3,7 +3,7 @@
  * Defines the class and other types related to creating color spaces.
  * For the builtin color spaces, see the `spaces` module.
  */
-import { type, isNone } from "./util.js";
+import { type, isNone, isInstance } from "./util.js";
 import Format from "./Format.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
@@ -96,6 +96,8 @@ export default class ColorSpace {
 
 		hooks.run("colorspace-init-end", this);
 	}
+
+	static isColorSpace = isInstance(this);
 
 	inGamut (coords, {epsilon = ε} = {}) {
 		if (!this.equals(this.gamutSpace)) {
@@ -294,7 +296,7 @@ export default class ColorSpace {
 	 * @param {ColorSpace | string} name
 	 */
 	static get (space, ...alternatives) {
-		if (!space || space instanceof ColorSpace) {
+		if (!space || ColorSpace.isColorSpace(space)) {
 			return space;
 		}
 

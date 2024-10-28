@@ -89,6 +89,8 @@ export type Ref =
 export default class ColorSpace {
 	constructor (options: SpaceOptions);
 
+	static isColorSpace (arg: any): arg is ColorSpace;
+
 	static DEFAULT_FORMAT: { type: "functions"; name: "color" };
 
 	/**

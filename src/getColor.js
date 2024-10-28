@@ -37,7 +37,7 @@ export default function getColor (color, options) {
 	// Object fixup
 	let space = color.space || color.spaceId;
 
-	if (!(space instanceof ColorSpace)) {
+	if (!ColorSpace.isColorSpace(space)) {
 		// Convert string id to color space object
 		color.space = ColorSpace.get(space);
 	}

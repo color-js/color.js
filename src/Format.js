@@ -1,4 +1,4 @@
-import { isNone } from "./util.js";
+import { isInstance, isNone } from "./util.js";
 import Type from "./Type.js";
 
 // Type "imports"
@@ -131,13 +131,15 @@ export default class Format {
 		return this.type === "function" || /** @type {any} */ (this).serialize;
 	}
 
+	static isFormat = isInstance(this);
+
 	/**
 	 * @param {Format | FormatInterface} format
 	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
 	 * @returns {Format}
 	 */
 	static get (format, ...args) {
-		if (!format || format instanceof Format) {
+		if (!format || Format.isFormat(format)) {
 			return /** @type {Format} */ (format);
 		}
 
