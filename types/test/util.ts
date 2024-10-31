@@ -5,6 +5,7 @@ import {
 	interpolate,
 	interpolateInv,
 	mapRange,
+	isInstance,
 } from "colorjs.io/src/util";
 
 isString("foo"); // $ExpectType boolean
@@ -46,3 +47,11 @@ mapRange([1, 2], [3, 4]);
 mapRange([1, 2, 3], [4, 5, 6], 7);
 
 mapRange([1, 2], [3, 4], 5); // $ExpectType number
+
+class SomeClass {}
+
+declare const instance: any;
+
+if (isInstance(instance, SomeClass)) {
+	instance; // $ExpectType SomeClass
+}
