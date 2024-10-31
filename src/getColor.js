@@ -1,5 +1,5 @@
 import ColorSpace from "./ColorSpace.js";
-import {isString} from "./util.js";
+import {isString, isInstance} from "./util.js";
 import parse from "./parse.js";
 
 // Type "imports"
@@ -37,7 +37,7 @@ export default function getColor (color, options) {
 	// Object fixup
 	let space = color.space || color.spaceId;
 
-	if (!ColorSpace.isColorSpace(space)) {
+	if (!isInstance(space, ColorSpace)) {
 		// Convert string id to color space object
 		color.space = ColorSpace.get(space);
 	}
