@@ -174,9 +174,9 @@ export function bisectLeft (arr, value, lo = 0, hi = arr.length) {
 }
 
 /**
- * Returns a function to determine whether a provided argument
- * is an instance of a constructor, including subclasses.
- * This is done by comparing the string names of the constructors.
+ * Determines whether an argument is an instance of a constructor, including subclasses.
+ * This is done by first just checking `instanceof`,
+ * and then comparing the string names of the constructors if that fails.
  * @param {any} arg
  * @param {C} constructor
  * @template {new (...args: any) => any} C
