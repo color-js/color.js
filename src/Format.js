@@ -131,7 +131,6 @@ export default class Format {
 		return this.type === "function" || /** @type {any} */ (this).serialize;
 	}
 
-	static isFormat = isInstance(this);
 
 	/**
 	 * @param {Format | FormatInterface} format
@@ -139,7 +138,7 @@ export default class Format {
 	 * @returns {Format}
 	 */
 	static get (format, ...args) {
-		if (!format || Format.isFormat(format)) {
+		if (!format || isInstance(format, this)) {
 			return /** @type {Format} */ (format);
 		}
 

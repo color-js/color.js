@@ -97,8 +97,6 @@ export default class ColorSpace {
 		hooks.run("colorspace-init-end", this);
 	}
 
-	static isColorSpace = isInstance(this);
-
 	inGamut (coords, {epsilon = ε} = {}) {
 		if (!this.equals(this.gamutSpace)) {
 			coords = this.to(this.gamutSpace, coords);
@@ -296,7 +294,7 @@ export default class ColorSpace {
 	 * @param {ColorSpace | string} name
 	 */
 	static get (space, ...alternatives) {
-		if (!space || ColorSpace.isColorSpace(space)) {
+		if (!space || isInstance(space, this)) {
 			return space;
 		}
 

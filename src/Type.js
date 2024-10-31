@@ -116,10 +116,8 @@ export default class Type {
 		return /** @type {[number, number]} */ (range.map(v => v * scale));
 	}
 
-	static isType = isInstance(this);
-
 	static get (type, ...args) {
-		if (Type.isType(type)) {
+		if (isInstance(type, this)) {
 			return type;
 		}
 
