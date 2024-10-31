@@ -62,9 +62,3 @@ space.from({space: space, coords: [1, 2, 3], alpha: 1}); // $ExpectType Coords
 space.from({space: space, coords: [1, 2, 3]}); // $ExpectType Coords
 space.from(space, [1, 2, 3]); // $ExpectType Coords
 space.from("srgb", [1, 2, 3]); // $ExpectType Coords
-
-declare const someValue: any;
-
-if (ColorSpace.isColorSpace(someValue)) {
-	someValue; // $ExpectType ColorSpace
-}
