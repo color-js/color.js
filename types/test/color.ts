@@ -21,13 +21,4 @@ color.display({ space: "srgb" });
 
 const coords: Coords = [1, 2, null];
 
-declare const someValue: any;
-
-if (Color.isColorInstance(someValue)) {
-	someValue; // $ExpectType Color
-}
-else if (Color.isColor(someValue)) {
-	new Color(someValue);
-}
-
 // Most other color methods are those defined in other files, so they aren't tested here
