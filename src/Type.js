@@ -1,4 +1,4 @@
-import { serializeNumber, mapRange } from "./util.js";
+import { serializeNumber, mapRange, isInstance } from "./util.js";
 
 export default class Type {
 	// Class properties - declared here so that type inference works
@@ -117,7 +117,7 @@ export default class Type {
 	}
 
 	static get (type, ...args) {
-		if (type instanceof this) {
+		if (isInstance(type, this)) {
 			return type;
 		}
 

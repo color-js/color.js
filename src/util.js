@@ -172,3 +172,34 @@ export function bisectLeft (arr, value, lo = 0, hi = arr.length) {
 	}
 	return lo;
 }
+
+/**
+ * Determines whether an argument is an instance of a constructor, including subclasses.
+ * This is done by first just checking `instanceof`,
+ * and then comparing the string names of the constructors if that fails.
+ * @param {any} arg
+ * @param {C} constructor
+ * @template {new (...args: any) => any} C
+ * @returns {arg is InstanceType<C>}
+ */
+export function isInstance (arg, constructor) {
+	if (arg instanceof constructor) {
+		return true;
+	}
+
+	const targetName = constructor.name;
+
+	while (arg) {
+		const proto = Object.getPrototypeOf(arg);
+		const constructorName = proto?.constructor?.name;
+		if (constructorName === targetName) {
+			return true;
+		}
+		if (!constructorName || constructorName === "Object") {
+			return false;
+		}
+		arg = proto;
+	}
+
+	return false;
+}

@@ -122,7 +122,7 @@ export default class Color {
 	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
 	 */
 	static get (color, ...args) {
-		if (color instanceof Color) {
+		if (util.isInstance(color, this)) {
 			return color;
 		}
 

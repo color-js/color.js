@@ -3,7 +3,7 @@
  * Defines the class and other types related to creating color spaces.
  * For the builtin color spaces, see the `spaces` module.
  */
-import { type, isNone } from "./util.js";
+import { type, isNone, isInstance } from "./util.js";
 import Format from "./Format.js";
 import {getWhite} from "./adapt.js";
 import hooks from "./hooks.js";
@@ -294,7 +294,7 @@ export default class ColorSpace {
 	 * @param {ColorSpace | string} name
 	 */
 	static get (space, ...alternatives) {
-		if (!space || space instanceof ColorSpace) {
+		if (!space || isInstance(space, this)) {
 			return space;
 		}
 
