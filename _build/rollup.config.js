@@ -27,6 +27,11 @@ const fnBundles = [
 		"sourcemap": true,
 		"exports": "named",
 	},
+	{
+		"file": "dist/color-fn.js",
+		"format": "esm",
+		"sourcemap": true,
+	},
 ];
 
 // Add minified versions of every bundle
