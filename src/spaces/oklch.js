@@ -4,7 +4,7 @@ import lch from "./lch.js";
 
 export default new ColorSpace({
 	id: "oklch",
-	name: "Oklch",
+	name: "OKLCh",
 	coords: {
 		l: {
 			refRange: [0, 1],
