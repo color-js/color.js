@@ -108,6 +108,7 @@ export default function parse (str, options) {
 	}
 	else {
 		// Custom, colorspace-specific format
+		let found;
 		for (let space of ColorSpace.all) {
 			for (let formatId in space.formats) {
 				let format = space.formats[formatId];
@@ -123,7 +124,7 @@ export default function parse (str, options) {
 				// Convert to Format object
 				format = space.getFormat(format);
 
-				let color = format.parse(env.str);
+				let color = format.parse?.(env.str);
 
 				if (color) {
 					if (meta) {
@@ -131,8 +132,12 @@ export default function parse (str, options) {
 					}
 
 					ret = color;
+					found = true;
 					break;
 				}
+			}
+			if (found) {
+				break;
 			}
 		}
 	}
