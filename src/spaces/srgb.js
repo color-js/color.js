@@ -66,7 +66,7 @@ export default new RGBColorSpace({
 		"hex": {
 			type: "custom",
 			toGamut: true,
-			test: str => /^#([a-f0-9]{3,4}){1,2}$/i.test(str),
+			test: str => /^#(([a-f0-9]{2}){3,4}|[a-f0-9]{3,4})$/i.test(str),
 			parse (str) {
 				if (str.length <= 5) {
 					// #rgb or #rgba, duplicate digits
