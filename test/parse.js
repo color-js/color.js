@@ -92,6 +92,26 @@ const tests = {
 					expect: {spaceId: "srgb", coords: [1, 0, 0.4], alpha: 0.5333333333333333},
 				},
 				{
+					name: "Wrong number of characters (2) in hexadecimal notation",
+					args: "#12",
+					throws: TypeError,
+				},
+				{
+					name: "Wrong number of characters (5) in hexadecimal notation",
+					args: "#12345",
+					throws: TypeError,
+				},
+				{
+					name: "Wrong number of characters (7) in hexadecimal notation",
+					args: "#1234567",
+					throws: TypeError,
+				},
+				{
+					name: "Wrong number of characters (9) in hexadecimal notation",
+					args: "#123456789",
+					throws: TypeError,
+				},
+				{
 					name: "rgba(% % % / a)",
 					args: "rgba(0% 50% 200% / 0.5)",
 					expect: {spaceId: "srgb", coords: [0, 0.5, 2], alpha: 0.5},
