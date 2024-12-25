@@ -4,9 +4,18 @@ export default new ColorSpace({
 	id: "xyz-d65",
 	name: "XYZ D65",
 	coords: {
-		x: {name: "X"},
-		y: {name: "Y"},
-		z: {name: "Z"},
+		x: {
+			refRange: [0, 1],
+			name: "X",
+		},
+		y: {
+			refRange: [0, 1],
+			name: "Y",
+		},
+		z: {
+			refRange: [0, 1],
+			name: "Z",
+		},
 	},
 	white: "D65",
 	formats: {
