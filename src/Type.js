@@ -18,6 +18,7 @@ export default class Type {
 		}
 
 		if (coordMeta) {
+			this.coordMeta = coordMeta;
 			this.coordRange = coordMeta.range ?? coordMeta.refRange;
 		}
 
@@ -112,8 +113,14 @@ export default class Type {
 	 * @returns {[number, number]}
 	 */
 	percentageRange (scale = 1) {
-		let range = this.coordRange && this.coordRange[0] < 0 ? [-1, 1] : [0, 1];
-		return /** @type {[number, number]} */ (range.map(v => v * scale));
+		let range;
+		if ((this.coordMeta && this.coordMeta.range) || (this.coordRange && this.coordRange[0] >= 0)) {
+			range = [0, 1];
+		}
+		else {
+			range = [-1, 1];
+		}
+		return [range[0] * scale, range[1] * scale];
 	}
 
 	static get (type, ...args) {
