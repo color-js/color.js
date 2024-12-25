@@ -76,6 +76,10 @@
 		"Lea Verou",
 		"Chris Lilley"
 	],
+	"funding": {
+		"type": "opencollective",
+		"url": "https://opencollective.com/color"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/LeaVerou/color.js/issues"
