@@ -1,6 +1,8 @@
 import ColorSpace from "../src/spaces/index.js";
 import parse from "../src/parse.js";
 
+import * as check from "../node_modules/htest.dev/src/check.js";
+
 globalThis.ColorSpace = ColorSpace;
 
 const tests = {
@@ -591,7 +593,7 @@ const tests = {
 				parse(str, {parseMeta});
 				return parseMeta;
 			},
-			check: {subset: true},
+			check: check.subset,
 			tests: [
 				{
 					arg: "#ff8000",
