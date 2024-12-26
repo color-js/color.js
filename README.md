@@ -29,12 +29,12 @@ all with sensible defaults
 </header>
 
 <section>
-	
+
 ## Impact
 
 - Has been used to create demos for several W3C specifications
 - Has been used by browsers to test their CSS Color 4/5 implementations
-- Over [9 million total npm downloads](https://limonte.dev/total-npm-downloads/?package=colorjs.io)!
+- Over [10 million total npm downloads](https://limonte.dev/total-npm-downloads/?package=colorjs.io)!
 - Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io), including [Sass](https://sass-lang.com/), [Open Props](https://open-props.style/), [axe](https://www.deque.com/axe/) accessibility testing engine, and [OddContrast](https://www.oddcontrast.com/) and [CSS HD Gradients](https://gradient.style/) color tools
 - Parts of Color.js’s API are used as a testing ground for the design of a [native `Color` object for the Web platform](https://github.com/wicg/color-api).
 
@@ -72,8 +72,8 @@ import deltaE200 from "https://colorjs.io/src/deltaE/deltaE2000.js";
 
 Warning: To use `import` statements in a browser, your `<script>` needs `type="module"`
 
-Are you old school and prefer to simply have a global `Color` variable? 
-We’ve got you covered! 
+Are you old school and prefer to simply have a global `Color` variable?
+We’ve got you covered!
 Just include the following script in your HTML:
 
 ```html
@@ -253,5 +253,28 @@ Color.mix("color(display-p3 0 1 0)", "red", .5);
 ```
 
 <p class="read-more"><a href="https://colorjs.io/docs/interpolation.html">Read more about interpolation</a></p>
+
+</section>
+
+<section>
+
+## Other Color.js Initiatives
+
+These are all very experimental and not as polished as Color.js itself, but we are excited about their potential.
+
+### [Color Elements](https://elements.colorjs.io)
+
+This is a set of (currently 10) web components for building color-related apps (the first library of its kind to our knowledge).
+It includes things like color pickers, color charts, interactive color scales, and more.
+
+### [Color Apps](https://apps.colorjs.io)
+
+A set of color-related apps, such as color pickers, converters, and more.
+
+### [Color Palettes](https://palettes.colorjs.io)
+
+A research project which aims to analyze designer-created color palettes in a variety of color spaces,
+both to document patterns (e.g. what hue names are most popular?)
+and to understand what makes aesthetically pleasing color scales.
 
 </section>
