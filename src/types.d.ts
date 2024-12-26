@@ -205,3 +205,38 @@ export interface DeltasReturn {
 	coords: [number, number, number];
 	alpha: number;
 }
+
+// cam16.js
+export type LightnessOrBrightness = { J: number; Q?: never; } | { J?: never; Q: number; };
+export type ChromaOrColorfulnessOrSaturation = { C: number; M?: never; s?: never; } | { C?: never; M: number; s?: never; } | { C?: never; M?: never; s: number; };
+export type HueOrHueQuadrature = { h: number; H?: never; } | { h?: never; H: number; };
+export type Cam16Input = LightnessOrBrightness & ChromaOrColorfulnessOrSaturation & HueOrHueQuadrature;
+
+export interface Cam16Object {
+	J: number,
+	C: number,
+	h: number,
+	s: number,
+	Q: number,
+	M: number,
+	H: number
+}
+
+export interface Cam16Environment {
+	discounting: boolean;
+	refWhite: [number, number, number];
+	surround: "dark" | "dim" | "average";
+	la: number;
+	yb: number;
+	c: number;
+	nc: number;
+	fl: number;
+	flRoot: number;
+	n: number;
+	z: number;
+	nbb: number;
+	ncb: number;
+	dRgb: number[];
+	dRgbInv: number[];
+	aW: number;
+}
