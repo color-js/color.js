@@ -25,7 +25,7 @@ jobs:
           downloads=$(( (downloads + 500000) / 1000000 ))
           # try to find current download count in readme
           readme=$(<README.md)
-          if [[ "$readme" =~ ([0-9]+)" million total npm downloads" ]]; then
+          if [[ "$readme" =~ '['([0-9]+)' million total npm downloads]' ]]; then
               current_downloads="${BASH_REMATCH[1]}"
               # if the new count is bigger, update it
               if [[ "$downloads" -gt "$current_downloads" ]]; then
