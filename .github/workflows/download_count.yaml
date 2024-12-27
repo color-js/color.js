@@ -1,0 +1,47 @@
+name: Update Download Count
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  update-downloads:
+    name: Update Download Count
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get download count
+        run: |
+          # check downloads
+          downloads=$(curl https://api.npmjs.org/downloads/point/1970-01-01:$(date -d '+1 day' +"%Y-%m-%d")/colorjs.io | jq -r .downloads)
+          echo "Latest download count: $downloads"
+          # into millions
+          downloads=$(( (downloads + 500000) / 1000000 ))
+          # try to find current download count in readme
+          readme=$(<README.md)
+          if [[ "$readme" =~ '['([0-9]+)' million total npm downloads]' ]]; then
+              current_downloads="${BASH_REMATCH[1]}"
+              # if the new count is bigger, update it
+              if [[ "$downloads" -gt "$current_downloads" ]]; then
+                  echo "New count ($downloads million) is greater than current $current_downloads million, updating..."
+                  readme=$(echo "$readme" | sed -E "s/\[[0-9]+ million total npm downloads\]/[$downloads million total npm downloads]/")
+                  echo "$readme" > README.md
+              else
+                  echo "New count ($downloads million) is less than or equal to current $current_downloads million; not doing anything."
+              fi
+          fi
+          echo Done!
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842 # v5.0.1
+        with:
+          commit_message: Update README download count
+          file_pattern: README.md
+          # default github-actions user info as commit author
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
