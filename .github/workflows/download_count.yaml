@@ -22,7 +22,7 @@ jobs:
           downloads=$(curl https://api.npmjs.org/downloads/point/1970-01-01:$(date -d '+1 day' +"%Y-%m-%d")/colorjs.io | jq -r .downloads)
           echo "Latest download count: $downloads"
           # into millions
-          downloads=$((downloads / 1000000))
+          downloads=$(( (downloads + 500000) / 1000000 ))
           # try to find current download count in readme
           readme=$(<README.md)
           if [[ "$readme" =~ ([0-9]+)" million total npm downloads" ]]; then
