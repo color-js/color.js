@@ -1,8 +1,8 @@
 import ColorSpace from "../ColorSpace.js";
-import {multiply_v3_m3x3, interpolate, copySign, spow, zdiv, bisectLeft} from "../util.js";
-import {constrain} from "../angles.js";
+import { multiply_v3_m3x3, interpolate, copySign, spow, zdiv, bisectLeft } from "../util.js";
+import { constrain } from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
-import {WHITES} from "../adapt.js";
+import { WHITES } from "../adapt.js";
 
 // Type "imports"
 /** @typedef {import("../types.js").Coords} Coords */
@@ -15,6 +15,7 @@ const adaptedCoefInv = 1 / adaptedCoef;
 const tau = 2 * Math.PI;
 
 /** @type {Matrix3x3} */
+// prettier-ignore
 const cat16 = [
 	[  0.401288,  0.650173, -0.051461 ],
 	[ -0.250268,  1.204414,  0.045854 ],
@@ -43,7 +44,7 @@ const surroundMap = {
 
 const hueQuadMap = {
 	// Red, Yellow, Green, Blue, Red
-	h: [20.14, 90.00, 164.25, 237.53, 380.14],
+	h: [20.14, 90.0, 164.25, 237.53, 380.14],
 	e: [0.8, 0.7, 1.0, 1.2, 0.8],
 	H: [0.0, 100.0, 200.0, 300.0, 400.0],
 };
@@ -57,10 +58,12 @@ const deg2rad = Math.PI / 180;
  * @returns {[number, number, number]}
  */
 export function adapt (coords, fl) {
-	const temp = /** @type {[number, number, number]} */ (coords.map(c => {
-		const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
-		return 400 * copySign(x, c) / (x + 27.13);
-	}));
+	const temp = /** @type {[number, number, number]} */ (
+		coords.map(c => {
+			const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
+			return (400 * copySign(x, c)) / (x + 27.13);
+		})
+	);
 	return temp;
 }
 
@@ -70,11 +73,13 @@ export function adapt (coords, fl) {
  * @returns {[number, number, number]}
  */
 export function unadapt (adapted, fl) {
-	const constant = 100 / fl * (27.13 ** adaptedCoefInv);
-	return /** @type {[number, number, number]} */ (adapted.map(c => {
-		const cabs = Math.abs(c);
-		return copySign(constant * spow(cabs / (400 - cabs), adaptedCoefInv), c);
-	}));
+	const constant = (100 / fl) * 27.13 ** adaptedCoefInv;
+	return /** @type {[number, number, number]} */ (
+		adapted.map(c => {
+			const cabs = Math.abs(c);
+			return copySign(constant * spow(cabs / (400 - cabs), adaptedCoefInv), c);
+		})
+	);
 }
 
 /**
@@ -99,16 +104,13 @@ export function hueQuadrature (h) {
  * @param {number} H
  */
 export function invHueQuadrature (H) {
-	let Hp = ((H % 400 + 400) % 400);
+	let Hp = ((H % 400) + 400) % 400;
 	const i = Math.floor(0.01 * Hp);
 	Hp = Hp % 100;
 	const [hi, hii] = hueQuadMap.h.slice(i, i + 2);
 	const [ei, eii] = hueQuadMap.e.slice(i, i + 2);
 
-	return constrain(
-		(Hp * (eii * hi - ei * hii) - 100 * hi * eii) /
-		(Hp * (eii - ei) - 100 * eii),
-	);
+	return constrain((Hp * (eii * hi - ei * hii) - 100 * hi * eii) / (Hp * (eii - ei) - 100 * eii));
 }
 
 /**
@@ -125,15 +127,16 @@ export function environment (
 	surround,
 	discounting,
 ) {
-
 	const env = {};
 
 	env.discounting = discounting;
 	env.refWhite = refWhite;
 	env.surround = surround;
-	const xyzW = /** @type {Vector3} */ (refWhite.map(c => {
-		return c * 100;
-	}));
+	const xyzW = /** @type {Vector3} */ (
+		refWhite.map(c => {
+			return c * 100;
+		})
+	);
 
 	// The average luminance of the environment in `cd/m^2cd/m` (a.k.a. nits)
 	env.la = adaptingLuminance;
@@ -156,22 +159,19 @@ export function environment (
 	const k4 = k ** 4;
 
 	// Factor of luminance level adaptation
-	env.fl = (k4 * env.la + 0.1 * (1 - k4) * (1 - k4) * Math.cbrt(5 * env.la));
+	env.fl = k4 * env.la + 0.1 * (1 - k4) * (1 - k4) * Math.cbrt(5 * env.la);
 	env.flRoot = env.fl ** 0.25;
 
 	env.n = env.yb / yw;
 	env.z = 1.48 + Math.sqrt(env.n);
-	env.nbb = 0.725 * (env.n ** -0.2);
+	env.nbb = 0.725 * env.n ** -0.2;
 	env.ncb = env.nbb;
 
 	// Degree of adaptation calculating if not discounting
 	// illuminant (assumed eye is fully adapted)
-	const d = (discounting) ?
-		1 :
-		Math.max(
-			Math.min(f * (1 - 1 / 3.6 * Math.exp((-env.la - 42) / 92)), 1),
-			0,
-		);
+	const d = discounting
+		? 1
+		: Math.max(Math.min(f * (1 - (1 / 3.6) * Math.exp((-env.la - 42) / 92)), 1), 0);
 	env.dRgb = rgbW.map(c => {
 		return interpolate(1, yw / c, d);
 	});
@@ -180,9 +180,11 @@ export function environment (
 	});
 
 	// Achromatic response
-	const rgbCW = /** @type {[number, number, number]} */ (rgbW.map((c, i) => {
-		return c * env.dRgb[i];
-	}));
+	const rgbCW = /** @type {[number, number, number]} */ (
+		rgbW.map((c, i) => {
+			return c * env.dRgb[i];
+		})
+	);
 	const rgbAW = adapt(rgbCW, env.fl);
 	env.aW = env.nbb * (2 * rgbAW[0] + rgbAW[1] + 0.05 * rgbAW[2]);
 
@@ -192,12 +194,7 @@ export function environment (
 }
 
 // Pre-calculate everything we can with the viewing conditions
-const viewingConditions = environment(
-	white,
-	64 / Math.PI * 0.2, 20,
-	"average",
-	false,
-);
+const viewingConditions = environment(white, (64 / Math.PI) * 0.2, 20, "average", false);
 
 /** @typedef {{J: number, C: number, h: number, s: number, Q: number, M: number, H: number}} Cam16Object */
 
@@ -208,7 +205,6 @@ const viewingConditions = environment(
  * @todo Add types for `env`
  */
 export function fromCam16 (cam16, env) {
-
 	// These check ensure one, and only one attribute for a
 	// given category is provided.
 	if (!((cam16.J !== undefined) ^ (cam16.Q !== undefined))) {
@@ -247,7 +243,7 @@ export function fromCam16 (cam16, env) {
 		Jroot = spow(cam16.J, 1 / 2) * 0.1;
 	}
 	else if (cam16.Q !== undefined) {
-		Jroot = 0.25 * env.c * cam16.Q / ((env.aW + 4) * env.flRoot);
+		Jroot = (0.25 * env.c * cam16.Q) / ((env.aW + 4) * env.flRoot);
 	}
 
 	// Calculate the `t` value from one of the chroma derived coordinates
@@ -256,15 +252,12 @@ export function fromCam16 (cam16, env) {
 		alpha = cam16.C / Jroot;
 	}
 	else if (cam16.M !== undefined) {
-		alpha = (cam16.M / env.flRoot) / Jroot;
+		alpha = cam16.M / env.flRoot / Jroot;
 	}
 	else if (cam16.s !== undefined) {
-		alpha = 0.0004 * (cam16.s ** 2) * (env.aW + 4) / env.c;
+		alpha = (0.0004 * cam16.s ** 2 * (env.aW + 4)) / env.c;
 	}
-	const t = spow(
-		alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73),
-		10 / 9,
-	);
+	const t = spow(alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73), 10 / 9);
 
 	// Eccentricity
 	const et = 0.25 * (Math.cos(hRad + 2) + 3.8);
@@ -273,31 +266,34 @@ export function fromCam16 (cam16, env) {
 	const A = env.aW * spow(Jroot, 2 / env.c / env.z);
 
 	// Calculate red-green and yellow-blue components
-	const p1 = 5e4 / 13 * env.nc * env.ncb * et;
+	const p1 = (5e4 / 13) * env.nc * env.ncb * et;
 	const p2 = A / env.nbb;
-	const r = (
-		23 * (p2 + 0.305) *
-		zdiv(t, 23 * p1 + t * (11 * cosh + 108 * sinh))
-	);
+	const r = 23 * (p2 + 0.305) * zdiv(t, 23 * p1 + t * (11 * cosh + 108 * sinh));
 	const a = r * cosh;
 	const b = r * sinh;
 
 	// Calculate back from cone response to XYZ
 	const rgb_c = unadapt(
 		/** @type {Vector3} */
-		(multiply_v3_m3x3([p2, a, b], m1).map(c => {
-			return c * 1 / 1403;
-		})),
+		(
+			multiply_v3_m3x3([p2, a, b], m1).map(c => {
+				return (c * 1) / 1403;
+			})
+		),
 		env.fl,
 	);
-	return /** @type {Vector3} */ (multiply_v3_m3x3(
-		/** @type {Vector3} */(rgb_c.map((c, i) => {
-			return c * env.dRgbInv[i];
-		})),
-		cat16Inv,
-	).map(c => {
-		return c / 100;
-	}));
+	return /** @type {Vector3} */ (
+		multiply_v3_m3x3(
+			/** @type {Vector3} */ (
+				rgb_c.map((c, i) => {
+					return c * env.dRgbInv[i];
+				})
+			),
+			cat16Inv,
+		).map(c => {
+			return c / 100;
+		})
+	);
 }
 
 /**
@@ -308,14 +304,18 @@ export function fromCam16 (cam16, env) {
  */
 export function toCam16 (xyzd65, env) {
 	// Cone response
-	const xyz100 = /** @type {Vector3} */ (xyzd65.map(c => {
-		return c * 100;
-	}));
+	const xyz100 = /** @type {Vector3} */ (
+		xyzd65.map(c => {
+			return c * 100;
+		})
+	);
 	const rgbA = adapt(
 		/** @type {[number, number, number]} */
-		(multiply_v3_m3x3(xyz100, cat16).map((c, i) => {
-			return c * env.dRgb[i];
-		})),
+		(
+			multiply_v3_m3x3(xyz100, cat16).map((c, i) => {
+				return c * env.dRgb[i];
+			})
+		),
 		env.fl,
 	);
 
@@ -327,13 +327,11 @@ export function toCam16 (xyzd65, env) {
 	// Eccentricity
 	const et = 0.25 * (Math.cos(hRad + 2) + 3.8);
 
-	const t = (
-		5e4 / 13 * env.nc * env.ncb *
-		zdiv(
-			et * Math.sqrt(a ** 2 + b ** 2),
-			rgbA[0] + rgbA[1] + 1.05 * rgbA[2] + 0.305,
-		)
-	);
+	const t =
+		(5e4 / 13) *
+		env.nc *
+		env.ncb *
+		zdiv(et * Math.sqrt(a ** 2 + b ** 2), rgbA[0] + rgbA[1] + 1.05 * rgbA[2] + 0.305);
 	const alpha = spow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, env.n), 0.73);
 
 	// Achromatic response
@@ -345,7 +343,7 @@ export function toCam16 (xyzd65, env) {
 	const J = 100 * spow(Jroot, 2);
 
 	// Brightness
-	const Q = (4 / env.c * Jroot * (env.aW + 4) * env.flRoot);
+	const Q = (4 / env.c) * Jroot * (env.aW + 4) * env.flRoot;
 
 	// Chroma
 	const C = alpha * Jroot;
@@ -360,13 +358,12 @@ export function toCam16 (xyzd65, env) {
 	const H = hueQuadrature(h);
 
 	// Saturation
-	const s = 50 * spow(env.c * alpha / (env.aW + 4), 1 / 2);
+	const s = 50 * spow((env.c * alpha) / (env.aW + 4), 1 / 2);
 
 	// console.log({J: J, C: C, h: h, s: s, Q: Q, M: M, H: H});
 
-	return {J: J, C: C, h: h, s: s, Q: Q, M: M, H: H};
+	return { J: J, C: C, h: h, s: s, Q: Q, M: M, H: H };
 }
-
 
 // Provided as a way to directly evaluate the CAM16 model
 // https://observablehq.com/@jrus/cam16: reference implementation
@@ -401,9 +398,6 @@ export default new ColorSpace({
 		return [cam16.J, cam16.M, cam16.h];
 	},
 	toBase (cam16) {
-		return fromCam16(
-			{J: cam16[0], M: cam16[1], h: cam16[2]},
-			viewingConditions,
-		);
+		return fromCam16({ J: cam16[0], M: cam16[1], h: cam16[2] }, viewingConditions);
 	},
 });

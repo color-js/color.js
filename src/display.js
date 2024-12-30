@@ -24,7 +24,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 	// Find widest supported color space for CSS
 	for (let space of [Lab, REC2020, P3]) {
 		let coords = space.getMinCoords();
-		let color = {space, coords, alpha: 1};
+		let color = { space, coords, alpha: 1 };
 		let str = serialize(color);
 
 		if (CSS.supports("color", str)) {
@@ -45,12 +45,16 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
-export default function display (color, {space = defaults.display_space, ...options} = {}) {
+export default function display (color, { space = defaults.display_space, ...options } = {}) {
 	color = getColor(color);
 
 	let ret = /** @type {Display} */ (serialize(color, options));
 
-	if (typeof CSS === "undefined" || CSS.supports("color", /** @type {string} */ (ret)) || !defaults.display_space) {
+	if (
+		typeof CSS === "undefined" ||
+		CSS.supports("color", /** @type {string} */ (ret)) ||
+		!defaults.display_space
+	) {
 		ret = /** @type {Display} */ (new String(ret));
 		ret.color = /** @type {PlainColorObject} */ (color);
 	}
@@ -66,7 +70,9 @@ export default function display (color, {space = defaults.display_space, ...opti
 			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
 				// Nope, try again without none
 				fallbackColor = clone(/** @type {PlainColorObject} */ (color));
-				fallbackColor.coords = /** @type {[number, number, number]} */ (fallbackColor.coords.map(skipNone));
+				fallbackColor.coords = /** @type {[number, number, number]} */ (
+					fallbackColor.coords.map(skipNone)
+				);
 				fallbackColor.alpha = skipNone(fallbackColor.alpha);
 
 				// @ts-expect-error This is set to the correct type later

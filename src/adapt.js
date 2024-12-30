@@ -1,10 +1,11 @@
 import hooks from "./hooks.js";
-import {multiply_v3_m3x3} from "./util.js";
+import { multiply_v3_m3x3 } from "./util.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").White} White */
 
 /** @type {Record<string, White>} */
+// prettier-ignore
 export const WHITES = {
 	// for compatibility, the four-digit chromaticity-derived ones everyone else uses
 	D50: [0.3457 / 0.3585, 1.00000, (1.0 - 0.3457 - 0.3585) / 0.3585],
@@ -37,7 +38,9 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 	W2 = getWhite(W2);
 
 	if (!W1 || !W2) {
-		throw new TypeError(`Missing white point to convert ${!W1 ? "from" : ""}${!W1 && !W2 ? "/" : ""}${!W2 ? "to" : ""}`);
+		throw new TypeError(
+			`Missing white point to convert ${!W1 ? "from" : ""}${!W1 && !W2 ? "/" : ""}${!W2 ? "to" : ""}`,
+		);
 	}
 
 	if (W1 === W2) {
@@ -45,24 +48,25 @@ export default function adapt (W1, W2, XYZ, options = {}) {
 		return XYZ;
 	}
 
-	let env = {W1, W2, XYZ, options};
+	let env = { W1, W2, XYZ, options };
 
 	hooks.run("chromatic-adaptation-start", env);
 
 	if (!env.M) {
 		if (env.W1 === WHITES.D65 && env.W2 === WHITES.D50) {
+			// prettier-ignore
 			env.M = [
-				[ 1.0479297925449969, 0.022946870601609652, -0.05019226628920524 ],
-				[ 0.02962780877005599, 0.9904344267538799, -0.017073799063418826 ],
-				[ -0.009243040646204504, 0.015055191490298152, 0.7518742814281371 ],
+				[  1.0479297925449969,   0.022946870601609652, -0.05019226628920524  ],
+				[  0.02962780877005599,  0.9904344267538799,   -0.017073799063418826 ],
+				[ -0.009243040646204504, 0.015055191490298152,  0.7518742814281371   ],
 			];
 		}
 		else if (env.W1 === WHITES.D50 && env.W2 === WHITES.D65) {
-
+			// prettier-ignore
 			env.M = [
-				[ 0.955473421488075, -0.02309845494876471, 0.06325924320057072 ],
-				[ -0.0283697093338637, 1.0099953980813041, 0.021041441191917323 ],
-				[ 0.012314014864481998, -0.020507649298898964, 1.330365926242124 ],
+				[  0.955473421488075,    -0.02309845494876471,  0.06325924320057072  ],
+				[ -0.0283697093338637,    1.0099953980813041,   0.021041441191917323 ],
+				[  0.012314014864481998, -0.020507649298898964, 1.330365926242124    ],
 			];
 		}
 	}

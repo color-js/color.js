@@ -1,24 +1,24 @@
 import ColorSpace from "../ColorSpace.js";
-import {constrain} from "../angles.js";
+import { constrain } from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
-import {fromCam16, toCam16, environment} from "./cam16.js";
-import {WHITES} from "../adapt.js";
+import { fromCam16, toCam16, environment } from "./cam16.js";
+import { WHITES } from "../adapt.js";
 
 const white = WHITES.D65;
-const ε = 216 / 24389;  // 6^3/29^3 == (24/116)^3
-const κ = 24389 / 27;   // 29^3/3^3
+const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
+const κ = 24389 / 27; // 29^3/3^3
 
 function toLstar (y) {
 	// Convert XYZ Y to L*
 
-	const fy = (y > ε) ? Math.cbrt(y) : (κ * y + 16) / 116;
-	return (116.0 * fy) - 16.0;
+	const fy = y > ε ? Math.cbrt(y) : (κ * y + 16) / 116;
+	return 116.0 * fy - 16.0;
 }
 
 function fromLstar (lstar) {
 	// Convert L* back to XYZ Y
 
-	return (lstar > 8) ?  Math.pow((lstar + 16) / 116, 3) : lstar / κ;
+	return lstar > 8 ? Math.pow((lstar + 16) / 116, 3) : lstar / κ;
 }
 
 function fromHct (coords, env) {
@@ -48,7 +48,7 @@ function fromHct (coords, env) {
 		j = 0.00379058511492914 * t ** 2 + 0.608983189401032 * t + 0.9155088574762233;
 	}
 	else {
-		j = 9.514440756550361e-06 * t ** 2 + 0.08693057439788597 * t - 21.928975842194614;
+		j = 9.514440756550361e-6 * t ** 2 + 0.08693057439788597 * t - 21.928975842194614;
 	}
 
 	// Threshold of how close is close enough, and max number of attempts.
@@ -65,7 +65,7 @@ function fromHct (coords, env) {
 
 	// Try to find a J such that the returned y matches the returned y of the L*
 	while (attempt <= max_attempts) {
-		xyz = fromCam16({J: j, C: c, h: h}, env);
+		xyz = fromCam16({ J: j, C: c, h: h }, env);
 
 		// If we are within range, return XYZ
 		// If we are closer than last time, save the values
@@ -83,14 +83,14 @@ function fromHct (coords, env) {
 		// f(j_root) = Y = y / 100
 		// f(j) = (y ** 2) / j - 1
 		// f'(j) = (2 * y) / j
-		j = j - (xyz[1] - y) * j / (2 * xyz[1]);
+		j = j - ((xyz[1] - y) * j) / (2 * xyz[1]);
 
 		attempt += 1;
 	}
 
 	// We could not acquire the precision we desired,
 	// return our closest attempt.
-	return fromCam16({J: j, C: c, h: h}, env);
+	return fromCam16({ J: j, C: c, h: h }, env);
 }
 
 function toHct (xyz, env) {
@@ -106,7 +106,8 @@ function toHct (xyz, env) {
 
 // Pre-calculate everything we can with the viewing conditions
 export const viewingConditions = environment(
-	white, 200 / Math.PI * fromLstar(50.0),
+	white,
+	(200 / Math.PI) * fromLstar(50.0),
 	fromLstar(50.0) * 100,
 	"average",
 	false,

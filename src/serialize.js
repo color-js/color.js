@@ -78,7 +78,9 @@ export default function serialize (color, options = {}) {
 			ret = format.serialize(coords, color.alpha, options);
 		}
 		else {
-			throw new TypeError(`format ${formatId} can only be used to parse colors, not for serialization`);
+			throw new TypeError(
+				`format ${formatId} can only be used to parse colors, not for serialization`,
+			);
 		}
 	}
 	else {
@@ -98,11 +100,15 @@ export default function serialize (color, options = {}) {
 		let alpha = color.alpha;
 
 		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {
-			alphaFormat = typeof alphaFormat === "string" ? {type: alphaFormat} : {include: alphaFormat};
+			alphaFormat =
+				typeof alphaFormat === "string" ? { type: alphaFormat } : { include: alphaFormat };
 		}
 
 		let alphaType = alphaFormat?.type ?? "<number>";
-		let serializeAlpha = alphaFormat?.include === true || format.alpha === true || (alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
+		let serializeAlpha =
+			alphaFormat?.include === true ||
+			format.alpha === true ||
+			(alphaFormat?.include !== false && format.alpha !== false && alpha < 1);
 		let strAlpha = "";
 
 		commas ??= format.commas;
@@ -116,13 +122,13 @@ export default function serialize (color, options = {}) {
 					alpha *= 100;
 				}
 
-				alpha = util.serializeNumber(alpha, {precision, unit});
+				alpha = util.serializeNumber(alpha, { precision, unit });
 			}
 
-			strAlpha = `${ commas ? "," : " /" } ${alpha}`;
+			strAlpha = `${commas ? "," : " /"} ${alpha}`;
 		}
 
-		ret = `${ name }(${ args.join(commas ? ", " : " ") }${ strAlpha })`;
+		ret = `${name}(${args.join(commas ? ", " : " ")}${strAlpha})`;
 	}
 
 	return ret;

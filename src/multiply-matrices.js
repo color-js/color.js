@@ -2,7 +2,6 @@
 /** @typedef {import("./types.js").Matrix3x3} Matrix3x3 */
 /** @typedef {import("./types.js").Vector3} Vector3 */
 
-
 /**
  * A is m x n. B is n x p. product is m x p.
  *
@@ -59,27 +58,28 @@ export default function multiplyMatrices (A, B) {
 		BM = /** @type {number[][]} */ (B);
 	}
 
-
 	let p = BM[0].length;
 	let BM_cols = BM[0].map((_, i) => BM.map(x => x[i])); // transpose B
 	/** @type {number[] | number[][]} */
-	let product = AM.map(row => BM_cols.map(col => {
-		let ret = 0;
+	let product = AM.map(row =>
+		BM_cols.map(col => {
+			let ret = 0;
 
-		if (!Array.isArray(row)) {
-			for (let c of col) {
-				ret += row * c;
+			if (!Array.isArray(row)) {
+				for (let c of col) {
+					ret += row * c;
+				}
+
+				return ret;
+			}
+
+			for (let i = 0; i < row.length; i++) {
+				ret += row[i] * (col[i] || 0);
 			}
 
 			return ret;
-		}
-
-		for (let i = 0; i < row.length; i++) {
-			ret += row[i] * (col[i] || 0);
-		}
-
-		return ret;
-	}));
+		}),
+	);
 
 	if (m === 1) {
 		product = product[0]; // Avoid [[a, b, c, ...]]
@@ -90,7 +90,6 @@ export default function multiplyMatrices (A, B) {
 
 	return product;
 }
-
 
 // dot3 and transform functions adapted from https://github.com/texel-org/color/blob/9793c7d4d02b51f068e0f3fd37131129a4270396/src/core.js
 //
@@ -115,7 +114,6 @@ export default function multiplyMatrices (A, B) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 /**
  * Returns the dot product of two vectors each with a length of 3.
  *
@@ -135,7 +133,7 @@ function dot3 (a, b) {
  * @param {Matrix3x3} matrix
  * @param {Vector3} [out]
  * @returns {Vector3}
-*/
+ */
 export function multiply_v3_m3x3 (input, matrix, out = [0, 0, 0]) {
 	const x = dot3(input, matrix[0]);
 	const y = dot3(input, matrix[1]);
