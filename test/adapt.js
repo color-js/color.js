@@ -1,5 +1,5 @@
-import {WHITES} from "../src/adapt.js";
-import {adapt} from "../src/CATs.js";
+import { WHITES } from "../src/adapt.js";
+import { adapt } from "../src/CATs.js";
 
 import * as check from "../node_modules/htest.dev/src/check.js";
 
@@ -7,7 +7,7 @@ export default {
 	name: "Chromatic adaptation tests",
 	description: "These tests adapt from one whitepoint to another.",
 	run: adapt,
-	check: check.deep(check.proximity({epsilon: .00005})),
+	check: check.deep(check.proximity({ epsilon: 0.00005 })),
 	tests: [
 		{
 			name: "Bradford D50 ⇔ D65",
@@ -18,18 +18,18 @@ export default {
 					name: "D50 to D65",
 					args: [WHITES.D50, WHITES.D65, "Bradford"],
 					expect: [
-						[  0.955473421488075,    -0.02309845494876471,   0.06325924320057072  ],
-						[ -0.0283697093338637,    1.0099953980813041,    0.021041441191917323 ],
-						[  0.012314014864481998, -0.020507649298898964,  1.330365926242124    ],
+						[0.955473421488075, -0.02309845494876471, 0.06325924320057072],
+						[-0.0283697093338637, 1.0099953980813041, 0.021041441191917323],
+						[0.012314014864481998, -0.020507649298898964, 1.330365926242124],
 					],
 				},
 				{
 					name: "D65 to D50",
 					args: [WHITES.D65, WHITES.D50, "Bradford"],
 					expect: [
-						[  1.0479297925449969,    0.022946870601609652,  -0.05019226628920524  ],
-						[  0.02962780877005599,   0.9904344267538799,    -0.017073799063418826 ],
-						[ -0.009243040646204504,  0.015055191490298152,   0.7518742814281371   ],
+						[1.0479297925449969, 0.022946870601609652, -0.05019226628920524],
+						[0.02962780877005599, 0.9904344267538799, -0.017073799063418826],
+						[-0.009243040646204504, 0.015055191490298152, 0.7518742814281371],
 					],
 				},
 			],

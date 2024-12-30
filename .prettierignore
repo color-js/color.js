@@ -6,4 +6,7 @@ docs/
 types/src/
 node_modules/
 
+# Contains custom spacing around re-exports
 src/index-fn.js
+# Contains JS object with explicit quotes around keys, eg. { "constructor-super": 1 }
+.eslintrc.cjs

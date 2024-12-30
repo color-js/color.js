@@ -7,4 +7,4 @@ window.Color = window.Color || Color;
 
 // Re-export
 export default Color;
-export {util};
+export { util };

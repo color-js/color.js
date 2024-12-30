@@ -20,5 +20,5 @@ export function randomNumber (max, min, step) {
 	// Round to nearest power of 10
 	step = Math.pow(10, Math.floor(Math.log10(step)));
 
-	return Math.floor(Math.random() * (max - min + step) / step) * step + min;
+	return Math.floor((Math.random() * (max - min + step)) / step) * step + min;
 }

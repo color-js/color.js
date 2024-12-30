@@ -6,7 +6,10 @@ export function styleCallouts (
 	labels = new RegExp(`(${labels.join("|")}):`);
 
 	for (let p of elements) {
-		let callout = p.textContent.trimLeft().slice(0, maxLabelLength + 2).match(labels)?.[1];
+		let callout = p.textContent
+			.trimLeft()
+			.slice(0, maxLabelLength + 2)
+			.match(labels)?.[1];
 
 		if (callout) {
 			p.classList.add(callout.toLowerCase());
