@@ -131,7 +131,12 @@ export default class Format {
 		return this.type === "function" || /** @type {any} */ (this).serialize;
 	}
 
-
+	/**
+	 * @returns Color
+	 */
+	parse () {
+		return null;
+	}
 	/**
 	 * @param {Format | FormatInterface} format
 	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
