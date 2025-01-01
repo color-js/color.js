@@ -131,7 +131,7 @@ export default function parse (str, options) {
 					}
 
 					ret = color;
-					break loop;
+					break spaceloop;
 				}
 			}
 		}
