@@ -21,7 +21,7 @@ import parse from "./parse.js";
  * @param {boolean} [options.parseMeta] Optional object to hold parsing metadata
  * @returns {PlainColorObject[]}
  */
-export default function getColor (color, options) {
+export default function getColor(color, options) {
 	if (Array.isArray(color)) {
 		return color.map(c => getColor(c, options));
 	}

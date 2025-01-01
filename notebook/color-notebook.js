@@ -35,7 +35,7 @@ Prism.hooks.add("complete", env => {
 });
 
 export default class Notebook {
-	constructor (pre) {
+	constructor(pre) {
 		this.pre = pre;
 		this.pre.notebook = this;
 		this.initialCode = this.pre.textContent;
@@ -46,11 +46,11 @@ export default class Notebook {
 		Notebook.intersectionObserver.observe(this.pre);
 	}
 
-	get edited () {
+	get edited() {
 		return this.initialCode !== this.code;
 	}
 
-	init () {
+	init() {
 		if (this.initialized) {
 			return false;
 		}
@@ -102,7 +102,7 @@ export default class Notebook {
 		return true;
 	}
 
-	async reloadSandbox () {
+	async reloadSandbox() {
 		if (this.sandbox.contentWindow?.document.readyState === "complete") {
 			this.sandbox.classList.remove("ready", "dirty");
 			this.sandbox.contentWindow.location.reload();
@@ -120,7 +120,7 @@ export default class Notebook {
 		return win;
 	}
 
-	static rewrite (code) {
+	static rewrite(code) {
 		let ast = acorn.parse(code, acornOptions);
 		let env = new Set();
 		let details = {};
@@ -136,8 +136,7 @@ export default class Notebook {
 					let name = declaration.id.name;
 					details[name] = [];
 				}
-			}
-			else if (node.type === "Identifier") {
+			} else if (node.type === "Identifier") {
 				if (parent.type !== "VariableDeclarator" && node.name in details) {
 					nodes.push(node);
 				}
@@ -165,8 +164,7 @@ export default class Notebook {
 
 					details[declaration.id.name].push(getNodePosition(node, code, ast));
 				}
-			}
-			else {
+			} else {
 				// Insert "env." at node.start + offset
 				let start = node.start + offset;
 				code = code.slice(0, start) + "env." + code.slice(start);
@@ -179,7 +177,7 @@ export default class Notebook {
 		return { code, details, ast };
 	}
 
-	async eval () {
+	async eval() {
 		let pre = this.pre;
 
 		if ($(".cn-evaluated.token", pre)) {
@@ -200,8 +198,7 @@ export default class Notebook {
 
 		try {
 			var { code, details, ast } = Notebook.rewrite(this.code);
-		}
-		catch (e) {
+		} catch (e) {
 			// Syntax error
 			var error = e;
 		}
@@ -209,8 +206,7 @@ export default class Notebook {
 		if (!error) {
 			try {
 				var statements = acorn.parse(code, acornOptions).body;
-			}
-			catch (e) {
+			} catch (e) {
 				// Syntax error in the rewritten code
 				var error = e;
 			}
@@ -245,8 +241,7 @@ export default class Notebook {
 
 			try {
 				ret = win.runLine(lineCode, env);
-			}
-			catch (e) {
+			} catch (e) {
 				ret = e;
 
 				if (this.debug) {
@@ -256,8 +251,7 @@ export default class Notebook {
 
 			if (ret instanceof win.Error) {
 				console.log("Error during statement evaluation:", ret, "Statement was:", lineCode);
-			}
-			else {
+			} else {
 				// Find which variables are included in the current statement
 				acornWalk.full(originalStatement, node => {
 					if (node.type !== "Identifier" || !(node.name in details)) {
@@ -294,8 +288,7 @@ export default class Notebook {
 						try {
 							wrappedNode.style.setProperty("--color", value.to(outputSpace));
 							wrappedNode.classList.add(lightOrDark(value));
-						}
-						catch (e) {}
+						} catch (e) {}
 					}
 					// TODO do something nice with other types :)
 				});
@@ -305,8 +298,7 @@ export default class Notebook {
 
 			try {
 				result = serialize(ret, undefined, win);
-			}
-			catch (e) {}
+			} catch (e) {}
 
 			if (result) {
 				results.append(result);
@@ -347,14 +339,14 @@ export default class Notebook {
 		await this.reloadSandbox();
 	}
 
-	destroy () {
+	destroy() {
 		this.sandbox.remove();
 		Notebook.intersectionObserver.disconnect(this.pre);
 		this.wrapper = this.sandbox = this.pre = null;
 		Notebook.all.delete(this);
 	}
 
-	static create (pre) {
+	static create(pre) {
 		if (pre.notebook) {
 			return pre.notebook;
 		}
@@ -363,7 +355,7 @@ export default class Notebook {
 	}
 }
 
-export function walk (pre, callback, filter) {
+export function walk(pre, callback, filter) {
 	let walker = document.createTreeWalker(pre, filter);
 	let node;
 
@@ -376,14 +368,14 @@ export function walk (pre, callback, filter) {
 	}
 }
 
-function getNodePosition (node, code, ast) {
+function getNodePosition(node, code, ast) {
 	let { start, end } = node;
 	let before = code.slice(0, start);
 	let line = before.split(/\r?\n/);
 	return { start, end, line };
 }
 
-function getNodeAt (offset, container, { type } = {}) {
+function getNodeAt(offset, container, { type } = {}) {
 	let node,
 		sum = 0;
 	let walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
@@ -404,7 +396,7 @@ function getNodeAt (offset, container, { type } = {}) {
 	return null;
 }
 
-export function serialize (ret, color, win = window) {
+export function serialize(ret, color, win = window) {
 	let element;
 	let Color = win.Color;
 
@@ -446,8 +438,7 @@ export function serialize (ret, color, win = window) {
 		});
 
 		flag = true;
-	}
-	else if (typeof ret === "function" && ret.rangeArgs) {
+	} else if (typeof ret === "function" && ret.rangeArgs) {
 		// Range function?
 		return $.create({
 			...template,
@@ -462,8 +453,7 @@ export function serialize (ret, color, win = window) {
 				}),
 			},
 		});
-	}
-	else if (Array.isArray(ret)) {
+	} else if (Array.isArray(ret)) {
 		let colors = ret.map(c => serialize(c, undefined, win));
 
 		if (ret.length > 2 && ret[0] instanceof Color) {
@@ -484,29 +474,25 @@ export function serialize (ret, color, win = window) {
 			className: "cn-value cn-array",
 			contents,
 		});
-	}
-	else if (typeof ret === "number") {
+	} else if (typeof ret === "number") {
 		element = $.create({
 			...template,
 			className: "cn-number",
 			textContent: util.toPrecision(ret, 3) + "",
 		});
-	}
-	else if (typeof ret === "boolean") {
+	} else if (typeof ret === "boolean") {
 		element = $.create({
 			...template,
 			className: "cn-boolean",
 			textContent: ret,
 		});
-	}
-	else if (util.isString(ret)) {
+	} else if (util.isString(ret)) {
 		element = $.create({
 			...template,
 			className: "cn-string",
 			textContent: `"${ret}"`,
 		});
-	}
-	else if (ret && typeof ret === "object") {
+	} else if (ret && typeof ret === "object") {
 		let keys = Object.keys(ret);
 		element = $.create({
 			...template,
@@ -554,7 +540,7 @@ export function serialize (ret, color, win = window) {
 	return element;
 }
 
-function lightOrDark (color) {
+function lightOrDark(color) {
 	return color.luminance > 0.5 || color.alpha < 0.5 ? "light" : "dark";
 }
 
@@ -574,7 +560,7 @@ Notebook.intersectionObserver = new IntersectionObserver(entries => {
 	}
 });
 
-export function initAll (container = document) {
+export function initAll(container = document) {
 	let pres = $$(".language-js, .language-javascript", container)
 		.flatMap(el => {
 			let ret = $$("pre > code", el);

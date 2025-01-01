@@ -16,77 +16,77 @@ export default {
 			tests: [
 				{
 					name: "color.coords",
-					run () {
+					run() {
 						return this.data.red.coords;
 					},
 					expect: [1, 0, 0],
 				},
 				{
 					name: "color.getAll()",
-					run () {
+					run() {
 						return this.data.red.getAll();
 					},
 					expect: [1, 0, 0],
 				},
 				{
 					name: "color.getAll({precision: 1})",
-					run () {
+					run() {
 						return this.data.red_oklch.getAll({ precision: 1 });
 					},
 					expect: [0.6, 0.3, 30],
 				},
 				{
 					name: "color.getAll({space: 'oklch', precision: 1})",
-					run () {
+					run() {
 						return this.data.red.getAll({ space: "oklch", precision: 1 });
 					},
 					expect: [0.6, 0.3, 30],
 				},
 				{
 					name: "color.alpha",
-					run () {
+					run() {
 						return this.data.red_50.alpha;
 					},
 					expect: 0.5,
 				},
 				{
 					name: "color.get('alpha')",
-					run () {
+					run() {
 						return this.data.red_50.get("alpha");
 					},
 					expect: 0.5,
 				},
 				{
 					name: "color.coords[1]",
-					run () {
+					run() {
 						return this.data.red.coords[1];
 					},
 					expect: 0,
 				},
 				{
 					name: "color.coordId",
-					run () {
+					run() {
 						return this.data.red_oklch.h;
 					},
 					expect: 30,
 				},
 				{
 					name: "color.get(coordId)",
-					run () {
+					run() {
 						return this.data.red_oklch.get("h");
 					},
 					expect: 30,
 				},
 				{
 					name: "color.otherSpace.coordId",
-					run () {
+					run() {
 						return this.data.red.oklch.h;
 					},
 					expect: 29.23,
 				},
 				{
 					name: "color.get(otherSpace.coordId)",
-					run () {
+					run() {
 						return this.data.red.get("oklch.hue");
 					},
 					expect: 29.23,
@@ -98,7 +98,7 @@ export default {
 			tests: [
 				{
 					name: "color.coords = newCoords",
-					run () {
+					run() {
 						let color = new Color("srgb", [0, 1, 0]);
 						color.coords = [1, 0, 1];
 						return color.coords[2];
@@ -107,7 +107,7 @@ export default {
 				},
 				{
 					name: "color.setAll(newCoords)",
-					run () {
+					run() {
 						let color = new Color("srgb", [0, 1, 0]);
 						color.setAll([1, 0, 1]);
 						return [...color.coords];
@@ -116,7 +116,7 @@ export default {
 				},
 				{
 					name: "color.setAll(space, newCoords)",
-					run () {
+					run() {
 						let color = this.data.red_oklch.clone();
 						color.setAll("srgb", [1, 0, 1]);
 						return [...color.coords];
@@ -126,7 +126,7 @@ export default {
 				},
 				{
 					name: "color.setAll(newCoords, alpha)",
-					run () {
+					run() {
 						let color = new Color("srgb", [0, 1, 0]);
 						color.setAll([1, 0, 1], 0.5);
 						return [...color.coords, color.alpha];
@@ -135,7 +135,7 @@ export default {
 				},
 				{
 					name: "color.coords[index] = value",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.coords[1] = 0.5;
 						return color.coords[1];
@@ -144,7 +144,7 @@ export default {
 				},
 				{
 					name: "color.alpha = value",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.alpha = 0.5;
 						return color.alpha;
@@ -153,7 +153,7 @@ export default {
 				},
 				{
 					name: "color.set('alpha', value)",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.set("alpha", 0.5);
 						return color.alpha;
@@ -162,7 +162,7 @@ export default {
 				},
 				{
 					name: "color.space.coordId = value",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.lch.c = 13;
 						return color.get("lch.c");
@@ -171,7 +171,7 @@ export default {
 				},
 				{
 					name: "color.set(coordId, value)",
-					run () {
+					run() {
 						let color = this.data.red.to("lch");
 						color.set("c", 13);
 						return color.lch.c;
@@ -180,7 +180,7 @@ export default {
 				},
 				{
 					name: 'color.set("otherSpace.coordId", value)',
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.set("lch.c", 13);
 						return color.get("lch.c");
@@ -189,7 +189,7 @@ export default {
 				},
 				{
 					name: "color.space[index] = value",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.lch[1] = 13;
 						return color.lch.c;
@@ -198,7 +198,7 @@ export default {
 				},
 				{
 					name: "color.set(coordId, fn)",
-					run () {
+					run() {
 						let color = new Color("slategray").to("lch");
 						color.set("c", c => c * 1.2);
 						return color.lch.c;
@@ -207,7 +207,7 @@ export default {
 				},
 				{
 					name: "color.set(object_with_coords)",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.set({ "lch.c": 13, "lch.l": 40 });
 						return [color.lch.c, color.lch.l];
@@ -216,7 +216,7 @@ export default {
 				},
 				{
 					name: "color.set(object_with_coords_and_alpha)",
-					run () {
+					run() {
 						let color = this.data.red.clone();
 						color.set({ "lch.c": 13, alpha: 0.5 });
 						return [color.lch.c, color.alpha];

@@ -22,10 +22,10 @@ export default new ColorSpace({
 	white: "D65",
 
 	base: OKLab,
-	fromBase (oklab) {
+	fromBase(oklab) {
 		return [toe(oklab[0]), oklab[1], oklab[2]];
 	},
-	toBase (oklrab) {
+	toBase(oklrab) {
 		return [toeInv(oklrab[0]), oklrab[1], oklrab[2]];
 	},
 

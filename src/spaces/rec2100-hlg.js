@@ -15,7 +15,7 @@ export default new RGBColorSpace({
 	referred: "scene",
 
 	base: REC_2100_Linear,
-	toBase (RGB) {
+	toBase(RGB) {
 		// given HLG encoded component in range [0, 1]
 		// return media-white relative linear-light
 		return RGB.map(function (val) {
@@ -29,7 +29,7 @@ export default new RGBColorSpace({
 			return ((Math.exp((val - c) / a) + b) / 12) * scale;
 		});
 	},
-	fromBase (RGB) {
+	fromBase(RGB) {
 		// given media-white relative linear-light
 		// where diffuse white is 1.0,
 		// return HLG encoded component in range [0, 1]

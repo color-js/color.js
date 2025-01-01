@@ -57,7 +57,7 @@ const deg2rad = Math.PI / 180;
  * @param {number} fl
  * @returns {[number, number, number]}
  */
-export function adapt (coords, fl) {
+export function adapt(coords, fl) {
 	const temp = /** @type {[number, number, number]} */ (
 		coords.map(c => {
 			const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
@@ -72,7 +72,7 @@ export function adapt (coords, fl) {
  * @param {number} fl
  * @returns {[number, number, number]}
  */
-export function unadapt (adapted, fl) {
+export function unadapt(adapted, fl) {
 	const constant = (100 / fl) * 27.13 ** adaptedCoefInv;
 	return /** @type {[number, number, number]} */ (
 		adapted.map(c => {
@@ -85,7 +85,7 @@ export function unadapt (adapted, fl) {
 /**
  * @param {number} h
  */
-export function hueQuadrature (h) {
+export function hueQuadrature(h) {
 	let hp = constrain(h);
 	if (hp <= hueQuadMap.h[0]) {
 		hp += 360;
@@ -103,7 +103,7 @@ export function hueQuadrature (h) {
 /**
  * @param {number} H
  */
-export function invHueQuadrature (H) {
+export function invHueQuadrature(H) {
 	let Hp = ((H % 400) + 400) % 400;
 	const i = Math.floor(0.01 * Hp);
 	Hp = Hp % 100;
@@ -120,7 +120,7 @@ export function invHueQuadrature (H) {
  * @param {keyof typeof surroundMap} surround
  * @param {boolean} discounting
  */
-export function environment (
+export function environment(
 	refWhite,
 	adaptingLuminance,
 	backgroundLuminance,
@@ -204,7 +204,7 @@ const viewingConditions = environment(white, (64 / Math.PI) * 0.2, 20, "average"
  * @returns {[number, number, number]}
  * @todo Add types for `env`
  */
-export function fromCam16 (cam16, env) {
+export function fromCam16(cam16, env) {
 	// These check ensure one, and only one attribute for a
 	// given category is provided.
 	if (!((cam16.J !== undefined) ^ (cam16.Q !== undefined))) {
@@ -229,8 +229,7 @@ export function fromCam16 (cam16, env) {
 	let hRad = 0.0;
 	if (cam16.h !== undefined) {
 		hRad = constrain(cam16.h) * deg2rad;
-	}
-	else {
+	} else {
 		hRad = invHueQuadrature(cam16.H) * deg2rad;
 	}
 
@@ -241,8 +240,7 @@ export function fromCam16 (cam16, env) {
 	let Jroot = 0.0;
 	if (cam16.J !== undefined) {
 		Jroot = spow(cam16.J, 1 / 2) * 0.1;
-	}
-	else if (cam16.Q !== undefined) {
+	} else if (cam16.Q !== undefined) {
 		Jroot = (0.25 * env.c * cam16.Q) / ((env.aW + 4) * env.flRoot);
 	}
 
@@ -250,11 +248,9 @@ export function fromCam16 (cam16, env) {
 	let alpha = 0.0;
 	if (cam16.C !== undefined) {
 		alpha = cam16.C / Jroot;
-	}
-	else if (cam16.M !== undefined) {
+	} else if (cam16.M !== undefined) {
 		alpha = cam16.M / env.flRoot / Jroot;
-	}
-	else if (cam16.s !== undefined) {
+	} else if (cam16.s !== undefined) {
 		alpha = (0.0004 * cam16.s ** 2 * (env.aW + 4)) / env.c;
 	}
 	const t = spow(alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73), 10 / 9);
@@ -302,7 +298,7 @@ export function fromCam16 (cam16, env) {
  * @returns {Cam16Object}
  * @todo Add types for `env`
  */
-export function toCam16 (xyzd65, env) {
+export function toCam16(xyzd65, env) {
 	// Cone response
 	const xyz100 = /** @type {Vector3} */ (
 		xyzd65.map(c => {
@@ -393,11 +389,11 @@ export default new ColorSpace({
 
 	base: xyz_d65,
 
-	fromBase (xyz) {
+	fromBase(xyz) {
 		const cam16 = toCam16(xyz, viewingConditions);
 		return [cam16.J, cam16.M, cam16.h];
 	},
-	toBase (cam16) {
+	toBase(cam16) {
 		return fromCam16({ J: cam16[0], M: cam16[1], h: cam16[2] }, viewingConditions);
 	},
 });

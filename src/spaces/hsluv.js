@@ -41,7 +41,7 @@ const m_b0 = fromXYZ_M[2][0];
 const m_b1 = fromXYZ_M[2][1];
 const m_b2 = fromXYZ_M[2][2];
 
-function distanceFromOriginAngle (slope, intercept, angle) {
+function distanceFromOriginAngle(slope, intercept, angle) {
 	const d = intercept / (Math.sin(angle) - slope * Math.cos(angle));
 	return d < 0 ? Infinity : d;
 }
@@ -49,7 +49,7 @@ function distanceFromOriginAngle (slope, intercept, angle) {
 /**
  * @param {number} l
  */
-export function calculateBoundingLines (l) {
+export function calculateBoundingLines(l) {
 	const sub1 = Math.pow(l + 16, 3) / 1560896;
 	const sub2 = sub1 > ε ? sub1 : l / κ;
 	const s1r = sub2 * (284517 * m_r0 - 94839 * m_r2);
@@ -78,7 +78,7 @@ export function calculateBoundingLines (l) {
 	};
 }
 
-function calcMaxChromaHsluv (lines, h) {
+function calcMaxChromaHsluv(lines, h) {
 	const hueRad = (h / 360) * Math.PI * 2;
 	const r0 = distanceFromOriginAngle(lines.r0s, lines.r0i, hueRad);
 	const r1 = distanceFromOriginAngle(lines.r1s, lines.r1i, hueRad);
@@ -113,19 +113,17 @@ export default new ColorSpace({
 	gamutSpace: sRGB,
 
 	// Convert LCHuv to HSLuv
-	fromBase (lch) {
+	fromBase(lch) {
 		let [l, c, h] = [skipNone(lch[0]), skipNone(lch[1]), skipNone(lch[2])];
 		let s;
 
 		if (l > 99.9999999) {
 			s = 0;
 			l = 100;
-		}
-		else if (l < 0.00000001) {
+		} else if (l < 0.00000001) {
 			s = 0;
 			l = 0;
-		}
-		else {
+		} else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
 			s = (c / max) * 100;
@@ -135,19 +133,17 @@ export default new ColorSpace({
 	},
 
 	// Convert HSLuv to LCHuv
-	toBase (hsl) {
+	toBase(hsl) {
 		let [h, s, l] = [skipNone(hsl[0]), skipNone(hsl[1]), skipNone(hsl[2])];
 		let c;
 
 		if (l > 99.9999999) {
 			l = 100;
 			c = 0;
-		}
-		else if (l < 0.00000001) {
+		} else if (l < 0.00000001) {
 			l = 0;
 			c = 0;
-		}
-		else {
+		} else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
 			c = (max / 100) * s;

@@ -6,7 +6,7 @@ import { sRGB, OKLCH } from "../src/index-fn.js";
 export default {
 	name: "deltas() tests",
 	description: "These tests test the various Delta E algorithms.",
-	run (c1, c2, o) {
+	run(c1, c2, o) {
 		return deltas(c1, c2, o);
 	},
 	check: check.deep(check.shallowEquals({ epsilon: 0.0001, subset: true })),

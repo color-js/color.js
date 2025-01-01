@@ -3,7 +3,7 @@ import Color from "../src/index.js";
 export default {
 	name: "Constructor tests",
 	description: "hese tests check that the various constructor signatures work.",
-	run (...args) {
+	run(...args) {
 		let color = new Color(...args);
 		return color.toJSON();
 	},

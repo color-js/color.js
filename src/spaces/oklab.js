@@ -57,7 +57,7 @@ export default new ColorSpace({
 	// Note that XYZ is relative to D65
 	white: "D65",
 	base: XYZ_D65,
-	fromBase (XYZ) {
+	fromBase(XYZ) {
 		// move to LMS cone domain
 		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);
 
@@ -68,7 +68,7 @@ export default new ColorSpace({
 
 		return multiply_v3_m3x3(LMS, LMStoLab_M, LMS);
 	},
-	toBase (OKLab) {
+	toBase(OKLab) {
 		// move to LMS cone domain
 		let LMSg = multiply_v3_m3x3(OKLab, LabtoLMS_M);
 

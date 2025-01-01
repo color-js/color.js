@@ -117,24 +117,24 @@ declare namespace Color {
 
 	// Must be manually defined due to overloads
 	// These should always match the signature of the original function
-	export function set (
+	export function set(
 		color: ColorTypes,
 		prop: Ref,
 		value: number | ((coord: number) => number),
 	): Color;
-	export function set (
+	export function set(
 		color: ColorTypes,
 		props: Record<string, number | ((coord: number) => number)>,
 	): Color;
-	export function setAll (color: ColorTypes, coords: Coords, alpha?: number): Color;
-	export function setAll (
+	export function setAll(color: ColorTypes, coords: Coords, alpha?: number): Color;
+	export function setAll(
 		color: ColorTypes,
 		space: string | ColorSpace,
 		coords: Coords,
 		alpha?: number,
 	): Color;
-	export function toGamut (color: ColorTypes, options?: ToGamutOptions): Color;
-	export function toGamut (color: ColorTypes, space?: string): Color;
+	export function toGamut(color: ColorTypes, options?: ToGamutOptions): Color;
+	export function toGamut(color: ColorTypes, space?: string): Color;
 }
 
 /**
@@ -143,38 +143,38 @@ declare namespace Color {
  * as well as static methods that take the color as the first argument.
  */
 declare class Color extends SpaceAccessors implements PlainColorObject {
-	constructor (color: ColorTypes);
-	constructor (space: string | ColorSpace, coords: Coords, alpha?: number);
+	constructor(color: ColorTypes);
+	constructor(space: string | ColorSpace, coords: Coords, alpha?: number);
 
 	// These signatures should always be the same as the constructor
-	static get (color: ColorTypes): Color;
-	static get (space: string | ColorSpace, coords: Coords, alpha: number): Color;
+	static get(color: ColorTypes): Color;
+	static get(space: string | ColorSpace, coords: Coords, alpha: number): Color;
 
-	static defineFunction (name: string, code: DefineFunctionHybrid): void;
-	static defineFunction (
+	static defineFunction(name: string, code: DefineFunctionHybrid): void;
+	static defineFunction(
 		name: string,
 		code: DefineFunctionCode,
 		options: DefineFunctionOptions,
 	): void;
 
-	static defineFunctions (objects: Record<string, DefineFunctionHybrid>): void;
+	static defineFunctions(objects: Record<string, DefineFunctionHybrid>): void;
 
-	static extend (
+	static extend(
 		exports: { register: (color: typeof Color) => void } | Record<string, DefineFunctionHybrid>,
 	): void;
 
-	get space (): ColorSpace;
-	get spaceId (): string;
+	get space(): ColorSpace;
+	get spaceId(): string;
 
 	alpha: number;
 	coords: Coords;
 
-	clone (): this;
+	clone(): this;
 
 	// Copy parameter types from display function, except for the first one
-	display (...args: RemoveFirstElement<Parameters<typeof display>>): string & { color: Color };
+	display(...args: RemoveFirstElement<Parameters<typeof display>>): string & { color: Color };
 
-	toJSON (): ColorConstructor;
+	toJSON(): ColorConstructor;
 
 	// Functions defined using Color.defineFunctions
 	get: ToColorPrototype<typeof get>;
@@ -187,12 +187,12 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 
 	// Must be manually defined due to overloads
 	// These should always match the signature of the original function
-	set (prop: Ref, value: number | ((coord: number) => number)): Color;
-	set (props: Record<string, number | ((coord: number) => number)>): Color;
-	setAll (coords: Coords, alpha?: number): Color;
-	setAll (space: string | ColorSpace, coords: Coords, alpha?: number): Color;
-	toGamut (options?: ToGamutOptions): Color;
-	toGamut (space?: string): Color;
+	set(prop: Ref, value: number | ((coord: number) => number)): Color;
+	set(props: Record<string, number | ((coord: number) => number)>): Color;
+	setAll(coords: Coords, alpha?: number): Color;
+	setAll(space: string | ColorSpace, coords: Coords, alpha?: number): Color;
+	toGamut(options?: ToGamutOptions): Color;
+	toGamut(space?: string): Color;
 
 	/*
 	 * ==========================================
@@ -244,8 +244,8 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	// These signatures should always match those in interpolation.d.ts,
 	// including the static versions
 	/** Create color mixtures in any desired proportion between two colors */
-	mix (color2: ColorTypes, options?: MixOptions): Color;
-	mix (color2: ColorTypes, p: number, options?: MixOptions): Color;
+	mix(color2: ColorTypes, options?: MixOptions): Color;
+	mix(color2: ColorTypes, p: number, options?: MixOptions): Color;
 	/**
 	 * Creates a function that accepts a number and returns a color.
 	 * For numbers in the range 0 to 1, the function interpolates;
@@ -254,11 +254,11 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	 */
 	range: ToColorPrototype<typeof range>;
 	/** Get an array of discrete steps */
-	steps (color2: ColorTypes, options?: StepsOptions): Color[];
+	steps(color2: ColorTypes, options?: StepsOptions): Color[];
 
 	/** Create color mixtures in any desired proportion between two colors */
-	static mix (color1: ColorTypes, color2: ColorTypes, options?: MixOptions): Color;
-	static mix (color1: ColorTypes, color2: ColorTypes, p: number, options?: MixOptions): Color;
+	static mix(color1: ColorTypes, color2: ColorTypes, options?: MixOptions): Color;
+	static mix(color1: ColorTypes, color2: ColorTypes, p: number, options?: MixOptions): Color;
 	/**
 	 * Creates a function that accepts a number and returns a color.
 	 * For numbers in the range 0 to 1, the function interpolates;
@@ -267,13 +267,13 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	 */
 	static range: typeof range;
 	/** Get an array of discrete steps */
-	static steps (color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): Color[];
-	static steps (range: Range, options?: StepsOptions): Color[];
+	static steps(color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): Color[];
+	static steps(range: Range, options?: StepsOptions): Color[];
 
 	// luminance
-	get luminance (): ReturnType<typeof getLuminance>;
+	get luminance(): ReturnType<typeof getLuminance>;
 	// the definition for this set in the orignial code like it doesn't actually use the parameter?
-	set luminance (_: number);
+	set luminance(_: number);
 
 	// variations
 	lighten: ToColorPrototype<typeof lighten>;

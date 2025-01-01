@@ -85,19 +85,19 @@ export type Ref =
 
 /** Class for color spaces. Each color space corresponds to a `ColorSpace` instance */
 export default class ColorSpace {
-	constructor (options: SpaceOptions);
+	constructor(options: SpaceOptions);
 
 	static DEFAULT_FORMAT: { type: "functions"; name: "color" };
 
 	/**
 	 * @throws {TypeError} If no matching color space is found
 	 */
-	static get (space: ColorSpace | string, ...alternatives: (ColorSpace | string)[]): ColorSpace;
+	static get(space: ColorSpace | string, ...alternatives: (ColorSpace | string)[]): ColorSpace;
 
 	/**
 	 * @throws {TypeError} If no space or an unknown space is provided
 	 */
-	static resolveCoord (
+	static resolveCoord(
 		ref: Ref,
 		workingSpace?: string | ColorSpace,
 	): CoordMeta & {
@@ -109,17 +109,17 @@ export default class ColorSpace {
 	/**
 	 * @throws {TypeError} If a space with the provided id already exists
 	 */
-	static register (space: ColorSpace): ColorSpace;
-	static register (id: string, space: ColorSpace): ColorSpace;
+	static register(space: ColorSpace): ColorSpace;
+	static register(id: string, space: ColorSpace): ColorSpace;
 
 	static registry: Record<string, ColorSpace>;
 
-	static get all (): ColorSpace[];
+	static get all(): ColorSpace[];
 
 	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
-	get cssId (): string;
-	get isPolar (): boolean;
-	get isUnbounded (): boolean;
+	get cssId(): string;
+	get isPolar(): boolean;
+	get isUnbounded(): boolean;
 
 	name: string;
 	id: string;
@@ -133,17 +133,17 @@ export default class ColorSpace {
 	white: White;
 	gamutSpace: ColorSpace;
 
-	from (color: ColorTypes): Coords;
-	from (space: string | ColorSpace, coords: Coords): Coords;
+	from(color: ColorTypes): Coords;
+	from(space: string | ColorSpace, coords: Coords): Coords;
 
-	getFormat (format?: string | Format | FormatClass): FormatClass | null;
+	getFormat(format?: string | Format | FormatClass): FormatClass | null;
 
-	getMinCoords (): Coords;
+	getMinCoords(): Coords;
 
-	inGamut (coords: Coords, options?: { epsilon?: number }): boolean;
+	inGamut(coords: Coords, options?: { epsilon?: number }): boolean;
 
-	to (color: ColorTypes): Coords;
-	to (space: string | ColorSpace, coords: Coords): Coords;
+	to(color: ColorTypes): Coords;
+	to(space: string | ColorSpace, coords: Coords): Coords;
 
-	toString (): string;
+	toString(): string;
 }

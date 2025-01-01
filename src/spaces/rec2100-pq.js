@@ -15,7 +15,7 @@ export default new RGBColorSpace({
 	cssId: "rec2100-pq",
 	name: "REC.2100-PQ",
 	base: REC_2100_Linear,
-	toBase (RGB) {
+	toBase(RGB) {
 		// given PQ encoded component in range [0, 1]
 		// return media-white relative linear-light
 		return RGB.map(function (val) {
@@ -23,7 +23,7 @@ export default new RGBColorSpace({
 			return (x * 10000) / Yw; // luminance relative to diffuse white, [0, 70 or so].
 		});
 	},
-	fromBase (RGB) {
+	fromBase(RGB) {
 		// given media-white relative linear-light
 		// returnPQ encoded component in range [0, 1]
 		return RGB.map(function (val) {

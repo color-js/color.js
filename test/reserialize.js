@@ -13,7 +13,7 @@ const tests = {
 	tests: [
 		{
 			name: "OOP API",
-			run (str) {
+			run(str) {
 				return new Color(str).toString();
 			},
 			tests: [
@@ -56,7 +56,7 @@ const tests = {
 		},
 		{
 			name: "Functional API",
-			run (str) {
+			run(str) {
 				return serialize(parse(str));
 			},
 			tests: [

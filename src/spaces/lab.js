@@ -32,7 +32,7 @@ export default new ColorSpace({
 	base: xyz_d50,
 	// Convert D50-adapted XYX to Lab
 	// CIE 15.3:2004 section 8.2.1.1
-	fromBase (XYZ) {
+	fromBase(XYZ) {
 		// XYZ scaled relative to reference white
 		let xyz = XYZ.map((value, i) => value / white[i]);
 		let f = xyz.map(value => (value > ε ? Math.cbrt(value) : (κ * value + 16) / 116));
@@ -46,7 +46,7 @@ export default new ColorSpace({
 	// Convert Lab to D50-adapted XYZ
 	// Same result as CIE 15.3:2004 Appendix D although the derivation is different
 	// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-	toBase (Lab) {
+	toBase(Lab) {
 		// compute f, starting with the luminance-related term
 		let [L, a, b] = Lab;
 		let f = [];

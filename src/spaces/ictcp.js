@@ -105,13 +105,13 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
-	fromBase (XYZ) {
+	fromBase(XYZ) {
 		// move to LMS cone domain
 		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);
 
 		return LMStoICtCp(LMS);
 	},
-	toBase (ICtCp) {
+	toBase(ICtCp) {
 		let LMS = ICtCptoLMS(ICtCp);
 
 		return multiply_v3_m3x3(LMS, LMStoXYZ_M);
@@ -123,7 +123,7 @@ export default new ColorSpace({
  * @param {Vector3} LMS
  * @returns {Vector3}
  */
-function LMStoICtCp (LMS) {
+function LMStoICtCp(LMS) {
 	// apply the PQ EOTF
 	// we can't ever be dividing by zero because of the "1 +" in the denominator
 	let PQLMS = /** @type {Vector3} */ (
@@ -144,7 +144,7 @@ function LMStoICtCp (LMS) {
  * @param {Vector3} ICtCp
  * @returns {Vector3}
  */
-function ICtCptoLMS (ICtCp) {
+function ICtCptoLMS(ICtCp) {
 	let PQLMS = multiply_v3_m3x3(ICtCp, IPTtoLMS_M);
 
 	// From BT.2124-0 Annex 2 Conversion 3

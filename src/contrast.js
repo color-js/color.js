@@ -16,7 +16,7 @@ import * as contrastAlgorithms from "./contrast/index.js";
  * @returns {number}
  * @throws {TypeError} Unknown or unspecified algorithm
  */
-export default function contrast (background, foreground, o) {
+export default function contrast(background, foreground, o) {
 	if (isString(o)) {
 		o = { algorithm: o };
 	}

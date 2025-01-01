@@ -8,7 +8,7 @@ import getColor from "./getColor.js";
  * @param {ColorTypes} color2
  * @returns {boolean}
  */
-export default function equals (color1, color2) {
+export default function equals(color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 

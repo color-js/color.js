@@ -6,7 +6,7 @@ globalThis.ColorSpace = ColorSpace;
 const tests = {
 	name: "Color serialization Tests",
 	description: "These tests parse different color formats and compare the result as JSON",
-	run (spaceId, coords, alpha, options) {
+	run(spaceId, coords, alpha, options) {
 		return serialize({ spaceId, coords, alpha }, options);
 	},
 	tests: [

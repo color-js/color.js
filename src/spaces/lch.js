@@ -23,7 +23,7 @@ export default new ColorSpace({
 	},
 
 	base: Lab,
-	fromBase (Lab) {
+	fromBase(Lab) {
 		// These methods are used for other polar forms as well, so we can't hardcode the ε
 		if (this.ε === undefined) {
 			let range = Object.values(this.base.coords)[1].refRange;
@@ -39,7 +39,7 @@ export default new ColorSpace({
 
 		return [L, C, h];
 	},
-	toBase (lch) {
+	toBase(lch) {
 		// Convert from polar form
 		let [L, C, h] = lch;
 		let a = null,

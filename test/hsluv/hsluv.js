@@ -17,7 +17,7 @@ const tests = {
 	name: "HSLuv Conversion Tests",
 	description:
 		"These tests compare sRGB values against the HSLuv reference implementation snapshot data.",
-	run (color, space = this.data.toSpace) {
+	run(color, space = this.data.toSpace) {
 		return space.from(color);
 	},
 	check: check.deep(function (actual, expect) {

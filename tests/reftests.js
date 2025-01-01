@@ -19,8 +19,7 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 
 		try {
 			color = new Color(cell.textContent);
-		}
-		catch (e) {
+		} catch (e) {
 			return;
 		}
 
@@ -30,7 +29,7 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 });
 
 // Get data from old tests and convert them to new tests
-function getTests (table) {
+function getTests(table) {
 	table = table.closest("table");
 	return [...table.querySelectorAll("tbody tr")]
 		.map(tr => {

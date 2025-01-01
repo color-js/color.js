@@ -45,7 +45,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
-export default function display (color, { space = defaults.display_space, ...options } = {}) {
+export default function display(color, { space = defaults.display_space, ...options } = {}) {
 	color = getColor(color);
 
 	let ret = /** @type {Display} */ (serialize(color, options));
@@ -57,8 +57,7 @@ export default function display (color, { space = defaults.display_space, ...opt
 	) {
 		ret = /** @type {Display} */ (new String(ret));
 		ret.color = /** @type {PlainColorObject} */ (color);
-	}
-	else {
+	} else {
 		// If we're here, what we were about to output is not supported
 		let fallbackColor = /** @type {PlainColorObject} */ (color);
 

@@ -13,7 +13,7 @@ const ε = 0.000075;
  * @param {{ epsilon?: number | undefined }} [param2]
  * @returns {boolean}
  */
-export default function inGamut (color, space, { epsilon = ε } = {}) {
+export default function inGamut(color, space, { epsilon = ε } = {}) {
 	color = getColor(color);
 
 	if (!space) {

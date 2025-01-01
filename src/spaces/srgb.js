@@ -69,7 +69,7 @@ export default new RGBColorSpace({
 			type: "custom",
 			toGamut: true,
 			test: str => /^#(([a-f0-9]{2}){3,4}|[a-f0-9]{3,4})$/i.test(str),
-			parse (str) {
+			parse(str) {
 				if (str.length <= 5) {
 					// #rgb or #rgba, duplicate digits
 					str = str.replace(/[a-f0-9]/gi, "$&$&");
@@ -121,15 +121,14 @@ export default new RGBColorSpace({
 		keyword: {
 			type: "custom",
 			test: str => /^[a-z]+$/i.test(str),
-			parse (str) {
+			parse(str) {
 				str = str.toLowerCase();
 				let ret = { spaceId: "srgb", coords: null, alpha: 1 };
 
 				if (str === "transparent") {
 					ret.coords = KEYWORDS.black;
 					ret.alpha = 0;
-				}
-				else {
+				} else {
 					ret.coords = KEYWORDS[str];
 				}
 

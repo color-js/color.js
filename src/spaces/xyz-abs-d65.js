@@ -27,13 +27,13 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_D65,
-	fromBase (XYZ) {
+	fromBase(XYZ) {
 		// Make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²
 		// Relative XYZ has Y=1 for media white
 		return XYZ.map(v => Math.max(v * Yw, 0));
 	},
-	toBase (AbsXYZ) {
+	toBase(AbsXYZ) {
 		// Convert to media-white relative XYZ
 		return AbsXYZ.map(v => Math.max(v / Yw, 0));
 	},

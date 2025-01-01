@@ -15,7 +15,7 @@ import deltaEMethods from "./deltaE/index.js";
  * @returns {number}
  * @throws {TypeError} Unknown or unspecified method
  */
-export default function deltaE (c1, c2, o = {}) {
+export default function deltaE(c1, c2, o = {}) {
 	if (isString(o)) {
 		o = { method: o };
 	}

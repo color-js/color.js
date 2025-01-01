@@ -21,7 +21,7 @@ hooks.add("chromatic-adaptation-end", env => {
 	}
 });
 
-export function defineCAT (/** @type {CAT} */ { id, toCone_M, fromCone_M }) {
+export function defineCAT(/** @type {CAT} */ { id, toCone_M, fromCone_M }) {
 	// Use id, toCone_M, fromCone_M like variables
 	CATs[id] = arguments[0];
 }
@@ -33,7 +33,7 @@ export function defineCAT (/** @type {CAT} */ { id, toCone_M, fromCone_M }) {
  * @param {string} id
  * @returns {number[][]}
  */
-export function adapt (W1, W2, id = "Bradford") {
+export function adapt(W1, W2, id = "Bradford") {
 	// adapt from a source whitepoint or illuminant W1
 	// to a destination whitepoint or illuminant W2,
 	// using the given chromatic adaptation transform (CAT)

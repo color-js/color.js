@@ -14,7 +14,7 @@ import toGamut from "./toGamut.js";
  * @param {{ inGamut?: boolean | ToGamutOptions | undefined }} options
  * @returns {PlainColorObject}
  */
-export default function to (color, space, { inGamut } = {}) {
+export default function to(color, space, { inGamut } = {}) {
 	color = getColor(color);
 	space = ColorSpace.get(space);
 

@@ -1,4 +1,4 @@
-export function styleCallouts (
+export function styleCallouts(
 	elements = document.querySelectorAll("p"),
 	labels = ["Tip", "Warning", "Note"],
 ) {
