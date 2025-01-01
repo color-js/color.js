@@ -13,7 +13,7 @@ import xyz_d65 from "./spaces/xyz-d65.js";
  * @param {ColorTypes} color
  * @returns {number}
  */
-export function getLuminance (color) {
+export function getLuminance(color) {
 	// Assume getColor() is called on color in get()
 	return get(color, [xyz_d65, "y"]);
 }
@@ -22,7 +22,7 @@ export function getLuminance (color) {
  * @param {ColorTypes} color
  * @param {number | ((coord: number) => number)} value
  */
-export function setLuminance (color, value) {
+export function setLuminance(color, value) {
 	// Assume getColor() is called on color in set()
 	set(color, [xyz_d65, "y"], value);
 }
@@ -30,12 +30,12 @@ export function setLuminance (color, value) {
 /**
  * @param {typeof import("./color.js").default} Color
  */
-export function register (Color) {
+export function register(Color) {
 	Object.defineProperty(Color.prototype, "luminance", {
-		get () {
+		get() {
 			return getLuminance(this);
 		},
-		set (value) {
+		set(value) {
 			setLuminance(this, value);
 		},
 	});

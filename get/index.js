@@ -12,8 +12,8 @@ $("a[download]")?.addEventListener("click", evt => {
 	evt.target.href = createURL(code.textContent);
 });
 
-function createURL (code, type = "text/javascript") {
-	var blob = new Blob([code], {type});
+function createURL(code, type = "text/javascript") {
+	var blob = new Blob([code], { type });
 
 	return URL.createObjectURL(blob);
 }

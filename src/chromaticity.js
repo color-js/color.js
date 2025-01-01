@@ -10,38 +10,38 @@ import getAll from "./getAll.js";
  * @param {ColorTypes} color
  * @returns {[number, number]}
  */
-export function uv (color) {
+export function uv(color) {
 	// Assumes getAll() calls getColor() on color
 	let [X, Y, Z] = getAll(color, xyz_d65);
 	let denom = X + 15 * Y + 3 * Z;
-	return [4 * X / denom, 9 * Y / denom];
+	return [(4 * X) / denom, (9 * Y) / denom];
 }
 
 /**
  * @param {ColorTypes} color
  * @returns {[number, number]}
  */
-export function xy (color) {
+export function xy(color) {
 	// Assumes getAll() calls getColor() on color
 	let [X, Y, Z] = getAll(color, xyz_d65);
-	let  sum = X + Y + Z;
+	let sum = X + Y + Z;
 	return [X / sum, Y / sum];
 }
 
 /**
  * @param {typeof import("./color.js").default} Color
  */
-export function register (Color) {
+export function register(Color) {
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
 	Object.defineProperty(Color.prototype, "uv", {
-		get () {
+		get() {
 			return uv(this);
 		},
 	});
 
 	Object.defineProperty(Color.prototype, "xy", {
-		get () {
+		get() {
 			return xy(this);
 		},
 	});

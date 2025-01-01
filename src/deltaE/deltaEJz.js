@@ -1,6 +1,6 @@
 import jzczhz from "../spaces/jzczhz.js";
 import getColor from "../getColor.js";
-import {isNone} from "../util.js";
+import { isNone } from "../util.js";
 
 /**
  * More accurate color-difference formulae
@@ -28,16 +28,14 @@ export default function (color, sample) {
 	let ΔC = Cz1 - Cz2;
 
 	// length of chord for ΔH
-	if ((isNone(Hz1)) && (isNone(Hz2))) {
+	if (isNone(Hz1) && isNone(Hz2)) {
 		// both undefined hues
 		Hz1 = 0;
 		Hz2 = 0;
-	}
-	else if (isNone(Hz1)) {
+	} else if (isNone(Hz1)) {
 		// one undefined, set to the defined hue
 		Hz1 = Hz2;
-	}
-	else if (isNone(Hz2)) {
+	} else if (isNone(Hz2)) {
 		Hz2 = Hz1;
 	}
 

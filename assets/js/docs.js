@@ -40,16 +40,18 @@ if (current) {
 	}
 }
 
-function idify (str) {
+function idify(str) {
 	// from Mavo.Functions.idify()
 	return str
-		.normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Convert accented letters to ASCII
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "") // Convert accented letters to ASCII
 		.replace(/[^\w\s-]/g, "") // Remove remaining non-ASCII characters
-		.trim().replace(/\s+/g, "-") // Convert whitespace to hyphens
+		.trim()
+		.replace(/\s+/g, "-") // Convert whitespace to hyphens
 		.toLowerCase();
 }
 
-function makePageToc (pageToc) {
+function makePageToc(pageToc) {
 	pageToc.textContent = "";
 
 	// Make toc for current page
@@ -68,8 +70,7 @@ function makePageToc (pageToc) {
 		if (!$("a", h2)) {
 			a.append(...h2.childNodes);
 			h2.append(a);
-		}
-		else {
+		} else {
 			a.textContent = h2.textContent;
 		}
 

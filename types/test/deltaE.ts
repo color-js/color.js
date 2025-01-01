@@ -12,7 +12,7 @@ import type { ColorObject } from "colorjs.io/src/color";
 const c1 = new Color("red");
 const c2 = new Color("blue");
 
-const blue: ColorObject = {spaceId: "srgb", coords: [0, 0, 1]};
+const blue: ColorObject = { spaceId: "srgb", coords: [0, 0, 1] };
 
 // @ts-expect-error
 deltaE();
@@ -48,7 +48,6 @@ deltaEJz("red", blue); // $ExpectType number
 
 deltaEOK(c1, c2); // $ExpectType number
 deltaEOK("red", blue); // $ExpectType number
-
 
 // @ts-expect-error
 c1.deltaE(c2, "abcdef");

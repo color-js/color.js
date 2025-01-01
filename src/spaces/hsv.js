@@ -25,7 +25,7 @@ export default new ColorSpace({
 
 	base: sRGB,
 	// https://en.wikipedia.org/wiki/HSL_and_HSV#Formal_derivation
-	fromBase (rgb) {
+	fromBase(rgb) {
 		let max = Math.max(...rgb);
 		let min = Math.min(...rgb);
 		let [r, g, b] = rgb;
@@ -34,9 +34,14 @@ export default new ColorSpace({
 
 		if (d !== 0) {
 			switch (max) {
-				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-				case g: h = (b - r) / d + 2; break;
-				case b: h = (r - g) / d + 4;
+				case r:
+					h = (g - b) / d + (g < b ? 6 : 0);
+					break;
+				case g:
+					h = (b - r) / d + 2;
+					break;
+				case b:
+					h = (r - g) / d + 4;
 			}
 
 			h = h * 60;
@@ -53,7 +58,7 @@ export default new ColorSpace({
 		return [h, s * 100, v * 100];
 	},
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_RGB_alternative
-	toBase (hsv) {
+	toBase(hsv) {
 		let [h, s, v] = hsv;
 		h = h % 360;
 
@@ -64,7 +69,7 @@ export default new ColorSpace({
 		s /= 100;
 		v /= 100;
 
-		function f (n) {
+		function f(n) {
 			let k = (n + h / 60) % 6;
 			return v - v * s * Math.max(0, Math.min(k, 4 - k, 1));
 		}

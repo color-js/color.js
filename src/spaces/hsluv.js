@@ -25,11 +25,11 @@ SOFTWARE.
 import ColorSpace from "../ColorSpace.js";
 import LCHuv from "./lchuv.js";
 import sRGB from "./srgb.js";
-import {fromXYZ_M} from "./srgb-linear.js";
-import {skipNone} from "../util.js";
+import { fromXYZ_M } from "./srgb-linear.js";
+import { skipNone } from "../util.js";
 
-const ε = 216 / 24389;  // 6^3/29^3 == (24/116)^3
-const κ = 24389 / 27;   // 29^3/3^3
+const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
+const κ = 24389 / 27; // 29^3/3^3
 
 const m_r0 = fromXYZ_M[0][0];
 const m_r1 = fromXYZ_M[0][1];
@@ -41,7 +41,7 @@ const m_b0 = fromXYZ_M[2][0];
 const m_b1 = fromXYZ_M[2][1];
 const m_b2 = fromXYZ_M[2][2];
 
-function distanceFromOriginAngle (slope, intercept, angle) {
+function distanceFromOriginAngle(slope, intercept, angle) {
 	const d = intercept / (Math.sin(angle) - slope * Math.cos(angle));
 	return d < 0 ? Infinity : d;
 }
@@ -49,7 +49,7 @@ function distanceFromOriginAngle (slope, intercept, angle) {
 /**
  * @param {number} l
  */
-export function calculateBoundingLines (l) {
+export function calculateBoundingLines(l) {
 	const sub1 = Math.pow(l + 16, 3) / 1560896;
 	const sub2 = sub1 > ε ? sub1 : l / κ;
 	const s1r = sub2 * (284517 * m_r0 - 94839 * m_r2);
@@ -64,22 +64,22 @@ export function calculateBoundingLines (l) {
 
 	return {
 		r0s: s1r / s3r,
-		r0i: s2r * l / s3r,
+		r0i: (s2r * l) / s3r,
 		r1s: s1r / (s3r + 126452),
-		r1i: (s2r - 769860) * l / (s3r + 126452),
+		r1i: ((s2r - 769860) * l) / (s3r + 126452),
 		g0s: s1g / s3g,
-		g0i: s2g * l / s3g,
+		g0i: (s2g * l) / s3g,
 		g1s: s1g / (s3g + 126452),
-		g1i: (s2g - 769860) * l / (s3g + 126452),
+		g1i: ((s2g - 769860) * l) / (s3g + 126452),
 		b0s: s1b / s3b,
-		b0i: s2b * l / s3b,
+		b0i: (s2b * l) / s3b,
 		b1s: s1b / (s3b + 126452),
-		b1i: (s2b - 769860) * l / (s3b + 126452),
+		b1i: ((s2b - 769860) * l) / (s3b + 126452),
 	};
 }
 
-function calcMaxChromaHsluv (lines, h) {
-	const hueRad = h / 360 * Math.PI * 2;
+function calcMaxChromaHsluv(lines, h) {
+	const hueRad = (h / 360) * Math.PI * 2;
 	const r0 = distanceFromOriginAngle(lines.r0s, lines.r0i, hueRad);
 	const r1 = distanceFromOriginAngle(lines.r1s, lines.r1i, hueRad);
 	const g0 = distanceFromOriginAngle(lines.g0s, lines.g0i, hueRad);
@@ -113,44 +113,40 @@ export default new ColorSpace({
 	gamutSpace: sRGB,
 
 	// Convert LCHuv to HSLuv
-	fromBase (lch) {
+	fromBase(lch) {
 		let [l, c, h] = [skipNone(lch[0]), skipNone(lch[1]), skipNone(lch[2])];
 		let s;
 
 		if (l > 99.9999999) {
 			s = 0;
 			l = 100;
-		}
-		else if (l < 0.00000001) {
+		} else if (l < 0.00000001) {
 			s = 0;
 			l = 0;
-		}
-		else {
+		} else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
-			s = c / max * 100;
+			s = (c / max) * 100;
 		}
 
 		return [h, s, l];
 	},
 
 	// Convert HSLuv to LCHuv
-	toBase (hsl) {
+	toBase(hsl) {
 		let [h, s, l] = [skipNone(hsl[0]), skipNone(hsl[1]), skipNone(hsl[2])];
 		let c;
 
 		if (l > 99.9999999) {
 			l = 100;
 			c = 0;
-		}
-		else if (l < 0.00000001) {
+		} else if (l < 0.00000001) {
 			l = 0;
 			c = 0;
-		}
-		else {
+		} else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
-			c = max / 100 * s;
+			c = (max / 100) * s;
 		}
 
 		return [l, c, h];

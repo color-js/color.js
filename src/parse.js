@@ -15,7 +15,7 @@ import defaults from "./defaults.js";
  * @param {ParseOptions} [options]
  * @returns {ColorConstructor}
  */
-export default function parse (str, options) {
+export default function parse(str, options) {
 	let env = {
 		str: String(str)?.trim(),
 		options,
@@ -29,7 +29,7 @@ export default function parse (str, options) {
 
 	env.parsed = parseFunction(env.str);
 	let ret;
-	let meta = env.options ? env.options.parseMeta ?? env.options.meta : null;
+	let meta = env.options ? (env.options.parseMeta ?? env.options.meta) : null;
 
 	if (env.parsed) {
 		// Is a functional syntax
@@ -46,7 +46,7 @@ export default function parse (str, options) {
 			// Check against both <dashed-ident> and <ident> versions
 			let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
 			let ids = [id, alternateId];
-			format = ColorSpace.findFormat({name, id: ids, type: "function"});
+			format = ColorSpace.findFormat({ name, id: ids, type: "function" });
 
 			if (!format) {
 				// Not found
@@ -59,31 +59,41 @@ export default function parse (str, options) {
 
 					if (cssId) {
 						let altColor = str.replace("color(" + id, "color(" + cssId);
-						didYouMean = `Did you mean ${ altColor }?`;
+						didYouMean = `Did you mean ${altColor}?`;
 					}
 				}
 
-				throw new TypeError(`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"));
+				throw new TypeError(
+					`Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?"),
+				);
 			}
 
 			space = format.space;
 
 			if (format.id.startsWith("--") && !id.startsWith("--")) {
-				defaults.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
-							  `Use prefixed color(${format.id}) instead of color(${id}).`);
+				defaults.warn(
+					`${space.name} is a non-standard space and not currently supported in the CSS spec. ` +
+						`Use prefixed color(${format.id}) instead of color(${id}).`,
+				);
 			}
 			if (id.startsWith("--") && !format.id.startsWith("--")) {
-				defaults.warn(`${space.name} is a standard space and supported in the CSS spec. ` +
-							  `Use color(${format.id}) instead of prefixed color(${id}).`);
+				defaults.warn(
+					`${space.name} is a standard space and supported in the CSS spec. ` +
+						`Use color(${format.id}) instead of prefixed color(${id}).`,
+				);
 			}
-		}
-		else {
-			format = ColorSpace.findFormat({name, type: "function"});
+		} else {
+			format = ColorSpace.findFormat({ name, type: "function" });
 			space = format.space;
 		}
 
 		if (meta) {
-			Object.assign(meta, {format, formatId: format.name, types, commas: env.parsed.commas});
+			Object.assign(meta, {
+				format,
+				formatId: format.name,
+				types,
+				commas: env.parsed.commas,
+			});
 		}
 
 		let alpha = 1;
@@ -99,14 +109,15 @@ export default function parse (str, options) {
 		let coordCount = format.coords.length;
 
 		if (coords.length !== coordCount) {
-			throw new TypeError(`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`);
+			throw new TypeError(
+				`Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`,
+			);
 		}
 
 		coords = format.coerceCoords(coords, types);
 
-		ret = {spaceId: space.id, coords, alpha};
-	}
-	else {
+		ret = { spaceId: space.id, coords, alpha };
+	} else {
 		// Custom, colorspace-specific format
 		for (let space of ColorSpace.all) {
 			for (let formatId in space.formats) {
@@ -143,7 +154,11 @@ export default function parse (str, options) {
 	}
 
 	// Clamp alpha to [0, 1]
-	ret.alpha = isNone(ret.alpha) ? ret.alpha : ret.alpha === undefined ? 1 : clamp(0, ret.alpha, 1);
+	ret.alpha = isNone(ret.alpha)
+		? ret.alpha
+		: ret.alpha === undefined
+			? 1
+			: clamp(0, ret.alpha, 1);
 
 	return ret;
 }
@@ -174,33 +189,31 @@ export const regex = {
  * @param {string} rawArg
  * @returns {{value: number, meta: ArgumentMeta}}
  */
-export function parseArgument (rawArg) {
+export function parseArgument(rawArg) {
 	/** @type {Partial<ArgumentMeta>} */
 	let meta = {};
 	let unit = rawArg.match(regex.unitValue)?.[0];
 	/** @type {string | number} */
-	let value = meta.raw = rawArg;
+	let value = (meta.raw = rawArg);
 
-	if (unit) { // It’s a dimension token
+	if (unit) {
+		// It’s a dimension token
 		meta.type = unit === "%" ? "<percentage>" : "<angle>";
 		meta.unit = unit;
 		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
 
 		value = meta.unitless * units[unit];
-	}
-	else if (regex.number.test(value)) { // It's a number
+	} else if (regex.number.test(value)) {
+		// It's a number
 		// Convert numerical args to numbers
 		value = Number(value);
 		meta.type = "<number>";
-	}
-	else if (value === "none") {
+	} else if (value === "none") {
 		value = null;
-	}
-	else if (value === "NaN" || value === "calc(NaN)") {
+	} else if (value === "NaN" || value === "calc(NaN)") {
 		value = NaN;
 		meta.type = "<number>";
-	}
-	else {
+	} else {
 		meta.type = "<ident>";
 	}
 
@@ -212,7 +225,7 @@ export function parseArgument (rawArg) {
  * @param {string} str String to parse
  * @return {ParseFunctionReturn | void}
  */
-export function parseFunction (str) {
+export function parseFunction(str) {
 	if (!str) {
 		return;
 	}
@@ -228,7 +241,7 @@ export function parseFunction (str) {
 		let lastAlpha = false;
 
 		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
-			let {value, meta} = parseArgument(rawArg);
+			let { value, meta } = parseArgument(rawArg);
 
 			if ($0.startsWith("/")) {
 				// It's alpha

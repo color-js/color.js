@@ -8,4 +8,3 @@ getColor("red"); // $ExpectType PlainColorObject
 getColor(new Color("red")); // $ExpectType PlainColorObject
 
 getColor(["red", "blue"]); // $ExpectType PlainColorObject[]
-

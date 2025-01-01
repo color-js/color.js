@@ -1,5 +1,5 @@
 import defaults from "./defaults.js";
-import {isString} from "./util.js";
+import { isString } from "./util.js";
 import deltaEMethods from "./deltaE/index.js";
 
 // Type "imports"
@@ -15,12 +15,12 @@ import deltaEMethods from "./deltaE/index.js";
  * @returns {number}
  * @throws {TypeError} Unknown or unspecified method
  */
-export default function deltaE (c1, c2, o = {}) {
+export default function deltaE(c1, c2, o = {}) {
 	if (isString(o)) {
-		o = {method: o};
+		o = { method: o };
 	}
 
-	let {method = defaults.deltaE, ...rest} = o;
+	let { method = defaults.deltaE, ...rest } = o;
 
 	for (let m in deltaEMethods) {
 		if ("deltae" + method.toLowerCase() === m.toLowerCase()) {

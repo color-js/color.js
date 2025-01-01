@@ -4,7 +4,7 @@
 // No black level compensation for flare.
 
 import getColor from "../getColor.js";
-import {getLuminance} from "../luminance.js";
+import { getLuminance } from "../luminance.js";
 
 // the darkest sRGB color above black is #000001 and this produces
 // a plain Weber contrast of ~45647.
@@ -17,7 +17,7 @@ const max = 50000;
  * @param {import("../types.js").ColorTypes} color2
  * @returns {number}
  */
-export default function contrastWeber (color1, color2) {
+export default function contrastWeber(color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 

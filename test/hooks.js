@@ -11,13 +11,13 @@ export default {
 					run: () => {
 						Color.hooks.add("parse-start", env => {
 							if (env.str === "foo") {
-								return env.color = {spaceId: "sRGB", coords: [1, .5, .5]};
+								return (env.color = { spaceId: "sRGB", coords: [1, 0.5, 0.5] });
 							}
 						});
 
 						return new Color("foo").toJSON();
 					},
-					expect: { "spaceId": "srgb", "coords": [ 1, 0.5, 0.5 ], "alpha": 1 },
+					expect: { spaceId: "srgb", coords: [1, 0.5, 0.5], alpha: 1 },
 				},
 			],
 		},

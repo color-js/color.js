@@ -8,7 +8,6 @@ getLuminance("red"); // $ExpectType number
 getLuminance(new Color("red")); // $ExpectType number
 new Color("red").luminance; // $ExpectType number
 
-
 // @ts-expect-error
 setLuminance();
 // @ts-expect-error

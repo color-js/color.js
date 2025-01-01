@@ -1,6 +1,6 @@
 import ColorSpace from "../ColorSpace.js";
 import OKLab from "./oklab.js";
-import {toe, toeInv} from "./okhsl.js";
+import { toe, toeInv } from "./okhsl.js";
 
 export default new ColorSpace({
 	id: "oklrab",
@@ -22,16 +22,20 @@ export default new ColorSpace({
 	white: "D65",
 
 	base: OKLab,
-	fromBase (oklab) {
+	fromBase(oklab) {
 		return [toe(oklab[0]), oklab[1], oklab[2]];
 	},
-	toBase (oklrab) {
+	toBase(oklrab) {
 		return [toeInv(oklrab[0]), oklrab[1], oklrab[2]];
 	},
 
 	formats: {
-		"color": {
-			coords: ["<percentage> | <number>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"],
+		color: {
+			coords: [
+				"<percentage> | <number>",
+				"<number> | <percentage>[-1,1]",
+				"<number> | <percentage>[-1,1]",
+			],
 		},
 	},
 });

@@ -23,8 +23,5 @@ const TO_COPY = [
 const __dirname = dirname(fileURLToPath(import.meta.url));
 mkdirSync(resolve(__dirname, DEST), { recursive: true });
 for (const file of TO_COPY) {
-	copyFileSync(
-		resolve(__dirname, SOURCE, file),
-		resolve(__dirname, DEST, file),
-	);
+	copyFileSync(resolve(__dirname, SOURCE, file), resolve(__dirname, DEST, file));
 }

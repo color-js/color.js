@@ -4,14 +4,18 @@
  */
 
 // muliply-matricies.js
-export type Matrix3x3 = [[number, number, number], [number, number, number], [number, number, number]];
+export type Matrix3x3 = [
+	[number, number, number],
+	[number, number, number],
+	[number, number, number],
+];
 export type Vector3 = [number, number, number];
 
 // contrast/
 export type * from "./contrast/index.js";
 
 // deltaE/
-import type {Methods} from "./deltaE/index.js";
+import type { Methods } from "./deltaE/index.js";
 export type * from "./deltaE/index.js";
 
 // adapt.js
@@ -137,8 +141,8 @@ export interface SerializeOptions {
 		| "<percentage>"
 		| boolean
 		| {
-			type?: "<number>" | "<percentage>" | undefined;
-			include?: boolean | undefined;
+				type?: "<number>" | "<percentage>" | undefined;
+				include?: boolean | undefined;
 		  }
 		| undefined;
 	/**

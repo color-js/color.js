@@ -8,11 +8,12 @@ globalThis.Color = Color;
 
 const tests = {
 	name: "Color reserialization tests",
-	description: "These tests parse different color formats and reserialize the resulting color to check for roundtrip errors",
+	description:
+		"These tests parse different color formats and reserialize the resulting color to check for roundtrip errors",
 	tests: [
 		{
 			name: "OOP API",
-			run (str) {
+			run(str) {
 				return new Color(str).toString();
 			},
 			tests: [
@@ -55,7 +56,7 @@ const tests = {
 		},
 		{
 			name: "Functional API",
-			run (str) {
+			run(str) {
 				return serialize(parse(str));
 			},
 			tests: [

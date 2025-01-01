@@ -27,8 +27,12 @@ export default new ColorSpace({
 	toBase: lch.toBase,
 
 	formats: {
-		"color": {
-			coords: ["<percentage> | <number>", "<number> | <percentage>[0,1]", "<number> | <angle>"],
+		color: {
+			coords: [
+				"<percentage> | <number>",
+				"<number> | <percentage>[0,1]",
+				"<number> | <angle>",
+			],
 		},
 	},
 });

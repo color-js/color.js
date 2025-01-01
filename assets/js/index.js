@@ -10,4 +10,3 @@ if (location.pathname.indexOf("/docs/") > -1 && window.toc) {
 }
 
 styleCallouts();
-

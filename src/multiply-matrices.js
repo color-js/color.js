@@ -2,7 +2,6 @@
 /** @typedef {import("./types.js").Matrix3x3} Matrix3x3 */
 /** @typedef {import("./types.js").Vector3} Vector3 */
 
-
 /**
  * A is m x n. B is n x p. product is m x p.
  *
@@ -36,7 +35,7 @@
  * @param {number[] | number[][]} B Matrix n x p or a vector
  * @returns {number[] | number[][]} Matrix m x p or equivalent array
  */
-export default function multiplyMatrices (A, B) {
+export default function multiplyMatrices(A, B) {
 	let m = A.length;
 	/** @type {number[][]} */
 	let AM;
@@ -46,40 +45,39 @@ export default function multiplyMatrices (A, B) {
 	if (!Array.isArray(A[0])) {
 		// A is vector, convert to [[a, b, c, ...]]
 		AM = [/** @type {number[]} */ (A)];
-	}
-	else {
+	} else {
 		AM = /** @type {number[][]} */ (A);
 	}
 
 	if (!Array.isArray(B[0])) {
 		// B is vector, convert to [[a], [b], [c], ...]]
 		BM = B.map(x => [x]);
-	}
-	else {
+	} else {
 		BM = /** @type {number[][]} */ (B);
 	}
-
 
 	let p = BM[0].length;
 	let BM_cols = BM[0].map((_, i) => BM.map(x => x[i])); // transpose B
 	/** @type {number[] | number[][]} */
-	let product = AM.map(row => BM_cols.map(col => {
-		let ret = 0;
+	let product = AM.map(row =>
+		BM_cols.map(col => {
+			let ret = 0;
 
-		if (!Array.isArray(row)) {
-			for (let c of col) {
-				ret += row * c;
+			if (!Array.isArray(row)) {
+				for (let c of col) {
+					ret += row * c;
+				}
+
+				return ret;
+			}
+
+			for (let i = 0; i < row.length; i++) {
+				ret += row[i] * (col[i] || 0);
 			}
 
 			return ret;
-		}
-
-		for (let i = 0; i < row.length; i++) {
-			ret += row[i] * (col[i] || 0);
-		}
-
-		return ret;
-	}));
+		}),
+	);
 
 	if (m === 1) {
 		product = product[0]; // Avoid [[a, b, c, ...]]
@@ -90,7 +88,6 @@ export default function multiplyMatrices (A, B) {
 
 	return product;
 }
-
 
 // dot3 and transform functions adapted from https://github.com/texel-org/color/blob/9793c7d4d02b51f068e0f3fd37131129a4270396/src/core.js
 //
@@ -115,7 +112,6 @@ export default function multiplyMatrices (A, B) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 /**
  * Returns the dot product of two vectors each with a length of 3.
  *
@@ -123,7 +119,7 @@ export default function multiplyMatrices (A, B) {
  * @param {Vector3} b
  * @returns {number}
  */
-function dot3 (a, b) {
+function dot3(a, b) {
 	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 
@@ -135,8 +131,8 @@ function dot3 (a, b) {
  * @param {Matrix3x3} matrix
  * @param {Vector3} [out]
  * @returns {Vector3}
-*/
-export function multiply_v3_m3x3 (input, matrix, out = [0, 0, 0]) {
+ */
+export function multiply_v3_m3x3(input, matrix, out = [0, 0, 0]) {
 	const x = dot3(input, matrix[0]);
 	const y = dot3(input, matrix[1]);
 	const z = dot3(input, matrix[2]);

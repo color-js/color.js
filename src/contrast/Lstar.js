@@ -11,7 +11,7 @@ import lab from "../spaces/lab.js";
  * @param {import("../types.js").ColorTypes} color2
  * @returns {number}
  */
-export default function contrastLstar (color1, color2) {
+export default function contrastLstar(color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 

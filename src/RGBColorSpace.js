@@ -1,5 +1,5 @@
 import ColorSpace from "./ColorSpace.js";
-import {multiply_v3_m3x3} from "./util.js";
+import { multiply_v3_m3x3 } from "./util.js";
 import adapt from "./adapt.js";
 import XYZ_D65 from "./spaces/xyz-d65.js";
 
@@ -15,7 +15,7 @@ export default class RGBColorSpace extends ColorSpace {
 	 * you can specify to/from XYZ matrices and have `toBase()` and `fromBase()` automatically generated.
 	 * @param {RGBOptions} options
 	 */
-	constructor (options) {
+	constructor(options) {
 		if (!options.coords) {
 			options.coords = {
 				r: {

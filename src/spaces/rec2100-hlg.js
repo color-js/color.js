@@ -1,13 +1,12 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 import REC_2100_Linear from "./rec2100-linear.js";
-import {spow} from "../util.js";
-
+import { spow } from "../util.js";
 
 const a = 0.17883277;
 const b = 0.28466892; // 1 - (4 * a)
 const c = 0.55991073; // 0.5 - a * Math.log(4 *a)
 
-const scale = 3.7743;	// Place 18% grey at HLG 0.38, so media white at 0.75
+const scale = 3.7743; // Place 18% grey at HLG 0.38, so media white at 0.75
 
 export default new RGBColorSpace({
 	id: "rec2100hlg",
@@ -16,7 +15,7 @@ export default new RGBColorSpace({
 	referred: "scene",
 
 	base: REC_2100_Linear,
-	toBase (RGB) {
+	toBase(RGB) {
 		// given HLG encoded component in range [0, 1]
 		// return media-white relative linear-light
 		return RGB.map(function (val) {
@@ -25,12 +24,12 @@ export default new RGBColorSpace({
 			// 6.3 The hybrid log-gamma electro-optical transfer function (EOTF)
 			// Then scale by 3 so media white is 1.0
 			if (val <= 0.5) {
-				return (val ** 2) / 3 * scale;
+				return (val ** 2 / 3) * scale;
 			}
 			return ((Math.exp((val - c) / a) + b) / 12) * scale;
 		});
 	},
-	fromBase (RGB) {
+	fromBase(RGB) {
 		// given media-white relative linear-light
 		// where diffuse white is 1.0,
 		// return HLG encoded component in range [0, 1]

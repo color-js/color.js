@@ -2,40 +2,40 @@ import terser from "@rollup/plugin-terser";
 
 const bundles = [
 	{
-		"file": "dist/color.global.js",
-		"format": "iife",
-		"sourcemap": true,
-		"name": "Color",
+		file: "dist/color.global.js",
+		format: "iife",
+		sourcemap: true,
+		name: "Color",
 	},
 	{
-		"file": "dist/color.js",
-		"format": "esm",
-		"sourcemap": true,
+		file: "dist/color.js",
+		format: "esm",
+		sourcemap: true,
 	},
 	{
-		"file": "dist/color.cjs",
-		"format": "cjs",
-		"sourcemap": true,
-		"exports": "named",
+		file: "dist/color.cjs",
+		format: "cjs",
+		sourcemap: true,
+		exports: "named",
 	},
 ];
 
 const fnBundles = [
 	{
-		"file": "dist/color-fn.cjs",
-		"format": "cjs",
-		"sourcemap": true,
-		"exports": "named",
+		file: "dist/color-fn.cjs",
+		format: "cjs",
+		sourcemap: true,
+		exports: "named",
 	},
 	{
-		"file": "dist/color-fn.js",
-		"format": "esm",
-		"sourcemap": true,
+		file: "dist/color-fn.js",
+		format: "esm",
+		sourcemap: true,
 	},
 ];
 
 // Add minified versions of every bundle
-const addMinBundle = (bundles) => {
+const addMinBundle = bundles => {
 	return bundles.flatMap(bundle => {
 		const minBundle = Object.assign({}, bundle);
 		minBundle.file = minBundle.file.replace(/\.\w+$/, ".min$&");
@@ -50,7 +50,7 @@ export default [
 	{
 		input: "src/index.js",
 		output: addMinBundle(bundles),
-		onwarn (warning, rollupWarn) {
+		onwarn(warning, rollupWarn) {
 			if (warning.code !== "CIRCULAR_DEPENDENCY") {
 				rollupWarn(warning);
 			}
@@ -59,7 +59,7 @@ export default [
 	{
 		input: "src/index-fn.js",
 		output: addMinBundle(fnBundles),
-		onwarn (warning, rollupWarn) {
+		onwarn(warning, rollupWarn) {
 			if (warning.code !== "CIRCULAR_DEPENDENCY") {
 				rollupWarn(warning);
 			}

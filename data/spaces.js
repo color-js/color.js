@@ -1,5 +1,5 @@
 import ColorSpace from "../src/spaces/index.js";
-import {WHITES} from "../src/adapt.js";
+import { WHITES } from "../src/adapt.js";
 
 let whitePoints = Object.entries(WHITES);
 
@@ -13,8 +13,7 @@ if (url.protocol === "file:") {
 	const { readFileSync } = await import("fs");
 
 	modules = JSON.parse(readFileSync(url));
-}
-else {
+} else {
 	modules = await (await fetch(url)).json();
 }
 
@@ -24,12 +23,12 @@ modules.space = Object.fromEntries(modules.space.map(meta => [meta.id, meta]));
 
 for (let id in ColorSpace.registry) {
 	let space = ColorSpace.registry[id];
-	let meta = spaces[id] = Object.assign(modules.space[id] ?? {}, {
+	let meta = (spaces[id] = Object.assign(modules.space[id] ?? {}, {
 		name: space.name,
 		white: whitePoints.find(([name, white]) => white === space.white)?.[0] ?? "D65",
 		base: space.base,
 		coords: space.coords,
-	});
+	}));
 
 	if (space.id != id) {
 		meta.aliasOf = ColorSpace.registry[space.id].name;

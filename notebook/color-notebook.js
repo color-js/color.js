@@ -1,20 +1,21 @@
 /**
-* Color notebook: Interactive color examples
-* Idea credit: chroma.js
-* Author: Lea Verou
-*/
+ * Color notebook: Interactive color examples
+ * Idea credit: chroma.js
+ * Author: Lea Verou
+ */
 
-export let $ = Bliss, $$ = $.$;
-import Color, {util} from "../color.js";
+export let $ = Bliss,
+	$$ = $.$;
+import Color, { util } from "../color.js";
 import * as acorn from "https://cdn.jsdelivr.net/npm/acorn/dist/acorn.mjs";
 import * as acornWalk from "https://cdn.jsdelivr.net/npm/acorn-walk/dist/walk.mjs";
-import {generate} from "https://cdn.jsdelivr.net/npm/astring@1.7.4/dist/astring.mjs";
+import { generate } from "https://cdn.jsdelivr.net/npm/astring@1.7.4/dist/astring.mjs";
 
 const supportsP3 = window.CSS && CSS.supports("color", "color(display-p3 0 1 0)");
 const outputSpace = supportsP3 ? "p3" : "srgb";
 const codes = new WeakMap();
 
-const acornOptions = {ecmaVersion: "2020", sourceType: "module"};
+const acornOptions = { ecmaVersion: "2020", sourceType: "module" };
 
 Prism.hooks.add("before-sanity-check", env => {
 	if ($(".token", env.element)) {
@@ -34,7 +35,7 @@ Prism.hooks.add("complete", env => {
 });
 
 export default class Notebook {
-	constructor (pre) {
+	constructor(pre) {
 		this.pre = pre;
 		this.pre.notebook = this;
 		this.initialCode = this.pre.textContent;
@@ -45,11 +46,11 @@ export default class Notebook {
 		Notebook.intersectionObserver.observe(this.pre);
 	}
 
-	get edited () {
+	get edited() {
 		return this.initialCode !== this.code;
 	}
 
-	init () {
+	init() {
 		if (this.initialized) {
 			return false;
 		}
@@ -57,7 +58,7 @@ export default class Notebook {
 		this.wrapper = $.create("div", {
 			className: "cn-wrapper",
 			around: this.pre,
-			contents: {className: "cn-results"},
+			contents: { className: "cn-results" },
 		});
 
 		// Create Prism Live instance if not already present
@@ -101,17 +102,17 @@ export default class Notebook {
 		return true;
 	}
 
-	async reloadSandbox () {
+	async reloadSandbox() {
 		if (this.sandbox.contentWindow?.document.readyState === "complete") {
 			this.sandbox.classList.remove("ready", "dirty");
 			this.sandbox.contentWindow.location.reload();
 		}
 
-		await new Promise(r => this.sandbox.addEventListener("load", r, {once: true}));
+		await new Promise(r => this.sandbox.addEventListener("load", r, { once: true }));
 		let win = this.sandbox.contentWindow;
 
 		if (win.document.readyState !== "complete") {
-			await new Promise(r => win.addEventListener("load", r, {once: true}));
+			await new Promise(r => win.addEventListener("load", r, { once: true }));
 		}
 
 		this.sandbox.classList.add("ready");
@@ -119,7 +120,7 @@ export default class Notebook {
 		return win;
 	}
 
-	static rewrite (code) {
+	static rewrite(code) {
 		let ast = acorn.parse(code, acornOptions);
 		let env = new Set();
 		let details = {};
@@ -135,8 +136,7 @@ export default class Notebook {
 					let name = declaration.id.name;
 					details[name] = [];
 				}
-			}
-			else if (node.type === "Identifier") {
+			} else if (node.type === "Identifier") {
 				if (parent.type !== "VariableDeclarator" && node.name in details) {
 					nodes.push(node);
 				}
@@ -164,8 +164,7 @@ export default class Notebook {
 
 					details[declaration.id.name].push(getNodePosition(node, code, ast));
 				}
-			}
-			else {
+			} else {
 				// Insert "env." at node.start + offset
 				let start = node.start + offset;
 				code = code.slice(0, start) + "env." + code.slice(start);
@@ -175,10 +174,10 @@ export default class Notebook {
 			}
 		}
 
-		return {code, details, ast};
+		return { code, details, ast };
 	}
 
-	async eval () {
+	async eval() {
 		let pre = this.pre;
 
 		if ($(".cn-evaluated.token", pre)) {
@@ -198,9 +197,8 @@ export default class Notebook {
 		codes.set(pre, value);
 
 		try {
-			var {code, details, ast} = Notebook.rewrite(this.code);
-		}
-		catch (e) {
+			var { code, details, ast } = Notebook.rewrite(this.code);
+		} catch (e) {
 			// Syntax error
 			var error = e;
 		}
@@ -208,8 +206,7 @@ export default class Notebook {
 		if (!error) {
 			try {
 				var statements = acorn.parse(code, acornOptions).body;
-			}
-			catch (e) {
+			} catch (e) {
 				// Syntax error in the rewritten code
 				var error = e;
 			}
@@ -244,8 +241,7 @@ export default class Notebook {
 
 			try {
 				ret = win.runLine(lineCode, env);
-			}
-			catch (e) {
+			} catch (e) {
 				ret = e;
 
 				if (this.debug) {
@@ -254,26 +250,21 @@ export default class Notebook {
 			}
 
 			if (ret instanceof win.Error) {
-				console.log(
-					"Error during statement evaluation:", ret,
-					"Statement was:", lineCode,
-				);
-			}
-			else {
+				console.log("Error during statement evaluation:", ret, "Statement was:", lineCode);
+			} else {
 				// Find which variables are included in the current statement
 				acornWalk.full(originalStatement, node => {
 					if (node.type !== "Identifier" || !(node.name in details)) {
 						return;
 					}
 
-					let {name, start, end} = node;
+					let { name, start, end } = node;
 
 					// Wrap variable
 					let text = getNodeAt((start + end) / 2, pre);
 					let value = env[name];
 
-					if (value && typeof value === "object" && ("coords" in value)) {
-
+					if (value && typeof value === "object" && "coords" in value) {
 						let offset = text.textContent.indexOf(name);
 
 						if (offset > 0) {
@@ -297,8 +288,7 @@ export default class Notebook {
 						try {
 							wrappedNode.style.setProperty("--color", value.to(outputSpace));
 							wrappedNode.classList.add(lightOrDark(value));
-						}
-						catch (e) {}
+						} catch (e) {}
 					}
 					// TODO do something nice with other types :)
 				});
@@ -308,10 +298,7 @@ export default class Notebook {
 
 			try {
 				result = serialize(ret, undefined, win);
-			}
-			catch (e) {
-
-			}
+			} catch (e) {}
 
 			if (result) {
 				results.append(result);
@@ -319,12 +306,14 @@ export default class Notebook {
 
 				// What line is start on?
 				let end = originalStatement.end;
-				let nodeAtOffset = getNodeAt(end, pre, {type: "element"});
+				let nodeAtOffset = getNodeAt(end, pre, { type: "element" });
 
-				let offset = nodeAtOffset.offsetTop - result.offsetTop
-				// Prevent overly tall results (e.g. long arrays of colors)
-				// to make the entire code area super tall
-					- Math.max(0, result.offsetHeight - 30);
+				let offset =
+					nodeAtOffset.offsetTop -
+					result.offsetTop -
+					// Prevent overly tall results (e.g. long arrays of colors)
+					// to make the entire code area super tall
+					Math.max(0, result.offsetHeight - 30);
 
 				if (offset > 5) {
 					result.style.marginTop = offset + "px";
@@ -350,14 +339,14 @@ export default class Notebook {
 		await this.reloadSandbox();
 	}
 
-	destroy () {
+	destroy() {
 		this.sandbox.remove();
 		Notebook.intersectionObserver.disconnect(this.pre);
 		this.wrapper = this.sandbox = this.pre = null;
 		Notebook.all.delete(this);
 	}
 
-	static create (pre) {
+	static create(pre) {
 		if (pre.notebook) {
 			return pre.notebook;
 		}
@@ -366,11 +355,11 @@ export default class Notebook {
 	}
 }
 
-export function walk (pre, callback, filter) {
+export function walk(pre, callback, filter) {
 	let walker = document.createTreeWalker(pre, filter);
 	let node;
 
-	while (node = walker.nextNode()) {
+	while ((node = walker.nextNode())) {
 		let ret = callback(node);
 
 		if (ret !== undefined) {
@@ -379,18 +368,19 @@ export function walk (pre, callback, filter) {
 	}
 }
 
-function getNodePosition (node, code, ast) {
-	let {start, end} = node;
+function getNodePosition(node, code, ast) {
+	let { start, end } = node;
 	let before = code.slice(0, start);
 	let line = before.split(/\r?\n/);
-	return {start, end, line};
+	return { start, end, line };
 }
 
-function getNodeAt (offset, container, {type} = {}) {
-	let node, sum = 0;
+function getNodeAt(offset, container, { type } = {}) {
+	let node,
+		sum = 0;
 	let walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
 
-	while (node = walk.nextNode()) {
+	while ((node = walk.nextNode())) {
 		sum += node.data.length;
 
 		if (sum >= offset) {
@@ -406,7 +396,7 @@ function getNodeAt (offset, container, {type} = {}) {
 	return null;
 }
 
-export function serialize (ret, color, win = window) {
+export function serialize(ret, color, win = window) {
 	let element;
 	let Color = win.Color;
 
@@ -417,8 +407,8 @@ export function serialize (ret, color, win = window) {
 	let flag = false;
 
 	if (
-		ret instanceof win.Error // runtime error, thrown in the sandbox
-		|| ret instanceof Error  // syntax error, thrown here
+		ret instanceof win.Error || // runtime error, thrown in the sandbox
+		ret instanceof Error // syntax error, thrown here
 	) {
 		if (ret.message.indexOf("Cannot use import statement") > -1) {
 			return "";
@@ -444,18 +434,17 @@ export function serialize (ret, color, win = window) {
 
 		element = $.create({
 			...template,
-			textContent: ret.toString({precision: 3, inGamut: false}),
+			textContent: ret.toString({ precision: 3, inGamut: false }),
 		});
 
 		flag = true;
-	}
-	else if (typeof ret === "function" && ret.rangeArgs) {
+	} else if (typeof ret === "function" && ret.rangeArgs) {
 		// Range function?
 		return $.create({
 			...template,
 			className: "cn-value cn-range",
 			style: {
-				"--stops": Color.steps(ret, {steps: 5, maxDeltaE: 4}).map(color => {
+				"--stops": Color.steps(ret, { steps: 5, maxDeltaE: 4 }).map(color => {
 					if (!CSS.supports("color", color)) {
 						return color.to(outputSpace);
 					}
@@ -464,8 +453,7 @@ export function serialize (ret, color, win = window) {
 				}),
 			},
 		});
-	}
-	else if (Array.isArray(ret)) {
+	} else if (Array.isArray(ret)) {
 		let colors = ret.map(c => serialize(c, undefined, win));
 
 		if (ret.length > 2 && ret[0] instanceof Color) {
@@ -486,29 +474,25 @@ export function serialize (ret, color, win = window) {
 			className: "cn-value cn-array",
 			contents,
 		});
-	}
-	else if (typeof ret === "number") {
+	} else if (typeof ret === "number") {
 		element = $.create({
 			...template,
 			className: "cn-number",
 			textContent: util.toPrecision(ret, 3) + "",
 		});
-	}
-	else if (typeof ret === "boolean") {
+	} else if (typeof ret === "boolean") {
 		element = $.create({
 			...template,
 			className: "cn-boolean",
 			textContent: ret,
 		});
-	}
-	else if (util.isString(ret)) {
+	} else if (util.isString(ret)) {
 		element = $.create({
 			...template,
 			className: "cn-string",
 			textContent: `"${ret}"`,
 		});
-	}
-	else if (ret && typeof ret === "object") {
+	} else if (ret && typeof ret === "object") {
 		let keys = Object.keys(ret);
 		element = $.create({
 			...template,
@@ -521,12 +505,12 @@ export function serialize (ret, color, win = window) {
 
 	if (color instanceof Color) {
 		if (!element) {
-			element = $.create({className: "void"});
+			element = $.create({ className: "void" });
 		}
 
 		element.classList.add("cn-color", lightOrDark(color));
 
-		let str = element.dataset.title = color.toString({inGamut: false});
+		let str = (element.dataset.title = color.toString({ inGamut: false }));
 
 		let outOfGamut = [];
 
@@ -556,8 +540,8 @@ export function serialize (ret, color, win = window) {
 	return element;
 }
 
-function lightOrDark (color) {
-	return color.luminance > .5 || color.alpha < .5 ? "light" : "dark";
+function lightOrDark(color) {
+	return color.luminance > 0.5 || color.alpha < 0.5 ? "light" : "dark";
 }
 
 Notebook.all = new Set();
@@ -576,18 +560,25 @@ Notebook.intersectionObserver = new IntersectionObserver(entries => {
 	}
 });
 
-export function initAll (container = document) {
-	let pres = $$(".language-js, .language-javascript", container).flatMap(el => {
-		let ret = $$("pre > code", el);
-		let ancestor =  el.closest("pre > code");
+export function initAll(container = document) {
+	let pres = $$(".language-js, .language-javascript", container)
+		.flatMap(el => {
+			let ret = $$("pre > code", el);
+			let ancestor = el.closest("pre > code");
 
-		if (ancestor) {
-			ret.push(ancestor);
-		}
+			if (ancestor) {
+				ret.push(ancestor);
+			}
 
-		return ret.filter(code => !code.matches(".cn-ignore, .cn-ignore *")
-		                       && !code.matches('[class*="language-"]:not(.language-js):not(.language-javascript)'));
-	}).map(code => code.parentNode);
+			return ret.filter(
+				code =>
+					!code.matches(".cn-ignore, .cn-ignore *") &&
+					!code.matches(
+						'[class*="language-"]:not(.language-js):not(.language-javascript)',
+					),
+			);
+		})
+		.map(code => code.parentNode);
 
 	for (let pre of pres) {
 		Notebook.create(pre);

@@ -1,6 +1,6 @@
 export default {
 	// Extract default title from content
-	title (data) {
+	title(data) {
 		if (data.title) {
 			return data.title;
 		}
@@ -14,8 +14,7 @@ export default {
 		if (ext === "md") {
 			// First heading
 			ret = content.match(/^#+\s+(.*)/m)?.[1];
-		}
-		else if (ext === "njk") {
+		} else if (ext === "njk") {
 			// First level 1 heading
 			ret = content.match(/<h1>(.*)<\/h1>/)?.[1];
 		}

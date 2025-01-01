@@ -19,14 +19,14 @@ hooks.add("colorspace-init-end", space => {
 	});
 });
 
-function addSpaceAccessors (id, space) {
+function addSpaceAccessors(id, space) {
 	let propId = id.replace(/-/g, "_");
 
 	Object.defineProperty(Color.prototype, propId, {
 		// Convert coords to coords in another colorspace and return them
 		// Source colorspace: this.spaceId
 		// Target colorspace: id
-		get () {
+		get() {
 			let ret = this.getAll(id);
 
 			if (typeof Proxy === "undefined") {
@@ -40,14 +40,13 @@ function addSpaceAccessors (id, space) {
 					try {
 						ColorSpace.resolveCoord([space, property]);
 						return true;
-					}
-					catch (e) {}
+					} catch (e) {}
 
 					return Reflect.has(obj, property);
 				},
 				get: (obj, property, receiver) => {
 					if (property && typeof property !== "symbol" && !(property in obj)) {
-						let {index} = ColorSpace.resolveCoord([space, property]);
+						let { index } = ColorSpace.resolveCoord([space, property]);
 
 						if (index >= 0) {
 							return obj[index];
@@ -57,8 +56,14 @@ function addSpaceAccessors (id, space) {
 					return Reflect.get(obj, property, receiver);
 				},
 				set: (obj, property, value, receiver) => {
-					if (property && typeof property !== "symbol" && !(property in obj) || property >= 0) {
-						let {index} = ColorSpace.resolveCoord([space, /** @type {string} */ (property)]);
+					if (
+						(property && typeof property !== "symbol" && !(property in obj)) ||
+						property >= 0
+					) {
+						let { index } = ColorSpace.resolveCoord([
+							space,
+							/** @type {string} */ (property),
+						]);
 
 						if (index >= 0) {
 							obj[index] = value;
@@ -77,7 +82,7 @@ function addSpaceAccessors (id, space) {
 		// Convert coords in another colorspace to internal coords and set them
 		// Target colorspace: this.spaceId
 		// Source colorspace: id
-		set (coords) {
+		set(coords) {
 			this.setAll(id, coords);
 		},
 		configurable: true,

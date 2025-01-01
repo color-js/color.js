@@ -11,14 +11,14 @@ import getColor from "./getColor.js";
  * @param {Ref} prop
  * @returns {number}
  */
-export default function get (color, prop) {
+export default function get(color, prop) {
 	color = getColor(color);
 
 	if (prop === "alpha") {
 		return color.alpha ?? 1;
 	}
 
-	let {space, index} = ColorSpace.resolveCoord(prop, color.space);
+	let { space, index } = ColorSpace.resolveCoord(prop, color.space);
 	let coords = getAll(color, space);
 	return coords[index];
 }
