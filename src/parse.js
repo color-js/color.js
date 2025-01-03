@@ -108,7 +108,7 @@ export default function parse (str, options) {
 	}
 	else {
 		// Custom, colorspace-specific format
-		for (let space of ColorSpace.all) {
+		spaceloop: for (let space of ColorSpace.all) {
 			for (let formatId in space.formats) {
 				let format = space.formats[formatId];
 
@@ -131,7 +131,7 @@ export default function parse (str, options) {
 					}
 
 					ret = color;
-					break;
+					break spaceloop;
 				}
 			}
 		}
