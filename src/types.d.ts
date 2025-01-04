@@ -236,7 +236,7 @@ export interface Cam16Environment {
 	z: number;
 	nbb: number;
 	ncb: number;
-	dRgb: number[];
-	dRgbInv: number[];
+	dRgb: [number, number, number];
+	dRgbInv: [number, number, number];
 	aW: number;
 }
