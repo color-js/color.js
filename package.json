@@ -47,7 +47,7 @@
 	"scripts": {
 		"test": "npx htest ./test",
 		"dtslint": "dtslint --expectOnly types",
-		"eslint": "eslint . --ext .js --ext .ts --ext .cjs",
+		"eslint": "eslint .",
 		"lint": "run-s build:space-accessors \"eslint -- --fix\" build:ts dtslint",
 		"lint:ci": "run-s build:space-accessors \"eslint -- --max-warnings 0\" build:ts dtslint",
 		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js",
@@ -95,12 +95,11 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-terser": "^0.4.4",
 		"@stylistic/eslint-plugin": "latest",
-		"@typescript-eslint/eslint-plugin": "latest",
-		"@typescript-eslint/parser": "latest",
 		"acorn": "latest",
 		"brep": "^0.0.9",
 		"core-js": "^3.36.0",
 		"eslint": "latest",
+		"globals": "latest",
 		"htest.dev": ">=0.0.14",
 		"mathjs": "^12.4.0",
 		"npm-run-all": "^4.1.5",
@@ -108,7 +107,8 @@
 		"rollup": "^4.12.0",
 		"typedoc": "^0.25.12",
 		"typedoc-plugin-rename-defaults": "^0.7.0",
-		"typescript": "^5.3.3"
+		"typescript": "^5.3.3",
+		"typescript-eslint": "latest"
 	},
 	"sideEffects": [
 		"./src/index.js",
