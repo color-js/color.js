@@ -39,6 +39,7 @@ try {
 	const __dirname = path.dirname(fileURLToPath(import.meta.url));
 	const filePath = path.resolve(__dirname, "../src/space-coord-accessors.d.ts");
 	fs.writeFileSync(filePath, template);
-} catch (err) {
+}
+catch (err) {
 	console.error(err);
 }

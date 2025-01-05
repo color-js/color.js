@@ -57,7 +57,8 @@ export default function display(color, { space = defaults.display_space, ...opti
 	) {
 		ret = /** @type {Display} */ (new String(ret));
 		ret.color = /** @type {PlainColorObject} */ (color);
-	} else {
+	}
+	else {
 		// If we're here, what we were about to output is not supported
 		let fallbackColor = /** @type {PlainColorObject} */ (color);
 

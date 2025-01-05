@@ -67,7 +67,8 @@ export default class Color {
 			space = color.space || color.spaceId;
 			coords = color.coords;
 			alpha = color.alpha;
-		} else {
+		}
+		else {
 			// default signature new Color(ColorSpace, array [, alpha])
 			[space, coords, alpha] = args;
 		}
@@ -138,7 +139,8 @@ export default class Color {
 
 			if (returns === "color") {
 				ret = Color.get(ret);
-			} else if (returns === "function<color>") {
+			}
+			else if (returns === "function<color>") {
 				let f = ret;
 				ret = function (...args) {
 					let ret = f(...args);
@@ -146,7 +148,8 @@ export default class Color {
 				};
 				// Copy any function metadata
 				Object.assign(ret, f);
-			} else if (returns === "array<color>") {
+			}
+			else if (returns === "array<color>") {
 				ret = ret.map(c => Color.get(c));
 			}
 
@@ -173,7 +176,8 @@ export default class Color {
 	static extend(exports) {
 		if (exports.register) {
 			exports.register(Color);
-		} else {
+		}
+		else {
 			// No register method, just add the module's functions
 			for (let name in exports) {
 				Color.defineFunction(name, exports[name]);

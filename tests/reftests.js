@@ -19,7 +19,8 @@ RefTest.hooks.add("reftest-testrow", function (env) {
 
 		try {
 			color = new Color(cell.textContent);
-		} catch (e) {
+		}
+		catch (e) {
 			return;
 		}
 

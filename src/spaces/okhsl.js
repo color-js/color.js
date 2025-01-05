@@ -237,7 +237,8 @@ export function findGamutIntersection(a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp)
 	if ((l1 - l0) * cusp[1] - (cusp[0] - l0) * c1 <= 0.0) {
 		// Lower half
 		t = (cusp[1] * l0) / (c1 * cusp[0] + cusp[1] * (l0 - l1));
-	} else {
+	}
+	else {
 		// Upper half
 
 		// First intersect with triangle
@@ -353,11 +354,13 @@ function computeMaxSaturation(a, b, lmsToRgb, okCoeff) {
 		// Red component
 		[k0, k1, k2, k3, k4] = okCoeff[0][1];
 		[wl, wm, ws] = lmsToRgb[0];
-	} else if (vdot(okCoeff[1][0], [a, b]) > 1) {
+	}
+	else if (vdot(okCoeff[1][0], [a, b]) > 1) {
 		// Green component
 		[k0, k1, k2, k3, k4] = okCoeff[1][1];
 		[wl, wm, ws] = lmsToRgb[1];
-	} else {
+	}
+	else {
 		// Blue component
 		[k0, k1, k2, k3, k4] = okCoeff[2][1];
 		[wl, wm, ws] = lmsToRgb[2];
@@ -430,7 +433,8 @@ function okhslToOklab(hsl, lmsToRgb, okCoeff) {
 			k0 = 0.0;
 			k1 = mid * c0;
 			k2 = 1.0 - k1 / cMid;
-		} else {
+		}
+		else {
 			t = 5 * (s - 0.8);
 			k0 = cMid;
 			k1 = (0.2 * cMid ** 2 * 1.25 ** 2) / c0;
@@ -476,7 +480,8 @@ function oklabToOkhsl(lab, lmsToRgb, okCoeff) {
 
 			t = c / (k1 + k2 * c);
 			s = t * mid;
-		} else {
+		}
+		else {
 			k0 = cMid;
 			k1 = (0.2 * cMid ** 2 * midInv ** 2) / c0;
 			k2 = 1.0 - k1 / (cMax - cMid);
@@ -495,7 +500,8 @@ function oklabToOkhsl(lab, lmsToRgb, okCoeff) {
 		if (!achromatic) {
 			s = 0.0;
 		}
-	} else {
+	}
+	else {
 		h = constrain(h * 360);
 	}
 

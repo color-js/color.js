@@ -106,13 +106,17 @@ export default function (color, sample, { kL = 1, kC = 1, kH = 1 } = {}) {
 
 	if (Cdash1 * Cdash2 === 0) {
 		Δh = 0;
-	} else if (habs <= 180) {
+	}
+	else if (habs <= 180) {
 		Δh = hdiff;
-	} else if (hdiff > 180) {
+	}
+	else if (hdiff > 180) {
 		Δh = hdiff - 360;
-	} else if (hdiff < -180) {
+	}
+	else if (hdiff < -180) {
 		Δh = hdiff + 360;
-	} else {
+	}
+	else {
 		defaults.warn("the unthinkable has happened");
 	}
 
@@ -130,11 +134,14 @@ export default function (color, sample, { kL = 1, kC = 1, kH = 1 } = {}) {
 	let hdash;
 	if (Cdash1 * Cdash2 === 0) {
 		hdash = hsum; // which should be zero
-	} else if (habs <= 180) {
+	}
+	else if (habs <= 180) {
 		hdash = hsum / 2;
-	} else if (hsum < 360) {
+	}
+	else if (hsum < 360) {
 		hdash = (hsum + 360) / 2;
-	} else {
+	}
+	else {
 		hdash = (hsum - 360) / 2;
 	}
 

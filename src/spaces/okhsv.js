@@ -153,7 +153,8 @@ function oklabToOkhsv(lab, lmsToRgb, okCoeff) {
 
 	if (Math.abs(s) < ε || v === 0.0) {
 		h = null;
-	} else {
+	}
+	else {
 		h = constrain(h * 360);
 	}
 

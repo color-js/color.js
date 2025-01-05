@@ -15,7 +15,8 @@ function expectThrows(testObj) {
 	let refResult;
 	try {
 		refResult = refMultiply(...testObj.args);
-	} catch (error) {
+	}
+	catch (error) {
 		refResult = error.message;
 	}
 	return { ...testObj, expect: refResult };

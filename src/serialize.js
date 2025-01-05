@@ -76,12 +76,14 @@ export default function serialize(color, options = {}) {
 	if (format.type === "custom") {
 		if (format.serialize) {
 			ret = format.serialize(coords, color.alpha, options);
-		} else {
+		}
+		else {
 			throw new TypeError(
 				`format ${formatId} can only be used to parse colors, not for serialization`,
 			);
 		}
-	} else {
+	}
+	else {
 		// Functional syntax
 		let name = format.name || "color";
 

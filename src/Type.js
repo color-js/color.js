@@ -47,7 +47,8 @@ export default class Type {
 		}
 		if (this.type === "<percentage>") {
 			return this.percentageRange();
-		} else if (this.type === "<angle>") {
+		}
+		else if (this.type === "<angle>") {
 			return [0, 360];
 		}
 		return null;
@@ -56,7 +57,8 @@ export default class Type {
 	get unit() {
 		if (this.type === "<percentage>") {
 			return "%";
-		} else if (this.type === "<angle>") {
+		}
+		else if (this.type === "<angle>") {
 			return "deg";
 		}
 
@@ -119,7 +121,8 @@ export default class Type {
 			(this.coordRange && this.coordRange[0] >= 0)
 		) {
 			range = [0, 1];
-		} else {
+		}
+		else {
 			range = [-1, 1];
 		}
 		return [range[0] * scale, range[1] * scale];

@@ -33,14 +33,16 @@ export default function set(color, prop, value) {
 		for (let p in object) {
 			set(color, p, object[p]);
 		}
-	} else {
+	}
+	else {
 		if (typeof value === "function") {
 			value = value(get(color, prop));
 		}
 
 		if (prop === "alpha") {
 			color.alpha = value;
-		} else {
+		}
+		else {
 			let { space, index } = ColorSpace.resolveCoord(prop, color.space);
 			let coords = getAll(color, space);
 			coords[index] = value;

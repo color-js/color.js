@@ -37,7 +37,8 @@ export default function getAll(color, options) {
 	if (!space || color.space.equals(space)) {
 		// No conversion needed
 		coords = color.coords.slice();
-	} else {
+	}
+	else {
 		coords = space.from(color);
 	}
 

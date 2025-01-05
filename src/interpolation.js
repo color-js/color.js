@@ -90,7 +90,8 @@ export function steps(c1, c2, options = {}) {
 
 	if (actualSteps === 1) {
 		ret = [{ p: 0.5, color: colorRange(0.5) }];
-	} else {
+	}
+	else {
 		let step = 1 / (actualSteps - 1);
 		ret = Array.from({ length: actualSteps }, (_, i) => {
 			let p = i * step;
@@ -170,7 +171,8 @@ export function range(color1, color2, options = {}) {
 
 	if (space) {
 		space = ColorSpace.get(space);
-	} else {
+	}
+	else {
 		space = ColorSpace.registry[defaults.interpolationSpace] || color1.space;
 	}
 
@@ -195,7 +197,8 @@ export function range(color1, color2, options = {}) {
 		// See https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545
 		if (isNone(θ1) && !isNone(θ2)) {
 			θ1 = θ2;
-		} else if (isNone(θ2) && !isNone(θ1)) {
+		}
+		else if (isNone(θ2) && !isNone(θ1)) {
 			θ2 = θ1;
 		}
 		[θ1, θ2] = angles.adjust(arc, [θ1, θ2]);

@@ -83,12 +83,14 @@ export default function contrastAPCA(background, foreground) {
 	// https://github.com/LeaVerou/color.js/issues/208
 	if (Math.abs(Ybg - Ytxt) < deltaYmin) {
 		C = 0;
-	} else {
+	}
+	else {
 		if (BoW) {
 			// dark text on light background
 			S = Ybg ** normBG - Ytxt ** normTXT;
 			C = S * scaleBoW;
-		} else {
+		}
+		else {
 			// light text on dark background
 			S = Ybg ** revBG - Ytxt ** revTXT;
 			C = S * scaleWoB;
@@ -96,11 +98,13 @@ export default function contrastAPCA(background, foreground) {
 	}
 	if (Math.abs(C) < loClip) {
 		Sapc = 0;
-	} else if (C > 0) {
+	}
+	else if (C > 0) {
 		// not clear whether Woffset is loBoWoffset or loWoBoffset
 		// but they have the same value
 		Sapc = C - loBoWoffset;
-	} else {
+	}
+	else {
 		Sapc = C + loBoWoffset;
 	}
 

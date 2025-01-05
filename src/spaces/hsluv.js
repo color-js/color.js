@@ -120,10 +120,12 @@ export default new ColorSpace({
 		if (l > 99.9999999) {
 			s = 0;
 			l = 100;
-		} else if (l < 0.00000001) {
+		}
+		else if (l < 0.00000001) {
 			s = 0;
 			l = 0;
-		} else {
+		}
+		else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
 			s = (c / max) * 100;
@@ -140,10 +142,12 @@ export default new ColorSpace({
 		if (l > 99.9999999) {
 			l = 100;
 			c = 0;
-		} else if (l < 0.00000001) {
+		}
+		else if (l < 0.00000001) {
 			l = 0;
 			c = 0;
-		} else {
+		}
+		else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
 			c = (max / 100) * s;

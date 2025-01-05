@@ -172,7 +172,8 @@ export function bisectLeft(arr, value, lo = 0, hi = arr.length) {
 		const mid = (lo + hi) >> 1;
 		if (arr[mid] < value) {
 			lo = mid + 1;
-		} else {
+		}
+		else {
 			hi = mid;
 		}
 	}

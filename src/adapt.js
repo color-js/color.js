@@ -60,7 +60,8 @@ export default function adapt(W1, W2, XYZ, options = {}) {
 				[  0.02962780877005599,  0.9904344267538799,   -0.017073799063418826 ],
 				[ -0.009243040646204504, 0.015055191490298152,  0.7518742814281371   ],
 			];
-		} else if (env.W1 === WHITES.D50 && env.W2 === WHITES.D65) {
+		}
+		else if (env.W1 === WHITES.D50 && env.W2 === WHITES.D65) {
 			// prettier-ignore
 			env.M = [
 				[  0.955473421488075,    -0.02309845494876471,  0.06325924320057072  ],
@@ -74,7 +75,8 @@ export default function adapt(W1, W2, XYZ, options = {}) {
 
 	if (env.M) {
 		return multiply_v3_m3x3(env.XYZ, env.M);
-	} else {
+	}
+	else {
 		throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
 	}
 }
