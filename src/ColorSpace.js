@@ -85,6 +85,7 @@ export default class ColorSpace {
 
 		// Other stuff
 		this.referred = options.referred;
+		this.ε = options.ε;
 
 		// Compute ancestors and store them, since they will never change
 		Object.defineProperty(this, "path", {

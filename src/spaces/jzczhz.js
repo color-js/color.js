@@ -24,4 +24,5 @@ export default new ColorSpace({
 	base: Jzazbz,
 	fromBase: lch.fromBase,
 	toBase: lch.toBase,
+	ε: 0.0002363,
 });
