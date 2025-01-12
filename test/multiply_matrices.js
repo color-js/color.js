@@ -105,16 +105,15 @@ export default {
 			},
 			{
 				name: "1x1 matrices",
-				skip: true, // 1x1 matrices Boundry Case isn't handled
 				args: [[[3]], [[4]]],
 			},
 			{
-				name: "1x1 vector × 1x1 matrix", // The scalar return functionality now
-				args: [[5], [[6]]],              // preempts the more proper vector result
+				name: "1x1 vector × 1x1 matrix",
+				args: [[5], [[6]]],
 			},
 			{
-				name: "1x1 matrix × 1x1 vector", // The scalar return functionality now
-				args: [[[7]], [8]],              // preempts the more proper vector result
+				name: "1x1 matrix × 1x1 vector",
+				args: [[[7]], [8]],
 			},
 		].map(testExpected),
 	},

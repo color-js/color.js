@@ -42,11 +42,14 @@ export default function multiplyMatrices (A, B) {
 	let AM;
 	/** @type {number[][]} */
 	let BM;
+	let aVec = false;
+	let bVec = false;
 
 	if (!Array.isArray(A[0])) {
 		// A is vector, convert to [[a, b, c, ...]]
 		AM = [/** @type {number[]} */ (A)];
 		m = AM.length;
+		aVec = true;
 	}
 	else {
 		AM = /** @type {number[][]} */ (A);
@@ -55,6 +58,7 @@ export default function multiplyMatrices (A, B) {
 	if (!Array.isArray(B[0])) {
 		// B is vector, convert to [[a], [b], [c], ...]]
 		BM = B.length > 0 ? B.map(x => [x]) : [[]]; // Avoid mapping empty array
+		bVec = true;
 	}
 	else {
 		BM = /** @type {number[][]} */ (B);
@@ -82,11 +86,11 @@ export default function multiplyMatrices (A, B) {
 		return ret;
 	}));
 
-	if (m === 1) {
+	if (m === 1 && aVec) {
 		product = product[0]; // Avoid [[a, b, c, ...]]
 	}
-	if (p === 1) {
-		if (m === 1) {
+	if (p === 1 && bVec) {
+		if (m === 1 && aVec) {
 			return product[0]; // Avoid [[a]], return a number
 		}
 		else {
