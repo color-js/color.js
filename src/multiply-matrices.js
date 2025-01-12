@@ -86,7 +86,10 @@ export default function multiplyMatrices (A, B) {
 		product = product[0]; // Avoid [[a, b, c, ...]]
 	}
 	if (p === 1) {
-		return product.map(x => x[0]); // Avoid [[a], [b], [c], ...]]
+		if (m === 1) {} // Avoid [[a]] and returning a scalar
+		else {
+			return product.map(x => x[0]); // Avoid [[a], [b], [c], ...]]
+		}
 	}
 
 	return product;

@@ -98,15 +98,16 @@ export default {
 	},
 	{
 		name: "1x1 Edge Cases",
-		skip: true, // 1x1 Boundary Cases are not handled
 		description: "Test boundary case for m x n × n x p, where m = n = p = 1.",
 		tests: [
 			{
 				name: "1x1 vectors",
+				skip: true, // multiplyMatrices doesn't return numbers
 				args: [[1], [2]],
 			},
 			{
 				name: "1x1 matrices",
+				skip: true, // 1x1 matrices Boundry Case isn't handled
 				args: [[[3]], [[4]]],
 			},
 			{
