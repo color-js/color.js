@@ -71,7 +71,6 @@ export default {
 			},
 			{
 				name: "Vector with vector",
-				skip: true, // multiplyMatrices doesn't return numbers
 				args: [[1, 2, 3], [1, .5, 0]],
 			},
 			{
@@ -102,7 +101,6 @@ export default {
 		tests: [
 			{
 				name: "1x1 vectors",
-				skip: true, // multiplyMatrices doesn't return numbers
 				args: [[1], [2]],
 			},
 			{
@@ -111,12 +109,12 @@ export default {
 				args: [[[3]], [[4]]],
 			},
 			{
-				name: "1x1 vector × 1x1 matrix",
-				args: [[5], [[6]]],
+				name: "1x1 vector × 1x1 matrix", // The scalar return functionality now
+				args: [[5], [[6]]],              // preempts the more proper vector result
 			},
 			{
-				name: "1x1 matrix × 1x1 vector",
-				args: [[[7]], [8]],
+				name: "1x1 matrix × 1x1 vector", // The scalar return functionality now
+				args: [[[7]], [8]],              // preempts the more proper vector result
 			},
 		].map(testExpected),
 	},
