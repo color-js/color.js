@@ -54,7 +54,7 @@ export default function multiplyMatrices (A, B) {
 
 	if (!Array.isArray(B[0])) {
 		// B is vector, convert to [[a], [b], [c], ...]]
-		BM = B.map(x => [x]);
+		BM = B.length > 0 ? B.map(x => [x]) : [[]]; // Avoid mapping empty array
 	}
 	else {
 		BM = /** @type {number[][]} */ (B);

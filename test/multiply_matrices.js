@@ -141,7 +141,6 @@ export default {
 			},
 			{
 				name: "Empty vectors",
-				skip: true, // multiplyMatrices calls length on the undefined first element of the empty array
 				args: [[], []],
 			},
 		].map(expectThrows),
