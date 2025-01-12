@@ -46,6 +46,7 @@ export default function multiplyMatrices (A, B) {
 	if (!Array.isArray(A[0])) {
 		// A is vector, convert to [[a, b, c, ...]]
 		AM = [/** @type {number[]} */ (A)];
+		m = AM.length;
 	}
 	else {
 		AM = /** @type {number[][]} */ (A);

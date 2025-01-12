@@ -88,12 +88,10 @@ export default {
 			},
 			{
 				name: "Vector with 3x3 matrix",
-				skip: true, // multiplyMatrices doesn't properly reduce dimensions for vector and matrix multiplication
 				args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
 			},
 			{
 				name: "Vector with other 3x3 matrix",
-				skip: true, // multiplyMatrices doesn't properly reduce dimensions for vector and matrix multiplication
 				args: [[1, 0.5, 0], M_XYZ_to_lin_sRGB],
 			},
 		].map(testExpected),
