@@ -65,12 +65,14 @@ export default class ColorSpace {
 			// Gamut space explicitly specified
 			this.gamutSpace =
 				options.gamutSpace === "self" ? this : ColorSpace.get(options.gamutSpace);
-		} else {
+		}
+		else {
 			// No gamut space specified, calculate a sensible default
 			if (this.isPolar) {
 				// Do not check gamut through polar coordinates
 				this.gamutSpace = this.base;
-			} else {
+			}
+			else {
 				this.gamutSpace = this;
 			}
 		}
@@ -154,7 +156,8 @@ export default class ColorSpace {
 
 		if (format === "default") {
 			format = Object.values(this.formats)[0];
-		} else if (typeof format === "string") {
+		}
+		else if (typeof format === "string") {
 			format = this.formats[format];
 		}
 
@@ -208,7 +211,8 @@ export default class ColorSpace {
 			if (myPath[i].equals(otherPath[i])) {
 				connectionSpace = myPath[i];
 				connectionSpaceIndex = i;
-			} else {
+			}
+			else {
 				break;
 			}
 		}
@@ -380,13 +384,16 @@ export default class ColorSpace {
 			if (ref.includes(".")) {
 				// Absolute coordinate
 				[space, coord] = ref.split(".");
-			} else {
+			}
+			else {
 				// Relative coordinate
 				[space, coord] = [, ref];
 			}
-		} else if (Array.isArray(ref)) {
+		}
+		else if (Array.isArray(ref)) {
 			[space, coord] = ref;
-		} else {
+		}
+		else {
 			// Object
 			space = ref.space;
 			coord = ref.coordId;

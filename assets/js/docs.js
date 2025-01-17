@@ -70,7 +70,8 @@ function makePageToc (pageToc) {
 		if (!$("a", h2)) {
 			a.append(...h2.childNodes);
 			h2.append(a);
-		} else {
+		}
+		else {
 			a.textContent = h2.textContent;
 		}
 

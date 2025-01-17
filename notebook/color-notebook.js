@@ -136,7 +136,8 @@ export default class Notebook {
 					let name = declaration.id.name;
 					details[name] = [];
 				}
-			} else if (node.type === "Identifier") {
+			}
+			else if (node.type === "Identifier") {
 				if (parent.type !== "VariableDeclarator" && node.name in details) {
 					nodes.push(node);
 				}
@@ -164,7 +165,8 @@ export default class Notebook {
 
 					details[declaration.id.name].push(getNodePosition(node, code, ast));
 				}
-			} else {
+			}
+			else {
 				// Insert "env." at node.start + offset
 				let start = node.start + offset;
 				code = code.slice(0, start) + "env." + code.slice(start);
@@ -198,7 +200,8 @@ export default class Notebook {
 
 		try {
 			var { code, details, ast } = Notebook.rewrite(this.code);
-		} catch (e) {
+		}
+		catch (e) {
 			// Syntax error
 			var error = e;
 		}
@@ -206,7 +209,8 @@ export default class Notebook {
 		if (!error) {
 			try {
 				var statements = acorn.parse(code, acornOptions).body;
-			} catch (e) {
+			}
+			catch (e) {
 				// Syntax error in the rewritten code
 				var error = e;
 			}
@@ -241,7 +245,8 @@ export default class Notebook {
 
 			try {
 				ret = win.runLine(lineCode, env);
-			} catch (e) {
+			}
+			catch (e) {
 				ret = e;
 
 				if (this.debug) {
@@ -251,7 +256,8 @@ export default class Notebook {
 
 			if (ret instanceof win.Error) {
 				console.log("Error during statement evaluation:", ret, "Statement was:", lineCode);
-			} else {
+			}
+			else {
 				// Find which variables are included in the current statement
 				acornWalk.full(originalStatement, node => {
 					if (node.type !== "Identifier" || !(node.name in details)) {
@@ -288,7 +294,8 @@ export default class Notebook {
 						try {
 							wrappedNode.style.setProperty("--color", value.to(outputSpace));
 							wrappedNode.classList.add(lightOrDark(value));
-						} catch (e) {}
+						}
+						catch (e) {}
 					}
 					// TODO do something nice with other types :)
 				});
@@ -298,7 +305,8 @@ export default class Notebook {
 
 			try {
 				result = serialize(ret, undefined, win);
-			} catch (e) {}
+			}
+			catch (e) {}
 
 			if (result) {
 				results.append(result);
@@ -438,7 +446,8 @@ export function serialize (ret, color, win = window) {
 		});
 
 		flag = true;
-	} else if (typeof ret === "function" && ret.rangeArgs) {
+	}
+	else if (typeof ret === "function" && ret.rangeArgs) {
 		// Range function?
 		return $.create({
 			...template,
@@ -453,7 +462,8 @@ export function serialize (ret, color, win = window) {
 				}),
 			},
 		});
-	} else if (Array.isArray(ret)) {
+	}
+	else if (Array.isArray(ret)) {
 		let colors = ret.map(c => serialize(c, undefined, win));
 
 		if (ret.length > 2 && ret[0] instanceof Color) {
@@ -474,25 +484,29 @@ export function serialize (ret, color, win = window) {
 			className: "cn-value cn-array",
 			contents,
 		});
-	} else if (typeof ret === "number") {
+	}
+	else if (typeof ret === "number") {
 		element = $.create({
 			...template,
 			className: "cn-number",
 			textContent: util.toPrecision(ret, 3) + "",
 		});
-	} else if (typeof ret === "boolean") {
+	}
+	else if (typeof ret === "boolean") {
 		element = $.create({
 			...template,
 			className: "cn-boolean",
 			textContent: ret,
 		});
-	} else if (util.isString(ret)) {
+	}
+	else if (util.isString(ret)) {
 		element = $.create({
 			...template,
 			className: "cn-string",
 			textContent: `"${ret}"`,
 		});
-	} else if (ret && typeof ret === "object") {
+	}
+	else if (ret && typeof ret === "object") {
 		let keys = Object.keys(ret);
 		element = $.create({
 			...template,

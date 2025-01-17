@@ -229,7 +229,8 @@ export function fromCam16 (cam16, env) {
 	let hRad = 0.0;
 	if (cam16.h !== undefined) {
 		hRad = constrain(cam16.h) * deg2rad;
-	} else {
+	}
+	else {
 		hRad = invHueQuadrature(cam16.H) * deg2rad;
 	}
 
@@ -240,7 +241,8 @@ export function fromCam16 (cam16, env) {
 	let Jroot = 0.0;
 	if (cam16.J !== undefined) {
 		Jroot = spow(cam16.J, 1 / 2) * 0.1;
-	} else if (cam16.Q !== undefined) {
+	}
+	else if (cam16.Q !== undefined) {
 		Jroot = (0.25 * env.c * cam16.Q) / ((env.aW + 4) * env.flRoot);
 	}
 
@@ -248,9 +250,11 @@ export function fromCam16 (cam16, env) {
 	let alpha = 0.0;
 	if (cam16.C !== undefined) {
 		alpha = cam16.C / Jroot;
-	} else if (cam16.M !== undefined) {
+	}
+	else if (cam16.M !== undefined) {
 		alpha = cam16.M / env.flRoot / Jroot;
-	} else if (cam16.s !== undefined) {
+	}
+	else if (cam16.s !== undefined) {
 		alpha = (0.0004 * cam16.s ** 2 * (env.aW + 4)) / env.c;
 	}
 	const t = spow(alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73), 10 / 9);

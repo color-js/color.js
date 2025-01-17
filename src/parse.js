@@ -82,7 +82,8 @@ export default function parse (str, options) {
 						`Use color(${format.id}) instead of prefixed color(${id}).`,
 				);
 			}
-		} else {
+		}
+		else {
 			format = ColorSpace.findFormat({ name, type: "function" });
 			space = format.space;
 		}
@@ -117,7 +118,8 @@ export default function parse (str, options) {
 		coords = format.coerceCoords(coords, types);
 
 		ret = { spaceId: space.id, coords, alpha };
-	} else {
+	}
+	else {
 		// Custom, colorspace-specific format
 		for (let space of ColorSpace.all) {
 			for (let formatId in space.formats) {
@@ -203,17 +205,21 @@ export function parseArgument (rawArg) {
 		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
 
 		value = meta.unitless * units[unit];
-	} else if (regex.number.test(value)) {
+	}
+	else if (regex.number.test(value)) {
 		// It's a number
 		// Convert numerical args to numbers
 		value = Number(value);
 		meta.type = "<number>";
-	} else if (value === "none") {
+	}
+	else if (value === "none") {
 		value = null;
-	} else if (value === "NaN" || value === "calc(NaN)") {
+	}
+	else if (value === "NaN" || value === "calc(NaN)") {
 		value = NaN;
 		meta.type = "<number>";
-	} else {
+	}
+	else {
 		meta.type = "<ident>";
 	}
 
