@@ -128,8 +128,7 @@ export default new RGBColorSpace({
 				if (str === "transparent") {
 					ret.coords = KEYWORDS.black;
 					ret.alpha = 0;
-				}
-				else {
+				} else {
 					ret.coords = KEYWORDS[str];
 				}
 

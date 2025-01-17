@@ -25,14 +25,14 @@ const loBoWoffset = 0.027;
 const scaleWoB = 1.14;
 const loWoBoffset = 0.027;
 
-function fclamp(Y) {
+function fclamp (Y) {
 	if (Y >= blkThrs) {
 		return Y;
 	}
 	return Y + (blkThrs - Y) ** blkClmp;
 }
 
-function linearize(val) {
+function linearize (val) {
 	let sign = val < 0 ? -1 : 1;
 	let abs = Math.abs(val);
 	return sign * Math.pow(abs, 2.4);
@@ -44,7 +44,7 @@ function linearize(val) {
  * @param {import("../types.js").ColorTypes} foreground
  * @returns {number}
  */
-export default function contrastAPCA(background, foreground) {
+export default function contrastAPCA (background, foreground) {
 	foreground = getColor(foreground);
 	background = getColor(background);
 
@@ -83,14 +83,12 @@ export default function contrastAPCA(background, foreground) {
 	// https://github.com/LeaVerou/color.js/issues/208
 	if (Math.abs(Ybg - Ytxt) < deltaYmin) {
 		C = 0;
-	}
-	else {
+	} else {
 		if (BoW) {
 			// dark text on light background
 			S = Ybg ** normBG - Ytxt ** normTXT;
 			C = S * scaleBoW;
-		}
-		else {
+		} else {
 			// light text on dark background
 			S = Ybg ** revBG - Ytxt ** revTXT;
 			C = S * scaleWoB;
@@ -98,13 +96,11 @@ export default function contrastAPCA(background, foreground) {
 	}
 	if (Math.abs(C) < loClip) {
 		Sapc = 0;
-	}
-	else if (C > 0) {
+	} else if (C > 0) {
 		// not clear whether Woffset is loBoWoffset or loWoBoffset
 		// but they have the same value
 		Sapc = C - loBoWoffset;
-	}
-	else {
+	} else {
 		Sapc = C + loBoWoffset;
 	}
 

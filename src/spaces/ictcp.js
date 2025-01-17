@@ -123,7 +123,7 @@ export default new ColorSpace({
  * @param {Vector3} LMS
  * @returns {Vector3}
  */
-function LMStoICtCp(LMS) {
+function LMStoICtCp (LMS) {
 	// apply the PQ EOTF
 	// we can't ever be dividing by zero because of the "1 +" in the denominator
 	let PQLMS = /** @type {Vector3} */ (
@@ -144,7 +144,7 @@ function LMStoICtCp(LMS) {
  * @param {Vector3} ICtCp
  * @returns {Vector3}
  */
-function ICtCptoLMS(ICtCp) {
+function ICtCptoLMS (ICtCp) {
 	let PQLMS = multiply_v3_m3x3(ICtCp, IPTtoLMS_M);
 
 	// From BT.2124-0 Annex 2 Conversion 3

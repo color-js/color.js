@@ -13,8 +13,7 @@ if (url.protocol === "file:") {
 	const { readFileSync } = await import("fs");
 
 	modules = JSON.parse(readFileSync(url));
-}
-else {
+} else {
 	modules = await (await fetch(url)).json();
 }
 

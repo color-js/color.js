@@ -47,11 +47,9 @@ export default new RGBColorSpace({
 		return RGB.map(function (val) {
 			if (val <= low) {
 				return (2 ** (val * 17.52 - 9.72) - ε) * 2; // very low values, below -0.3014
-			}
-			else if (val < ACES_cc_max) {
+			} else if (val < ACES_cc_max) {
 				return 2 ** (val * 17.52 - 9.72);
-			}
-			else {
+			} else {
 				// val >= ACES_cc_max
 				return 65504;
 			}
@@ -63,11 +61,9 @@ export default new RGBColorSpace({
 		return RGB.map(function (val) {
 			if (val <= 0) {
 				return (Math.log2(ε) + 9.72) / 17.52; // -0.3584
-			}
-			else if (val < ε) {
+			} else if (val < ε) {
 				return (Math.log2(ε + val * 0.5) + 9.72) / 17.52;
-			}
-			else {
+			} else {
 				// val >= ε
 				return (Math.log2(val) + 9.72) / 17.52;
 			}

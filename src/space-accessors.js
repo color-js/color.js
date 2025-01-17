@@ -19,7 +19,7 @@ hooks.add("colorspace-init-end", space => {
 	});
 });
 
-function addSpaceAccessors(id, space) {
+function addSpaceAccessors (id, space) {
 	let propId = id.replace(/-/g, "_");
 
 	Object.defineProperty(Color.prototype, propId, {
@@ -40,8 +40,7 @@ function addSpaceAccessors(id, space) {
 					try {
 						ColorSpace.resolveCoord([space, property]);
 						return true;
-					}
-					catch (e) {}
+					} catch (e) {}
 
 					return Reflect.has(obj, property);
 				},

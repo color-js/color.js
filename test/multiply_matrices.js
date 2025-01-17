@@ -3,20 +3,19 @@ import { multiplyMatrices, multiply_v3_m3x3 } from "../src/util.js";
 import * as check from "../node_modules/htest.dev/src/check.js";
 
 // Used to collect expected results from oracle
-function refMultiply(A, B) {
+function refMultiply (A, B) {
 	return math.multiply(math.matrix(A), math.matrix(B)).valueOf();
 }
 
-function testExpected(testObj) {
+function testExpected (testObj) {
 	return { ...testObj, expect: refMultiply(...testObj.args) };
 }
 
-function expectThrows(testObj) {
+function expectThrows (testObj) {
 	let refResult;
 	try {
 		refResult = refMultiply(...testObj.args);
-	}
-	catch (error) {
+	} catch (error) {
 		refResult = error.message;
 	}
 	return { ...testObj, expect: refResult };

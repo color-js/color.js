@@ -101,8 +101,7 @@ export default function (color, sample, { l = 2, c = 1 } = {}) {
 
 	if (H1 >= 164 && H1 <= 345) {
 		T = 0.56 + Math.abs(0.2 * Math.cos((H1 + 168) * d2r));
-	}
-	else {
+	} else {
 		T = 0.36 + Math.abs(0.4 * Math.cos((H1 + 35) * d2r));
 	}
 	// console.log({T});

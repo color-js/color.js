@@ -35,7 +35,7 @@
  * @param {number[] | number[][]} B Matrix n x p or a vector
  * @returns {number[] | number[][]} Matrix m x p or equivalent array
  */
-export default function multiplyMatrices(A, B) {
+export default function multiplyMatrices (A, B) {
 	let m = A.length;
 	/** @type {number[][]} */
 	let AM;
@@ -45,16 +45,14 @@ export default function multiplyMatrices(A, B) {
 	if (!Array.isArray(A[0])) {
 		// A is vector, convert to [[a, b, c, ...]]
 		AM = [/** @type {number[]} */ (A)];
-	}
-	else {
+	} else {
 		AM = /** @type {number[][]} */ (A);
 	}
 
 	if (!Array.isArray(B[0])) {
 		// B is vector, convert to [[a], [b], [c], ...]]
 		BM = B.map(x => [x]);
-	}
-	else {
+	} else {
 		BM = /** @type {number[][]} */ (B);
 	}
 
@@ -78,8 +76,7 @@ export default function multiplyMatrices(A, B) {
 			}
 
 			return ret;
-		}),
-	);
+		}));
 
 	if (m === 1) {
 		product = product[0]; // Avoid [[a, b, c, ...]]
@@ -121,7 +118,7 @@ export default function multiplyMatrices(A, B) {
  * @param {Vector3} b
  * @returns {number}
  */
-function dot3(a, b) {
+function dot3 (a, b) {
 	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 
@@ -134,7 +131,7 @@ function dot3(a, b) {
  * @param {Vector3} [out]
  * @returns {Vector3}
  */
-export function multiply_v3_m3x3(input, matrix, out = [0, 0, 0]) {
+export function multiply_v3_m3x3 (input, matrix, out = [0, 0, 0]) {
 	const x = dot3(input, matrix[0]);
 	const y = dot3(input, matrix[1]);
 	const z = dot3(input, matrix[2]);

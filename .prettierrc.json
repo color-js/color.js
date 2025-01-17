@@ -1,5 +1,5 @@
 {
-	"plugins": ["prettier-plugin-brace-style"],
+	"plugins": ["prettier-plugin-brace-style", "prettier-plugin-space-before-function-paren"],
 	"braceStyle": "stroustrup",
 	"arrowParens": "avoid",
 	"bracketSpacing": true,

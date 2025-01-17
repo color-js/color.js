@@ -2,7 +2,7 @@
  * A class for adding deep extensibility to any piece of JS code
  */
 export class Hooks {
-	add(name, callback, first) {
+	add (name, callback, first) {
 		if (typeof arguments[0] != "string") {
 			// Multiple hooks
 			for (var name in arguments[0]) {
@@ -21,7 +21,7 @@ export class Hooks {
 		}, this);
 	}
 
-	run(name, env) {
+	run (name, env) {
 		this[name] = this[name] || [];
 		this[name].forEach(function (callback) {
 			callback.call(env && env.context ? env.context : env, env);

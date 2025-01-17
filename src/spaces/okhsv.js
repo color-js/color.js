@@ -49,7 +49,7 @@ import {
  * @param {OKCoeff} okCoeff
  * @returns {Coords}
  */
-function okhsvToOklab(hsv, lmsToRgb, okCoeff) {
+function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 	// Convert from Okhsv to Oklab."""
 
 	let [h, s, v] = hsv;
@@ -107,7 +107,7 @@ function okhsvToOklab(hsv, lmsToRgb, okCoeff) {
  * @param {OKCoeff} okCoeff
  * @returns {Coords}
  */
-function oklabToOkhsv(lab, lmsToRgb, okCoeff) {
+function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsv.
 
 	// Epsilon for saturation just needs to be sufficiently close when denoting achromatic
@@ -153,8 +153,7 @@ function oklabToOkhsv(lab, lmsToRgb, okCoeff) {
 
 	if (Math.abs(s) < ε || v === 0.0) {
 		h = null;
-	}
-	else {
+	} else {
 		h = constrain(h * 360);
 	}
 

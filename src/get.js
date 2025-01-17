@@ -11,7 +11,7 @@ import getColor from "./getColor.js";
  * @param {Ref} prop
  * @returns {number}
  */
-export default function get(color, prop) {
+export default function get (color, prop) {
 	color = getColor(color);
 
 	if (prop === "alpha") {

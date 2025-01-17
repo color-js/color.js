@@ -17,7 +17,7 @@ import { isNone } from "./util.js";
  * @param {Parameters<typeof adjust>[0]} [options.hue="shorter"] - How to handle hue differences. Same as hue interpolation option.
  * @returns {DeltasReturn}
  */
-export default function deltas(c1, c2, { space, hue = "shorter" } = {}) {
+export default function deltas (c1, c2, { space, hue = "shorter" } = {}) {
 	c1 = getColor(c1);
 	space ||= c1.space;
 	space = ColorSpace.get(space);
@@ -44,7 +44,7 @@ export default function deltas(c1, c2, { space, hue = "shorter" } = {}) {
 	return { space: /** @type {ColorSpace} */ (space), coords, alpha };
 }
 
-function subtractCoords(c1, c2) {
+function subtractCoords (c1, c2) {
 	if (isNone(c1) || isNone(c2)) {
 		return c1 === c2 ? null : 0;
 	}

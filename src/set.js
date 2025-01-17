@@ -24,7 +24,7 @@ import { type } from "./util.js";
  * @param {Record<string, number | ((coord: number) => number)>} props
  * @returns {PlainColorObject}
  */
-export default function set(color, prop, value) {
+export default function set (color, prop, value) {
 	color = getColor(color);
 
 	if (arguments.length === 2 && type(arguments[1]) === "object") {
@@ -33,16 +33,14 @@ export default function set(color, prop, value) {
 		for (let p in object) {
 			set(color, p, object[p]);
 		}
-	}
-	else {
+	} else {
 		if (typeof value === "function") {
 			value = value(get(color, prop));
 		}
 
 		if (prop === "alpha") {
 			color.alpha = value;
-		}
-		else {
+		} else {
 			let { space, index } = ColorSpace.resolveCoord(prop, color.space);
 			let coords = getAll(color, space);
 			coords[index] = value;

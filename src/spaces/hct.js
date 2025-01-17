@@ -8,20 +8,20 @@ const white = WHITES.D65;
 const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
 const κ = 24389 / 27; // 29^3/3^3
 
-function toLstar(y) {
+function toLstar (y) {
 	// Convert XYZ Y to L*
 
 	const fy = y > ε ? Math.cbrt(y) : (κ * y + 16) / 116;
 	return 116.0 * fy - 16.0;
 }
 
-function fromLstar(lstar) {
+function fromLstar (lstar) {
 	// Convert L* back to XYZ Y
 
 	return lstar > 8 ? Math.pow((lstar + 16) / 116, 3) : lstar / κ;
 }
 
-function fromHct(coords, env) {
+function fromHct (coords, env) {
 	// Use Newton's method to try and converge as quick as possible or
 	// converge as close as we can. While the requested precision is achieved
 	// most of the time, it may not always be achievable. Especially past the
@@ -46,8 +46,7 @@ function fromHct(coords, env) {
 	// curve fitting the T vs J response.
 	if (t > 0) {
 		j = 0.00379058511492914 * t ** 2 + 0.608983189401032 * t + 0.9155088574762233;
-	}
-	else {
+	} else {
 		j = 9.514440756550361e-6 * t ** 2 + 0.08693057439788597 * t - 21.928975842194614;
 	}
 
@@ -93,7 +92,7 @@ function fromHct(coords, env) {
 	return fromCam16({ J: j, C: c, h: h }, env);
 }
 
-function toHct(xyz, env) {
+function toHct (xyz, env) {
 	// Calculate HCT by taking the L* of CIE LCh D65 and CAM16 chroma and hue.
 
 	const t = toLstar(xyz[1]);

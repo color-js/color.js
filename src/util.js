@@ -9,7 +9,7 @@ export { default as multiplyMatrices, multiply_v3_m3x3 } from "./multiply-matric
  * @param {any} str - Value to check
  * @returns {str is string}
  */
-export function isString(str) {
+export function isString (str) {
 	return type(str) === "string";
 }
 
@@ -18,7 +18,7 @@ export function isString(str) {
  * @param {any} o - Value to check
  * @returns {string}
  */
-export function type(o) {
+export function type (o) {
 	let str = Object.prototype.toString.call(o);
 
 	return (str.match(/^\[object\s+(.*?)\]$/)[1] || "").toLowerCase();
@@ -29,7 +29,7 @@ export function type(o) {
  * @param {{ precision?: number | undefined, unit?: string | undefined }} options
  * @returns {string}
  */
-export function serializeNumber(n, { precision = 16, unit }) {
+export function serializeNumber (n, { precision = 16, unit }) {
 	if (isNone(n)) {
 		return "none";
 	}
@@ -44,7 +44,7 @@ export function serializeNumber(n, { precision = 16, unit }) {
  * @param {any} n - Value to check
  * @returns {n is null}
  */
-export function isNone(n) {
+export function isNone (n) {
 	return n === null;
 }
 
@@ -53,7 +53,7 @@ export function isNone(n) {
  * @param {number | null} n
  * @returns {number}
  */
-export function skipNone(n) {
+export function skipNone (n) {
 	return isNone(n) ? 0 : n;
 }
 
@@ -62,7 +62,7 @@ export function skipNone(n) {
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
  */
-export function toPrecision(n, precision) {
+export function toPrecision (n, precision) {
 	if (n === 0) {
 		return 0;
 	}
@@ -80,7 +80,7 @@ export function toPrecision(n, precision) {
  * @param {number} end
  * @param {number} p
  */
-export function interpolate(start, end, p) {
+export function interpolate (start, end, p) {
 	if (isNaN(start)) {
 		return end;
 	}
@@ -97,7 +97,7 @@ export function interpolate(start, end, p) {
  * @param {number} end
  * @param {number} value
  */
-export function interpolateInv(start, end, value) {
+export function interpolateInv (start, end, value) {
 	return (value - start) / (end - start);
 }
 
@@ -106,7 +106,7 @@ export function interpolateInv(start, end, value) {
  * @param {[number, number]} to
  * @param {number} value
  */
-export function mapRange(from, to, value) {
+export function mapRange (from, to, value) {
 	if (
 		!from ||
 		!to ||
@@ -128,7 +128,7 @@ export function mapRange(from, to, value) {
  * @param {number} val the value to return if it is between min and max
  * @param {number} max maximum value to return
  */
-export function clamp(min, val, max) {
+export function clamp (min, val, max) {
 	return Math.max(Math.min(max, val), min);
 }
 
@@ -137,7 +137,7 @@ export function clamp(min, val, max) {
  * @param {number} to - Number to copy sign to
  * @param {number} from - Number to copy sign from
  */
-export function copySign(to, from) {
+export function copySign (to, from) {
 	return Math.sign(to) === Math.sign(from) ? to : -to;
 }
 
@@ -146,7 +146,7 @@ export function copySign(to, from) {
  * @param {number} base The base number
  * @param {number} exp The exponent
  */
-export function spow(base, exp) {
+export function spow (base, exp) {
 	return copySign(Math.abs(base) ** exp, base);
 }
 
@@ -155,7 +155,7 @@ export function spow(base, exp) {
  * @param {number} n The numerator
  * @param {number} d The denominator
  */
-export function zdiv(n, d) {
+export function zdiv (n, d) {
 	return d === 0 ? 0 : n / d;
 }
 
@@ -167,13 +167,12 @@ export function zdiv(n, d) {
  * @param {number} lo - used to specify a the low end of a subset of the list
  * @param {number} hi - used to specify a the high end of a subset of the list
  */
-export function bisectLeft(arr, value, lo = 0, hi = arr.length) {
+export function bisectLeft (arr, value, lo = 0, hi = arr.length) {
 	while (lo < hi) {
 		const mid = (lo + hi) >> 1;
 		if (arr[mid] < value) {
 			lo = mid + 1;
-		}
-		else {
+		} else {
 			hi = mid;
 		}
 	}
@@ -189,7 +188,7 @@ export function bisectLeft(arr, value, lo = 0, hi = arr.length) {
  * @template {new (...args: any) => any} C
  * @returns {arg is InstanceType<C>}
  */
-export function isInstance(arg, constructor) {
+export function isInstance (arg, constructor) {
 	if (arg instanceof constructor) {
 		return true;
 	}

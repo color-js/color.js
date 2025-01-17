@@ -11,7 +11,7 @@ import { isNone } from "./util.js";
  * @param {string | ColorSpace} space
  * @returns {number}
  */
-export default function distance(color1, color2, space = "lab") {
+export default function distance (color1, color2, space = "lab") {
 	space = ColorSpace.get(space);
 
 	// Assume getColor() is called on color in space.from()

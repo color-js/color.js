@@ -13,7 +13,7 @@ document.addEventListener("mv-markdown-render", function (evt) {
 	});
 });
 
-function updateMarkdown() {
+function updateMarkdown () {
 	// Update code snippets with actual contents
 	let node = Mavo.all.colorNotebook.root.children.content;
 	let value = node.value;

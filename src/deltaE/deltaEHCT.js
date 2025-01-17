@@ -14,7 +14,7 @@ const ucsCoeff = [1.0, 0.007, 0.0228];
  * @param {Coords} coords - HCT coordinates.
  * @return {number[]}
  */
-function convertUcsAb(coords) {
+function convertUcsAb (coords) {
 	// We want the distance between the actual color.
 	// If chroma is negative, it will throw off our calculations.
 	// Normally, converting back to the base and forward will correct it.

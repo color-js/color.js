@@ -15,7 +15,7 @@ const ε = 0.000075;
  * Class to represent a color space
  */
 export default class ColorSpace {
-	constructor(options) {
+	constructor (options) {
 		this.id = options.id;
 		this.name = options.name;
 		this.base = options.base ? ColorSpace.get(options.base) : null;
@@ -65,14 +65,12 @@ export default class ColorSpace {
 			// Gamut space explicitly specified
 			this.gamutSpace =
 				options.gamutSpace === "self" ? this : ColorSpace.get(options.gamutSpace);
-		}
-		else {
+		} else {
 			// No gamut space specified, calculate a sensible default
 			if (this.isPolar) {
 				// Do not check gamut through polar coordinates
 				this.gamutSpace = this.base;
-			}
-			else {
+			} else {
 				this.gamutSpace = this;
 			}
 		}
@@ -98,7 +96,7 @@ export default class ColorSpace {
 		hooks.run("colorspace-init-end", this);
 	}
 
-	inGamut(coords, { epsilon = ε } = {}) {
+	inGamut (coords, { epsilon = ε } = {}) {
 		if (!this.equals(this.gamutSpace)) {
 			coords = this.to(this.gamutSpace, coords);
 			return this.gamutSpace.inGamut(coords, { epsilon });
@@ -126,15 +124,15 @@ export default class ColorSpace {
 		});
 	}
 
-	get isUnbounded() {
+	get isUnbounded () {
 		return Object.values(this.coords).every(coord => !("range" in coord));
 	}
 
-	get cssId() {
+	get cssId () {
 		return this.formats?.color?.id || this.id;
 	}
 
-	get isPolar() {
+	get isPolar () {
 		for (let id in this.coords) {
 			if (this.coords[id].type === "angle") {
 				return true;
@@ -149,15 +147,14 @@ export default class ColorSpace {
 	 * @param {string | object | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
 	 * @returns {Format}
 	 */
-	getFormat(format) {
+	getFormat (format) {
 		if (!format) {
 			return null;
 		}
 
 		if (format === "default") {
 			format = Object.values(this.formats)[0];
-		}
-		else if (typeof format === "string") {
+		} else if (typeof format === "string") {
 			format = this.formats[format];
 		}
 
@@ -177,7 +174,7 @@ export default class ColorSpace {
 	 * @param {string | ColorSpace} space ColorSpace object or id to compare to
 	 * @returns {boolean}
 	 */
-	equals(space) {
+	equals (space) {
 		if (!space) {
 			return false;
 		}
@@ -185,7 +182,7 @@ export default class ColorSpace {
 		return this === space || this.id === space || this.id === space.id;
 	}
 
-	to(space, coords) {
+	to (space, coords) {
 		if (arguments.length === 1) {
 			const color = getColor(space);
 			[space, coords] = [color.space, color.coords];
@@ -211,8 +208,7 @@ export default class ColorSpace {
 			if (myPath[i].equals(otherPath[i])) {
 				connectionSpace = myPath[i];
 				connectionSpaceIndex = i;
-			}
-			else {
+			} else {
 				break;
 			}
 		}
@@ -237,7 +233,7 @@ export default class ColorSpace {
 		return coords;
 	}
 
-	from(space, coords) {
+	from (space, coords) {
 		if (arguments.length === 1) {
 			const color = getColor(space);
 			[space, coords] = [color.space, color.coords];
@@ -248,11 +244,11 @@ export default class ColorSpace {
 		return space.to(this, coords);
 	}
 
-	toString() {
+	toString () {
 		return `${this.name} (${this.id})`;
 	}
 
-	getMinCoords() {
+	getMinCoords () {
 		let ret = [];
 
 		for (let id in this.coords) {
@@ -267,11 +263,11 @@ export default class ColorSpace {
 	static registry = {};
 
 	// Returns array of unique color spaces
-	static get all() {
+	static get all () {
 		return [...new Set(Object.values(ColorSpace.registry))];
 	}
 
-	static register(id, space) {
+	static register (id, space) {
 		if (arguments.length === 1) {
 			space = arguments[0];
 			id = space.id;
@@ -298,7 +294,7 @@ export default class ColorSpace {
 	 * Lookup ColorSpace object by name
 	 * @param {ColorSpace | string} name
 	 */
-	static get(space, ...alternatives) {
+	static get (space, ...alternatives) {
 		if (!space || isInstance(space, this)) {
 			return space;
 		}
@@ -329,7 +325,7 @@ export default class ColorSpace {
 	 * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
 	 * @returns {Format | null}
 	 */
-	static findFormat(filters, spaces = ColorSpace.all) {
+	static findFormat (filters, spaces = ColorSpace.all) {
 		if (!filters) {
 			return null;
 		}
@@ -376,7 +372,7 @@ export default class ColorSpace {
 	 * @param {ColorSpace | string} [workingSpace]
 	 * @return {Object}
 	 */
-	static resolveCoord(ref, workingSpace) {
+	static resolveCoord (ref, workingSpace) {
 		let coordType = type(ref);
 		let space, coord;
 
@@ -384,16 +380,13 @@ export default class ColorSpace {
 			if (ref.includes(".")) {
 				// Absolute coordinate
 				[space, coord] = ref.split(".");
-			}
-			else {
+			} else {
 				// Relative coordinate
 				[space, coord] = [, ref];
 			}
-		}
-		else if (Array.isArray(ref)) {
+		} else if (Array.isArray(ref)) {
 			[space, coord] = ref;
-		}
-		else {
+		} else {
 			// Object
 			space = ref.space;
 			coord = ref.coordId;
@@ -451,7 +444,7 @@ export default class ColorSpace {
 	};
 }
 
-function getPath(space) {
+function getPath (space) {
 	let ret = [space];
 
 	for (let s = space; (s = s.base); ) {

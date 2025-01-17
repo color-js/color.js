@@ -27,7 +27,7 @@ import { toPrecision } from "./util.js";
  * @param {GetAllOptions} [options]
  * @returns {Coords} The color coordinates in the given color space
  */
-export default function getAll(color, options) {
+export default function getAll (color, options) {
 	color = getColor(color);
 
 	let space = ColorSpace.get(options, options?.space);
@@ -37,8 +37,7 @@ export default function getAll(color, options) {
 	if (!space || color.space.equals(space)) {
 		// No conversion needed
 		coords = color.coords.slice();
-	}
-	else {
+	} else {
 		coords = space.from(color);
 	}
 

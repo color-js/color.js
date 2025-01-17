@@ -17,7 +17,7 @@ const max = 50000;
  * @param {import("../types.js").ColorTypes} color2
  * @returns {number}
  */
-export default function contrastWeber(color1, color2) {
+export default function contrastWeber (color1, color2) {
 	color1 = getColor(color1);
 	color2 = getColor(color2);
 

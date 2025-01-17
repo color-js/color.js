@@ -36,7 +36,7 @@ export default class Format {
 	 * @param {FormatInterface} format
 	 * @param {ColorSpace} space
 	 */
-	constructor(format, space = format.space) {
+	constructor (format, space = format.space) {
 		format[instance] = this;
 		this.type = "function";
 		this.name = "color";
@@ -83,10 +83,9 @@ export default class Format {
 	 * @param {number} precision
 	 * @param {Type[]} types
 	 */
-	serializeCoords(coords, precision, types) {
+	serializeCoords (coords, precision, types) {
 		types = coords.map((_, i) =>
-			Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]),
-		);
+			Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
 		return coords.map((c, i) => types[i].serialize(c, precision));
 	}
 
@@ -96,7 +95,7 @@ export default class Format {
 	 * @param {Coords} coords
 	 * @param {[string, string, string]} types
 	 */
-	coerceCoords(coords, types) {
+	coerceCoords (coords, types) {
 		return Object.entries(this.space.coords).map(([id, coordMeta], i) => {
 			let arg = coords[i];
 
@@ -133,7 +132,7 @@ export default class Format {
 	/**
 	 * @returns {boolean | Required<FormatInterface>["serialize"]}
 	 */
-	canSerialize() {
+	canSerialize () {
 		return this.type === "function" || /** @type {any} */ (this).serialize;
 	}
 
@@ -142,7 +141,7 @@ export default class Format {
 	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
 	 * @returns {Format}
 	 */
-	static get(format, ...args) {
+	static get (format, ...args) {
 		if (!format || isInstance(format, this)) {
 			return /** @type {Format} */ (format);
 		}
