@@ -1,6 +1,6 @@
 export default {
 	// Extract default title from content
-	title(data) {
+	title (data) {
 		if (data.title) {
 			return data.title;
 		}
