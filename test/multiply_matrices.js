@@ -133,7 +133,7 @@ export default {
 				},
 				{
 					name: "3x3 matrix with vector in place",
-					run(A, B) {
+					run (A, B) {
 						multiply_v3_m3x3(A, B, A);
 						return A;
 					},

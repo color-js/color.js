@@ -4,7 +4,7 @@ import * as check from "../node_modules/htest.dev/src/check.js";
 export default {
 	name: "Gamut mapping tests",
 	description: "These tests check how coords are shrunk to smaller gamuts.",
-	run(colorStr, args) {
+	run (colorStr, args) {
 		let color = new Color(colorStr);
 		let inGamut = this.data.method ? { method: this.data.method } : true;
 		if (this.data.convertAfter) {
@@ -15,7 +15,7 @@ export default {
 		let color2 = color.to(this.data.toSpace, { inGamut });
 		return color2;
 	},
-	map(c) {
+	map (c) {
 		const color = new Color(c);
 		return this.data.checkAlpha ? [...color.coords, color.alpha] : color.coords;
 	},

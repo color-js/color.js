@@ -79,7 +79,7 @@ export default new ColorSpace({
 	gamutSpace: "self",
 
 	// Convert LCHuv to HPLuv
-	fromBase(lch) {
+	fromBase (lch) {
 		let [l, c, h] = [skipNone(lch[0]), skipNone(lch[1]), skipNone(lch[2])];
 		let s;
 
@@ -100,7 +100,7 @@ export default new ColorSpace({
 	},
 
 	// Convert HPLuv to LCHuv
-	toBase(hsl) {
+	toBase (hsl) {
 		let [h, s, l] = [skipNone(hsl[0]), skipNone(hsl[1]), skipNone(hsl[2])];
 		let c;
 

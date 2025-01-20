@@ -66,7 +66,7 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
-	fromBase(XYZ) {
+	fromBase (XYZ) {
 		// First make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²
 		// Relative XYZ has Y=1 for media white
@@ -98,7 +98,7 @@ export default new ColorSpace({
 		let Jz = ((1 + d) * Iz) / (1 + d * Iz) - d0;
 		return [Jz, az, bz];
 	},
-	toBase(Jzazbz) {
+	toBase (Jzazbz) {
 		let [Jz, az, bz] = Jzazbz;
 		let Iz = (Jz + d0) / (1 + d - d * (Jz + d0));
 

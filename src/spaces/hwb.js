@@ -26,12 +26,12 @@ export default new ColorSpace({
 	},
 
 	base: HSV,
-	fromBase(hsv) {
+	fromBase (hsv) {
 		let [h, s, v] = hsv;
 
 		return [h, (v * (100 - s)) / 100, 100 - v];
 	},
-	toBase(hwb) {
+	toBase (hwb) {
 		let [h, w, b] = hwb;
 
 		// Now convert percentages to [0..1]

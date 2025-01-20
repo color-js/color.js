@@ -393,11 +393,11 @@ export default new ColorSpace({
 
 	base: xyz_d65,
 
-	fromBase(xyz) {
+	fromBase (xyz) {
 		const cam16 = toCam16(xyz, viewingConditions);
 		return [cam16.J, cam16.M, cam16.h];
 	},
-	toBase(cam16) {
+	toBase (cam16) {
 		return fromCam16({ J: cam16[0], M: cam16[1], h: cam16[2] }, viewingConditions);
 	},
 });

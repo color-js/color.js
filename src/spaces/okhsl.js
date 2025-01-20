@@ -531,12 +531,12 @@ export default new ColorSpace({
 	gamutSpace: "self",
 
 	// Convert Oklab to Okhsl
-	fromBase(lab) {
+	fromBase (lab) {
 		return oklabToOkhsl(lab, toSRGBLinear, RGBCoeff);
 	},
 
 	// Convert Okhsl to Oklab
-	toBase(hsl) {
+	toBase (hsl) {
 		return okhslToOklab(hsl, toSRGBLinear, RGBCoeff);
 	},
 

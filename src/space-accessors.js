@@ -26,7 +26,7 @@ function addSpaceAccessors (id, space) {
 		// Convert coords to coords in another colorspace and return them
 		// Source colorspace: this.spaceId
 		// Target colorspace: id
-		get() {
+		get () {
 			let ret = this.getAll(id);
 
 			if (typeof Proxy === "undefined") {
@@ -83,7 +83,7 @@ function addSpaceAccessors (id, space) {
 		// Convert coords in another colorspace to internal coords and set them
 		// Target colorspace: this.spaceId
 		// Source colorspace: id
-		set(coords) {
+		set (coords) {
 			this.setAll(id, coords);
 		},
 		configurable: true,

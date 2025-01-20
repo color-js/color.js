@@ -35,13 +35,13 @@ export function register (Color) {
 	// no setters, as lightness information is lost
 	// when converting color to chromaticity
 	Object.defineProperty(Color.prototype, "uv", {
-		get() {
+		get () {
 			return uv(this);
 		},
 	});
 
 	Object.defineProperty(Color.prototype, "xy", {
-		get() {
+		get () {
 			return xy(this);
 		},
 	});

@@ -4,7 +4,7 @@ import * as check from "../node_modules/htest.dev/src/check.js";
 export default {
 	name: "DeltaE tests",
 	description: "These tests test the various Delta E algorithms.",
-	run(c1, c2, ...args) {
+	run (c1, c2, ...args) {
 		let color1 = new Color(c1);
 		let color2 = new Color(c2);
 		return color1.deltaE(color2, this.data);

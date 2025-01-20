@@ -28,7 +28,7 @@ export class Hooks {
 	 * @param [first=false] Whether to prepend instead of append this callback to any existing callbacks
 	 * on the same hook. Defaults to `false`
 	 */
-	add(
+	add (
 		name: string | string[],
 		callback: (env: Record<string, any>) => void,
 		first?: boolean,
@@ -44,7 +44,7 @@ export class Hooks {
 	 * This will also be used as the function context, unless it has a `context` property,
 	 * in which case that is used as the function context
 	 */
-	run(name: string, env?: { context?: Record<string, any> } & Record<string, any>): void;
+	run (name: string, env?: { context?: Record<string, any> } & Record<string, any>): void;
 }
 
 declare const hooks: Hooks;

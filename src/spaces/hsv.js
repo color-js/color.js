@@ -25,7 +25,7 @@ export default new ColorSpace({
 
 	base: sRGB,
 	// https://en.wikipedia.org/wiki/HSL_and_HSV#Formal_derivation
-	fromBase(rgb) {
+	fromBase (rgb) {
 		let max = Math.max(...rgb);
 		let min = Math.min(...rgb);
 		let [r, g, b] = rgb;
@@ -58,7 +58,7 @@ export default new ColorSpace({
 		return [h, s * 100, v * 100];
 	},
 	// Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_RGB_alternative
-	toBase(hsv) {
+	toBase (hsv) {
 		let [h, s, v] = hsv;
 		h = h % 360;
 

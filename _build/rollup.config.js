@@ -50,7 +50,7 @@ export default [
 	{
 		input: "src/index.js",
 		output: addMinBundle(bundles),
-		onwarn(warning, rollupWarn) {
+		onwarn (warning, rollupWarn) {
 			if (warning.code !== "CIRCULAR_DEPENDENCY") {
 				rollupWarn(warning);
 			}
@@ -59,7 +59,7 @@ export default [
 	{
 		input: "src/index-fn.js",
 		output: addMinBundle(fnBundles),
-		onwarn(warning, rollupWarn) {
+		onwarn (warning, rollupWarn) {
 			if (warning.code !== "CIRCULAR_DEPENDENCY") {
 				rollupWarn(warning);
 			}

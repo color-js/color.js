@@ -5,7 +5,7 @@ const tests = {
 	name: "Color conversion Tests",
 	description:
 		"These tests parse different color formats and then print out the coordinates in various color spaces.",
-	run(color, spaceId = this.data.toSpace) {
+	run (color, spaceId = this.data.toSpace) {
 		color = new Color(color);
 		return color.to(spaceId).coords;
 	},
@@ -1126,7 +1126,7 @@ const tests = {
 			tests: [
 				{
 					name: "color.r",
-					run() {
+					run () {
 						return this.data.slategray.r;
 					},
 					expect: 0.4392156862745098,
@@ -1134,35 +1134,35 @@ const tests = {
 
 				{
 					name: "color.lch[1]",
-					run() {
+					run () {
 						return this.data.slategray.lch[1];
 					},
 					expect: 11.23415,
 				},
 				{
 					name: "color.lch.c",
-					run() {
+					run () {
 						return this.data.slategray.lch.c;
 					},
 					expect: 11.23415,
 				},
 				{
 					name: "color.oklch.c",
-					run() {
+					run () {
 						return this.data.slategray.oklch.c;
 					},
 					expect: 0.03100055,
 				},
 				{
 					name: "color.jzazbz.Jz",
-					run() {
+					run () {
 						return this.data.slategray.jzazbz.jz;
 					},
 					expect: 0.11646942,
 				},
 				{
 					name: "color.jzazbz.Jz",
-					run() {
+					run () {
 						var color = new Color("color(jzazbz 0.54 0 0)");
 						return color.jzazbz.jz;
 					},

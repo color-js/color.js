@@ -32,7 +32,7 @@ export default new ColorSpace({
 
 	// Convert D65-adapted XYZ to Luv
 	// https://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
-	fromBase(XYZ) {
+	fromBase (XYZ) {
 		let xyz = /** @type {[number, number, number]} */ ([
 			skipNone(XYZ[0]),
 			skipNone(XYZ[1]),
@@ -53,7 +53,7 @@ export default new ColorSpace({
 
 	// Convert Luv to D65-adapted XYZ
 	// https://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
-	toBase(Luv) {
+	toBase (Luv) {
 		let [L, u, v] = Luv;
 
 		// Protect against division by zero and none Lightness

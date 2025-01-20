@@ -3,7 +3,7 @@ import Color from "../src/index.js";
 export default {
 	name: "In Gamut tests",
 	description: "These tests check if a color is in a specific gamut",
-	run(c1, ...args) {
+	run (c1, ...args) {
 		let color = new Color(c1);
 		return color.inGamut(this.data.gamut);
 	},

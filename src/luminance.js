@@ -32,10 +32,10 @@ export function setLuminance (color, value) {
  */
 export function register (Color) {
 	Object.defineProperty(Color.prototype, "luminance", {
-		get() {
+		get () {
 			return getLuminance(this);
 		},
-		set(value) {
+		set (value) {
 			setLuminance(this, value);
 		},
 	});

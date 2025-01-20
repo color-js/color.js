@@ -143,10 +143,10 @@ export default new ColorSpace({
 
 	base: xyz_d65,
 
-	fromBase(xyz) {
+	fromBase (xyz) {
 		return toHct(xyz, viewingConditions);
 	},
-	toBase(hct) {
+	toBase (hct) {
 		return fromHct(hct, viewingConditions);
 	},
 	formats: {

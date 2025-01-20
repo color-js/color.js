@@ -41,7 +41,7 @@ export default new RGBColorSpace({
 
 	base: ACEScg,
 	// from section 4.4.2 Decoding Function
-	toBase(RGB) {
+	toBase (RGB) {
 		const low = (9.72 - 15) / 17.52; // -0.3014
 
 		return RGB.map(function (val) {
@@ -59,7 +59,7 @@ export default new RGBColorSpace({
 	},
 
 	// Non-linear encoding function from S-2014-003, section 4.4.1 Encoding Function
-	fromBase(RGB) {
+	fromBase (RGB) {
 		return RGB.map(function (val) {
 			if (val <= 0) {
 				return (Math.log2(ε) + 9.72) / 17.52; // -0.3584
