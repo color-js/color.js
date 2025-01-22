@@ -139,7 +139,7 @@ export interface SerializeOptions {
 		| {
 			type?: "<number>" | "<percentage>" | undefined;
 			include?: boolean | undefined;
-		  }
+		}
 		| undefined;
 	/**
 	 * Force commas as a separator

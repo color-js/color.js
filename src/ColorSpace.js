@@ -443,6 +443,7 @@ export default class ColorSpace {
 function getPath (space) {
 	let ret = [space];
 
+	// eslint-disable-next-line no-cond-assign
 	for (let s = space; s = s.base;) {
 		ret.push(s);
 	}

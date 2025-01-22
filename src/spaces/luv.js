@@ -48,7 +48,7 @@ export default new ColorSpace({
 			L,
 			13 * L * (up - U_PRIME_WHITE),
 			13 * L * (vp - V_PRIME_WHITE),
-		 ];
+		];
 	},
 
 	// Convert Luv to D65-adapted XYZ
