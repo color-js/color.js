@@ -226,9 +226,6 @@ module.exports = {
 		// Enforce at least one space before blocks
 		// https://eslint.style/rules/default/space-before-blocks
 		"@stylistic/space-before-blocks": 1,
-		// Enforce a space before `function` definition opening parenthesis
-		// https://eslint.style/rules/default/space-before-function-paren
-		"@stylistic/space-before-function-paren": 1,
 		// Require spaces around infix operators (e.g. `+`, `=`, `?`, `:`)
 		// https://eslint.style/rules/default/space-infix-ops
 		"@stylistic/space-infix-ops": 1,
