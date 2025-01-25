@@ -8,6 +8,9 @@ import { WHITES } from "../adapt.js";
 /** @typedef {import("../types.js").Coords} Coords */
 /** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
 /** @typedef {import("../types.js").Vector3} Vector3 */
+/** @typedef {import("../types.js").Cam16Object} Cam16Object */
+/** @typedef {import("../types.js").Cam16Input} Cam16Input */
+/** @typedef {import("../types.js").Cam16Environment} Cam16Environment */
 
 const white = WHITES.D65;
 const adaptedCoef = 0.42;
@@ -119,6 +122,7 @@ export function invHueQuadrature (H) {
  * @param {number} backgroundLuminance
  * @param {keyof typeof surroundMap} surround
  * @param {boolean} discounting
+ * @returns {Cam16Environment}
  */
 export function environment (
 	refWhite,
@@ -149,11 +153,10 @@ export function environment (
 	const rgbW = multiply_v3_m3x3(xyzW, cat16);
 
 	// Surround: dark, dim, and average
-	// @ts-expect-error surround is never used again
-	surround = surroundMap[env.surround];
-	const f = surround[0];
-	env.c = surround[1];
-	env.nc = surround[2];
+	let values = surroundMap[env.surround];
+	const f = values[0];
+	env.c = values[1];
+	env.nc = values[2];
 
 	const k = 1 / (5 * env.la + 1);
 	const k4 = k ** 4;
@@ -196,26 +199,26 @@ export function environment (
 // Pre-calculate everything we can with the viewing conditions
 const viewingConditions = environment(white, (64 / Math.PI) * 0.2, 20, "average", false);
 
-/** @typedef {{J: number, C: number, h: number, s: number, Q: number, M: number, H: number}} Cam16Object */
-
 /**
- * @param {Cam16Object} cam16
- * @param {Record<string, unknown>} env
+ * @param {Cam16Input} cam16
+ * @param {Cam16Environment} env
  * @returns {[number, number, number]}
- * @todo Add types for `env`
  */
 export function fromCam16 (cam16, env) {
 	// These check ensure one, and only one attribute for a
 	// given category is provided.
+	// @ts-expect-error The '^` operator is not allowed for boolean types
 	if (!((cam16.J !== undefined) ^ (cam16.Q !== undefined))) {
 		throw new Error("Conversion requires one and only one: 'J' or 'Q'");
 	}
 
+	// @ts-expect-error - The '^` operator is not allowed for boolean types
 	if (!((cam16.C !== undefined) ^ (cam16.M !== undefined) ^ (cam16.s !== undefined))) {
 		throw new Error("Conversion requires one and only one: 'C', 'M' or 's'");
 	}
 
 	// Hue is absolutely required
+	// @ts-expect-error - The '^` operator is not allowed for boolean types
 	if (!((cam16.h !== undefined) ^ (cam16.H !== undefined))) {
 		throw new Error("Conversion requires one and only one: 'h' or 'H'");
 	}
@@ -298,9 +301,8 @@ export function fromCam16 (cam16, env) {
 
 /**
  * @param {[number, number, number]} xyzd65
- * @param {Record<string, unknown>} env
+ * @param {Cam16Environment} env
  * @returns {Cam16Object}
- * @todo Add types for `env`
  */
 export function toCam16 (xyzd65, env) {
 	// Cone response

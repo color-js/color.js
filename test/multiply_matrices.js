@@ -11,6 +11,26 @@ function testExpected (testObj) {
 	return { ...testObj, expect: refMultiply(...testObj.args) };
 }
 
+/**
+ * Converts row-major ordered & pre-multiplication arguments
+ * into column-major ordered & post-multiplication equivalent
+ */
+function reverseExpectedArgs (testObj) {
+	return { ...testObj, expect: refMultiply(testObj.args[1], testObj.args[0]) };
+}
+
+/** Creates in place multiplication tests for `multiply_v3_m3x3` */
+function testInPlace (testObj) {
+	return {
+		...testObj,
+		name: `${testObj.name} in place`,
+		run (A, B) {
+			multiply_v3_m3x3(A, B, A);
+			return A;
+		},
+	};
+}
+
 function expectThrows (testObj) {
 	let refResult;
 	try {
@@ -70,6 +90,39 @@ export default {
 					name: "3x3 matrix with other 3x3 matrix",
 					args: [M_XYZ_to_lin_sRGB, M_lin_sRGB_to_XYZ],
 				},
+				{
+					name: "Vector with 3x3 matrix",
+					skip: true, // multiplyMatrices doesn't properly reduce dimensions for vector and matrix multiplication
+					args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
+				},
+				{
+					name: "Vector with other 3x3 matrix",
+					skip: true, // multiplyMatrices doesn't properly reduce dimensions for vector and matrix multiplication
+					args: [[1, 0.5, 0], M_XYZ_to_lin_sRGB],
+				},
+			].map(testExpected),
+		},
+		{
+			name: "1x1 Edge Cases",
+			skip: true, // 1x1 Boundary Cases are not handled
+			description: "Test boundary case for m x n × n x p, where m = n = p = 1.",
+			tests: [
+				{
+					name: "1x1 vectors",
+					args: [[1], [2]],
+				},
+				{
+					name: "1x1 matrices",
+					args: [[[3]], [[4]]],
+				},
+				{
+					name: "1x1 vector × 1x1 matrix",
+					args: [[5], [[6]]],
+				},
+				{
+					name: "1x1 matrix × 1x1 vector",
+					args: [[[7]], [8]],
+				},
 			].map(testExpected),
 		},
 		{
@@ -121,28 +174,16 @@ export default {
 			].map(expectThrows),
 		},
 		{
-			name: "Transform",
+			name: "Specialized Matrix 3x3 and Vector 3 Multiplication",
 			run: multiply_v3_m3x3,
 			tests: [
 				{
 					name: "3x3 matrix with vector",
 					args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
-					expect: math
-						.multiply(math.matrix(M_lin_sRGB_to_XYZ), math.matrix([1, 0.5, 0]))
-						.valueOf(),
 				},
-				{
-					name: "3x3 matrix with vector in place",
-					run (A, B) {
-						multiply_v3_m3x3(A, B, A);
-						return A;
-					},
-					args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
-					expect: math
-						.multiply(math.matrix(M_lin_sRGB_to_XYZ), math.matrix([1, 0.5, 0]))
-						.valueOf(),
-				},
-			],
+			]
+				.map(reverseExpectedArgs)
+				.flatMap(test => [test, testInPlace(test)]),
 		},
 	],
 };

@@ -137,6 +137,13 @@ export default class Format {
 	}
 
 	/**
+	 * @returns Color
+	 */
+	parse () {
+		return null;
+	}
+
+	/**
 	 * @param {Format | FormatInterface} format
 	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
 	 * @returns {Format}

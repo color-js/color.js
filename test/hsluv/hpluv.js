@@ -1,24 +1,24 @@
 import { to, sRGB, HPLuv } from "../../src/index-fn.js";
-import { check } from "../util.mjs";
-import { readTestData, normalizeCoords } from "./util.mjs";
+import * as check from "../../node_modules/htest.dev/src/check.js";
+import { readTestData } from "./hsluv.js";
 
 let json = readTestData();
 let srgbToHpluv = [];
 let hpluvToSrgb = [];
 
 Object.entries(json).forEach(([rgbHex, value]) => {
-	let coords = normalizeCoords(value.hpluv);
+	let coords = value.hpluv;
 	let rgb = value.rgb;
-	srgbToHpluv.push({ args: { space: sRGB, coords: rgb, alpha: 1 }, expect: coords });
-	hpluvToSrgb.push({ args: { space: HPLuv, coords: coords, alpha: 1 }, expect: rgb });
+	srgbToHpluv.push({ args: { space: sRGB, coords: rgb }, expect: coords });
+	hpluvToSrgb.push({ args: { space: HPLuv, coords: coords }, expect: rgb });
 });
 
 const tests = {
 	name: "HPLuv Conversion Tests",
 	description:
 		"These tests compare sRGB values against the HSLuv reference implementation snapshot data.",
-	run (color, spaceId = this.data.toSpace) {
-		return to(color, spaceId).coords;
+	run (color, space = this.data.toSpace) {
+		return space.from(color.space, color.coords);
 	},
 	check: check.deep(function (actual, expect) {
 		if (expect === null || Number.isNaN(expect)) {
