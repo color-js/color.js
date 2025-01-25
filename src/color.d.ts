@@ -117,24 +117,30 @@ declare namespace Color {
 
 	// Must be manually defined due to overloads
 	// These should always match the signature of the original function
-	export function set(
+	// prettier-ignore
+	export function set (
 		color: ColorTypes,
 		prop: Ref,
 		value: number | ((coord: number) => number),
 	): Color;
-	export function set(
+	// prettier-ignore
+	export function set (
 		color: ColorTypes,
 		props: Record<string, number | ((coord: number) => number)>,
 	): Color;
-	export function setAll(color: ColorTypes, coords: Coords, alpha?: number): Color;
-	export function setAll(
+	// prettier-ignore
+	export function setAll (color: ColorTypes, coords: Coords, alpha?: number): Color;
+	// prettier-ignore
+	export function setAll (
 		color: ColorTypes,
 		space: string | ColorSpace,
 		coords: Coords,
 		alpha?: number,
 	): Color;
-	export function toGamut(color: ColorTypes, options?: ToGamutOptions): Color;
-	export function toGamut(color: ColorTypes, space?: string): Color;
+	// prettier-ignore
+	export function toGamut (color: ColorTypes, options?: ToGamutOptions): Color;
+	// prettier-ignore
+	export function toGamut (color: ColorTypes, space?: string): Color;
 }
 
 /**
