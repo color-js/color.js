@@ -11,7 +11,7 @@ module.exports = {
 		"browser": true,
 		"es2020": true,
 	},
-	"plugins": ["@typescript-eslint", "@stylistic"],
+	"plugins": ["@typescript-eslint"],
 	"rules": {
 		/**
 		 * ESLint rules: https://eslint.org/docs/latest/rules/
@@ -179,66 +179,6 @@ module.exports = {
 		// Enforce comparing `typeof` expressions against valid strings
 		// https://eslint.org/docs/latest/rules/valid-typeof
 		"valid-typeof": 1,
-
-		/**
-		 * ESLint Stylistic rules: https://eslint.style/packages/default#rules
-		 */
-		// Enforce a space before and after `=>` in arrow functions
-		// https://eslint.style/rules/default/arrow-spacing
-		"@stylistic/arrow-spacing": 1,
-		// Enforce consistent brace style for blocks
-		// https://eslint.style/rules/default/brace-style
-		"@stylistic/brace-style": [1, "stroustrup"],
-		// Enforce trailing commas unless closing `]` or `}` is on the same line
-		// https://eslint.style/rules/default/comma-dangle
-		"@stylistic/comma-dangle": [1, "always-multiline"],
-		// Enforce no space before and one or more spaces after a comma
-		// https://eslint.style/rules/default/comma-spacing
-		"@stylistic/comma-spacing": 1,
-		// Require newline at the end of files
-		// https://eslint.style/rules/default/eol-last
-		"@stylistic/eol-last": 1,
-		// Enforce consistent indentation
-		// https://eslint.style/rules/default/indent
-		"@stylistic/indent": [1, "tab", { "SwitchCase": 1, "outerIIFEBody": 0 }],
-		// Enforce consistent spacing before and after keywords
-		// https://eslint.style/rules/default/keyword-spacing
-		"@stylistic/keyword-spacing": 1,
-		// Disallow unnecessary semicolons
-		// https://eslint.style/rules/default/no-extra-semi
-		"@stylistic/no-extra-semi": 1,
-		// Disallow mixed spaces and tabs for indentation
-		// https://eslint.style/rules/default/no-mixed-spaces-and-tabs
-		"@stylistic/no-mixed-spaces-and-tabs": [1, "smart-tabs"],
-		// Disallow trailing whitespace at the end of lines
-		// https://eslint.style/rules/default/no-trailing-spaces
-		"@stylistic/no-trailing-spaces": 1,
-		// Enforce the consistent use of double quotes
-		// https://eslint.style/rules/default/quotes
-		"@stylistic/quotes": [
-			1,
-			"double",
-			{ "avoidEscape": true, "allowTemplateLiterals": true },
-		],
-		// Require semicolons instead of ASI
-		// https://eslint.style/rules/default/semi
-		"@stylistic/semi": 1,
-		// Enforce at least one space before blocks
-		// https://eslint.style/rules/default/space-before-blocks
-		"@stylistic/space-before-blocks": 1,
-		// Require spaces around infix operators (e.g. `+`, `=`, `?`, `:`)
-		// https://eslint.style/rules/default/space-infix-ops
-		"@stylistic/space-infix-ops": 1,
-		// Enforce a space after unary word operators (`new`, `delete`, `typeof`, `void`, `yield`)
-		// https://eslint.style/rules/default/space-unary-ops
-		"@stylistic/space-unary-ops": 1,
-		// Enforce whitespace after the `//` or `/*` in a comment
-		// https://eslint.style/rules/default/spaced-comment
-		"@stylistic/spaced-comment": [
-			1,
-			"always",
-			{ "block": { "exceptions": ["*"] } },
-		],
 
 		/**
 		 * typescript-eslint rules: https://typescript-eslint.io/rules/
