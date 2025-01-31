@@ -4,11 +4,11 @@ import * as check from "../node_modules/htest.dev/src/check.js";
 export default {
 	name: "Coordinate reading / writing tests",
 	description: "These tests modify one or more coordinates and check the result.",
-	check: check.deep(check.proximity({epsilon: .005})),
+	check: check.deep(check.proximity({ epsilon: 0.005 })),
 	data: {
 		red: new Color("srgb", [1, 0, 0]),
-		red_50: new Color("srgb", [1, 0, 0], .5),
-		red_oklch: new Color("oklch", [.6, .25, 30]),
+		red_50: new Color("srgb", [1, 0, 0], 0.5),
+		red_oklch: new Color("oklch", [0.6, 0.25, 30]),
 	},
 	tests: [
 		{
@@ -31,16 +31,16 @@ export default {
 				{
 					name: "color.getAll({precision: 1})",
 					run () {
-						return this.data.red_oklch.getAll({precision: 1});
+						return this.data.red_oklch.getAll({ precision: 1 });
 					},
-					expect: [.6, .3, 30],
+					expect: [0.6, 0.3, 30],
 				},
 				{
 					name: "color.getAll({space: 'oklch', precision: 1})",
 					run () {
-						return this.data.red.getAll({space: "oklch", precision: 1});
+						return this.data.red.getAll({ space: "oklch", precision: 1 });
 					},
-					expect: [.6, .3, 30],
+					expect: [0.6, 0.3, 30],
 				},
 				{
 					name: "color.alpha",
@@ -179,7 +179,7 @@ export default {
 					expect: 13,
 				},
 				{
-					name: "color.set(\"otherSpace.coordId\", value)",
+					name: 'color.set("otherSpace.coordId", value)',
 					run () {
 						let color = this.data.red.clone();
 						color.set("lch.c", 13);
@@ -209,7 +209,7 @@ export default {
 					name: "color.set(object_with_coords)",
 					run () {
 						let color = this.data.red.clone();
-						color.set({"lch.c": 13, "lch.l": 40});
+						color.set({ "lch.c": 13, "lch.l": 40 });
 						return [color.lch.c, color.lch.l];
 					},
 					expect: [13, 40],
@@ -218,7 +218,7 @@ export default {
 					name: "color.set(object_with_coords_and_alpha)",
 					run () {
 						let color = this.data.red.clone();
-						color.set({"lch.c": 13, "alpha": 0.5});
+						color.set({ "lch.c": 13, alpha: 0.5 });
 						return [color.lch.c, color.alpha];
 					},
 					expect: [13, 0.5],

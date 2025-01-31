@@ -23,9 +23,9 @@
 // SOFTWARE.
 import ColorSpace from "../ColorSpace.js";
 import Oklab from "./oklab.js";
-import {LabtoLMS_M} from "./oklab.js";
-import {spow, multiply_v3_m3x3} from "../util.js";
-import {constrain} from "../angles.js";
+import { LabtoLMS_M } from "./oklab.js";
+import { spow, multiply_v3_m3x3 } from "../util.js";
+import { constrain } from "../angles.js";
 
 // Type "imports"
 /** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
@@ -35,6 +35,7 @@ import {constrain} from "../angles.js";
 export const tau = 2 * Math.PI;
 
 /** @type {Matrix3x3} */
+// prettier-ignore
 export const toLMS = [
 	[0.4122214694707629, 0.5363325372617349, 0.0514459932675022],
 	[0.2119034958178251, 0.6806995506452344, 0.1073969535369405],
@@ -42,6 +43,7 @@ export const toLMS = [
 ];
 
 /** @type {Matrix3x3} */
+// prettier-ignore
 export const toSRGBLinear = [
 	[ 4.0767416360759583, -3.3077115392580629,  0.2309699031821043],
 	[-1.2684379732850315,  2.6097573492876882, -0.3413193760026570],
@@ -78,7 +80,6 @@ const K1 = 0.206;
 const K2 = 0.03;
 const K3 = (1.0 + K1) / (1.0 + K2);
 
-
 function vdot (a, b) {
 	// Dot two vectors
 
@@ -95,7 +96,6 @@ function vdot (a, b) {
 	return s;
 }
 
-
 /**
  * Toe function for L_r
  * @param {number} x
@@ -104,7 +104,6 @@ export function toe (x) {
 	return 0.5 * (K3 * x - K1 + Math.sqrt((K3 * x - K1) * (K3 * x - K1) + 4 * K2 * K3 * x));
 }
 
-
 /**
  * Inverse toe function for L_r
  * @param {number} x
@@ -112,7 +111,6 @@ export function toe (x) {
 export function toeInv (x) {
 	return (x ** 2 + K1 * x) / (K3 * (x + K2));
 }
-
 
 /**
  * @param {readonly [number, number]} cusp
@@ -125,14 +123,13 @@ export function toSt (cusp) {
 	return [c / l, c / (1 - l)];
 }
 
-
 function getStMid (a, b) {
 	// Returns a smooth approximation of the location of the cusp.
 	//
 	// This polynomial was created by an optimization process.
 	// It has been designed so that S_mid < S_max and T_mid < T_max.
 
-
+	// prettier-ignore
 	let s = 0.11516993 + 1.0 / (
 		7.44778970 + 4.15901240 * b +
 		a * (
@@ -146,6 +143,7 @@ function getStMid (a, b) {
 		)
 	);
 
+	// prettier-ignore
 	let t = 0.11239642 + 1.0 / (
 		1.61320320 - 0.68124379 * b +
 		a * (
@@ -205,7 +203,6 @@ export function findCusp (a, b, lmsToRgb, okCoeff) {
 	return [lCusp, cCusp];
 }
 
-
 /**
  * @param {number} a
  * @param {number} b
@@ -237,15 +234,15 @@ export function findGamutIntersection (a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp
 	}
 
 	// Find the intersection for upper and lower half separately
-	if (((l1 - l0) * cusp[1] - (cusp[0] - l0) * c1) <= 0.0) {
+	if ((l1 - l0) * cusp[1] - (cusp[0] - l0) * c1 <= 0.0) {
 		// Lower half
-		t = cusp[1] * l0 / (c1 * cusp[0] + cusp[1] * (l0 - l1));
+		t = (cusp[1] * l0) / (c1 * cusp[0] + cusp[1] * (l0 - l1));
 	}
 	else {
 		// Upper half
 
 		// First intersect with triangle
-		t = cusp[1] * (l0 - 1.0) / (c1 * (cusp[0] - 1.0) + cusp[1] * (l0 - l1));
+		t = (cusp[1] * (l0 - 1.0)) / (c1 * (cusp[0] - 1.0) + cusp[1] * (l0 - l1));
 
 		// Then one step Halley's method
 		let dl = l1 - l0;
@@ -271,13 +268,13 @@ export function findGamutIntersection (a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp
 		let m = m_ ** 3;
 		let s = s_ ** 3;
 
-		let ldt = 3 * ldt_ * (l_ ** 2);
-		let mdt = 3 * mdt_ * (m_ ** 2);
-		let sdt = 3 * sdt_ * (s_ ** 2);
+		let ldt = 3 * ldt_ * l_ ** 2;
+		let mdt = 3 * mdt_ * m_ ** 2;
+		let sdt = 3 * sdt_ * s_ ** 2;
 
-		let ldt2 = 6 * (ldt_ ** 2) * l_;
-		let mdt2 = 6 * (mdt_ ** 2) * m_;
-		let sdt2 = 6 * (sdt_ ** 2) * s_;
+		let ldt2 = 6 * ldt_ ** 2 * l_;
+		let mdt2 = 6 * mdt_ ** 2 * m_;
+		let sdt2 = 6 * sdt_ ** 2 * s_;
 
 		let r_ = vdot(lmsToRgb[0], [l, m, s]) - 1;
 		let r1 = vdot(lmsToRgb[0], [ldt, mdt, sdt]);
@@ -300,16 +297,15 @@ export function findGamutIntersection (a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp
 		let ub = b1 / (b1 * b1 - 0.5 * b_ * b2);
 		let tb = -b_ * ub;
 
-		tr = (ur >= 0.0) ? tr : floatMax;
-		tg = (ug >= 0.0) ? tg : floatMax;
-		tb = (ub >= 0.0) ? tb : floatMax;
+		tr = ur >= 0.0 ? tr : floatMax;
+		tg = ug >= 0.0 ? tg : floatMax;
+		tb = ub >= 0.0 ? tb : floatMax;
 
 		t += Math.min(tr, Math.min(tg, tb));
 	}
 
 	return t;
 }
-
 
 function getCs (lab, lmsToRgb, okCoeff) {
 	// Get Cs
@@ -322,14 +318,14 @@ function getCs (lab, lmsToRgb, okCoeff) {
 	let stMax = toSt(cusp);
 
 	// Scale factor to compensate for the curved part of gamut shape:
-	let k = cMax / Math.min((l * stMax[0]), (1 - l) * stMax[1]);
+	let k = cMax / Math.min(l * stMax[0], (1 - l) * stMax[1]);
 
 	let stMid = getStMid(a, b);
 
 	// Use a soft minimum function, instead of a sharp triangle shape to get a smooth value for chroma.
 	let ca = l * stMid[0];
 	let cb = (1.0 - l) * stMid[1];
-	let cMid = 0.9 * k * Math.sqrt(Math.sqrt(1.0 / (1.0 / (ca ** 4) + 1.0 / (cb ** 4))));
+	let cMid = 0.9 * k * Math.sqrt(Math.sqrt(1.0 / (1.0 / ca ** 4 + 1.0 / cb ** 4)));
 
 	// For `C_0`, the shape is independent of hue, so `ST` are constant.
 	// Values picked to roughly be the average values of `ST`.
@@ -337,11 +333,10 @@ function getCs (lab, lmsToRgb, okCoeff) {
 	cb = (1.0 - l) * 0.8;
 
 	// Use a soft minimum function, instead of a sharp triangle shape to get a smooth value for chroma.
-	let c0 = Math.sqrt(1.0 / (1.0 / (ca ** 2) + 1.0 / (cb ** 2)));
+	let c0 = Math.sqrt(1.0 / (1.0 / ca ** 2 + 1.0 / cb ** 2));
 
 	return [c0, cMid, cMax];
 }
-
 
 function computeMaxSaturation (a, b, lmsToRgb, okCoeff) {
 	// Finds the maximum saturation possible for a given hue that fits in RGB.
@@ -372,7 +367,7 @@ function computeMaxSaturation (a, b, lmsToRgb, okCoeff) {
 	}
 
 	// Approximate max saturation using a polynomial:
-	let sat = k0 + k1 * a + k2 * b + k3 * (a ** 2) + k4 * a * b;
+	let sat = k0 + k1 * a + k2 * b + k3 * a ** 2 + k4 * a * b;
 
 	// Do one step Halley's method to get closer.
 	// This gives an error less than 10e6, except for some blue hues where the `dS/dh` is close to infinite.
@@ -390,25 +385,24 @@ function computeMaxSaturation (a, b, lmsToRgb, okCoeff) {
 	let m = m_ ** 3;
 	let s = s_ ** 3;
 
-	let lds = 3.0 * kl * (l_ ** 2);
-	let mds = 3.0 * km * (m_ ** 2);
-	let sds = 3.0 * ks * (s_ ** 2);
+	let lds = 3.0 * kl * l_ ** 2;
+	let mds = 3.0 * km * m_ ** 2;
+	let sds = 3.0 * ks * s_ ** 2;
 
-	let lds2 = 6.0 * (kl ** 2) * l_;
-	let mds2 = 6.0 * (km ** 2) * m_;
-	let sds2 = 6.0 * (ks ** 2) * s_;
+	let lds2 = 6.0 * kl ** 2 * l_;
+	let mds2 = 6.0 * km ** 2 * m_;
+	let sds2 = 6.0 * ks ** 2 * s_;
 
 	let f = wl * l + wm * m + ws * s;
 	let f1 = wl * lds + wm * mds + ws * sds;
 	let f2 = wl * lds2 + wm * mds2 + ws * sds2;
 
-	sat = sat - f * f1 / ((f1 ** 2) - 0.5 * f * f2);
+	sat = sat - (f * f1) / (f1 ** 2 - 0.5 * f * f2);
 
 	return sat;
 }
 
-
-function okhslToOklab (hsl, lmsToRgb,  okCoeff) {
+function okhslToOklab (hsl, lmsToRgb, okCoeff) {
 	// Convert Okhsl to Oklab.
 
 	let [h, s, l] = hsl;
@@ -438,16 +432,16 @@ function okhslToOklab (hsl, lmsToRgb,  okCoeff) {
 			t = midInv * s;
 			k0 = 0.0;
 			k1 = mid * c0;
-			k2 = (1.0 - k1 / cMid);
+			k2 = 1.0 - k1 / cMid;
 		}
 		else {
 			t = 5 * (s - 0.8);
 			k0 = cMid;
-			k1 = 0.2 * (cMid ** 2) * (1.25 ** 2) / c0;
+			k1 = (0.2 * cMid ** 2 * 1.25 ** 2) / c0;
 			k2 = 1.0 - k1 / (cMax - cMid);
 		}
 
-		let c = k0 + t * k1 / (1.0 - k2 * t);
+		let c = k0 + (t * k1) / (1.0 - k2 * t);
 
 		a = c * a_;
 		b = c * b_;
@@ -455,7 +449,6 @@ function okhslToOklab (hsl, lmsToRgb,  okCoeff) {
 
 	return [L, a, b];
 }
-
 
 function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 	// Oklab to Okhsl.
@@ -488,11 +481,10 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 			t = c / (k1 + k2 * c);
 			s = t * mid;
 		}
-
 		else {
 			k0 = cMid;
-			k1 = 0.2 * (cMid ** 2) * (midInv ** 2) / c0;
-			k2 = (1.0 - (k1) / (cMax - cMid));
+			k1 = (0.2 * cMid ** 2 * midInv ** 2) / c0;
+			k2 = 1.0 - k1 / (cMax - cMid);
 
 			t = (c - k0) / (k1 + k2 * (c - k0));
 			s = mid + 0.2 * t;
@@ -509,14 +501,12 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 			s = 0.0;
 		}
 	}
-
 	else {
 		h = constrain(h * 360);
 	}
 
 	return [h, s, l];
 }
-
 
 export default new ColorSpace({
 	id: "okhsl",

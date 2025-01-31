@@ -12,15 +12,15 @@ import deltaE from "./deltaE.js";
 import deltaEMethods from "./deltaE/index.js";
 
 Color.extend(deltaEMethods);
-Color.extend({deltaE});
-Object.assign(Color, {deltaEMethods});
+Color.extend({ deltaE });
+Object.assign(Color, { deltaEMethods });
 
 // Import optional modules
 import * as variations from "./variations.js";
 Color.extend(variations);
 
 import contrast from "./contrast.js";
-Color.extend({contrast});
+Color.extend({ contrast });
 
 import * as chromaticity from "./chromaticity.js";
 Color.extend(chromaticity);

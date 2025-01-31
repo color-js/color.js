@@ -1,7 +1,7 @@
 import ColorSpace from "../ColorSpace.js";
 import Lab from "./lab.js";
-import {constrain as constrainAngle} from "../angles.js";
-import {isNone} from "../util.js";
+import { constrain as constrainAngle } from "../angles.js";
+import { isNone } from "../util.js";
 
 export default new ColorSpace({
 	id: "lch",
@@ -34,27 +34,28 @@ export default new ColorSpace({
 		// Convert to polar form
 		let [L, a, b] = Lab;
 		let isAchromatic = Math.abs(a) < this.ε && Math.abs(b) < this.ε;
-		let h = isAchromatic ? null : constrainAngle(Math.atan2(b, a) * 180 / Math.PI);
+		let h = isAchromatic ? null : constrainAngle((Math.atan2(b, a) * 180) / Math.PI);
 		let C = isAchromatic ? 0 : Math.sqrt(a ** 2 + b ** 2);
 
-		return [ L, C, h ];
+		return [L, C, h];
 	},
 	toBase (lch) {
 		// Convert from polar form
 		let [L, C, h] = lch;
-		let a = null, b = null;
+		let a = null,
+			b = null;
 
 		if (!isNone(h)) {
 			C = C < 0 ? 0 : C; // Clamp negative Chroma
-			a = C * Math.cos(h * Math.PI / 180);
-			b = C * Math.sin(h * Math.PI / 180);
+			a = C * Math.cos((h * Math.PI) / 180);
+			b = C * Math.sin((h * Math.PI) / 180);
 		}
 
-		return [ L, a, b ];
+		return [L, a, b];
 	},
 
 	formats: {
-		"lch": {
+		lch: {
 			coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"],
 		},
 	},

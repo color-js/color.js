@@ -3,18 +3,19 @@ import * as check from "../node_modules/htest.dev/src/check.js";
 
 const tests = {
 	name: "Color conversion Tests",
-	description: "These tests parse different color formats and then print out the coordinates in various color spaces.",
+	description:
+		"These tests parse different color formats and then print out the coordinates in various color spaces.",
 	run (color, spaceId = this.data.toSpace) {
 		color = new Color(color);
 		return color.to(spaceId).coords;
 	},
 	check: check.deep(function (actual, expect) {
-		let checkProximity = check.shallowEquals({epsilon: this.data.epsilon, subset: true});
+		let checkProximity = check.shallowEquals({ epsilon: this.data.epsilon, subset: true });
 		let ret = checkProximity(actual, expect);
 		return ret;
 	}),
 	data: {
-		epsilon: .0001,
+		epsilon: 0.0001,
 	},
 	tests: [
 		{
@@ -73,7 +74,7 @@ const tests = {
 				},
 				{
 					args: "hwb(90 30% 5%)",
-					expect: [0.625, 0.950, 0.300],
+					expect: [0.625, 0.95, 0.3],
 				},
 				{
 					args: "hwb(30 0% 80%)",
@@ -85,7 +86,7 @@ const tests = {
 				},
 				{
 					args: "hwb(-270 30% 5%)",
-					expect: [0.625, 0.950, 0.300],
+					expect: [0.625, 0.95, 0.3],
 				},
 				{
 					args: "hwb(0 40% 80%)",
@@ -194,11 +195,11 @@ const tests = {
 			tests: [
 				{
 					args: ["color(rec2100-pq 0.3720 0.3720 0.3720)", "xyz-d65"],
-					expect: [0.11118, 0.11698, 0.12740],
+					expect: [0.11118, 0.11698, 0.1274],
 				},
 				{
 					args: "color(xyz 0.11118, 0.11698, 0.12740)",
-					expect: [0.3720, 0.3720, 0.3720],
+					expect: [0.372, 0.372, 0.372],
 				},
 				{
 					args: "white",
@@ -210,11 +211,11 @@ const tests = {
 				},
 				{
 					args: "color(display-p3 0 1 0)",
-					expect: [0.4200, 0.5744, 0.2248],
+					expect: [0.42, 0.5744, 0.2248],
 				},
 				{
 					args: "color(display-p3 0 0 1)",
-					expect: [0.2970, 0.2026, 0.5790],
+					expect: [0.297, 0.2026, 0.579],
 				},
 				{
 					args: "color(rec2020 1 0 0)",
@@ -354,24 +355,34 @@ const tests = {
 				},
 				{
 					name: "ICtCp rec2020 red back to rec2020",
-					args: ["color(ictcp 0.44707334125327025 -0.12956985056013226 0.3992012669381549)", "rec2020"],
+					args: [
+						"color(ictcp 0.44707334125327025 -0.12956985056013226 0.3992012669381549)",
+						"rec2020",
+					],
 					expect: [1, 0, 0],
 				},
 				{
 					name: "ICtCp rec2020 green back to rec2020",
-					args: ["color(ictcp 0.5304887192571797 -0.41543423180389427 -0.1138035187565125)", "rec2020"],
+					args: [
+						"color(ictcp 0.5304887192571797 -0.41543423180389427 -0.1138035187565125)",
+						"rec2020",
+					],
 					expect: [0, 1, 0],
 				},
 				{
 					name: "ICtCp rec2020 blue back to rec2020",
-					args: ["color(ictcp 0.3447364812349795 0.26592861954236724 -0.23729937427859088)", "rec2020"],
+					args: [
+						"color(ictcp 0.3447364812349795 0.26592861954236724 -0.23729937427859088)",
+						"rec2020",
+					],
 					expect: [0, 0, 1],
 				},
 			],
 		},
 		{
 			name: "OKLab",
-			description: "Conversions tested against results from published linear sRGB to OKLab C++ code (using better matrices, updated 2021-01-2)",
+			description:
+				"Conversions tested against results from published linear sRGB to OKLab C++ code (using better matrices, updated 2021-01-2)",
 			data: {
 				toSpace: "oklab",
 			},
@@ -379,7 +390,7 @@ const tests = {
 				{
 					name: "sRGB white (D65) to OKlab",
 					args: "white",
-					expect: [1.000000, 0.000000, 0.000000],
+					expect: [1.0, 0.0, 0.0],
 				},
 				{
 					name: "sRGB red (D65) to OKlab",
@@ -409,12 +420,12 @@ const tests = {
 				{
 					name: "sRGB yellow (D65) to OKlab",
 					args: "yellow",
-					expect: [0.967983, -0.071369, 0.198570],
+					expect: [0.967983, -0.071369, 0.19857],
 				},
 				{
 					name: "sRGB black (D65) to OKlab",
 					args: "black",
-					expect: [0.000000, 0.000000, 0.000000],
+					expect: [0.0, 0.0, 0.0],
 				},
 			],
 		},
@@ -455,22 +466,22 @@ const tests = {
 				{
 					name: "sRGB white (D65) to OKlrab",
 					args: "white",
-					expect:  [ 1.0000000000000002, -4.996003610813204e-16, 0 ],
+					expect: [1.0000000000000002, -4.996003610813204e-16, 0],
 				},
 				{
 					name: "sRGB red (D65) to OKlrab",
 					args: "red",
-					expect: [ 0.5680846563197034, 0.2248630684262744, 0.125846277330585 ],
+					expect: [0.5680846563197034, 0.2248630684262744, 0.125846277330585],
 				},
 				{
 					name: "sRGB lime (D65) to OKlrab",
 					args: "lime",
-					expect: [ 0.8445289714936317, -0.23388758093655815, 0.1794984451609376 ],
+					expect: [0.8445289714936317, -0.23388758093655815, 0.1794984451609376],
 				},
 				{
 					name: "sRGB blue (D65) to OKlrab",
 					args: "blue",
-					expect: [ 0.3665653391870817, -0.03245697517079771, -0.3115281656775778 ],
+					expect: [0.3665653391870817, -0.03245697517079771, -0.3115281656775778],
 				},
 			],
 		},
@@ -529,12 +540,12 @@ const tests = {
 				{
 					name: "ACEScc media white to XYZ",
 					args: "color(acescc 1.0 1.0 1.0)",
-					expect: [211.8195, 222.8610, 242.7084],
+					expect: [211.8195, 222.861, 242.7084],
 				},
 				{
 					name: "mid grey (linear 0.5) to XYZ",
 					args: "color(acescc 0.4977169 0.4977169 0.4977169)",
-					expect: [0.475228, 0.500000, 0.544529],
+					expect: [0.475228, 0.5, 0.544529],
 				},
 				{
 					name: "media black to XYZ",
@@ -802,21 +813,20 @@ const tests = {
 					expect: [0.0, 0.0, 0.0],
 				},
 				{
-					name:"Luv (none lightness) to sRGB",
+					name: "Luv (none lightness) to sRGB",
 					args: "color(--luv none 50 50)",
 					expect: [0.0, 0.0, 0.0],
 				},
 				{
-					name:"Luv (none u) to sRGB",
+					name: "Luv (none u) to sRGB",
 					args: "color(--luv 100% none 0)",
 					expect: [1.0, 1.0, 1.0],
 				},
 				{
-					name:"Luv (none v) to sRGB",
+					name: "Luv (none v) to sRGB",
 					args: "color(--luv 100% 0 none)",
 					expect: [1.0, 1.0, 1.0],
 				},
-
 			],
 		},
 		{
@@ -885,17 +895,17 @@ const tests = {
 					expect: [0.0, 0.0, 0.0],
 				},
 				{
-					name:"HSLuv (#dddddd with none hue) to sRGB",
+					name: "HSLuv (#dddddd with none hue) to sRGB",
 					args: "color(--hsluv none 0 88.1154369871094)",
 					expect: [0.866666666666666696, 0.866666666666666696, 0.866666666666666696],
 				},
 				{
-					name:"HSLuv (none saturation) to sRGB",
+					name: "HSLuv (none saturation) to sRGB",
 					args: "color(--hsluv 80 none 100)",
 					expect: [1.0, 1.0, 1.0],
 				},
 				{
-					name:"HSLuv (none lightness) to sRGB",
+					name: "HSLuv (none lightness) to sRGB",
 					args: "color(--hsluv 0 50 none)",
 					expect: [0.0, 0.0, 0.0],
 				},
@@ -972,17 +982,17 @@ const tests = {
 					expect: [0.0, 0.0, 0.0],
 				},
 				{
-					name:"HPLuv (#dddddd with none hue) to sRGB",
+					name: "HPLuv (#dddddd with none hue) to sRGB",
 					args: "color(--hpluv none 0 88.1154369871094)",
 					expect: [0.866666666666666696, 0.866666666666666696, 0.866666666666666696],
 				},
 				{
-					name:"HPLuv (none saturation) to sRGB",
+					name: "HPLuv (none saturation) to sRGB",
 					args: "color(--hpluv 80 none 100)",
 					expect: [1.0, 1.0, 1.0],
 				},
 				{
-					name:"HPLuv (none lightness) to sRGB",
+					name: "HPLuv (none lightness) to sRGB",
 					args: "color(--hpluv 0 50 none)",
 					expect: [0.0, 0.0, 0.0],
 				},
@@ -1021,7 +1031,7 @@ const tests = {
 				{
 					name: "sRGB white to Okhsl",
 					args: "white",
-					expect: [ null, 0.0, 1.0000000000000002 ],
+					expect: [null, 0.0, 1.0000000000000002],
 				},
 				{
 					name: "sRGB red to Okhsl",
@@ -1036,27 +1046,27 @@ const tests = {
 				{
 					name: "sRGB blue to Okhsl",
 					args: "blue",
-					expect: [ 264.05202261636987, 1.0000000005848084, 0.3665653391870817 ],
+					expect: [264.05202261636987, 1.0000000005848084, 0.3665653391870817],
 				},
 				{
 					name: "sRGB cyan to Okhsl",
 					args: "cyan",
-					expect: [ 194.76895989798186, 1.0000000000000022, 0.8898483085518512 ],
+					expect: [194.76895989798186, 1.0000000000000022, 0.8898483085518512],
 				},
 				{
 					name: "sRGB magenta to Okhsl",
 					args: "magenta",
-					expect: [ 328.3634151749902, 1, 0.6532987485868166 ],
+					expect: [328.3634151749902, 1, 0.6532987485868166],
 				},
 				{
 					name: "sRGB yellow to Okhsl",
 					args: "yellow",
-					expect: [ 109.76923612816614, 1.000000000488464, 0.9627044043394304 ],
+					expect: [109.76923612816614, 1.000000000488464, 0.9627044043394304],
 				},
 				{
 					name: "sRGB black to Okhsl",
 					args: "black",
-					expect: [ null, 0.0, 0.0 ],
+					expect: [null, 0.0, 0.0],
 				},
 			],
 		},
@@ -1069,42 +1079,42 @@ const tests = {
 				{
 					name: "sRGB white to Okhsv",
 					args: "white",
-					expect: [ null, 1.3189507366749435e-15, 1.0000000000000007 ],
+					expect: [null, 1.3189507366749435e-15, 1.0000000000000007],
 				},
 				{
 					name: "sRGB red to Okhsv",
 					args: "red",
-					expect: [ 29.233880279627897, 1.0000002264814274, 1.0000000000000002 ],
+					expect: [29.233880279627897, 1.0000002264814274, 1.0000000000000002],
 				},
 				{
 					name: "sRGB lime to Okhsv",
 					args: "lime",
-					expect: [ 142.4953450414439, 0.9999998662472009, 1.0000000000000004 ],
+					expect: [142.4953450414439, 0.9999998662472009, 1.0000000000000004],
 				},
 				{
 					name: "sRGB blue to Okhsv",
 					args: "blue",
-					expect: [ 264.05202261636987, 1.0000000023007056, 1.0000000000000004 ],
+					expect: [264.05202261636987, 1.0000000023007056, 1.0000000000000004],
 				},
 				{
 					name: "sRGB cyan to Okhsv",
 					args: "cyan",
-					expect: [ 194.76895989798186, 0.9999996310024463, 1.0000000000000009 ],
+					expect: [194.76895989798186, 0.9999996310024463, 1.0000000000000009],
 				},
 				{
 					name: "sRGB magenta to Okhsv",
 					args: "magenta",
-					expect: [ 328.3634151749902, 0.999999999954202, 1 ],
+					expect: [328.3634151749902, 0.999999999954202, 1],
 				},
 				{
 					name: "sRGB yellow to Okhsv",
 					args: "yellow",
-					expect: [ 109.76923612816614, 1.000000019514276, 1.0000000000000002 ],
+					expect: [109.76923612816614, 1.000000019514276, 1.0000000000000002],
 				},
 				{
 					name: "sRGB black to Okhsv",
 					args: "black",
-					expect: [ null, 0.0, 0.0],
+					expect: [null, 0.0, 0.0],
 				},
 			],
 		},

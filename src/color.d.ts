@@ -81,9 +81,7 @@ export interface DefineFunctionOptions {
 export type DefineFunctionHybrid = DefineFunctionCode & DefineFunctionOptions;
 
 /** Remove the first element of an array type */
-type RemoveFirstElement<T extends any[]> = T extends [any, ...infer R]
-	? R
-	: T[number][];
+type RemoveFirstElement<T extends any[]> = T extends [any, ...infer R] ? R : T[number][];
 
 /** Convert a function to a prototype for Color */
 export type ToColorPrototype<T extends (...args: any[]) => any> = T extends (
@@ -115,15 +113,33 @@ declare namespace Color {
 	// and `toString` is intentionally not overridden for the namespace
 
 	export { util, hooks, WHITES, ColorSpace as Space, parse, defaults };
-	export const spaces: typeof ColorSpace["registry"];
+	export const spaces: (typeof ColorSpace)["registry"];
 
 	// Must be manually defined due to overloads
 	// These should always match the signature of the original function
-	export function set (color: ColorTypes, prop: Ref, value: number | ((coord: number) => number)): Color;
-	export function set (color: ColorTypes, props: Record<string, number | ((coord: number) => number)>): Color;
+	// prettier-ignore
+	export function set (
+		color: ColorTypes,
+		prop: Ref,
+		value: number | ((coord: number) => number),
+	): Color;
+	// prettier-ignore
+	export function set (
+		color: ColorTypes,
+		props: Record<string, number | ((coord: number) => number)>,
+	): Color;
+	// prettier-ignore
 	export function setAll (color: ColorTypes, coords: Coords, alpha?: number): Color;
-	export function setAll (color: ColorTypes, space: string | ColorSpace, coords: Coords, alpha?: number): Color;
+	// prettier-ignore
+	export function setAll (
+		color: ColorTypes,
+		space: string | ColorSpace,
+		coords: Coords,
+		alpha?: number,
+	): Color;
+	// prettier-ignore
 	export function toGamut (color: ColorTypes, options?: ToGamutOptions): Color;
+	// prettier-ignore
 	export function toGamut (color: ColorTypes, space?: string): Color;
 }
 
@@ -138,25 +154,19 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 
 	// These signatures should always be the same as the constructor
 	static get (color: ColorTypes): Color;
-	static get (
-		space: string | ColorSpace,
-		coords: Coords,
-		alpha: number
-	): Color;
+	static get (space: string | ColorSpace, coords: Coords, alpha: number): Color;
 
 	static defineFunction (name: string, code: DefineFunctionHybrid): void;
 	static defineFunction (
 		name: string,
 		code: DefineFunctionCode,
-		options: DefineFunctionOptions
+		options: DefineFunctionOptions,
 	): void;
 
 	static defineFunctions (objects: Record<string, DefineFunctionHybrid>): void;
 
 	static extend (
-		exports:
-		| { register: (color: typeof Color) => void }
-		| Record<string, DefineFunctionHybrid>
+		exports: { register: (color: typeof Color) => void } | Record<string, DefineFunctionHybrid>,
 	): void;
 
 	get space (): ColorSpace;
@@ -168,9 +178,7 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	clone (): this;
 
 	// Copy parameter types from display function, except for the first one
-	display (
-		...args: RemoveFirstElement<Parameters<typeof display>>
-	): string & { color: Color };
+	display (...args: RemoveFirstElement<Parameters<typeof display>>): string & { color: Color };
 
 	toJSON (): ColorConstructor;
 
@@ -255,17 +263,8 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	steps (color2: ColorTypes, options?: StepsOptions): Color[];
 
 	/** Create color mixtures in any desired proportion between two colors */
-	static mix (
-		color1: ColorTypes,
-		color2: ColorTypes,
-		options?: MixOptions
-	): Color;
-	static mix (
-		color1: ColorTypes,
-		color2: ColorTypes,
-		p: number,
-		options?: MixOptions
-	): Color;
+	static mix (color1: ColorTypes, color2: ColorTypes, options?: MixOptions): Color;
+	static mix (color1: ColorTypes, color2: ColorTypes, p: number, options?: MixOptions): Color;
 	/**
 	 * Creates a function that accepts a number and returns a color.
 	 * For numbers in the range 0 to 1, the function interpolates;
@@ -274,11 +273,7 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	 */
 	static range: typeof range;
 	/** Get an array of discrete steps */
-	static steps (
-		color1: ColorTypes,
-		color2: ColorTypes,
-		options?: StepsOptions
-	): Color[];
+	static steps (color1: ColorTypes, color2: ColorTypes, options?: StepsOptions): Color[];
 	static steps (range: Range, options?: StepsOptions): Color[];
 
 	// luminance

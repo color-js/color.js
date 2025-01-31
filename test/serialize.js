@@ -7,7 +7,7 @@ const tests = {
 	name: "Color serialization Tests",
 	description: "These tests parse different color formats and compare the result as JSON",
 	run (spaceId, coords, alpha, options) {
-		return serialize({spaceId, coords, alpha}, options);
+		return serialize({ spaceId, coords, alpha }, options);
 	},
 	tests: [
 		{
@@ -26,11 +26,11 @@ const tests = {
 					expect: "lab(65% 20 90)",
 				},
 				{
-					args: ["oklch", [.65, 0.2, 90]],
+					args: ["oklch", [0.65, 0.2, 90]],
 					expect: "oklch(65% 0.2 90)",
 				},
 				{
-					args: ["oklab", [.65, 0.2, .1]],
+					args: ["oklab", [0.65, 0.2, 0.1]],
 					expect: "oklab(65% 0.2 0.1)",
 				},
 			],
@@ -39,23 +39,23 @@ const tests = {
 			name: "With alpha",
 			tests: [
 				{
-					args: ["srgb", [1, 0.5, 0], .5],
+					args: ["srgb", [1, 0.5, 0], 0.5],
 					expect: "rgb(100% 50% 0% / 0.5)",
 				},
 				{
-					args: ["lch", [65, 20, 90], .5],
+					args: ["lch", [65, 20, 90], 0.5],
 					expect: "lch(65% 20 90 / 0.5)",
 				},
 				{
-					args: ["lab", [65, 20, 90], .5],
+					args: ["lab", [65, 20, 90], 0.5],
 					expect: "lab(65% 20 90 / 0.5)",
 				},
 				{
-					args: ["oklch", [.65, 0.2, 90], .5],
+					args: ["oklch", [0.65, 0.2, 90], 0.5],
 					expect: "oklch(65% 0.2 90 / 0.5)",
 				},
 				{
-					args: ["oklab", [.65, 0.2, .1], .5],
+					args: ["oklab", [0.65, 0.2, 0.1], 0.5],
 					expect: "oklab(65% 0.2 0.1 / 0.5)",
 				},
 			],
@@ -64,11 +64,11 @@ const tests = {
 			name: "Mandatory alpha",
 			tests: [
 				{
-					args: ["srgb", [1, 0.5, 0], 1, {format: "rgba"}],
+					args: ["srgb", [1, 0.5, 0], 1, { format: "rgba" }],
 					expect: "rgba(100%, 50%, 0%, 1)",
 				},
 				{
-					args: ["hsl", [180, 50, 50], 1, {format: "hsla"}],
+					args: ["hsl", [180, 50, 50], 1, { format: "hsla" }],
 					expect: "hsla(180, 50%, 50%, 1)",
 				},
 			],
@@ -78,17 +78,17 @@ const tests = {
 			tests: [
 				{
 					name: "Hex",
-					args: ["srgb", [1, 0.5, 0], 1, {format: "hex"}],
+					args: ["srgb", [1, 0.5, 0], 1, { format: "hex" }],
 					expect: "#ff8000",
 				},
 				{
 					name: "Hex on non-sRGB color",
-					args: ["hsl", [0, 100, 50], 1, {format: "hex"}],
+					args: ["hsl", [0, 100, 50], 1, { format: "hex" }],
 					expect: "#f00",
 				},
 				{
 					name: "Cannot serialize as keyword",
-					args: ["srgb", [1, 0.5, 0], 1, {format: "keyword"}],
+					args: ["srgb", [1, 0.5, 0], 1, { format: "keyword" }],
 					throws: true,
 				},
 			],
@@ -98,19 +98,24 @@ const tests = {
 			tests: [
 				{
 					name: "rgb() with <number> coords",
-					args: ["srgb", [1, 0.5, 0], 1, {coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"]}],
+					args: [
+						"srgb",
+						[1, 0.5, 0],
+						1,
+						{ coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"] },
+					],
 					expect: "rgb(255 127.5 0)",
 				},
 				{
 					name: "oklch(<percentage> <percentage> <angle>)",
-					args: ["oklch", [0.5, 0.2, 180], 1, {coords: [, "<percentage>", "<angle>"]}],
+					args: ["oklch", [0.5, 0.2, 180], 1, { coords: [, "<percentage>", "<angle>"] }],
 					expect: "oklch(50% 50% 180deg)",
 				},
 			],
 		},
 		{
 			name: "Force commas",
-			args: ["srgb", [1, 0.5, 0], 1, {commas: true}],
+			args: ["srgb", [1, 0.5, 0], 1, { commas: true }],
 			expect: "rgb(100%, 50%, 0%)",
 		},
 		{
@@ -118,22 +123,22 @@ const tests = {
 			tests: [
 				{
 					name: "Force alpha",
-					args: ["srgb", [1, 0.5, 0], 1, {alpha: true}],
+					args: ["srgb", [1, 0.5, 0], 1, { alpha: true }],
 					expect: "rgb(100% 50% 0% / 1)",
 				},
 				{
 					name: "Percentage alpha",
-					args: ["srgb", [1, 0.5, 0], 0.8, {alpha: "<percentage>"}],
+					args: ["srgb", [1, 0.5, 0], 0.8, { alpha: "<percentage>" }],
 					expect: "rgb(100% 50% 0% / 80%)",
 				},
 				{
 					name: "Force alpha in hex",
-					args: ["srgb", [1, 0.5, 0], 1, {format: "hex", alpha: true}],
+					args: ["srgb", [1, 0.5, 0], 1, { format: "hex", alpha: true }],
 					expect: "#ff8000ff",
 				},
 				{
 					name: "Force no alpha in hex",
-					args: ["srgb", [1, 0.5, 0], 0.5, {format: "hex", alpha: false}],
+					args: ["srgb", [1, 0.5, 0], 0.5, { format: "hex", alpha: false }],
 					expect: "#ff8000",
 				},
 			],
@@ -143,12 +148,12 @@ const tests = {
 			tests: [
 				{
 					name: "sRGB negative %",
-					args: ["srgb", [-0.5, 0, 0], 1, {inGamut: false}],
+					args: ["srgb", [-0.5, 0, 0], 1, { inGamut: false }],
 					expect: "rgb(-50% 0% 0%)",
 				},
 				{
 					name: "sRGB %",
-					args: ["srgb", [1.5, 0, 0], 1, {inGamut: false}],
+					args: ["srgb", [1.5, 0, 0], 1, { inGamut: false }],
 					expect: "rgb(150% 0% 0%)",
 				},
 				{
@@ -158,7 +163,15 @@ const tests = {
 				},
 				{
 					name: "rgb()  with <number> coords",
-					args: ["srgb", [2, 2, 2], 1, {inGamut: false, coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"]}],
+					args: [
+						"srgb",
+						[2, 2, 2],
+						1,
+						{
+							inGamut: false,
+							coords: ["<number>[0,255]", "<number>[0,255]", "<number>[0,255]"],
+						},
+					],
 					expect: "rgb(510 510 510)",
 				},
 				{
@@ -168,12 +181,12 @@ const tests = {
 				},
 				{
 					name: "hsl negative values",
-					args: ["hsl", [-50, -10, -30], 1, {inGamut: false}],
+					args: ["hsl", [-50, -10, -30], 1, { inGamut: false }],
 					expect: "hsl(-50 -10% -30%)",
 				},
 				{
 					name: "hsl positive values",
-					args: ["hsl", [400, 123, 456], 1, {inGamut: false}],
+					args: ["hsl", [400, 123, 456], 1, { inGamut: false }],
 					expect: "hsl(400 123% 456%)",
 				},
 			],

@@ -22,7 +22,7 @@ export function lighten (color, amount = 0.25) {
  * @param {number} amount
  * @returns {PlainColorObject}
  */
-export function darken (color, amount = .25) {
+export function darken (color, amount = 0.25) {
 	let space = ColorSpace.get("oklch", "lch");
 	let /** @type {Ref} */ lightness = [space, "l"];
 	return set(color, lightness, l => l * (1 - amount));

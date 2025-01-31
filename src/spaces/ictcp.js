@@ -1,5 +1,5 @@
 import ColorSpace from "../ColorSpace.js";
-import {multiply_v3_m3x3} from "../util.js";
+import { multiply_v3_m3x3 } from "../util.js";
 import XYZ_Abs_D65 from "./xyz-abs-d65.js";
 
 // Type "imports"
@@ -17,6 +17,7 @@ const im2 = 32 / 2523;
 // The matrix below includes the 4% crosstalk components
 // and is from the Dolby "What is ICtCp" paper"
 /** @type {Matrix3x3} */
+// prettier-ignore
 const XYZtoLMS_M = [
 	[  0.3592832590121217,  0.6976051147779502, -0.0358915932320290 ],
 	[ -0.1920808463704993,  1.1004767970374321,  0.0753748658519118 ],
@@ -38,6 +39,7 @@ const Rec2020toLMS_M = [
 // rational terms from Fröhlich p.97
 // and ITU-R BT.2124-0 pp.2-3
 /** @type {Matrix3x3} */
+// prettier-ignore
 const LMStoIPT_M = [
 	[  2048 / 4096,   2048 / 4096,       0      ],
 	[  6610 / 4096, -13613 / 4096,  7003 / 4096 ],
@@ -46,12 +48,14 @@ const LMStoIPT_M = [
 
 // inverted matrices, calculated from the above
 /** @type {Matrix3x3} */
+// prettier-ignore
 const IPTtoLMS_M = [
 	[ 0.9999999999999998,  0.0086090370379328,  0.1110296250030260 ],
 	[ 0.9999999999999998, -0.0086090370379328, -0.1110296250030259 ],
 	[ 0.9999999999999998,  0.5600313357106791, -0.3206271749873188 ],
 ];
 /*
+// prettier-ignore
 const LMStoRec2020_M = [
 	[ 3.4375568932814012112,   -2.5072112125095058195,   0.069654319228104608382],
 	[-0.79142868665644156125,   1.9838372198740089874,  -0.19240853321756742626 ],
@@ -59,6 +63,7 @@ const LMStoRec2020_M = [
 ];
 */
 /** @type {Matrix3x3} */
+// prettier-ignore
 const LMStoXYZ_M = [
 	[  2.0701522183894223, -1.3263473389671563,  0.2066510476294053 ],
 	[  0.3647385209748072,  0.6805660249472273, -0.0453045459220347 ],
@@ -86,11 +91,11 @@ export default new ColorSpace({
 	// the signal (LB) to be properly set using test signals known as “PLUGE”
 	coords: {
 		i: {
-			refRange: [0, 1],	// Constant luminance,
+			refRange: [0, 1], // Constant luminance,
 			name: "I",
 		},
 		ct: {
-			refRange: [-0.5, 0.5],	// Full BT.2020 gamut in range [-0.5, 0.5]
+			refRange: [-0.5, 0.5], // Full BT.2020 gamut in range [-0.5, 0.5]
 			name: "CT",
 		},
 		cp: {
@@ -121,12 +126,14 @@ export default new ColorSpace({
 function LMStoICtCp (LMS) {
 	// apply the PQ EOTF
 	// we can't ever be dividing by zero because of the "1 +" in the denominator
-	let PQLMS = /** @type {Vector3} */ (LMS.map (function (val) {
-		let num = c1 + (c2 * ((val / 10000) ** m1));
-		let denom = 1 + (c3 * ((val / 10000) ** m1));
+	let PQLMS = /** @type {Vector3} */ (
+		LMS.map(function (val) {
+			let num = c1 + c2 * (val / 10000) ** m1;
+			let denom = 1 + c3 * (val / 10000) ** m1;
 
-		return (num / denom)  ** m2;
-	}));
+			return (num / denom) ** m2;
+		})
+	);
 
 	// LMS to IPT, with rotation for Y'C'bC'r compatibility
 	return multiply_v3_m3x3(PQLMS, LMStoIPT_M);
@@ -141,11 +148,13 @@ function ICtCptoLMS (ICtCp) {
 	let PQLMS = multiply_v3_m3x3(ICtCp, IPTtoLMS_M);
 
 	// From BT.2124-0 Annex 2 Conversion 3
-	let LMS = /** @type {Vector3} */ (PQLMS.map (function (val) {
-		let num  = Math.max((val ** im2) - c1, 0);
-		let denom = (c2 - (c3 * (val ** im2)));
-		return 10000 * ((num / denom) ** im1);
-	}));
+	let LMS = /** @type {Vector3} */ (
+		PQLMS.map(function (val) {
+			let num = Math.max(val ** im2 - c1, 0);
+			let denom = c2 - c3 * val ** im2;
+			return 10000 * (num / denom) ** im1;
+		})
+	);
 
 	return LMS;
 }

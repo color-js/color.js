@@ -15,7 +15,6 @@ xy("red"); // $ExpectType [number, number]
 xy(new Color("red")); // $ExpectType [number, number]
 new Color("red").xy(); // $ExpectType [number, number]
 
-
 // @ts-expect-error
 register();
 // @ts-expect-error

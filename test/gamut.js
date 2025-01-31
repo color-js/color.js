@@ -6,19 +6,18 @@ export default {
 	description: "These tests check how coords are shrunk to smaller gamuts.",
 	run (colorStr, args) {
 		let color = new Color(colorStr);
-		let inGamut = this.data.method ? {method: this.data.method} : true;
+		let inGamut = this.data.method ? { method: this.data.method } : true;
 		if (this.data.convertAfter) {
-			return color.toGamut({space: this.data.toSpace, method: this.data.method}).to(this.data.toSpace);
+			return color
+				.toGamut({ space: this.data.toSpace, method: this.data.method })
+				.to(this.data.toSpace);
 		}
-		let color2 = color.to(this.data.toSpace, {inGamut});
+		let color2 = color.to(this.data.toSpace, { inGamut });
 		return color2;
 	},
 	map (c) {
 		const color = new Color(c);
-		return this.data.checkAlpha ? [
-			...color.coords,
-			color.alpha,
-		] : color.coords;
+		return this.data.checkAlpha ? [...color.coords, color.alpha] : color.coords;
 	},
 	check: check.deep(check.proximity({ epsilon: 0.001 })),
 	tests: [
@@ -231,7 +230,7 @@ export default {
 		},
 		{
 			name: "HCT Gamut Mapping. Demonstrates tonal palettes (blue).",
-			data: { toSpace: "srgb", method: "hct-tonal", convertAfter: true},
+			data: { toSpace: "srgb", method: "hct-tonal", convertAfter: true },
 			tests: [
 				{
 					args: ["color(--hct 282.762176394358 87.22803916105873 0)"],

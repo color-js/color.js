@@ -25,11 +25,11 @@ SOFTWARE.
 import ColorSpace from "../ColorSpace.js";
 import LCHuv from "./lchuv.js";
 import sRGB from "./srgb.js";
-import {fromXYZ_M} from "./srgb-linear.js";
-import {skipNone} from "../util.js";
+import { fromXYZ_M } from "./srgb-linear.js";
+import { skipNone } from "../util.js";
 
-const ε = 216 / 24389;  // 6^3/29^3 == (24/116)^3
-const κ = 24389 / 27;   // 29^3/3^3
+const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
+const κ = 24389 / 27; // 29^3/3^3
 
 const m_r0 = fromXYZ_M[0][0];
 const m_r1 = fromXYZ_M[0][1];
@@ -64,22 +64,22 @@ export function calculateBoundingLines (l) {
 
 	return {
 		r0s: s1r / s3r,
-		r0i: s2r * l / s3r,
+		r0i: (s2r * l) / s3r,
 		r1s: s1r / (s3r + 126452),
-		r1i: (s2r - 769860) * l / (s3r + 126452),
+		r1i: ((s2r - 769860) * l) / (s3r + 126452),
 		g0s: s1g / s3g,
-		g0i: s2g * l / s3g,
+		g0i: (s2g * l) / s3g,
 		g1s: s1g / (s3g + 126452),
-		g1i: (s2g - 769860) * l / (s3g + 126452),
+		g1i: ((s2g - 769860) * l) / (s3g + 126452),
 		b0s: s1b / s3b,
-		b0i: s2b * l / s3b,
+		b0i: (s2b * l) / s3b,
 		b1s: s1b / (s3b + 126452),
-		b1i: (s2b - 769860) * l / (s3b + 126452),
+		b1i: ((s2b - 769860) * l) / (s3b + 126452),
 	};
 }
 
 function calcMaxChromaHsluv (lines, h) {
-	const hueRad = h / 360 * Math.PI * 2;
+	const hueRad = (h / 360) * Math.PI * 2;
 	const r0 = distanceFromOriginAngle(lines.r0s, lines.r0i, hueRad);
 	const r1 = distanceFromOriginAngle(lines.r1s, lines.r1i, hueRad);
 	const g0 = distanceFromOriginAngle(lines.g0s, lines.g0i, hueRad);
@@ -128,7 +128,7 @@ export default new ColorSpace({
 		else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
-			s = c / max * 100;
+			s = (c / max) * 100;
 		}
 
 		return [h, s, l];
@@ -150,7 +150,7 @@ export default new ColorSpace({
 		else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHsluv(lines, h);
-			c = max / 100 * s;
+			c = (max / 100) * s;
 		}
 
 		return [l, c, h];

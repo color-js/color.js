@@ -11,6 +11,7 @@ import RGBColorSpace from "../RGBColorSpace.js";
 // when rounded to 8 decimal places, it agrees completely with the official matrix
 // see https://github.com/w3c/csswg-drafts/issues/5922
 /** @type {Matrix3x3} */
+// prettier-ignore
 const toXYZ_M = [
 	[ 0.41239079926595934, 0.357584339383878,   0.1804807884018343  ],
 	[ 0.21263900587151027, 0.715168678767756,   0.07219231536073371 ],
@@ -20,6 +21,7 @@ const toXYZ_M = [
 // This matrix is the inverse of the above;
 // again it agrees with the official definition when rounded to 8 decimal places
 /** @type {Matrix3x3} */
+// prettier-ignore
 export const fromXYZ_M = [
 	[  3.2409699419045226,  -1.537383177570094,   -0.4986107602930034  ],
 	[ -0.9692436362808796,   1.8759675015077202,   0.04155505740717559 ],

@@ -21,7 +21,7 @@ export default new RGBColorSpace({
 			let abs = val * sign;
 
 			if (abs > 0.0031308) {
-				return sign * (1.055 * (abs ** (1 / 2.4)) - 0.055);
+				return sign * (1.055 * abs ** (1 / 2.4) - 0.055);
 			}
 
 			return 12.92 * val;
@@ -39,31 +39,33 @@ export default new RGBColorSpace({
 				return val / 12.92;
 			}
 
-			return sign * (((abs + 0.055) / 1.055) ** 2.4);
+			return sign * ((abs + 0.055) / 1.055) ** 2.4;
 		});
 	},
 	formats: {
-		"rgb": {
+		rgb: {
 			coords: coordGrammar,
 		},
-		"rgb_number": {
+		rgb_number: {
 			name: "rgb",
 			commas: true,
 			coords: coordGrammarNumber,
 			alpha: false,
 		},
-		"color": { /* use defaults */ },
-		"rgba": {
+		color: {
+			/* use defaults */
+		},
+		rgba: {
 			coords: coordGrammar,
 			commas: true,
 			alpha: true,
 		},
-		"rgba_number": {
+		rgba_number: {
 			name: "rgba",
 			commas: true,
 			coords: coordGrammarNumber,
 		},
-		"hex": {
+		hex: {
 			type: "custom",
 			toGamut: true,
 			test: str => /^#(([a-f0-9]{2}){3,4}|[a-f0-9]{3,4})$/i.test(str),
@@ -85,35 +87,43 @@ export default new RGBColorSpace({
 					alpha: /** @type {number} */ (rgba.slice(3)[0]),
 				};
 			},
-			serialize: (coords, alpha, {
-				collapse = true, // collapse to 3-4 digit hex when possible?
-				alpha: alphaFormat,
-			} = {}) => {
-				if (alphaFormat !== false && alpha < 1 || alphaFormat === true) {
+			serialize: (
+				coords,
+				alpha,
+				{
+					collapse = true, // collapse to 3-4 digit hex when possible?
+					alpha: alphaFormat,
+				} = {},
+			) => {
+				if ((alphaFormat !== false && alpha < 1) || alphaFormat === true) {
 					coords.push(alpha);
 				}
 
-				coords = /** @type {[number, number, number]} */ (coords.map(c => Math.round(c * 255)));
+				coords = /** @type {[number, number, number]} */ (
+					coords.map(c => Math.round(c * 255))
+				);
 
 				let collapsible = collapse && coords.every(c => c % 17 === 0);
 
-				let hex = coords.map(c => {
-					if (collapsible) {
-						return (c / 17).toString(16);
-					}
+				let hex = coords
+					.map(c => {
+						if (collapsible) {
+							return (c / 17).toString(16);
+						}
 
-					return c.toString(16).padStart(2, "0");
-				}).join("");
+						return c.toString(16).padStart(2, "0");
+					})
+					.join("");
 
 				return "#" + hex;
 			},
 		},
-		"keyword": {
+		keyword: {
 			type: "custom",
 			test: str => /^[a-z]+$/i.test(str),
 			parse (str) {
 				str = str.toLowerCase();
-				let ret = {spaceId: "srgb", coords: null, alpha: 1};
+				let ret = { spaceId: "srgb", coords: null, alpha: 1 };
 
 				if (str === "transparent") {
 					ret.coords = KEYWORDS.black;

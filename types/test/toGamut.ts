@@ -12,7 +12,6 @@ toGamut(new Color("red"), { method: "clip", space: "srgb" }); // $ExpectType Pla
 toGamut(new Color("red"), { method: "clip", space: sRGB }); // $ExpectType PlainColorObject
 toGamut(new Color("red"), "srgb"); // $ExpectType PlainColorObject
 
-
 new Color("red").toGamut(); // $ExpectType Color
 new Color("red").toGamut({ method: "clip", space: "srgb" }); // $ExpectType Color
 new Color("red").toGamut({ method: "clip", space: sRGB }); // $ExpectType Color

@@ -4,14 +4,18 @@
  */
 
 // muliply-matricies.js
-export type Matrix3x3 = [[number, number, number], [number, number, number], [number, number, number]];
+export type Matrix3x3 = [
+	[number, number, number],
+	[number, number, number],
+	[number, number, number],
+];
 export type Vector3 = [number, number, number];
 
 // contrast/
 export type * from "./contrast/index.js";
 
 // deltaE/
-import type {Methods} from "./deltaE/index.js";
+import type { Methods } from "./deltaE/index.js";
 export type * from "./deltaE/index.js";
 
 // adapt.js
@@ -137,8 +141,8 @@ export interface SerializeOptions {
 		| "<percentage>"
 		| boolean
 		| {
-			type?: "<number>" | "<percentage>" | undefined;
-			include?: boolean | undefined;
+				type?: "<number>" | "<percentage>" | undefined;
+				include?: boolean | undefined;
 		  }
 		| undefined;
 	/**
@@ -207,19 +211,24 @@ export interface DeltasReturn {
 }
 
 // cam16.js
-export type LightnessOrBrightness = { J: number; Q?: never; } | { J?: never; Q: number; };
-export type ChromaOrColorfulnessOrSaturation = { C: number; M?: never; s?: never; } | { C?: never; M: number; s?: never; } | { C?: never; M?: never; s: number; };
-export type HueOrHueQuadrature = { h: number; H?: never; } | { h?: never; H: number; };
-export type Cam16Input = LightnessOrBrightness & ChromaOrColorfulnessOrSaturation & HueOrHueQuadrature;
+export type LightnessOrBrightness = { J: number; Q?: never } | { J?: never; Q: number };
+export type ChromaOrColorfulnessOrSaturation =
+	| { C: number; M?: never; s?: never }
+	| { C?: never; M: number; s?: never }
+	| { C?: never; M?: never; s: number };
+export type HueOrHueQuadrature = { h: number; H?: never } | { h?: never; H: number };
+export type Cam16Input = LightnessOrBrightness &
+	ChromaOrColorfulnessOrSaturation &
+	HueOrHueQuadrature;
 
 export interface Cam16Object {
-	J: number,
-	C: number,
-	h: number,
-	s: number,
-	Q: number,
-	M: number,
-	H: number
+	J: number;
+	C: number;
+	h: number;
+	s: number;
+	Q: number;
+	M: number;
+	H: number;
 }
 
 export interface Cam16Environment {

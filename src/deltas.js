@@ -17,7 +17,7 @@ import { isNone } from "./util.js";
  * @param {Parameters<typeof adjust>[0]} [options.hue="shorter"] - How to handle hue differences. Same as hue interpolation option.
  * @returns {DeltasReturn}
  */
-export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
+export default function deltas (c1, c2, { space, hue = "shorter" } = {}) {
 	c1 = getColor(c1);
 	space ||= c1.space;
 	space = ColorSpace.get(space);
@@ -26,16 +26,18 @@ export default function deltas (c1, c2, {space, hue = "shorter"} = {}) {
 	[c1, c2] = [c1, c2].map(c => to(c, space));
 	let [coords1, coords2] = [c1, c2].map(c => c.coords);
 
-	let coords = /** @type {[number, number, number]} */ (coords1.map((coord1, i) => {
-		let coordMeta = spaceCoords[i];
-		let coord2 = coords2[i];
+	let coords = /** @type {[number, number, number]} */ (
+		coords1.map((coord1, i) => {
+			let coordMeta = spaceCoords[i];
+			let coord2 = coords2[i];
 
-		if (coordMeta.type === "angle") {
-			[coord1, coord2] = adjust(hue, [coord1, coord2]);
-		}
+			if (coordMeta.type === "angle") {
+				[coord1, coord2] = adjust(hue, [coord1, coord2]);
+			}
 
-		return subtractCoords(coord1, coord2);
-	}));
+			return subtractCoords(coord1, coord2);
+		})
+	);
 
 	let alpha = subtractCoords(c1.alpha, c2.alpha);
 

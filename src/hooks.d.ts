@@ -31,7 +31,7 @@ export class Hooks {
 	add (
 		name: string | string[],
 		callback: (env: Record<string, any>) => void,
-		first?: boolean
+		first?: boolean,
 	): void;
 	/**
 	 * Creates a hook for plugin authors to add code to

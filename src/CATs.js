@@ -1,6 +1,6 @@
 import hooks from "./hooks.js";
-import {multiplyMatrices} from "./util.js";
-import {WHITES} from "./adapt.js";
+import { multiplyMatrices } from "./util.js";
+import { WHITES } from "./adapt.js";
 
 // Type "imports"
 /** @typedef {import("./types.js").White} White */
@@ -21,7 +21,7 @@ hooks.add("chromatic-adaptation-end", env => {
 	}
 });
 
-export function defineCAT (/** @type {CAT} */ {id, toCone_M, fromCone_M}) {
+export function defineCAT (/** @type {CAT} */ { id, toCone_M, fromCone_M }) {
 	// Use id, toCone_M, fromCone_M like variables
 	CATs[id] = arguments[0];
 }
@@ -44,6 +44,7 @@ export function adapt (W1, W2, id = "Bradford") {
 	let [ρd, γd, βd] = multiplyMatrices(method.toCone_M, W2);
 
 	// all practical illuminants have non-zero XYZ so no division by zero can occur below
+	// prettier-ignore
 	let scale = [
 		[ρd / ρs,  0,        0      ],
 		[0,        γd / γs,  0      ],
@@ -52,11 +53,12 @@ export function adapt (W1, W2, id = "Bradford") {
 	// console.log({scale});
 
 	let scaled_cone_M = multiplyMatrices(scale, method.toCone_M);
-	let adapt_M	= multiplyMatrices(method.fromCone_M, scaled_cone_M);
+	let adapt_M = multiplyMatrices(method.fromCone_M, scaled_cone_M);
 	// console.log({scaled_cone_M, adapt_M});
 	return adapt_M;
 }
 
+// prettier-ignore
 defineCAT({
 	id: "von Kries",
 	toCone_M: [
@@ -71,6 +73,7 @@ defineCAT({
 	],
 });
 
+// prettier-ignore
 defineCAT({
 	id: "Bradford",
 	// Convert an array of XYZ values in the range 0.0 - 1.0
@@ -88,6 +91,7 @@ defineCAT({
 	],
 });
 
+// prettier-ignore
 defineCAT({
 	id: "CAT02",
 	// with complete chromatic adaptation to W2, so D = 1.0
@@ -103,6 +107,7 @@ defineCAT({
 	],
 });
 
+// prettier-ignore
 defineCAT({
 	id: "CAT16",
 	toCone_M: [
@@ -118,6 +123,7 @@ defineCAT({
 	],
 });
 
+// prettier-ignore
 Object.assign(WHITES, {
 	// whitepoint values from ASTM E308-01 with 10nm spacing, 1931 2 degree observer
 	// all normalized to Y (luminance) = 1.00000

@@ -10,7 +10,7 @@ import * as util from "./util.js";
 import hooks from "./hooks.js";
 import defaults from "./defaults.js";
 import ColorSpace from "./ColorSpace.js";
-import {WHITES} from "./adapt.js";
+import { WHITES } from "./adapt.js";
 import {
 	getColor,
 	parse,
@@ -27,7 +27,6 @@ import {
 	setAll,
 	display,
 } from "./index-fn.js";
-
 
 import "./spaces/xyz-d50.js";
 import "./spaces/srgb.js";
@@ -48,10 +47,13 @@ export default class Color {
 		if (args.length === 1) {
 			let parseMeta = {};
 			// Clone simple objects to avoid mutating original in getColor
-			if (typeof args[0] === "object" && Object.getPrototypeOf(args[0]).constructor === Object) {
+			if (
+				typeof args[0] === "object" &&
+				Object.getPrototypeOf(args[0]).constructor === Object
+			) {
 				args[0] = { ...args[0] };
 			}
-			color = getColor(args[0], {parseMeta});
+			color = getColor(args[0], { parseMeta });
 
 			if (parseMeta.format) {
 				// Color actually came from a string
@@ -130,7 +132,7 @@ export default class Color {
 	}
 
 	static defineFunction (name, code, o = code) {
-		let {instance = true, returns} = o;
+		let { instance = true, returns } = o;
 
 		let func = function (...args) {
 			let ret = code(...args);
