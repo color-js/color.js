@@ -1,5 +1,6 @@
 {
 	"parse": "Parsing",
+	"isValid": "Is Valid",
 	"construct": "Object construction",
 	"conversions": "Conversions",
 	"delta": "DeltaE",
