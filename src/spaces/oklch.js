@@ -27,7 +27,7 @@ export default new ColorSpace({
 	toBase: lch.toBase,
 
 	formats: {
-		"oklch": {
+		oklch: {
 			coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"],
 		},
 	},

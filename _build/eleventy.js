@@ -5,8 +5,8 @@ import * as filters from "./filters.js";
 
 export default config => {
 	let data = {
-		"layout": "page.njk",
-		"permalink": "{{ page.filePathStem }}.html",
+		layout: "page.njk",
+		permalink: "{{ page.filePathStem }}.html",
 	};
 
 	for (let p in data) {

@@ -1,15 +1,14 @@
 import ColorSpace from "../ColorSpace.js";
-import {multiply_v3_m3x3} from "../util.js";
+import { multiply_v3_m3x3 } from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
-
 
 // Type "imports"
 /** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
 
-
 // Recalculated for consistent reference white
 // see https://github.com/w3c/csswg-drafts/issues/6642#issuecomment-943521484
 /** @type {Matrix3x3} */
+// prettier-ignore
 const XYZtoLMS_M = [
 	[ 0.8190224379967030, 0.3619062600528904, -0.1288737815209879 ],
 	[ 0.0329836539323885, 0.9292868615863434,  0.0361446663506424 ],
@@ -17,12 +16,14 @@ const XYZtoLMS_M = [
 ];
 // inverse of XYZtoLMS_M
 /** @type {Matrix3x3} */
+// prettier-ignore
 const LMStoXYZ_M = [
 	[  1.2268798758459243, -0.5578149944602171,  0.2813910456659647 ],
 	[ -0.0405757452148008,  1.1122868032803170, -0.0717110580655164 ],
 	[ -0.0763729366746601, -0.4214933324022432,  1.5869240198367816 ],
 ];
 /** @type {Matrix3x3} */
+// prettier-ignore
 export const LMStoLab_M = [
 	[ 0.2104542683093140,  0.7936177747023054, -0.0040720430116193 ],
 	[ 1.9779985324311684, -2.4285922420485799,  0.4505937096174110 ],
@@ -30,6 +31,7 @@ export const LMStoLab_M = [
 ];
 // LMStoIab_M inverted
 /** @type {Matrix3x3} */
+// prettier-ignore
 export const LabtoLMS_M = [
 	[ 1.0000000000000000,  0.3963377773761749,  0.2158037573099136 ],
 	[ 1.0000000000000000, -0.1055613458156586, -0.0638541728258133 ],
@@ -79,8 +81,12 @@ export default new ColorSpace({
 	},
 
 	formats: {
-		"oklab": {
-			coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <percentage>"],
+		oklab: {
+			coords: [
+				"<percentage> | <number>",
+				"<number> | <percentage>",
+				"<number> | <percentage>",
+			],
 		},
 	},
 });

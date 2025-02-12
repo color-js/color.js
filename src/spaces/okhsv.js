@@ -23,8 +23,8 @@
 // SOFTWARE.
 import ColorSpace from "../ColorSpace.js";
 import Oklab from "./oklab.js";
-import {spow, multiply_v3_m3x3} from "../util.js";
-import {constrain} from "../angles.js";
+import { spow, multiply_v3_m3x3 } from "../util.js";
+import { constrain } from "../angles.js";
 import {
 	tau,
 	toe,
@@ -41,7 +41,6 @@ import {
 /** @typedef {import("../types.js").Vector3} Vector3 */
 /** @typedef {import("../types.js").Coords} Coords */
 /** @typedef {import("../types.js").OKCoeff} OKCoeff */
-
 
 /**
  *
@@ -73,18 +72,18 @@ function okhsvToOklab (hsv, lmsToRgb, okCoeff) {
 		// first we compute L and V as if the gamut is a perfect triangle:
 
 		// L, C when v==1:
-		let lv = 1 - s * s0 / (s0 + tMax - tMax * k * s);
-		let cv = s * tMax * s0 / (s0 + tMax - tMax * k * s);
+		let lv = 1 - (s * s0) / (s0 + tMax - tMax * k * s);
+		let cv = (s * tMax * s0) / (s0 + tMax - tMax * k * s);
 
 		l = v * lv;
 		let c = v * cv;
 
 		// then we compensate for both toe and the curved top part of the triangle:
 		let lvt = toeInv(lv);
-		let cvt = cv * lvt / lv;
+		let cvt = (cv * lvt) / lv;
 
 		let lNew = toeInv(l);
-		c = c * lNew / l;
+		c = (c * lNew) / l;
 		l = lNew;
 
 		// RGB scale
@@ -134,7 +133,7 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 		let cv = t * c;
 
 		let lvt = toeInv(lv);
-		let cvt = cv * lvt / lv;
+		let cvt = (cv * lvt) / lv;
 
 		// we can then use these to invert the step that compensates
 		// for the toe and the curved top part of the triangle:
@@ -144,25 +143,23 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 		l = l / scaleL;
 		c = c / scaleL;
 
-		c = c * toe(l) / l;
+		c = (c * toe(l)) / l;
 		l = toe(l);
 
 		// we can now compute v and s:
 		v = l / lv;
-		s = (s0 + tMax) * cv / ((tMax * s0) + tMax * k * cv);
+		s = ((s0 + tMax) * cv) / (tMax * s0 + tMax * k * cv);
 	}
 
 	if (Math.abs(s) < ε || v === 0.0) {
 		h = null;
 	}
-
 	else {
 		h = constrain(h * 360);
 	}
 
 	return [h, s, v];
 }
-
 
 export default new ColorSpace({
 	id: "okhsv",

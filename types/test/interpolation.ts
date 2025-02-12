@@ -1,12 +1,6 @@
 import Color from "colorjs.io/src";
 import { sRGB, sRGB_Linear } from "colorjs.io/src/index-fn";
-import {
-	isRange,
-	range,
-	mix,
-	steps,
-	register,
-} from "colorjs.io/src/interpolation";
+import { isRange, range, mix, steps, register } from "colorjs.io/src/interpolation";
 
 isRange("foo"); // $ExpectType boolean
 

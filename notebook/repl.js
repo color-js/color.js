@@ -1,4 +1,4 @@
-import Notebook, {initAll} from "./color-notebook.js";
+import Notebook, { initAll } from "./color-notebook.js";
 import extensions from "../assets/js/showdown-extensions.mjs";
 
 let $ = Bliss;
@@ -22,14 +22,21 @@ function updateMarkdown () {
 
 	for (let notebook of Notebook.all) {
 		if (notebook?.edited) {
-			value = value.replace("```js\n" + notebook.initialCode + "\n```", "```js\n" + notebook.code + "\n```");
+			value = value.replace(
+				"```js\n" + notebook.initialCode + "\n```",
+				"```js\n" + notebook.code + "\n```",
+			);
 		}
 
 		notebook.destroy();
 	}
 
-	if (node.value !== value
-		&& confirm("You have edited the code snippets, do you want to transfer these changes to your Markdown?")) {
+	if (
+		node.value !== value &&
+		confirm(
+			"You have edited the code snippets, do you want to transfer these changes to your Markdown?",
+		)
+	) {
 		node.value = value;
 	}
 }
@@ -40,7 +47,6 @@ Mavo.hooks.add("save-start", function () {
 	}
 });
 
-
 let editObserver = new Mavo.Observer(container, "mv-mode", () => {
 	if (container.getAttribute("mv-mode") === "edit") {
 		updateMarkdown();
@@ -48,18 +54,14 @@ let editObserver = new Mavo.Observer(container, "mv-mode", () => {
 });
 
 (async () => {
+	await Mavo.ready;
 
-await Mavo.ready;
+	for (let id in extensions) {
+		showdown.extension(id, () => [extensions[id]]);
+	}
 
-for (let id in extensions) {
-	showdown.extension(id, () => [
-		extensions[id],
-	]);
-}
+	let defaultOptions = Mavo.Plugins.loaded.markdown.defaultOptions;
 
-let defaultOptions = Mavo.Plugins.loaded.markdown.defaultOptions;
-
-defaultOptions.extensions = defaultOptions.extensions || [];
-defaultOptions.extensions.push("apiLinks", "callouts");
-
+	defaultOptions.extensions = defaultOptions.extensions || [];
+	defaultOptions.extensions.push("apiLinks", "callouts");
 })();

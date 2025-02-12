@@ -9,13 +9,14 @@ let hpluvToSrgb = [];
 Object.entries(json).forEach(([rgbHex, value]) => {
 	let coords = value.hpluv;
 	let rgb = value.rgb;
-	srgbToHpluv.push({ args: {space: sRGB, coords: rgb}, expect: coords });
-	hpluvToSrgb.push({ args: {space: HPLuv, coords: coords}, expect: rgb });
+	srgbToHpluv.push({ args: { space: sRGB, coords: rgb }, expect: coords });
+	hpluvToSrgb.push({ args: { space: HPLuv, coords: coords }, expect: rgb });
 });
 
 const tests = {
 	name: "HPLuv Conversion Tests",
-	description: "These tests compare sRGB values against the HSLuv reference implementation snapshot data.",
+	description:
+		"These tests compare sRGB values against the HSLuv reference implementation snapshot data.",
 	run (color, space = this.data.toSpace) {
 		return space.from(color.space, color.coords);
 	},
@@ -25,11 +26,11 @@ const tests = {
 			return actual === null || Number.isNaN(actual);
 		}
 
-		let checkProximity = check.proximity({epsilon: this.data.epsilon});
+		let checkProximity = check.proximity({ epsilon: this.data.epsilon });
 		return checkProximity(actual, expect);
 	}),
 	data: {
-		epsilon: .00000001,
+		epsilon: 0.00000001,
 	},
 	tests: [
 		{

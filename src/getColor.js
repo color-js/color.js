@@ -1,5 +1,5 @@
 import ColorSpace from "./ColorSpace.js";
-import {isString, isInstance} from "./util.js";
+import { isString, isInstance } from "./util.js";
 import parse from "./parse.js";
 
 // Type "imports"

@@ -18,9 +18,7 @@ export interface Format {
 	coords?: string[] | undefined;
 	coordGrammar?: (string & { range?: [number, number] })[] | undefined;
 	space?: ColorSpace | undefined;
-	serializeCoords?:
-	| ((coords: Coords, precision: number) => [string, string, string])
-	| undefined;
+	serializeCoords?: ((coords: Coords, precision: number) => [string, string, string]) | undefined;
 	/** Whether to adjust the coordinates to fit in the gamut */
 	toGamut?: boolean | undefined;
 	/** Whether commas should separate arguments for a format */
@@ -94,17 +92,14 @@ export default class ColorSpace {
 	/**
 	 * @throws {TypeError} If no matching color space is found
 	 */
-	static get (
-		space: ColorSpace | string,
-		...alternatives: (ColorSpace | string)[]
-	): ColorSpace;
+	static get (space: ColorSpace | string, ...alternatives: (ColorSpace | string)[]): ColorSpace;
 
 	/**
 	 * @throws {TypeError} If no space or an unknown space is provided
 	 */
 	static resolveCoord (
 		ref: Ref,
-		workingSpace?: string | ColorSpace
+		workingSpace?: string | ColorSpace,
 	): CoordMeta & {
 		id: string;
 		index: number;

@@ -4,7 +4,7 @@
 
 import getColor from "../getColor.js";
 import to from "../to.js";
-import {isNone} from "../util.js";
+import { isNone } from "../util.js";
 
 // exponents
 const normBG = 0.56;
@@ -63,13 +63,13 @@ export default function contrastAPCA (background, foreground) {
 	[R, G, B] = foreground.coords.map(c => {
 		return isNone(c) ? 0 : c;
 	});
-	let lumTxt = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
+	let lumTxt = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.072175;
 
 	background = to(background, "srgb");
 	[R, G, B] = background.coords.map(c => {
 		return isNone(c) ? 0 : c;
 	});
-	let lumBg = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.0721750;
+	let lumBg = linearize(R) * 0.2126729 + linearize(G) * 0.7151522 + linearize(B) * 0.072175;
 
 	// toe clamping of very dark values to account for flare
 	let Ytxt = fclamp(lumTxt);

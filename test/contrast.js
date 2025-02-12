@@ -6,7 +6,7 @@ export default {
 	run (fg, bg, method = this.data.method) {
 		return new Color(bg).contrast(fg, method);
 	},
-	check: check.proximity({epsilon: .0001}),
+	check: check.proximity({ epsilon: 0.0001 }),
 	tests: [
 		{
 			name: "WCAG 2.1 contrast, sRGB",
@@ -24,7 +24,7 @@ export default {
 				},
 				{
 					args: ["#ffe", "white"],
-					expect: 1.010070,
+					expect: 1.01007,
 				},
 				{
 					args: ["#afbaae", "white"],
@@ -45,7 +45,7 @@ export default {
 			data: {
 				method: "wcag21",
 			},
-			tests : [
+			tests: [
 				{
 					// same as 3.00 above but p3
 					args: ["color(display-p3 0.555354 0.5982801 0.5316741)", "white"],
@@ -58,7 +58,7 @@ export default {
 			data: {
 				method: "wcag21",
 			},
-			tests : [
+			tests: [
 				{
 					args: ["lch(50% 0 0)", "white"],
 					expect: 4.4836,
@@ -70,7 +70,7 @@ export default {
 			data: {
 				method: "wcag21",
 			},
-			tests : [
+			tests: [
 				{
 					args: ["lch(50% 0 none)", "white"],
 					expect: 4.4836,
@@ -147,11 +147,17 @@ export default {
 					expect: 91.66830811481631,
 				},
 				{
-					args: ["oklch(94.162468% 0.0293154 248.13928)", "oklch(24.619227% 0.0398483 249.73161)"],
+					args: [
+						"oklch(94.162468% 0.0293154 248.13928)",
+						"oklch(24.619227% 0.0398483 249.73161)",
+					],
 					expect: -93.06770049484275,
 				},
 				{
-					args: ["color(display-p3 0.0819793 0.1316305 0.1944321)", "color(a98-rgb 0.2735638 0.2735638 0.2735638)"],
+					args: [
+						"color(display-p3 0.0819793 0.1316305 0.1944321)",
+						"color(a98-rgb 0.2735638 0.2735638 0.2735638)",
+					],
 					expect: 8.32326136957393,
 				},
 				{

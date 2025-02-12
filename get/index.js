@@ -13,7 +13,7 @@ $("a[download]")?.addEventListener("click", evt => {
 });
 
 function createURL (code, type = "text/javascript") {
-	var blob = new Blob([code], {type});
+	var blob = new Blob([code], { type });
 
 	return URL.createObjectURL(blob);
 }

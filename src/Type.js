@@ -23,14 +23,16 @@ export default class Type {
 		}
 
 		if (typeof type === "string") {
-			let params = type.trim().match(/^(?<type><[a-z]+>)(\[(?<min>-?[.\d]+),\s*(?<max>-?[.\d]+)\])?$/);
+			let params = type
+				.trim()
+				.match(/^(?<type><[a-z]+>)(\[(?<min>-?[.\d]+),\s*(?<max>-?[.\d]+)\])?$/);
 
 			if (!params) {
 				throw new TypeError(`Cannot parse ${type} as a type definition.`);
 			}
 
 			this.type = params.groups.type;
-			let {min, max} = params.groups;
+			let { min, max } = params.groups;
 
 			if (min || max) {
 				this.range = [+min, +max];
@@ -93,7 +95,7 @@ export default class Type {
 		let unit = this.unit;
 
 		number = mapRange(this.coordRange, toRange, number);
-		return serializeNumber(number, {unit, precision});
+		return serializeNumber(number, { unit, precision });
 	}
 
 	toString () {
@@ -114,7 +116,10 @@ export default class Type {
 	 */
 	percentageRange (scale = 1) {
 		let range;
-		if ((this.coordMeta && this.coordMeta.range) || (this.coordRange && this.coordRange[0] >= 0)) {
+		if (
+			(this.coordMeta && this.coordMeta.range) ||
+			(this.coordRange && this.coordRange[0] >= 0)
+		) {
 			range = [0, 1];
 		}
 		else {

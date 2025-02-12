@@ -24,12 +24,12 @@ SOFTWARE.
 
 import ColorSpace from "../ColorSpace.js";
 import LCHuv from "./lchuv.js";
-import {fromXYZ_M} from "./srgb-linear.js";
-import {skipNone} from "../util.js";
-import {calculateBoundingLines} from "./hsluv.js";
+import { fromXYZ_M } from "./srgb-linear.js";
+import { skipNone } from "../util.js";
+import { calculateBoundingLines } from "./hsluv.js";
 
-const ε = 216 / 24389;  // 6^3/29^3 == (24/116)^3
-const κ = 24389 / 27;   // 29^3/3^3
+const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
+const κ = 24389 / 27; // 29^3/3^3
 
 const m_r0 = fromXYZ_M[0][0];
 const m_r1 = fromXYZ_M[0][1];
@@ -94,7 +94,7 @@ export default new ColorSpace({
 		else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHpluv(lines);
-			s = c / max * 100;
+			s = (c / max) * 100;
 		}
 		return [h, s, l];
 	},
@@ -115,7 +115,7 @@ export default new ColorSpace({
 		else {
 			let lines = calculateBoundingLines(l);
 			let max = calcMaxChromaHpluv(lines);
-			c = max / 100 * s;
+			c = (max / 100) * s;
 		}
 
 		return [l, c, h];

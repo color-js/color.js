@@ -11,16 +11,7 @@ import deltaEOK from "./deltaEOK.js";
 import deltaEOK2 from "./deltaEOK2.js";
 import deltaEHCT from "./deltaEHCT.js";
 
-export {
-	deltaE76,
-	deltaECMC,
-	deltaE2000,
-	deltaEJz,
-	deltaEITP,
-	deltaEOK,
-	deltaEOK2,
-	deltaEHCT,
-};
+export { deltaE76, deltaECMC, deltaE2000, deltaEJz, deltaEITP, deltaEOK, deltaEOK2, deltaEHCT };
 
 export default {
 	deltaE76,

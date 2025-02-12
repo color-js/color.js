@@ -17,7 +17,7 @@ export const instance = Symbol("instance");
  * Remove the first element of an array type
  * @template {any[]} T
  * @typedef {T extends [any, ...infer R] ? R : T[number][]} RemoveFirstElement
-*/
+ */
 
 /**
  * @class Format
@@ -65,15 +65,17 @@ export default class Format {
 			});
 		}
 
-		this.coords = this.coords.map(/** @param {string | string[] | Type[]} types */ (types, i) => {
-			let coordMeta = this.spaceCoords[i];
+		this.coords = this.coords.map(
+			/** @param {string | string[] | Type[]} types */ (types, i) => {
+				let coordMeta = this.spaceCoords[i];
 
-			if (typeof types === "string") {
-				types = types.trim().split(/\s*\|\s*/);
-			}
+				if (typeof types === "string") {
+					types = types.trim().split(/\s*\|\s*/);
+				}
 
-			return types.map(type => Type.get(type, coordMeta));
-		});
+				return types.map(type => Type.get(type, coordMeta));
+			},
+		);
 	}
 
 	/**
@@ -82,12 +84,13 @@ export default class Format {
 	 * @param {Type[]} types
 	 */
 	serializeCoords (coords, precision, types) {
-		types = coords.map((_, i) => Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
+		types = coords.map((_, i) =>
+			Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
 		return coords.map((c, i) => types[i].serialize(c, precision));
 	}
 
 	/**
- 	 * Validates the coordinates of a color against a format's coord grammar and
+	 * Validates the coordinates of a color against a format's coord grammar and
 	 * maps the coordinates to the range or refRange of the coordinates.
 	 * @param {Coords} coords
 	 * @param {[string, string, string]} types
@@ -110,7 +113,9 @@ export default class Format {
 			if (!type) {
 				// Type does not exist in the grammar, throw
 				let coordName = coordMeta.name || id;
-				throw new TypeError(`${ providedType ?? /** @type {any} */ (arg)?.raw ?? arg } not allowed for ${coordName} in ${this.name}()`);
+				throw new TypeError(
+					`${providedType ?? /** @type {any} */ (arg)?.raw ?? arg} not allowed for ${coordName} in ${this.name}()`,
+				);
 			}
 
 			arg = type.resolve(arg);
@@ -137,6 +142,7 @@ export default class Format {
 	parse () {
 		return null;
 	}
+
 	/**
 	 * @param {Format | FormatInterface} format
 	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
