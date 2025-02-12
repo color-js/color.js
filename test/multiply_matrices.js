@@ -72,7 +72,7 @@ export default {
 				},
 				{
 					name: "Vector with vector",
-						args: [
+					args: [
 						[1, 2, 3],
 						[1, 0.5, 0],
 					],
@@ -91,17 +91,17 @@ export default {
 				},
 				{
 					name: "Vector with 3x3 matrix",
-						args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
+					args: [[1, 0.5, 0], M_lin_sRGB_to_XYZ],
 				},
 				{
 					name: "Vector with other 3x3 matrix",
-						args: [[1, 0.5, 0], M_XYZ_to_lin_sRGB],
+					args: [[1, 0.5, 0], M_XYZ_to_lin_sRGB],
 				},
 			].map(testExpected),
 		},
 		{
 			name: "1x1 Edge Cases",
-				description: "Test boundary case for m x n × n x p, where m = n = p = 1.",
+			description: "Test boundary case for m x n × n x p, where m = n = p = 1.",
 			tests: [
 				{
 					name: "1x1 vectors",
@@ -164,7 +164,7 @@ export default {
 				},
 				{
 					name: "Empty vectors",
-						args: [[], []],
+					args: [[], []],
 				},
 			].map(expectThrows),
 		},
