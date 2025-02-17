@@ -9,12 +9,12 @@
  * - A becomes 1 x n
  * - B becomes n x 1
  *
- * Returns Matrix m x p or equivalent array
+ * Returns Matrix m x p or equivalent array or number
  *
  * @overload
  * @param {number[]} A Vector 1 x n
  * @param {number[]} B Vector n x 1
- * @returns {number[]} Array with length 1
+ * @returns {number} Scalar number
  *
  * @overload
  * @param {number[][]} A Matrix m x n
@@ -33,7 +33,7 @@
  *
  * @param {number[] | number[][]} A Matrix m x n or a vector
  * @param {number[] | number[][]} B Matrix n x p or a vector
- * @returns {number[] | number[][]} Matrix m x p or equivalent array
+ * @returns {number | number[] | number[][]} Matrix m x p or equivalent array or number
  */
 export default function multiplyMatrices (A, B) {
 	let m = A.length;
@@ -41,10 +41,14 @@ export default function multiplyMatrices (A, B) {
 	let AM;
 	/** @type {number[][]} */
 	let BM;
+	let aVec = false;
+	let bVec = false;
 
 	if (!Array.isArray(A[0])) {
 		// A is vector, convert to [[a, b, c, ...]]
 		AM = [/** @type {number[]} */ (A)];
+		m = AM.length;
+		aVec = true;
 	}
 	else {
 		AM = /** @type {number[][]} */ (A);
@@ -52,7 +56,8 @@ export default function multiplyMatrices (A, B) {
 
 	if (!Array.isArray(B[0])) {
 		// B is vector, convert to [[a], [b], [c], ...]]
-		BM = B.map(x => [x]);
+		BM = B.length > 0 ? B.map(x => [x]) : [[]]; // Avoid mapping empty array
+		bVec = true;
 	}
 	else {
 		BM = /** @type {number[][]} */ (B);
@@ -80,11 +85,16 @@ export default function multiplyMatrices (A, B) {
 			return ret;
 		}));
 
-	if (m === 1) {
+	if (m === 1 && aVec) {
 		product = product[0]; // Avoid [[a, b, c, ...]]
 	}
-	if (p === 1) {
-		return product.map(x => x[0]); // Avoid [[a], [b], [c], ...]]
+	if (p === 1 && bVec) {
+		if (m === 1 && aVec) {
+			return product[0]; // Avoid [[a]], return a number
+		}
+		else {
+			return product.map(x => x[0]); // Avoid [[a], [b], [c], ...]]
+		}
 	}
 
 	return product;
