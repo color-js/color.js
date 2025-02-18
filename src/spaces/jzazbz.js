@@ -1,6 +1,7 @@
 import ColorSpace from "../ColorSpace.js";
 import { multiply_v3_m3x3 } from "../util.js";
 import XYZ_Abs_D65 from "./xyz-abs-d65.js";
+import { spow } from "../util.js";
 
 // Type "imports"
 /** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
@@ -44,9 +45,9 @@ const ConetoIab_M = [
 /** @type {Matrix3x3} */
 // prettier-ignore
 const IabtoCone_M = [
-	[ 1,                   0.1386050432715393,   0.05804731615611886 ],
-	[ 0.9999999999999999, -0.1386050432715393,  -0.05804731615611886 ],
-	[ 0.9999999999999998, -0.09601924202631895, -0.8118918960560388  ],
+	[ 1,                   0.13860504327153927,   0.05804731615611883 ],
+	[ 1,                  -0.1386050432715393,   -0.058047316156118904 ],
+	[ 1,                  -0.09601924202631895,  -0.81189189605603900  ],
 ];
 
 export default new ColorSpace({
@@ -74,7 +75,7 @@ export default new ColorSpace({
 
 		let [Xa, Ya, Za] = XYZ;
 
-		// modify X and Y
+		// modify X and Y to minimize blue curvature
 		let Xm = b * Xa - (b - 1) * Za;
 		let Ym = g * Ya - (g - 1) * Xa;
 
@@ -84,10 +85,10 @@ export default new ColorSpace({
 		// PQ-encode LMS
 		let PQLMS = /** @type {Vector3} } */ (
 			LMS.map(function (val) {
-				let num = c1 + c2 * (val / 10000) ** n;
-				let denom = 1 + c3 * (val / 10000) ** n;
+				let num = c1 + c2 * spow((val / 10000), n);
+				let denom = 1 + c3 * spow((val / 10000), n);
 
-				return (num / denom) ** p;
+				return spow((num / denom), p);
 			})
 		);
 
@@ -108,9 +109,9 @@ export default new ColorSpace({
 		// convert from PQ-coded to linear-light
 		let LMS = /** @type {Vector3} } */ (
 			PQLMS.map(function (val) {
-				let num = c1 - val ** pinv;
-				let denom = c3 * val ** pinv - c2;
-				let x = 10000 * (num / denom) ** ninv;
+				let num = c1 - spow(val, pinv);
+				let denom = c3 * spow(val, pinv) - c2;
+				let x = 10000 * spow((num / denom), ninv);
 
 				return x; // luminance relative to diffuse white, [0, 70 or so].
 			})
@@ -119,7 +120,7 @@ export default new ColorSpace({
 		// modified abs XYZ
 		let [Xm, Ym, Za] = multiply_v3_m3x3(LMS, ConetoXYZ_M);
 
-		// restore standard D50 relative XYZ, relative to media white
+		// un-modify X and Y to get D65 XYZ, relative to media white
 		let Xa = (Xm + (b - 1) * Za) / b;
 		let Ya = (Ym + (g - 1) * Xa) / g;
 		return [Xa, Ya, Za];
