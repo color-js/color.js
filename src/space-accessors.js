@@ -35,7 +35,7 @@ function addSpaceAccessors (id, space) {
 			}
 
 			// Enable color.spaceId.coordName syntax
-			return new Proxy(ret, {
+			let proxy = new Proxy(ret, {
 				has: /** @param {string} property */ (obj, property) => {
 					try {
 						ColorSpace.resolveCoord([space, property]);
@@ -46,7 +46,7 @@ function addSpaceAccessors (id, space) {
 					return Reflect.has(obj, property);
 				},
 				get: (obj, property, receiver) => {
-					if (property && typeof property !== "symbol" && !(property in obj)) {
+					if (property && typeof property !== "symbol" && !(property in obj) && (property in proxy)) {
 						let { index } = ColorSpace.resolveCoord([space, property]);
 
 						if (index >= 0) {
@@ -79,6 +79,8 @@ function addSpaceAccessors (id, space) {
 					return Reflect.set(obj, property, value, receiver);
 				},
 			});
+
+			return proxy;
 		},
 		// Convert coords in another colorspace to internal coords and set them
 		// Target colorspace: this.spaceId
