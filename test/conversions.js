@@ -1119,6 +1119,58 @@ const tests = {
 			],
 		},
 		{
+			name: "Rec2020 to Rec2020 Linear",
+			data: {
+				toSpace: "rec2020-linear",
+			},
+			tests: [
+				{
+					name: "Negative values",
+					args: "color(rec2020 -0.07 -0.5 0.2)",
+					expect: [-0.01556, -0.25972, 0.05552],
+				},
+			],
+		},
+		{
+			name: "Rec2020 Linear to Rec2020",
+			data: {
+				toSpace: "rec2020",
+			},
+			tests: [
+				{
+					name: "Negative values",
+					args: "color(--rec2020-linear -0.017 -0.5 0.2)",
+					expect: [-0.0765, -0.70544, 0.43352],
+				},
+			],
+		},
+		{
+			name: "ProPhoto to ProPhoto Linear",
+			data: {
+				toSpace: "prophoto-linear",
+			},
+			tests: [
+				{
+					name: "Negative values",
+					args: "color(prophoto-rgb -0.02 -0.5 0.2)",
+					expect: [-0.00125, -0.28717, 0.05519],
+				},
+			],
+		},
+		{
+			name: "ProPhoto Linear to ProPhoto",
+			data: {
+				toSpace: "prophoto",
+			},
+			tests: [
+				{
+					name: "Negative values",
+					args: "color(--prophoto-rgb-linear -0.0017 -0.5 0.2)",
+					expect: [-0.0272, -0.6804, 0.40896],
+				},
+			],
+		},
+		{
 			name: "Get coordinates",
 			data: {
 				slategray: new Color("slategray"),
