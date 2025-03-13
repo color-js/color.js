@@ -12,17 +12,23 @@ export default new RGBColorSpace({
 	// Non-linear transfer function from Rec. ITU-R BT.2020-2 table 4
 	toBase (RGB) {
 		return RGB.map(function (val) {
-			if (val < β * 4.5) {
+			let sign = val < 0 ? -1 : 1;
+			let abs = val * sign;
+
+			if (abs < β * 4.5) {
 				return val / 4.5;
 			}
 
-			return Math.pow((val + α - 1) / α, 1 / 0.45);
+			return sign * Math.pow((abs + α - 1) / α, 1 / 0.45);
 		});
 	},
 	fromBase (RGB) {
 		return RGB.map(function (val) {
-			if (val >= β) {
-				return α * Math.pow(val, 0.45) - (α - 1);
+			let sign = val < 0 ? -1 : 1;
+			let abs = val * sign;
+
+			if (abs >= β) {
+				return sign * (α * Math.pow(abs, 0.45) - (α - 1));
 			}
 
 			return 4.5 * val;
