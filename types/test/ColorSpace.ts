@@ -41,6 +41,10 @@ ColorSpace.get(space);
 ColorSpace.get("abc", "def");
 ColorSpace.get(space, space);
 
+ColorSpace.findFormat("abc");
+ColorSpace.findFormat("abc", [space]);
+ColorSpace.findFormat({}, [space]);
+
 ColorSpace.register(space);
 ColorSpace.register("abc", space);
 
@@ -62,3 +66,5 @@ space.from({ space: space, coords: [1, 2, 3], alpha: 1 }); // $ExpectType Coords
 space.from({ space: space, coords: [1, 2, 3] }); // $ExpectType Coords
 space.from(space, [1, 2, 3]); // $ExpectType Coords
 space.from("srgb", [1, 2, 3]); // $ExpectType Coords
+
+space.equals(space); // $ExpectType boolean

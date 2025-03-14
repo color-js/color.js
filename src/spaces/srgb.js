@@ -77,6 +77,7 @@ export default new RGBColorSpace({
 
 				/** @type {number[]} */
 				let rgba = [];
+				// @ts-expect-error Type 'void' is not assignable to type 'string'
 				str.replace(/[a-f0-9]{2}/gi, component => {
 					rgba.push(parseInt(component, 16) / 255);
 				});

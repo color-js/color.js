@@ -94,9 +94,21 @@ export interface ArgumentMeta {
 	none: boolean;
 }
 
+import FormatClass from "./Format.js";
+
+/** Metadata stored on Color objects */
+export interface ParseMeta {
+	format?: FormatClass | undefined;
+	formatId?: string;
+	name?: string;
+	types?: (string | undefined)[];
+	commas?: boolean;
+	alphaType?: "<number>" | "<percentage>" | undefined;
+}
+
 export interface ParseOptions {
 	/** Object to hold information about the parsing (format, types, etc.) */
-	meta?: ArgumentMeta | undefined;
+	meta?: ParseMeta | undefined;
 	/** Alias for {@link meta} */
 	parseMeta?: ParseOptions["meta"];
 }
@@ -134,7 +146,7 @@ export interface SerializeOptions {
 	 */
 	inGamut?: boolean | undefined;
 	/** Coordinate format to override the default */
-	coords?: Coords | undefined;
+	coords?: (string | undefined)[];
 	/** Alpha format */
 	alpha?:
 		| "<number>"
