@@ -31,6 +31,10 @@ export default class Format {
 	spaceCoords;
 	/** @type {Type[][]} */
 	coords;
+	/** @type {string | undefined} */
+	id;
+	/** @type {boolean | undefined} */
+	alpha;
 
 	/**
 	 * @param {FormatInterface} format
@@ -137,9 +141,10 @@ export default class Format {
 	}
 
 	/**
-	 * @returns Color
+	 * @param {string} str
+	 * @returns {(import("./types.js").ColorConstructor) | undefined | null}
 	 */
-	parse () {
+	parse (str) {
 		return null;
 	}
 

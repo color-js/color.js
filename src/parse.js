@@ -134,13 +134,13 @@ export default function parse (str, options) {
 				}
 
 				// Convert to Format object
-				format = space.getFormat(format);
+				let formatObject = space.getFormat(format);
 
-				let color = format.parse(env.str);
+				let color = formatObject.parse(env.str);
 
 				if (color) {
 					if (meta) {
-						Object.assign(meta, { format, formatId });
+						Object.assign(meta, { format: formatObject, formatId });
 					}
 
 					ret = color;
