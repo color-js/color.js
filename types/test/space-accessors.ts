@@ -10,3 +10,7 @@ color.srgb[2] = 1;
 color.srgb.r = 1;
 color.srgb.g = 1;
 color.srgb.b = 1;
+
+color.srgb[0] = null;
+color.srgb.r = null;
+color.r = null;

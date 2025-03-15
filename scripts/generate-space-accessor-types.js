@@ -20,14 +20,14 @@ for (const spaceModule in spaces) {
 let template = `// DO NOT EDIT. This file is generated with \`npm run build:space-accessors\`.
 
 /** Proxy used for space accessors */
-export type SpaceAccessor = Record<string, number> & number[];
+export type SpaceAccessor = Record<string, number | null> & (number | null)[];
 
 declare class SpaceAccessors {`;
 for (const spaceId of Array.from(spaceIds).sort()) {
 	template += `\n\t${spaceId}: SpaceAccessor;`;
 }
 for (const coord of Array.from(coords).sort()) {
-	template += `\n\t${coord}: number;`;
+	template += `\n\t${coord}: number | null;`;
 }
 template += `
 }
