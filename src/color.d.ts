@@ -54,19 +54,19 @@ export interface ColorObject {
 	spaceId?: string | ColorSpace | undefined;
 	space?: string | ColorSpace | undefined;
 	coords: Coords;
-	alpha?: number | undefined;
+	alpha?: number | undefined | null;
 }
 
 export interface PlainColorObject {
 	space: ColorSpace;
 	coords: Coords;
-	alpha: number;
+	alpha: number | null;
 }
 
 export interface ColorConstructor {
 	spaceId: string;
 	coords: Coords;
-	alpha: number | undefined;
+	alpha: number | undefined | null;
 }
 
 export type ColorTypes = ColorObject | ColorConstructor | string | PlainColorObject;
@@ -150,11 +150,11 @@ declare namespace Color {
  */
 declare class Color extends SpaceAccessors implements PlainColorObject {
 	constructor (color: ColorTypes);
-	constructor (space: string | ColorSpace, coords: Coords, alpha?: number);
+	constructor (space: string | ColorSpace, coords: Coords, alpha?: number | null);
 
 	// These signatures should always be the same as the constructor
 	static get (color: ColorTypes): Color;
-	static get (space: string | ColorSpace, coords: Coords, alpha: number): Color;
+	static get (space: string | ColorSpace, coords: Coords, alpha: number | null): Color;
 
 	static defineFunction (name: string, code: DefineFunctionHybrid): void;
 	static defineFunction (
