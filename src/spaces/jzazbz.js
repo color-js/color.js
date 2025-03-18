@@ -59,10 +59,10 @@ export default new ColorSpace({
 			name: "Jz",
 		},
 		az: {
-			refRange: [-0.5, 0.5],
+			refRange: [-0.21, 0.21],
 		},
 		bz: {
-			refRange: [-0.5, 0.5],
+			refRange: [-0.21, 0.21],
 		},
 	},
 

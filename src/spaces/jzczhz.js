@@ -11,7 +11,7 @@ export default new ColorSpace({
 			name: "Jz",
 		},
 		cz: {
-			refRange: [0, 1],
+			refRange: [0, 0.26],
 			name: "Chroma",
 		},
 		hz: {
