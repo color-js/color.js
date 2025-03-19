@@ -1,7 +1,7 @@
 // DO NOT EDIT. This file is generated with `npm run build:space-accessors`.
 
 /** Proxy used for space accessors */
-export type SpaceAccessor = Record<string, number> & number[];
+export type SpaceAccessor = Record<string, number | null> & (number | null)[];
 
 declare class SpaceAccessors {
 	a98rgb: SpaceAccessor;
@@ -44,31 +44,31 @@ declare class SpaceAccessors {
 	xyz_abs_d65: SpaceAccessor;
 	xyz_d50: SpaceAccessor;
 	xyz_d65: SpaceAccessor;
-	a: number;
-	az: number;
-	b: number;
-	bz: number;
-	c: number;
-	cp: number;
-	ct: number;
-	cz: number;
-	g: number;
-	h: number;
-	hz: number;
-	i: number;
-	j: number;
-	jz: number;
-	l: number;
-	m: number;
-	r: number;
-	s: number;
-	t: number;
-	u: number;
-	v: number;
-	w: number;
-	x: number;
-	y: number;
-	z: number;
+	a: number | null;
+	az: number | null;
+	b: number | null;
+	bz: number | null;
+	c: number | null;
+	cp: number | null;
+	ct: number | null;
+	cz: number | null;
+	g: number | null;
+	h: number | null;
+	hz: number | null;
+	i: number | null;
+	j: number | null;
+	jz: number | null;
+	l: number | null;
+	m: number | null;
+	r: number | null;
+	s: number | null;
+	t: number | null;
+	u: number | null;
+	v: number | null;
+	w: number | null;
+	x: number | null;
+	y: number | null;
+	z: number | null;
 }
 
 export default SpaceAccessors;

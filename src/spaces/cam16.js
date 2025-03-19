@@ -175,12 +175,16 @@ export function environment (
 	const d = discounting
 		? 1
 		: Math.max(Math.min(f * (1 - (1 / 3.6) * Math.exp((-env.la - 42) / 92)), 1), 0);
-	env.dRgb = rgbW.map(c => {
-		return interpolate(1, yw / c, d);
-	});
-	env.dRgbInv = env.dRgb.map(c => {
-		return 1 / c;
-	});
+	env.dRgb = /** @type {[number, number, number]} */ (
+		rgbW.map(c => {
+			return interpolate(1, yw / c, d);
+		})
+	);
+	env.dRgbInv = /** @type {[number, number, number]} */ (
+		env.dRgb.map(c => {
+			return 1 / c;
+		})
+	);
 
 	// Achromatic response
 	const rgbCW = /** @type {[number, number, number]} */ (
