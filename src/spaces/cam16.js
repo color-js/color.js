@@ -396,8 +396,13 @@ export default new ColorSpace({
 	base: xyz_d65,
 
 	fromBase (xyz) {
+		// If another derivation is created, ε could vary, so we can't hardcode
+		if (this.ε === undefined) {
+			this.ε = Object.values(this.coords)[1].refRange[1] / 100000;
+		}
 		const cam16 = toCam16(xyz, viewingConditions);
-		return [cam16.J, cam16.M, cam16.h];
+		const isAchromatic = Math.abs(cam16.M) < this.ε;
+		return [cam16.J, (isAchromatic) ? 0 : cam16.M, (isAchromatic) ? null : cam16.h];
 	},
 	toBase (cam16) {
 		return fromCam16({ J: cam16[0], M: cam16[1], h: cam16[2] }, viewingConditions);

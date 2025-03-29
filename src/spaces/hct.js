@@ -144,7 +144,15 @@ export default new ColorSpace({
 	base: xyz_d65,
 
 	fromBase (xyz) {
-		return toHct(xyz, viewingConditions);
+		if (this.ε === undefined) {
+			this.ε = Object.values(this.coords)[1].refRange[1] / 100000;
+		}
+		let hct = toHct(xyz, viewingConditions);
+		if (hct[1] < this.ε) {
+			hct[1] = 0.0;
+			hct[0] = null;
+		}
+		return hct;
 	},
 	toBase (hct) {
 		return fromHct(hct, viewingConditions);

@@ -641,7 +641,7 @@ const tests = {
 				{
 					name: "sRGB black to CAM16 JMh",
 					args: "black",
-					expect: [0.0, 0.0, 0.0],
+					expect: [0.0, 0.0, null],
 				},
 			],
 		},
@@ -689,7 +689,7 @@ const tests = {
 				{
 					name: "sRGB black to HCT",
 					args: "black",
-					expect: [0.0, 0.0, 0.0],
+					expect: [null, 0.0, 0.0],
 				},
 			],
 		},
