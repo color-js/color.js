@@ -26,6 +26,7 @@ export default new ColorSpace({
 	fromBase (Lab) {
 		// These methods are used for other polar forms as well, so we can't hardcode the ε
 		if (this.ε === undefined) {
+			// @ts-expect-error Property 'coords' does not exist on type 'string | ColorSpace'
 			let range = Object.values(this.base.coords)[1].refRange;
 			let extent = range[1] - range[0];
 			this.ε = extent / 100000;

@@ -27,7 +27,7 @@ export interface Format {
 	alpha?: boolean | undefined;
 	test?: ((str: string) => boolean) | undefined;
 	/** Function to parse a string into a color */
-	parse?: ((str: string) => ColorConstructor) | undefined;
+	parse?: ((str: string) => ColorConstructor | undefined | null) | undefined;
 	/**
 	 * Serialize coordinates and an alpha channel into a string.
 	 * Must be defined for a format to support serialization
@@ -116,6 +116,8 @@ export default class ColorSpace {
 
 	static get all (): ColorSpace[];
 
+	static findFormat (filters: object | string, spaces?: ColorSpace[]): FormatClass | null;
+
 	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
 	get cssId (): string;
 	get isPolar (): boolean;
@@ -146,4 +148,6 @@ export default class ColorSpace {
 	to (space: string | ColorSpace, coords: Coords): Coords;
 
 	toString (): string;
+
+	equals (space: string | ColorSpace): boolean;
 }

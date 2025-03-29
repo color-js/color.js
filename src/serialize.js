@@ -10,6 +10,8 @@ import clone from "./clone.js";
 // Type "imports"
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
 /** @typedef {import("./types.js").SerializeOptions} SerializeOptions */
+/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @typedef {import("./types.js").ParseOptions} ParseOptions */
 
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space
@@ -28,54 +30,55 @@ export default function serialize (color, options = {}) {
 	} = options;
 	let ret;
 
-	color = getColor(color);
+	let colorWithMeta = /** @type {PlainColorObject & ParseOptions} */ (getColor(color));
 
 	let formatId = format;
+	let parseMeta = colorWithMeta.parseMeta;
 
-	if (color.parseMeta && !format) {
-		if (color.parseMeta.format.canSerialize()) {
-			format = color.parseMeta.format;
-			formatId = color.parseMeta.formatId;
+	if (parseMeta && !format) {
+		if (parseMeta.format.canSerialize()) {
+			format = parseMeta.format;
+			formatId = parseMeta.formatId;
 		}
 
-		coordFormat ??= color.parseMeta.types;
-		alphaFormat ??= color.parseMeta.alphaType;
-		commas ??= color.parseMeta.commas;
+		coordFormat ??= parseMeta.types;
+		alphaFormat ??= parseMeta.alphaType;
+		commas ??= parseMeta.commas;
 	}
 
 	if (formatId) {
 		// A format is explicitly specified
-		format = color.space.getFormat(format) ?? ColorSpace.findFormat(formatId);
+		format = colorWithMeta.space.getFormat(format) ?? ColorSpace.findFormat(formatId);
 	}
 
 	if (!format) {
 		// No format specified, or format not found
-		format = color.space.getFormat("default") ?? ColorSpace.DEFAULT_FORMAT;
+		format = colorWithMeta.space.getFormat("default") ?? ColorSpace.DEFAULT_FORMAT;
 		formatId = format.name;
 	}
 
-	if (format && format.space && format.space !== color.space) {
+	if (format && format.space && format.space !== colorWithMeta.space) {
 		// Format specified belongs to a different color space,
 		// need to convert to it first
-		color = to(color, format.space);
+		colorWithMeta = to(colorWithMeta, format.space);
 	}
 
 	// The assignment to coords and inGamut needs to stay in the order they are now
 	// The order of the assignment was changed as a workaround for a bug in Next.js
 	// See this issue for details: https://github.com/color-js/color.js/issues/260
 
-	let coords = color.coords.slice(); // clone so we can manipulate it
+	let coords = colorWithMeta.coords.slice(); // clone so we can manipulate it
 
 	inGamut ||= format.toGamut;
 
-	if (inGamut && !checkInGamut(color)) {
+	if (inGamut && !checkInGamut(colorWithMeta)) {
 		// FIXME what happens if the color contains none values?
-		coords = toGamut(clone(color), inGamut === true ? undefined : inGamut).coords;
+		coords = toGamut(clone(colorWithMeta), inGamut === true ? undefined : inGamut).coords;
 	}
 
 	if (format.type === "custom") {
 		if (format.serialize) {
-			ret = format.serialize(coords, color.alpha, options);
+			ret = format.serialize(coords, colorWithMeta.alpha, options);
 		}
 		else {
 			throw new TypeError(
@@ -91,13 +94,14 @@ export default function serialize (color, options = {}) {
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument
-			let cssId = format.id || format.ids?.[0] || color.space.cssId || color.space.id;
+			let cssId =
+				format.id || format.ids?.[0] || colorWithMeta.space.cssId || colorWithMeta.space.id;
 			args.unshift(cssId);
 		}
 
 		// Serialize alpha?
 		/** @type {string | number} */
-		let alpha = color.alpha;
+		let alpha = colorWithMeta.alpha;
 
 		if (alphaFormat !== undefined && !(typeof alphaFormat === "object")) {
 			alphaFormat =
