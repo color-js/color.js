@@ -239,15 +239,15 @@ const tests = {
 			},
 			tests: [
 				{
-					args: ["color(jzazbz 0.5 0 0)", "xyz-d65"],
+					args: ["jzazbz(0.5 0 0)", "xyz-d65"],
 					expect: [7.986957, 8.397692, 9.136922],
 				},
 				{
-					args: ["color(jzazbz 1 0 0)", "xyz-d65"],
+					args: ["jzazbz(1 0 0)", "xyz-d65"],
 					expect: [48.187785, 50.665878, 55.125885],
 				},
 				{
-					args: ["color(jzazbz 0.1 -0.05 0.05)", "xyz-d65"],
+					args: ["jzazbz(0.1 -0.05 0.05)", "xyz-d65"],
 					expect: [0.108518, 0.172874, 0.074937],
 				},
 				{
@@ -263,7 +263,7 @@ const tests = {
 					expect: [0.22206525, -0.000161, -0.000117],
 				},
 				{
-					args: ["color(jzazbz 0.22206525 -0.000161 -0.000117)", "srgb"],
+					args: ["jzazbz(0.22206525 -0.000161 -0.000117)", "srgb"],
 					expect: [1, 1, 1],
 				},
 				{
@@ -291,23 +291,23 @@ const tests = {
 			},
 			tests: [
 				{
-					args: "color(jzazbz 0.5 0 0)",
+					args: "jzazbz(0.5 0 0)",
 					expect: [0.5, 0, null],
 				},
 				{
-					args: "color(jzazbz 0.1 -0.05 0.05)",
+					args: "jzazbz(0.1 -0.05 0.05)",
 					expect: [0.1, 0.070710678, 135],
 				},
 				{
-					args: ["color(jzczhz 0.1 0.070710678 135)", "jzazbz"],
+					args: ["jzczhz(0.1 0.070710678 135)", "jzazbz"],
 					expect: [0.1, -0.05, 0.05],
 				},
 				{
-					args: "color(jzazbz 0.1 0.1 -0.08)",
+					args: "jzazbz(0.1 0.1 -0.08)",
 					expect: [0.1, 0.12806248, 321.34019],
 				},
 				{
-					args: ["color(jzczhz 0.1, 0.12806248, 321.34019)", "jzazbz"],
+					args: ["jzczhz(0.1, 0.12806248, 321.34019)", "jzazbz"],
 					expect: [0.1, 0.1, -0.08],
 				},
 			],
@@ -1163,7 +1163,7 @@ const tests = {
 				{
 					name: "color.jzazbz.Jz",
 					run () {
-						var color = new Color("color(jzazbz 0.54 0 0)");
+						var color = new Color("jzazbz(0.54 0 0)");
 						return color.jzazbz.jz;
 					},
 					expect: 0.54,
