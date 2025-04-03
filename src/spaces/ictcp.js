@@ -116,6 +116,17 @@ export default new ColorSpace({
 
 		return multiply_v3_m3x3(LMS, LMStoXYZ_M);
 	},
+
+	formats: {
+		ictcp: {
+			coords: [
+				"<percentage> | <number>",
+				"<number> | <percentage>",
+				"<number> | <percentage>",
+			],
+		},
+	},
+
 });
 
 /**

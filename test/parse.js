@@ -449,14 +449,6 @@ const tests = {
 					expect: { spaceId: "hsluv", coords: [25, 50, 75], alpha: 1 },
 				},
 				{
-					args: "color(ictcp 0.5 0 0.25)",
-					expect: { spaceId: "ictcp", coords: [0.5, 0, 0.25], alpha: 1 },
-				},
-				{
-					args: "color(--ictcp 0.5 0 0.25)",
-					expect: { spaceId: "ictcp", coords: [0.5, 0, 0.25], alpha: 1 },
-				},
-				{
 					args: "color(--lchuv 50% 0 25deg)",
 					expect: { spaceId: "lchuv", coords: [50, 0, 25], alpha: 1 },
 				},
@@ -500,6 +492,21 @@ const tests = {
 					throws: true,
 				},
 			],
+		},
+		{
+			name: "ictcp()",
+			tests: [
+				{
+					name: "ictcp(), no alpha",
+					args: "ictcp(0.5 0 0.25)",
+					expect: { spaceId: "ictcp", coords: [0.5, 0, 0.25], alpha: 1 },
+				},
+				{
+					name: "ictcp(), with alpha",
+					args: "ictcp(0.1 -0.1 0.15 / 0.5)",
+					expect: { spaceId: "ictcp", coords: [0.1, -0.1, 0.15], alpha: 0.5 },
+				},
+			]
 		},
 		{
 			name: "hsl()",
