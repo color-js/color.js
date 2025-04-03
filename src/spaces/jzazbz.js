@@ -128,9 +128,9 @@ export default new ColorSpace({
 
 	formats: {
 		// https://drafts.csswg.org/css-color-hdr/#Jzazbz
-		color: {
+		jzazbz: {
 			coords: [
-				"<number> | <percentage>",
+				"<percentage> | <number>",
 				"<number> | <percentage>",
 				"<number> | <percentage>",
 			],

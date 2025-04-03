@@ -24,4 +24,15 @@ export default new ColorSpace({
 	base: Jzazbz,
 	fromBase: lch.fromBase,
 	toBase: lch.toBase,
+
+	formats: {
+		// https://drafts.csswg.org/css-color-hdr/#JzCzhz
+		jzczhz: {
+			coords: [
+				"<percentage> | <number>", 
+				"<number> | <percentage>", 
+				"<number> | <angle>"
+			],
+		},
+	},
 });

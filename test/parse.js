@@ -413,22 +413,6 @@ const tests = {
 					expect: { spaceId: "xyz-abs-d65", coords: [0, 10000, 5444.15], alpha: 1 },
 				},
 				{
-					args: "color(jzazbz 0 25% -50%)",
-					expect: { spaceId: "jzazbz", coords: [0, 0.125, -0.25], alpha: 1 },
-				},
-				{
-					args: "color(--jzazbz 0 25% -50%)",
-					expect: { spaceId: "jzazbz", coords: [0, 0.125, -0.25], alpha: 1 },
-				},
-				{
-					args: "color(jzczhz 0 0.5 75%)",
-					expect: { spaceId: "jzczhz", coords: [0, 0.5, 270], alpha: 1 },
-				},
-				{
-					args: "color(--jzczhz 0 0.5 75%)",
-					expect: { spaceId: "jzczhz", coords: [0, 0.5, 270], alpha: 1 },
-				},
-				{
 					args: "color(--hct 0.25turn 50% 25)",
 					expect: { spaceId: "hct", coords: [90, 72.5, 25], alpha: 1 },
 				},
@@ -492,6 +476,36 @@ const tests = {
 					throws: true,
 				},
 			],
+		},
+		{
+			name: "jzazbz() and jzczhz",
+			tests: [
+				{
+					name: "Jzazbz, no alpha",
+					args: "jzazbz(0 25% -50%)",
+					expect: { spaceId: "jzazbz", coords: [0, 0.05250000000000002, -0.105], alpha: 1 },
+				},
+				{
+					name: "Jzazbz, with alpha",
+					args: "jzazbz(0 -10% 30% / 0.7)",
+					expect: { spaceId: "jzazbz", coords: [0, -0.02099999999999999, 0.06300000000000003], alpha: 0.7 },
+				},
+				{
+					name: "JzCzhz, no alpha",
+					args: "jzczhz(0.2 0.15 120deg)",
+					expect: { spaceId: "jzczhz", coords: [0.2, 0.15, 120], alpha: 1 },
+				},
+				{
+					name: "JzCzhz, no alpha",
+					args: "jzczhz(0.1 30% 45)",
+					expect: { spaceId: "jzczhz", coords: [0.1, 0.078, 45], alpha: 1 },
+				},
+				{
+					name: "JzCzhz, with alpha",
+					args: "jzczhz(10% 30% 45 / 0.6)",
+					expect: { spaceId: "jzczhz", coords: [0.1, 0.078, 45], alpha: 0.6 },
+				},
+			]
 		},
 		{
 			name: "ictcp()",
