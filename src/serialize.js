@@ -22,11 +22,12 @@ import clone from "./clone.js";
 export default function serialize (color, options = {}) {
 	let {
 		precision = defaults.precision,
+		decimal = defaults.decimal,
 		format,
 		inGamut = true,
 		coords: coordFormat,
 		alpha: alphaFormat,
-		commas,
+		commas
 	} = options;
 	let ret;
 
@@ -90,7 +91,7 @@ export default function serialize (color, options = {}) {
 		// Functional syntax
 		let name = format.name || "color";
 
-		let args = format.serializeCoords(coords, precision, coordFormat);
+		let args = format.serializeCoords(coords, precision, decimal, coordFormat);
 
 		if (name === "color") {
 			// If output is a color() function, add colorspace id as first argument
@@ -118,7 +119,7 @@ export default function serialize (color, options = {}) {
 		commas ??= format.commas;
 
 		if (serializeAlpha) {
-			if (precision !== null) {
+			if (precision !== null && decimal != null) {
 				let unit;
 
 				if (alphaType === "<percentage>") {
@@ -126,7 +127,7 @@ export default function serialize (color, options = {}) {
 					alpha *= 100;
 				}
 
-				alpha = util.serializeNumber(alpha, { precision, unit });
+				alpha = util.serializeNumber(alpha, { precision, decimal, unit });
 			}
 
 			strAlpha = `${commas ? "," : " /"} ${alpha}`;

@@ -133,6 +133,7 @@ export interface RGBOptions extends SpaceOptions {
 export interface SerializeOptions {
 	/** Significant digits */
 	precision?: number | undefined;
+	decimal?: number | undefined;
 	/**
 	 * Output format id.
 	 * Defaults to the parsed format if available (and can serialize),

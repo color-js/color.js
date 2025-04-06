@@ -85,12 +85,13 @@ export default class Format {
 	/**
 	 * @param {Coords} coords
 	 * @param {number} precision
+	 * @param {number} decimal
 	 * @param {Type[]} types
 	 */
-	serializeCoords (coords, precision, types) {
+	serializeCoords (coords, precision, decimal, types) {
 		types = coords.map((_, i) =>
 			Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
-		return coords.map((c, i) => types[i].serialize(c, precision));
+		return coords.map((c, i) => types[i].serialize(c, precision, decimal));
 	}
 
 	/**

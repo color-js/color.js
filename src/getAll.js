@@ -32,6 +32,7 @@ export default function getAll (color, options) {
 
 	let space = ColorSpace.get(options, options?.space);
 	let precision = options?.precision;
+	let decimal = options?.decimal;
 
 	let coords;
 	if (!space || color.space.equals(space)) {
@@ -42,5 +43,6 @@ export default function getAll (color, options) {
 		coords = space.from(color);
 	}
 
-	return precision === undefined ? coords : coords.map(coord => toPrecision(coord, precision));
+	const undefinedPrecision = precision === undefined && decimal === undefined;
+	return (undefinedPrecision) ? coords : coords.map(coord => toPrecision(coord, precision, decimal));
 }

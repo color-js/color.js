@@ -26,15 +26,15 @@ export function type (o) {
 
 /**
  * @param {number} n
- * @param {{ precision?: number | undefined, unit?: string | undefined }} options
+ * @param {{ precision?: number | undefined, decimal?: number | undefined, unit?: string | undefined }} options
  * @returns {string}
  */
-export function serializeNumber (n, { precision = 16, unit }) {
+export function serializeNumber (n, { precision = 17, decimal = null, unit }) {
 	if (isNone(n)) {
 		return "none";
 	}
 
-	n = +toPrecision(n, precision);
+	n = +toPrecision(n, precision, decimal);
 
 	return n + (unit ?? "");
 }
@@ -62,16 +62,22 @@ export function skipNone (n) {
  * @param {number} n - The number to round
  * @param {number} precision - Number of significant digits
  */
-export function toPrecision (n, precision) {
+export function toPrecision (n, precision = 17, decimal = null) {
 	if (n === 0) {
 		return 0;
 	}
-	let integer = ~~n;
-	let digits = 0;
-	if (integer && precision) {
-		digits = ~~Math.log10(Math.abs(integer)) + 1;
+
+	if (decimal === null) {
+		decimal = precision;
 	}
-	const multiplier = 10.0 ** (precision - digits);
+
+	let digits = -~~Math.floor(Math.log10(Math.abs(n))) + (precision - 1);
+
+	if (decimal < digits) {
+		digits = decimal;
+	}
+
+	const multiplier = 10.0 ** digits;
 	return Math.floor(n * multiplier + 0.5) / multiplier;
 }
 

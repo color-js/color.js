@@ -89,13 +89,13 @@ export default class Type {
 	 * @param {number} number
 	 * @param {number} [precision]
 	 */
-	serialize (number, precision) {
+	serialize (number, precision, decimal) {
 		let toRange = this.type === "<percentage>" ? this.percentageRange(100) : this.computedRange;
 
 		let unit = this.unit;
 
 		number = mapRange(this.coordRange, toRange, number);
-		return serializeNumber(number, { unit, precision });
+		return serializeNumber(number, { unit, precision, decimal });
 	}
 
 	toString () {
