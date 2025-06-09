@@ -85,10 +85,10 @@ export default new ColorSpace({
 
 	formats: {
 		hsl: {
-			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
 		},
 		hsla: {
-			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+			coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
 			commas: true,
 			alpha: true,
 		},

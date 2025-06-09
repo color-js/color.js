@@ -565,6 +565,60 @@ const tests = {
 					args: "hsl(230.6 179.7% 37.56% / 1)",
 					expect: { spaceId: "hsl", coords: [230.6, 179.7, 37.56], alpha: 1 },
 				},
+				{
+					name: "legacy syntax, <percentage> saturation/lightness, no alpha (#428, #648)",
+					args: ["hsl(0, 0%, 0%)"],
+					expect: { spaceId: "hsl", coords: [0, 0, 0], alpha: 1 },
+				},
+				{
+					name: "legacy syntax, <percentage> saturation/lightness, alpha (#428, #648)",
+					args: ["hsl(0, 0%, 0%, 0.5)"],
+					expect: { spaceId: "hsl", coords: [0, 0, 0], alpha: 0.5 },
+				},
+				{
+					name: "legacy syntax, <number> saturation/lightness, no alpha (#428, #648)",
+					args: ["hsl(0, 0, 0)"],
+					throws: true,
+					// TODO: #428. This currently parses successfully but shouldn't because the legacy syntax doesn't allow `<number>` for saturation or lightness.
+					skip: true,
+				},
+				{
+					name: "legacy syntax, <number> saturation/lightness, alpha (#428, #648)",
+					args: ["hsl(0, 0, 0, 0.5)"],
+					throws: true,
+					// TODO: #428. This currently parses successfully but shouldn't because the legacy syntax doesn't allow `<number>` for saturation or lightness.
+					skip: true,
+				},
+				{
+					name: "modern syntax, <percentage> saturation/lightness, no alpha (#428, #648)",
+					args: ["hsl(0 50% 25%)"],
+					expect: { spaceId: "hsl", coords: [0, 50, 25], alpha: 1 },
+				},
+				{
+					name: "modern syntax, <percentage> saturation/lightness, alpha (#428, #648)",
+					args: ["hsl(0 50% 25% / 50%)"],
+					expect: { spaceId: "hsl", coords: [0, 50, 25], alpha: 0.5 },
+				},
+				{
+					name: "modern syntax, <number> saturation/lightness, no alpha (#428, #648)",
+					args: ["hsl(0 50 25)"],
+					expect: { spaceId: "hsl", coords: [0, 50, 25], alpha: 1 },
+				},
+				{
+					name: "modern syntax, <number> saturation/lightness, alpha (#428, #648)",
+					args: ["hsl(0 50 25 / 50%)"],
+					expect: { spaceId: "hsl", coords: [0, 50, 25], alpha: 0.5 },
+				},
+				{
+					name: "modern syntax, unit-ful <angle> hue, no alpha (#428, #648)",
+					args: ["hsla(240deg 100% 50%)"],
+					expect: { spaceId: "hsl", coords: [240, 100, 50], alpha: 1 },
+				},
+				{
+					name: "modern syntax, unit-ful <angle> hue, alpha (#428, #648)",
+					args: ["hsla(240deg 100% 50% / 0.5)"],
+					expect: { spaceId: "hsl", coords: [240, 100, 50], alpha: 0.5 },
+				},
 			],
 		},
 		{
