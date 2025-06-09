@@ -99,7 +99,7 @@ export default function parse (str, options) {
 
 		let alpha = 1;
 
-		if (format.alpha === true || env.parsed.lastAlpha) {
+		if (env.parsed.lastAlpha) {
 			alpha = env.parsed.args.pop();
 
 			if (meta) {
@@ -245,11 +245,17 @@ export function parseFunction (str) {
 		let args = [];
 		let argMeta = [];
 		let lastAlpha = false;
+		let name = parts[1].toLowerCase();
 
 		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
 			let { value, meta } = parseArgument(rawArg);
 
-			if ($0.startsWith("/")) {
+			if (
+				// If there's a slash here, it's modern syntax
+				$0.startsWith("/")
+				// If there's still elements to process after there's already 3 in `args` (and the we're not dealing with "color()"), it's likely to be a legacy color like "hsl(0, 0%, 0%, 0.5)"
+				|| (name !== "color" && args.length === 3)
+			) {
 				// It's alpha
 				lastAlpha = true;
 			}
@@ -260,7 +266,7 @@ export function parseFunction (str) {
 		});
 
 		return {
-			name: parts[1].toLowerCase(),
+			name,
 			args,
 			argMeta,
 			lastAlpha,
