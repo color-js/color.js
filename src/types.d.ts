@@ -116,7 +116,7 @@ export interface ParseOptions {
 
 export interface ParseFunctionReturn {
 	name: string;
-	args: string[];
+	args: (string | number)[];
 	argMeta: ArgumentMeta[];
 	lastAlpha: boolean;
 	rawName: string;
