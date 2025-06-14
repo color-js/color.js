@@ -251,16 +251,18 @@ export function parseFunction (str) {
 		/** @type {ArgumentMeta[]} */
 		let argMeta = [];
 		let lastAlpha = false;
-		let name = parts[1].toLowerCase();
+		let rawName = parts[1];
+		let rawArgs = parts[2];
+		let name = rawName.toLowerCase();
 
-		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
+		let separators = rawArgs.replace(regex.singleArgument, ($0, rawArg) => {
 			let { value, meta } = parseArgument(rawArg);
 
 			if (
 				// If there's a slash here, it's modern syntax
 				$0.startsWith("/") ||
-				// If there's still elements to process after there's already 3 in `args` (and the we're not dealing with "color()"), it's likely to be a legacy color like "hsl(0, 0%, 0%, 0.5)"
-				(name !== "color" && args.length === 3)
+				// If there's still elements to process after there's already 3 in `args` (and there are commas), it's a legacy syntax like "hsl(0, 0%, 0%, 0.5)"
+				(args.length === 3 && rawArgs.includes(","))
 			) {
 				// It's alpha
 				lastAlpha = true;
@@ -277,8 +279,8 @@ export function parseFunction (str) {
 			argMeta,
 			lastAlpha,
 			commas: separators.includes(","),
-			rawName: parts[1],
-			rawArgs: parts[2],
+			rawName,
+			rawArgs,
 		};
 	}
 }
