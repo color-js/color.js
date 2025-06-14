@@ -190,41 +190,44 @@ export const regex = {
 /**
  * Parse a single function argument
  * @param {string} rawArg
- * @returns {{value: number, meta: ArgumentMeta}}
+ * @returns {{value: string | number | null, meta: ArgumentMeta}}
  */
 export function parseArgument (rawArg) {
-	/** @type {Partial<ArgumentMeta>} */
 	let meta = {};
+	meta.none = false;
 	let unit = rawArg.match(regex.unitValue)?.[0];
-	/** @type {string | number} */
-	let value = (meta.raw = rawArg);
+	meta.raw = rawArg;
+	/** @type {string | number | null} */
+	let value;
 
 	if (unit) {
 		// It’s a dimension token
 		meta.type = unit === "%" ? "<percentage>" : "<angle>";
 		meta.unit = unit;
-		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
+		meta.unitless = Number(rawArg.slice(0, -unit.length)); // unitless number
 
 		value = meta.unitless * units[unit];
 	}
-	else if (regex.number.test(value)) {
+	else if (regex.number.test(rawArg)) {
 		// It's a number
 		// Convert numerical args to numbers
-		value = Number(value);
+		value = Number(rawArg);
 		meta.type = "<number>";
 	}
-	else if (value === "none") {
+	else if (rawArg === "none") {
 		value = null;
+		meta.none = true;
 	}
-	else if (value === "NaN" || value === "calc(NaN)") {
+	else if (rawArg === "NaN" || rawArg === "calc(NaN)") {
 		value = NaN;
 		meta.type = "<number>";
 	}
 	else {
+		value = rawArg;
 		meta.type = "<ident>";
 	}
 
-	return { value: /** @type {number} */ (value), meta: /** @type {ArgumentMeta} */ (meta) };
+	return { value, meta: /** @satisfies {ArgumentMeta} */ (meta) };
 }
 
 /**
@@ -243,7 +246,9 @@ export function parseFunction (str) {
 
 	if (parts) {
 		// It is a function, parse args
+		/** @type {Array<string | number>} */
 		let args = [];
+		/** @type {ArgumentMeta[]} */
 		let argMeta = [];
 		let lastAlpha = false;
 		let name = parts[1].toLowerCase();
