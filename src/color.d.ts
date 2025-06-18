@@ -284,8 +284,8 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	// variations
 	lighten: ToColorPrototype<typeof lighten>;
 	darken: ToColorPrototype<typeof darken>;
-	static lighten: typeof lighten;
-	static darken: typeof darken;
+	static lighten: ToColorNamespace<typeof lighten>;
+	static darken: ToColorNamespace<typeof darken>;
 }
 
 export default Color;
