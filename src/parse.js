@@ -85,8 +85,28 @@ export default function parse (str, options) {
 			}
 		}
 		else {
-			format = ColorSpace.findFormat({ name, type: "function" });
+			// If there are commas, try to find a legacy format first
+			if (env.parsed.commas) {
+				format = ColorSpace.findFormat({ name: `${name}_legacy`, type: "function" });
+			}
+			if (!format) {
+				format = ColorSpace.findFormat({ name, type: "function" });
+			}
 			space = format.space;
+		}
+
+		// Validate the parsed type per coord against the allowed types per coord in the format.
+		// Need to cut off the fourth element from `types` (i.e the alpha channel) as `types` only has entries for color coordinate.
+		for (const [index, parsedType] of types.slice(0, 3).entries()) {
+			const formatTypes = format.coords[index];
+
+			// If the format doesn't have the parsed type, it's invalid syntax (e.g. HSL's legacy syntax doesn't support <number> for saturation or lightness).
+			if (parsedType && !formatTypes.some(({ type }) => type === parsedType)) {
+				const allowedTypes = formatTypes.map(({ type }) => type);
+				throw new TypeError(
+					`Cannot parse ${env.str}. Coordinate ${index} uses type ${parsedType}, but expects ${allowedTypes.join(" | ")}`,
+				);
+			}
 		}
 
 		if (meta) {
