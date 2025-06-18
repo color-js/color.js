@@ -27,3 +27,9 @@ export function darken (color, amount = 0.25) {
 	let /** @type {Ref} */ lightness = [space, "l"];
 	return set(color, lightness, l => l * (1 - amount));
 }
+
+/** @type {"color"} */
+lighten.returns = "color";
+
+/** @type {"color"} */
+darken.returns = "color";
