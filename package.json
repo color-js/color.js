@@ -68,7 +68,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/LeaVerou/color.js.git"
+		"url": "git+https://github.com/color-js/color.js.git"
 	},
 	"keywords": [
 		"color"
@@ -83,7 +83,7 @@
 	},
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/LeaVerou/color.js/issues"
+		"url": "https://github.com/color-js/color.js/issues"
 	},
 	"homepage": "https://colorjs.io",
 	"devDependencies": {
