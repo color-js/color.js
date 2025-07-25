@@ -116,6 +116,10 @@ export default function toGamut (
 				}
 			}
 
+			if (jnd === 0) {
+				jnd = 1e-16;
+			}
+
 			let clipped = toGamut(to(color, space), { method: "clip", space });
 			if (de(color, clipped) > jnd) {
 				// Clamp to SDR white and black if required
