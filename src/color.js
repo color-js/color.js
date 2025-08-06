@@ -13,6 +13,7 @@ import ColorSpace from "./ColorSpace.js";
 import { WHITES } from "./adapt.js";
 import {
 	getColor,
+	tryColor,
 	parse,
 	to,
 	serialize,
@@ -129,6 +130,24 @@ export default class Color {
 		}
 
 		return new Color(color, ...args);
+	}
+
+	/**
+	 * Like {@link get} but returns `null` if resolution fails instead of throwing an error.
+	 * Additionally, supports passing an element to resolve complex CSS colors through the DOM (slow).
+	 */
+	static try (color, ...args) {
+		if (util.isInstance(color, this)) {
+			return color;
+		}
+
+		let ret = tryColor(color, ...args);
+
+		if (ret) {
+			return new Color(ret);
+		}
+
+		return null;
 	}
 
 	static defineFunction (name, code, o = code) {
