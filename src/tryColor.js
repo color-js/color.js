@@ -67,11 +67,10 @@ export default function tryColor (color, options = {}) {
 		}
 	}
 
-	if (error) {
-		if (options.errorMeta) {
-			options.errorMeta.error = error;
-		}
-
-		return null;
+	// If we're here, we failed to resolve the color
+	if (options.errorMeta) {
+		options.errorMeta.error = error;
 	}
+
+	return null;
 }
