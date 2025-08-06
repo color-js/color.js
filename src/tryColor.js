@@ -35,7 +35,8 @@ export default function tryColor (color, options = {}) {
 		error = e;
 	}
 
-	if (isString(color) && element && globalThis.CSS) {
+	let {CSS, getComputedStyle} = globalThis;
+	if (isString(color) && element && CSS && getComputedStyle) {
 		// Try resolving the color using the DOM, if supported in CSS
 		if (CSS.supports(cssProperty, color)) {
 			let previousValue = element.style[cssProperty];
