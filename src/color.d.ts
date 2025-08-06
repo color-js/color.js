@@ -156,6 +156,8 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	static get (color: ColorTypes): Color;
 	static get (space: string | ColorSpace, coords: Coords, alpha: number | null): Color;
 
+	static try (color: ColorTypes): Color | null;
+
 	static defineFunction (name: string, code: DefineFunctionHybrid): void;
 	static defineFunction (
 		name: string,
