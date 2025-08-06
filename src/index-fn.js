@@ -33,6 +33,10 @@ export *                                  from "./deltaE/index.js";
 export { default as deltaEMethods }       from "./deltaE/index.js";
 export *                                  from "./variations.js";
 export { mix, steps, range, isRange }     from "./interpolation.js";
+
+// Export all color spaces as a single object as well so they can be registered in one go (#661)
+import * as spaces from "./spaces/index-fn.js";
+export { spaces }
 export *                                  from "./spaces/index-fn.js";
 
 // Type re-exports

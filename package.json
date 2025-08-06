@@ -29,7 +29,9 @@
 				"default": "./dist/color-fn.cjs"
 			}
 		},
-		"./dist/*": "./dist/*"
+		"./spaces": "./src/spaces/index.js",
+		"./dist/*": "./dist/*",
+		"./src/*": "./src/*"
 	},
 	"typesVersions": {
 		"*": {
