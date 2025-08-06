@@ -121,7 +121,7 @@ export default class Color {
 	}
 
 	/**
-	 * Get a color from the argument passed
+	 * Get a color from the argument(s) passed
 	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
 	 */
 	static get (color, ...args) {
@@ -133,15 +133,16 @@ export default class Color {
 	}
 
 	/**
-	 * Like {@link get} but returns `null` if resolution fails instead of throwing an error.
-	 * Additionally, supports passing an element to resolve complex CSS colors through the DOM (slow).
+	 * Get a color instance from the argument passed or `null` if resolution fails (instead of throwing an error).
+	 * Additionally, it supports passing an element to resolve complex CSS colors through the DOM (slow).
+	 * @see {@link tryColor} for more details
 	 */
-	static try (color, ...args) {
+	static try (color, options) {
 		if (util.isInstance(color, this)) {
 			return color;
 		}
 
-		let ret = tryColor(color, ...args);
+		let ret = tryColor(color, options);
 
 		if (ret) {
 			return new Color(ret);
