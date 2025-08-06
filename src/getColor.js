@@ -6,19 +6,19 @@ import parse from "./parse.js";
 /** @typedef {import("./types.js").ColorTypes} ColorTypes */
 /** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
 
+/** @typedef {import("./types.js").ParseOptions} GetColorOptions */
+
 /**
  * Resolves a color reference (object or string) to a plain color object
  * @overload
  * @param {ColorTypes} color
- * @param {object} [options]
- * @param {boolean} [options.parseMeta] Optional object to hold parsing metadata
+ * @param {GetColorOptions} [options]
  * @returns {PlainColorObject}
  */
 /**
  * @overload
  * @param {ColorTypes[]} color
- * @param {object} [options]
- * @param {boolean} [options.parseMeta] Optional object to hold parsing metadata
+ * @param {GetColorOptions} [options]
  * @returns {PlainColorObject[]}
  */
 export default function getColor (color, options) {
