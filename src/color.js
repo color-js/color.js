@@ -13,6 +13,7 @@ import ColorSpace from "./ColorSpace.js";
 import { WHITES } from "./adapt.js";
 import {
 	getColor,
+	tryColor,
 	parse,
 	to,
 	serialize,
@@ -120,7 +121,7 @@ export default class Color {
 	}
 
 	/**
-	 * Get a color from the argument passed
+	 * Get a color from the argument(s) passed
 	 * Basically gets us the same result as new Color(color) but doesn't clone an existing color object
 	 */
 	static get (color, ...args) {
@@ -129,6 +130,25 @@ export default class Color {
 		}
 
 		return new Color(color, ...args);
+	}
+
+	/**
+	 * Get a color instance from the argument passed or `null` if resolution fails (instead of throwing an error).
+	 * Additionally, it supports passing an element to resolve complex CSS colors through the DOM (slow).
+	 * @see {@link tryColor} for more details
+	 */
+	static try (color, options) {
+		if (util.isInstance(color, this)) {
+			return color;
+		}
+
+		let ret = tryColor(color, options);
+
+		if (ret) {
+			return new Color(ret);
+		}
+
+		return null;
 	}
 
 	static defineFunction (name, code, o = code) {

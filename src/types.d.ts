@@ -222,6 +222,20 @@ export interface DeltasReturn {
 	alpha: number;
 }
 
+// tryColor.js
+export interface TryColorOptions extends ParseOptions {
+	/**
+	 * CSS property to use for DOM resolution
+	 * Defaults to `"background-color"`.
+	 * Why not use `color` as the default? Because then `currentColor` would resolve to the parent color.
+	 **/
+	cssProperty?: string;
+	/** DOM element to use for CSS resolution */
+	element?: Element;
+	/** Object to hold error metadata if resolution fails */
+	errorMeta?: Record<any, any>;
+}
+
 // cam16.js
 export type LightnessOrBrightness = { J: number; Q?: never } | { J?: never; Q: number };
 export type ChromaOrColorfulnessOrSaturation =
