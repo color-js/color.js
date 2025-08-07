@@ -8,7 +8,7 @@ import hooks from "./hooks.js";
 import * as util from "./util.js";
 import ColorSpace, { Ref } from "./ColorSpace.js";
 import SpaceAccessors from "./space-coord-accessors.js";
-import { ToGamutOptions } from "./types.js";
+import { ToGamutOptions, ParseOptions, TryColorOptions } from "./types.js";
 
 import {
 	to as toFn,
@@ -153,10 +153,10 @@ declare class Color extends SpaceAccessors implements PlainColorObject {
 	constructor (space: string | ColorSpace, coords: Coords, alpha?: number | null);
 
 	// These signatures should always be the same as the constructor
-	static get (color: ColorTypes): Color;
+	static get (color: ColorTypes, options?: ParseOptions): Color;
 	static get (space: string | ColorSpace, coords: Coords, alpha: number | null): Color;
 
-	static try (color: ColorTypes): Color | null;
+	static try (color: ColorTypes, options?: TryColorOptions): Color | null;
 
 	static defineFunction (name: string, code: DefineFunctionHybrid): void;
 	static defineFunction (
