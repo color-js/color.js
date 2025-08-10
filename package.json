@@ -29,9 +29,19 @@
 				"default": "./dist/color-fn.cjs"
 			}
 		},
-		"./spaces": "./src/spaces/index.js",
-		"./dist/*": "./dist/*",
-		"./src/*": "./src/*"
+		"./spaces": {
+			"import": {
+				"types": "./types/src/spaces/index.d.ts",
+				"default": "./src/spaces/index.js"
+			}
+		},
+		"./src/*": {
+			"import": {
+				"types": "./types/src/*",
+				"default": "./src/*"
+			}
+		},
+		"./dist/*": "./dist/*"
 	},
 	"typesVersions": {
 		"*": {
