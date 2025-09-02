@@ -55,6 +55,14 @@
 			"description": "The color space of most commercial wide gamut screens today. 50% larger gamut (by volume) than sRGB. CSS Color level 4 allowed these colors to be used in stylesheets for the first time. It is derived from a digital cinema projector standard, DCI-P3 but the transfer curve, whitepoint and viewing conditions are the same as for sRGB."
 		},
 		{
+			"name": "Linear Display P3",
+			"id": "p3-linear",
+			"include": true,
+			"dependencies": ["srgb"],
+			"url": "https://drafts.csswg.org/css-color-4/#predefined-display-p3-linear",
+			"description": "Display P3, but with a linear-light transfer function."
+		},
+		{
 			"name": "Adobe® RGB Compatible",
 			"id": "a98rgb",
 			"dependencies": ["srgb"],
