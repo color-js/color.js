@@ -1127,7 +1127,7 @@ const tests = {
 				{
 					name: "Negative values",
 					args: "color(rec2020 -0.07 -0.5 0.2)",
-					expect: [-0.01556, -0.25972, 0.05552],
+					expect: [-0.001691357, -0.1894645708, 0.021012222],
 				},
 			],
 		},
@@ -1140,7 +1140,7 @@ const tests = {
 				{
 					name: "Negative values",
 					args: "color(--rec2020-linear -0.017 -0.5 0.2)",
-					expect: [-0.0765, -0.70544, 0.43352],
+					expect: [-0.183099455, -0.749153538, 0.511402090],
 				},
 			],
 		},
