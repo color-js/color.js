@@ -21,6 +21,7 @@ export { default as ProPhoto_Linear } from "./prophoto-linear.js";
 export { default as ProPhoto } from "./prophoto.js";
 export { default as REC_2020_Linear } from "./rec2020-linear.js";
 export { default as REC_2020 } from "./rec2020.js";
+export { default as REC_2020_Scene_Referred } from "./rec2020-oetf.js";
 export { default as OKLab } from "./oklab.js";
 export { default as OKLCH } from "./oklch.js";
 export { default as OKLrab } from "./oklrab.js";

@@ -77,6 +77,13 @@
 			"description": "A very wide gamut RGB color space used in 4k and 8k UHDTV. It is currently difficult to make a screen which displays the entire REC.2020 gamut; current movies broadcast in this colorspace do not use the full gamut, although they do use a little more than P3."
 		},
 		{
+			"name": "REC.2020 Scene Referred",
+			"id": "--rec2020-oetf",
+			"dependencies": ["srgb"],
+			"url": "https://en.wikipedia.org/wiki/Rec._2020",
+			"description": "Scene-referred version of REC.2020"
+		},
+		{
 			"name": "REC.2100-PQ",
 			"id": "rec2100pq",
 			"dependencies": ["rec2020"],
