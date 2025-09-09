@@ -6,7 +6,7 @@
 			"include": true,
 			"mandatory": true,
 			"url": "https://en.wikipedia.org/wiki/CIELAB_color_space",
-			"description": "A CIE color space with fairly good perceptually uniformity. Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between to points in Lab is a good first approximation to how different the two colors look. Commercial color-measuring instruments report values in Lab, and it is used as an intermediate space for gamut mapping and colorspace interconversion."
+			"description": "A CIE color space with fairly good perceptually uniformity. Lab has a central Lightness axis (black at 0, white at 100, mid-grey at 50) and two opponent color axes. The a axis has pinkish reds in the positive direction and the complementary bluish-greens in the negative direction. The b axis has yellows in the positive direction and the complementary blue-violets in the negative direction. The geometric distance between two points in Lab is a good first approximation to how different the two colors look. Commercial color-measuring instruments report values in Lab, and it is used as an intermediate space for gamut mapping and colorspace interconversion."
 		},
 		{
 			"name": "LCH",
