@@ -92,5 +92,14 @@ export default new ColorSpace({
 			commas: true,
 			alpha: true,
 		},
+		hsl_legacy: {
+			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+			commas: true,
+		},
+		hsla_legacy: {
+			coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+			commas: true,
+			alpha: true,
+		},
 	},
 });
