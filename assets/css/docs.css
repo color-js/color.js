@@ -24,6 +24,9 @@ main {
 		& > ul {
 			position: sticky;
 			top: var(--_gap);
+			block-size: calc(100vh - 2 * var(--_gap));
+			overflow-y: auto;
+			overscroll-behavior: contain;
 		}
 	}
 
