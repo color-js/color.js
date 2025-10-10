@@ -72,7 +72,7 @@ export default function toGamut (
 		space = undefined,
 		deltaEMethod = "",
 		jnd = 2,
-		blackWhiteClamp = {},
+		blackWhiteClamp = /** @type {ToGamutOptions["blackWhiteClamp"]} */ ({}),
 	} = {},
 ) {
 	color = getColor(color);
