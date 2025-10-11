@@ -10,7 +10,6 @@
 		"types": [],
 		"noEmit": true,
 		"forceConsistentCasingInFileNames": true,
-		"baseUrl": ".",
 		"paths": {
 			"colorjs.io": ["."],
 			"colorjs.io/fn": ["./src/index-fn.js"],

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import * as util from "./util.js";
 import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";

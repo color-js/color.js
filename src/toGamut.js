@@ -72,7 +72,7 @@ export default function toGamut (
 		space = undefined,
 		deltaEMethod = "",
 		jnd = 2,
-		blackWhiteClamp = {},
+		blackWhiteClamp = undefined,
 	} = {},
 ) {
 	color = getColor(color);
@@ -123,7 +123,7 @@ export default function toGamut (
 			let clipped = toGamut(to(color, space), { method: "clip", space });
 			if (de(color, clipped) > jnd) {
 				// Clamp to SDR white and black if required
-				if (Object.keys(blackWhiteClamp).length === 3) {
+				if (blackWhiteClamp && Object.keys(blackWhiteClamp).length === 3) {
 					let channelMeta = ColorSpace.resolveCoord(blackWhiteClamp.channel);
 					let channel = get(to(color, channelMeta.space), channelMeta.id);
 					if (util.isNone(channel)) {

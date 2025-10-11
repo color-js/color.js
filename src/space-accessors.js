@@ -59,7 +59,7 @@ function addSpaceAccessors (id, space) {
 				set: (obj, property, value, receiver) => {
 					if (
 						(property && typeof property !== "symbol" && !(property in obj)) ||
-						property >= 0
+						Number(property) >= 0
 					) {
 						let { index } = ColorSpace.resolveCoord([
 							space,
