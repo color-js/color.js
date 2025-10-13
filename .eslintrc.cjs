@@ -186,7 +186,7 @@ module.exports = {
 		 */
 		// Disallow `@ts-<directive>` comments
 		// https://typescript-eslint.io/rules/ban-ts-comment
-		"@typescript-eslint/ban-ts-comment": 1,
+		// "@typescript-eslint/ban-ts-comment": 1,
 		// Disallow certain built-in types
 		// https://typescript-eslint.io/rules/ban-types
 		"@typescript-eslint/no-empty-object-type": 0,

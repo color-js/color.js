@@ -128,11 +128,11 @@ export default class Type {
 		return [range[0] * scale, range[1] * scale];
 	}
 
-	static get (type, ...args) {
+	static get (type, coordMeta) {
 		if (isInstance(type, this)) {
 			return type;
 		}
 
-		return new this(type, ...args);
+		return new this(type, coordMeta);
 	}
 }

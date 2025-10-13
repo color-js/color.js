@@ -34,11 +34,11 @@ import deltaE from "./deltaE.js";
  * @overload
  * @param {ColorTypes} c1
  * @param {ColorTypes} c2
- * @param {number} p
+ * @param {number} [p=0.5]
  * @param {MixOptions} [options]
  * @returns {PlainColorObject}
  */
-export function mix (c1, c2, p = 0.5, o = {}) {
+export function mix (c1, c2, p, o = {}) {
 	[c1, c2] = [getColor(c1), getColor(c2)];
 
 	if (type(p) === "object") {
@@ -46,7 +46,7 @@ export function mix (c1, c2, p = 0.5, o = {}) {
 	}
 
 	let r = range(c1, c2, o);
-	return r(p);
+	return r(p ?? 0.5); // why not give p a default value like we do for options? Overloading doesn't work, and TS complains
 }
 
 /**

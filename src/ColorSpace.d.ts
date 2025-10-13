@@ -76,6 +76,7 @@ export interface SpaceOptions {
 	formats?: Record<string, Format> | undefined;
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
 	aliases?: string[] | undefined;
+	ε?: number | undefined;
 }
 
 export type Ref =
