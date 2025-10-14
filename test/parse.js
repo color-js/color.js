@@ -483,12 +483,20 @@ const tests = {
 				{
 					name: "Jzazbz, no alpha",
 					args: "jzazbz(0 25% -50%)",
-					expect: { spaceId: "jzazbz", coords: [0, 0.05250000000000002, -0.105], alpha: 1 },
+					expect: {
+						spaceId: "jzazbz",
+						coords: [0, 0.05250000000000002, -0.105],
+						alpha: 1,
+					},
 				},
 				{
 					name: "Jzazbz, with alpha",
 					args: "jzazbz(0 -10% 30% / 0.7)",
-					expect: { spaceId: "jzazbz", coords: [0, -0.02099999999999999, 0.06300000000000003], alpha: 0.7 },
+					expect: {
+						spaceId: "jzazbz",
+						coords: [0, -0.02099999999999999, 0.06300000000000003],
+						alpha: 0.7,
+					},
 				},
 				{
 					name: "JzCzhz, no alpha",
@@ -505,7 +513,7 @@ const tests = {
 					args: "jzczhz(10% 30% 45 / 0.6)",
 					expect: { spaceId: "jzczhz", coords: [0.1, 0.078, 45], alpha: 0.6 },
 				},
-			]
+			],
 		},
 		{
 			name: "ictcp()",
@@ -520,7 +528,7 @@ const tests = {
 					args: "ictcp(0.1 -0.1 0.15 / 0.5)",
 					expect: { spaceId: "ictcp", coords: [0.1, -0.1, 0.15], alpha: 0.5 },
 				},
-			]
+			],
 		},
 		{
 			name: "hsl()",

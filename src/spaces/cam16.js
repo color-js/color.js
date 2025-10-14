@@ -406,7 +406,7 @@ export default new ColorSpace({
 		}
 		const cam16 = toCam16(xyz, viewingConditions);
 		const isAchromatic = Math.abs(cam16.M) < this.ε;
-		return [cam16.J, (isAchromatic) ? 0 : cam16.M, (isAchromatic) ? null : cam16.h];
+		return [cam16.J, isAchromatic ? 0 : cam16.M, isAchromatic ? null : cam16.h];
 	},
 	toBase (cam16) {
 		return fromCam16({ J: cam16[0], M: cam16[1], h: cam16[2] }, viewingConditions);

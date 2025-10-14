@@ -252,9 +252,9 @@ export function parseFunction (str) {
 
 			if (
 				// If there's a slash here, it's modern syntax
-				$0.startsWith("/")
+				$0.startsWith("/") ||
 				// If there's still elements to process after there's already 3 in `args` (and the we're not dealing with "color()"), it's likely to be a legacy color like "hsl(0, 0%, 0%, 0.5)"
-				|| (name !== "color" && args.length === 3)
+				(name !== "color" && args.length === 3)
 			) {
 				// It's alpha
 				lastAlpha = true;

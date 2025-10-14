@@ -13,14 +13,14 @@ export default new RGBColorSpace({
 		return RGB.map(function (val) {
 			let sign = val < 0 ? -1 : 1;
 			let abs = val * sign;
-			return sign * Math.pow(abs, 2.40);
+			return sign * Math.pow(abs, 2.4);
 		});
 	},
 	fromBase (RGB) {
 		return RGB.map(function (val) {
 			let sign = val < 0 ? -1 : 1;
 			let abs = val * sign;
-			return sign * Math.pow(abs, 1/2.40);
+			return sign * Math.pow(abs, 1 / 2.4);
 		});
 	},
 });

@@ -28,11 +28,7 @@ export default new ColorSpace({
 	formats: {
 		// https://drafts.csswg.org/css-color-hdr/#JzCzhz
 		jzczhz: {
-			coords: [
-				"<percentage> | <number>", 
-				"<number> | <percentage>", 
-				"<number> | <angle>"
-			],
+			coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"],
 		},
 	},
 });

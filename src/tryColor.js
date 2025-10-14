@@ -26,7 +26,7 @@ export default function tryColor (color, options = {}) {
 		return color.map(c => tryColor(c, options));
 	}
 
-	let {cssProperty = "background-color", element, ...getColorOptions} = options;
+	let { cssProperty = "background-color", element, ...getColorOptions } = options;
 	let error = null;
 	try {
 		return getColor(color, getColorOptions);
@@ -35,7 +35,7 @@ export default function tryColor (color, options = {}) {
 		error = e;
 	}
 
-	let {CSS, getComputedStyle} = globalThis;
+	let { CSS, getComputedStyle } = globalThis;
 	if (isString(color) && element && CSS && getComputedStyle) {
 		// Try resolving the color using the DOM, if supported in CSS
 		if (CSS.supports(cssProperty, color)) {
@@ -62,7 +62,9 @@ export default function tryColor (color, options = {}) {
 			}
 			else {
 				// Still not resolved
-				error = {message: "Color value is a valid CSS color, but it could not be resolved :("};
+				error = {
+					message: "Color value is a valid CSS color, but it could not be resolved :(",
+				};
 			}
 		}
 	}
