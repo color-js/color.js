@@ -126,7 +126,6 @@ export default new ColorSpace({
 			],
 		},
 	},
-
 });
 
 /**

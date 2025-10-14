@@ -4,6 +4,7 @@
 export type SpaceAccessor = Record<string, number | null> & (number | null)[];
 
 declare class SpaceAccessors {
+	__rec2020_oetf: SpaceAccessor;
 	a98rgb: SpaceAccessor;
 	a98rgb_linear: SpaceAccessor;
 	acescc: SpaceAccessor;

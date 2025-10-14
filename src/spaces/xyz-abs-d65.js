@@ -35,6 +35,6 @@ export default new ColorSpace({
 	},
 	toBase (AbsXYZ) {
 		// Convert to media-white relative XYZ
-		return AbsXYZ.map(v =>v / Yw);
+		return AbsXYZ.map(v => v / Yw);
 	},
 });

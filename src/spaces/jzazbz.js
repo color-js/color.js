@@ -85,10 +85,10 @@ export default new ColorSpace({
 		// PQ-encode LMS
 		let PQLMS = /** @type {Vector3} } */ (
 			LMS.map(function (val) {
-				let num = c1 + c2 * spow((val / 10000), n);
-				let denom = 1 + c3 * spow((val / 10000), n);
+				let num = c1 + c2 * spow(val / 10000, n);
+				let denom = 1 + c3 * spow(val / 10000, n);
 
-				return spow((num / denom), p);
+				return spow(num / denom, p);
 			})
 		);
 
@@ -111,7 +111,7 @@ export default new ColorSpace({
 			PQLMS.map(function (val) {
 				let num = c1 - spow(val, pinv);
 				let denom = c3 * spow(val, pinv) - c2;
-				let x = 10000 * spow((num / denom), ninv);
+				let x = 10000 * spow(num / denom, ninv);
 
 				return x; // luminance relative to diffuse white, [0, 70 or so].
 			})
