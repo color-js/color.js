@@ -2,9 +2,7 @@ import ColorSpace from "./ColorSpace.js";
 import getAll from "./getAll.js";
 import getColor from "./getColor.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").Ref} Ref */
+/** @import { ColorTypes, Ref } from "./types.js" */
 
 /**
  * @param {ColorTypes} color

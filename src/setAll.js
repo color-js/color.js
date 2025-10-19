@@ -1,10 +1,7 @@
 import ColorSpace from "./ColorSpace.js";
 import getColor from "./getColor.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").Coords} Coords */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @import { ColorTypes, Coords, PlainColorObject } from "./types.js" */
 
 /**
  * Set all coordinates of a color at once, in its own color space or another.

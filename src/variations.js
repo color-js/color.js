@@ -1,10 +1,7 @@
 import ColorSpace from "./ColorSpace.js";
 import set from "./set.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
-/** @typedef {import("./types.js").Ref} Ref */
+/** @import { ColorTypes, PlainColorObject, Ref } from "./types.js" */
 
 /**
  * @param {ColorTypes} color

@@ -1,9 +1,7 @@
 import xyz_d65 from "./spaces/xyz-d65.js";
 import getAll from "./getAll.js";
 
-// Type "imports"
-/** @typedef {import("./color.js").default} Color */
-/** @typedef {import("./color.js").ColorTypes} ColorTypes */
+/** @import { ColorTypes, default as Color } from "./color.js" */
 
 // Chromaticity coordinates
 /**

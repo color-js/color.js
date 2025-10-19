@@ -1,7 +1,7 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+
+/** @import { Matrix3x3 } from "../types.js" */
 
 /** @type {Matrix3x3} */
 // prettier-ignore

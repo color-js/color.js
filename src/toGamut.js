@@ -13,10 +13,7 @@ import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
 import { WHITES } from "./adapt.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
-/** @typedef {import("./types.js").ToGamutOptions} ToGamutOptions */
+/** @import { ColorTypes, PlainColorObject, ToGamutOptions } from "./types.js" */
 
 /**
  * Calculate the epsilon to 2 degrees smaller than the specified JND.

@@ -1,8 +1,7 @@
 import hooks from "./hooks.js";
 import { multiply_v3_m3x3 } from "./util.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").White} White */
+/** @import { White } from "./types.js" */
 
 /** @type {Record<string, White>} */
 // prettier-ignore
