@@ -1,6 +1,5 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 
-
 /** @import { Matrix3x3 } from "../types.js" */
 
 // This is the linear-light version of sRGB

@@ -36,7 +36,6 @@ import {
 	RGBCoeff,
 } from "./okhsl.js";
 
-
 /** @import { Coords, Matrix3x3, OKCoeff, Vector3 } from "../types.js" */
 
 /**

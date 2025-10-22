@@ -1,7 +1,6 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 import XYZ_D50 from "./xyz-d50.js";
 
-
 /** @import { Matrix3x3 } from "../types.js" */
 
 // convert an array of  prophoto-rgb values to CIE XYZ

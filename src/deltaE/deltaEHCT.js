@@ -2,7 +2,6 @@ import hct from "../spaces/hct.js";
 import { viewingConditions } from "../spaces/hct.js";
 import getColor from "../getColor.js";
 
-
 /** @import { Coords } from "../types.js" */
 
 const rad2deg = 180 / Math.PI;

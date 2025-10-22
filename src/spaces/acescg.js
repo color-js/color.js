@@ -2,7 +2,6 @@ import RGBColorSpace from "../RGBColorSpace.js";
 import { WHITES } from "../adapt.js";
 import "../CATs.js"; // because of the funky whitepoint
 
-
 /** @import { Matrix3x3 } from "../types.js" */
 
 // The ACES whitepoint
