@@ -1,4 +1,4 @@
-/** @import { default as Color } from "./color.js" */
+/** @import Color from "./color.js" */
 /** @import { Coords, PlainColorObject } from "./types.js" */
 
 /**
