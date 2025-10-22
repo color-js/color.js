@@ -2,7 +2,6 @@ import ColorSpace from "../ColorSpace.js";
 import { multiply_v3_m3x3 } from "../util.js";
 import XYZ_Abs_D65 from "./xyz-abs-d65.js";
 
-
 /** @import { Matrix3x3, Vector3 } from "../types.js" */
 
 const c1 = 3424 / 4096;

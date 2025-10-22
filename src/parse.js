@@ -3,7 +3,12 @@ import hooks from "./hooks.js";
 import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";
 
-/** @import { ArgumentMeta, ColorConstructor, ParseFunctionReturn, ParseOptions } from "./types.js" */
+/** @import { ColorConstructor } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").ArgumentMeta} ArgumentMeta */
+/** @typedef {import("./types.js").ParseFunctionReturn} ParseFunctionReturn */
+/** @typedef {import("./types.js").ParseOptions} ParseOptions */
 
 /**
  * Convert a CSS Color string to a color object

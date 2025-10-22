@@ -9,7 +9,10 @@ import checkInGamut from "./inGamut.js";
 import toGamut from "./toGamut.js";
 import clone from "./clone.js";
 
-/** @import { ColorTypes, ParseOptions, PlainColorObject, SerializeOptions } from "./types.js" */
+/** @import { ColorTypes, ParseOptions, PlainColorObject } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").SerializeOptions} SerializeOptions */
 
 /**
  * Generic toString() method, outputs a color(spaceId ...coords) function, a functional syntax, or custom formats defined by the color space

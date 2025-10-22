@@ -1,7 +1,10 @@
 import { isString } from "./util.js";
 import getColor from "./getColor.js";
 
-/** @import { ColorTypes, PlainColorObject, TryColorOptions } from "./types.js" */
+/** @import { ColorTypes, PlainColorObject } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").TryColorOptions} TryColorOptions */
 
 /**
  * Resolves a color reference (object or string) to a plain color object, or `null` if resolution fails.

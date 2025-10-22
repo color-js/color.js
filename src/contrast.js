@@ -3,7 +3,10 @@ import getColor from "./getColor.js";
 import { isString } from "./util.js";
 import * as contrastAlgorithms from "./contrast/index.js";
 
-/** @import { Algorithms, ColorTypes } from "./types.js" */
+/** @import { ColorTypes } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").Algorithms} Algorithms */
 
 /**
  *

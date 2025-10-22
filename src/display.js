@@ -10,7 +10,10 @@ import Lab from "./spaces/lab.js";
 import sRGB from "./spaces/srgb.js";
 
 /** @import { default as ColorSpace } from "./ColorSpace.js" */
-/** @import { ColorTypes, Display, PlainColorObject } from "./types.js" */
+/** @import { ColorTypes, PlainColorObject } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").Display} Display */
 
 // Default space for CSS output. Code in Color.js makes this wider if there's a DOM available
 defaults.display_space = sRGB;

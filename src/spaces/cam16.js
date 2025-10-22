@@ -4,8 +4,12 @@ import { constrain } from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
 import { WHITES } from "../adapt.js";
 
+/** @import { Coords, Matrix3x3, Vector3 } from "../types.js" */
 
-/** @import { Cam16Environment, Cam16Input, Cam16Object, Coords, Matrix3x3, Vector3 } from "../types.js" */
+// Type re-exports
+/** @typedef {import("../types.js").Cam16Object} Cam16Object */
+/** @typedef {import("../types.js").Cam16Input} Cam16Input */
+/** @typedef {import("../types.js").Cam16Environment} Cam16Environment */
 
 const white = WHITES.D65;
 const adaptedCoef = 0.42;

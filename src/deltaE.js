@@ -2,7 +2,10 @@ import defaults from "./defaults.js";
 import { isString } from "./util.js";
 import deltaEMethods from "./deltaE/index.js";
 
-/** @import { ColorTypes, Methods } from "./types.js" */
+/** @import { ColorTypes } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").Methods} Methods */
 
 /**
  *

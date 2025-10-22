@@ -4,7 +4,10 @@ import to from "./to.js";
 import { adjust } from "./angles.js";
 import { isNone } from "./util.js";
 
-/** @import { ColorTypes, DeltasReturn } from "./types.js" */
+/** @import { ColorTypes } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").DeltasReturn} DeltasReturn */
 
 /**
  * Get color differences per-component, on any color space

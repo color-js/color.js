@@ -2,7 +2,10 @@ import hooks from "./hooks.js";
 import { multiplyMatrices } from "./util.js";
 import { WHITES } from "./adapt.js";
 
-/** @import { CAT, White } from "./types.js" */
+/** @import { White } from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").CAT} CAT */
 
 /** @type {Record<string, CAT>} */
 export const CATs = {};

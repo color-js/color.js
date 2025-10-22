@@ -3,7 +3,8 @@ import { multiply_v3_m3x3 } from "./util.js";
 import adapt from "./adapt.js";
 import XYZ_D65 from "./spaces/xyz-d65.js";
 
-/** @import { RGBOptions } from "./types.js" */
+// Type re-exports
+/** @typedef {import("./types.js").RGBOptions} RGBOptions */
 
 /** Convenience class for RGB color spaces */
 export default class RGBColorSpace extends ColorSpace {

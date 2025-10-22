@@ -1,7 +1,10 @@
 import { isInstance, isNone } from "./util.js";
 import Type from "./Type.js";
 
-/** @import { ColorSpace, Coords, Format as FormatInterface } from "./types.js" */
+/** @import { ColorSpace, Coords} from "./types.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").Format} FormatInterface */
 
 /**
  * @internal
