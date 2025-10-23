@@ -1,4 +1,3 @@
-/** @import Color from "./color.js" */
 /** @import { Coords, PlainColorObject } from "./types.js" */
 
 /**
