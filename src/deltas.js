@@ -4,8 +4,9 @@ import to from "./to.js";
 import { adjust } from "./angles.js";
 import { isNone } from "./util.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @import { ColorTypes } from "./types.js" */
+
+// Type re-exports
 /** @typedef {import("./types.js").DeltasReturn} DeltasReturn */
 
 /**

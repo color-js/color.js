@@ -2,8 +2,7 @@ import ColorSpace from "../ColorSpace.js";
 import { multiply_v3_m3x3 } from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @import { Matrix3x3 } from "../types.js" */
 
 // Recalculated for consistent reference white
 // see https://github.com/w3c/csswg-drafts/issues/6642#issuecomment-943521484

@@ -5,8 +5,7 @@ import get from "./get.js";
 import set from "./set.js";
 import xyz_d65 from "./spaces/xyz-d65.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @import { ColorTypes } from "./types.js" */
 
 /**
  *

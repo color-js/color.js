@@ -1,8 +1,7 @@
 import ColorSpace from "./ColorSpace.js";
 import getColor from "./getColor.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @import { ColorTypes } from "./types.js" */
 
 const ε = 0.000075;
 

@@ -1,7 +1,6 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @import { Matrix3x3 } from "../types.js" */
 
 // This is the linear-light version of sRGB
 // as used for example in SVG filters

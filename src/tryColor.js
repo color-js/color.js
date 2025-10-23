@@ -1,9 +1,9 @@
 import { isString } from "./util.js";
 import getColor from "./getColor.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @import { ColorTypes, PlainColorObject } from "./types.js" */
+
+// Type re-exports
 /** @typedef {import("./types.js").TryColorOptions} TryColorOptions */
 
 /**

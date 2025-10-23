@@ -2,10 +2,7 @@ import getColor from "./getColor.js";
 import ColorSpace from "./ColorSpace.js";
 import toGamut from "./toGamut.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
-/** @typedef {import("./types.js").ToGamutOptions} ToGamutOptions */
+/** @import { ColorTypes, PlainColorObject, ToGamutOptions } from "./types.js" */
 
 /**
  * Convert to color space and return a new color

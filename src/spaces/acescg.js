@@ -2,8 +2,7 @@ import RGBColorSpace from "../RGBColorSpace.js";
 import { WHITES } from "../adapt.js";
 import "../CATs.js"; // because of the funky whitepoint
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @import { Matrix3x3 } from "../types.js" */
 
 // The ACES whitepoint
 // see TB-2018-001 Derivation of the ACES White Point CIE Chromaticity Coordinates

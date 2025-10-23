@@ -3,9 +3,7 @@ import { multiply_v3_m3x3 } from "../util.js";
 import XYZ_Abs_D65 from "./xyz-abs-d65.js";
 import { spow } from "../util.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
-/** @typedef {import("../types.js").Vector3} Vector3 */
+/** @import { Matrix3x3, Vector3 } from "../types.js" */
 
 const b = 1.15;
 const g = 0.66;

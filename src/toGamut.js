@@ -13,9 +13,9 @@ import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
 import { WHITES } from "./adapt.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @import { ColorTypes, PlainColorObject } from "./types.js" */
+
+// Type re-exports
 /** @typedef {import("./types.js").ToGamutOptions} ToGamutOptions */
 
 /**

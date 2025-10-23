@@ -1,6 +1,4 @@
-// Type "imports"
-/** @typedef {import("./types.js").Matrix3x3} Matrix3x3 */
-/** @typedef {import("./types.js").Vector3} Vector3 */
+/** @import { Matrix3x3, Vector3 } from "./types.js" */
 
 /**
  * A is m x n. B is n x p. product is m x p.

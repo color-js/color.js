@@ -15,6 +15,8 @@ export {
 	White,
 	// Re-exported from src/CATs.d.ts
 	CAT,
+	// Re-exported from src/deltas.d.ts
+	DeltasReturn,
 	// Re-exported from src/display.d.ts
 	Display,
 	// Re-exported from src/interpolation.d.ts

@@ -1,7 +1,4 @@
-// Type "imports"
-/** @typedef {import("./color.js").default} Color */
-/** @typedef {import("./types.js").Coords} Coords */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
+/** @import { Coords, PlainColorObject } from "./types.js" */
 
 /**
  * @param {PlainColorObject} color

@@ -13,14 +13,13 @@ import defaults from "./defaults.js";
 import * as angles from "./angles.js";
 import deltaE from "./deltaE.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @import { ColorTypes, PlainColorObject, Ref } from "./types.js" */
+
+// Type re-exports
 /** @typedef {import("./types.js").MixOptions} MixOptions */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
 /** @typedef {import("./types.js").Range} Range */
 /** @typedef {import("./types.js").RangeOptions} RangeOptions */
 /** @typedef {import("./types.js").StepsOptions} StepsOptions */
-/** @typedef {import("./types.js").Ref} Ref  */
 
 /**
  * Return an intermediate color between two colors

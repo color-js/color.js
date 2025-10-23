@@ -1,7 +1,6 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @import { Matrix3x3 } from "../types.js" */
 
 // convert an array of linear-light a98-rgb values to CIE XYZ
 // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html

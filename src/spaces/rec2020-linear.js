@@ -1,7 +1,6 @@
 import RGBColorSpace from "../RGBColorSpace.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
+/** @import { Matrix3x3 } from "../types.js" */
 
 // convert an array of linear-light rec2020 values to CIE XYZ
 // using  D65 (no chromatic adaptation)

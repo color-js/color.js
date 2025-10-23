@@ -3,9 +3,10 @@ import hooks from "./hooks.js";
 import ColorSpace from "./ColorSpace.js";
 import defaults from "./defaults.js";
 
-// Type "imports"
+/** @import { ColorConstructor } from "./types.js" */
+
+// Type re-exports
 /** @typedef {import("./types.js").ArgumentMeta} ArgumentMeta */
-/** @typedef {import("./types.js").ColorConstructor} ColorConstructor */
 /** @typedef {import("./types.js").ParseFunctionReturn} ParseFunctionReturn */
 /** @typedef {import("./types.js").ParseOptions} ParseOptions */
 

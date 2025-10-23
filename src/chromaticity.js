@@ -1,9 +1,7 @@
 import xyz_d65 from "./spaces/xyz-d65.js";
 import getAll from "./getAll.js";
 
-// Type "imports"
-/** @typedef {import("./color.js").default} Color */
-/** @typedef {import("./color.js").ColorTypes} ColorTypes */
+/** @import Color, { ColorTypes } from "./color.js" */
 
 // Chromaticity coordinates
 /**
@@ -29,7 +27,7 @@ export function xy (color) {
 }
 
 /**
- * @param {typeof import("./color.js").default} Color
+ * @param {typeof Color} Color
  */
 export function register (Color) {
 	// no setters, as lightness information is lost

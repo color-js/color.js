@@ -1,8 +1,7 @@
 import ColorSpace from "./ColorSpace.js";
 import { isNone } from "./util.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
+/** @import { ColorTypes } from "./types.js" */
 
 /**
  * Euclidean distance of colors in an arbitrary color space

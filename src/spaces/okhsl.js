@@ -27,9 +27,9 @@ import { LabtoLMS_M } from "./oklab.js";
 import { spow, multiply_v3_m3x3 } from "../util.js";
 import { constrain } from "../angles.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
-/** @typedef {import("../types.js").Vector3} Vector3 */
+/** @import { Matrix3x3, Vector3 } from "../types.js" */
+
+// Type re-exports
 /** @typedef {import("../types.js").OKCoeff} OKCoeff */
 
 export const tau = 2 * Math.PI;

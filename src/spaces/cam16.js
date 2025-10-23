@@ -4,10 +4,9 @@ import { constrain } from "../angles.js";
 import xyz_d65 from "./xyz-d65.js";
 import { WHITES } from "../adapt.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Coords} Coords */
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
-/** @typedef {import("../types.js").Vector3} Vector3 */
+/** @import { Coords, Matrix3x3, Vector3 } from "../types.js" */
+
+// Type re-exports
 /** @typedef {import("../types.js").Cam16Object} Cam16Object */
 /** @typedef {import("../types.js").Cam16Input} Cam16Input */
 /** @typedef {import("../types.js").Cam16Environment} Cam16Environment */

@@ -2,8 +2,7 @@ import RGBColorSpace from "../RGBColorSpace.js";
 import sRGBLinear from "./srgb-linear.js";
 import KEYWORDS from "../keywords.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Coords} Coords */
+/** @import { Coords } from "../types.js" */
 
 let coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
 let coordGrammarNumber = Array(3).fill("<number>[0, 255]");

@@ -36,11 +36,7 @@ import {
 	RGBCoeff,
 } from "./okhsl.js";
 
-// Type "imports"
-/** @typedef {import("../types.js").Matrix3x3} Matrix3x3 */
-/** @typedef {import("../types.js").Vector3} Vector3 */
-/** @typedef {import("../types.js").Coords} Coords */
-/** @typedef {import("../types.js").OKCoeff} OKCoeff */
+/** @import { Coords, Matrix3x3, OKCoeff, Vector3 } from "../types.js" */
 
 /**
  *

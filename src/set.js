@@ -5,10 +5,7 @@ import getAll from "./getAll.js";
 import setAll from "./setAll.js";
 import { type } from "./util.js";
 
-// Type "imports"
-/** @typedef {import("./types.js").ColorTypes} ColorTypes */
-/** @typedef {import("./types.js").PlainColorObject} PlainColorObject */
-/** @typedef {import("./types.js").Ref} Ref */
+/** @import { ColorTypes, PlainColorObject, Ref } from "./types.js" */
 
 /**
  * Set properties and return current instance
