@@ -25,6 +25,7 @@ all with sensible defaults
 - **Readable, object-oriented API**: Color objects for multiple operations on the same color, and static `Color.something()` functions for one-off calculations
 - **Modular & Extensible**: Use only what you need, or a bundle. Client-side or Node. Deep extensibility with <a href="https://colorjs.io/api/#Hooks-hooks.js">hooks</a>.
 - **Fast & efficient**: <a href="https://colorjs.io/docs/procedural.html">Procedural, tree-shakeable API</a> available for performance sensitive tasks and reduced bundle size
+- **Dependency free**: Not that there’s anything wrong with dependencies, but we gotta mention it!
 
 </header>
 
@@ -34,7 +35,7 @@ all with sensible defaults
 
 - Has been used to create demos for several W3C specifications
 - Has been used by browsers to test their CSS Color 4/5 implementations
-- Over [87 million total npm downloads](https://limonte.dev/total-npm-downloads/?package=colorjs.io)!
+- Over [90 million total npm downloads](https://limonte.dev/total-npm-downloads/?package=colorjs.io)!
 - Used by several [high impact projects](https://www.npmjs.com/browse/depended/colorjs.io), including [Sass](https://sass-lang.com/), [Open Props](https://open-props.style/), [axe](https://www.deque.com/axe/) accessibility testing engine, and [OddContrast](https://www.oddcontrast.com/) and [CSS HD Gradients](https://gradient.style/) color tools
 - Parts of Color.js’s API are used as a testing ground for the design of a [native `Color` object for the Web platform](https://github.com/wicg/color-api).
 

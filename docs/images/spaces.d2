@@ -432,6 +432,17 @@ node-xyz-d65 -> node-rec2020-linear  {
 }
 
 
+node---rec2020-oetf: REC.2020_Scene_Referred {
+	link: "#--rec2020-oetf"
+	class: [node
+		
+		]
+}
+node-rec2020-linear -> node---rec2020-oetf  {
+	class: edge
+}
+
+
 node-rec2100hlg: REC.2100-HLG {
 	link: "#rec2100hlg"
 	class: [node
