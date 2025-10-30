@@ -20,7 +20,7 @@ jobs:
               with:
                   node-version: "lts/*"
 
-            - run: npm install
+            - run: npm ci
             - run: npm run lint:ci
             - name: Detect changes
               id: changes
@@ -28,5 +28,6 @@ jobs:
             - name: Fail if there are uncommitted changes
               if: steps.changes.outputs.count > 0
               run: |
+                git diff
                 echo "::error title=Uncommitted changes::run \"npm run lint\" to fix"
                 exit 1
