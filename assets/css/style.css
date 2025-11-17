@@ -197,7 +197,7 @@ body > footer {
 	animation: var(--rainbow-scroll);
 
 	& nav {
-		& > .menu {
+		& > :where(.menu, .hamburger-menu) {
 			flex: 1;
 			display: flex;
 			position: relative;
@@ -224,13 +224,14 @@ body > footer {
 			}
 		}
 
-		& a {
+		& a:where(:not([hidden])) {
 			display: block;
 			text-align: center;
 		}
 
 		& > .menu > a,
-		& a:not(.logo) {
+		& a:not(.logo),
+	 	& .hamburger-button {
 			flex: 1;
 			padding: .6em;
 			font-weight: 800;
@@ -241,6 +242,33 @@ body > footer {
 				-webkit-background-clip: initial;
 				color: white;
 				text-decoration: none;
+			}
+		}
+
+		.hamburger-menu {
+			&:has(li:last-of-type[hidden]) {
+				/* All menu items are hidden; hide the menu */
+				display: none;
+			}
+
+			& .hamburger-button {
+				display: grid;
+				place-items: center;
+				border: none;
+				cursor: default;
+				text-align: center;
+				color: hsl(var(--gray) 40%);
+
+				> svg {
+					width: 100%;
+				}
+			}
+
+			& .hamburger-list {
+				min-inline-size: 15ch;
+				right: 0;
+				top: 100%;
+				transform-origin: top right;
 			}
 		}
 	}
@@ -295,6 +323,7 @@ body > header {
 
 			& img {
 				height: 2.15em;
+				min-width: 1.3em;
 				margin-bottom: -1.5em;
 				margin-left: -.3em;
 			}
@@ -426,7 +455,7 @@ pre[class*="language-"] {
 }
 
 @supports (-webkit-background-clip: text) and (not (-moz-margin-start: 0)) {
-	body > header nav a,
+	body > header nav :where(a, .hamburger-button),
 	body > footer nav a,
 	main h2,
 	main h2 > a {
