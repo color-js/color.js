@@ -277,6 +277,7 @@ body > header {
 
 	nav {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: stretch;
 		order: 0;
 
