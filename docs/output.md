@@ -26,8 +26,18 @@ lv_magenta.toString({format: "rgb"});
 lv_magenta.toString({format: "rgba"});
 lv_magenta.toString({format: "hex"});
 lv_magenta.toString({format: "color"});
+```
 
-// Custom functional format:
+You can also pass parameters to customize the format: 
+```js
+let lv_magenta = new Color("#ff0066");
+lv_magenta.toString({format: "hex"});
+lv_magenta.toString({format: "hex", collapse: false});
+```
+
+You can even pass entirely custom formats!
+
+```js
 lv_magenta.toString({format: {
 	name: "myrgb",
 	coords: [
