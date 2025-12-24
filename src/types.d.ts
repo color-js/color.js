@@ -28,11 +28,91 @@ export interface CAT {
 	fromCone_M: number[][];
 }
 
+// ColorSpace.js
+import type { default as ColorSpace } from "./ColorSpace.js";
+export type { ColorSpace };
+
+export interface Format {
+	/** @default "function" */
+	type?: string | undefined;
+	/** @default "color" */
+	name?: string | undefined;
+	id?: string | undefined;
+	ids?: string[] | undefined;
+	coords?: string[] | undefined;
+	coordGrammar?: (string & { range?: [number, number] })[] | undefined;
+	space?: ColorSpace | undefined;
+	serializeCoords?: ((coords: Coords, precision: number) => [string, string, string]) | undefined;
+	/** Whether to adjust the coordinates to fit in the gamut */
+	toGamut?: boolean | undefined;
+	/** Whether commas should separate arguments for a format */
+	commas?: boolean | undefined;
+	/** Whether to always have alpha at the end (true), never (false), or auto (undefined) */
+	alpha?: boolean | undefined;
+	test?: ((str: string) => boolean) | undefined;
+	/** Function to parse a string into a color */
+	parse?: ((str: string) => ColorConstructor | undefined | null) | undefined;
+	/**
+	 * Serialize coordinates and an alpha channel into a string.
+	 * Must be defined for a format to support serialization
+	 */
+	serialize?: ((coords: Coords, alpha: number, opts?: Record<string, any>) => string) | undefined;
+	[instance]?: FormatClass | undefined;
+}
+
+export interface CoordMeta {
+	name?: string | undefined;
+	type?: string | undefined;
+	range?: [number, number] | undefined;
+	refRange?: [number, number] | undefined;
+}
+
+export interface SpaceOptions {
+	/** Id of this space, used in things such as conversions */
+	id: string;
+	/** The readable name of the space, used in user-facing UI */
+	name: string;
+	/** The base color space */
+	base?: string | ColorSpace | null | undefined;
+	/**
+	 * Function that converts coords in the base color space to coords in this color space.
+	 * Must perform chromatic adaptation if needed
+	 */
+	fromBase?: ((coords: Coords) => number[]) | undefined;
+	/**
+	 * Function that converts coords in this color space to coords in the base color space.
+	 * Must perform chromatic adaptation if needed
+	 */
+	toBase?: ((coords: Coords) => number[]) | undefined;
+	/**
+	 * Object mapping coord ids to coord metadata
+	 * @see {@link CoordMeta}
+	 */
+	coords?: Record<string, CoordMeta> | undefined;
+	white?: string | White | undefined;
+	/** The ID used by CSS, such as `display-p3` or `--cam16-jmh` */
+	cssId?: string | undefined;
+	referred?: string | undefined;
+	/**
+	 * Details about string formats to parse from / serialize to
+	 * @see {@link Format}
+	 */
+	formats?: Record<string, Format> | undefined;
+	gamutSpace?: "self" | string | ColorSpace | null | undefined;
+	aliases?: string[] | undefined;
+	ε?: number | undefined;
+}
+
+export type Ref =
+	| string
+	| [string | ColorSpace, string]
+	| { space: string | ColorSpace; coordId: string };
+
 // color.js
 // Since color.js is one of the few files to have a `.d.ts` (due to its complexity),
 // its types are defined in that file and just re-exported here
 import type Color from "./color.js";
-import type { Coords, PlainColorObject } from "./color.js";
+import type { ColorConstructor, Coords, PlainColorObject } from "./color.js";
 export type * from "./color.js";
 
 // display.js
@@ -94,7 +174,7 @@ export interface ArgumentMeta {
 	none: boolean;
 }
 
-import FormatClass from "./Format.js";
+import type { default as FormatClass, instance } from "./Format.js";
 
 /** Metadata stored on Color objects */
 export interface ParseMeta {
@@ -163,12 +243,6 @@ export interface SerializeOptions {
 	 */
 	commas?: boolean | undefined;
 }
-
-// space.js
-import type ColorSpace from "./ColorSpace.js";
-import type { Format, Ref, SpaceOptions } from "./ColorSpace.js";
-export type { ColorSpace };
-export type * from "./ColorSpace.js";
 
 // toGamut.js
 export interface ToGamutOptions {
