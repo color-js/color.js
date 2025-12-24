@@ -38,6 +38,7 @@ lv_magenta.toString({format: "hex", collapse: false});
 You can even pass entirely custom formats!
 
 ```js
+let lv_magenta = new Color("#ff0066");
 lv_magenta.toString({format: {
 	name: "myrgb",
 	coords: [
