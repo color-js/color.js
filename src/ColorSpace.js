@@ -4,10 +4,19 @@
  * For the builtin color spaces, see the `spaces` module.
  */
 import { type, isNone, isInstance } from "./util.js";
-import Format from "./Format.js";
+import FormatClass from "./Format.js";
 import { getWhite } from "./adapt.js";
 import hooks from "./hooks.js";
 import getColor from "./getColor.js";
+
+/** @import { White } from "./adapt.js" */
+/** @import { Coords, ColorTypes } from "./color.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").Format} Format */
+/** @typedef {import("./types.js").CoordMeta} CoordMeta */
+/** @typedef {import("./types.js").SpaceOptions} SpaceOptions */
+/** @typedef {import("./types.js").Ref} Ref */
 
 const ε = 0.000075;
 
@@ -15,6 +24,32 @@ const ε = 0.000075;
  * Class to represent a color space
  */
 export default class ColorSpace {
+	/** @type {string} */
+	name;
+	/** @type {string} */
+	id;
+	/** @type {string[] | undefined} */
+	aliases;
+	/** @type {ColorSpace | null} */
+	base;
+	/** @type {Record<string, CoordMeta>} */
+	coords;
+	/** @type {((coords: Coords) => Coords) | undefined} */
+	fromBase;
+	/** @type {((coords: Coords) => Coords) | undefined} */
+	toBase;
+	/** @type {Record<string, Format>} */
+	formats;
+	/** @type {string | undefined} */
+	referred;
+	/** @type {White} */
+	white;
+	/** @type {ColorSpace} */
+	gamutSpace;
+
+	/**
+	 * @param {SpaceOptions} options
+	 */
 	constructor (options) {
 		this.id = options.id;
 		this.name = options.name;
@@ -98,6 +133,10 @@ export default class ColorSpace {
 		hooks.run("colorspace-init-end", this);
 	}
 
+	/**
+	 * @param {Coords} coords
+	 * @returns {boolean}
+	 */
 	inGamut (coords, { epsilon = ε } = {}) {
 		if (!this.equals(this.gamutSpace)) {
 			coords = this.to(this.gamutSpace, coords);
@@ -146,8 +185,8 @@ export default class ColorSpace {
 
 	/**
 	 * Lookup a format in this color space
-	 * @param {string | object | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
-	 * @returns {Format}
+	 * @param {string | Format | FormatClass} format - Format id if string. If object, it's converted to a `Format` object and returned.
+	 * @returns {FormatClass | null}
 	 */
 	getFormat (format) {
 		if (!format) {
@@ -161,7 +200,7 @@ export default class ColorSpace {
 			format = this.formats[format];
 		}
 
-		let ret = Format.get(format, this);
+		let ret = FormatClass.get(format, this);
 
 		if (ret !== format && format.name in this.formats) {
 			// Update the format we have on file so we can find it more quickly next time
@@ -185,6 +224,21 @@ export default class ColorSpace {
 		return this === space || this.id === space || this.id === space.id;
 	}
 
+	/**
+	 * @overload
+	 * @param {ColorTypes} color
+	 * @returns {Coords}
+	 */
+	/**
+	 * @overload
+	 * @param {string | ColorSpace} space
+	 * @param {Coords} coords
+	 * @returns {Coords}
+	 */
+	/**
+	 * @param {string | ColorSpace | ColorTypes} space
+	 * @param {Coords} [coords]
+	 */
 	to (space, coords) {
 		if (arguments.length === 1) {
 			const color = getColor(space);
@@ -237,6 +291,21 @@ export default class ColorSpace {
 		return coords;
 	}
 
+	/**
+	 * @overload
+	 * @param {ColorTypes} color
+	 * @returns {Coords}
+	 */
+	/**
+	 * @overload
+	 * @param {string | ColorSpace} space
+	 * @param {Coords} coords
+	 * @returns {Coords}
+	 */
+	/**
+	 * @param {string | ColorSpace | ColorTypes} space
+	 * @param {Coords} [coords]
+	 */
 	from (space, coords) {
 		if (arguments.length === 1) {
 			const color = getColor(space);
@@ -252,6 +321,9 @@ export default class ColorSpace {
 		return `${this.name} (${this.id})`;
 	}
 
+	/**
+	 * @returns {Coords}
+	 */
 	getMinCoords () {
 		let ret = [];
 
@@ -264,13 +336,31 @@ export default class ColorSpace {
 		return ret;
 	}
 
-	static registry = {};
+	static registry = /** @type {Record<string, ColorSpace>} */ ({});
 
 	// Returns array of unique color spaces
 	static get all () {
 		return [...new Set(Object.values(ColorSpace.registry))];
 	}
 
+	/**
+	 * @overload
+	 * @param {ColorSpace} space
+	 * @returns {ColorSpace}
+	 * @throws {TypeError} If a space with the provided id already exists
+	 */
+	/**
+	 * @overload
+	 * @param {string} id
+	 * @param {ColorSpace} space
+	 * @returns {ColorSpace}
+	 * @throws {TypeError} If a space with the provided id already exists
+	 */
+	/**
+	 * @param {string | ColorSpace} id
+	 * @param {ColorSpace} [space]
+	 * @returns {ColorSpace}
+	 */
 	static register (id, space) {
 		if (arguments.length === 1) {
 			space = arguments[0];
@@ -297,6 +387,9 @@ export default class ColorSpace {
 	/**
 	 * Lookup ColorSpace object by name
 	 * @param {ColorSpace | string} name
+	 * @param {Array<ColorSpace | string>} alternatives
+	 * @returns {ColorSpace}
+	 * @throws {TypeError} If no matching color space is found
 	 */
 	static get (space, ...alternatives) {
 		if (!space || isInstance(space, this)) {
@@ -326,8 +419,8 @@ export default class ColorSpace {
 	/**
 	 * Look up all color spaces for a format that matches certain criteria
 	 * @param {object | string} filters
-	 * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
-	 * @returns {Format | null}
+	 * @param {ColorSpace[]} [spaces=ColorSpace.all]
+	 * @returns {FormatClass | null}
 	 */
 	static findFormat (filters, spaces = ColorSpace.all) {
 		if (!filters) {
@@ -354,7 +447,7 @@ export default class ColorSpace {
 				}
 
 				if (matches) {
-					let ret = Format.get(format, space);
+					let ret = FormatClass.get(format, space);
 
 					if (ret !== format) {
 						space.formats[format.name] = ret;
@@ -370,11 +463,10 @@ export default class ColorSpace {
 
 	/**
 	 * Get metadata about a coordinate of a color space
-	 *
-	 * @static
-	 * @param {Array | string} ref
-	 * @param {ColorSpace | string} [workingSpace]
-	 * @return {Object}
+	 * @param {Ref} ref
+	 * @param {string | ColorSpace} [workingSpace]
+	 * @return {CoordMeta & { id: string; index: number; space: ColorSpace; }}
+	 * @throws {TypeError} If no space or an unknown space is provided
 	 */
 	static resolveCoord (ref, workingSpace) {
 		let coordType = type(ref);
@@ -451,6 +543,9 @@ export default class ColorSpace {
 	};
 }
 
+/**
+ * @param {ColorSpace} space
+ */
 function getPath (space) {
 	let ret = [space];
 
