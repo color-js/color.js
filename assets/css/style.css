@@ -436,6 +436,12 @@ pre[class*="language-"] {
 		-webkit-background-clip: text;
 		color: transparent;
 	}
+	
+	.emoji {
+		background: none;
+		-webkit-background-clip: initial;
+		color: initial;
+	}
 }
 
 .read-more::before {
