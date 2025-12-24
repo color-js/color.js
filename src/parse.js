@@ -130,7 +130,7 @@ export default function parse (str, options) {
 					continue;
 				}
 
-				if (format.test && !format.test(env.str)) {
+				if ("test" in format && !format.test(env.str)) {
 					continue;
 				}
 
