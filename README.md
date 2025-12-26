@@ -7,8 +7,8 @@
 
 [Official website](https://colorjs.io) • [Contribution guide](CONTRIBUTING.md)
 
-Color.js is a color conversion and modification library originally created by two of the editors of the CSS Color specifications: Lea Verou and Chris Lilley.
-They continue to work on it, but are also joined by an exceptional small grassroots team of co-maintainers.
+Color.js is a color conversion and modification library created by two of the editors of the CSS Color specifications: [Lea Verou](https://lea.verou.me/) and [Chris Lilley](https://svgees.us/).
+They continue to work on it, but are also joined by an exceptional [small grassroots team of co-maintainers](#maintainers).
 
 ## Features
 
@@ -277,5 +277,105 @@ A set of color-related apps, such as color pickers, converters, and more.
 A research project which aims to analyze designer-created color palettes in a variety of color spaces,
 both to document patterns (e.g. what hue names are most popular?)
 and to understand what makes aesthetically pleasing color scales.
+
+</section>
+
+<section id="maintainers">
+
+## Maintainer team
+
+Color.js is maintained by a small grassroots core team of core maintainers, with [numerous contributions from the community](https://github.com/color-js/color.js/graphs/contributors).
+The core team is:
+
+<table class="links-icon-before">
+<thead>
+<tr>
+<th>Maintainer</th>
+<th>GitHub</th>
+<th>Socials</th>
+</thead>
+<tbody>
+	<tr>
+		<th><a href="https://lea.verou.me/">Lea Verou</a></th>
+		<td><a href="https://github.com/LeaVerou" class="github">LeaVerou</a></td>
+		<td>
+			<a href="https://bsky.app/profile/lea.verou.me" class="bluesky">@lea.verou.me</a>
+			<a href="https://front-end.social/@leaverou" class="mastodon">@lea.verou.me</a>
+			<a href="https://x.com/LeaVerou" class="twitter">@LeaVerou</a>
+		</td>
+	</tr>
+	<tr>
+		<th><a href="https://svgees.us/">Chris Lilley</a></th>
+		<td><a href="https://github.com/svgeesus" class="github">svgeesus</a></td>
+		<td>
+			<a href="https://mastodon.scot/@svgeesus@mastodon.scot" class="mastodon">@svgeesus@mastodon.scot</a>
+			<a href="https://x.com/svgeesus" class="twitter">@svgeesus</a>
+		</td>
+	</tr>
+	<tr>
+		<th>Adam Thompson-Sharpe</th>
+		<td><a href="https://github.com/MysteryBlokHed" class="github">MysteryBlokHed</a></td>
+		<td>
+			<a href="https://x.com/MysteryBlokHed" class="twitter">@MysteryBlokHed</a>
+		</td>
+	</tr>
+	<tr>
+		<th>Lloyd Kupchanko</th>
+		<td><a href="https://github.com/lloydk" class="github">lloydk</a></td>
+		<td>
+			<a href="https://x.com/lkupchanko" class="twitter">@lkupchanko</a>
+		</td>
+	</tr>
+	<tr>
+		<th><a href="https://d12n.me/">Dmitry Sharabin</a></th>
+		<td><a href="https://github.com/dmitrysharabin" class="github">dmitrysharabin</a></td>
+		<td>
+			<a href="https://bsky.app/profile/d12n.me" class="bluesky">@d12n.me</a>
+			<a href="https://front-end.social/@dmitrysharabin@front-end.social" class="mastodon">@dmitrysharabin@front-end.social</a>
+			<a href="https://x.com/dmitrysharabin" class="twitter">@dmitrysharabin</a>
+		</td>
+	</tr>
+	<tr>
+		<th>Isaac Muse</th>
+		<td><a href="https://github.com/facelessuser" class="github">facelessuser</a></td>
+		<td></td>
+	</tr>
+	<tr>
+		<th><a href="https://jamessw.com/">James Stuckey Weber</a></th>
+		<td><a href="https://github.com/jamesnw" class="github">jamesnw</a></td>
+		<td>
+			<a href="https://bsky.app/profile/jamessw.com" class="bluesky">@jamessw.com</a>
+			<a href="https://front-end.social/@jamessw" class="mastodon">@jamessw@front-end.social</a>
+			<a href="https://x.com/jamesnw" class="twitter">@jamesnw</a>
+		</td>
+	</tr>
+	<tr>
+		<th><a href="https://www.oddbird.net">Jonny Gerig Meyer</a></th>
+		<td><a href="https://github.com/jgerigmeyer" class="github">jgerigmeyer</a></td>
+		<td>
+			<a href="https://bsky.app/profile/jgerigmeyer.bsky.social" class="bluesky">@jgerigmeyer.bsky.social</a>
+			<a href="https://front-end.social/@jgerigmeyer@front-end.social" class="mastodon">@jgerigmeyer@front-end.social</a>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+</section>
+
+<section>
+
+## Sponsor
+
+Color.js is a free and open source project, developed on a volunteer basis.
+We very recently started an [Open Collective](https://opencollective.com/color) so you can fund Color.js's development.
+**If your company depends on Color.js in any way, it is in your best interest to ensure its future is sustainable.**
+
+The best way to sponsor Color.js is to become a [sponsor on Open Collective](https://opencollective.com/color/donate):
+
+<a href="https://opencollective.com/color/donate" target="_blank">
+<img src="https://opencollective.com/color/donate/button@2x.png?color=blue" width=300 />
+</a>
+
+Once there are enough sponsors, **we plan to feature them prominently on our website and README**, so if you want to be among the first ones to get your name in there, now’s the chance!
 
 </section>

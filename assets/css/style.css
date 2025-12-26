@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap');
 @import url('prism.css');
+@import url('icons.css');
 @import url('../../notebook/color-notebook.css');
 
 :root {
@@ -436,7 +437,7 @@ pre[class*="language-"] {
 		-webkit-background-clip: text;
 		color: transparent;
 	}
-	
+
 	.emoji {
 		background: none;
 		-webkit-background-clip: initial;
@@ -499,3 +500,23 @@ pre[class*="language-"] {
 	--emoji: "👉🏼";
 }
 
+
+.twitter {
+	--icon: var(--icon-twitter);
+	--color: #1DA1F2;
+}
+
+.mastodon {
+	--icon: var(--icon-mastodon);
+	--color: #563ACC;
+}
+
+.bluesky {
+	--icon: var(--icon-bluesky);
+	--color: #1185fe;
+}
+
+.github {
+	--icon: var(--icon-github);
+	--color: black;
+}
