@@ -4,11 +4,11 @@ import Type from "./Type.js";
 /** @import { ColorSpace, Coords } from "./types.js" */
 
 // Type re-exports
-/** @typedef {import("./types.js").Format} FormatInterface */
+/** @typedef {import("./types.js").FormatObject} FormatObject */
 
 /**
  * @internal
- * Used to index {@link FormatInterface Format} objects and store an instance.
+ * Used to index {@link FormatObject Format} objects and store an instance.
  * Not meant for external use
  */
 export const instance = Symbol("instance");
@@ -21,7 +21,7 @@ export const instance = Symbol("instance");
 
 /**
  * @class Format
- * @implements {Omit<FormatInterface, "coords" | "serializeCoords">}
+ * @implements {Omit<FormatObject, "coords" | "serializeCoords">}
  * Class to hold a color serialization format
  */
 export default class Format {
@@ -37,7 +37,7 @@ export default class Format {
 	alpha;
 
 	/**
-	 * @param {FormatInterface} format
+	 * @param {FormatObject} format
 	 * @param {ColorSpace} space
 	 */
 	constructor (format, space = format.space) {
@@ -134,7 +134,7 @@ export default class Format {
 	}
 
 	/**
-	 * @returns {boolean | Required<FormatInterface>["serialize"]}
+	 * @returns {boolean | Required<FormatObject>["serialize"]}
 	 */
 	canSerialize () {
 		return this.type === "function" || /** @type {any} */ (this).serialize;
@@ -149,7 +149,7 @@ export default class Format {
 	}
 
 	/**
-	 * @param {Format | FormatInterface} format
+	 * @param {Format | FormatObject} format
 	 * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
 	 * @returns {Format}
 	 */

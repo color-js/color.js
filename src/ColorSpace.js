@@ -4,7 +4,7 @@
  * For the builtin color spaces, see the `spaces` module.
  */
 import { type, isNone, isInstance } from "./util.js";
-import FormatClass from "./Format.js";
+import Format from "./Format.js";
 import { getWhite } from "./adapt.js";
 import hooks from "./hooks.js";
 import getColor from "./getColor.js";
@@ -13,7 +13,7 @@ import getColor from "./getColor.js";
 /** @import { Coords, ColorTypes } from "./color.js" */
 
 // Type re-exports
-/** @typedef {import("./types.js").Format} Format */
+/** @typedef {import("./types.js").FormatObject} FormatObject */
 /** @typedef {import("./types.js").CoordMeta} CoordMeta */
 /** @typedef {import("./types.js").SpaceOptions} SpaceOptions */
 /** @typedef {import("./types.js").Ref} Ref */
@@ -38,7 +38,7 @@ export default class ColorSpace {
 	fromBase;
 	/** @type {((coords: Coords) => Coords) | undefined} */
 	toBase;
-	/** @type {Record<string, FormatClass | Format>} */
+	/** @type {Record<string, Format | FormatObject>} */
 	formats;
 	/** @type {string | undefined} */
 	referred;
@@ -90,7 +90,7 @@ export default class ColorSpace {
 		}
 
 		if (!this.formats.color?.id) {
-			this.formats.color = /** @type {Format} */ ({
+			this.formats.color = /** @type {FormatObject} */ ({
 				...(this.formats.color ?? {}),
 				id: options.cssId || this.id,
 			});
@@ -187,8 +187,8 @@ export default class ColorSpace {
 
 	/**
 	 * Lookup a format in this color space
-	 * @param {string | Format | FormatClass} format - Format id if string. If object, it's converted to a `Format` object and returned.
-	 * @returns {Format | FormatClass | null}
+	 * @param {string | FormatObject | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
+	 * @returns {FormatObject | Format | null}
 	 */
 	getFormat (format) {
 		if (!format) {
@@ -202,7 +202,7 @@ export default class ColorSpace {
 			format = this.formats[format];
 		}
 
-		let ret = FormatClass.get(format, this);
+		let ret = Format.get(format, this);
 
 		if (ret !== format && format.name in this.formats) {
 			// Update the format we have on file so we can find it more quickly next time
@@ -433,7 +433,7 @@ export default class ColorSpace {
 	 * Look up all color spaces for a format that matches certain criteria
 	 * @param {object | string} filters
 	 * @param {ColorSpace[]} [spaces=ColorSpace.all]
-	 * @returns {FormatClass | null}
+	 * @returns {Format | null}
 	 */
 	static findFormat (filters, spaces = ColorSpace.all) {
 		if (!filters) {
@@ -463,7 +463,7 @@ export default class ColorSpace {
 				}
 
 				if (matches) {
-					let ret = FormatClass.get(format, space);
+					let ret = Format.get(format, space);
 
 					if (ret !== format) {
 						space.formats[format.name] = ret;
