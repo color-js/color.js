@@ -287,7 +287,7 @@ and to understand what makes aesthetically pleasing color scales.
 Color.js is maintained by a small grassroots core team of core maintainers, with [numerous contributions from the community](https://github.com/color-js/color.js/graphs/contributors).
 The core team is:
 
-<table id="maintainers" class="links-icon-before">
+<table class="links-icon-before">
 <thead>
 <tr>
 <th>Maintainer</th>
