@@ -32,7 +32,7 @@ export interface CAT {
 import type { default as ColorSpace } from "./ColorSpace.js";
 export type { ColorSpace };
 
-export interface Format {
+export interface FormatObject {
 	/** @default "function" */
 	type?: string | undefined;
 	/** @default "color" */
@@ -95,9 +95,9 @@ export interface SpaceOptions {
 	referred?: string | undefined;
 	/**
 	 * Details about string formats to parse from / serialize to
-	 * @see {@link Format}
+	 * @see {@link FormatObject}
 	 */
-	formats?: Record<string, Format> | undefined;
+	formats?: Record<string, FormatObject> | undefined;
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
 	aliases?: string[] | undefined;
 	ε?: number | undefined;
@@ -219,7 +219,7 @@ export interface SerializeOptions {
 	 * or the color space default otherwise
 	 * @default "default"
 	 */
-	format?: string | Format | undefined;
+	format?: string | FormatObject | undefined;
 	/**
 	 * Adjust coordinates to fit in gamut first
 	 * @default false
