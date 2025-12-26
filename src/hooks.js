@@ -5,8 +5,8 @@ export class Hooks {
 	add (name, callback, first) {
 		if (typeof arguments[0] != "string") {
 			// Multiple hooks
-			for (var name in arguments[0]) {
-				this.add(name, arguments[0][name], arguments[1]);
+			for (var hookName in arguments[0]) {
+				this.add(hookName, arguments[0][hookName], arguments[1]);
 			}
 
 			return;
