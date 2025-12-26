@@ -163,6 +163,53 @@ table {
 			color: white;
 		}
 	}
+	
+	&#maintainers {
+		td:empty::before {
+			content: "—";
+		}
+		
+		tbody :where(th, td) {
+			overflow-x: scroll;
+		}
+
+		@media (max-width: 800px) {
+			& {
+				display: grid;
+				grid-auto-flow: dense;
+			}
+
+			& thead,
+			& tr,
+			& tbody {
+				display: contents;
+			}
+
+			& td,
+			& th {
+				grid-row-end: span 2;
+			}
+
+			& :nth-child(2),
+			& :nth-child(3) {
+				grid-row-end: span 1;
+				grid-column: 2;
+			}
+
+			/* Give up grid, just do top down */
+			@media (max-width: 550px) {
+				& *:not(#foo) {
+					grid-column: 1;
+					grid-row: initial;
+				}
+
+				/* Distinguish rows */
+				& tbody th:first-child {
+					margin-top: 0.8em;
+				}
+			}
+		}
+	}
 }
 
 dl {
