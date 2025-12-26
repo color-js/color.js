@@ -370,7 +370,7 @@ Color.js is a free and open source project, developed on a volunteer basis.
 We very recently started an [Open Collective](https://opencollective.com/color) so you can fund Color.js's development.
 **If your company depends on Color.js in any way, it is in your best interest to ensure its future is sustainable.**
 
-The best way to sponsor Color.js is to become a [sponsor on Open Collective](https://opencollective.com/color/donate):
+The best way to sponsor Color.js is to [become a sponsor on Open Collective](https://opencollective.com/color/donate):
 
 <a href="https://opencollective.com/color/donate" target="_blank">
 <img src="https://opencollective.com/color/donate/button@2x.png?color=blue" width=300 />
