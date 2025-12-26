@@ -164,7 +164,7 @@ table {
 		}
 	}
 	
-	&#maintainers {
+	#maintainers & {
 		td:empty::before {
 			content: "—";
 		}
