@@ -173,6 +173,7 @@ table {
 			overflow-x: scroll;
 		}
 
+		/* Adapted from https://designftw.mit.edu. Originally by Lea Verou */
 		@media (max-width: 800px) {
 			& {
 				display: grid;
