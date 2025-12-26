@@ -9,7 +9,7 @@ new Color(new Color("red"));
 new Color("srgb", [1, 2, 3]);
 new Color("srgb", [1, 2, 3], 1);
 
-new Color({ space: sRGB , coords: [1, 1, 1], alpha: null });
+new Color({ space: sRGB, coords: [1, 1, 1], alpha: null });
 new Color({ spaceId: "srgb", coords: [1, 2, 3], alpha: null });
 new Color("srgb", [1, 2, 3], null);
 
