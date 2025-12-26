@@ -85,8 +85,28 @@ export default function parse (str, options) {
 			}
 		}
 		else {
-			format = ColorSpace.findFormat({ name, type: "function" });
+			// If there are commas, try to find a legacy format first
+			if (env.parsed.commas) {
+				format = ColorSpace.findFormat({ name: `${name}_legacy`, type: "function" });
+			}
+			if (!format) {
+				format = ColorSpace.findFormat({ name, type: "function" });
+			}
 			space = format.space;
+		}
+
+		// Validate the parsed type per coord against the allowed types per coord in the format.
+		// Need to cut off the fourth element from `types` (i.e the alpha channel) as `types` only has entries for color coordinate.
+		for (const [index, parsedType] of types.slice(0, 3).entries()) {
+			const formatTypes = format.coords[index];
+
+			// If the format doesn't have the parsed type, it's invalid syntax (e.g. HSL's legacy syntax doesn't support <number> for saturation or lightness).
+			if (parsedType && !formatTypes.some(({ type }) => type === parsedType)) {
+				const allowedTypes = formatTypes.map(({ type }) => type);
+				throw new TypeError(
+					`Cannot parse ${env.str}. Coordinate ${index} uses type ${parsedType}, but expects ${allowedTypes.join(" | ")}`,
+				);
+			}
 		}
 
 		if (meta) {
@@ -190,41 +210,44 @@ export const regex = {
 /**
  * Parse a single function argument
  * @param {string} rawArg
- * @returns {{value: number, meta: ArgumentMeta}}
+ * @returns {{value: string | number | null, meta: ArgumentMeta}}
  */
 export function parseArgument (rawArg) {
-	/** @type {Partial<ArgumentMeta>} */
 	let meta = {};
+	meta.none = false;
 	let unit = rawArg.match(regex.unitValue)?.[0];
-	/** @type {string | number} */
-	let value = (meta.raw = rawArg);
+	meta.raw = rawArg;
+	/** @type {string | number | null} */
+	let value;
 
 	if (unit) {
 		// It’s a dimension token
 		meta.type = unit === "%" ? "<percentage>" : "<angle>";
 		meta.unit = unit;
-		meta.unitless = Number(value.slice(0, -unit.length)); // unitless number
+		meta.unitless = Number(rawArg.slice(0, -unit.length)); // unitless number
 
 		value = meta.unitless * units[unit];
 	}
-	else if (regex.number.test(value)) {
+	else if (regex.number.test(rawArg)) {
 		// It's a number
 		// Convert numerical args to numbers
-		value = Number(value);
+		value = Number(rawArg);
 		meta.type = "<number>";
 	}
-	else if (value === "none") {
+	else if (rawArg === "none") {
 		value = null;
+		meta.none = true;
 	}
-	else if (value === "NaN" || value === "calc(NaN)") {
+	else if (rawArg === "NaN" || rawArg === "calc(NaN)") {
 		value = NaN;
 		meta.type = "<number>";
 	}
 	else {
+		value = rawArg;
 		meta.type = "<ident>";
 	}
 
-	return { value: /** @type {number} */ (value), meta: /** @type {ArgumentMeta} */ (meta) };
+	return { value, meta: /** @satisfies {ArgumentMeta} */ (meta) };
 }
 
 /**
@@ -243,19 +266,23 @@ export function parseFunction (str) {
 
 	if (parts) {
 		// It is a function, parse args
+		/** @type {Array<string | number>} */
 		let args = [];
+		/** @type {ArgumentMeta[]} */
 		let argMeta = [];
 		let lastAlpha = false;
-		let name = parts[1].toLowerCase();
+		let rawName = parts[1];
+		let rawArgs = parts[2];
+		let name = rawName.toLowerCase();
 
-		let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
+		let separators = rawArgs.replace(regex.singleArgument, ($0, rawArg) => {
 			let { value, meta } = parseArgument(rawArg);
 
 			if (
 				// If there's a slash here, it's modern syntax
 				$0.startsWith("/") ||
-				// If there's still elements to process after there's already 3 in `args` (and the we're not dealing with "color()"), it's likely to be a legacy color like "hsl(0, 0%, 0%, 0.5)"
-				(name !== "color" && args.length === 3)
+				// If there's still elements to process after there's already 3 in `args` (and there are commas), it's a legacy syntax like "hsl(0, 0%, 0%, 0.5)"
+				(args.length === 3 && rawArgs.includes(","))
 			) {
 				// It's alpha
 				lastAlpha = true;
@@ -272,8 +299,8 @@ export function parseFunction (str) {
 			argMeta,
 			lastAlpha,
 			commas: separators.includes(","),
-			rawName: parts[1],
-			rawArgs: parts[2],
+			rawName,
+			rawArgs,
 		};
 	}
 }
