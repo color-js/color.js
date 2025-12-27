@@ -188,7 +188,7 @@ export default class ColorSpace {
 	/**
 	 * Lookup a format in this color space
 	 * @param {string | FormatObject | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
-	 * @returns {FormatObject | Format | null}
+	 * @returns { Format | null}
 	 */
 	getFormat (format) {
 		if (!format) {
