@@ -397,13 +397,15 @@ export default class ColorSpace {
 
 	/**
 	 * Lookup ColorSpace object by name
-	 * @param {ColorSpace | string} space
-	 * @param {Array<ColorSpace | string>} alternatives
-	 * @returns {ColorSpace}
+	 * @param {T} space
+	 * @param {T[]} alternatives
+	 * @template {ColorSpace | string} [T = ColorSpace | string]
+	 * @returns {T extends "" ? ColorSpace | "" : ColorSpace}
 	 * @throws {TypeError} If no matching color space is found
 	 */
 	static get (space, ...alternatives) {
-		if (isInstance(space, this)) {
+		if (!space || isInstance(space, this)) {
+			// @ts-expect-error This is the only place where an empty string might be returned
 			return space;
 		}
 
@@ -417,6 +419,7 @@ export default class ColorSpace {
 				throw new TypeError(`No color space found with id = "${space}"`);
 			}
 
+			// @ts-expect-error Guaranteed to be a ColorSpace by this point
 			return ret;
 		}
 
