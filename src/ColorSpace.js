@@ -9,12 +9,47 @@ import { getWhite } from "./adapt.js";
 import hooks from "./hooks.js";
 import getColor from "./getColor.js";
 
+/** @import { White } from "./adapt.js" */
+/** @import { Coords, ColorTypes } from "./color.js" */
+
+// Type re-exports
+/** @typedef {import("./types.js").FormatObject} FormatObject */
+/** @typedef {import("./types.js").CoordMeta} CoordMeta */
+/** @typedef {import("./types.js").SpaceOptions} SpaceOptions */
+/** @typedef {import("./types.js").Ref} Ref */
+
 const ε = 0.000075;
 
 /**
  * Class to represent a color space
  */
 export default class ColorSpace {
+	/** @type {string} */
+	name;
+	/** @type {string} */
+	id;
+	/** @type {string[] | undefined} */
+	aliases;
+	/** @type {ColorSpace | null} */
+	base;
+	/** @type {Record<string, CoordMeta>} */
+	coords;
+	/** @type {((coords: Coords) => Coords) | undefined} */
+	fromBase;
+	/** @type {((coords: Coords) => Coords) | undefined} */
+	toBase;
+	/** @type {Record<string, Format | FormatObject>} */
+	formats;
+	/** @type {string | undefined} */
+	referred;
+	/** @type {White} */
+	white;
+	/** @type {ColorSpace} */
+	gamutSpace;
+
+	/**
+	 * @param {SpaceOptions} options
+	 */
 	constructor (options) {
 		this.id = options.id;
 		this.name = options.name;
@@ -22,7 +57,9 @@ export default class ColorSpace {
 		this.aliases = options.aliases;
 
 		if (this.base) {
+			// @ts-expect-error Assigning number[] to Coords
 			this.fromBase = options.fromBase;
+			// @ts-expect-error Assigning number[] to Coords
 			this.toBase = options.toBase;
 		}
 
@@ -53,10 +90,10 @@ export default class ColorSpace {
 		}
 
 		if (!this.formats.color?.id) {
-			this.formats.color = {
+			this.formats.color = /** @type {FormatObject} */ ({
 				...(this.formats.color ?? {}),
 				id: options.cssId || this.id,
-			};
+			});
 		}
 
 		// Gamut space
@@ -98,6 +135,10 @@ export default class ColorSpace {
 		hooks.run("colorspace-init-end", this);
 	}
 
+	/**
+	 * @param {Coords} coords
+	 * @returns {boolean}
+	 */
 	inGamut (coords, { epsilon = ε } = {}) {
 		if (!this.equals(this.gamutSpace)) {
 			coords = this.to(this.gamutSpace, coords);
@@ -146,8 +187,8 @@ export default class ColorSpace {
 
 	/**
 	 * Lookup a format in this color space
-	 * @param {string | object | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
-	 * @returns {Format}
+	 * @param {string | FormatObject | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
+	 * @returns { Format | null}
 	 */
 	getFormat (format) {
 		if (!format) {
@@ -182,16 +223,35 @@ export default class ColorSpace {
 			return false;
 		}
 
-		return this === space || this.id === space || this.id === space.id;
+		return (
+			this === space ||
+			this.id === space ||
+			(typeof space !== "string" && this.id === space.id)
+		);
 	}
 
+	/**
+	 * @overload
+	 * @param {ColorTypes} color
+	 * @returns {Coords}
+	 */
+	/**
+	 * @overload
+	 * @param {string | ColorSpace} space
+	 * @param {Coords} coords
+	 * @returns {Coords}
+	 */
+	/**
+	 * @param {string | ColorSpace | ColorTypes} space
+	 * @param {Coords} [coords]
+	 */
 	to (space, coords) {
 		if (arguments.length === 1) {
-			const color = getColor(space);
+			const color = getColor(/** @type {ColorTypes} */ (space));
 			[space, coords] = [color.space, color.coords];
 		}
 
-		space = ColorSpace.get(space);
+		space = ColorSpace.get(/** @type {string | ColorSpace} */ (space));
 
 		if (this.equals(space)) {
 			// Same space, no change needed
@@ -199,10 +259,12 @@ export default class ColorSpace {
 		}
 
 		// Convert NaN to 0, which seems to be valid in every coordinate of every color space
-		coords = coords.map(c => (isNone(c) ? 0 : c));
+		coords = /** @type {Coords} */ (coords.map(c => (isNone(c) ? 0 : c)));
 
 		// Find connection space = lowest common ancestor in the base tree
+		// @ts-expect-error Unknown property path
 		let myPath = this.path;
+		// @ts-expect-error Unknown property path
 		let otherPath = space.path;
 
 		let connectionSpace, connectionSpaceIndex;
@@ -237,13 +299,28 @@ export default class ColorSpace {
 		return coords;
 	}
 
+	/**
+	 * @overload
+	 * @param {ColorTypes} color
+	 * @returns {Coords}
+	 */
+	/**
+	 * @overload
+	 * @param {string | ColorSpace} space
+	 * @param {Coords} coords
+	 * @returns {Coords}
+	 */
+	/**
+	 * @param {string | ColorSpace | ColorTypes} space
+	 * @param {Coords} [coords]
+	 */
 	from (space, coords) {
 		if (arguments.length === 1) {
-			const color = getColor(space);
+			const color = getColor(/** @type {ColorTypes} */ (space));
 			[space, coords] = [color.space, color.coords];
 		}
 
-		space = ColorSpace.get(space);
+		space = ColorSpace.get(/** @type {string | ColorSpace} */ (space));
 
 		return space.to(this, coords);
 	}
@@ -252,25 +329,47 @@ export default class ColorSpace {
 		return `${this.name} (${this.id})`;
 	}
 
+	/**
+	 * @returns {Coords}
+	 */
 	getMinCoords () {
 		let ret = [];
 
 		for (let id in this.coords) {
 			let meta = this.coords[id];
 			let range = meta.range || meta.refRange;
+			// @ts-expect-error Unknown property `min`
 			ret.push(range?.min ?? 0);
 		}
 
-		return ret;
+		return /** @type {Coords} */ (ret);
 	}
 
-	static registry = {};
+	static registry = /** @type {Record<string, ColorSpace>} */ ({});
 
 	// Returns array of unique color spaces
 	static get all () {
 		return [...new Set(Object.values(ColorSpace.registry))];
 	}
 
+	/**
+	 * @overload
+	 * @param {ColorSpace} space
+	 * @returns {ColorSpace}
+	 * @throws {TypeError} If a space with the provided id already exists
+	 */
+	/**
+	 * @overload
+	 * @param {string} id
+	 * @param {ColorSpace} space
+	 * @returns {ColorSpace}
+	 * @throws {TypeError} If a space with the provided id already exists
+	 */
+	/**
+	 * @param {string | ColorSpace} id
+	 * @param {ColorSpace} [space]
+	 * @returns {ColorSpace}
+	 */
 	static register (id, space) {
 		if (arguments.length === 1) {
 			space = arguments[0];
@@ -279,9 +378,11 @@ export default class ColorSpace {
 
 		space = this.get(space);
 
+		// @ts-expect-error It is guaranteed that id is a string by this point
 		if (this.registry[id] && this.registry[id] !== space) {
 			throw new Error(`Duplicate color space registration: '${id}'`);
 		}
+		// @ts-expect-error
 		this.registry[id] = space;
 
 		// Register aliases when called without an explicit ID.
@@ -296,10 +397,15 @@ export default class ColorSpace {
 
 	/**
 	 * Lookup ColorSpace object by name
-	 * @param {ColorSpace | string} name
+	 * @param {T} space
+	 * @param {T[]} alternatives
+	 * @template {ColorSpace | string} [T = ColorSpace | string]
+	 * @returns {T extends "" ? ColorSpace | "" : ColorSpace}
+	 * @throws {TypeError} If no matching color space is found
 	 */
 	static get (space, ...alternatives) {
 		if (!space || isInstance(space, this)) {
+			// @ts-expect-error This is the only place where an empty string might be returned
 			return space;
 		}
 
@@ -313,10 +419,13 @@ export default class ColorSpace {
 				throw new TypeError(`No color space found with id = "${space}"`);
 			}
 
+			// @ts-expect-error Guaranteed to be a ColorSpace by this point
 			return ret;
 		}
 
 		if (alternatives.length) {
+			// @ts-expect-error alternatives.length implies that we have at least one element,
+			// so this call is valid
 			return ColorSpace.get(...alternatives);
 		}
 
@@ -326,7 +435,7 @@ export default class ColorSpace {
 	/**
 	 * Look up all color spaces for a format that matches certain criteria
 	 * @param {object | string} filters
-	 * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
+	 * @param {ColorSpace[]} [spaces=ColorSpace.all]
 	 * @returns {Format | null}
 	 */
 	static findFormat (filters, spaces = ColorSpace.all) {
@@ -348,8 +457,11 @@ export default class ColorSpace {
 					(!filters.type || format.type === filters.type);
 
 				if (filters.id) {
+					// @ts-expect-error ids property unknown
 					let ids = format.ids || [format.id];
-					let filterIds = Array.isArray(filters.id) ? filters.id : [filters.id];
+					let filterIds = /** @type {string[]} */ (
+						Array.isArray(filters.id) ? filters.id : [filters.id]
+					);
 					matches &&= filterIds.some(id => ids.includes(id));
 				}
 
@@ -370,20 +482,19 @@ export default class ColorSpace {
 
 	/**
 	 * Get metadata about a coordinate of a color space
-	 *
-	 * @static
-	 * @param {Array | string} ref
-	 * @param {ColorSpace | string} [workingSpace]
-	 * @return {Object}
+	 * @param {Ref} ref
+	 * @param {string | ColorSpace} [workingSpace]
+	 * @return {CoordMeta & { id: string; index: number; space: ColorSpace; }}
+	 * @throws {TypeError} If no space or an unknown space is provided
 	 */
 	static resolveCoord (ref, workingSpace) {
 		let coordType = type(ref);
 		let space, coord;
 
 		if (coordType === "string") {
-			if (ref.includes(".")) {
+			if (/** @type {string} */ (ref).includes(".")) {
 				// Absolute coordinate
-				[space, coord] = ref.split(".");
+				[space, coord] = /** @type {string} */ (ref).split(".");
 			}
 			else {
 				// Relative coordinate
@@ -395,7 +506,9 @@ export default class ColorSpace {
 		}
 		else {
 			// Object
+			// @ts-expect-error ref can only be an object here
 			space = ref.space;
+			// @ts-expect-error
 			coord = ref.coordId;
 		}
 
@@ -415,10 +528,15 @@ export default class ColorSpace {
 
 		if (coordType === "number" || (coordType === "string" && coord >= 0)) {
 			// Resolve numerical coord
-			let meta = Object.entries(space.coords)[coord];
+			let meta = Object.entries(/** @type {ColorSpace} */ (space).coords)[coord];
 
 			if (meta) {
-				return { space, id: meta[0], index: coord, ...meta[1] };
+				return {
+					space: /** @type {ColorSpace} */ (space),
+					id: meta[0],
+					index: coord,
+					...meta[1],
+				};
 			}
 		}
 
@@ -451,6 +569,9 @@ export default class ColorSpace {
 	};
 }
 
+/**
+ * @param {ColorSpace} space
+ */
 function getPath (space) {
 	let ret = [space];
 

@@ -31,7 +31,7 @@ export {
 	// Re-exported from src/serialize.d.ts
 	SerializeOptions,
 	// Re-exported from src/space.d.ts
-	Format as SpaceFormat,
+	FormatObject as SpaceFormat,
 	CoordMeta,
 	Ref,
 	SpaceOptions,
