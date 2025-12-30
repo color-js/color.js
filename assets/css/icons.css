@@ -1,0 +1,39 @@
+:root {
+	--icon-twitter: url("../icons/twitter.svg");
+	--icon-mastodon: url("../icons/mastodon.svg");
+	--icon-bluesky: url("../icons/bluesky.svg");
+	--icon-github: url("../icons/github.svg");
+}
+
+.icon,
+.icon-before::before,
+.links-icon-before a:before,
+.icon-after::after {
+	display: inline-block;
+	vertical-align: middle;
+	width: 1em;
+	height: 1em;
+	background: currentColor;
+	mask: var(--icon) no-repeat center / contain;
+}
+
+.icon-before::before,
+.links-icon-before a:before,
+.icon-after::after {
+	/* Drop if --icon is not defined */
+	content: image-set(
+		linear-gradient(transparent 0 100%),
+		var(--icon)
+	);
+}
+
+.icon-before::before,
+.links-icon-before a:before {
+	margin-inline-end: .2em;
+	break-after: avoid;
+}
+
+.icon-after::after {
+	margin-inline-start: .2em;
+	break-before: avoid;
+}

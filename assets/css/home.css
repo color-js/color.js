@@ -95,3 +95,24 @@ body > header {
 		-webkit-background-clip: text
 	}
 }
+
+#maintainers {
+	table {
+		tbody th,
+		.github {
+			font-weight: 500;
+			white-space: nowrap;
+		}
+
+		td a {
+			white-space: nowrap;
+			color: inherit;
+
+			&::before {
+				color: var(--color, currentColor);
+			}
+		}
+
+
+	}
+}
