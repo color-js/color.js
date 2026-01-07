@@ -12,7 +12,6 @@ const DEST = "../types/src/";
  */
 const TO_COPY = [
 	"color.d.ts",
-	"ColorSpace.d.ts",
 	"hooks.d.ts",
 	"index.d.ts",
 	"space-coord-accessors.d.ts",

@@ -73,7 +73,7 @@ export *                                  from "./spaces/index-fn.js";
 // Re-exported from src/serialize.d.ts
 /** @typedef {import("./types.js").SerializeOptions} SerializeOptions */
 // Re-exported from src/space.d.ts
-/** @typedef {import("./types.js").Format} SpaceFormat */
+/** @typedef {import("./types.js").FormatObject} SpaceFormat */
 /** @typedef {import("./types.js").CoordMeta} CoordMeta */
 /** @typedef {import("./types.js").Ref} Ref */
 /** @typedef {import("./types.js").SpaceOptions} SpaceOptions */
