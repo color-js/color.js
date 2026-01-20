@@ -509,9 +509,10 @@ export default class ColorSpace {
 			coord = ref.coordId;
 		}
 
-		space = ColorSpace.get(space);
-
-		if (!space) {
+		try {
+			space = ColorSpace.get(space);
+		}
+		catch {
 			space = workingSpace;
 		}
 
