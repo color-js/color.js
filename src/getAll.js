@@ -31,9 +31,10 @@ export default function getAll (color, options) {
 
 	let coords, space;
 
-	if (options?.space) {
-		space = ColorSpace.get(options, options.space);
+	try {
+		space = ColorSpace.get(options, options?.space);
 	}
+	catch {}
 
 	let precision = options?.precision;
 
