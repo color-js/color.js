@@ -142,6 +142,11 @@ export interface SerializeOptions {
 	 */
 	format?: string | Format | undefined;
 	/**
+	 * Whether or not to collapse colors to three- or four-digit hex when possible
+	 * @default true
+	 */
+	collapse?: boolean | undefined;
+	/**
 	 * Adjust coordinates to fit in gamut first
 	 * @default false
 	 */
