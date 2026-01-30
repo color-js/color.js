@@ -50,6 +50,7 @@
 			]
 		}
 	},
+	"types": "./types",
 	"type": "module",
 	"main": "./dist/color.cjs",
 	"module": "./dist/color.js",
