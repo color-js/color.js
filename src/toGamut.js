@@ -470,14 +470,9 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
 
 	// Calculate bounds to adjust the anchor closer to the gamut surface.
-	// Assume an RGB range between 0 - 1, but this could be different depending on the RGB max luminance,
-	// and could be calculated to be different depending on needs.
-	// This is desgined to work with any perceptual space, and some are more senstive to evaluating
-	// too close to the surface. OkLCh likely doesn't need a 1e-6 offset, but we keep it for completeness
-	// in case anyone desires to use this with a different perceptual space. 1e-6 is also quite generous
-	// in a 64 bit double and could likely be smaller.
+	// We don't want to make the ray too short, so offset some amount from the low and high range.
 	const low = mn + 1e-6;
-	const high = mx - low;
+	const high = mx - 1e-6;
 
 	// Cast a ray from the zero chroma color to the target color.
 	// Trace the line to the RGB cube edge and find where it intersects.
@@ -497,9 +492,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);
 
 		// If we cannot find an intersection, reset to last successful iteration of the color.
-		// This is unlikely to happen with gamut reduction in the mapping space of OkLCh (or most target
-		// perceptual spaces), especially with constant luminance reduction.
-		// This will handle cases where the ray is small, it is considered a point.
+		// In OkLCh, this is only likely to happen if our ray gets too small, in that case, it is time to stop.
 		if (intersection.length === 0) {
 			[...rgbOrigin.coords] = last;
 			break;
