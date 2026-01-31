@@ -466,7 +466,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	// Cast a ray from the zero chroma color to the target color.
 	// Trace the line to the RGB cube edge and find where it intersects.
 	// Correct L and h within the perceptual OkLCh after each attempt.
-	let last = rgbOrigin.coords;
+	let [...last] = rgbOrigin.coords;
 	for (let i = 0; i < 4; i++) {
 		if (i) {
 			// For constant luminance, we correct the color by simply setting lightness and hue to
@@ -493,7 +493,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 		// Adjust anchor point closer to surface, when possible, to improve results for some spaces.
 		if (i && rgbOrigin.coords.every(x => low < x && x < high)) {
-			[...anchor.coords] = rgbOrigin.coords;
+			[...anchor] = rgbOrigin.coords;
 		}
 
 		// If we have an intersection, update the color.
