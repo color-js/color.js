@@ -119,6 +119,89 @@ export default {
 			],
 		},
 		{
+			name: "P3 primaries to sRGB, Ray Trace algorithm",
+			data: { toSpace: "srgb-linear", method: "raytrace" },
+			tests: [
+				{
+					args: ["color(display-p3 1 0 0)"],
+					expect: "color(srgb-linear 1 0.0342 0.02168)",
+				},
+				{
+					args: ["color(display-p3 0 1 0)"],
+					expect: "color(srgb-linear 0 0.92946 0.07742)",
+				},
+				{
+					args: ["color(display-p3 0 0 1)"],
+					expect: "color(srgb-linear 0 0.01714 0.97711)",
+				},
+				{
+					args: ["color(display-p3 1 1 0)"],
+					expect: "color(srgb-linear 0.98002 0.99395 0)",
+				},
+
+				{
+					args: ["color(display-p3 0 1 1)"],
+					expect: "color(srgb-linear 0 0.96255 0.93527)",
+				},
+				{
+					args: ["color(display-p3 1 0 1)"],
+					expect: "color(srgb-linear 1 0.07188 0.87704)",
+				},
+			],
+		},
+		{
+			name: "P3 to sRGB whites/blacks, Ray Trace algorithm",
+			data: { toSpace: "srgb-linear" , method: "raytrace" },
+			tests: [
+				{
+					args: ["color(display-p3 1 1 1)"],
+					expect: "color(srgb-linear 1 1 1)",
+				},
+				{
+					args: ["color(display-p3 2 0 1)"],
+					expect: "color(srgb-linear 1 1 1)",
+				},
+				{
+					args: ["color(display-p3 0 0 0)"],
+					expect: "color(srgb-linear 0 0 0)",
+				},
+				{
+					args: ["color(display-p3 -1 0 0)"],
+					expect: "color(srgb-linear 0 0 0)",
+				},
+			],
+		},
+		{
+			name: "Maintains alpha, Ray Trace algorithm",
+			data: { toSpace: "srgb-linear", method: "raytrace", checkAlpha: true },
+			tests: [
+				{
+					args: ["color(display-p3 1 1 1 / 1)"],
+					expect: "color(srgb-linear 1 1 1)",
+				},
+				{
+					args: ["color(display-p3 1 1 1 / 0.5)"],
+					expect: "color(srgb-linear 1 1 1 / 0.5)",
+				},
+				{
+					args: ["color(display-p3 1 1 1 / 0)"],
+					expect: "color(srgb-linear 1 1 1 / 0)",
+				},
+				{
+					args: ["color(display-p3 1 0 0 / 1)"],
+					expect: "color(srgb-linear 1 0.0342 0.02168)",
+				},
+				{
+					args: ["color(display-p3 1 0 0 / 0.5)"],
+					expect: "color(srgb-linear 1 0.0342 0.02168 / 0.5)",
+				},
+				{
+					args: ["color(display-p3 1 0 0 / 0)"],
+					expect: "color(srgb-linear 1 0.0342 0.02168 / 0)",
+				},
+			],
+		},
+		{
 			name: "P3 primaries to sRGB, LCH chroma Reduction",
 			data: { toSpace: "srgb", method: "lch.c" },
 			tests: [
