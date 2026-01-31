@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 import ColorSpace from "../ColorSpace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
+import HSL from "./hsl.js";
 import LCHuv from "./lchuv.js";
 import { fromXYZ_M } from "./srgb-linear.js";
 import { skipNone } from "../util.js";
@@ -56,7 +58,7 @@ function calcMaxChromaHpluv (lines) {
 	return Math.min(r0, r1, g0, g1, b0, b1);
 }
 
-export default new ColorSpace({
+const HPLuv = new ColorSpace({
 	id: "hpluv",
 	name: "HPLuv",
 	coords: {
@@ -128,3 +130,18 @@ export default new ColorSpace({
 		},
 	},
 });
+
+HPLuv.rgbGamut = new RGBColorSpace({
+	id: "hpluv-prism",
+	cssId: "--hpluv-prism",
+	name: "HPLuv Prism",
+	base: HPLuv,
+	fromBase (hsl) {
+		return HSL.toBase(hsl);
+	},
+	toBase (rgb) {
+		return HSL.fromBase(rgb);
+	},
+});
+
+export default HPLuv;

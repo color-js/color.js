@@ -519,7 +519,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 	// Remove noise from floating point math by clipping
 	[...rgbOrigin.coords] = /** @type {[number, number, number]} */ (
-		rgbOrigin.coords.map((coord, index) => {
+		rgbOrigin.coords.map(coord => {
 			return util.clamp(mn, coord, mx);
 		})
 	);

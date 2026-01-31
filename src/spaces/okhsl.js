@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 import ColorSpace from "../ColorSpace.js";
+import RGBColorSpace from "../RGBColorSpace.js";
+import HSL from "./hsl.js";
 import Oklab from "./oklab.js";
 import { LabtoLMS_M } from "./oklab.js";
 import { spow, multiply_v3_m3x3 } from "../util.js";
@@ -508,7 +510,7 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 	return [h, s, l];
 }
 
-export default new ColorSpace({
+const Okhsl = new ColorSpace({
 	id: "okhsl",
 	name: "Okhsl",
 	coords: {
@@ -547,3 +549,23 @@ export default new ColorSpace({
 		},
 	},
 });
+
+Okhsl.rgbGamut = new RGBColorSpace({
+	id: "okhsl-prism",
+	cssId: "--okhsl-prism",
+	name: "Okhsl Prism",
+	base: Okhsl,
+	fromBase (hsl) {
+		hsl[1] *= 100;
+		hsl[2] *= 100;
+		return HSL.toBase(hsl);
+	},
+	toBase (rgb) {
+		const hsl = HSL.fromBase(rgb);
+		hsl[1] /= 100;
+		hsl[2] /= 100;
+		return hsl;
+	},
+});
+
+export default Okhsl;
