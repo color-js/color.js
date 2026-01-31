@@ -12,6 +12,7 @@ import clone from "./clone.js";
 import getColor from "./getColor.js";
 import deltaEMethods from "./deltaE/index.js";
 import { WHITES } from "./adapt.js";
+import RGBColorSpace from "./RGBColorSpace.js";
 
 /** @import { ColorTypes, PlainColorObject } from "./types.js" */
 
@@ -98,6 +99,9 @@ export default function toGamut (
 	let spaceColor;
 	if (method === "css") {
 		spaceColor = toGamutCSS(color, { space });
+	}
+	else if (method === "raytrace") {
+		spaceColor = toGamutRayTrace(color, { space });
 	}
 	else {
 		if (method !== "clip" && !inGamut(color, space)) {
@@ -321,4 +325,185 @@ export function toGamutCSS (origin, { space } = {}) {
 		}
 	}
 	return clipped;
+}
+
+/**
+ * Given `start` and `end` coordinates of a 3D ray and a `bmin` and `bmax` bounding box,
+ * find the intersection of the ray and box. Return an empty list if no intersect is found.`
+ * @param {number[]} arr
+ * @param {number[]} arr
+ * @param {number[]} arr
+ * @param {number[]} arr
+ * @returns {number[]} arr
+ */
+function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
+	// Use slab method to detect intersection of ray and box and return intersect.
+	// https://en.wikipedia.org/wiki/Slab_method
+
+	// Calculate whether there was a hit
+	let tfar = Infinity;
+	let tnear = -Infinity;
+	let direction = [];
+
+	for (let i = 0; i < 3; i++) {
+		const a = start[i];
+		const b = end[i];
+		const d = b - a;
+		const bn = bmin[i];
+		const bx = bmax[i];
+		direction.push(d);
+
+		// Non parallel cases
+		if (Math.abs(d) > 1e-15) {
+			const inv_d = 1 / d;
+			const t1 = (bn - a) * inv_d;
+			const t2 = (bx - a) * inv_d;
+			tnear = Math.max(Math.min(t1, t2), tnear);
+			tfar = Math.min(Math.max(t1, t2), tfar);
+		}
+
+		// Impossible parallel case
+		else if (a < bn || a > bx) {
+			return [];
+		}
+	}
+
+	// No hit
+	if (tnear > tfar || tfar < 0) {
+		return [];
+	}
+
+	// Favor the intersection first in the direction start -> end
+	if (tnear < 0) {
+		tnear = tfar;
+	}
+
+	// A point, or something approaching a single point where start and end are the same.
+	if (!isFinite(tnear)) {
+		return [];
+	}
+
+	// Calculate nearest intersection via interpolation
+	return [
+		start[0] + direction[0] * tnear,
+		start[1] + direction[1] * tnear,
+		start[2] + direction[2] * tnear,
+	];
+}
+
+/**
+ * Given a color `origin`, returns a new color that is in gamut using
+ * the CSS Ray Trace Gamut Mapping Algorithm. If `space` is specified,
+ * it will be in gamut `space`, and returned in `space`. Otherwise,
+ * it will be in gamut and returned in the color space of `origin`.
+ * @param {ColorTypes} origin
+ * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @returns {PlainColorObject}
+ */
+export function toGamutRayTrace (origin, { space } = {}) {
+	origin = getColor(origin);
+
+	if (!space) {
+		space = origin.space;
+	}
+
+	space = ColorSpace.get(space);
+
+	// If the space has no bounds, it cannot be gamut mapped.
+	if (space.isUnbounded) {
+		return to(origin, space);
+	}
+
+	// If the space is already in gamut, stop.
+	if (inGamut(origin, space, { epsilon: 0 })) {
+		return to(origin, space);
+	}
+
+	// Get the OkLCh coordinates.
+	const oklchSpace = ColorSpace.get("oklch");
+	let oklchOrigin = to(origin, oklchSpace);
+	let [lightness, chroma, hue] = oklchOrigin.coords;
+
+	// Return white or black if color's lightness exceeds the SDR range.
+	if (lightness >= 1) {
+		const white = to(COLORS.WHITE, space);
+		white.alpha = origin.alpha;
+		return to(white, space);
+	}
+	else if (lightness <= 0) {
+		const black = to(COLORS.BLACK, space);
+		black.alpha = origin.alpha;
+		return to(black, space);
+	}
+
+	// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
+	// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
+	// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
+	let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
+
+	// Get a copy of the origin color as the RGB target space.
+	let rgbOrigin = to(oklchOrigin, space);
+	if (util.isInstance(rgbOrigin, RGBColorSpace)) {
+		throw new Error("Ray Trace GMA can only operate on RGB gamuts");
+	}
+
+	// Get SDR bounds. Some HDR spaces have headroom, so reduce max to SDR range.
+	let mn = space.coords.r.range[0];
+	let mx = to(COLORS.WHITE, space).coords[0];
+	let min = [mn, mn, mn];
+	let max = [mx, mx, mx];
+
+	// Calculate bounds to adjust the anchor closer to the gamut surface.
+	// Assume an RGB range between 0 - 1, but this could be different depending on the RGB max luminance,
+	// and could be calculated to be different depending on needs.
+	// This is desgined to work with any perceptual space, and some are more senstive to evaluating
+	// too close to the surface. OkLCh likely doesn't need a 1e-6 offset, but we keep it for completeness
+	// in case anyone desires to use this with a different perceptual space. 1e-6 is also quite generous
+	// in a 64 bit double and could likely be smaller.
+	let low = 1e-6;
+	let high = 1 - low;
+
+	// Cast a ray from the zero chroma color to the target color.
+	// Trace the line to the RGB cube edge and find where it intersects.
+	// Correct L and h within the perceptual OkLCh after each attempt.
+	let last = rgbOrigin.coords;
+	for (let i = 0; i < 4; i++) {
+		if (i) {
+			// For constant luminance, we correct the color by simply setting lightness and hue to
+			// match the original color. In a non constant luminance reduction, it is better to
+			// project the color onto the reduction path vector.
+			const oklch = to(rgbOrigin, oklchSpace);
+			oklch.coords[0] = lightness;
+			oklch.coords[2] = hue;
+			rgbOrigin = to(oklch, space);
+		}
+		// Cast a ray from the achromatic anchor to the RGB target and find the gamut intersection.
+		const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);
+
+		// If we cannot find an intersection, reset to last successful iteration of the color.
+		// This is unlikely to happen with gamut reduction in the mapping space of OkLCh (or most target
+		// perceptual spaces), especially with constant luminance reduction.
+		// This is provided for catastrophic failures where a specific, perceptual mapping space completely
+		// breaks down due to ridiculously wide colors (outside the visible spectrum). It is expected that
+		// CSS would never trigger this.
+		if (intersection.length === 0) {
+			[...rgbOrigin.coords] = last;
+			break;
+		}
+
+		// Adjust anchor point closer to surface, when possible, to improve results for some spaces.
+		if (i && rgbOrigin.coords.every(x => low < x && x < high)) {
+			[...anchor.coords] = rgbOrigin.coords;
+		}
+
+		// If we have an intersection, update the color.
+		last = intersection;
+		[...rgbOrigin.coords] = intersection;
+	}
+
+	// Remove noise from floating point math by clipping
+	[...rgbOrigin.coords] = rgbOrigin.coords.map((coord, index) => {
+		return util.clamp(mn, coord, mx);
+	});
+	return rgbOrigin;
 }
