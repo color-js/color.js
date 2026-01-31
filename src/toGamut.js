@@ -448,8 +448,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	}
 
 	// Get SDR bounds. Some HDR spaces have headroom, so reduce max to SDR range.
-	const mn = space.coords.r.range[0];
-	const mx = to(COLORS.WHITE, space).coords[0];
+	const [mn, mx] = space.coords.r.range;
 	const min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
 	const max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 
