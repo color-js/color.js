@@ -90,7 +90,7 @@ function fromHct (coords, env) {
 
 	// We could not acquire the precision we desired,
 	// return our closest attempt.
-	return xyz;
+	return best;
 }
 
 function toHct (xyz, env) {
