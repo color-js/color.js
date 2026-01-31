@@ -61,7 +61,7 @@ function fromHct (coords, env) {
 
 	let attempt = 0;
 	let last = Infinity;
-	let best = j;
+	let best = [0, 0, 0];
 
 	// Try to find a J such that the returned y matches the returned y of the L*
 	while (attempt <= max_attempts) {
@@ -74,7 +74,7 @@ function fromHct (coords, env) {
 			if (delta <= threshold) {
 				return xyz;
 			}
-			best = j;
+			best = xyz;
 			last = delta;
 		}
 
@@ -90,7 +90,7 @@ function fromHct (coords, env) {
 
 	// We could not acquire the precision we desired,
 	// return our closest attempt.
-	return fromCam16({ J: j, C: c, h: h }, env);
+	return xyz;
 }
 
 function toHct (xyz, env) {
