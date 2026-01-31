@@ -483,9 +483,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		// If we cannot find an intersection, reset to last successful iteration of the color.
 		// This is unlikely to happen with gamut reduction in the mapping space of OkLCh (or most target
 		// perceptual spaces), especially with constant luminance reduction.
-		// This is provided for catastrophic failures where a specific, perceptual mapping space completely
-		// breaks down due to ridiculously wide colors (outside the visible spectrum). It is expected that
-		// CSS would never trigger this.
+		// This will handle cases where the ray is small, it is considered a point.
 		if (intersection.length === 0) {
 			[...rgbOrigin.coords] = last;
 			break;
