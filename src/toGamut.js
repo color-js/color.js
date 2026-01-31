@@ -330,11 +330,11 @@ export function toGamutCSS (origin, { space } = {}) {
 /**
  * Given `start` and `end` coordinates of a 3D ray and a `bmin` and `bmax` bounding box,
  * find the intersection of the ray and box. Return an empty list if no intersect is found.`
- * @param {number[]} arr
- * @param {number[]} arr
- * @param {number[]} arr
- * @param {number[]} arr
- * @returns {number[]} arr
+ * @param {number[]} start
+ * @param {number[]} end
+ * @param {number[]} bmin
+ * @param {number[]} bmax
+ * @returns {number[]}
  */
 function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 	// Use slab method to detect intersection of ray and box and return intersect.
