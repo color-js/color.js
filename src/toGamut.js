@@ -330,11 +330,11 @@ export function toGamutCSS (origin, { space } = {}) {
 /**
  * Given `start` and `end` coordinates of a 3D ray and a `bmin` and `bmax` bounding box,
  * find the intersection of the ray and box. Return an empty list if no intersect is found.`
- * @param {number[]} start
- * @param {number[]} end
- * @param {number[]} bmin
- * @param {number[]} bmax
- * @returns {number[]}
+ * @param {[number, number, number]} start
+ * @param {[number, number, number]} end
+ * @param {[number, number, number]} bmin
+ * @param {[number, number, number]} bmax
+ * @returns {[number, number, number] | []}
  */
 function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 	// Use slab method to detect intersection of ray and box and return intersect.
@@ -448,10 +448,10 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	}
 
 	// Get SDR bounds. Some HDR spaces have headroom, so reduce max to SDR range.
-	let mn = space.coords.r.range[0];
-	let mx = to(COLORS.WHITE, space).coords[0];
-	let min = [mn, mn, mn];
-	let max = [mx, mx, mx];
+	const mn = space.coords.r.range[0];
+	const mx = to(COLORS.WHITE, space).coords[0];
+	const min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
+	const max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 
 	// Calculate bounds to adjust the anchor closer to the gamut surface.
 	// Assume an RGB range between 0 - 1, but this could be different depending on the RGB max luminance,
@@ -460,8 +460,8 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	// too close to the surface. OkLCh likely doesn't need a 1e-6 offset, but we keep it for completeness
 	// in case anyone desires to use this with a different perceptual space. 1e-6 is also quite generous
 	// in a 64 bit double and could likely be smaller.
-	let low = 1e-6;
-	let high = 1 - low;
+	const low = 1e-6;
+	const high = 1 - low;
 
 	// Cast a ray from the zero chroma color to the target color.
 	// Trace the line to the RGB cube edge and find where it intersects.
@@ -495,13 +495,15 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		}
 
 		// If we have an intersection, update the color.
-		last = intersection;
+		last = /** @type {[number, number, number]} */ (intersection);
 		[...rgbOrigin.coords] = intersection;
 	}
 
 	// Remove noise from floating point math by clipping
-	[...rgbOrigin.coords] = rgbOrigin.coords.map((coord, index) => {
-		return util.clamp(mn, coord, mx);
-	});
+	[...rgbOrigin.coords] = /** @type {[number, number, number]} */ (
+		rgbOrigin.coords.map((coord, index) => {
+			return util.clamp(mn, coord, mx);
+		})
+	);
 	return rgbOrigin;
 }
