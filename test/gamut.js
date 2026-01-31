@@ -9,10 +9,10 @@ export default {
 		let inGamut = this.data.method ? { method: this.data.method } : true;
 		if (this.data.convertAfter) {
 			return color
-				.toGamut({ space: this.data.toSpace, method: this.data.method })
+				.toGamut({ space: this.data.toSpace || color.space, method: this.data.method })
 				.to(this.data.toSpace);
 		}
-		let color2 = color.to(this.data.toSpace, { inGamut });
+		let color2 = color.to(this.data.toSpace || color.space, { inGamut });
 		return color2;
 	},
 	map (c) {
@@ -168,6 +168,24 @@ export default {
 				{
 					args: ["color(display-p3 -1 0 0)"],
 					expect: "color(srgb-linear 0 0 0)",
+				},
+			],
+		},
+		{
+			name: "Misc Conversions, Ray Trace algorithm",
+			data: { method: "raytrace" },
+			tests: [
+				{
+					args: ["color(--hpluv 50 110 50)"],
+					expect: "color(--hpluv 50.737 100 50.044)",
+				},
+				{
+					args: ["color(--okhsv 50 1.1 0.5)"],
+					expect: "color(--okhsv 50 1 0.48745)",
+				},
+				{
+					args: ["color(rec2100-hlg 0.85655 -0.63822 -0.28243)"],
+					expect: "color(rec2100-hlg 0.87619 0.56991 0)",
 				},
 			],
 		},
