@@ -11,6 +11,7 @@ export default new RGBColorSpace({
 	id: "srgb",
 	name: "sRGB",
 	base: sRGBLinear,
+	linearGamut: sRGBLinear,
 	fromBase: rgb => {
 		// convert an array of linear-light sRGB values in the range 0.0-1.0
 		// to gamma corrected form

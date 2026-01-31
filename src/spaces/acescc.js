@@ -40,6 +40,7 @@ export default new RGBColorSpace({
 	referred: "scene",
 
 	base: ACEScg,
+	linearGamut: ACEScg,
 	// from section 4.4.2 Decoding Function
 	toBase (RGB) {
 		const low = (9.72 - 15) / 17.52; // -0.3014

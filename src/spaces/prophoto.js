@@ -9,6 +9,7 @@ export default new RGBColorSpace({
 	cssId: "prophoto-rgb",
 	name: "ProPhoto",
 	base: ProPhotoLinear,
+	linearGamut: ProPhotoLinear,
 	toBase (RGB) {
 		// Transfer curve is gamma 1.8 with a small linear portion
 		return RGB.map(v => {

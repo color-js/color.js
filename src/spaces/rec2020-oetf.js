@@ -9,6 +9,7 @@ export default new RGBColorSpace({
 	id: "--rec2020-oetf",
 	name: "REC.2020_Scene_Referred",
 	base: REC2020Linear,
+	linearGamut: REC2020Linear,
 	referred: "scene",
 	// Non-linear transfer function from Rec. ITU-R BT.2020-2 table 4
 	toBase (RGB) {

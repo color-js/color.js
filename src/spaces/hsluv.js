@@ -111,6 +111,7 @@ export default new ColorSpace({
 
 	base: LCHuv,
 	gamutSpace: sRGB,
+	rgbGamut: sRGB,
 
 	// Convert LCHuv to HSLuv
 	fromBase (lch) {

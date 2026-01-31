@@ -24,6 +24,7 @@ export default new ColorSpace({
 	},
 
 	base: sRGB,
+	rgbGamut: sRGB,
 	// https://en.wikipedia.org/wiki/HSL_and_HSV#Formal_derivation
 	fromBase (rgb) {
 		let max = Math.max(...rgb);

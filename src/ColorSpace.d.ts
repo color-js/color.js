@@ -7,6 +7,7 @@ import { White } from "./adapt.js";
 import { ColorConstructor, Coords, ColorTypes } from "./color.js";
 import type FormatClass from "./Format.js";
 import type { instance } from "./Format.js";
+import RGBColorSpace from "./RGBColorSpace.js"
 
 export interface Format {
 	/** @default "function" */
@@ -77,6 +78,8 @@ export interface SpaceOptions {
 	gamutSpace?: "self" | string | ColorSpace | null | undefined;
 	aliases?: string[] | undefined;
 	ε?: number | undefined;
+	rgbGamut?: RGBColorSpace | undefined;
+	linearGamut?: RGBColorSpace | undefined;
 }
 
 export type Ref =
@@ -135,6 +138,8 @@ export default class ColorSpace {
 	referred?: string | undefined;
 	white: White;
 	gamutSpace: ColorSpace;
+	rgbGamut?: RGBColorSpace | undefined;
+	linearGamut?: RGBColorSpace | undefined;
 
 	from (color: ColorTypes): Coords;
 	from (space: string | ColorSpace, coords: Coords): Coords;

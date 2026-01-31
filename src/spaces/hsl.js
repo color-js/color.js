@@ -21,6 +21,7 @@ export default new ColorSpace({
 	},
 
 	base: sRGB,
+	rgbGamut: sRGB,
 
 	// Adapted from https://drafts.csswg.org/css-color-4/better-rgbToHsl.js
 	fromBase: rgb => {
@@ -92,5 +93,5 @@ export default new ColorSpace({
 			commas: true,
 			alpha: true,
 		},
-	},
+	}
 });

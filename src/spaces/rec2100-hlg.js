@@ -15,6 +15,7 @@ export default new RGBColorSpace({
 	referred: "scene",
 
 	base: REC_2100_Linear,
+	linearGamut: REC_2100_Linear,
 	toBase (RGB) {
 		// given HLG encoded component in range [0, 1]
 		// return media-white relative linear-light

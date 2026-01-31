@@ -6,6 +6,7 @@ export default new RGBColorSpace({
 	id: "rec2020",
 	name: "REC.2020",
 	base: REC2020Linear,
+	linearGamut: REC2020Linear,
 	//  Reference electro-optical transfer function from Rec. ITU-R BT.1886 Annex 1
 	//  with b (black lift) = 0 and a (user gain) = 1
 	//  defined over the extended range, not clamped

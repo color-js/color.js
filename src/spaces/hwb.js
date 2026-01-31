@@ -1,5 +1,6 @@
 import ColorSpace from "../ColorSpace.js";
 import HSV from "./hsv.js";
+import sRGB from "./srgb.js";
 
 // The Hue, Whiteness Blackness (HWB) colorspace
 // See https://drafts.csswg.org/css-color-4/#the-hwb-notation
@@ -26,6 +27,7 @@ export default new ColorSpace({
 	},
 
 	base: HSV,
+	rgbGamut: sRGB,
 	fromBase (hsv) {
 		let [h, s, v] = hsv;
 

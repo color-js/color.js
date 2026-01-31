@@ -436,21 +436,40 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		return to(black, space);
 	}
 
+	// Get a copy of the origin color as the RGB target space.
+	const originSpace = space;
+	const rGamut = space.rgbGamut;
+	if (rGamut !== undefined) {
+		space = ColorSpace.get(rGamut);
+	}
+
+	if (!util.isInstance(space, RGBColorSpace)) {
+		throw Error('An RGB gamut is required')
+	}
+
+	// Get SDR bounds. Some HDR spaces have headroom, so reduce max to SDR range.
+	let [mn, mx] = space.coords.r.range;
+	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
+	let max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
+
+	// See if we have a linear version of the color space
+	const lGamut = space.linearGamut;
+	if (lGamut !== undefined) {
+		// Recalculate minimum and maximum relative to the linear space
+		let temp = to({space: space, coords: max, alpha: origin.alpha}, lGamut);
+		mx = temp.coords[0];
+		max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
+		temp = to({space: space, coords: min, alpha: origin.alpha}, lGamut);
+		mn = temp.coords[0];
+		min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
+		space = ColorSpace.get(lGamut);
+	}
+	let rgbOrigin = to(oklchOrigin, space);
+
 	// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
 	// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
 	// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
 	let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
-
-	// Get a copy of the origin color as the RGB target space.
-	let rgbOrigin = to(oklchOrigin, space);
-	if (util.isInstance(rgbOrigin, RGBColorSpace)) {
-		throw new Error("Ray Trace GMA can only operate on RGB gamuts");
-	}
-
-	// Get SDR bounds. Some HDR spaces have headroom, so reduce max to SDR range.
-	const [mn, mx] = space.coords.r.range;
-	const min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
-	const max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 
 	// Calculate bounds to adjust the anchor closer to the gamut surface.
 	// Assume an RGB range between 0 - 1, but this could be different depending on the RGB max luminance,
@@ -459,8 +478,8 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	// too close to the surface. OkLCh likely doesn't need a 1e-6 offset, but we keep it for completeness
 	// in case anyone desires to use this with a different perceptual space. 1e-6 is also quite generous
 	// in a 64 bit double and could likely be smaller.
-	const low = 1e-6;
-	const high = 1 - low;
+	const low = mn + 1e-6;
+	const high = mx - low;
 
 	// Cast a ray from the zero chroma color to the target color.
 	// Trace the line to the RGB cube edge and find where it intersects.
@@ -504,5 +523,5 @@ export function toGamutRayTrace (origin, { space } = {}) {
 			return util.clamp(mn, coord, mx);
 		})
 	);
-	return rgbOrigin;
+	return to(rgbOrigin, originSpace);
 }

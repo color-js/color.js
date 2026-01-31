@@ -21,6 +21,14 @@ export default class ColorSpace {
 		this.base = options.base ? ColorSpace.get(options.base) : null;
 		this.aliases = options.aliases;
 
+		if (options.rgbGamut) {
+			this.rgbGamut = options.rgbGamut;
+		}
+
+		if (options.linearGamut) {
+			this.linearGamut = options.linearGamut;
+		}
+
 		if (this.base) {
 			this.fromBase = options.fromBase;
 			this.toBase = options.toBase;

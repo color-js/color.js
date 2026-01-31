@@ -15,6 +15,7 @@ export default new RGBColorSpace({
 	cssId: "rec2100-pq",
 	name: "REC.2100-PQ",
 	base: REC_2100_Linear,
+	linearGamut: REC_2100_Linear,
 	toBase (RGB) {
 		// given PQ encoded component in range [0, 1]
 		// return media-white relative linear-light
