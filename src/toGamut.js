@@ -435,7 +435,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	const originSpace = space;
 	const rGamut = space.rgbGamut;
 	if (rGamut !== undefined) {
-		space = ColorSpace.get(rGamut);
+		space = rGamut;
 	}
 
 	if (!util.isInstance(space, RGBColorSpace)) {
@@ -453,7 +453,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		let temp = to({space: space, coords: max, alpha: origin.alpha}, lGamut);
 		mx = temp.coords[0];
 		max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
-		space = ColorSpace.get(lGamut);
+		space = lGamut;
 		mn = space.coords.r.range[0];
 	}
 	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
@@ -489,7 +489,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		// If we cannot find an intersection, reset to last successful iteration of the color.
 		// In OkLCh, this is only likely to happen if our ray gets too small, in that case, it is time to stop.
 		if (intersection.length === 0) {
-			[...rgbOrigin.coords] = last;
+			rgbOrigin.coords = last;
 			break;
 		}
 
@@ -500,7 +500,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 		// If we have an intersection, update the color.
 		last = /** @type {[number, number, number]} */ (intersection);
-		[...rgbOrigin.coords] = intersection;
+		rgbOrigin.coords = intersection;
 	}
 
 	// Convert to the original, specified gamut

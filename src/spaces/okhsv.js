@@ -205,9 +205,7 @@ Okhsv.rgbGamut = new RGBColorSpace({
 	name: "Okhsv Prism",
 	base: Okhsv,
 	fromBase (hsl) {
-		hsl[1] *= 100;
-		hsl[2] *= 100;
-		return HSL.toBase(hsl);
+		return HSL.toBase([hsl[0], hsl[1] * 100, hsl[2] * 100]);
 	},
 	toBase (rgb) {
 		const hsl = HSL.fromBase(rgb);
