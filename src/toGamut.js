@@ -443,8 +443,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	}
 
 	// Get SDR bounds. Some HDR spaces have headroom, so reduce max to SDR range.
-	let coords = space.coords;
-	let [mn, mx] = coords[Object.keys(coords)[0]].range;
+	let [mn, mx] = Object.values(space.coords)[0].range;
 	let max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 
 	// See if we have a linear version of the color space
@@ -455,8 +454,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		mx = temp.coords[0];
 		max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 		space = lGamut;
-		coords = space.coords
-		mn = coords[Object.keys(coords)[0]].range[0];
+		mn = Object.values(space.coords)[0].range[0];
 	}
 	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
 	let rgbOrigin = to(oklchOrigin, space);
