@@ -451,7 +451,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	const lGamut = space.linearGamut;
 	if (lGamut !== undefined) {
 		// Recalculate minimum and maximum relative to the linear space
-		let temp = to({space: space, coords: max, alpha: origin.alpha}, lGamut);
+		let temp = to({ space: space, coords: max, alpha: origin.alpha }, lGamut);
 		mx = temp.coords[0];
 		max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 		space = lGamut;
