@@ -92,22 +92,19 @@ export default function toGamut (
 	// space: space whose gamut we are mapping to
 	// mapSpace: space with the coord we're reducing
 
+	if (inGamut(color, space, { epsilon: 0 })) {
+		return /** @type {PlainColorObject} */ (color);
+	}
+
 	let spaceColor;
 	if (method === "css") {
-		// Gamut CSS has always had an in-gamut check called before, but it has one internally
-		// after its min/max lightness check. We are leaving this here to ensure we don't change behavior,
-		// but this could be removed in the future if the change is acceptable, or the underlying function
-		// is modified to provide similar behavior.
-		if (inGamut(color, space, { epsilon: 0 })) {
-			return /** @type {PlainColorObject} */ (color);
-		}
 		spaceColor = toGamutCSS(color, { space });
 	}
 	else if (method === "raytrace") {
 		spaceColor = toGamutRayTrace(color, { space });
 	}
 	else {
-		if (method !== "clip" && !inGamut(color, space, {epsilon: 0})) {
+		if (method !== "clip") {
 			if (Object.prototype.hasOwnProperty.call(GMAPPRESET, method)) {
 				({ method, jnd, deltaEMethod, blackWhiteClamp } = GMAPPRESET[method]);
 			}
@@ -412,13 +409,8 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 	space = ColorSpace.get(space);
 
-	// If the space has no bounds, it cannot be gamut mapped.
-	if (space.isUnbounded) {
-		return to(origin, space);
-	}
-
 	// If the space is already in gamut, stop.
-	if (inGamut(origin, space, { epsilon: 0 })) {
+	if (space.isUnbounded || inGamut(origin, space, { epsilon: 0 })) {
 		return to(origin, space);
 	}
 
