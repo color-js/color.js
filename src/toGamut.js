@@ -497,7 +497,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		// If we cannot find an intersection, reset to last successful iteration of the color.
 		// In OkLCh, this is only likely to happen if our ray gets too small, in that case, it is time to stop.
 		if (intersection.length === 0) {
-			rgbOrigin.coords = last;
+			[...rgbOrigin.coords] = last;
 			break;
 		}
 
@@ -508,7 +508,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 		// If we have an intersection, update the color.
 		last = /** @type {[number, number, number]} */ (intersection);
-		rgbOrigin.coords = intersection;
+		[...rgbOrigin.coords] = intersection;
 	}
 
 	// Convert to the original, specified gamut
