@@ -511,11 +511,20 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		[...rgbOrigin.coords] = intersection;
 	}
 
+	// Convert to the original, specified gamut
+	rgbOrigin = to(rgbOrigin, originSpace)
+	const spaceCoords = Object.values(/** @type {ColorSpace} */ (originSpace).coords);
+
 	// Remove noise from floating point math by clipping
-	[...rgbOrigin.coords] = /** @type {[number, number, number]} */ (
-		rgbOrigin.coords.map(coord => {
-			return util.clamp(mn, coord, mx);
+	rgbOrigin.coords = /** @type {[number, number, number]} */ (
+		rgbOrigin.coords.map((coord, index) => {
+			if ("range" in spaceCoords[index]) {
+				const [lower, upper] = spaceCoords[index].range;
+				return util.clamp(lower, coord, upper);
+			}
+			return coord;
 		})
 	);
-	return to(rgbOrigin, originSpace);
+
+	return rgbOrigin;
 }
