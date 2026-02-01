@@ -185,7 +185,7 @@ export default {
 				},
 				{
 					args: ["color(rec2100-hlg 0.85655 -0.63822 -0.28243)"],
-					expect: "color(rec2100-hlg 0.87619 0.56991 0)",
+					expect: "color(rec2100-hlg 0.85655 0.61287 0.28243)",
 				},
 			],
 		},

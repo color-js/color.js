@@ -410,7 +410,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	space = ColorSpace.get(space);
 
 	// If the space is already in gamut, stop.
-	if (space.isUnbounded || inGamut(origin, space, { epsilon: 0 })) {
+	if (space.isUnbounded) {
 		return to(origin, space);
 	}
 
@@ -459,48 +459,50 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
 	let rgbOrigin = to(oklchOrigin, space);
 
-	// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
-	// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
-	// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
-	let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
+	if (!rgbOrigin.coords.every(x => mn <= x && x <= mx)) {
+		// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
+		// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
+		// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
+		let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
 
-	// Calculate bounds to adjust the anchor closer to the gamut surface.
-	// We don't want to make the ray too short, so offset some amount from the low and high range.
-	const low = mn + 1e-6;
-	const high = mx - 1e-6;
+		// Calculate bounds to adjust the anchor closer to the gamut surface.
+		// We don't want to make the ray too short, so offset some amount from the low and high range.
+		const low = mn + 1e-6;
+		const high = mx - 1e-6;
 
-	// Cast a ray from the zero chroma color to the target color.
-	// Trace the line to the RGB cube edge and find where it intersects.
-	// Correct L and h within the perceptual OkLCh after each attempt.
-	let last = rgbOrigin.coords;
-	for (let i = 0; i < 4; i++) {
-		if (i) {
-			// For constant luminance, we correct the color by simply setting lightness and hue to
-			// match the original color. In a non constant luminance reduction, it is better to
-			// project the color onto the reduction path vector.
-			const oklch = to(rgbOrigin, oklchSpace);
-			oklch.coords[0] = lightness;
-			oklch.coords[2] = hue;
-			rgbOrigin = to(oklch, space);
+		// Cast a ray from the zero chroma color to the target color.
+		// Trace the line to the RGB cube edge and find where it intersects.
+		// Correct L and h within the perceptual OkLCh after each attempt.
+		let last = rgbOrigin.coords;
+		for (let i = 0; i < 4; i++) {
+			if (i) {
+				// For constant luminance, we correct the color by simply setting lightness and hue to
+				// match the original color. In a non constant luminance reduction, it is better to
+				// project the color onto the reduction path vector.
+				const oklch = to(rgbOrigin, oklchSpace);
+				oklch.coords[0] = lightness;
+				oklch.coords[2] = hue;
+				rgbOrigin = to(oklch, space);
+			}
+			// Cast a ray from the achromatic anchor to the RGB target and find the gamut intersection.
+			const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);
+
+			// If we cannot find an intersection, reset to last successful iteration of the color.
+			// In OkLCh, this is only likely to happen if our ray gets too small, in that case, it is time to stop.
+			if (intersection.length === 0) {
+				rgbOrigin.coords = [...last];
+				break;
+			}
+
+			// Adjust anchor point closer to surface, when possible, to improve results for some spaces.
+			if (i && rgbOrigin.coords.every(x => low < x && x < high)) {
+				anchor = [...rgbOrigin.coords];
+			}
+
+			// If we have an intersection, update the color.
+			last = /** @type {[number, number, number]} */ (intersection);
+			rgbOrigin.coords = [...intersection];
 		}
-		// Cast a ray from the achromatic anchor to the RGB target and find the gamut intersection.
-		const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);
-
-		// If we cannot find an intersection, reset to last successful iteration of the color.
-		// In OkLCh, this is only likely to happen if our ray gets too small, in that case, it is time to stop.
-		if (intersection.length === 0) {
-			rgbOrigin.coords = [...last];
-			break;
-		}
-
-		// Adjust anchor point closer to surface, when possible, to improve results for some spaces.
-		if (i && rgbOrigin.coords.every(x => low < x && x < high)) {
-			anchor = [...rgbOrigin.coords];
-		}
-
-		// If we have an intersection, update the color.
-		last = /** @type {[number, number, number]} */ (intersection);
-		rgbOrigin.coords = [...intersection];
 	}
 
 	// Convert to the original, specified gamut
