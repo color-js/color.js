@@ -354,7 +354,7 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 		direction.push(d);
 
 		// Non parallel cases
-		if (Math.abs(d) > 1e-15) {
+		if (Math.abs(d) > 1e-14) {
 			const inv_d = 1 / d;
 			const t1 = (bn - a) * inv_d;
 			const t2 = (bx - a) * inv_d;
