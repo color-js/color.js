@@ -29,10 +29,15 @@ import { toPrecision } from "./util.js";
 export default function getAll (color, options) {
 	color = getColor(color);
 
-	let space = ColorSpace.get(options, options?.space);
+	let coords, space;
+
+	try {
+		space = ColorSpace.get(options, options?.space);
+	}
+	catch {}
+
 	let precision = options?.precision;
 
-	let coords;
 	if (!space || color.space.equals(space)) {
 		// No conversion needed
 		coords = color.coords.slice();
