@@ -12,6 +12,8 @@
 <link rel="shortcut icon" href="{{ page | relative }}/logo.svg">
 <link rel="stylesheet" href="{{ page | relative }}/assets/css/style.css">
 
+{% block head_extra %}{% endblock %}
+
 <script src="{{ page | relative }}/color.js" type="module"></script>
 
 {% if has_mavo %}
