@@ -28,7 +28,7 @@ export default new ColorSpace({
 			name: "Hue",
 		},
 	},
-	white: "D65",
+	white: [0.95047, 1, 1.08883],
 
 	base: Helmlab,
 	fromBase: lch.fromBase,
