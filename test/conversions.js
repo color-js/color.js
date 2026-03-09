@@ -458,6 +458,168 @@ const tests = {
 			],
 		},
 		{
+			name: "Helmlab (MetricSpace)",
+			description:
+				"Conversions tested against the reference Python implementation (arXiv:2602.23010)",
+			data: {
+				toSpace: "helmlab",
+			},
+			tests: [
+				{
+					name: "sRGB white to Helmlab",
+					args: "white",
+					expect: [1.1436, -0.0001, -0.0001],
+				},
+				{
+					name: "sRGB black to Helmlab",
+					args: "black",
+					expect: [0, , ,],
+				},
+				{
+					name: "sRGB red to Helmlab",
+					args: "red",
+					expect: [0.7867, 0.5265, -0.2029],
+				},
+				{
+					name: "sRGB lime to Helmlab",
+					args: "lime",
+					expect: [0.9401, -0.1149, 0.6216],
+				},
+				{
+					name: "sRGB blue to Helmlab",
+					args: "blue",
+					expect: [0.5427, -0.3818, -0.8094],
+				},
+				{
+					name: "sRGB cyan to Helmlab",
+					args: "cyan",
+					expect: [1.0202, -0.3323, 0.1468],
+				},
+				{
+					name: "sRGB magenta to Helmlab",
+					args: "magenta",
+					expect: [0.9773, 0.0928, -0.4357],
+				},
+				{
+					name: "sRGB yellow to Helmlab",
+					args: "yellow",
+					expect: [1.0591, 0.1304, 0.4989],
+				},
+			],
+		},
+		{
+			name: "Helmlab round-trip",
+			description:
+				"sRGB → Helmlab → sRGB round-trip precision",
+			data: {
+				epsilon: 0.00001,
+				toSpace: "srgb",
+			},
+			tests: [
+				{
+					name: "red round-trip",
+					args: "color(--helmlab 0.7866952652123163 0.5264626727974933 -0.20294895492583853)",
+					expect: [1, 0, 0],
+				},
+				{
+					name: "lime round-trip",
+					args: "color(--helmlab 0.9401342310340988 -0.11494498673764394 0.6216229787910522)",
+					expect: [0, 1, 0],
+				},
+				{
+					name: "blue round-trip",
+					args: "color(--helmlab 0.5426811452847655 -0.38182287384967056 -0.8094034094160044)",
+					expect: [0, 0, 1],
+				},
+				{
+					name: "slategray round-trip",
+					args: "color(--helmlab 0.6938339712476529 -0.1356443185448458 -0.09138634071251721)",
+					expect: [0.43922, 0.50196, 0.56471],
+				},
+			],
+		},
+		{
+			name: "HelmGen (GenSpace)",
+			description:
+				"Conversions tested against the reference Python implementation (arXiv:2602.23010)",
+			data: {
+				toSpace: "helmgen",
+			},
+			tests: [
+				{
+					name: "sRGB white to HelmGen",
+					args: "white",
+					expect: [1.1682, -0.0000, -0.0000],
+				},
+				{
+					name: "sRGB black to HelmGen",
+					args: "black",
+					expect: [0, 0, 0],
+				},
+				{
+					name: "sRGB red to HelmGen",
+					args: "red",
+					expect: [0.6050, 0.2181, 0.0327],
+				},
+				{
+					name: "sRGB lime to HelmGen",
+					args: "lime",
+					expect: [0.9294, -0.0606, 0.0967],
+				},
+				{
+					name: "sRGB blue to HelmGen",
+					args: "blue",
+					expect: [0.8171, -0.0667, -0.1106],
+				},
+				{
+					name: "sRGB cyan to HelmGen",
+					args: "cyan",
+					expect: [1.1054, -0.0806, 0.0127],
+				},
+				{
+					name: "sRGB magenta to HelmGen",
+					args: "magenta",
+					expect: [0.9244, 0.0590, -0.0953],
+				},
+				{
+					name: "sRGB yellow to HelmGen",
+					args: "yellow",
+					expect: [1.0134, 0.0421, 0.0698],
+				},
+			],
+		},
+		{
+			name: "HelmGen round-trip",
+			description:
+				"sRGB → HelmGen → sRGB round-trip precision",
+			data: {
+				epsilon: 0.00001,
+				toSpace: "srgb",
+			},
+			tests: [
+				{
+					name: "red round-trip",
+					args: "color(--helmgen 0.6050297690490629 0.21809172019865272 0.032651518573199145)",
+					expect: [1, 0, 0],
+				},
+				{
+					name: "lime round-trip",
+					args: "color(--helmgen 0.9294179182174894 -0.060647289947684264 0.09671033631326163)",
+					expect: [0, 1, 0],
+				},
+				{
+					name: "blue round-trip",
+					args: "color(--helmgen 0.8171376617575913 -0.06669573858299453 -0.1105788990924602)",
+					expect: [0, 0, 1],
+				},
+				{
+					name: "slategray round-trip",
+					args: "color(--helmgen 0.7151692113588881 -0.015560177105096109 -0.007689801744524543)",
+					expect: [0.43922, 0.50196, 0.56471],
+				},
+			],
+		},
+		{
 			name: "OKLrab",
 			data: {
 				toSpace: "oklrab",
