@@ -241,7 +241,7 @@ export default new ColorSpace({
 			refRange: [-0.4, 0.4],
 		},
 	},
-	white: "D65",
+	white: [0.95047, 1, 1.08883],
 	base: XYZ_D65,
 
 	fromBase (xyz) {
