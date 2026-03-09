@@ -15,15 +15,8 @@
  * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
+import {spow} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
-
-const {cbrt} = Math;
-
-// ── Utility ────────────────────────────────────────────────────────
-
-function signedCbrt (x) {
-	return x >= 0 ? cbrt(x) : -cbrt(-x);
-}
 
 // ── Core parameters (Phase1H-optimized) ────────────────────────────
 
@@ -75,9 +68,9 @@ function buildNcLut () {
 		let lms1 = M1[1][0] * xyz[0] + M1[1][1] * xyz[1] + M1[1][2] * xyz[2];
 		let lms2 = M1[2][0] * xyz[0] + M1[2][1] * xyz[1] + M1[2][2] * xyz[2];
 
-		let c0 = signedCbrt(lms0);
-		let c1 = signedCbrt(lms1);
-		let c2 = signedCbrt(lms2);
+		let c0 = spow(lms0, 1 / 3);
+		let c1 = spow(lms1, 1 / 3);
+		let c2 = spow(lms2, 1 / 3);
 
 		ncL[i] = M2[0][0] * c0 + M2[0][1] * c1 + M2[0][2] * c2;
 		ncA[i] = M2[1][0] * c0 + M2[1][1] * c1 + M2[1][2] * c2;
@@ -118,6 +111,7 @@ function neutralError (L) {
 export default new ColorSpace({
 	id: "helmgen",
 	name: "HelmGen",
+	cssId: "--helmgen",
 	coords: {
 		l: {
 			refRange: [0, 1],
@@ -140,9 +134,9 @@ export default new ColorSpace({
 		let lms2 = M1[2][0] * xyz[0] + M1[2][1] * xyz[1] + M1[2][2] * xyz[2];
 
 		// Stage 2: Shared cube root compression
-		let c0 = signedCbrt(lms0);
-		let c1 = signedCbrt(lms1);
-		let c2 = signedCbrt(lms2);
+		let c0 = spow(lms0, 1 / 3);
+		let c1 = spow(lms1, 1 / 3);
+		let c2 = spow(lms2, 1 / 3);
 
 		// Stage 3: LMS_c → Lab_raw (M2)
 		let L = M2[0][0] * c0 + M2[0][1] * c1 + M2[0][2] * c2;

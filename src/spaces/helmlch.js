@@ -13,6 +13,7 @@ import lch from "./lch.js";
 export default new ColorSpace({
 	id: "helmlch",
 	name: "HelmLCh",
+	cssId: "--helmlch",
 	coords: {
 		l: {
 			refRange: [0, 1],
