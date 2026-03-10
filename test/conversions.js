@@ -468,7 +468,7 @@ const tests = {
 				{
 					name: "sRGB white to Helmlab",
 					args: "white",
-					expect: [1.1436, -0.0000, -0.0002],
+					expect: [1.1436, 0, 0],
 				},
 				{
 					name: "sRGB black to Helmlab",
@@ -478,7 +478,7 @@ const tests = {
 				{
 					name: "sRGB red to Helmlab",
 					args: "red",
-					expect: [0.7867, 0.5265, -0.2029],
+					expect: [0.7867, 0.5265, -0.2030],
 				},
 				{
 					name: "sRGB lime to Helmlab",
@@ -488,22 +488,22 @@ const tests = {
 				{
 					name: "sRGB blue to Helmlab",
 					args: "blue",
-					expect: [0.5435, -0.3828, -0.8104],
+					expect: [0.5411, -0.3799, -0.8074],
 				},
 				{
 					name: "sRGB cyan to Helmlab",
 					args: "cyan",
-					expect: [1.0202, -0.3323, 0.1467],
+					expect: [1.0202, -0.3322, 0.1469],
 				},
 				{
 					name: "sRGB magenta to Helmlab",
 					args: "magenta",
-					expect: [0.9773, 0.0928, -0.4357],
+					expect: [0.9773, 0.0929, -0.4357],
 				},
 				{
 					name: "sRGB yellow to Helmlab",
 					args: "yellow",
-					expect: [1.0591, 0.1304, 0.4988],
+					expect: [1.0591, 0.1304, 0.4989],
 				},
 			],
 		},
@@ -518,22 +518,22 @@ const tests = {
 			tests: [
 				{
 					name: "red round-trip",
-					args: "color(--helmlab 0.7867027014077319 0.5264599100297838 -0.2029580938819016)",
+					args: "color(--helmlab 0.786704639561538 0.5264786853762529 -0.2029503130056091)",
 					expect: [1, 0, 0],
 				},
 				{
 					name: "lime round-trip",
-					args: "color(--helmlab 0.940133445262863 -0.11493555954142518 0.6216003616758868)",
+					args: "color(--helmlab 0.9401328584111567 -0.11492243533032018 0.621622627523428)",
 					expect: [0, 1, 0],
 				},
 				{
 					name: "blue round-trip",
-					args: "color(--helmlab 0.54345391514726 -0.3827585312861325 -0.8104060161201081)",
+					args: "color(--helmlab 0.5411290644918475 -0.37992734650868804 -0.8073814349706752)",
 					expect: [0, 0, 1],
 				},
 				{
 					name: "slategray round-trip",
-					args: "color(--helmlab 0.6937698220331696 -0.13566744483007487 -0.09152577422353105)",
+					args: "color(--helmlab 0.6938832603386231 -0.13551961205170948 -0.09129021804001478)",
 					expect: [0.43922, 0.50196, 0.56471],
 				},
 			],
@@ -574,12 +574,12 @@ const tests = {
 				{
 					name: "sRGB cyan to HelmGen",
 					args: "cyan",
-					expect: [1.1054, -0.0806, 0.0126],
+					expect: [1.1054, -0.0806, 0.0127],
 				},
 				{
 					name: "sRGB magenta to HelmGen",
 					args: "magenta",
-					expect: [0.9244, 0.0590, -0.0953],
+					expect: [0.9243, 0.0591, -0.0953],
 				},
 				{
 					name: "sRGB yellow to HelmGen",
@@ -599,22 +599,22 @@ const tests = {
 			tests: [
 				{
 					name: "red round-trip",
-					args: "color(--helmgen 0.6050345234467481 0.2180948290803091 0.03265103248831769)",
+					args: "color(--helmgen 0.6050348860767814 0.2181004731600291 0.0326547604902413)",
 					expect: [1, 0, 0],
 				},
 				{
 					name: "lime round-trip",
-					args: "color(--helmgen 0.9294160162240315 -0.06063714009108118 0.09670390871956679)",
+					args: "color(--helmgen 0.9294151262749067 -0.06063480642789227 0.09670794562499295)",
 					expect: [0, 1, 0],
 				},
 				{
 					name: "blue round-trip",
-					args: "color(--helmgen 0.8171767919817787 -0.06669957093702343 -0.11058560209344158)",
+					args: "color(--helmgen 0.8170822497957013 -0.06668880195793375 -0.11056988966129042)",
 					expect: [0, 0, 1],
 				},
 				{
 					name: "slategray round-trip",
-					args: "color(--helmgen 0.7151834821478487 -0.015558630404074405 -0.00769821880936155)",
+					args: "color(--helmgen 0.7151486346010711 -0.015548877085447778 -0.007682647993618115)",
 					expect: [0.43922, 0.50196, 0.56471],
 				},
 			],
