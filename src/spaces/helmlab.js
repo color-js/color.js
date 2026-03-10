@@ -96,8 +96,12 @@ const NC_B = new Float64Array([0.0669735642,0.0806759511,0.0902026187,0.09776540
 const NC_N = NC_L.length;
 
 function neutralError (L) {
-	if (L <= NC_L[0]) {
-		return [NC_A[0], NC_B[0]];
+	if (L <= 0) {
+		return [0, 0];
+	}
+	if (L < NC_L[0]) {
+		let t = L / NC_L[0];
+		return [NC_A[0] * t, NC_B[0] * t];
 	}
 	if (L >= NC_L[NC_N - 1]) {
 		return [NC_A[NC_N - 1], NC_B[NC_N - 1]];

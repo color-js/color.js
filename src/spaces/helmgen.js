@@ -83,8 +83,12 @@ function neutralError (L) {
 		buildNcLut();
 	}
 	let N = ncL.length;
-	if (L <= ncL[0]) {
-		return [ncA[0], ncB[0]];
+	if (L <= 0) {
+		return [0, 0];
+	}
+	if (L < ncL[0]) {
+		let t = L / ncL[0];
+		return [ncA[0] * t, ncB[0] * t];
 	}
 	if (L >= ncL[N - 1]) {
 		return [ncA[N - 1], ncB[N - 1]];
