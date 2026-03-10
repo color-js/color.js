@@ -7,7 +7,7 @@
  * @see ./helmlab.js
  */
 import ColorSpace from "../ColorSpace.js";
-import Helmlab, {HELMLAB_D65} from "./helmlab.js";
+import Helmlab from "./helmlab.js";
 import lch from "./lch.js";
 
 export default new ColorSpace({
@@ -29,7 +29,7 @@ export default new ColorSpace({
 			name: "Hue",
 		},
 	},
-	white: HELMLAB_D65,
+	white: "D65",
 
 	base: Helmlab,
 	fromBase: lch.fromBase,

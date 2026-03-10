@@ -17,7 +17,7 @@
 import ColorSpace from "../ColorSpace.js";
 import {spow} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
-import {HELMLAB_D65} from "./helmlab.js";
+import {HELMLAB_D65, CAT_TO_HELM, CAT_FROM_HELM} from "./helmlab.js";
 
 // ── Core parameters (Phase1H-optimized) ────────────────────────────
 
@@ -129,14 +129,19 @@ export default new ColorSpace({
 			refRange: [-0.4, 0.4],
 		},
 	},
-	white: HELMLAB_D65,
+	white: "D65",
 	base: XYZ_D65,
 
 	fromBase (xyz) {
+		// Chromatic adaptation: Color.js D65 → Helmlab D65
+		let x = CAT_TO_HELM[0][0] * xyz[0] + CAT_TO_HELM[0][1] * xyz[1] + CAT_TO_HELM[0][2] * xyz[2];
+		let y = CAT_TO_HELM[1][0] * xyz[0] + CAT_TO_HELM[1][1] * xyz[1] + CAT_TO_HELM[1][2] * xyz[2];
+		let z = CAT_TO_HELM[2][0] * xyz[0] + CAT_TO_HELM[2][1] * xyz[1] + CAT_TO_HELM[2][2] * xyz[2];
+
 		// Stage 1: XYZ → LMS (M1)
-		let lms0 = M1[0][0] * xyz[0] + M1[0][1] * xyz[1] + M1[0][2] * xyz[2];
-		let lms1 = M1[1][0] * xyz[0] + M1[1][1] * xyz[1] + M1[1][2] * xyz[2];
-		let lms2 = M1[2][0] * xyz[0] + M1[2][1] * xyz[1] + M1[2][2] * xyz[2];
+		let lms0 = M1[0][0] * x + M1[0][1] * y + M1[0][2] * z;
+		let lms1 = M1[1][0] * x + M1[1][1] * y + M1[1][2] * z;
+		let lms2 = M1[2][0] * x + M1[2][1] * y + M1[2][2] * z;
 
 		// Stage 2: Shared cube root compression
 		let c0 = spow(lms0, 1 / 3);
@@ -174,11 +179,16 @@ export default new ColorSpace({
 		let l1 = lc1 * lc1 * lc1;
 		let l2 = lc2 * lc2 * lc2;
 
-		// Undo Stage 1: LMS → XYZ (M1_inv)
+		// Undo Stage 1: LMS → XYZ (M1_inv) — in Helmlab D65
+		let x = M1_INV[0][0] * l0 + M1_INV[0][1] * l1 + M1_INV[0][2] * l2;
+		let y = M1_INV[1][0] * l0 + M1_INV[1][1] * l1 + M1_INV[1][2] * l2;
+		let z = M1_INV[2][0] * l0 + M1_INV[2][1] * l1 + M1_INV[2][2] * l2;
+
+		// Chromatic adaptation: Helmlab D65 → Color.js D65
 		return [
-			M1_INV[0][0] * l0 + M1_INV[0][1] * l1 + M1_INV[0][2] * l2,
-			M1_INV[1][0] * l0 + M1_INV[1][1] * l1 + M1_INV[1][2] * l2,
-			M1_INV[2][0] * l0 + M1_INV[2][1] * l1 + M1_INV[2][2] * l2,
+			CAT_FROM_HELM[0][0] * x + CAT_FROM_HELM[0][1] * y + CAT_FROM_HELM[0][2] * z,
+			CAT_FROM_HELM[1][0] * x + CAT_FROM_HELM[1][1] * y + CAT_FROM_HELM[1][2] * z,
+			CAT_FROM_HELM[2][0] * x + CAT_FROM_HELM[2][1] * y + CAT_FROM_HELM[2][2] * z,
 		];
 	},
 });

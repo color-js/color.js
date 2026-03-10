@@ -22,6 +22,22 @@ const {cos, sin, sqrt, atan2, exp, abs, pow, PI} = Math;
 // Single source of truth for all Helmlab spaces
 export const HELMLAB_D65 = [0.95047, 1, 1.08883];
 
+// Bradford chromatic adaptation: Color.js D65 ↔ Helmlab D65
+// Color.js uses chromaticity-derived D65 [0.3127/0.3290, 1, ...],
+// Helmlab uses SPD-integrated D65 (ASTM-E308). These matrices bridge the two.
+// prettier-ignore
+export const CAT_TO_HELM = [
+	[1.0000201916030278, 1.3974522432548542e-05, 2.0904058886300758e-05],
+	[2.3918862194759975e-05, 0.999971625097619, 5.181757508056217e-06],
+	[6.5357802635016005e-06, -1.2465937322250764e-05, 1.0001506153840007],
+];
+// prettier-ignore
+export const CAT_FROM_HELM = [
+	[0.9999798092755193, -1.3974897356446471e-05, -2.0900416479424136e-05],
+	[-2.391902409298771e-05, 1.000028375977222, -5.180624259088947e-06],
+	[-6.534962208575713e-06, 1.2464505046048708e-05, 0.9998494073695854],
+];
+
 // ── Core parameters (v20b, 72 params) ──────────────────────────────
 
 // prettier-ignore
@@ -241,14 +257,19 @@ export default new ColorSpace({
 			refRange: [-1, 1],
 		},
 	},
-	white: HELMLAB_D65,
+	white: "D65",
 	base: XYZ_D65,
 
 	fromBase (xyz) {
+		// Chromatic adaptation: Color.js D65 → Helmlab D65
+		let x = CAT_TO_HELM[0][0] * xyz[0] + CAT_TO_HELM[0][1] * xyz[1] + CAT_TO_HELM[0][2] * xyz[2];
+		let y = CAT_TO_HELM[1][0] * xyz[0] + CAT_TO_HELM[1][1] * xyz[1] + CAT_TO_HELM[1][2] * xyz[2];
+		let z = CAT_TO_HELM[2][0] * xyz[0] + CAT_TO_HELM[2][1] * xyz[1] + CAT_TO_HELM[2][2] * xyz[2];
+
 		// Stage 1: XYZ → LMS (M1)
-		let lms0 = M1[0][0] * xyz[0] + M1[0][1] * xyz[1] + M1[0][2] * xyz[2];
-		let lms1 = M1[1][0] * xyz[0] + M1[1][1] * xyz[1] + M1[1][2] * xyz[2];
-		let lms2 = M1[2][0] * xyz[0] + M1[2][1] * xyz[1] + M1[2][2] * xyz[2];
+		let lms0 = M1[0][0] * x + M1[0][1] * y + M1[0][2] * z;
+		let lms1 = M1[1][0] * x + M1[1][1] * y + M1[1][2] * z;
+		let lms2 = M1[2][0] * x + M1[2][1] * y + M1[2][2] * z;
 
 		// Stage 2: Power compression (signed)
 		let c0 = spow(lms0, GAMMA[0]);
@@ -409,11 +430,16 @@ export default new ColorSpace({
 		let l1 = spow(lc1, INV_GAMMA[1]);
 		let l2 = spow(lc2, INV_GAMMA[2]);
 
-		// Undo Stage 1: LMS → XYZ (M1_inv)
+		// Undo Stage 1: LMS → XYZ (M1_inv) — in Helmlab D65
+		let x = M1_INV[0][0] * l0 + M1_INV[0][1] * l1 + M1_INV[0][2] * l2;
+		let y = M1_INV[1][0] * l0 + M1_INV[1][1] * l1 + M1_INV[1][2] * l2;
+		let z = M1_INV[2][0] * l0 + M1_INV[2][1] * l1 + M1_INV[2][2] * l2;
+
+		// Chromatic adaptation: Helmlab D65 → Color.js D65
 		return [
-			M1_INV[0][0] * l0 + M1_INV[0][1] * l1 + M1_INV[0][2] * l2,
-			M1_INV[1][0] * l0 + M1_INV[1][1] * l1 + M1_INV[1][2] * l2,
-			M1_INV[2][0] * l0 + M1_INV[2][1] * l1 + M1_INV[2][2] * l2,
+			CAT_FROM_HELM[0][0] * x + CAT_FROM_HELM[0][1] * y + CAT_FROM_HELM[0][2] * z,
+			CAT_FROM_HELM[1][0] * x + CAT_FROM_HELM[1][1] * y + CAT_FROM_HELM[1][2] * z,
+			CAT_FROM_HELM[2][0] * x + CAT_FROM_HELM[2][1] * y + CAT_FROM_HELM[2][2] * z,
 		];
 	},
 });

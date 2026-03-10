@@ -9,7 +9,6 @@
  */
 import ColorSpace from "../ColorSpace.js";
 import HelmGen from "./helmgen.js";
-import {HELMLAB_D65} from "./helmlab.js";
 import lch from "./lch.js";
 
 export default new ColorSpace({
@@ -31,7 +30,7 @@ export default new ColorSpace({
 			name: "Hue",
 		},
 	},
-	white: HELMLAB_D65,
+	white: "D65",
 
 	base: HelmGen,
 	fromBase: lch.fromBase,
