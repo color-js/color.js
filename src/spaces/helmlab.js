@@ -18,6 +18,10 @@ import XYZ_D65 from "./xyz-d65.js";
 
 const {cos, sin, sqrt, atan2, exp, abs, pow, PI} = Math;
 
+// D65 white point (CIE 1931 2° observer, SPD-integrated tristimulus)
+// Single source of truth for all Helmlab spaces
+export const HELMLAB_D65 = [0.95047, 1, 1.08883];
+
 // ── Core parameters (v20b, 72 params) ──────────────────────────────
 
 // prettier-ignore
@@ -237,7 +241,7 @@ export default new ColorSpace({
 			refRange: [-1, 1],
 		},
 	},
-	white: [0.95047, 1, 1.08883],
+	white: HELMLAB_D65,
 	base: XYZ_D65,
 
 	fromBase (xyz) {

@@ -17,6 +17,7 @@
 import ColorSpace from "../ColorSpace.js";
 import {spow} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
+import {HELMLAB_D65} from "./helmlab.js";
 
 // ── Core parameters (Phase1H-optimized) ────────────────────────────
 
@@ -46,7 +47,7 @@ const M2_INV = [
 	[0.9190914921797732,  -0.3220781744225231, -0.12809671783208074],
 ];
 
-const D65_X = 0.95047, D65_Z = 1.08883;
+const D65_X = HELMLAB_D65[0], D65_Z = HELMLAB_D65[2];
 
 // ── Neutral correction LUT (lazily computed) ───────────────────────
 
@@ -128,7 +129,7 @@ export default new ColorSpace({
 			refRange: [-0.4, 0.4],
 		},
 	},
-	white: [0.95047, 1, 1.08883],
+	white: HELMLAB_D65,
 	base: XYZ_D65,
 
 	fromBase (xyz) {
