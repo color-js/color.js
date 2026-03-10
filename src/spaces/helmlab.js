@@ -227,14 +227,14 @@ export default new ColorSpace({
 	cssId: "--helmlab",
 	coords: {
 		l: {
-			refRange: [0, 1],
+			refRange: [0, 1.144],
 			name: "Lightness",
 		},
 		a: {
-			refRange: [-0.4, 0.4],
+			refRange: [-1, 1],
 		},
 		b: {
-			refRange: [-0.4, 0.4],
+			refRange: [-1, 1],
 		},
 	},
 	white: [0.95047, 1, 1.08883],

@@ -118,7 +118,7 @@ export default new ColorSpace({
 	cssId: "--helmgen",
 	coords: {
 		l: {
-			refRange: [0, 1],
+			refRange: [0, 1.168],
 			name: "Lightness",
 		},
 		a: {

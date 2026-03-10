@@ -16,11 +16,11 @@ export default new ColorSpace({
 	cssId: "--helmlch",
 	coords: {
 		l: {
-			refRange: [0, 1],
+			refRange: [0, 1.144],
 			name: "Lightness",
 		},
 		c: {
-			refRange: [0, 0.4],
+			refRange: [0, 1],
 			name: "Chroma",
 		},
 		h: {
