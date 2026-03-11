@@ -881,5 +881,73 @@ export default {
 				},
 			],
 		},
+		{
+			name: "DeltaE Helmlab",
+			description:
+				"Helmlab MetricSpace weighted distance (v20b). Values are compressed into a small range by monotonic compression.",
+			data: { method: "Helmlab" },
+			tests: [
+				{
+					name: "white vs black",
+					args: ["white", "black"],
+					expect: 0.3669,
+				},
+				{
+					name: "identical colors",
+					args: ["white", "white"],
+					expect: 0,
+				},
+				{
+					name: "barely off-white",
+					args: ["#fffffe", "white"],
+					expect: 0.0084,
+				},
+				{
+					name: "red vs blue",
+					args: ["red", "blue"],
+					expect: 0.3649,
+				},
+				{
+					name: "red vs green",
+					args: ["red", "green"],
+					expect: 0.3518,
+				},
+				{
+					name: "Sharma test 17: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(73% 25 -18)"],
+					expect: 0.2175,
+				},
+				{
+					name: "Sharma test 18: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(61% -5 29)"],
+					expect: 0.2133,
+				},
+				{
+					name: "Sharma test 19: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(56% -27 -3)"],
+					expect: 0.2297,
+				},
+				{
+					name: "Sharma test 20: large color differences",
+					args: ["lab(50% 2.5 0)", "lab(58% 24 15)"],
+					expect: 0.1831,
+				},
+				{
+					name: "Brilliant Yellow with Hue error",
+					args: ["lab(84.25% 5.74 96.00)", "lab(84.46% 8.88 96.49)"],
+					expect: 0.0449,
+				},
+				{
+					name: "Brilliant Yellow with low Chroma error",
+					args: ["lab(84.25% 5.74 96.00)", "lab(84.52% 5.75 93.09)"],
+					expect: 0.0133,
+				},
+				{
+					name: "Brilliant Yellow with high Chroma error",
+					args: ["lab(84.25% 5.74 96.00)", "lab(84.37% 5.86 99.42)"],
+					expect: 0.0131,
+				},
+			],
+		},
 	],
 };
