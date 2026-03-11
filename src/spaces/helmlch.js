@@ -4,7 +4,7 @@
  * Converts Helmlab's rectangular (L, a, b) coordinates to
  * cylindrical (L, C, h) for intuitive hue and chroma manipulation.
  *
- * @see ./helmlab.js
+ * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
 import Helmlab from "./helmlab.js";
