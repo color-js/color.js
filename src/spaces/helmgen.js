@@ -18,6 +18,8 @@ import ColorSpace from "../ColorSpace.js";
 import {multiply_v3_m3x3} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
 
+/** @import { Matrix3x3 } from "../types.js" */
+
 const {cbrt} = Math;
 
 // ── Utility ────────────────────────────────────────────────────────
@@ -28,12 +30,14 @@ function signedCbrt (x) {
 
 // ── Core parameters (Phase1H-optimized) ────────────────────────────
 
+/** @type {Matrix3x3} */
 // prettier-ignore
 const M1 = [
 	[ 0.4407412072890238,  0.40911369156796634, 0.18687249931895067],
 	[ 0.12308224353121994, 0.557136239636739,   0.19274910862205916],
 	[-0.23021079382916068, 0.9278243045135821,  0.4854100909928004],
 ];
+/** @type {Matrix3x3} */
 // prettier-ignore
 const M1_INV = [
 	[ 2.1260672085906416,  -0.5849574469885626, -0.5862125072812664],
@@ -41,12 +45,14 @@ const M1_INV = [
 	[ 5.627382627163578,  -11.677133103760323,   4.530507259029064],
 ];
 
+/** @type {Matrix3x3} */
 // prettier-ignore
 const M2 = [
 	[ 0.2778609560084774,   0.21180362605092856,  0.6372017137356791],
 	[ 1.7548720474157444,  -0.9793270531556616,  -0.7760752041286899],
 	[-2.418690735750103,    3.982044105359993,   -1.2833774660668076],
 ];
+/** @type {Matrix3x3} */
 // prettier-ignore
 const M2_INV = [
 	[0.8649568923272442,   0.5589393137919957,  0.0914563915567646],
@@ -69,6 +75,7 @@ function buildNcLut () {
 
 	for (let i = 0; i < N; i++) {
 		let Y = i / (N - 1);
+		/** @type {import("../types.js").Vector3} */
 		let xyz = [Y * D65_X, Y, Y * D65_Z];
 
 		// Pipeline without NC: M1 → cbrt → M2
