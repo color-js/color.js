@@ -15,9 +15,16 @@
  * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
-import {spow} from "../util.js";
+import {multiply_v3_m3x3} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
-import {HELMLAB_D65, CAT_TO_HELM, CAT_FROM_HELM} from "./helmlab.js";
+
+const {cbrt} = Math;
+
+// ── Utility ────────────────────────────────────────────────────────
+
+function signedCbrt (x) {
+	return x >= 0 ? cbrt(x) : -cbrt(-x);
+}
 
 // ── Core parameters (Phase1H-optimized) ────────────────────────────
 
@@ -47,7 +54,7 @@ const M2_INV = [
 	[0.9190914921797732,  -0.3220781744225231, -0.12809671783208074],
 ];
 
-const D65_X = HELMLAB_D65[0], D65_Z = HELMLAB_D65[2];
+const D65_X = 0.95047, D65_Z = 1.08883;
 
 // ── Neutral correction LUT (lazily computed) ───────────────────────
 
@@ -65,17 +72,13 @@ function buildNcLut () {
 		let xyz = [Y * D65_X, Y, Y * D65_Z];
 
 		// Pipeline without NC: M1 → cbrt → M2
-		let lms0 = M1[0][0] * xyz[0] + M1[0][1] * xyz[1] + M1[0][2] * xyz[2];
-		let lms1 = M1[1][0] * xyz[0] + M1[1][1] * xyz[1] + M1[1][2] * xyz[2];
-		let lms2 = M1[2][0] * xyz[0] + M1[2][1] * xyz[1] + M1[2][2] * xyz[2];
+		let [lms0, lms1, lms2] = multiply_v3_m3x3(xyz, M1);
 
-		let c0 = spow(lms0, 1 / 3);
-		let c1 = spow(lms1, 1 / 3);
-		let c2 = spow(lms2, 1 / 3);
+		let c0 = signedCbrt(lms0);
+		let c1 = signedCbrt(lms1);
+		let c2 = signedCbrt(lms2);
 
-		ncL[i] = M2[0][0] * c0 + M2[0][1] * c1 + M2[0][2] * c2;
-		ncA[i] = M2[1][0] * c0 + M2[1][1] * c1 + M2[1][2] * c2;
-		ncB[i] = M2[2][0] * c0 + M2[2][1] * c1 + M2[2][2] * c2;
+		[ncL[i], ncA[i], ncB[i]] = multiply_v3_m3x3([c0, c1, c2], M2);
 	}
 }
 
@@ -116,7 +119,6 @@ function neutralError (L) {
 export default new ColorSpace({
 	id: "helmgen",
 	name: "HelmGen",
-	cssId: "--helmgen",
 	coords: {
 		l: {
 			refRange: [0, 1.168],
@@ -133,25 +135,16 @@ export default new ColorSpace({
 	base: XYZ_D65,
 
 	fromBase (xyz) {
-		// Chromatic adaptation: Color.js D65 → Helmlab D65
-		let x = CAT_TO_HELM[0][0] * xyz[0] + CAT_TO_HELM[0][1] * xyz[1] + CAT_TO_HELM[0][2] * xyz[2];
-		let y = CAT_TO_HELM[1][0] * xyz[0] + CAT_TO_HELM[1][1] * xyz[1] + CAT_TO_HELM[1][2] * xyz[2];
-		let z = CAT_TO_HELM[2][0] * xyz[0] + CAT_TO_HELM[2][1] * xyz[1] + CAT_TO_HELM[2][2] * xyz[2];
-
 		// Stage 1: XYZ → LMS (M1)
-		let lms0 = M1[0][0] * x + M1[0][1] * y + M1[0][2] * z;
-		let lms1 = M1[1][0] * x + M1[1][1] * y + M1[1][2] * z;
-		let lms2 = M1[2][0] * x + M1[2][1] * y + M1[2][2] * z;
+		let [lms0, lms1, lms2] = multiply_v3_m3x3(xyz, M1);
 
 		// Stage 2: Shared cube root compression
-		let c0 = spow(lms0, 1 / 3);
-		let c1 = spow(lms1, 1 / 3);
-		let c2 = spow(lms2, 1 / 3);
+		let c0 = signedCbrt(lms0);
+		let c1 = signedCbrt(lms1);
+		let c2 = signedCbrt(lms2);
 
 		// Stage 3: LMS_c → Lab_raw (M2)
-		let L = M2[0][0] * c0 + M2[0][1] * c1 + M2[0][2] * c2;
-		let a = M2[1][0] * c0 + M2[1][1] * c1 + M2[1][2] * c2;
-		let b = M2[2][0] * c0 + M2[2][1] * c1 + M2[2][2] * c2;
+		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
 
 		// Stage 10: Neutral correction (LUT)
 		let [aErr, bErr] = neutralError(L);
@@ -170,25 +163,14 @@ export default new ColorSpace({
 		b += bErr;
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
-		let lc0 = M2_INV[0][0] * L + M2_INV[0][1] * a + M2_INV[0][2] * b;
-		let lc1 = M2_INV[1][0] * L + M2_INV[1][1] * a + M2_INV[1][2] * b;
-		let lc2 = M2_INV[2][0] * L + M2_INV[2][1] * a + M2_INV[2][2] * b;
+		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
 
 		// Undo Stage 2: cube (inverse of cube root)
 		let l0 = lc0 * lc0 * lc0;
 		let l1 = lc1 * lc1 * lc1;
 		let l2 = lc2 * lc2 * lc2;
 
-		// Undo Stage 1: LMS → XYZ (M1_inv) — in Helmlab D65
-		let x = M1_INV[0][0] * l0 + M1_INV[0][1] * l1 + M1_INV[0][2] * l2;
-		let y = M1_INV[1][0] * l0 + M1_INV[1][1] * l1 + M1_INV[1][2] * l2;
-		let z = M1_INV[2][0] * l0 + M1_INV[2][1] * l1 + M1_INV[2][2] * l2;
-
-		// Chromatic adaptation: Helmlab D65 → Color.js D65
-		return [
-			CAT_FROM_HELM[0][0] * x + CAT_FROM_HELM[0][1] * y + CAT_FROM_HELM[0][2] * z,
-			CAT_FROM_HELM[1][0] * x + CAT_FROM_HELM[1][1] * y + CAT_FROM_HELM[1][2] * z,
-			CAT_FROM_HELM[2][0] * x + CAT_FROM_HELM[2][1] * y + CAT_FROM_HELM[2][2] * z,
-		];
+		// Undo Stage 1: LMS → XYZ (M1_inv)
+		return multiply_v3_m3x3([l0, l1, l2], M1_INV);
 	},
 });
