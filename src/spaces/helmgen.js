@@ -15,19 +15,11 @@
  * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
-import {multiply_v3_m3x3} from "../util.js";
+import {multiply_v3_m3x3, spow} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
 import {CAT_TO_HELM, CAT_FROM_HELM} from "./helmlab.js";
 
 /** @import { Matrix3x3 } from "../types.js" */
-
-const {cbrt} = Math;
-
-// ── Utility ────────────────────────────────────────────────────────
-
-function signedCbrt (x) {
-	return x >= 0 ? cbrt(x) : -cbrt(-x);
-}
 
 // ── Core parameters (v14 CMA-ES optimized, 28/43 benchmark wins) ───
 
@@ -90,9 +82,9 @@ export default new ColorSpace({
 		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
 
 		// Stage 2: Shared cube root compression
-		let c0 = signedCbrt(lms0);
-		let c1 = signedCbrt(lms1);
-		let c2 = signedCbrt(lms2);
+		let c0 = spow(lms0, 1 / 3);
+		let c1 = spow(lms1, 1 / 3);
+		let c2 = spow(lms2, 1 / 3);
 
 		// Stage 3: LMS_c → Lab (M2)
 		return multiply_v3_m3x3([c0, c1, c2], M2);

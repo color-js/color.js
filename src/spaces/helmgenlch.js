@@ -21,7 +21,7 @@ export default new ColorSpace({
 			name: "Lightness",
 		},
 		c: {
-			refRange: [0, 0.35],
+			refRange: [0, 0.4],
 			name: "Chroma",
 		},
 		h: {

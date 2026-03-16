@@ -13,7 +13,7 @@
  * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
-import {multiply_v3_m3x3} from "../util.js";
+import {multiply_v3_m3x3, spow, clamp} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
 
 /** @import { Matrix3x3 } from "../types.js" */
@@ -46,14 +46,6 @@ export const CAT_FROM_HELM = [
 ];
 
 // ── Utility functions ──────────────────────────────────────────────
-
-function signedPow (x, p) {
-	return x >= 0 ? x ** p : -((-x) ** p);
-}
-
-function clamp (x, lo, hi) {
-	return x < lo ? lo : x > hi ? hi : x;
-}
 
 // ── Core parameters (v20b, 72 params) ──────────────────────────────
 
@@ -190,13 +182,13 @@ function chromaScaleH (h) {
 
 function lChromaScale (L) {
 	let dL = L - 0.5;
-	return exp(clamp(lc1 * dL + lc2 * dL * dL, -30, 30));
+	return exp(clamp(-30, lc1 * dL + lc2 * dL * dL, 30));
 }
 
 function hlcScale (h, L) {
 	let hueFactor = hlc_cos1 * cos(h) + hlc_sin1 * sin(h) +
 		hlc_cos2 * cos(2 * h) + hlc_sin2 * sin(2 * h);
-	return exp(clamp((L - 0.5) * hueFactor, -30, 30));
+	return exp(clamp(-30, (L - 0.5) * hueFactor, 30));
 }
 
 function hueLightnessScale (h) {
@@ -239,7 +231,7 @@ function lCorrectInv (L1, h) {
 function darkLFwd (L, h) {
 	let coeff = lp_dark + lp_dark_hcos * cos(h) + lp_dark_hsin * sin(h);
 	let g = coeff * L * (1 - L) ** 2;
-	return L * exp(clamp(g, -30, 30));
+	return L * exp(clamp(-30, g, 30));
 }
 
 function darkLInv (Ln, h) {
@@ -248,7 +240,7 @@ function darkLInv (Ln, h) {
 	for (let i = 0; i < 12; i++) {
 		let oml = 1 - L;
 		let g = coeff * L * oml * oml;
-		let eg = exp(clamp(g, -30, 30));
+		let eg = exp(clamp(-30, g, 30));
 		let f = L * eg - Ln;
 		let gp = coeff * oml * (1 - 3 * L);
 		let fp = eg * (1 + L * gp);
@@ -289,9 +281,9 @@ export default new ColorSpace({
 		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
 
 		// Stage 2: Power compression (signed)
-		let c0 = signedPow(lms0, GAMMA[0]);
-		let c1 = signedPow(lms1, GAMMA[1]);
-		let c2 = signedPow(lms2, GAMMA[2]);
+		let c0 = spow(lms0, GAMMA[0]);
+		let c1 = spow(lms1, GAMMA[1]);
+		let c2 = spow(lms2, GAMMA[2]);
 
 		// Stage 3: LMS_c → Lab_raw (M2)
 		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
@@ -306,7 +298,7 @@ export default new ColorSpace({
 
 		// Stage 3.7: Helmholtz-Kohlrausch correction
 		let Cr = sqrt(a * a + b * b);
-		let hkBoost = hk_weight * pow(Cr, clamp(hk_power, 0.01, 10));
+		let hkBoost = hk_weight * pow(Cr, clamp(0.01, hk_power, 10));
 		let hr = atan2(b, a);
 		let factor = 1 + hk_hue_mod * cos(hr) + hk_sin1 * sin(hr) +
 			hk_cos2 * cos(2 * hr) + hk_sin2 * sin(2 * hr);
@@ -414,7 +406,7 @@ export default new ColorSpace({
 
 		// Undo Stage 3.7: H-K
 		let Cr = sqrt(a * a + b * b);
-		let hkBoost = hk_weight * pow(Cr, clamp(hk_power, 0.01, 10));
+		let hkBoost = hk_weight * pow(Cr, clamp(0.01, hk_power, 10));
 		let hr = atan2(b, a);
 		let factor = 1 + hk_hue_mod * cos(hr) + hk_sin1 * sin(hr) +
 			hk_cos2 * cos(2 * hr) + hk_sin2 * sin(2 * hr);
@@ -439,9 +431,9 @@ export default new ColorSpace({
 		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
 
 		// Undo Stage 2: power compression
-		let l0 = signedPow(lc0, INV_GAMMA[0]);
-		let l1 = signedPow(lc1, INV_GAMMA[1]);
-		let l2 = signedPow(lc2, INV_GAMMA[2]);
+		let l0 = spow(lc0, INV_GAMMA[0]);
+		let l1 = spow(lc1, INV_GAMMA[1]);
+		let l2 = spow(lc2, INV_GAMMA[2]);
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
 		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
