@@ -20,6 +20,31 @@ import XYZ_D65 from "./xyz-d65.js";
 
 const {cos, sin, sqrt, atan2, exp, abs, pow, PI} = Math;
 
+// ── Bradford CAT: Color.js D65 ↔ Helmlab D65 ─────────────────────
+// Color.js D65 = [0.3127/0.3290, 1, (1−0.3127−0.3290)/0.3290]
+// Helmlab  D65 = [0.95047, 1.0, 1.08883]  (SPD-integrated, ASTM E308)
+
+/** @type {number[]} */
+export const HELMLAB_D65 = [0.95047, 1.0, 1.08883];
+
+/** Bradford CAT: Color.js D65 → Helmlab D65 (apply in fromBase before M1) */
+/** @type {Matrix3x3} */
+// prettier-ignore
+export const CAT_TO_HELM = [
+	[1.000042977349746, 2.0718877053183e-05, -4.361018085669474e-05],
+	[2.6946201090235744e-05, 0.9999906145080147, -1.4898828405401079e-05],
+	[-7.941753620756204e-06, 1.2875204405137254e-05, 0.9997859822609763],
+];
+
+/** Bradford CAT: Helmlab D65 → Color.js D65 (apply in toBase after M1_INV) */
+/** @type {Matrix3x3} */
+// prettier-ignore
+export const CAT_FROM_HELM = [
+	[0.9999570254019492, -2.071874272730964e-05, 4.361733292468361e-05],
+	[-2.694517763358666e-05, 1.000009385946497, 1.490098223546482e-05],
+	[7.943459292954202e-06, -1.287824596735154e-05, 1.000214063706999],
+];
+
 // ── Utility functions ──────────────────────────────────────────────
 
 function signedPow (x, p) {
@@ -257,8 +282,11 @@ export default new ColorSpace({
 	base: XYZ_D65,
 
 	fromBase (xyz) {
+		// Stage 0: Chromatic adaptation (Color.js D65 → Helmlab D65)
+		let adapted = multiply_v3_m3x3(xyz, CAT_TO_HELM);
+
 		// Stage 1: XYZ → LMS (M1)
-		let [lms0, lms1, lms2] = multiply_v3_m3x3(xyz, M1);
+		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
 
 		// Stage 2: Power compression (signed)
 		let c0 = signedPow(lms0, GAMMA[0]);
@@ -416,6 +444,9 @@ export default new ColorSpace({
 		let l2 = signedPow(lc2, INV_GAMMA[2]);
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
-		return multiply_v3_m3x3([l0, l1, l2], M1_INV);
+		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
+
+		// Undo Stage 0: Chromatic adaptation (Helmlab D65 → Color.js D65)
+		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
 	},
 });

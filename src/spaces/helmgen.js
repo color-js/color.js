@@ -17,6 +17,7 @@
 import ColorSpace from "../ColorSpace.js";
 import {multiply_v3_m3x3} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
+import {CAT_TO_HELM, CAT_FROM_HELM} from "./helmlab.js";
 
 /** @import { Matrix3x3 } from "../types.js" */
 
@@ -72,18 +73,21 @@ export default new ColorSpace({
 			name: "Lightness",
 		},
 		a: {
-			refRange: [-0.27, 0.27],
+			refRange: [-0.4, 0.4],
 		},
 		b: {
-			refRange: [-0.32, 0.32],
+			refRange: [-0.4, 0.4],
 		},
 	},
 	white: "D65",
 	base: XYZ_D65,
 
 	fromBase (xyz) {
+		// Stage 0: Chromatic adaptation (Color.js D65 → Helmlab D65)
+		let adapted = multiply_v3_m3x3(xyz, CAT_TO_HELM);
+
 		// Stage 1: XYZ → LMS (M1)
-		let [lms0, lms1, lms2] = multiply_v3_m3x3(xyz, M1);
+		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
 
 		// Stage 2: Shared cube root compression
 		let c0 = signedCbrt(lms0);
@@ -106,6 +110,9 @@ export default new ColorSpace({
 		let l2 = lc2 * lc2 * lc2;
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
-		return multiply_v3_m3x3([l0, l1, l2], M1_INV);
+		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
+
+		// Undo Stage 0: Chromatic adaptation (Helmlab D65 → Color.js D65)
+		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
 	},
 });
