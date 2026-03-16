@@ -65,6 +65,7 @@ const M2_INV = [
 export default new ColorSpace({
 	id: "helmgen",
 	name: "HelmGen",
+	cssId: "--helmgen",
 	coords: {
 		l: {
 			refRange: [0, 1],

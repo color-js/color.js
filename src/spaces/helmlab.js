@@ -240,6 +240,7 @@ function darkLInv (Ln, h) {
 export default new ColorSpace({
 	id: "helmlab",
 	name: "Helmlab",
+	cssId: "--helmlab",
 	coords: {
 		l: {
 			refRange: [0, 1.144],
