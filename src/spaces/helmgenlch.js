@@ -17,11 +17,11 @@ export default new ColorSpace({
 	cssId: "--helmgenlch",
 	coords: {
 		l: {
-			refRange: [0, 1.168],
+			refRange: [0, 1],
 			name: "Lightness",
 		},
 		c: {
-			refRange: [0, 0.4],
+			refRange: [0, 0.35],
 			name: "Chroma",
 		},
 		h: {

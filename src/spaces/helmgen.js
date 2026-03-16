@@ -71,10 +71,10 @@ export default new ColorSpace({
 			name: "Lightness",
 		},
 		a: {
-			refRange: [-0.25, 0.25],
+			refRange: [-0.27, 0.27],
 		},
 		b: {
-			refRange: [-0.4, 0.4],
+			refRange: [-0.32, 0.32],
 		},
 	},
 	white: "D65",
