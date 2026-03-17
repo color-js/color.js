@@ -8,7 +8,7 @@
  *
  * Key differences from Helmlab (MetricSpace):
  *   - Shared gamma = 1/3 (cube root, guarantees achromatic a=b=0)
- *   - No enrichment stages (simpler, faster, better for generation)
+ *   - Lightweight enrichment: hue-dependent L correction (yellow cusp fix)
  *   - Different M1/M2 matrices (v14 CMA-ES optimized)
  *
  * Reference: arXiv:2602.23010
@@ -53,6 +53,12 @@ const M2_INV = [
 	[1.0,                 -0.01759711336018432, -1.29287072060144137],
 ];
 
+// ── Hue-dependent L correction (v31 yellow cusp fix) ──────────────
+const HUE_L_AMP = 0.3664;
+const HUE_L_CENTER = 1.5374;   // 88.1 deg in radians
+const HUE_L_WIDTH = 0.8816;    // 50.5 deg in radians
+const HUE_L_KNEE = 0.6821;
+
 // ── Color space definition ─────────────────────────────────────────
 
 export default new ColorSpace({
@@ -87,11 +93,34 @@ export default new ColorSpace({
 		let c2 = spow(lms2, 1 / 3);
 
 		// Stage 3: LMS_c → Lab (M2)
-		return multiply_v3_m3x3([c0, c1, c2], M2);
+		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
+
+		// Stage 3.25: Hue-dependent L correction (yellow cusp fix)
+		let C = Math.sqrt(a * a + b * b);
+		if (C > 1e-10) {
+			let h = Math.atan2(b, a);
+			let dh = Math.atan2(Math.sin(h - HUE_L_CENTER), Math.cos(h - HUE_L_CENTER));
+			let w = Math.exp(-((dh / HUE_L_WIDTH) ** 2)) * C / (C + 0.01);
+			let excess = Math.max(0, L - HUE_L_KNEE);
+			L -= HUE_L_AMP * w * excess;
+		}
+
+		return [L, a, b];
 	},
 
 	toBase (lab) {
 		let [L, a, b] = lab;
+
+		// Undo Stage 3.25: Hue-dependent L correction
+		let C = Math.sqrt(a * a + b * b);
+		if (C > 1e-10) {
+			let h = Math.atan2(b, a);
+			let dh = Math.atan2(Math.sin(h - HUE_L_CENTER), Math.cos(h - HUE_L_CENTER));
+			let w = Math.exp(-((dh / HUE_L_WIDTH) ** 2)) * C / (C + 0.01);
+			let aw = Math.min(HUE_L_AMP * w, 0.99);
+			let Lcand = (L - aw * HUE_L_KNEE) / (1 - aw);
+			if (Lcand > HUE_L_KNEE) L = Lcand;
+		}
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
 		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
