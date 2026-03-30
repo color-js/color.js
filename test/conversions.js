@@ -559,32 +559,32 @@ const tests = {
 				{
 					name: "sRGB red to HelmGen",
 					args: "red",
-					expect: [0.5982, 0.2554, 0.0476],
+					expect: [0.5981, 0.2567, 0.0399],
 				},
 				{
 					name: "sRGB lime to HelmGen",
 					args: "lime",
-					expect: [0.8814, -0.1327, 0.2604],
+					expect: [0.8814, -0.1555, 0.2474],
 				},
 				{
 					name: "sRGB blue to HelmGen",
 					args: "blue",
-					expect: [0.3899, -0.1359, -0.2856],
+					expect: [0.3899, -0.1603, -0.2726],
 				},
 				{
 					name: "sRGB cyan to HelmGen",
 					args: "cyan",
-					expect: [0.9273, -0.1557, 0.0178],
+					expect: [0.9273, -0.1560, 0.0149],
 				},
 				{
 					name: "sRGB magenta to HelmGen",
 					args: "magenta",
-					expect: [0.6843, 0.1716, -0.2694],
+					expect: [0.6843, 0.1969, -0.2515],
 				},
 				{
 					name: "sRGB yellow to HelmGen",
 					args: "yellow",
-					expect: [0.9889, 0.0035, 0.2096],
+					expect: [0.9889, 0.0043, 0.2095],
 				},
 			],
 		},
@@ -599,22 +599,22 @@ const tests = {
 			tests: [
 				{
 					name: "red round-trip",
-					args: "color(--helmgen 0.5981280318563020 0.2553976773966286 0.04764859699741632)",
+					args: "color(--helmgen 0.5981280318563020 0.2567254235337239 0.03988006177082232)",
 					expect: [1, 0, 0],
 				},
 				{
 					name: "lime round-trip",
-					args: "color(--helmgen 0.8814189629534682 -0.1326474629628817 0.2603805653775703)",
+					args: "color(--helmgen 0.8814189629534682 -0.1555434673558968 0.2473855655040069)",
 					expect: [0, 1, 0],
 				},
 				{
 					name: "blue round-trip",
-					args: "color(--helmgen 0.3898775139285422 -0.1359190644058282 -0.2855829097653335)",
+					args: "color(--helmgen 0.3898775139285422 -0.1603262294592877 -0.2726299517044269)",
 					expect: [0, 0, 1],
 				},
 				{
 					name: "slategray round-trip",
-					args: "color(--helmgen 0.5560512907089454 -0.01898914299747836 -0.02475371062213537)",
+					args: "color(--helmgen 0.5560512907089454 -0.02136109230917801 -0.02273845809860192)",
 					expect: [0.43922, 0.50196, 0.56471],
 				},
 			],

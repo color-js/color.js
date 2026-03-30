@@ -59,9 +59,6 @@ const M2_INV = [
 	[ 0.9003332222839093, -0.5258016911340165, -1.1829940186970576],
 ];
 
-// ── Hue correction: δ(h) = 0.1·sin(2h) ───────────────────────────
-const HUE_SIN2 = 0.1;
-
 // ── Piecewise-linear L correction (21 breakpoints) ────────────────
 // prettier-ignore
 const PW_L_IN = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
@@ -150,15 +147,6 @@ export default new ColorSpace({
 		// Stage 3: LMS_c → Lab (M2)
 		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
 
-		// Stage 3.5: Hue correction: δ(h) = 0.1·sin(2h)
-		let C = Math.sqrt(a * a + b * b);
-		if (C > 1e-10) {
-			let h = Math.atan2(b, a);
-			let hNew = h + HUE_SIN2 * Math.sin(2 * h);
-			a = C * Math.cos(hNew);
-			b = C * Math.sin(hNew);
-		}
-
 		// Stage 4: Piecewise-linear L correction
 		L = pwLForward(L);
 
@@ -170,23 +158,6 @@ export default new ColorSpace({
 
 		// Undo Stage 4: PW L correction
 		L = pwLInverse(L);
-
-		// Undo Stage 3.5: Hue correction (Newton iteration)
-		let C = Math.sqrt(a * a + b * b);
-		if (C > 1e-10) {
-			let hOut = Math.atan2(b, a);
-			let hRaw = hOut;
-			for (let i = 0; i < 8; i++) {
-				let f = hRaw + HUE_SIN2 * Math.sin(2 * hRaw) - hOut;
-				let fp = 1 + 2 * HUE_SIN2 * Math.cos(2 * hRaw);
-				if (Math.abs(fp) < 1e-10) {
-					fp = 1;
-				}
-				hRaw -= f / fp;
-			}
-			a = C * Math.cos(hRaw);
-			b = C * Math.sin(hRaw);
-		}
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
 		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
