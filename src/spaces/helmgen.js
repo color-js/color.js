@@ -1,63 +1,109 @@
 /**
  * Helmlab GenSpace — generation-optimized color space for interpolation.
  *
- * A simplified pipeline (XYZ → M1 → cbrt → M2 → NC) optimized for
- * perceptually uniform gradients, palette generation, and color-mix.
- * Wins 28/43 perceptual benchmarks vs OKLab (6/43), with sky-blue
- * Blue→White gradients (no purple shift).
+ * Pipeline (v0.10.0, softened cube root):
+ *   XYZ → M1 → softcbrt → M2 → hue_corr → PW_L_corr → Lab
  *
- * Key differences from Helmlab (MetricSpace):
- *   - Shared gamma = 1/3 (cube root, guarantees achromatic a=b=0)
- *   - Lightweight enrichment: hue-dependent L correction (yellow cusp fix)
- *   - Different M1/M2 matrices (v14 CMA-ES optimized)
+ * Optimized for perceptually uniform gradients, palette generation,
+ * and color-mix. 27-7 vs OKLab in head-to-head benchmarks with
+ * 360/360/360 cusps (sRGB, P3, Rec.2020).
+ *
+ * Key properties:
+ *   - Softened cube root: f(x) = (x+ε)^(1/3) - ε^(1/3), finite derivative at zero
+ *   - Structurally achromatic: a=b≈0 for all grays
+ *   - All stages are analytically invertible
  *
  * Reference: arXiv:2602.23010
  * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
-import {multiply_v3_m3x3, spow} from "../util.js";
+import {multiply_v3_m3x3} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
 import {CAT_TO_HELM, CAT_FROM_HELM} from "./helmlab.js";
 
 /** @import { Matrix3x3 } from "../types.js" */
 
-// ── Core parameters (v14 CMA-ES optimized, 28/43 benchmark wins) ───
+// ── Softened cube root parameters ──────────────────────────────────
+const EPS = 0.001;
+const EPS_CBRT = 0.1; // 0.001^(1/3)
+
+// ── Core matrices (v0.10.0, 27-7 vs OKLab) ────────────────────────
 
 /** @type {Matrix3x3} */
 // prettier-ignore
 const M1 = [
-	[ 0.7583761294836658,  0.38380162590825084, -0.09608055040602373],
-	[ 0.12671393631532843, 0.8421628149123207,   0.03434823621506485],
-	[ 0.07639223722200054, 0.258943526275451,    0.6139139663787314],
+	[ 0.8241829891252608,  0.36440843554326735, -0.13571415300566114],
+	[ 0.03286046182049214, 0.9293630169582751,   0.036189395860879804],
+	[ 0.04813370946146968, 0.26424253789465524,  0.6337149190172036],
 ];
 /** @type {Matrix3x3} */
 // prettier-ignore
 const M1_INV = [
-	[ 1.4133073795748363, -0.7245661027731647,  0.26172872319832857],
-	[-0.20907372745004327, 1.3153903462455019,  -0.10631661879545863],
-	[-0.08767910052303854,-0.46465890124976844,  1.641168001772807],
+	[ 1.2185826248050706, -0.5611239455305301,  0.2930113207254598],
+	[-0.0401341808079284,  1.1122459188053382, -0.0721117379974099],
+	[-0.0758223339584151, -0.4211573680417168,  1.5858097020001316],
 ];
 
 /** @type {Matrix3x3} */
 // prettier-ignore
 const M2 = [
-	[ 0.10058070589596230,  1.01558970993941444, -0.11617041583537688],
-	[ 2.36157646996164416, -2.44099737506293479,  0.07942090510129070],
-	[ 0.04565327074453784,  0.81875488445424471, -0.86440815519878267],
+	[ 0.2337515171705931,   0.8814711825753971,  -0.004522821912689824],
+	[ 1.867570288000307,   -2.014406466522118,    0.14683617852181108],
+	[-0.6521735079641363,   1.5661922948078826,  -0.9140187868437465],
 ];
 /** @type {Matrix3x3} */
 // prettier-ignore
 const M2_INV = [
-	[1.0,                  0.38277363185391838, -0.09922417671418936],
-	[1.0,                 -0.03992154082498714, -0.13806096115936267],
-	[1.0,                 -0.01759711336018432, -1.29287072060144137],
+	[ 0.9003332222839096,  0.4462449303682084,  0.0672336874450225],
+	[ 0.9003332222839096, -0.1210346282699026, -0.0238991905033601],
+	[ 0.9003332222839093, -0.5258016911340165, -1.1829940186970576],
 ];
 
-// ── Hue-dependent L correction (v31 yellow cusp fix) ──────────────
-const HUE_L_AMP = 0.3664;
-const HUE_L_CENTER = 1.5374;   // 88.1 deg in radians
-const HUE_L_WIDTH = 0.8816;    // 50.5 deg in radians
-const HUE_L_KNEE = 0.6821;
+// ── Hue correction: δ(h) = 0.1·sin(2h) ───────────────────────────
+const HUE_SIN2 = 0.1;
+
+// ── Piecewise-linear L correction (21 breakpoints) ────────────────
+// prettier-ignore
+const PW_L_IN = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+// prettier-ignore
+const PW_L_OUT = [0, 0.04473921057039986, 0.08947842114079972, 0.1342176317111996, 0.1882933918103982, 0.24233573630600849, 0.29535951532005539, 0.34824332614277598, 0.40062896226708544, 0.4530440126389132, 0.50555538471837536, 0.55818787608738174, 0.61116576288373947, 0.6643108808419349, 0.71780269400386465, 0.77144526690428339, 0.82528486381044819, 0.87913596594902788, 0.93299577672652756, 0.98412885262268923, 1.0];
+const PW_N = PW_L_IN.length;
+
+function pwLForward (L) {
+	if (L <= 0 || L >= 1) {
+		return L;
+	}
+	let lo = 0, hi = PW_N - 1;
+	while (hi - lo > 1) {
+		let mid = (lo + hi) >> 1;
+		if (PW_L_IN[mid] <= L) {
+			lo = mid;
+		}
+		else {
+			hi = mid;
+		}
+	}
+	let t = (L - PW_L_IN[lo]) / (PW_L_IN[hi] - PW_L_IN[lo]);
+	return PW_L_OUT[lo] + t * (PW_L_OUT[hi] - PW_L_OUT[lo]);
+}
+
+function pwLInverse (L) {
+	if (L <= PW_L_OUT[0] || L >= PW_L_OUT[PW_N - 1]) {
+		return L;
+	}
+	let lo = 0, hi = PW_N - 1;
+	while (hi - lo > 1) {
+		let mid = (lo + hi) >> 1;
+		if (PW_L_OUT[mid] <= L) {
+			lo = mid;
+		}
+		else {
+			hi = mid;
+		}
+	}
+	let t = (L - PW_L_OUT[lo]) / (PW_L_OUT[hi] - PW_L_OUT[lo]);
+	return PW_L_IN[lo] + t * (PW_L_IN[hi] - PW_L_IN[lo]);
+}
 
 // ── Color space definition ─────────────────────────────────────────
 
@@ -87,23 +133,34 @@ export default new ColorSpace({
 		// Stage 1: XYZ → LMS (M1)
 		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
 
-		// Stage 2: Shared cube root compression
-		let c0 = spow(lms0, 1 / 3);
-		let c1 = spow(lms1, 1 / 3);
-		let c2 = spow(lms2, 1 / 3);
+		// Stage 2: Softened cube root: f(x) = sign(x)·((|x|+ε)^(1/3) - ε^(1/3))
+		let c0 = (Math.abs(lms0) + EPS) ** (1 / 3) - EPS_CBRT;
+		let c1 = (Math.abs(lms1) + EPS) ** (1 / 3) - EPS_CBRT;
+		let c2 = (Math.abs(lms2) + EPS) ** (1 / 3) - EPS_CBRT;
+		if (lms0 < 0) {
+			c0 = -c0;
+		}
+		if (lms1 < 0) {
+			c1 = -c1;
+		}
+		if (lms2 < 0) {
+			c2 = -c2;
+		}
 
 		// Stage 3: LMS_c → Lab (M2)
 		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
 
-		// Stage 3.25: Hue-dependent L correction (yellow cusp fix)
+		// Stage 3.5: Hue correction: δ(h) = 0.1·sin(2h)
 		let C = Math.sqrt(a * a + b * b);
 		if (C > 1e-10) {
 			let h = Math.atan2(b, a);
-			let dh = Math.atan2(Math.sin(h - HUE_L_CENTER), Math.cos(h - HUE_L_CENTER));
-			let w = Math.exp(-((dh / HUE_L_WIDTH) ** 2)) * C / (C + 0.01);
-			let excess = Math.max(0, L - HUE_L_KNEE);
-			L -= HUE_L_AMP * w * excess;
+			let hNew = h + HUE_SIN2 * Math.sin(2 * h);
+			a = C * Math.cos(hNew);
+			b = C * Math.sin(hNew);
 		}
+
+		// Stage 4: Piecewise-linear L correction
+		L = pwLForward(L);
 
 		return [L, a, b];
 	},
@@ -111,24 +168,42 @@ export default new ColorSpace({
 	toBase (lab) {
 		let [L, a, b] = lab;
 
-		// Undo Stage 3.25: Hue-dependent L correction
+		// Undo Stage 4: PW L correction
+		L = pwLInverse(L);
+
+		// Undo Stage 3.5: Hue correction (Newton iteration)
 		let C = Math.sqrt(a * a + b * b);
 		if (C > 1e-10) {
-			let h = Math.atan2(b, a);
-			let dh = Math.atan2(Math.sin(h - HUE_L_CENTER), Math.cos(h - HUE_L_CENTER));
-			let w = Math.exp(-((dh / HUE_L_WIDTH) ** 2)) * C / (C + 0.01);
-			let aw = Math.min(HUE_L_AMP * w, 0.99);
-			let Lcand = (L - aw * HUE_L_KNEE) / (1 - aw);
-			if (Lcand > HUE_L_KNEE) L = Lcand;
+			let hOut = Math.atan2(b, a);
+			let hRaw = hOut;
+			for (let i = 0; i < 8; i++) {
+				let f = hRaw + HUE_SIN2 * Math.sin(2 * hRaw) - hOut;
+				let fp = 1 + 2 * HUE_SIN2 * Math.cos(2 * hRaw);
+				if (Math.abs(fp) < 1e-10) {
+					fp = 1;
+				}
+				hRaw -= f / fp;
+			}
+			a = C * Math.cos(hRaw);
+			b = C * Math.sin(hRaw);
 		}
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
 		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
 
-		// Undo Stage 2: cube (inverse of cube root)
-		let l0 = lc0 * lc0 * lc0;
-		let l1 = lc1 * lc1 * lc1;
-		let l2 = lc2 * lc2 * lc2;
+		// Undo Stage 2: Inverse softened cube root: sign(y)·((|y|+ε^(1/3))³ - ε)
+		let l0 = (Math.abs(lc0) + EPS_CBRT) ** 3 - EPS;
+		let l1 = (Math.abs(lc1) + EPS_CBRT) ** 3 - EPS;
+		let l2 = (Math.abs(lc2) + EPS_CBRT) ** 3 - EPS;
+		if (lc0 < 0) {
+			l0 = -l0;
+		}
+		if (lc1 < 0) {
+			l1 = -l1;
+		}
+		if (lc2 < 0) {
+			l2 = -l2;
+		}
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
 		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
