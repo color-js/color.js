@@ -236,7 +236,7 @@ export default new ColorSpace({
 			let mx = Math.max(c0, c1, c2);
 			let mn = Math.min(c0, c1, c2);
 			let spread = (mx - mn) / Math.max(Math.abs(mean), 1e-30);
-			let w = Math.exp(-(spread / 1e-5) ** 2);
+			let w = Math.exp(-((spread / 1e-5) ** 2));
 			c0 += w * (mean - c0);
 			c1 += w * (mean - c1);
 			c2 += w * (mean - c2);
@@ -294,7 +294,7 @@ export default new ColorSpace({
 			let mx = Math.max(lc0, lc1, lc2);
 			let mn = Math.min(lc0, lc1, lc2);
 			let spread = (mx - mn) / Math.max(Math.abs(mean), 1e-30);
-			let w = Math.exp(-(spread / 1e-5) ** 2);
+			let w = Math.exp(-((spread / 1e-5) ** 2));
 			lc0 += w * (mean - lc0);
 			lc1 += w * (mean - lc1);
 			lc2 += w * (mean - lc2);
