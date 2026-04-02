@@ -71,6 +71,7 @@ export default function toGamut (
 	{
 		method = defaults.gamut_mapping,
 		space = undefined,
+		lchSpace = undefined,
 		deltaEMethod = "",
 		jnd = 2,
 		blackWhiteClamp = undefined,
@@ -101,7 +102,7 @@ export default function toGamut (
 		spaceColor = toGamutCSS(color, { space });
 	}
 	else if (method === "raytrace") {
-		spaceColor = toGamutRayTrace(color, { space });
+		spaceColor = toGamutRayTrace(color, { space, lchSpace });
 	}
 	else {
 		if (method !== "clip") {
@@ -397,10 +398,10 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
  * it will be in gamut `space`, and returned in `space`. Otherwise,
  * it will be in gamut and returned in the color space of `origin`.
  * @param {ColorTypes} origin
- * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @param {{ space?: string | ColorSpace | undefined, lchSpace?: string | ColorSpace | undefined }} param1
  * @returns {PlainColorObject}
  */
-export function toGamutRayTrace (origin, { space } = {}) {
+export function toGamutRayTrace (origin, { space, lchSpace } = {}) {
 	origin = getColor(origin);
 
 	if (!space) {
@@ -414,10 +415,13 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		return to(origin, space);
 	}
 
-	// Get the OkLCh coordinates.
-	const oklchSpace = ColorSpace.get("oklch");
-	let oklchOrigin = to(origin, oklchSpace);
-	let [lightness, chroma, hue] = oklchOrigin.coords;
+	// Get the LCh coordinates. Defaults to OKLCh, but can be overridden
+	// for spaces whose hue definition differs from OKLab (e.g. HelmGenLCh).
+	// The LCh space must have achromatics aligned with the RGB achromatic line
+	// (i.e. a=b≈0 for all grays) for the zero-chroma anchor to be valid.
+	const perceptualSpace = ColorSpace.get(lchSpace || "oklch");
+	let lchOrigin = to(origin, perceptualSpace);
+	let [lightness, chroma, hue] = lchOrigin.coords;
 
 	// Return white or black if color's lightness exceeds the SDR range.
 	if (lightness >= 1) {
@@ -457,13 +461,13 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		mn = Object.values(space.coords)[0].range[0];
 	}
 	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
-	let rgbOrigin = to(oklchOrigin, space);
+	let rgbOrigin = to(lchOrigin, space);
 
 	if (!rgbOrigin.coords.every(x => mn <= x && x <= mx)) {
 		// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
 		// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
 		// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
-		let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
+		let anchor = to({ space: perceptualSpace, coords: [lightness, 0, hue] }, space).coords;
 
 		// Calculate bounds to adjust the anchor closer to the gamut surface.
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
@@ -479,10 +483,10 @@ export function toGamutRayTrace (origin, { space } = {}) {
 				// For constant luminance, we correct the color by simply setting lightness and hue to
 				// match the original color. In a non constant luminance reduction, it is better to
 				// project the color onto the reduction path vector.
-				const oklch = to(rgbOrigin, oklchSpace);
-				oklch.coords[0] = lightness;
-				oklch.coords[2] = hue;
-				rgbOrigin = to(oklch, space);
+				const lch = to(rgbOrigin, perceptualSpace);
+				lch.coords[0] = lightness;
+				lch.coords[2] = hue;
+				rgbOrigin = to(lch, space);
 			}
 			// Cast a ray from the achromatic anchor to the RGB target and find the gamut intersection.
 			const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);
