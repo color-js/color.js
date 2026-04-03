@@ -74,6 +74,8 @@ export default function toGamut (
 		deltaEMethod = "",
 		jnd = 2,
 		blackWhiteClamp = undefined,
+		perceptualSpace = undefined,
+		order = undefined
 	} = {},
 ) {
 	color = getColor(color);
@@ -101,7 +103,7 @@ export default function toGamut (
 		spaceColor = toGamutCSS(color, { space });
 	}
 	else if (method === "raytrace") {
-		spaceColor = toGamutRayTrace(color, { space });
+		spaceColor = toGamutRayTrace(color, { space, perceptualSpace, order });
 	}
 	else {
 		if (method !== "clip") {
@@ -392,20 +394,65 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 }
 
 /**
+ * Using 3 points, create two vectors with a shared origin and project the first vector onto the second.
+ * - `a`:  point used to define the head of the first vector `OA`.
+ * - `b`:  point used to define the head of the second vector `OB`.
+ * - `o`:  the origin/tail point of both vector `OA` and `OB`.
+ * @param {[number, number, number]} a
+ * @param {[number, number, number]} b
+ * @param {[number, number, number]} o
+ * @returns {[number, number, number]}
+ */
+function projectOnto (a, b, o) {
+	// Create vector from points
+	const [ox, oy, oz] = o;
+	const va1 = a[0] - ox;
+	const va2 = a[1] - oy;
+	const va3 = a[2] - oz;
+	const vb1 = b[0] - ox;
+	const vb2 = b[1] - oy;
+	const vb3 = b[2] - oz;
+
+	// Project `vec_oa` onto `vec_ob` and convert back to a point
+	const n = (va1 * vb1 + va2 * vb2 + va3 * vb3);
+	let d = (vb1 * vb1 + vb2 * vb2 + vb3 * vb3);
+	if (d === 0) {
+		d = Number.EPSILON;
+	}
+
+	// For our purposes clamp projections to fit the magnitude of the target vector.
+	// If a solution requires this to not be done, this could be made optional.
+	let r = util.clamp(0.0, n / d, 1.0);
+
+	// Calculate the point on the vector.
+	return [vb1 * r + ox, vb2 * r + oy, vb3 * r + oz];
+}
+
+/**
  * Given a color `origin`, returns a new color that is in gamut using
  * the CSS Ray Trace Gamut Mapping Algorithm. If `space` is specified,
  * it will be in gamut `space`, and returned in `space`. Otherwise,
  * it will be in gamut and returned in the color space of `origin`.
  * @param {ColorTypes} origin
- * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @param {{ space?: string | ColorSpace | undefined, perceptualSpace?: string | ColorSpace | undefined,  order?: [number, number, number] | undefined}} [options]
  * @returns {PlainColorObject}
  */
-export function toGamutRayTrace (origin, { space } = {}) {
+export function toGamutRayTrace (origin, { space, perceptualSpace, order } = {}) {
 	origin = getColor(origin);
 
 	if (!space) {
 		space = origin.space;
 	}
+
+	if (!perceptualSpace) {
+		perceptualSpace = 'oklch';
+	}
+
+	if (!order) {
+		order = [0, 1, 2];
+	}
+	const lIndex = order[0];
+	const hIndex = order[2];
 
 	space = ColorSpace.get(space);
 
@@ -415,21 +462,10 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	}
 
 	// Get the OkLCh coordinates.
-	const oklchSpace = ColorSpace.get("oklch");
-	let oklchOrigin = to(origin, oklchSpace);
-	let [lightness, chroma, hue] = oklchOrigin.coords;
-
-	// Return white or black if color's lightness exceeds the SDR range.
-	if (lightness >= 1) {
-		const white = to(COLORS.WHITE, space);
-		white.alpha = origin.alpha;
-		return to(white, space);
-	}
-	else if (lightness <= 0) {
-		const black = to(COLORS.BLACK, space);
-		black.alpha = origin.alpha;
-		return to(black, space);
-	}
+	const lchSpace = ColorSpace.get(perceptualSpace);
+	let lchOrigin = to(origin, lchSpace);
+	let lightness = lchOrigin.coords[lIndex];
+	let hue = lchOrigin.coords[hIndex];
 
 	// Get a copy of the origin color as the RGB target space.
 	const originSpace = space;
@@ -457,14 +493,31 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		mn = Object.values(space.coords)[0].range[0];
 	}
 	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
-	let rgbOrigin = to(oklchOrigin, space);
+	let rgbOrigin = to(lchOrigin, space);
 
-	if (!rgbOrigin.coords.every(x => mn <= x && x <= mx)) {
-		// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
-		// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
-		// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
-		let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
+	// Some perceptual spaces, such as CAM16 or HCT, may compensate for adapting
+    // luminance which may give an achromatic that is not quite achromatic.
+    // Project the lightness point back onto to the gamut's achromatic line.
+    const coords = /** @type {[number, number, number]} */ ([0.0, 0.0, 0.0]);
+    coords[lIndex] = lightness;
+    coords[hIndex] = hue;
+	let anchor = to({ space: lchSpace, coords: coords }, space).coords;
+	anchor = projectOnto(anchor, min, max);
 
+	// If anchor is equivalent to white, return white
+	if (anchor.every(x => x === mx)) {
+		const white = to(COLORS.WHITE, originSpace);
+		white.alpha = origin.alpha;
+		return white;
+	}
+	// If anchor is equivalent to black, return black
+	else if (anchor.every(x => x === mn)) {
+		const black = to(COLORS.BLACK, originSpace);
+		black.alpha = origin.alpha;
+		return black;
+	}
+	// If RGB color is out of bounds, gamut map
+	else if (!rgbOrigin.coords.every(x => mn <= x && x <= mx)) {
 		// Calculate bounds to adjust the anchor closer to the gamut surface.
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
 		const low = mn + 1e-6;
@@ -479,10 +532,10 @@ export function toGamutRayTrace (origin, { space } = {}) {
 				// For constant luminance, we correct the color by simply setting lightness and hue to
 				// match the original color. In a non constant luminance reduction, it is better to
 				// project the color onto the reduction path vector.
-				const oklch = to(rgbOrigin, oklchSpace);
-				oklch.coords[0] = lightness;
-				oklch.coords[2] = hue;
-				rgbOrigin = to(oklch, space);
+				const lch = to(rgbOrigin, lchSpace);
+				lch.coords[lIndex] = lightness;
+				lch.coords[hIndex] = hue;
+				rgbOrigin = to(lch, space);
 			}
 			// Cast a ray from the achromatic anchor to the RGB target and find the gamut intersection.
 			const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);

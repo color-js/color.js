@@ -202,6 +202,10 @@ export interface ToGamutOptions {
 	 * limit for white clamping
 	 */
 	blackWhiteClamp?: { channel: Ref; min: number; max: number } | undefined;
+	/** Perceptual space (LCh required) for ray trace gamut mapping */
+	perceptualSpace?: string | ColorSpace | undefined;
+	/** Order of perceptual space coordinates to normalize it in traditional LCh format */
+	order?: [number, number, number] | undefined;
 }
 
 export type OKCoeff = [
