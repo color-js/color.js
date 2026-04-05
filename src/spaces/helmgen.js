@@ -3,7 +3,7 @@
  *
  * Pipeline (v0.11.1, depressed cubic + chroma power + L-gated enrichment):
  *   XYZ → M1 → depcubic(α=0.021) → M2 → chroma_power(0.978) →
- *   L-gated hue enrichment → PW_L → Lab
+ *   PW_L → L-gated hue enrichment → Lab
  *
  * Optimized for perceptually uniform gradients, palette generation,
  * and color-mix. 59-8 vs OKLab in head-to-head benchmarks (83 metrics,
@@ -29,7 +29,6 @@
 import ColorSpace from "../ColorSpace.js";
 import {multiply_v3_m3x3} from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
-import {CAT_TO_HELM, CAT_FROM_HELM} from "./helmlab.js";
 
 /** @import { Matrix3x3 } from "../types.js" */
 
@@ -48,7 +47,7 @@ const ENR_SIGMA = 0.7;
 const ENR_LLO = 0.37;
 const ENR_LHI = 1.0;
 
-// ── Core matrices (v0.11.0) ────────────────────────────────────────
+// ── Core matrices (v0.11.1) ────────────────────────────────────────
 
 /** @type {Matrix3x3} */
 // prettier-ignore
@@ -68,16 +67,16 @@ const M1_INV = [
 /** @type {Matrix3x3} */
 // prettier-ignore
 const M2 = [
-	[ 0.21186668013760682,  0.7989440040850104,  -0.004099375589489282],
+	[ 0.21193799704793212,  0.7992129383877392,  -0.004100755489344770],
 	[ 2.4672018828033475,  -2.9877348024830788,   0.520532919679731],
 	[-0.11390787868068575,  1.3932982808117473,  -1.279390402131062],
 ];
 /** @type {Matrix3x3} */
 // prettier-ignore
 const M2_INV = [
-	[ 0.9933334327571625,  0.32599327253052285,  0.12945085631713896],
-	[ 0.9933334327571625, -0.08708353111074632,  -0.038613617430049534],
-	[ 0.9933334327571621, -0.12386097008215027,  -0.8351991365871065],
+	[ 0.9929991771147867,  0.32599327253052285,  0.12945085631713921],
+	[ 0.9929991771147863, -0.08708353111074627,  -0.03861361743004929],
+	[ 0.9929991771147860, -0.12386097008215022,  -0.8351991365871061],
 ];
 
 // ── Piecewise-linear L correction (21 breakpoints, v0.11.1) ───────
@@ -209,21 +208,18 @@ export default new ColorSpace({
 			name: "Lightness",
 		},
 		a: {
-			refRange: [-0.4, 0.4],
+			refRange: [-0.6, 0.6],
 		},
 		b: {
-			refRange: [-0.4, 0.4],
+			refRange: [-0.6, 0.6],
 		},
 	},
 	white: "D65",
 	base: XYZ_D65,
 
 	fromBase (xyz) {
-		// Stage 0: Chromatic adaptation (Color.js D65 → Helmlab D65)
-		let adapted = multiply_v3_m3x3(xyz, CAT_TO_HELM);
-
 		// Stage 1: XYZ → LMS (M1)
-		let lms = multiply_v3_m3x3(adapted, M1);
+		let lms = multiply_v3_m3x3(xyz, M1);
 
 		// Stage 2: Depressed cubic transfer (y³ + αy = x)
 		let c0 = depcubicFwd(Math.max(lms[0], 0));
@@ -306,9 +302,6 @@ export default new ColorSpace({
 		let l2 = depcubicInv(lc2);
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
-		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
-
-		// Undo Stage 0: Chromatic adaptation (Helmlab D65 → Color.js D65)
-		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
+		return multiply_v3_m3x3([l0, l1, l2], M1_INV);
 	},
 });

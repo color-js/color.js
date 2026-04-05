@@ -549,7 +549,7 @@ const tests = {
 				{
 					name: "sRGB white to HelmGen",
 					args: "white",
-					expect: [0.9996, 0, 0],
+					expect: [1, 0, 0],
 				},
 				{
 					name: "sRGB black to HelmGen",
@@ -559,32 +559,32 @@ const tests = {
 				{
 					name: "sRGB red to HelmGen",
 					args: "red",
-					expect: [0.5630, 0.2947, 0.1855],
+					expect: [0.5632, 0.2947, 0.1855],
 				},
 				{
 					name: "sRGB lime to HelmGen",
 					args: "lime",
-					expect: [0.8460, -0.2935, 0.3038],
+					expect: [0.8464, -0.2935, 0.3038],
 				},
 				{
 					name: "sRGB blue to HelmGen",
 					args: "blue",
-					expect: [0.3647, -0.0419, -0.4935],
+					expect: [0.3649, -0.0419, -0.4935],
 				},
 				{
 					name: "sRGB cyan to HelmGen",
 					args: "cyan",
-					expect: [0.8938, -0.1948, -0.0519],
+					expect: [0.8941, -0.1948, -0.0519],
 				},
 				{
 					name: "sRGB magenta to HelmGen",
 					args: "magenta",
-					expect: [0.6502, 0.3528, -0.2826],
+					expect: [0.6504, 0.3528, -0.2826],
 				},
 				{
 					name: "sRGB yellow to HelmGen",
 					args: "yellow",
-					expect: [0.9645, -0.0849, 0.3222],
+					expect: [0.9648, -0.0849, 0.3222],
 				},
 			],
 		},
@@ -599,22 +599,22 @@ const tests = {
 			tests: [
 				{
 					name: "red round-trip",
-					args: "color(--helmgen 0.5630086091342236 0.2947179490797645 0.1855082452471945)",
+					args: "color(--helmgen 0.5632413405391942 0.2947177381755742 0.1855083933023635)",
 					expect: [1, 0, 0],
 				},
 				{
 					name: "lime round-trip",
-					args: "color(--helmgen 0.8460415417362477 -0.2934962673420043 0.3038039613109504)",
+					args: "color(--helmgen 0.8463909626129825 -0.2934961206750769 0.3038041367774275)",
 					expect: [0, 1, 0],
 				},
 				{
 					name: "blue round-trip",
-					args: "color(--helmgen 0.3647392111506559 -0.0419142050722143 -0.4935233575236430)",
+					args: "color(--helmgen 0.3648932438112825 -0.0419141338480816 -0.4935233723974647)",
 					expect: [0, 0, 1],
 				},
 				{
 					name: "slategray round-trip",
-					args: "color(--helmgen 0.5226586490686180 -0.0150762315909319 -0.0476700578358083)",
+					args: "color(--helmgen 0.5228807974096168 -0.0150733651815835 -0.0476709573385917)",
 					expect: [0.43922, 0.50196, 0.56471],
 				},
 			],
