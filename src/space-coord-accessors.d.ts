@@ -11,6 +11,9 @@ declare class SpaceAccessors {
 	acescg: SpaceAccessor;
 	cam16_jmh: SpaceAccessor;
 	hct: SpaceAccessor;
+	helmgen: SpaceAccessor;
+	helmgenlch: SpaceAccessor;
+	helmlab: SpaceAccessor;
 	hpluv: SpaceAccessor;
 	hsl: SpaceAccessor;
 	hsluv: SpaceAccessor;
