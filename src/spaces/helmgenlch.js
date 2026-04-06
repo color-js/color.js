@@ -5,7 +5,7 @@
  * cylindrical (L, C, h). Ideal for CSS interpolation contexts
  * like gradients and color-mix where hue angle matters.
  *
- * @see ./helmgen.js
+ * @see https://github.com/Grkmyldz148/helmlab
  */
 import ColorSpace from "../ColorSpace.js";
 import HelmGen from "./helmgen.js";
