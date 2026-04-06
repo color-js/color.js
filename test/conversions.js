@@ -468,7 +468,7 @@ const tests = {
 				{
 					name: "sRGB white to Helmlab",
 					args: "white",
-					expect: [1.0894, 0, 0],
+					expect: [1.1211, 0, 0],
 				},
 				{
 					name: "sRGB black to Helmlab",
@@ -478,32 +478,32 @@ const tests = {
 				{
 					name: "sRGB red to Helmlab",
 					args: "red",
-					expect: [0.6175, 0.5827, -0.2019],
+					expect: [0.9207, 0.7440, -0.4064],
 				},
 				{
 					name: "sRGB lime to Helmlab",
 					args: "lime",
-					expect: [0.8721, -0.0838, 0.6412],
+					expect: [0.7406, -0.3949, 0.7355],
 				},
 				{
 					name: "sRGB blue to Helmlab",
 					args: "blue",
-					expect: [0.4731, -0.1571, -0.4441],
+					expect: [0.7623, -0.3633, -0.3654],
 				},
 				{
 					name: "sRGB cyan to Helmlab",
 					args: "cyan",
-					expect: [0.9649, -0.3047, 0.1326],
+					expect: [0.8825, -0.3776, 0.0311],
 				},
 				{
 					name: "sRGB magenta to Helmlab",
 					args: "magenta",
-					expect: [0.8235, 0.1553, -0.4480],
+					expect: [1.4387, 0.0217, -0.2065],
 				},
 				{
 					name: "sRGB yellow to Helmlab",
 					args: "yellow",
-					expect: [0.9855, 0.1619, 0.5052],
+					expect: [0.8998, -0.0268, 0.6792],
 				},
 			],
 		},
@@ -518,22 +518,22 @@ const tests = {
 			tests: [
 				{
 					name: "red round-trip",
-					args: "color(--helmlab 0.6175238972861994 0.5827522170505999 -0.2018672614694716)",
+					args: "color(--helmlab 0.9207026558964019 0.7439877306974949 -0.4064089512145157)",
 					expect: [1, 0, 0],
 				},
 				{
 					name: "lime round-trip",
-					args: "color(--helmlab 0.8721051402990259 -0.08376329171896274 0.6411930041157403)",
+					args: "color(--helmlab 0.7405738192322576 -0.3949128705692790 0.7354935281034012)",
 					expect: [0, 1, 0],
 				},
 				{
 					name: "blue round-trip",
-					args: "color(--helmlab 0.4731234264356871 -0.1570634306102940 -0.4440984477001655)",
+					args: "color(--helmlab 0.7623128436110738 -0.3633124798650454 -0.3654059422761049)",
 					expect: [0, 0, 1],
 				},
 				{
 					name: "slategray round-trip",
-					args: "color(--helmlab 0.6253865939073088 -0.1241535622876211 -0.08408388212539279)",
+					args: "color(--helmlab 0.7603471021497498 -0.1230289974186852 -0.1041382451885839)",
 					expect: [0.43922, 0.50196, 0.56471],
 				},
 			],
