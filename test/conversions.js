@@ -473,7 +473,7 @@ const tests = {
 				{
 					name: "sRGB black to Helmlab",
 					args: "black",
-					expect: [0, , ,],
+					expect: [0, 0, 0],
 				},
 				{
 					name: "sRGB red to Helmlab",
