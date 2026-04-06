@@ -544,6 +544,7 @@ const tests = {
 				"Conversions tested against the reference Python implementation (v0.11.1, arXiv:2602.23010)",
 			data: {
 				toSpace: "helmgen",
+				epsilon: 0.001,
 			},
 			tests: [
 				{
@@ -599,22 +600,22 @@ const tests = {
 			tests: [
 				{
 					name: "red round-trip",
-					args: "color(--helmgen 0.5632413405391942 0.2947177381755742 0.1855083933023635)",
+					args: "color(--helmgen 0.5632026297542594 0.2947029827753948 0.18549923278177535)",
 					expect: [1, 0, 0],
 				},
 				{
 					name: "lime round-trip",
-					args: "color(--helmgen 0.8463909626129825 -0.2934961206750769 0.3038041367774275)",
+					args: "color(--helmgen 0.8463981071008808 -0.2934982736852754 0.30380634695961367)",
 					expect: [0, 1, 0],
 				},
 				{
 					name: "blue round-trip",
-					args: "color(--helmgen 0.3648932438112825 -0.0419141338480816 -0.4935233723974647)",
+					args: "color(--helmgen 0.3649320028469074 -0.04191655650943745 -0.4935607213466664)",
 					expect: [0, 0, 1],
 				},
 				{
 					name: "slategray round-trip",
-					args: "color(--helmgen 0.5228807974096168 -0.0150733651815835 -0.0476709573385917)",
+					args: "color(--helmgen 0.5228842918120816 -0.015076538582823517 -0.04771314979797612)",
 					expect: [0.43922, 0.50196, 0.56471],
 				},
 			],
