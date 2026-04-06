@@ -15,7 +15,7 @@ export default new ColorSpace({
 	name: "HelmLCh",
 	coords: {
 		l: {
-			refRange: [0, 1.144],
+			refRange: [0, 1.6],
 			name: "Lightness",
 		},
 		c: {
