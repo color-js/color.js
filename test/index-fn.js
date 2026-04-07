@@ -10,6 +10,7 @@ let tests = await Promise.all(
 		"parse",
 		"contrast",
 		"multiply_matrices",
+		"algebra"
 	].map(name => import(`./${name}.js`).then(module => module.default)),
 );
 
