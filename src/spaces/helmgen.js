@@ -1,0 +1,308 @@
+/**
+ * Helmlab GenSpace — generation-optimized color space for interpolation.
+ *
+ * Pipeline (v0.11.1, depressed cubic + chroma power + L-gated enrichment):
+ *   XYZ → M1 → depcubic(α=0.021) → M2 → chroma_power(0.978) →
+ *   PW_L → L-gated hue enrichment → Lab
+ *
+ * Optimized for perceptually uniform gradients, palette generation,
+ * and color-mix. 59-8 vs OKLab in head-to-head benchmarks (83 metrics,
+ * 3038 gradient pairs, sRGB/P3/Rec.2020). 360/360/360 cusps.
+ *
+ * Key properties:
+ *   - Depressed cubic: y³ + αy = x, finite derivative at zero
+ *   - Chroma power (0.978): improves gradient CV uniformity
+ *   - L-gated hue enrichment: fixes blue→white purple shift
+ *   - Structurally achromatic: a=b≈0 for all grays
+ *
+ * Note on blue-region gamut fold:
+ *   All M1→f→M2 spaces (OKLab, IPT, HelmGen) exhibit a tiny non-contiguous
+ *   gamut region near h≈260° in sRGB. This is a mathematical consequence of
+ *   mixing LMS channels before applying a power-like transfer: the inverse
+ *   creates a cubic polynomial that can have two positive roots in the blue
+ *   region. OKLab has 46 such holes; HelmGen has 5, each ~0.001 chroma wide
+ *   (sub-pixel, invisible). See: color.js#81, csswg-drafts#7071.
+ *
+ * Reference: arXiv:2602.23010
+ * @see https://github.com/Grkmyldz148/helmlab
+ */
+import ColorSpace from "../ColorSpace.js";
+import {multiply_v3_m3x3} from "../util.js";
+import XYZ_D65 from "./xyz-d65.js";
+
+/** @import { Matrix3x3 } from "../types.js" */
+
+// ── Depressed cubic parameter ──────────────────────────────────────
+const ALPHA = 0.021;
+const S = Math.sqrt(ALPHA / 3);
+const S3 = S * S * S;
+
+// ── Chroma power ───────────────────────────────────────────────────
+const CP = 0.978;
+
+// ── L-gated hue enrichment parameters ──────────────────────────────
+const ENR_AMP = 0.058;
+const ENR_CENTER = 264.5 * Math.PI / 180; // radians
+const ENR_SIGMA = 0.7;
+const ENR_LLO = 0.37;
+const ENR_LHI = 1.0;
+
+// ── Core matrices (v0.11.1) ────────────────────────────────────────
+
+/** @type {Matrix3x3} */
+// prettier-ignore
+// M1 = M1_orig @ CAT_TO_HELM (Bradford CAT baked in: Color.js D65 → Helmlab D65 → LMS)
+const M1 = [
+	[ 8.1548321559412884e-01,  3.6033406153856506e-01, -1.2434135574228214e-01],
+	[ 3.3010083527450780e-02,  9.2928650570661686e-01,  3.6121927165754429e-02],
+	[ 4.8188273564568611e-02,  2.6428415753384238e-01,  6.3349717841955344e-01],
+];
+/** @type {Matrix3x3} */
+// prettier-ignore
+const M1_INV = [
+	[ 1.2325947975032656e+00, -5.5575902392875232e-01,  2.7362015347715829e-01],
+	[-4.0801327874216024e-02,  1.1122288637386530e+00, -7.1427535864437813e-02],
+	[-7.6738259283377658e-02, -4.2172784577108585e-01,  1.5875238558143416e+00],
+];
+
+/** @type {Matrix3x3} */
+// prettier-ignore
+const M2 = [
+	[ 0.21193779684470104,  0.7992121834263127,  -0.00410075161564345],
+	[ 2.4672018828033475,  -2.9877348024830788,   0.520532919679731],
+	[-0.11390787868068575,  1.3932982808117473,  -1.279390402131062],
+];
+/** @type {Matrix3x3} */
+// prettier-ignore
+const M2_INV = [
+	[ 0.9930001151336143,  0.32599327253052285,  0.12945085631713921],
+	[ 0.9930001151336139, -0.08708353111074627,  -0.03861361743004929],
+	[ 0.9930001151336136, -0.12386097008215022,  -0.8351991365871061],
+];
+
+// ── Piecewise-linear L correction (21 breakpoints, v0.11.1) ───────
+// prettier-ignore
+const PW_L_IN = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0];
+// prettier-ignore
+const PW_L_OUT = [0, 0.009494013522189627, 0.02564569838030986, 0.055259661658689105, 0.10574901531227408, 0.16055853320726027, 0.21405964892993756, 0.26786230508811226, 0.3220435246104499, 0.3739052098520243, 0.43020997780918835, 0.4835465162128873, 0.5399824670411353, 0.5956710081330342, 0.6542161666450478, 0.7115380216519989, 0.7702762412711669, 0.8293313467712837, 0.889406386197059, 0.9462829573474728, 1.0];
+const PW_N = PW_L_IN.length;
+
+// ── Depressed cubic: y³ + αy = x ──────────────────────────────────
+
+function depcubicFwd (x) {
+	let t = x / (2 * S3);
+	let y = 2 * S * Math.sinh(Math.asinh(t) / 3);
+	// Halley refinement
+	let f = y * y * y + ALPHA * y - x;
+	let fp = 3 * y * y + ALPHA;
+	let fpp = 6 * y;
+	let denom = 2 * fp * fp - f * fpp;
+	if (Math.abs(denom) > 1e-30) {
+		y -= 2 * f * fp / denom;
+	}
+	return y;
+}
+
+function depcubicInv (y) {
+	return y * y * y + ALPHA * y;
+}
+
+// ── L-gated hue enrichment ─────────────────────────────────────────
+
+function enrichGate (L) {
+	let t = Math.max(0, Math.min(1, (L - ENR_LLO) / (ENR_LHI - ENR_LLO)));
+	return Math.sin(Math.PI * t) ** 2;
+}
+
+function enrichFwd (L, a, b) {
+	let C = Math.sqrt(a * a + b * b);
+	if (C < 1e-12) {
+		return [a, b];
+	}
+	let gate = enrichGate(L);
+	if (gate < 1e-12) {
+		return [a, b];
+	}
+	let h = Math.atan2(b, a);
+	let dh = h - ENR_CENTER;
+	dh = dh - Math.round(dh / (2 * Math.PI)) * 2 * Math.PI;
+	let gauss = Math.exp(-0.5 * (dh / ENR_SIGMA) ** 2);
+	let hNew = h + ENR_AMP * gate * gauss;
+	return [C * Math.cos(hNew), C * Math.sin(hNew)];
+}
+
+function enrichInv (L, a, b) {
+	let C = Math.sqrt(a * a + b * b);
+	if (C < 1e-12) {
+		return [a, b];
+	}
+	let gate = enrichGate(L);
+	if (gate < 1e-12) {
+		return [a, b];
+	}
+	let hTarget = Math.atan2(b, a);
+	let sig2 = ENR_SIGMA * ENR_SIGMA;
+	let ag = ENR_AMP * gate;
+	let h = hTarget;
+	for (let i = 0; i < 8; i++) {
+		let dh = h - ENR_CENTER;
+		dh = dh - Math.round(dh / (2 * Math.PI)) * 2 * Math.PI;
+		let gauss = Math.exp(-0.5 * dh * dh / sig2);
+		let F = h + ag * gauss - hTarget;
+		let Fp = 1 + ag * gauss * (-dh / sig2);
+		let Fpp = ag * gauss * (-1 / sig2 + dh * dh / (sig2 * sig2));
+		let den = 2 * Fp * Fp - F * Fpp;
+		if (Math.abs(den) > 1e-30) {
+			h -= 2 * F * Fp / den;
+		}
+	}
+	return [C * Math.cos(h), C * Math.sin(h)];
+}
+
+// ── PW L correction ───────────────────────────────────────────────
+
+function pwLForward (L) {
+	if (L <= 0 || L >= 1) {
+		return L;
+	}
+	let lo = 0, hi = PW_N - 1;
+	while (hi - lo > 1) {
+		let mid = (lo + hi) >> 1;
+		if (PW_L_IN[mid] <= L) {
+			lo = mid;
+		}
+		else {
+			hi = mid;
+		}
+	}
+	let t = (L - PW_L_IN[lo]) / (PW_L_IN[hi] - PW_L_IN[lo]);
+	return PW_L_OUT[lo] + t * (PW_L_OUT[hi] - PW_L_OUT[lo]);
+}
+
+function pwLInverse (L) {
+	if (L <= PW_L_OUT[0] || L >= PW_L_OUT[PW_N - 1]) {
+		return L;
+	}
+	let lo = 0, hi = PW_N - 1;
+	while (hi - lo > 1) {
+		let mid = (lo + hi) >> 1;
+		if (PW_L_OUT[mid] <= L) {
+			lo = mid;
+		}
+		else {
+			hi = mid;
+		}
+	}
+	let t = (L - PW_L_OUT[lo]) / (PW_L_OUT[hi] - PW_L_OUT[lo]);
+	return PW_L_IN[lo] + t * (PW_L_IN[hi] - PW_L_IN[lo]);
+}
+
+// ── Color space definition ─────────────────────────────────────────
+
+export default new ColorSpace({
+	id: "helmgen",
+	name: "HelmGen",
+	cssId: "--helmgen",
+	coords: {
+		l: {
+			refRange: [0, 1],
+			name: "Lightness",
+		},
+		a: {
+			refRange: [-0.6, 0.6],
+		},
+		b: {
+			refRange: [-0.6, 0.6],
+		},
+	},
+	white: "D65",
+	base: XYZ_D65,
+
+	fromBase (xyz) {
+		// Stage 1: XYZ → LMS (M1)
+		let lms = multiply_v3_m3x3(xyz, M1);
+
+		// Stage 2: Depressed cubic transfer (y³ + αy = x)
+		let c0 = depcubicFwd(Math.max(lms[0], 0));
+		let c1 = depcubicFwd(Math.max(lms[1], 0));
+		let c2 = depcubicFwd(Math.max(lms[2], 0));
+
+		// Stage 2.5: Smooth neutral blend (C∞ correction for achromatic precision)
+		{
+			let mean = (c0 + c1 + c2) / 3;
+			let mx = Math.max(c0, c1, c2);
+			let mn = Math.min(c0, c1, c2);
+			let spread = (mx - mn) / Math.max(Math.abs(mean), 1e-30);
+			let w = Math.exp(-((spread / 1e-5) ** 2));
+			c0 += w * (mean - c0);
+			c1 += w * (mean - c1);
+			c2 += w * (mean - c2);
+		}
+
+		// Stage 3: LMS_c → Lab (M2)
+		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
+
+		// Stage 3.5: Chroma power (cp=0.978)
+		{
+			let C = Math.sqrt(a * a + b * b);
+			if (C > 1e-12) {
+				let Cnew = Math.pow(C, CP);
+				let s = Cnew / C;
+				a *= s;
+				b *= s;
+			}
+		}
+
+		// Stage 4: Piecewise-linear L correction
+		L = pwLForward(L);
+
+		// Stage 5: L-gated hue enrichment
+		[a, b] = enrichFwd(L, a, b);
+
+		return [L, a, b];
+	},
+
+	toBase (lab) {
+		let [L, a, b] = lab;
+
+		// Undo Stage 5: L-gated hue enrichment
+		[a, b] = enrichInv(L, a, b);
+
+		// Undo Stage 4: PW L correction
+		L = pwLInverse(L);
+
+		// Undo Stage 3.5: Chroma power inverse (C^(1/cp))
+		{
+			let C = Math.sqrt(a * a + b * b);
+			if (C > 1e-12) {
+				let Corig = Math.pow(C, 1 / CP);
+				let s = Corig / C;
+				a *= s;
+				b *= s;
+			}
+		}
+
+		// Undo Stage 3: Lab → LMS_c (M2_inv)
+		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
+
+		// Undo Stage 2.5: Smooth neutral blend
+		{
+			let mean = (lc0 + lc1 + lc2) / 3;
+			let mx = Math.max(lc0, lc1, lc2);
+			let mn = Math.min(lc0, lc1, lc2);
+			let spread = (mx - mn) / Math.max(Math.abs(mean), 1e-30);
+			let w = Math.exp(-((spread / 1e-5) ** 2));
+			lc0 += w * (mean - lc0);
+			lc1 += w * (mean - lc1);
+			lc2 += w * (mean - lc2);
+		}
+
+		// Undo Stage 2: Inverse depressed cubic (x = y³ + αy)
+		let l0 = depcubicInv(lc0);
+		let l1 = depcubicInv(lc1);
+		let l2 = depcubicInv(lc2);
+
+		// Undo Stage 1: LMS → XYZ (M1_inv)
+		return multiply_v3_m3x3([l0, l1, l2], M1_INV);
+	},
+});
