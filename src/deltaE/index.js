@@ -10,8 +10,9 @@ import deltaEITP from "./deltaEITP.js";
 import deltaEOK from "./deltaEOK.js";
 import deltaEOK2 from "./deltaEOK2.js";
 import deltaEHCT from "./deltaEHCT.js";
+import deltaEHelmlab from "./deltaEHelmlab.js";
 
-export { deltaE76, deltaECMC, deltaE2000, deltaEJz, deltaEITP, deltaEOK, deltaEOK2, deltaEHCT };
+export { deltaE76, deltaECMC, deltaE2000, deltaEJz, deltaEITP, deltaEOK, deltaEOK2, deltaEHCT, deltaEHelmlab };
 
 export default {
 	deltaE76,
@@ -22,6 +23,7 @@ export default {
 	deltaEOK,
 	deltaEOK2,
 	deltaEHCT,
+	deltaEHelmlab,
 };
 
 /** @typedef {keyof typeof import("./index.js").default extends `deltaE${infer Method}` ? Method : string} Methods */
