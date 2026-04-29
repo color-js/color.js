@@ -1,10 +1,8 @@
-import { fromXYZ } from "../spaces/helmlab.js";
+import helmlab from "../spaces/helmlab.js";
 import getColor from "../getColor.js";
-import ColorSpace from "../ColorSpace.js";
-import XYZ_D65 from "../spaces/xyz-d65.js";
 
 // Helmlab MetricSpace weighted distance (v21, 72 params).
-// Optimized on 64,000+ human color-difference judgments (COMBVD).
+// Optimized on COMBVD human color-difference judgments.
 //
 // Formula:
 //   SL = 1 + sl * (L_avg - 0.5)²
@@ -28,11 +26,8 @@ const q = 0.47897301074925214;
 export default function (color, sample) {
 	[color, sample] = getColor([color, sample]);
 
-	let xyz1 = ColorSpace.get(color.space).to(XYZ_D65, color.coords);
-	let xyz2 = ColorSpace.get(sample.space).to(XYZ_D65, sample.coords);
-
-	let [L1, a1, b1] = fromXYZ(xyz1);
-	let [L2, a2, b2] = fromXYZ(xyz2);
+	let [L1, a1, b1] = helmlab.from(color);
+	let [L2, a2, b2] = helmlab.from(sample);
 
 	let ΔL = L1 - L2;
 	let Δa = a1 - a2;

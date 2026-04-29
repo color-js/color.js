@@ -13,6 +13,7 @@ declare class SpaceAccessors {
 	hct: SpaceAccessor;
 	helmgen: SpaceAccessor;
 	helmgenlch: SpaceAccessor;
+	helmlab_metric: SpaceAccessor;
 	hpluv: SpaceAccessor;
 	hsl: SpaceAccessor;
 	hsluv: SpaceAccessor;

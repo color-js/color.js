@@ -458,6 +458,85 @@ const tests = {
 			],
 		},
 		{
+			name: "Helmlab MetricSpace (helmlab-metric)",
+			description:
+				"Conversions tested against the reference Python implementation (arXiv:2602.23010). " +
+				"Helmlab MetricSpace is the perceptual forward space behind deltaEHelmlab; its coordinates " +
+				"are tuned for ΔE accuracy, so the ab plane is asymmetric and L exceeds 1 for high-chroma " +
+				"colors due to the Helmholtz–Kohlrausch boost. For author-friendly authoring use HelmGen.",
+			data: {
+				toSpace: "helmlab-metric",
+			},
+			tests: [
+				{
+					name: "sRGB white to Helmlab MetricSpace",
+					args: "white",
+					expect: [1.1211, 0.1016, 0.2004],
+				},
+				{
+					name: "sRGB black to Helmlab MetricSpace",
+					args: "black",
+					expect: [0, 0, 0],
+				},
+				{
+					name: "sRGB red to Helmlab MetricSpace",
+					args: "red",
+					expect: [0.9207, 0.9408, -0.2063],
+				},
+				{
+					name: "sRGB lime to Helmlab MetricSpace",
+					args: "lime",
+					expect: [0.7406, -0.1547, 0.8917],
+				},
+				{
+					name: "sRGB blue to Helmlab MetricSpace",
+					args: "blue",
+					expect: [0.7623, -0.1254, -0.2026],
+				},
+				{
+					name: "sRGB cyan to Helmlab MetricSpace",
+					args: "cyan",
+					expect: [0.8825, -0.1670, 0.2246],
+				},
+				{
+					name: "sRGB magenta to Helmlab MetricSpace",
+					args: "magenta",
+					expect: [1.3271, 0.0946, -0.0781],
+				},
+				{
+					name: "sRGB yellow to Helmlab MetricSpace",
+					args: "yellow",
+					expect: [0.8998, 0.1779, 0.8760],
+				},
+			],
+		},
+		{
+			name: "Helmlab MetricSpace round-trip",
+			description:
+				"sRGB → helmlab-metric → sRGB round-trip precision",
+			data: {
+				epsilon: 0.00001,
+				toSpace: "srgb",
+			},
+			tests: [
+				{
+					name: "red round-trip",
+					args: "color(--helmlab-metric 0.9207026558964019 0.9408381838264792 -0.2063029789974532)",
+					expect: [1, 0, 0],
+				},
+				{
+					name: "lime round-trip",
+					args: "color(--helmlab-metric 0.7405738192322576 -0.1547420561604902 0.8916832804475869)",
+					expect: [0, 1, 0],
+				},
+				{
+					name: "blue round-trip",
+					args: "color(--helmlab-metric 0.7623128436110738 -0.12540848957779177 -0.2026289423898374)",
+					expect: [0, 0, 1],
+				},
+			],
+		},
+		{
 			name: "HelmGen (GenSpace)",
 			description:
 				"Conversions tested against the reference Python implementation (v0.11.1, arXiv:2602.23010)",

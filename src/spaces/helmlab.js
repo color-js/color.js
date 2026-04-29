@@ -3,10 +3,11 @@
  *
  * A data-driven analytical color space fit on COMBVD (3,813 paired human
  * color-difference judgments aggregating BFD-P, Witt 1999, RIT-DuPont, and
- * Leeds). Used internally by `deltaEHelmlab`; not exposed as a CSS color
- * space because its coordinate system (asymmetric ab plane, L > 1 from
- * H-K modeling, achromatic axis offset from origin) is shaped for ΔE
- * accuracy rather than author-facing coordinates.
+ * Leeds). Used internally by `deltaEHelmlab` and exposed as the CSS
+ * color space `helmlab-metric` for inspectability. Its coordinate system
+ * (asymmetric ab plane, L > 1 from H-K modeling, achromatic axis offset
+ * from origin) is shaped for ΔE accuracy rather than author-facing
+ * coordinates — for general CSS authoring use HelmGen (`helmgen`).
  *
  * Measured in this branch: ~24% lower STRESS than CIEDE2000 on COMBVD.
  *
@@ -17,7 +18,9 @@
  * Reference: arXiv:2602.23010
  * @see https://github.com/Grkmyldz148/helmlab
  */
+import ColorSpace from "../ColorSpace.js";
 import {multiply_v3_m3x3, spow, clamp} from "../util.js";
+import XYZ_D65 from "./xyz-d65.js";
 
 /** @import { Matrix3x3 } from "../types.js" */
 
@@ -218,13 +221,25 @@ function darkLInv (Ln, h) {
 	return L;
 }
 
-// ── Internal forward / inverse for deltaEHelmlab ──────────────────
-// Helmlab MetricSpace is the perceptual forward space optimized for ΔE accuracy.
-// It is intentionally NOT exposed as a CSS color space — its coordinate system is
-// shaped to maximize ΔE prediction on visual-difference datasets (COMBVD, MacAdam,
-// RIT-DuPont, Witt, Leeds), which produces an asymmetric ab plane and an L axis
-// that exceeds 1 for highly chromatic colors (Helmholtz–Kohlrausch effect). For
-// CSS-author-facing use, see HelmGen (`helmgen`).
+// ── Color space definition ─────────────────────────────────────────
+// Helmlab MetricSpace is the perceptual forward space behind `deltaEHelmlab`.
+// Its coordinate system is shaped to maximize ΔE prediction accuracy on
+// visual-difference datasets (COMBVD: BFD-P, Witt 1999, RIT-DuPont, Leeds),
+// not author convenience. As a result:
+//   - the ab plane is asymmetric (the metric was fit to directionally
+//     asymmetric human discrimination thresholds);
+//   - the L axis exceeds 1 for highly chromatic colors because the
+//     Helmholtz–Kohlrausch boost is modeled explicitly (high-chroma colors
+//     appear brighter than equiluminant neutrals);
+//   - the achromatic axis is not pinned to (0, 0) — the gray axis sits
+//     slightly off-origin in this coordinate system. Distance is
+//     translation-invariant, so this does not affect ΔE quality.
+//
+// For CSS-author-facing color authoring (palettes, gradients, gamut
+// mapping), use HelmGen (`helmgen`) instead. This space (`helmlab-metric`)
+// is exposed primarily so the metric forward is inspectable for
+// debugging, color-science exploration, and as the internal forward used
+// by `deltaEHelmlab`.
 
 export const fromXYZ = function (xyz) {
 		// Stage 0: Chromatic adaptation (Color.js D65 → Helmlab D65)
@@ -385,4 +400,28 @@ export const toXYZ = function (lab) {
 		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
 };
 
-export default { from: fromXYZ, to: toXYZ };
+export default new ColorSpace({
+	id: "helmlab-metric",
+	name: "Helmlab MetricSpace",
+	cssId: "--helmlab-metric",
+	coords: {
+		l: {
+			refRange: [0, 1.6],
+			name: "Lightness",
+		},
+		a: {
+			refRange: [-1.5, 1.5],
+		},
+		b: {
+			refRange: [-1.5, 1.5],
+		},
+	},
+	white: "D65",
+	base: XYZ_D65,
+	fromBase (xyz) {
+		return fromXYZ(xyz);
+	},
+	toBase (lab) {
+		return toXYZ(lab);
+	},
+});

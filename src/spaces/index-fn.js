@@ -34,6 +34,7 @@ export { default as Luv } from "./luv.js";
 export { default as LCHuv } from "./lchuv.js";
 export { default as HSLuv } from "./hsluv.js";
 export { default as HPLuv } from "./hpluv.js";
+export { default as Helmlab } from "./helmlab.js";
 export { default as HelmGen } from "./helmgen.js";
 export { default as HelmGenLCh } from "./helmgenlch.js";
 
