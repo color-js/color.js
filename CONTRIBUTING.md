@@ -30,7 +30,7 @@ We welcome contributions that use AI assistants (Claude, Copilot, Cursor, etc.) 
 
 If AI was involved in producing a contribution:
 
-- **Verify and test the code yourself.** You're responsible for what you submit. Pay particular attention to areas the test suite doesn't exercise — AI tools can produce code that *looks* correct but quietly violates an unstated constraint.
+- **Verify and test the code yourself.** You're responsible for what you submit. Pay particular attention to areas that cannot be validated via unit testing, such as architectural coherence.
 - **Don't let AI assistants post on your behalf without explicit approval.** This applies to PR comments, issue replies, and any direct interaction with maintainers or other contributors. Read each message before it goes out — even if you asked the assistant to draft it.
 - **Mark commits with `Co-Authored-By:`.** Claude Code does this automatically; for other tools, add the trailer manually. Example: `Co-Authored-By: Claude <noreply@anthropic.com>`.
 - **Disclose AI use in PRs and issues** whose text was largely generated, e.g. with a note at the end:
