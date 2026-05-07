@@ -24,6 +24,20 @@ All of the above also have `build` versions (e.g. `npm run build:js` or `npm run
 - If working on a color space, please prefix your commit with `[spaces/SPACE_ID]`
 - If working on a module other than color.js, please prefix your commit with `[modulename]` e.g. `[interpolation]`
 
+## AI-assisted contributions
+
+We welcome contributions that use AI assistants (Claude, Copilot, Cursor, etc.) provided you treat them as **drafting tools, not authors**: review and test what they produce as if you wrote it yourself, and be transparent about it.
+
+If AI was involved in producing a contribution:
+
+- **Verify and test the code yourself.** You're responsible for what you submit. Pay particular attention to areas the test suite doesn't exercise — AI tools can produce code that *looks* correct but quietly violates an unstated constraint.
+- **Don't let AI assistants post on your behalf without explicit approval.** This applies to PR comments, issue replies, and any direct interaction with maintainers or other contributors. Read each message before it goes out — even if you asked the assistant to draft it.
+- **Mark commits with `Co-Authored-By:`.** Claude Code does this automatically; for other tools, add the trailer manually. Example: `Co-Authored-By: Claude <noreply@anthropic.com>`.
+- **Disclose AI use in PRs and issues** whose text was largely generated, e.g. with a note at the end:
+  > _Drafted with the help of Claude._
+
+Submitting AI-generated content as if it were your own — without review, testing, or attribution — wastes maintainer time and isn't welcome. See #723 for the discussion behind this policy.
+
 ## Code style
 
 Please install an ESLint plugin for your editor. There is an `.eslintrc.json` file in the repo which encodes most of the coding style of the project.
