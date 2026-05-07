@@ -26,7 +26,7 @@ All of the above also have `build` versions (e.g. `npm run build:js` or `npm run
 
 ## AI-assisted contributions
 
-We welcome contributions that use AI assistants (Claude, Copilot, Cursor, etc.) provided you treat them as **drafting tools, not authors**: review and test what they produce as if you wrote it yourself, and be transparent about it.
+We welcome contributions that use AI assistants provided you treat them as **drafting tools, not authors**: review and test what they produce as if you wrote it yourself, and be transparent about it.
 
 If AI was involved in producing a contribution:
 
