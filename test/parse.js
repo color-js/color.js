@@ -586,16 +586,12 @@ const tests = {
 				{
 					name: "legacy syntax, <number> saturation/lightness, no alpha (#428, #648)",
 					args: ["hsl(0, 0, 0)"],
-					throws: true,
-					// TODO: #428. This currently parses successfully but shouldn't because the legacy syntax doesn't allow `<number>` for saturation or lightness.
-					skip: true,
+					throws: TypeError,
 				},
 				{
 					name: "legacy syntax, <number> saturation/lightness, alpha (#428, #648)",
 					args: ["hsl(0, 0, 0, 0.5)"],
-					throws: true,
-					// TODO: #428. This currently parses successfully but shouldn't because the legacy syntax doesn't allow `<number>` for saturation or lightness.
-					skip: true,
+					throws: TypeError,
 				},
 				{
 					name: "modern syntax, <percentage> saturation/lightness, no alpha (#428, #648)",
