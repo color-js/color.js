@@ -4,6 +4,7 @@ import HSL from "./hsl.js";
 
 export default new ColorSpace({
 	id: "hsl-rec2020",
+	cssId: "--hsl-rec2020",
 	name: "HSL Rec.2020",
 	coords: {
 		h: {
