@@ -40,8 +40,6 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * Otherwise, the color is converted to Lab, REC2020, or P3, whichever is the widest supported.
  * In Node.js, this is basically equivalent to `serialize()` but returns a `String` object instead.
  * @param {ColorTypes} color
- * @param {{ space?: string | ColorSpace | undefined } & Record<string, any>} param1
- * Options to be passed to `serialize()`
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */

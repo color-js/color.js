@@ -238,7 +238,7 @@ const COLORS = {
  * in `space`, and returned in `space`. Otherwise, it will be in gamut and
  * returned in the color space of `origin`.
  * @param {ColorTypes} origin
- * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @param {{ space?: string | ColorSpace | undefined }} options
  * @returns {PlainColorObject}
  */
 export function toGamutCSS (origin, { space } = {}) {
@@ -397,7 +397,7 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
  * it will be in gamut `space`, and returned in `space`. Otherwise,
  * it will be in gamut and returned in the color space of `origin`.
  * @param {ColorTypes} origin
- * @param {{ space?: string | ColorSpace | undefined }} param1
+ * @param {{ space?: string | ColorSpace | undefined }} options
  * @returns {PlainColorObject}
  */
 export function toGamutRayTrace (origin, { space } = {}) {
