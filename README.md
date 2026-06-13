@@ -47,10 +47,10 @@ all with sensible defaults
 
 Color.js is designed make simple things easy, and complex things possible, and that extends to installation as well.
 
-For quick experiments, you can just import Color.js directly from the CDN (kindly provided by the awesome folks at [Netlify](https://netlify.com)) with all modules included:
+For quick experiments, you can just import Color.js directly from a CDN such as [esm.sh](https://esm.sh) with all modules included:
 
 ```js
-import Color from "https://colorjs.io/dist/color.js";
+import Color from "https://esm.sh/colorjs.io";
 ```
 
 You can also install via npm if you’d prefer:
