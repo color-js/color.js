@@ -44,16 +44,15 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
-export default function display (color, { space, supports = globalThis.CSS?.supports, ...options } = {}) {
+export default function display (
+	color,
+	{ space, supports = globalThis.CSS?.supports, ...options } = {},
+) {
 	color = getColor(color);
 
 	let ret = /** @type {Display} */ (serialize(color, options));
 
-	if (
-		!supports ||
-		supports("color", /** @type {string} */ (ret)) ||
-		!defaults.display_space
-	) {
+	if (!supports || supports("color", /** @type {string} */ (ret)) || !defaults.display_space) {
 		ret = /** @type {Display} */ (new String(ret));
 		ret.color = /** @type {PlainColorObject} */ (color);
 	}
