@@ -1,0 +1,61 @@
+---
+title: "Releases"
+layout: "page.njk"
+---
+<main>
+
+<p>Release notes for every published version of Color.js starting with v0.6.0, newest first.</p>
+
+{# Pages tagged via releases.json, newest first (includes this index, skipped below) #}
+{% set releases = collections.releases | reverse %}
+
+<ul class="releases">
+	{% for release in releases %}
+	{% set base = release.fileSlug.split("-")[0] %}
+	{% set i = loop.index0 %}
+	{# Group head = newest page of its base version. Skip this index, and skip any
+	   page that has a newer sibling of the same base (i.e. it's nested below). #}
+	{% set newerSibling %}
+		{% for p in releases %}{% if loop.index0 < i and p.fileSlug.split("-")[0] == base %}x{% endif %}{% endfor %}
+	{% endset %}
+	{% if release.url != page.url and not (newerSibling | trim) %}
+	{% set released = not release.fileSlug.includes("-") %}
+	{# Nest this base's pre-releases, shown by just the part that differs #}
+	{% set prereleases %}
+		{% for pre in releases %}
+		{% if pre.fileSlug.startsWith(base + "-") %}
+		<li>
+			<a href="{{ pre.url }}">{{ pre.fileSlug.slice(base.length + 1) }}</a>
+			{% if pre.date %}<time datetime="{{ pre.date.toISOString().slice(0, 10) }}">{{ pre.date | date }}</time>{% endif %}
+		</li>
+		{% endif %}
+		{% endfor %}
+	{% endset %}
+	{# One marker per pre-release, whitespace-stripped, so length is the count #}
+	{% set count %}{% for pre in releases %}{%- if pre.fileSlug.startsWith(base + "-") -%}.{%- endif -%}{% endfor %}{% endset %}
+	{% set count = count | length %}
+	<li>
+		{# A final release is always newer than its pre-releases, so a head with no
+		   "-" is the released version; otherwise this base has no release yet. #}
+		{% if released %}
+		<a href="{{ release.url }}">{{ release.fileSlug }}</a>
+		{% if release.date %}<time datetime="{{ release.date.toISOString().slice(0, 10) }}">{{ release.date | date }}</time>{% endif %}
+		{% else %}
+		{{ base }} <small>(unreleased)</small>
+		{% endif %}
+
+		{% if count and released %}
+		{# Collapse pre-releases of a published version behind a count #}
+		<details>
+			<summary>{{ count }} pre-release{{ "s" if count != 1 else "" }}</summary>
+			<ul class="prereleases">{{ prereleases | safe }}</ul>
+		</details>
+		{% elif count %}
+		<ul class="prereleases">{{ prereleases | safe }}</ul>
+		{% endif %}
+	</li>
+	{% endif %}
+	{% endfor %}
+</ul>
+
+</main>

@@ -22,3 +22,14 @@ export function randomNumber (max, min, step) {
 
 	return Math.floor((Math.random() * (max - min + step)) / step) * step + min;
 }
+
+/**
+ * Format a date for display, e.g. "December 24, 2025".
+ * 11ty passes `page.date` as a Date, but accept date strings too.
+ * @param {Date | string} value
+ * @param {Intl.DateTimeFormatOptions} [options]
+ */
+export function date (value, options = { dateStyle: "long" }) {
+	value = typeof value === "string" ? new Date(value) : value;
+	return value?.toLocaleString("en", options);
+}
