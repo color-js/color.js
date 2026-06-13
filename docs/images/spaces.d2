@@ -179,6 +179,28 @@ node-srgb -> node-hsl  {
 }
 
 
+node-hsl-p3: HSL P3 {
+	link: "#hsl-p3"
+	class: [node
+		
+		]
+}
+node-p3 -> node-hsl-p3  {
+	class: edge
+}
+
+
+node-hsl-rec2020: HSL Rec.2020 {
+	link: "#hsl-rec2020"
+	class: [node
+		
+		]
+}
+node-rec2020 -> node-hsl-rec2020  {
+	class: edge
+}
+
+
 node-hsluv: HSLuv {
 	link: "#hsluv"
 	class: [node
@@ -209,6 +231,39 @@ node-hwb: HWB {
 }
 node-hsv -> node-hwb  {
 	class: edge
+}
+
+
+node-helmgen: HelmGen {
+	link: "#helmgen"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-helmgen  {
+	class: [edge; core-edge]
+}
+
+
+node-helmgenlch: HelmGenLCh {
+	link: "#helmgenlch"
+	class: [node
+		
+		]
+}
+node-helmgen -> node-helmgenlch  {
+	class: edge
+}
+
+
+node-helmlab-metric: Helmlab MetricSpace {
+	link: "#helmlab-metric"
+	class: [node
+		
+		]
+}
+node-xyz-d65 -> node-helmlab-metric  {
+	class: [edge; core-edge]
 }
 
 
