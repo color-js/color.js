@@ -11,6 +11,8 @@ export { default as LCH } from "./lch.js";
 export { default as sRGB_Linear } from "./srgb-linear.js";
 export { default as sRGB } from "./srgb.js";
 export { default as HSL } from "./hsl.js";
+export { default as HSL_P3 } from "./hsl-p3.js";
+export { default as HSL_REC2020 } from "./hsl-rec2020.js";
 export { default as HWB } from "./hwb.js";
 export { default as HSV } from "./hsv.js";
 export { default as P3_Linear } from "./p3-linear.js";

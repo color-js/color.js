@@ -152,6 +152,54 @@ const tests = {
 			],
 		},
 		{
+			name: "P3 to HSL P3",
+			data: {
+				toSpace: "hsl-p3",
+			},
+			tests: [
+				{
+					args: "color(display-p3 1 0 0)",
+					expect: [0, 100, 50],
+				},
+				{
+					args: "color(display-p3 0.5 0.2 0.7)",
+					expect: [276, 55.55555555555556, 44.99999999999999],
+				},
+				{
+					args: "color(display-p3 1 1 1)",
+					expect: [null, 0, 100],
+				},
+				{
+					args: "color(display-p3 0 0 0)",
+					expect: [null, 0, 0],
+				},
+				{
+					args: ["color(--hsl-p3 276 55 45)", "p3"],
+					expect: [0.49949999999999983, 0.20249999999999999, 0.6975],
+				},
+			],
+		},
+		{
+			name: "Rec.2020 to HSL Rec.2020",
+			data: {
+				toSpace: "hsl-rec2020",
+			},
+			tests: [
+				{
+					args: "color(rec2020 0 0 1)",
+					expect: [240, 100, 50],
+				},
+				{
+					args: "color(rec2020 0.5 0.2 0.7)",
+					expect: [276, 55.55555555555556, 44.99999999999999],
+				},
+				{
+					args: ["color(--hsl-rec2020 240 80 30)", "rec2020"],
+					expect: [0.06, 0.06, 0.54],
+				},
+			],
+		},
+		{
 			name: "P3 to sRGB",
 			data: {
 				toSpace: "srgb",
