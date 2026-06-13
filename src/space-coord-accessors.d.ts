@@ -16,6 +16,8 @@ declare class SpaceAccessors {
 	helmlab_metric: SpaceAccessor;
 	hpluv: SpaceAccessor;
 	hsl: SpaceAccessor;
+	hsl_p3: SpaceAccessor;
+	hsl_rec2020: SpaceAccessor;
 	hsluv: SpaceAccessor;
 	hsv: SpaceAccessor;
 	hwb: SpaceAccessor;
