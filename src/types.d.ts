@@ -42,6 +42,11 @@ export type Display = string & { color: PlainColorObject };
 export interface DisplayOptions extends SerializeOptions {
 	/** Color space to convert to if the color is not natively supported */
 	space?: string | ColorSpace | undefined;
+	/**
+	 * Function used to test whether a serialization is supported, defaulting to `CSS.supports`.
+	 * If absent (e.g. in Node), the color's own serialization is returned without a fallback.
+	 */
+	supports?: ((property: string, value: string) => boolean) | undefined;
 }
 
 // interpolation.js

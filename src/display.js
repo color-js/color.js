@@ -44,14 +44,14 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
-export default function display (color, { space = defaults.display_space, ...options } = {}) {
+export default function display (color, { space, supports = globalThis.CSS?.supports, ...options } = {}) {
 	color = getColor(color);
 
 	let ret = /** @type {Display} */ (serialize(color, options));
 
 	if (
-		typeof CSS === "undefined" ||
-		CSS.supports("color", /** @type {string} */ (ret)) ||
+		!supports ||
+		supports("color", /** @type {string} */ (ret)) ||
 		!defaults.display_space
 	) {
 		ret = /** @type {Display} */ (new String(ret));
@@ -66,7 +66,7 @@ export default function display (color, { space = defaults.display_space, ...opt
 
 		if (hasNone) {
 			// Does the browser support none values?
-			if (!(supportsNone ??= CSS.supports("color", "hsl(none 50% 50%)"))) {
+			if (!(supportsNone ??= supports("color", "hsl(none 50% 50%)"))) {
 				// Nope, try again without none
 				fallbackColor = clone(/** @type {PlainColorObject} */ (color));
 				fallbackColor.coords = /** @type {[number, number, number]} */ (
@@ -77,7 +77,7 @@ export default function display (color, { space = defaults.display_space, ...opt
 				// @ts-expect-error This is set to the correct type later
 				ret = serialize(fallbackColor, options);
 
-				if (CSS.supports("color", /** @type {string} */ (ret))) {
+				if (supports("color", /** @type {string} */ (ret))) {
 					// We're done, now it's supported
 					ret = /** @type {Display} */ (new String(ret));
 					ret.color = fallbackColor;
@@ -88,7 +88,7 @@ export default function display (color, { space = defaults.display_space, ...opt
 
 		// If we're here, the color function is not supported
 		// Fall back to fallback space
-		fallbackColor = to(fallbackColor, space);
+		fallbackColor = to(fallbackColor, /** @type {string | ColorSpace} */ (space));
 		ret = /** @type {Display} */ (new String(serialize(fallbackColor, options)));
 		ret.color = fallbackColor;
 	}
