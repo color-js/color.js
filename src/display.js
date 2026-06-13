@@ -10,7 +10,7 @@ import Lab from "./spaces/lab.js";
 import sRGB from "./spaces/srgb.js";
 
 /** @import ColorSpace from "./ColorSpace.js" */
-/** @import { ColorTypes, PlainColorObject } from "./types.js" */
+/** @import { ColorTypes, PlainColorObject, DisplayOptions } from "./types.js" */
 
 // Type re-exports
 /** @typedef {import("./types.js").Display} Display */
@@ -40,6 +40,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * Otherwise, the color is converted to Lab, REC2020, or P3, whichever is the widest supported.
  * In Node.js, this is basically equivalent to `serialize()` but returns a `String` object instead.
  * @param {ColorTypes} color
+ * @param {DisplayOptions} [options] Options. Any properties beyond `space` and `supports` are passed to `serialize()`.
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */

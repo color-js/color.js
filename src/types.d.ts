@@ -39,6 +39,11 @@ export type * from "./color.js";
 // display.js
 export type Display = string & { color: PlainColorObject };
 
+export interface DisplayOptions extends SerializeOptions {
+	/** Color space to convert to if the color is not natively supported */
+	space?: string | ColorSpace | undefined;
+}
+
 // interpolation.js
 export type Range = ((percentage: number) => Color) & {
 	rangeArgs: { colors: [Color, Color]; options: Record<string, any> };
