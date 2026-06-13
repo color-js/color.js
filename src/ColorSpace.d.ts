@@ -131,6 +131,8 @@ export default class ColorSpace {
 	id: string;
 	aliases?: string[] | undefined;
 	base: ColorSpace | null;
+	/** This space's ancestors, ordered closest first (immediate base → root), excluding this space */
+	bases: ColorSpace[];
 	coords: Record<string, CoordMeta>;
 	fromBase?: ((coords: Coords) => Coords) | undefined;
 	toBase?: ((coords: Coords) => Coords) | undefined;
