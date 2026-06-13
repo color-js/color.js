@@ -37,7 +37,10 @@ if (typeof CSS !== "undefined" && CSS.supports) {
 /**
  * Returns a serialization of the color that can actually be displayed in the browser.
  * If the default serialization can be displayed, it is returned.
- * Otherwise, the color is converted to Lab, REC2020, or P3, whichever is the widest supported.
+ * Otherwise, if a `space` is given, the color is converted directly to it.
+ * If not, the color is converted to the first supported of its space's `displaySpaces` (if any),
+ * else the closest supported space in its base color space chain (which preserves its gamut),
+ * else the default fallback space (Lab, REC2020, or P3, whichever is the widest supported).
  * In Node.js, this is basically equivalent to `serialize()` but returns a `String` object instead.
  * @param {ColorTypes} color
  * @param {DisplayOptions} [options] Options. Any properties beyond `space` and `supports` are passed to `serialize()`.
@@ -85,7 +88,33 @@ export default function display (
 			}
 		}
 
-		// If we're here, the color function is not supported
+		// If we're here, the color function is not supported.
+		// With no explicit space, try the color's own `displaySpaces`, or else walk up its base
+		// color space chain (closest first, skipping XYZ connection spaces), and use the first
+		// space the browser supports, before falling back to the default space.
+		if (space === undefined) {
+			space = fallbackColor.space;
+			let candidates = space.displaySpaces ?? space.bases;
+
+			// Skip XYZ connection spaces (unless the space itself is one, so it still has a fallback).
+			if (!space.displaySpaces && !space.id.startsWith("xyz-")) {
+				candidates = candidates.filter(space => !space.id.startsWith("xyz-"));
+			}
+
+			for (let candidate of candidates) {
+				let candidateColor = to(fallbackColor, candidate);
+				let str = serialize(candidateColor, options);
+
+				if (supports("color", /** @type {string} */ (str))) {
+					ret = /** @type {Display} */ (new String(str));
+					ret.color = candidateColor;
+					return ret;
+				}
+			}
+
+			space = defaults.display_space;
+		}
+
 		// Fall back to fallback space
 		fallbackColor = to(fallbackColor, /** @type {string | ColorSpace} */ (space));
 		ret = /** @type {Display} */ (new String(serialize(fallbackColor, options)));
