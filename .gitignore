@@ -12,3 +12,4 @@ node_modules/
 types/src/
 
 api/
+package-lock.json
