@@ -190,6 +190,7 @@ export default class Notebook {
 		this.code = this.pre.textContent;
 
 		let value = this.code.trim().replace(/\s+$/m, "");
+		let error;
 
 		if (codes.get(pre) === value) {
 			// We've already evaluated this
@@ -203,7 +204,7 @@ export default class Notebook {
 		}
 		catch (e) {
 			// Syntax error
-			var error = e;
+			error = e;
 		}
 
 		if (!error) {
@@ -212,7 +213,7 @@ export default class Notebook {
 			}
 			catch (e) {
 				// Syntax error in the rewritten code
-				var error = e;
+				error = e;
 			}
 		}
 
