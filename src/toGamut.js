@@ -7,6 +7,7 @@ import inGamut from "./inGamut.js";
 import to from "./to.js";
 import get from "./get.js";
 import oklab from "./spaces/oklab.js";
+import oklch from "./spaces/oklch.js";
 import set from "./set.js";
 import clone from "./clone.js";
 import getColor from "./getColor.js";
@@ -251,13 +252,12 @@ export function toGamutCSS (origin, { space } = {}) {
 	}
 
 	space = ColorSpace.get(space);
-	const oklchSpace = ColorSpace.get("oklch");
 
 	if (space.isUnbounded) {
 		return to(origin, space);
 	}
 
-	const origin_OKLCH = to(origin, oklchSpace);
+	const origin_OKLCH = to(origin, oklch);
 	let L = origin_OKLCH.coords[0];
 
 	// return media white or black, if lightness is out of range
@@ -415,8 +415,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 	}
 
 	// Get the OkLCh coordinates.
-	const oklchSpace = ColorSpace.get("oklch");
-	let oklchOrigin = to(origin, oklchSpace);
+	let oklchOrigin = to(origin, oklch);
 	let [lightness, chroma, hue] = oklchOrigin.coords;
 
 	// Return white or black if color's lightness exceeds the SDR range.
@@ -463,7 +462,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
 		// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
 		// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
-		let anchor = to({ space: oklchSpace, coords: [lightness, 0, hue] }, space).coords;
+		let anchor = to({ space: oklch, coords: [lightness, 0, hue] }, space).coords;
 
 		// Calculate bounds to adjust the anchor closer to the gamut surface.
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
@@ -479,10 +478,10 @@ export function toGamutRayTrace (origin, { space } = {}) {
 				// For constant luminance, we correct the color by simply setting lightness and hue to
 				// match the original color. In a non constant luminance reduction, it is better to
 				// project the color onto the reduction path vector.
-				const oklch = to(rgbOrigin, oklchSpace);
-				oklch.coords[0] = lightness;
-				oklch.coords[2] = hue;
-				rgbOrigin = to(oklch, space);
+				const oklchColor = to(rgbOrigin, oklch);
+				oklchColor.coords[0] = lightness;
+				oklchColor.coords[2] = hue;
+				rgbOrigin = to(oklchColor, space);
 			}
 			// Cast a ray from the achromatic anchor to the RGB target and find the gamut intersection.
 			const intersection = raytrace_box(anchor, rgbOrigin.coords, min, max);
