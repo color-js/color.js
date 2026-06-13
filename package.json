@@ -12,7 +12,7 @@
 		".": {
 			"import": {
 				"types": "./types/index.d.ts",
-				"default": "./dist/color.js"
+				"default": "./src/index.js"
 			},
 			"require": {
 				"types": "./types/index.d.ts",
@@ -53,7 +53,7 @@
 	"types": "./types",
 	"type": "module",
 	"main": "./dist/color.cjs",
-	"module": "./dist/color.js",
+	"module": "./src/index.js",
 	"directories": {
 		"test": "tests"
 	},
