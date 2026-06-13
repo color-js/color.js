@@ -20,6 +20,13 @@ export default class ColorSpace {
 		this.name = options.name;
 		this.base = options.base ? ColorSpace.get(options.base) : null;
 		this.aliases = options.aliases;
+		this.displaySpaces = options.displaySpaces?.map(space => ColorSpace.get(space));
+
+		// This space's ancestors, closest first (immediate base → root), excluding the space itself.
+		this.bases = [];
+		for (let base = this.base; base; base = base.base) {
+			this.bases.push(base);
+		}
 
 		if (options.rgbGamut) {
 			this.rgbGamut = options.rgbGamut;

@@ -108,8 +108,12 @@ As of June 2022, `cssColor` will be sRGB in Chrome and Firefox, and P3 in Safari
 
 So, this works, but the process is a little tedious. Thankfully, Color.js has got your back!
 Simply use the `color.display()` method.
-By default, it will use the widest of the default set of fallbacks ([Lab](spaces.html#lab), [REC.2020](spaces.html#rec2020), [P3](spaces.html#p3), then [sRGB](spaces.html#srgb)),
-but you can also provide your own space when the color to be output is not supported by the current browser.
+When the color is not supported by the current browser, it stays as close as possible to the
+original: it converts to the first supported space in the color's own base color space chain
+(which preserves its gamut), or to a space's declared `displaySpaces` if it defines any.
+If none of those are supported, it uses the widest of the default set of fallbacks
+([Lab](spaces.html#lab), [REC.2020](spaces.html#rec2020), [P3](spaces.html#p3), then [sRGB](spaces.html#srgb)).
+You can also provide your own space to convert to instead, which always takes precedence.
 Note that in Node, the fallback space is always sRGB if not provided.
 Let's rewrite the example above using `color.display()`!
 
