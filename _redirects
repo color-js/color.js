@@ -1,3 +1,10 @@
 /node_modules/htest.dev/* https://htest.dev/:splat
 /apps/* https://apps.colorjs.io/:splat 301
 /elements/* https://elements.colorjs.io/:splat 301
+
+# Minified bundles are no longer published (#737); map the browser-facing
+# ones to the unminified equivalent. Listed individually because Netlify
+# can't wildcard an infix ".min" (splats/placeholders must end the segment).
+/dist/color.global.min.js /dist/color.global.js 200
+/dist/color.global.legacy.min.js /dist/color.global.legacy.js 200
+/dist/color.min.js /dist/color.js 200
