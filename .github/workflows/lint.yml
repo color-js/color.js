@@ -20,7 +20,7 @@ jobs:
               with:
                   node-version: "lts/*"
 
-            - run: npm ci
+            - run: npm install
             - run: npm run lint:ci
             - name: Detect changes
               id: changes
