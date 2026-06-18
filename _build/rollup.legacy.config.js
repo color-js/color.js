@@ -14,7 +14,7 @@ export default defaultConfig.map(config =>
 	Object.assign(config, {
 		output: config.output.map(bundle => ({
 			...bundle,
-			file: bundle.file.replace(/\.(?:min\.)?\w+$/, ".legacy$&"),
+			file: bundle.file.replace(/\.\w+$/, ".legacy$&"),
 		})),
 		plugins: [...(config.plugins || []), ...legacyPlugins],
 	}));

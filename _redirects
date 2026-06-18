@@ -1,3 +1,16 @@
 /node_modules/htest.dev/* https://htest.dev/:splat
 /apps/* https://apps.colorjs.io/:splat 301
 /elements/* https://elements.colorjs.io/:splat 301
+
+# Minified bundles are no longer published (#737).
+# Serve the unminified equivalent so existing links keep working.
+/dist/color.global.min.js /dist/color.global.js 200
+/dist/color.min.js /dist/color.js 200
+/dist/color.min.cjs /dist/color.cjs 200
+/dist/color-fn.min.js /dist/color-fn.js 200
+/dist/color-fn.min.cjs /dist/color-fn.cjs 200
+/dist/color.global.legacy.min.js /dist/color.global.legacy.js 200
+/dist/color.legacy.min.js /dist/color.legacy.js 200
+/dist/color.legacy.min.cjs /dist/color.legacy.cjs 200
+/dist/color-fn.legacy.min.js /dist/color-fn.legacy.js 200
+/dist/color-fn.legacy.min.cjs /dist/color-fn.legacy.cjs 200
