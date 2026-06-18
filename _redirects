@@ -2,11 +2,9 @@
 /apps/* https://apps.colorjs.io/:splat 301
 /elements/* https://elements.colorjs.io/:splat 301
 
-# Minified bundles are no longer published (#737).
-# Serve the unminified equivalent so existing CDN <script> links keep working.
-# Netlify can't wildcard the infix ".min", so only the browser-facing builds
-# (the ones realistically loaded via <script src="https://colorjs.io/...">)
-# are mapped; .cjs and other variants aren't fetched over the CDN.
+# Minified bundles are no longer published (#737); map the browser-facing
+# ones to the unminified equivalent. Listed individually because Netlify
+# can't wildcard an infix ".min" (splats/placeholders must end the segment).
 /dist/color.global.min.js /dist/color.global.js 200
 /dist/color.global.legacy.min.js /dist/color.global.legacy.js 200
 /dist/color.min.js /dist/color.js 200
