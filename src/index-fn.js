@@ -7,6 +7,7 @@
  */
 export { default as ColorSpace }          from "./ColorSpace.js";
 export { default as RGBColorSpace }       from "./RGBColorSpace.js";
+export { default as GamutRelativeColorSpace } from "./GamutRelativeColorSpace.js";
 export { default as hooks, Hooks }        from "./hooks.js";
 export { default as defaults }            from "./defaults.js";
 export { default as getColor }            from "./getColor.js";

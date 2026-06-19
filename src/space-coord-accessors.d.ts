@@ -27,12 +27,18 @@ declare class SpaceAccessors {
 	lab: SpaceAccessor;
 	lab_d65: SpaceAccessor;
 	lch: SpaceAccessor;
+	lch_p3: SpaceAccessor;
+	lch_rec2020: SpaceAccessor;
+	lch_srgb: SpaceAccessor;
 	lchuv: SpaceAccessor;
 	luv: SpaceAccessor;
 	okhsl: SpaceAccessor;
 	okhsv: SpaceAccessor;
 	oklab: SpaceAccessor;
 	oklch: SpaceAccessor;
+	oklch_p3: SpaceAccessor;
+	oklch_rec2020: SpaceAccessor;
+	oklch_srgb: SpaceAccessor;
 	oklrab: SpaceAccessor;
 	oklrch: SpaceAccessor;
 	p3: SpaceAccessor;
