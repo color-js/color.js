@@ -65,7 +65,7 @@ export default class GamutRelativeColorSpace extends ColorSpace {
 			[[0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0]]
 		);
 		this.oogChroma =
-			1.1 *
+			1.01 *
 			Math.max(...corners.map(rgb => base.from(this.gamutSpace, rgb)[this.chromaIndex] || 0));
 	}
 
