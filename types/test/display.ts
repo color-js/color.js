@@ -17,4 +17,5 @@ display("red", {});
 
 display("red", { space: "srgb" });
 display("red", { space: sRGB });
+// @ts-expect-error Unknown options are not allowed
 display("red", { random: "foo" });
