@@ -544,7 +544,7 @@ const tests = {
 				{
 					name: "sRGB cyan to Helmlab MetricSpace",
 					args: "cyan",
-					expect: [0.8825, -0.167, 0.2246],
+					expect: [0.8825, -0.1670, 0.2246],
 				},
 				{
 					name: "sRGB magenta to Helmlab MetricSpace",
@@ -554,13 +554,14 @@ const tests = {
 				{
 					name: "sRGB yellow to Helmlab MetricSpace",
 					args: "yellow",
-					expect: [0.8998, 0.1779, 0.876],
+					expect: [0.8998, 0.1779, 0.8760],
 				},
 			],
 		},
 		{
 			name: "Helmlab MetricSpace round-trip",
-			description: "sRGB → helmlab-metric → sRGB round-trip precision",
+			description:
+				"sRGB → helmlab-metric → sRGB round-trip precision",
 			data: {
 				epsilon: 0.00001,
 				toSpace: "srgb",
@@ -636,7 +637,8 @@ const tests = {
 		},
 		{
 			name: "HelmGen round-trip",
-			description: "sRGB → HelmGen → sRGB round-trip precision",
+			description:
+				"sRGB → HelmGen → sRGB round-trip precision",
 			data: {
 				epsilon: 0.0001,
 				toSpace: "srgb",
