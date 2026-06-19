@@ -199,6 +199,9 @@ function pwLInverse (L) {
 
 // ── Color space definition ─────────────────────────────────────────
 
+/** Matrices used by this color space, also available as `HelmGen.M` */
+export const M = { M1, M1_INV, M2, M2_INV };
+
 export default new ColorSpace({
 	id: "helmgen",
 	name: "HelmGen",
@@ -218,7 +221,7 @@ export default new ColorSpace({
 	white: "D65",
 	base: XYZ_D65,
 
-	M: { M1, M1_INV, M2, M2_INV },
+	M,
 
 	fromBase (xyz) {
 		// Stage 1: XYZ → LMS (M1)

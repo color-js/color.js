@@ -37,6 +37,9 @@ const LabtoLMS = [
 	[ 1.0000000000000000, -0.0894841775298119, -1.2914855480194092 ],
 ];
 
+/** Matrices used by this color space, also available as `Oklab.M` */
+export const M = { XYZtoLMS, LMStoXYZ, LMStoLab, LabtoLMS };
+
 export default new ColorSpace({
 	id: "oklab",
 	name: "Oklab",
@@ -56,7 +59,7 @@ export default new ColorSpace({
 	// Note that XYZ is relative to D65
 	white: "D65",
 	base: XYZ_D65,
-	M: { XYZtoLMS, LMStoXYZ, LMStoLab, LabtoLMS },
+	M,
 	fromBase (XYZ) {
 		// move to LMS cone domain
 		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS);

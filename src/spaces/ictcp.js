@@ -68,6 +68,9 @@ const LMStoXYZ = [
 	[ -0.0497472075358123, -0.0492609666966131,  1.1880659249923042 ],
 ];
 
+/** Matrices used by this color space, also available as `ICTCP.M` */
+export const M = { XYZtoLMS, LMStoXYZ, LMStoIPT, IPTtoLMS };
+
 // Only the PQ form of ICtCp is implemented here. There is also an HLG form.
 // from Dolby, "WHAT IS ICTCP?"
 // https://professional.dolby.com/siteassets/pdfs/ictcp_dolbywhitepaper_v071.pdf
@@ -103,7 +106,7 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
-	M: { XYZtoLMS, LMStoXYZ, LMStoIPT, IPTtoLMS },
+	M,
 	fromBase (XYZ) {
 		// move to LMS cone domain
 		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS);

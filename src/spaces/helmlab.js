@@ -400,6 +400,9 @@ export const toXYZ = function (lab) {
 		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
 };
 
+/** Matrices used by this color space, also available as `Helmlab.M` */
+export const M = { CAT_TO_HELM, CAT_FROM_HELM, M1, M1_INV, M2, M2_INV };
+
 export default new ColorSpace({
 	id: "helmlab-metric",
 	name: "Helmlab MetricSpace",
@@ -418,7 +421,7 @@ export default new ColorSpace({
 	},
 	white: "D65",
 	base: XYZ_D65,
-	M: { CAT_TO_HELM, CAT_FROM_HELM, M1, M1_INV, M2, M2_INV },
+	M,
 	fromBase (xyz) {
 		return fromXYZ(xyz);
 	},

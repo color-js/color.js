@@ -376,6 +376,10 @@ export function toCam16 (xyzd65, env) {
 // https://onlinelibrary.wiley.com/doi/pdf/10.1002/col.22324: hue quadrature
 // https://www.researchgate.net/publication/318152296_Comprehensive_color_solutions_CAM16_CAT16_and_CAM16-UCS
 // Results compared against: https://github.com/colour-science/colour
+
+/** Matrices used by this color space, also available as `CAM16_JMh.M` */
+export const M = { cat16, cat16Inv, m1 };
+
 export default new ColorSpace({
 	id: "cam16-jmh",
 	cssId: "--cam16-jmh",
@@ -398,7 +402,7 @@ export default new ColorSpace({
 
 	base: xyz_d65,
 
-	M: { cat16, cat16Inv, m1 },
+	M,
 
 	fromBase (xyz) {
 		// If another derivation is created, ε could vary, so we can't hardcode

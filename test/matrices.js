@@ -1,11 +1,11 @@
 import ColorSpace from "../src/ColorSpace.js";
-import srgbLinear from "../src/spaces/srgb-linear.js";
+import srgbLinear, { M as srgbLinearM } from "../src/spaces/srgb-linear.js";
 import p3Linear from "../src/spaces/p3-linear.js";
-import oklab from "../src/spaces/oklab.js";
+import oklab, { M as oklabM } from "../src/spaces/oklab.js";
 import "../src/spaces/index.js"; // register all spaces
 
 export default {
-	name: "Color space matrices (ColorSpace.M)",
+	name: "Color space matrix exports",
 	description:
 		"Color spaces should expose the matrices they use via their `M` property so consumer code can reuse them.",
 	tests: [
@@ -49,6 +49,16 @@ export default {
 					name: "oklab.M.XYZtoLMS is a 3×3 matrix",
 					run: () => [oklab.M.XYZtoLMS.length, oklab.M.XYZtoLMS[0].length],
 					expect: [3, 3],
+				},
+			],
+		},
+		{
+			name: "Matrices are also available as a standalone `M` named export",
+			tests: [
+				{
+					name: "the `M` named export is the same object as the space's `M`",
+					run: () => srgbLinearM === srgbLinear.M && oklabM === oklab.M,
+					expect: true,
 				},
 			],
 		},

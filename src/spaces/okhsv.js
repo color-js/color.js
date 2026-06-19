@@ -152,6 +152,9 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	return [h, s, v];
 }
 
+/** Matrices used by this color space, also available as `Okhsv.M` */
+export const M = { toSRGBLinear };
+
 const Okhsv = new ColorSpace({
 	id: "okhsv",
 	name: "Okhsv",
@@ -174,7 +177,7 @@ const Okhsv = new ColorSpace({
 	base: Oklab,
 	gamutSpace: "self",
 
-	M: { toSRGBLinear },
+	M,
 
 	// Convert Oklab to Okhsl
 	fromBase (lab) {

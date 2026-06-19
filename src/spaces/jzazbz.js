@@ -48,6 +48,9 @@ const IabtoCone = [
 	[ 1,                  -0.09601924202631895,  -0.81189189605603900  ],
 ];
 
+/** Matrices used by this color space, also available as `Jzazbz.M` */
+export const M = { XYZtoCone, ConetoXYZ, ConetoIab, IabtoCone };
+
 export default new ColorSpace({
 	id: "jzazbz",
 	name: "Jzazbz",
@@ -65,7 +68,7 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
-	M: { XYZtoCone, ConetoXYZ, ConetoIab, IabtoCone },
+	M,
 	fromBase (XYZ) {
 		// First make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²

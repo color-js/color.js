@@ -512,6 +512,9 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 	return [h, s, l];
 }
 
+/** Matrices used by this color space (Oklab's, plus its own), also available as `Okhsl.M` */
+export const M = { ...Oklab.M, toLMS, toSRGBLinear };
+
 const Okhsl = new ColorSpace({
 	id: "okhsl",
 	name: "Okhsl",
@@ -534,10 +537,7 @@ const Okhsl = new ColorSpace({
 	base: Oklab,
 	gamutSpace: "self",
 
-	M: {
-		toLMS,
-		toSRGBLinear,
-	},
+	M,
 
 	// Convert Oklab to Okhsl
 	fromBase (lab) {

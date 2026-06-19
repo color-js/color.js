@@ -9,7 +9,7 @@ import XYZ_D50 from "./xyz-d50.js";
 // see https://github.com/w3c/csswg-drafts/issues/7675
 /** @type {Matrix3x3} */
 // prettier-ignore
-const toXYZ_M = [
+const toXYZ = [
 	[ 0.79776664490064230,  0.13518129740053308,  0.03134773412839220 ],
 	[ 0.28807482881940130,  0.71183523424187300,  0.00008993693872564 ],
 	[ 0.00000000000000000,  0.00000000000000000,  0.82510460251046020 ],
@@ -17,11 +17,14 @@ const toXYZ_M = [
 
 /** @type {Matrix3x3} */
 // prettier-ignore
-const fromXYZ_M = [
+const fromXYZ = [
 	[  1.34578688164715830, -0.25557208737979464, -0.05110186497554526 ],
 	[ -0.54463070512490190,  1.50824774284514680,  0.02052744743642139 ],
 	[  0.00000000000000000,  0.00000000000000000,  1.21196754563894520 ],
 ];
+
+/** Matrices used by this color space, also available as `ProPhoto_Linear.M` */
+export const M = { toXYZ, fromXYZ };
 
 export default new RGBColorSpace({
 	id: "prophoto-linear",
@@ -29,6 +32,5 @@ export default new RGBColorSpace({
 	name: "Linear ProPhoto",
 	white: "D50",
 	base: XYZ_D50,
-	toXYZ_M,
-	fromXYZ_M,
+	M,
 });
