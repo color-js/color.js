@@ -21,8 +21,9 @@ export default class GamutRelativeColorSpace extends ColorSpace {
 		let base = ColorSpace.get(options.base);
 		let chroma = options.chroma ?? "c";
 		let ids = Object.keys(base.coords);
+		let chromaIndex = ids.indexOf(chroma);
 
-		if (!ids.includes(chroma)) {
+		if (chromaIndex === -1) {
 			throw new TypeError(
 				`GamutRelativeColorSpace needs a "${chroma}" coordinate, got ${base.id}`,
 			);
@@ -52,7 +53,7 @@ export default class GamutRelativeColorSpace extends ColorSpace {
 
 		super(options);
 
-		this.chromaIndex = ids.indexOf(chroma);
+		this.chromaIndex = chromaIndex;
 		this.method = `${base.id}.${chroma}`;
 
 		// A chroma that is out of gamut at every lightness and hue: the gamut's most saturated corner
