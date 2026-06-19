@@ -398,11 +398,7 @@ export default new ColorSpace({
 
 	base: xyz_d65,
 
-	M: {
-		cat16: cat16,
-		cat16Inv: cat16Inv,
-		m1: m1,
-	},
+	M: { cat16, cat16Inv, m1 },
 
 	fromBase (xyz) {
 		// If another derivation is created, ε could vary, so we can't hardcode

@@ -21,7 +21,7 @@ const toXYZ_M = [
 // again it agrees with the official definition when rounded to 8 decimal places
 /** @type {Matrix3x3} */
 // prettier-ignore
-export const fromXYZ_M = [
+const fromXYZ_M = [
 	[  3.2409699419045226,  -1.537383177570094,   -0.4986107602930034  ],
 	[ -0.9692436362808796,   1.8759675015077202,   0.04155505740717559 ],
 	[  0.05563007969699366, -0.20397695888897652,  1.0569715142428786  ],

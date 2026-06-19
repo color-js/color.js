@@ -27,16 +27,9 @@ import HSL from "./hsl.js";
 import Oklab from "./oklab.js";
 import { spow, multiply_v3_m3x3 } from "../util.js";
 import { constrain } from "../angles.js";
-import {
-	tau,
-	toe,
-	toeInv,
-	findCusp,
-	toSt,
-	oklabToLinearRGB,
-	toSRGBLinear,
-	RGBCoeff,
-} from "./okhsl.js";
+import Okhsl, { tau, toe, toeInv, findCusp, toSt, oklabToLinearRGB, RGBCoeff } from "./okhsl.js";
+
+const { toSRGBLinear } = Okhsl.M;
 
 /** @import { Coords, Matrix3x3, OKCoeff, Vector3 } from "../types.js" */
 
@@ -181,9 +174,7 @@ const Okhsv = new ColorSpace({
 	base: Oklab,
 	gamutSpace: "self",
 
-	M: {
-		toSRGBLinear: toSRGBLinear,
-	},
+	M: { toSRGBLinear },
 
 	// Convert Oklab to Okhsl
 	fromBase (lab) {

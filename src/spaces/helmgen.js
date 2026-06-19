@@ -218,12 +218,7 @@ export default new ColorSpace({
 	white: "D65",
 	base: XYZ_D65,
 
-	M: {
-		M1: M1,
-		M1_INV: M1_INV,
-		M2: M2,
-		M2_INV: M2_INV,
-	},
+	M: { M1, M1_INV, M2, M2_INV },
 
 	fromBase (xyz) {
 		// Stage 1: XYZ → LMS (M1)

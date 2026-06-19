@@ -5,6 +5,6 @@ export default new RGBColorSpace({
 	id: "rec2100-linear",
 	name: "Linear REC.2100",
 	white: "D65",
-	toBase: REC_2020_Linear.toBase,
-	fromBase: REC_2020_Linear.fromBase,
+	// Same primaries and white point as Linear REC.2020, so it reuses its matrices
+	M: REC_2020_Linear.M,
 });

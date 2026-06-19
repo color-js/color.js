@@ -36,7 +36,7 @@ export const HELMLAB_D65 = [0.95047, 1.0, 1.08883];
 /** Bradford CAT: Color.js D65 → Helmlab D65 (apply in fromBase before M1) */
 /** @type {Matrix3x3} */
 // prettier-ignore
-export const CAT_TO_HELM = [
+const CAT_TO_HELM = [
 	[1.000042977349746, 2.0718877053183e-05, -4.361018085669474e-05],
 	[2.6946201090235744e-05, 0.9999906145080147, -1.4898828405401079e-05],
 	[-7.941753620756204e-06, 1.2875204405137254e-05, 0.9997859822609763],
@@ -45,7 +45,7 @@ export const CAT_TO_HELM = [
 /** Bradford CAT: Helmlab D65 → Color.js D65 (apply in toBase after M1_INV) */
 /** @type {Matrix3x3} */
 // prettier-ignore
-export const CAT_FROM_HELM = [
+const CAT_FROM_HELM = [
 	[0.9999570254019492, -2.071874272730964e-05, 4.361733292468361e-05],
 	[-2.694517763358666e-05, 1.000009385946497, 1.490098223546482e-05],
 	[7.943459292954202e-06, -1.287824596735154e-05, 1.000214063706999],
@@ -418,14 +418,7 @@ export default new ColorSpace({
 	},
 	white: "D65",
 	base: XYZ_D65,
-	M: {
-		CAT_TO_HELM: CAT_TO_HELM,
-		CAT_FROM_HELM: CAT_FROM_HELM,
-		M1: M1,
-		M1_INV: M1_INV,
-		M2: M2,
-		M2_INV: M2_INV,
-	},
+	M: { CAT_TO_HELM, CAT_FROM_HELM, M1, M1_INV, M2, M2_INV },
 	fromBase (xyz) {
 		return fromXYZ(xyz);
 	},
