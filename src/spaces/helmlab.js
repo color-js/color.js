@@ -88,6 +88,9 @@ const M2_INV = [
 	[   1.59889572926420897581,    0.22061850068770233468,    0.01250603735522095097],
 ];
 
+/** Matrices used by this color space, also available as `Helmlab.M` */
+export const M = { CAT_TO_HELM, CAT_FROM_HELM, M1, M1_INV, M2, M2_INV };
+
 // Enrichment parameters
 const hue_cos1 = -0.02833024015436984, hue_sin1 = -0.21131429516166544;
 const hue_cos2 = 0.2189784817615645, hue_sin2 = -0.06871898981942523;
@@ -243,10 +246,10 @@ function darkLInv (Ln, h) {
 
 export const fromXYZ = function (xyz) {
 		// Stage 0: Chromatic adaptation (Color.js D65 → Helmlab D65)
-		let adapted = multiply_v3_m3x3(xyz, CAT_TO_HELM);
+		let adapted = multiply_v3_m3x3(xyz, M.CAT_TO_HELM);
 
 		// Stage 1: XYZ → LMS (M1)
-		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
+		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M.M1);
 
 		// Stage 2: Power compression (signed)
 		let c0 = spow(lms0, GAMMA[0]);
@@ -254,7 +257,7 @@ export const fromXYZ = function (xyz) {
 		let c2 = spow(lms2, GAMMA[2]);
 
 		// Stage 3: LMS_c → Lab_raw (M2)
-		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
+		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M.M2);
 
 		// Stage 3.5: Hue correction (4-harmonic Fourier)
 		let h = atan2(b, a);
@@ -386,7 +389,7 @@ export const toXYZ = function (lab) {
 		b = C * sin(hRaw);
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
-		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
+		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M.M2_INV);
 
 		// Undo Stage 2: power compression
 		let l0 = spow(lc0, INV_GAMMA[0]);
@@ -394,14 +397,11 @@ export const toXYZ = function (lab) {
 		let l2 = spow(lc2, INV_GAMMA[2]);
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
-		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
+		let xyz = multiply_v3_m3x3([l0, l1, l2], M.M1_INV);
 
 		// Undo Stage 0: Chromatic adaptation (Helmlab D65 → Color.js D65)
-		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
+		return multiply_v3_m3x3(xyz, M.CAT_FROM_HELM);
 };
-
-/** Matrices used by this color space, also available as `Helmlab.M` */
-export const M = { CAT_TO_HELM, CAT_FROM_HELM, M1, M1_INV, M2, M2_INV };
 
 export default new ColorSpace({
 	id: "helmlab-metric",

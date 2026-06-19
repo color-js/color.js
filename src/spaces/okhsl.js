@@ -35,24 +35,25 @@ import { constrain } from "../angles.js";
 
 export const tau = 2 * Math.PI;
 
-// The LMStoLab inverse, accessed from Oklab's matrices
-const { LabtoLMS } = Oklab.M;
-
-/** @type {Matrix3x3} */
+/**
+ * Matrices used by this color space (Oklab's, plus its own),
+ * also available as `Okhsl.M`
+ * @type {Record<string, Matrix3x3>}
+ */
 // prettier-ignore
-const toLMS = [
-	[0.4122214694707629, 0.5363325372617349, 0.0514459932675022],
-	[0.2119034958178251, 0.6806995506452344, 0.1073969535369405],
-	[0.0883024591900564, 0.2817188391361215, 0.6299787016738222],
-];
-
-/** @type {Matrix3x3} */
-// prettier-ignore
-const toSRGBLinear = [
-	[ 4.0767416360759583, -3.3077115392580629,  0.2309699031821043],
-	[-1.2684379732850315,  2.6097573492876882, -0.3413193760026570],
-	[-0.0041960761386756, -0.7034186179359362,  1.7076146940746117],
-];
+export const M = {
+	...Oklab.M,
+	toLMS: [
+		[0.4122214694707629, 0.5363325372617349, 0.0514459932675022],
+		[0.2119034958178251, 0.6806995506452344, 0.1073969535369405],
+		[0.0883024591900564, 0.2817188391361215, 0.6299787016738222],
+	],
+	toSRGBLinear: [
+		[ 4.0767416360759583, -3.3077115392580629,  0.2309699031821043],
+		[-1.2684379732850315,  2.6097573492876882, -0.3413193760026570],
+		[-0.0041960761386756, -0.7034186179359362,  1.7076146940746117],
+	],
+};
 
 /** @type {OKCoeff} */
 export const RGBCoeff = [
@@ -174,7 +175,7 @@ export function oklabToLinearRGB (lab, lmsToRgb) {
 	// Can be any gamut as long as `lmsToRgb` is a matrix
 	// that transform the LMS values to the linear RGB space.
 
-	let lms = multiply_v3_m3x3(lab, LabtoLMS);
+	let lms = multiply_v3_m3x3(lab, M.LabtoLMS);
 
 	lms[0] = lms[0] ** 3;
 	lms[1] = lms[1] ** 3;
@@ -252,9 +253,9 @@ export function findGamutIntersection (a, b, l1, c1, l0, lmsToRgb, okCoeff, cusp
 		let dl = l1 - l0;
 		let dc = c1;
 
-		let kl = vdot(LabtoLMS[0].slice(1), [a, b]);
-		let km = vdot(LabtoLMS[1].slice(1), [a, b]);
-		let ks = vdot(LabtoLMS[2].slice(1), [a, b]);
+		let kl = vdot(M.LabtoLMS[0].slice(1), [a, b]);
+		let km = vdot(M.LabtoLMS[1].slice(1), [a, b]);
+		let ks = vdot(M.LabtoLMS[2].slice(1), [a, b]);
 
 		let ldt_ = dl + dc * kl;
 		let mdt_ = dl + dc * km;
@@ -377,9 +378,9 @@ function computeMaxSaturation (a, b, lmsToRgb, okCoeff) {
 	// This gives an error less than 10e6, except for some blue hues where the `dS/dh` is close to infinite.
 	// This should be sufficient for most applications, otherwise do two/three steps.
 
-	let kl = vdot(LabtoLMS[0].slice(1), [a, b]);
-	let km = vdot(LabtoLMS[1].slice(1), [a, b]);
-	let ks = vdot(LabtoLMS[2].slice(1), [a, b]);
+	let kl = vdot(M.LabtoLMS[0].slice(1), [a, b]);
+	let km = vdot(M.LabtoLMS[1].slice(1), [a, b]);
+	let ks = vdot(M.LabtoLMS[2].slice(1), [a, b]);
 
 	let l_ = 1.0 + sat * kl;
 	let m_ = 1.0 + sat * km;
@@ -512,9 +513,6 @@ function oklabToOkhsl (lab, lmsToRgb, okCoeff) {
 	return [h, s, l];
 }
 
-/** Matrices used by this color space (Oklab's, plus its own), also available as `Okhsl.M` */
-export const M = { ...Oklab.M, toLMS, toSRGBLinear };
-
 const Okhsl = new ColorSpace({
 	id: "okhsl",
 	name: "Okhsl",
@@ -541,12 +539,12 @@ const Okhsl = new ColorSpace({
 
 	// Convert Oklab to Okhsl
 	fromBase (lab) {
-		return oklabToOkhsl(lab, toSRGBLinear, RGBCoeff);
+		return oklabToOkhsl(lab, M.toSRGBLinear, RGBCoeff);
 	},
 
 	// Convert Okhsl to Oklab
 	toBase (hsl) {
-		return okhslToOklab(hsl, toSRGBLinear, RGBCoeff);
+		return okhslToOklab(hsl, M.toSRGBLinear, RGBCoeff);
 	},
 
 	formats: {

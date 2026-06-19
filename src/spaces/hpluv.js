@@ -26,14 +26,14 @@ import ColorSpace from "../ColorSpace.js";
 import RGBColorSpace from "../RGBColorSpace.js";
 import HSL from "./hsl.js";
 import LCHuv from "./lchuv.js";
-import sRGBLinear from "./srgb-linear.js";
+import { M as sRGBLinear_M } from "./srgb-linear.js";
 import { skipNone } from "../util.js";
 import { calculateBoundingLines } from "./hsluv.js";
 
 const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
 const κ = 24389 / 27; // 29^3/3^3
 
-const fromXYZ_M = sRGBLinear.M.fromXYZ;
+const fromXYZ_M = sRGBLinear_M.fromXYZ;
 const m_r0 = fromXYZ_M[0][0];
 const m_r1 = fromXYZ_M[0][1];
 const m_r2 = fromXYZ_M[0][2];

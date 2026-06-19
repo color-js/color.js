@@ -29,7 +29,11 @@ import { spow, multiply_v3_m3x3 } from "../util.js";
 import { constrain } from "../angles.js";
 import Okhsl, { tau, toe, toeInv, findCusp, toSt, oklabToLinearRGB, RGBCoeff } from "./okhsl.js";
 
-const { toSRGBLinear } = Okhsl.M;
+/**
+ * Matrices used by this color space (reused from Okhsl), also available as `Okhsv.M`
+ * @type {Record<string, Matrix3x3>}
+ */
+export const M = { toSRGBLinear: Okhsl.M.toSRGBLinear };
 
 /** @import { Coords, Matrix3x3, OKCoeff, Vector3 } from "../types.js" */
 
@@ -152,9 +156,6 @@ function oklabToOkhsv (lab, lmsToRgb, okCoeff) {
 	return [h, s, v];
 }
 
-/** Matrices used by this color space, also available as `Okhsv.M` */
-export const M = { toSRGBLinear };
-
 const Okhsv = new ColorSpace({
 	id: "okhsv",
 	name: "Okhsv",
@@ -181,12 +182,12 @@ const Okhsv = new ColorSpace({
 
 	// Convert Oklab to Okhsl
 	fromBase (lab) {
-		return oklabToOkhsv(lab, toSRGBLinear, RGBCoeff);
+		return oklabToOkhsv(lab, M.toSRGBLinear, RGBCoeff);
 	},
 
 	// Convert Okhsl to Oklab
 	toBase (hsl) {
-		return okhsvToOklab(hsl, toSRGBLinear, RGBCoeff);
+		return okhsvToOklab(hsl, M.toSRGBLinear, RGBCoeff);
 	},
 
 	formats: {

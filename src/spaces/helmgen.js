@@ -49,36 +49,34 @@ const ENR_LHI = 1.0;
 
 // ── Core matrices (v0.11.1) ────────────────────────────────────────
 
-/** @type {Matrix3x3} */
+/**
+ * Matrices used by this color space, also available as `HelmGen.M`
+ * @type {Record<string, Matrix3x3>}
+ */
 // prettier-ignore
-// M1 = M1_orig @ CAT_TO_HELM (Bradford CAT baked in: Color.js D65 → Helmlab D65 → LMS)
-const M1 = [
-	[ 8.1548321559412884e-01,  3.6033406153856506e-01, -1.2434135574228214e-01],
-	[ 3.3010083527450780e-02,  9.2928650570661686e-01,  3.6121927165754429e-02],
-	[ 4.8188273564568611e-02,  2.6428415753384238e-01,  6.3349717841955344e-01],
-];
-/** @type {Matrix3x3} */
-// prettier-ignore
-const M1_INV = [
-	[ 1.2325947975032656e+00, -5.5575902392875232e-01,  2.7362015347715829e-01],
-	[-4.0801327874216024e-02,  1.1122288637386530e+00, -7.1427535864437813e-02],
-	[-7.6738259283377658e-02, -4.2172784577108585e-01,  1.5875238558143416e+00],
-];
-
-/** @type {Matrix3x3} */
-// prettier-ignore
-const M2 = [
-	[ 0.21193779684470104,  0.7992121834263127,  -0.00410075161564345],
-	[ 2.4672018828033475,  -2.9877348024830788,   0.520532919679731],
-	[-0.11390787868068575,  1.3932982808117473,  -1.279390402131062],
-];
-/** @type {Matrix3x3} */
-// prettier-ignore
-const M2_INV = [
-	[ 0.9930001151336143,  0.32599327253052285,  0.12945085631713921],
-	[ 0.9930001151336139, -0.08708353111074627,  -0.03861361743004929],
-	[ 0.9930001151336136, -0.12386097008215022,  -0.8351991365871061],
-];
+export const M = {
+	// M1 = M1_orig @ CAT_TO_HELM (Bradford CAT baked in: Color.js D65 → Helmlab D65 → LMS)
+	M1: [
+		[ 8.1548321559412884e-01,  3.6033406153856506e-01, -1.2434135574228214e-01],
+		[ 3.3010083527450780e-02,  9.2928650570661686e-01,  3.6121927165754429e-02],
+		[ 4.8188273564568611e-02,  2.6428415753384238e-01,  6.3349717841955344e-01],
+	],
+	M1_INV: [
+		[ 1.2325947975032656e+00, -5.5575902392875232e-01,  2.7362015347715829e-01],
+		[-4.0801327874216024e-02,  1.1122288637386530e+00, -7.1427535864437813e-02],
+		[-7.6738259283377658e-02, -4.2172784577108585e-01,  1.5875238558143416e+00],
+	],
+	M2: [
+		[ 0.21193779684470104,  0.7992121834263127,  -0.00410075161564345],
+		[ 2.4672018828033475,  -2.9877348024830788,   0.520532919679731],
+		[-0.11390787868068575,  1.3932982808117473,  -1.279390402131062],
+	],
+	M2_INV: [
+		[ 0.9930001151336143,  0.32599327253052285,  0.12945085631713921],
+		[ 0.9930001151336139, -0.08708353111074627,  -0.03861361743004929],
+		[ 0.9930001151336136, -0.12386097008215022,  -0.8351991365871061],
+	],
+};
 
 // ── Piecewise-linear L correction (21 breakpoints, v0.11.1) ───────
 // prettier-ignore
@@ -199,9 +197,6 @@ function pwLInverse (L) {
 
 // ── Color space definition ─────────────────────────────────────────
 
-/** Matrices used by this color space, also available as `HelmGen.M` */
-export const M = { M1, M1_INV, M2, M2_INV };
-
 export default new ColorSpace({
 	id: "helmgen",
 	name: "HelmGen",
@@ -225,7 +220,7 @@ export default new ColorSpace({
 
 	fromBase (xyz) {
 		// Stage 1: XYZ → LMS (M1)
-		let lms = multiply_v3_m3x3(xyz, M1);
+		let lms = multiply_v3_m3x3(xyz, M.M1);
 
 		// Stage 2: Depressed cubic transfer (y³ + αy = x)
 		let c0 = depcubicFwd(Math.max(lms[0], 0));
@@ -245,7 +240,7 @@ export default new ColorSpace({
 		}
 
 		// Stage 3: LMS_c → Lab (M2)
-		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
+		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M.M2);
 
 		// Stage 3.5: Chroma power (cp=0.978)
 		{
@@ -288,7 +283,7 @@ export default new ColorSpace({
 		}
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
-		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
+		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M.M2_INV);
 
 		// Undo Stage 2.5: Smooth neutral blend
 		{
@@ -308,6 +303,6 @@ export default new ColorSpace({
 		let l2 = depcubicInv(lc2);
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
-		return multiply_v3_m3x3([l0, l1, l2], M1_INV);
+		return multiply_v3_m3x3([l0, l1, l2], M.M1_INV);
 	},
 });
