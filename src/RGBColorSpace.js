@@ -47,7 +47,6 @@ export default class RGBColorSpace extends ColorSpace {
 		super(options);
 
 		// Expose the matrices on the color space (via `this.M`) so consumers can reuse them.
-		// The default `toBase()` / `fromBase()` methods read them from here.
 		if (toXYZ && fromXYZ) {
 			this.M.toXYZ = toXYZ;
 			this.M.fromXYZ = fromXYZ;
