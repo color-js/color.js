@@ -37,8 +37,14 @@ export default class ColorSpace {
 		}
 
 		if (this.base) {
-			this.fromBase = options.fromBase;
-			this.toBase = options.toBase;
+			// Keep a subclass's own methods if the options don't override them
+			if (options.fromBase) {
+				this.fromBase = options.fromBase;
+			}
+
+			if (options.toBase) {
+				this.toBase = options.toBase;
+			}
 		}
 
 		// Coordinate metadata
