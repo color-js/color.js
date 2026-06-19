@@ -10,6 +10,7 @@
 	"angles": "Angles",
 	"adapt": "Chromatic adaptation",
 	"multiply_matrices": "Matrix multiplication",
+	"matrices": "Color space matrix exports",
 	"algebra": "Linear algebra",
 	"hooks": "Hooks"
 }

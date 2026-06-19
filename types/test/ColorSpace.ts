@@ -34,7 +34,17 @@ new ColorSpace({
 	cssId: "abc",
 	referred: "abc",
 	formats: { color: { id: "#ffffff" } },
+	M: {
+		toLMS: [
+			[1, 2, 3],
+			[4, 5, 6],
+			[7, 8, 9],
+		],
+	},
 });
+
+space.M; // $ExpectType Record<string, Matrix3x3>
+space.M.toLMS; // $ExpectType Matrix3x3
 
 ColorSpace.get("abc");
 ColorSpace.get(space);

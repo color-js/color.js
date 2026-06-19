@@ -36,7 +36,7 @@ export const HELMLAB_D65 = [0.95047, 1.0, 1.08883];
 /** Bradford CAT: Color.js D65 → Helmlab D65 (apply in fromBase before M1) */
 /** @type {Matrix3x3} */
 // prettier-ignore
-export const CAT_TO_HELM = [
+const CAT_TO_HELM = [
 	[1.000042977349746, 2.0718877053183e-05, -4.361018085669474e-05],
 	[2.6946201090235744e-05, 0.9999906145080147, -1.4898828405401079e-05],
 	[-7.941753620756204e-06, 1.2875204405137254e-05, 0.9997859822609763],
@@ -45,7 +45,7 @@ export const CAT_TO_HELM = [
 /** Bradford CAT: Helmlab D65 → Color.js D65 (apply in toBase after M1_INV) */
 /** @type {Matrix3x3} */
 // prettier-ignore
-export const CAT_FROM_HELM = [
+const CAT_FROM_HELM = [
 	[0.9999570254019492, -2.071874272730964e-05, 4.361733292468361e-05],
 	[-2.694517763358666e-05, 1.000009385946497, 1.490098223546482e-05],
 	[7.943459292954202e-06, -1.287824596735154e-05, 1.000214063706999],
@@ -87,6 +87,9 @@ const M2_INV = [
 	[   1.08990905744330257576,    0.07005324849041903723,    0.43197768747870440853],
 	[   1.59889572926420897581,    0.22061850068770233468,    0.01250603735522095097],
 ];
+
+/** Matrices used by this color space, also available as `Helmlab.M` */
+export const M = { CAT_TO_HELM, CAT_FROM_HELM, M1, M1_INV, M2, M2_INV };
 
 // Enrichment parameters
 const hue_cos1 = -0.02833024015436984, hue_sin1 = -0.21131429516166544;
@@ -243,10 +246,10 @@ function darkLInv (Ln, h) {
 
 export const fromXYZ = function (xyz) {
 		// Stage 0: Chromatic adaptation (Color.js D65 → Helmlab D65)
-		let adapted = multiply_v3_m3x3(xyz, CAT_TO_HELM);
+		let adapted = multiply_v3_m3x3(xyz, M.CAT_TO_HELM);
 
 		// Stage 1: XYZ → LMS (M1)
-		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M1);
+		let [lms0, lms1, lms2] = multiply_v3_m3x3(adapted, M.M1);
 
 		// Stage 2: Power compression (signed)
 		let c0 = spow(lms0, GAMMA[0]);
@@ -254,7 +257,7 @@ export const fromXYZ = function (xyz) {
 		let c2 = spow(lms2, GAMMA[2]);
 
 		// Stage 3: LMS_c → Lab_raw (M2)
-		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M2);
+		let [L, a, b] = multiply_v3_m3x3([c0, c1, c2], M.M2);
 
 		// Stage 3.5: Hue correction (4-harmonic Fourier)
 		let h = atan2(b, a);
@@ -386,7 +389,7 @@ export const toXYZ = function (lab) {
 		b = C * sin(hRaw);
 
 		// Undo Stage 3: Lab → LMS_c (M2_inv)
-		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M2_INV);
+		let [lc0, lc1, lc2] = multiply_v3_m3x3([L, a, b], M.M2_INV);
 
 		// Undo Stage 2: power compression
 		let l0 = spow(lc0, INV_GAMMA[0]);
@@ -394,10 +397,10 @@ export const toXYZ = function (lab) {
 		let l2 = spow(lc2, INV_GAMMA[2]);
 
 		// Undo Stage 1: LMS → XYZ (M1_inv)
-		let xyz = multiply_v3_m3x3([l0, l1, l2], M1_INV);
+		let xyz = multiply_v3_m3x3([l0, l1, l2], M.M1_INV);
 
 		// Undo Stage 0: Chromatic adaptation (Helmlab D65 → Color.js D65)
-		return multiply_v3_m3x3(xyz, CAT_FROM_HELM);
+		return multiply_v3_m3x3(xyz, M.CAT_FROM_HELM);
 };
 
 export default new ColorSpace({
@@ -418,6 +421,7 @@ export default new ColorSpace({
 	},
 	white: "D65",
 	base: XYZ_D65,
+	M,
 	fromBase (xyz) {
 		return fromXYZ(xyz);
 	},

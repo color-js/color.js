@@ -16,27 +16,28 @@ const adaptedCoef = 0.42;
 const adaptedCoefInv = 1 / adaptedCoef;
 const tau = 2 * Math.PI;
 
-/** @type {Matrix3x3} */
+/**
+ * Matrices used by this color space, also available as `CAM16_JMh.M`
+ * @type {Record<string, Matrix3x3>}
+ */
 // prettier-ignore
-const cat16 = [
-	[  0.401288,  0.650173, -0.051461 ],
-	[ -0.250268,  1.204414,  0.045854 ],
-	[ -0.002079,  0.048952,  0.953127 ],
-];
-
-/** @type {Matrix3x3} */
-const cat16Inv = [
-	[1.8620678550872327, -1.0112546305316843, 0.14918677544445175],
-	[0.38752654323613717, 0.6214474419314753, -0.008973985167612518],
-	[-0.015841498849333856, -0.03412293802851557, 1.0499644368778496],
-];
-
-/** @type {Matrix3x3} */
-const m1 = [
-	[460.0, 451.0, 288.0],
-	[460.0, -891.0, -261.0],
-	[460.0, -220.0, -6300.0],
-];
+export const M = {
+	cat16: [
+		[  0.401288,  0.650173, -0.051461 ],
+		[ -0.250268,  1.204414,  0.045854 ],
+		[ -0.002079,  0.048952,  0.953127 ],
+	],
+	cat16Inv: [
+		[  1.8620678550872327,   -1.0112546305316843,   0.14918677544445175  ],
+		[  0.38752654323613717,   0.6214474419314753,  -0.008973985167612518 ],
+		[ -0.015841498849333856, -0.03412293802851557,  1.0499644368778496   ],
+	],
+	m1: [
+		[ 460.0,  451.0,   288.0  ],
+		[ 460.0, -891.0,  -261.0  ],
+		[ 460.0, -220.0, -6300.0  ],
+	],
+};
 
 const surroundMap = {
 	dark: [0.8, 0.525, 0.8],
@@ -149,7 +150,7 @@ export function environment (
 	const yw = xyzW[1];
 
 	// Cone response for reference white
-	const rgbW = multiply_v3_m3x3(xyzW, cat16);
+	const rgbW = multiply_v3_m3x3(xyzW, M.cat16);
 
 	// Surround: dark, dim, and average
 	let values = surroundMap[env.surround];
@@ -282,7 +283,7 @@ export function fromCam16 (cam16, env) {
 	const rgb_c = unadapt(
 		/** @type {Vector3} */
 		(
-			multiply_v3_m3x3([p2, a, b], m1).map(c => {
+			multiply_v3_m3x3([p2, a, b], M.m1).map(c => {
 				return (c * 1) / 1403;
 			})
 		),
@@ -295,7 +296,7 @@ export function fromCam16 (cam16, env) {
 					return c * env.dRgbInv[i];
 				})
 			),
-			cat16Inv,
+			M.cat16Inv,
 		).map(c => {
 			return c / 100;
 		})
@@ -317,7 +318,7 @@ export function toCam16 (xyzd65, env) {
 	const rgbA = adapt(
 		/** @type {[number, number, number]} */
 		(
-			multiply_v3_m3x3(xyz100, cat16).map((c, i) => {
+			multiply_v3_m3x3(xyz100, M.cat16).map((c, i) => {
 				return c * env.dRgb[i];
 			})
 		),
@@ -354,7 +355,7 @@ export function toCam16 (xyzd65, env) {
 	const C = alpha * Jroot;
 
 	// Colorfulness
-	const M = C * env.flRoot;
+	const colorfulness = C * env.flRoot;
 
 	// Hue
 	const h = constrain(hRad * rad2deg);
@@ -365,9 +366,9 @@ export function toCam16 (xyzd65, env) {
 	// Saturation
 	const s = 50 * spow((env.c * alpha) / (env.aW + 4), 1 / 2);
 
-	// console.log({J: J, C: C, h: h, s: s, Q: Q, M: M, H: H});
+	// console.log({J: J, C: C, h: h, s: s, Q: Q, M: colorfulness, H: H});
 
-	return { J: J, C: C, h: h, s: s, Q: Q, M: M, H: H };
+	return { J: J, C: C, h: h, s: s, Q: Q, M: colorfulness, H: H };
 }
 
 // Provided as a way to directly evaluate the CAM16 model
@@ -397,6 +398,8 @@ export default new ColorSpace({
 	},
 
 	base: xyz_d65,
+
+	M,
 
 	fromBase (xyz) {
 		// If another derivation is created, ε could vary, so we can't hardcode

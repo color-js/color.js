@@ -17,36 +17,35 @@ const pinv = 2 ** 5 / (1.7 * 2523);
 const d = -0.56;
 const d0 = 1.6295499532821566e-11;
 
-/** @type {Matrix3x3} */
+/**
+ * Matrices used by this color space, also available as `Jzazbz.M`
+ * @type {Record<string, Matrix3x3>}
+ */
 // prettier-ignore
-const XYZtoCone_M = [
-	[  0.41478972, 0.579999,  0.0146480 ],
-	[ -0.2015100,  1.120649,  0.0531008 ],
-	[ -0.0166008,  0.264800,  0.6684799 ],
-];
-// XYZtoCone_M inverted
-/** @type {Matrix3x3} */
-// prettier-ignore
-const ConetoXYZ_M = [
-	[  1.9242264357876067,  -1.0047923125953657,  0.037651404030618   ],
-	[  0.35031676209499907,  0.7264811939316552, -0.06538442294808501 ],
-	[ -0.09098281098284752, -0.3127282905230739,  1.5227665613052603  ],
-];
-/** @type {Matrix3x3} */
-// prettier-ignore
-const ConetoIab_M = [
-	[  0.5,       0.5,       0        ],
-	[  3.524000, -4.066708,  0.542708 ],
-	[  0.199076,  1.096799, -1.295875 ],
-];
-// ConetoIab_M inverted
-/** @type {Matrix3x3} */
-// prettier-ignore
-const IabtoCone_M = [
-	[ 1,                   0.13860504327153927,   0.05804731615611883 ],
-	[ 1,                  -0.1386050432715393,   -0.058047316156118904 ],
-	[ 1,                  -0.09601924202631895,  -0.81189189605603900  ],
-];
+export const M = {
+	XYZtoCone: [
+		[  0.41478972, 0.579999,  0.0146480 ],
+		[ -0.2015100,  1.120649,  0.0531008 ],
+		[ -0.0166008,  0.264800,  0.6684799 ],
+	],
+	// XYZtoCone inverted
+	ConetoXYZ: [
+		[  1.9242264357876067,  -1.0047923125953657,  0.037651404030618   ],
+		[  0.35031676209499907,  0.7264811939316552, -0.06538442294808501 ],
+		[ -0.09098281098284752, -0.3127282905230739,  1.5227665613052603  ],
+	],
+	ConetoIab: [
+		[  0.5,       0.5,       0        ],
+		[  3.524000, -4.066708,  0.542708 ],
+		[  0.199076,  1.096799, -1.295875 ],
+	],
+	// ConetoIab inverted
+	IabtoCone: [
+		[ 1,                   0.13860504327153927,   0.05804731615611883 ],
+		[ 1,                  -0.1386050432715393,   -0.058047316156118904 ],
+		[ 1,                  -0.09601924202631895,  -0.81189189605603900  ],
+	],
+};
 
 export default new ColorSpace({
 	id: "jzazbz",
@@ -65,6 +64,7 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
+	M,
 	fromBase (XYZ) {
 		// First make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²
@@ -78,7 +78,7 @@ export default new ColorSpace({
 		let Ym = g * Ya - (g - 1) * Xa;
 
 		// move to LMS cone domain
-		let LMS = multiply_v3_m3x3([Xm, Ym, Za], XYZtoCone_M);
+		let LMS = multiply_v3_m3x3([Xm, Ym, Za], M.XYZtoCone);
 
 		// PQ-encode LMS
 		let PQLMS = /** @type {Vector3} } */ (
@@ -91,7 +91,7 @@ export default new ColorSpace({
 		);
 
 		// almost there, calculate Iz az bz
-		let [Iz, az, bz] = multiply_v3_m3x3(PQLMS, ConetoIab_M);
+		let [Iz, az, bz] = multiply_v3_m3x3(PQLMS, M.ConetoIab);
 		// console.log({Iz, az, bz});
 
 		let Jz = ((1 + d) * Iz) / (1 + d * Iz) - d0;
@@ -102,7 +102,7 @@ export default new ColorSpace({
 		let Iz = (Jz + d0) / (1 + d - d * (Jz + d0));
 
 		// bring into LMS cone domain
-		let PQLMS = multiply_v3_m3x3([Iz, az, bz], IabtoCone_M);
+		let PQLMS = multiply_v3_m3x3([Iz, az, bz], M.IabtoCone);
 
 		// convert from PQ-coded to linear-light
 		let LMS = /** @type {Vector3} } */ (
@@ -116,7 +116,7 @@ export default new ColorSpace({
 		);
 
 		// modified abs XYZ
-		let [Xm, Ym, Za] = multiply_v3_m3x3(LMS, ConetoXYZ_M);
+		let [Xm, Ym, Za] = multiply_v3_m3x3(LMS, M.ConetoXYZ);
 
 		// un-modify X and Y to get D65 XYZ, relative to media white
 		let Xa = (Xm + (b - 1) * Za) / b;

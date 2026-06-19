@@ -12,7 +12,8 @@ export default class RGBColorSpace extends ColorSpace {
 	 * Creates a new RGB ColorSpace.
 	 * If coords are not specified, they will use the default RGB coords.
 	 * Instead of `fromBase()` and `toBase()` functions,
-	 * you can specify to/from XYZ matrices and have `toBase()` and `fromBase()` automatically generated.
+	 * you can specify to/from XYZ matrices and have the default `toBase()` and `fromBase()`
+	 * methods use them via `this.M.toXYZ` and `this.M.fromXYZ`.
 	 * @param {RGBOptions} options
 	 */
 	constructor (options) {
@@ -37,26 +38,34 @@ export default class RGBColorSpace extends ColorSpace {
 			options.base = XYZ_D65;
 		}
 
-		if (options.toXYZ_M && options.fromXYZ_M) {
-			options.toBase ??= rgb => {
-				let xyz = multiply_v3_m3x3(rgb, options.toXYZ_M);
-
-				if (this.white !== this.base.white) {
-					// Perform chromatic adaptation
-					xyz = adapt(this.white, this.base.white, xyz);
-				}
-
-				return xyz;
-			};
-
-			options.fromBase ??= xyz => {
-				xyz = adapt(this.base.white, this.white, xyz);
-				return multiply_v3_m3x3(xyz, options.fromXYZ_M);
-			};
-		}
+		// Accept matrices either as dedicated options or via the generic `M` object
+		let toXYZ = options.toXYZ_M ?? options.M?.toXYZ;
+		let fromXYZ = options.fromXYZ_M ?? options.M?.fromXYZ;
 
 		options.referred ??= "display";
 
 		super(options);
+
+		// Expose the matrices on the color space (via `this.M`) so consumers can reuse them.
+		if (toXYZ && fromXYZ) {
+			this.M.toXYZ = toXYZ;
+			this.M.fromXYZ = fromXYZ;
+		}
+	}
+
+	toBase (rgb) {
+		let xyz = multiply_v3_m3x3(rgb, this.M.toXYZ);
+
+		if (this.white !== this.base.white) {
+			// Perform chromatic adaptation
+			xyz = adapt(this.white, this.base.white, xyz);
+		}
+
+		return xyz;
+	}
+
+	fromBase (xyz) {
+		xyz = adapt(this.base.white, this.white, xyz);
+		return multiply_v3_m3x3(xyz, this.M.fromXYZ);
 	}
 }
