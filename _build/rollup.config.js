@@ -6,11 +6,6 @@ const bundles = [
 		name: "Color",
 	},
 	{
-		file: "dist/color.js",
-		format: "esm",
-		sourcemap: true,
-	},
-	{
 		file: "dist/color.cjs",
 		format: "cjs",
 		sourcemap: true,
@@ -24,11 +19,6 @@ const fnBundles = [
 		format: "cjs",
 		sourcemap: true,
 		exports: "named",
-	},
-	{
-		file: "dist/color-fn.js",
-		format: "esm",
-		sourcemap: true,
 	},
 ];
 
