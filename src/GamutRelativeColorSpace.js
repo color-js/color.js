@@ -55,15 +55,15 @@ export default class GamutRelativeColorSpace extends ColorSpace {
 		this.chromaIndex = ids.indexOf(chroma);
 		this.method = `${base.id}.${chroma}`;
 
-		// Seed the gamut search from a chroma that is out of gamut for any input: the gamut's most
-		// saturated corner (its primaries/secondaries are its chroma maxima) plus headroom. Reducing
-		// from there lands on the first in-gamut crossing — the highest contiguous in-gamut chroma —
+		// A chroma that is out of gamut at every lightness and hue: the gamut's most saturated corner
+		// (its primaries/secondaries are its chroma maxima) plus headroom. Seeding the gamut search
+		// from here lands on the first in-gamut crossing — the highest contiguous in-gamut chroma —
 		// and avoids clamping wide gamuts (e.g. Rec.2020 exceeds OKLCh's nominal 0.4 chroma).
 		// prettier-ignore
 		let corners = /** @type {[number, number, number][]} */ (
 			[[0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0]]
 		);
-		this.seedChroma =
+		this.oogChroma =
 			1.1 *
 			Math.max(...corners.map(rgb => base.from(this.gamutSpace, rgb)[this.chromaIndex] || 0));
 	}
@@ -76,7 +76,7 @@ export default class GamutRelativeColorSpace extends ColorSpace {
 	 */
 	maxChroma (coords) {
 		let seed = /** @type {[number, number, number]} */ ([...coords]);
-		seed[this.chromaIndex] = this.seedChroma;
+		seed[this.chromaIndex] = this.oogChroma;
 
 		return toGamut(
 			{ space: this.base, coords: seed },
