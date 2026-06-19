@@ -103,6 +103,12 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
+	M: {
+		XYZtoLMS: XYZtoLMS_M,
+		LMStoXYZ: LMStoXYZ_M,
+		LMStoIPT: LMStoIPT_M,
+		IPTtoLMS: IPTtoLMS_M,
+	},
 	fromBase (XYZ) {
 		// move to LMS cone domain
 		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);

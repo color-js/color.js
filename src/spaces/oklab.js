@@ -56,6 +56,12 @@ export default new ColorSpace({
 	// Note that XYZ is relative to D65
 	white: "D65",
 	base: XYZ_D65,
+	M: {
+		XYZtoLMS: XYZtoLMS_M,
+		LMStoXYZ: LMStoXYZ_M,
+		LMStoLab: LMStoLab_M,
+		LabtoLMS: LabtoLMS_M,
+	},
 	fromBase (XYZ) {
 		// move to LMS cone domain
 		let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);

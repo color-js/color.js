@@ -37,9 +37,16 @@ export default class RGBColorSpace extends ColorSpace {
 			options.base = XYZ_D65;
 		}
 
-		if (options.toXYZ_M && options.fromXYZ_M) {
+		// Accept matrices either as dedicated options or via the generic `M` object
+		let toXYZ_M = options.toXYZ_M ?? options.M?.toXYZ;
+		let fromXYZ_M = options.fromXYZ_M ?? options.M?.fromXYZ;
+
+		if (toXYZ_M && fromXYZ_M) {
+			// Expose the matrices on the color space (via `this.M`) so consumers can reuse them
+			options.M = { ...options.M, toXYZ: toXYZ_M, fromXYZ: fromXYZ_M };
+
 			options.toBase ??= rgb => {
-				let xyz = multiply_v3_m3x3(rgb, options.toXYZ_M);
+				let xyz = multiply_v3_m3x3(rgb, this.M.toXYZ);
 
 				if (this.white !== this.base.white) {
 					// Perform chromatic adaptation
@@ -51,7 +58,7 @@ export default class RGBColorSpace extends ColorSpace {
 
 			options.fromBase ??= xyz => {
 				xyz = adapt(this.base.white, this.white, xyz);
-				return multiply_v3_m3x3(xyz, options.fromXYZ_M);
+				return multiply_v3_m3x3(xyz, this.M.fromXYZ);
 			};
 		}
 

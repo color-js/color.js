@@ -181,6 +181,10 @@ const Okhsv = new ColorSpace({
 	base: Oklab,
 	gamutSpace: "self",
 
+	M: {
+		toSRGBLinear: toSRGBLinear,
+	},
+
 	// Convert Oklab to Okhsl
 	fromBase (lab) {
 		return oklabToOkhsv(lab, toSRGBLinear, RGBCoeff);

@@ -65,6 +65,12 @@ export default new ColorSpace({
 	},
 
 	base: XYZ_Abs_D65,
+	M: {
+		XYZtoCone: XYZtoCone_M,
+		ConetoXYZ: ConetoXYZ_M,
+		ConetoIab: ConetoIab_M,
+		IabtoCone: IabtoCone_M,
+	},
 	fromBase (XYZ) {
 		// First make XYZ absolute, not relative to media white
 		// Maximum luminance in PQ is 10,000 cd/m²

@@ -105,6 +105,10 @@ export default class ColorSpace {
 			};
 		}
 
+		// Matrices used by this color space, exposed so that consumer code
+		// can reuse them instead of duplicating the data. E.g. `this.M.toXYZ`.
+		this.M = options.M ?? {};
+
 		// Other stuff
 		this.referred = options.referred;
 

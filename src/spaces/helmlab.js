@@ -418,6 +418,14 @@ export default new ColorSpace({
 	},
 	white: "D65",
 	base: XYZ_D65,
+	M: {
+		CAT_TO_HELM: CAT_TO_HELM,
+		CAT_FROM_HELM: CAT_FROM_HELM,
+		M1: M1,
+		M1_INV: M1_INV,
+		M2: M2,
+		M2_INV: M2_INV,
+	},
 	fromBase (xyz) {
 		return fromXYZ(xyz);
 	},
