@@ -354,6 +354,7 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 		direction.push(d);
 
 		// Non parallel cases
+		// 1e-12 for 64 bit unit types and 1e-6 for 32 bit unit types
 		if (Math.abs(d) > 1e-12) {
 			const inv_d = 1 / d;
 			const t1 = (bn - a) * inv_d;
@@ -466,8 +467,9 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 		// Calculate bounds to adjust the anchor closer to the gamut surface.
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
-		const low = mn + 1e-6;
-		const high = mx - 1e-6;
+		// 1e-12 for 64 bit unit types and 1e-6 for 32 bit unit types.
+		const low = mn + 1e-12;
+		const high = mx - 1e-12;
 
 		// Cast a ray from the zero chroma color to the target color.
 		// Trace the line to the RGB cube edge and find where it intersects.
