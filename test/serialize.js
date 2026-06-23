@@ -144,6 +144,27 @@ const tests = {
 			],
 		},
 		{
+			name: "Custom color() spaces with dashed-ident",
+			tests: [
+				{
+					args: ["helmgen", [0.5, 0.1, -0.05]],
+					expect: "color(--helmgen 0.5 0.1 -0.05)",
+				},
+				{
+					args: ["helmgenlch", [0.5, 0.1, 30]],
+					expect: "color(--helmgenlch 0.5 0.1 30)",
+				},
+				{
+					args: ["helmlab-metric", [0.5, 0.1, -0.05]],
+					expect: "color(--helmlab-metric 0.5 0.1 -0.05)",
+				},
+				{
+					args: ["helmgenlch", [0.5, 0.1, 30], 0.8],
+					expect: "color(--helmgenlch 0.5 0.1 30 / 0.8)",
+				},
+			],
+		},
+		{
 			name: "Values outside of range or refRange",
 			tests: [
 				{
