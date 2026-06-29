@@ -78,7 +78,7 @@ export function steps (c1, c2, options = {}) {
 		colorRange = range(c1, c2, rangeOptions);
 	}
 
-	let totalDelta = deltaE(c1, c2);
+	let totalDelta = deltaE(c1, c2, deltaEMethod);
 	let actualSteps =
 		maxDeltaE > 0 ? Math.max(steps, Math.ceil(totalDelta / maxDeltaE) + 1) : steps;
 	let ret = [];
@@ -120,7 +120,11 @@ export function steps (c1, c2, options = {}) {
 
 				let p = (cur.p + prev.p) / 2;
 				let color = colorRange(p);
-				maxDelta = Math.max(maxDelta, deltaE(color, prev.color), deltaE(color, cur.color));
+				maxDelta = Math.max(
+					maxDelta,
+					deltaE(color, prev.color, deltaEMethod),
+					deltaE(color, cur.color, deltaEMethod),
+				);
 				ret.splice(i, 0, { p, color: colorRange(p) });
 				i++;
 			}
