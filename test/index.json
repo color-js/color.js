@@ -5,6 +5,7 @@
 	"delta": "DeltaE",
 	"gamut": "Gamut mapping",
 	"in_gamut": "In gamut",
+	"interpolation": "Interpolation",
 	"modifications": "Color modification",
 	"contrast": "Contrast",
 	"angles": "Angles",
