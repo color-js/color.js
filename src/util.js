@@ -76,16 +76,20 @@ export function toPrecision (n, precision) {
 }
 
 /**
- * @param {number} start
- * @param {number} end
+ * Interpolate between two values, either of which may be a `none` value.
+ * A `none` endpoint is treated as having the other endpoint's value;
+ * if both are `none`, the result is `none` as well.
+ * @param {number | null} start
+ * @param {number | null} end
  * @param {number} p
+ * @returns {number | null}
  */
 export function interpolate (start, end, p) {
-	if (isNaN(start)) {
+	if (isNone(start) || isNaN(start)) {
 		return end;
 	}
 
-	if (isNaN(end)) {
+	if (isNone(end) || isNaN(end)) {
 		return start;
 	}
 

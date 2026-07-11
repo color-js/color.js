@@ -159,14 +159,30 @@ export default class ColorSpace {
 		return this.formats?.color?.id || this.id;
 	}
 
-	get isPolar () {
+	/**
+	 * The id of this space's hue coordinate, or null if the space is not polar
+	 * @returns {string | null}
+	 */
+	get hueId () {
 		for (let id in this.coords) {
 			if (this.coords[id].type === "angle") {
-				return true;
+				return id;
 			}
 		}
 
-		return false;
+		return null;
+	}
+
+	/**
+	 * The index of this space's hue coordinate within its coords array, or -1 if the space is not polar
+	 * @returns {number}
+	 */
+	get hueIndex () {
+		return Object.keys(this.coords).findIndex(id => this.coords[id].type === "angle");
+	}
+
+	get isPolar () {
+		return this.hueId !== null;
 	}
 
 	/**
