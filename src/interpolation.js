@@ -147,10 +147,14 @@ Color.range = function(color1, color2, options = {}) {
 		[color1[space.id].hue, color2[space.id].hue] = angles.adjust(arc, [color1[space.id].hue, color2[space.id].hue]);
 	}
 
+	// Find the hue coordinate (if any) so it's excluded from premultiplication:
+	// an angle must not be scaled by alpha.
+	let coordNames = Object.keys(space.coords);
+	let hueIndex = coordNames.findIndex(name => space.coords[name].isAngle);
+
 	if (premultiplied) {
-		// not coping with polar spaces yet
-		color1.coords = color1.coords.map (c => c * color1.alpha);
-		color2.coords = color2.coords.map (c => c * color2.alpha);
+		color1.coords = color1.coords.map((c, i) => i === hueIndex? c : c * color1.alpha);
+		color2.coords = color2.coords.map((c, i) => i === hueIndex? c : c * color2.alpha);
 	}
 
 	return Object.assign(p => {
@@ -163,8 +167,8 @@ Color.range = function(color1, color2, options = {}) {
 		let ret = new Color(space, coords, alpha);
 
 		if (premultiplied) {
-			// undo premultiplication
-			ret.coords = ret.coords.map(c => c / alpha);
+			// undo premultiplication, leaving the hue angle untouched
+			ret.coords = ret.coords.map((c, i) => i === hueIndex? c : c / alpha);
 		}
 
 		if (outputSpace !== space) {
