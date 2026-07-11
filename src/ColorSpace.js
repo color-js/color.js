@@ -495,7 +495,7 @@ export default class ColorSpace {
 function getPath (space) {
 	let ret = [space];
 
-	for (let s = space; (s = s.base); ) {
+	for (let s = space; (s = s.base);) {
 		ret.push(s);
 	}
 

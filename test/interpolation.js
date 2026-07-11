@@ -139,7 +139,8 @@ export default {
 		},
 		{
 			name: "Premultiplied alpha in rectangular spaces",
-			description: "All coordinates are premultiplied, and zero alpha still must not divide by zero.",
+			description:
+				"All coordinates are premultiplied, and zero alpha still must not divide by zero.",
 			data: { options: { space: "srgb", premultiplied: true } },
 			tests: [
 				{
@@ -180,7 +181,11 @@ export default {
 				{
 					name: "One alpha missing, in Jzczhz",
 					data: { options: { space: "jzczhz", premultiplied: true } },
-					args: ["color(jzczhz 0.1 0.05 30 / none)", "color(jzczhz 0.05 0.02 90 / 0.4)", 0.5],
+					args: [
+						"color(jzczhz 0.1 0.05 30 / none)",
+						"color(jzczhz 0.05 0.02 90 / 0.4)",
+						0.5,
+					],
 					expect: [0.075, 0.035, 60, 0.4],
 				},
 			],
@@ -219,11 +224,7 @@ export default {
 					name: "Premultiplied Lab",
 					description: "Expected: lab(58.873% 51.552 7.108 / 0.5).",
 					data: { options: { space: "lab", premultiplied: true } },
-					args: [
-						"rgb(76% 62% 03% / 0.4)",
-						"color(display-p3 0.84 0.19 0.72 / 0.6)",
-						0.5,
-					],
+					args: ["rgb(76% 62% 03% / 0.4)", "color(display-p3 0.84 0.19 0.72 / 0.6)", 0.5],
 					expect: [58.873, 51.552, 7.108, 0.5],
 				},
 				{
@@ -232,11 +233,7 @@ export default {
 					The hue is 391.82 rather than 31.82 because hues are not normalized back into
 					[0, 360) after the shorter arc fix-up; 391.82 - 360 = 31.82.`,
 					data: { options: { space: "lch", premultiplied: true } },
-					args: [
-						"rgb(76% 62% 03% / 0.4)",
-						"color(display-p3 0.84 0.19 0.72 / 0.6)",
-						0.5,
-					],
+					args: ["rgb(76% 62% 03% / 0.4)", "color(display-p3 0.84 0.19 0.72 / 0.6)", 0.5],
 					expect: [58.873, 81.126, 391.82, 0.5],
 				},
 				{
