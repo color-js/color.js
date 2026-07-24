@@ -128,6 +128,8 @@
 	},
 	"sideEffects": [
 		"./src/index.js",
-		"./src/spaces/index.js"
+		"./src/spaces/index.js",
+		"./src/CATs.js",
+		"./src/space-accessors.js"
 	]
 }
