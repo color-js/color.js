@@ -22,9 +22,9 @@ const tests = {
 			expect: [0.3127, 0.329, 1],
 		},
 		{
-			name: "black uses the chromaticity origin",
+			name: "black uses the D65 white point chromaticity",
 			run: () => new Color("black").to("xyy").coords,
-			expect: [0, 0, 0],
+			expect: [0.3127, 0.329, 0],
 		},
 	],
 };

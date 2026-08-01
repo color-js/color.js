@@ -1,6 +1,11 @@
 import ColorSpace from "../ColorSpace.js";
+import { getWhite } from "../adapt.js";
 import { isNone, skipNone } from "../util.js";
 import XYZ_D65 from "./xyz-d65.js";
+
+const D65 = getWhite(XYZ_D65.white);
+const D65_SUM = D65[0] + D65[1] + D65[2];
+const D65_CHROMATICITY = [D65[0] / D65_SUM, D65[1] / D65_SUM];
 
 /**
  * CIE 1931 xyY separates chromaticity (x, y) from luminance (Y).
@@ -30,9 +35,9 @@ export default new ColorSpace({
 		let [X, Y, Z] = XYZ.map(skipNone);
 		let sum = X + Y + Z;
 
-		// Chromaticity is undefined for black, so use the origin.
+		// Chromaticity is undefined for black, so use the reference white point.
 		if (sum === 0) {
-			return [0, 0, Y];
+			return [...D65_CHROMATICITY, Y];
 		}
 
 		return [X / sum, Y / sum, Y];
