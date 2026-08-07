@@ -79,11 +79,11 @@ function fromHct (coords, env) {
 				return xyz;
 			}
 
-            // If we are closer than last time, save the values.
-            // This is to ensure we take the best value when
-            // iterations are struggling to find a good value,
-            // e.g. Prophoto RGB in the blue region which is outside
-            // the visible spectrum and the CAM16 algorithm breaks down.
+			// If we are closer than last time, save the values.
+			// This is to ensure we take the best value when
+			// iterations are struggling to find a good value,
+			// e.g. Prophoto RGB in the blue region which is outside
+			// the visible spectrum and the CAM16 algorithm breaks down.
 			best = xyz;
 			last = delta;
 		}
@@ -91,7 +91,7 @@ function fromHct (coords, env) {
 		// Newton: 2nd Order convergence
 		// First derivative approximation of J'
 		// Invert so we can multiply instead of divide
-		const jp = (xyz[1]) ? j / (α * xyz[1]) : 0;
+		const jp = xyz[1] ? j / (α * xyz[1]) : 0;
 		if (Math.abs(jp) < epsilon) {
 			break;
 		}
@@ -99,18 +99,18 @@ function fromHct (coords, env) {
 
 		// Ostrowski: 4th order convergence
 		if (jp) {
-            const xyz2 = fromCam16({ J: j, C: c, h: h }, env);
-            const dy2 = xyz2[1] - y;
-            const denom = dy - 2 * dy2;
-            if (Math.abs(denom) >= epsilon) {
-            	j -= dy / denom * (dy2 * jp);
-            }
-        }
+			const xyz2 = fromCam16({ J: j, C: c, h: h }, env);
+			const dy2 = xyz2[1] - y;
+			const denom = dy - 2 * dy2;
+			if (Math.abs(denom) >= epsilon) {
+				j -= (dy / denom) * (dy2 * jp);
+			}
+		}
 
-        // Quit if there has been little to no change
-        if (Math.abs(j - prev) < epsilon) {
-        	break;
-        }
+		// Quit if there has been little to no change
+		if (Math.abs(j - prev) < epsilon) {
+			break;
+		}
 	}
 
 	// We could not acquire the precision we desired,
