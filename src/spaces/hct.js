@@ -35,7 +35,6 @@ function fromHct (coords, env) {
 
 	let [h, c, t] = coords;
 	let xyz = [];
-	let j = 0;
 
 	// Shortcut out for black
 	if (t === 0) {
@@ -47,12 +46,8 @@ function fromHct (coords, env) {
 
 	// A better initial guess yields better results. Polynomials come from
 	// curve fitting the T vs J response.
-	if (t > 0) {
-		j = 0.00379058511492914 * t ** 2 + 0.608983189401032 * t + 0.9155088574762233;
-	}
-	else {
-		j = 9.514440756550361e-6 * t ** 2 + 0.08693057439788597 * t - 21.928975842194614;
-	}
+	const [wx, wy] = white;
+	let j = toCam16([(wx * y) / wy, y, ((1.0 - wx - wy) * y) / wy], env).J;
 
 	// Threshold of how close is close enough, and max number of attempts.
 	// More precision and more attempts means more time spent iterating. Higher
@@ -90,12 +85,11 @@ function fromHct (coords, env) {
 
 		// Newton: 2nd Order convergence
 		// First derivative approximation of J'
-		// Invert so we can multiply instead of divide
-		const jp = xyz[1] ? j / (α * xyz[1]) : 0;
+		const jp = j ? (α * xyz[1]) / j : 0;
 		if (Math.abs(jp) < epsilon) {
 			break;
 		}
-		j -= dy * jp;
+		j -= dy / jp;
 
 		// Ostrowski: 4th order convergence
 		if (jp) {
@@ -103,7 +97,7 @@ function fromHct (coords, env) {
 			const dy2 = xyz2[1] - y;
 			const denom = dy - 2 * dy2;
 			if (Math.abs(denom) >= epsilon) {
-				j -= (dy / denom) * (dy2 * jp);
+				j -= (dy / denom) * (dy2 / jp);
 			}
 		}
 
