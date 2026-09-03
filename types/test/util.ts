@@ -26,7 +26,7 @@ interpolate(1);
 // @ts-expect-error
 interpolate(1, 2);
 
-interpolate(0, 1, 2); // $ExpectType number
+interpolate(0, 1, 2); // $ExpectType number | null
 
 // @ts-expect-error
 interpolateInv();

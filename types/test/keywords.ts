@@ -1,2 +1,4 @@
 import keywords from "colorjs.io/src/keywords";
-keywords; // $ExpectType Record<string, [number, number, number]>
+
+// Used instead of $ExpectType due to the signature of keywords
+keywords satisfies Record<string, [number, number, number]>;
