@@ -43,7 +43,7 @@ if (typeof CSS !== "undefined" && CSS.supports) {
  * else the default fallback space (Lab, REC2020, or P3, whichever is the widest supported).
  * In Node.js, this is basically equivalent to `serialize()` but returns a `String` object instead.
  * @param {ColorTypes} color
- * @param {DisplayOptions} [options] Options. Any properties beyond `space` and `supports` are passed to `serialize()`.
+ * @param {DisplayOptions & Record<string, any>} [options] Options. Any properties beyond `space` and `supports` are passed to `serialize()`.
  * @returns {Display} String object containing the serialized color
  * with a color property containing the converted color (or the original, if no conversion was necessary)
  */
