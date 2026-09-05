@@ -7,6 +7,9 @@ import { WHITES } from "../adapt.js";
 const white = WHITES.D65;
 const ε = 216 / 24389; // 6^3/29^3 == (24/116)^3
 const κ = 24389 / 27; // 29^3/3^3
+// Average constant for the approximation of the first derivative: α * y / j
+// α is calculated average so that it is optimized for the majority of the cases.
+const α = 1.832;
 
 function toLstar (y) {
 	// Convert XYZ Y to L*
@@ -32,7 +35,6 @@ function fromHct (coords, env) {
 
 	let [h, c, t] = coords;
 	let xyz = [];
-	let j = 0;
 
 	// Shortcut out for black
 	if (t === 0) {
@@ -44,48 +46,65 @@ function fromHct (coords, env) {
 
 	// A better initial guess yields better results. Polynomials come from
 	// curve fitting the T vs J response.
-	if (t > 0) {
-		j = 0.00379058511492914 * t ** 2 + 0.608983189401032 * t + 0.9155088574762233;
-	}
-	else {
-		j = 9.514440756550361e-6 * t ** 2 + 0.08693057439788597 * t - 21.928975842194614;
-	}
+	const [wx, wy] = white;
+	let j = toCam16([(wx * y) / wy, y, ((1.0 - wx - wy) * y) / wy], env).J;
 
 	// Threshold of how close is close enough, and max number of attempts.
 	// More precision and more attempts means more time spent iterating. Higher
 	// required precision gives more accuracy but also increases the chance of
-	// not hitting the goal. 2e-12 allows us to convert round trip with
-	// reasonable accuracy of six decimal places or more.
-	const threshold = 2e-12;
-	const max_attempts = 15;
+	// not hitting the goal.
+	const epsilon = 1e-12;
+	const max_attempts = 8;
 
 	let attempt = 0;
 	let last = Infinity;
 	let best = [0, 0, 0];
 
 	// Try to find a J such that the returned y matches the returned y of the L*
-	while (attempt <= max_attempts) {
+	while (attempt < max_attempts) {
+		attempt += 1;
+		const prev = j;
 		xyz = fromCam16({ J: j, C: c, h: h }, env);
 
-		// If we are within range, return XYZ
-		// If we are closer than last time, save the values
-		const delta = Math.abs(xyz[1] - y);
+		const dy = xyz[1] - y;
+		const delta = Math.abs(dy);
 		if (delta < last) {
-			if (delta <= threshold) {
+			// If we are within range, return XYZ
+			if (delta < epsilon) {
 				return xyz;
 			}
+
+			// If we are closer than last time, save the values.
+			// This is to ensure we take the best value when
+			// iterations are struggling to find a good value,
+			// e.g. Prophoto RGB in the blue region which is outside
+			// the visible spectrum and the CAM16 algorithm breaks down.
 			best = xyz;
 			last = delta;
 		}
 
-		// f(j_root) = (j ** (1 / 2)) * 0.1
-		// f(j) = ((f(j_root) * 100) ** 2) / j - 1 = 0
-		// f(j_root) = Y = y / 100
-		// f(j) = (y ** 2) / j - 1
-		// f'(j) = (2 * y) / j
-		j = j - ((xyz[1] - y) * j) / (2 * xyz[1]);
+		// Newton: 2nd Order convergence
+		// First derivative approximation of J'
+		const jp = j ? (α * xyz[1]) / j : 0;
+		if (Math.abs(jp) < epsilon) {
+			break;
+		}
+		j -= dy / jp;
 
-		attempt += 1;
+		// Ostrowski: 4th order convergence
+		if (jp) {
+			const xyz2 = fromCam16({ J: j, C: c, h: h }, env);
+			const dy2 = xyz2[1] - y;
+			const denom = dy - 2 * dy2;
+			if (Math.abs(denom) >= epsilon) {
+				j -= (dy / denom) * (dy2 / jp);
+			}
+		}
+
+		// Quit if there has been little to no change
+		if (Math.abs(j - prev) < epsilon) {
+			break;
+		}
 	}
 
 	// We could not acquire the precision we desired,
