@@ -1,4 +1,5 @@
 import eslintConfig from "@eslint/js";
+import expectTypeRecommended from "eslint-plugin-expect-type/configs/recommended";
 import { configs as tseslintConfigs } from "typescript-eslint";
 import * as globals from "globals";
 
@@ -342,7 +343,17 @@ export default [
 	},
 	{
 		files: ["types/test/**/*"],
+		// `expect-type/expect` is type-aware, so it needs the types project loaded
+		plugins: expectTypeRecommended.plugins,
+		languageOptions: {
+			parserOptions: {
+				project: "./types/tsconfig.json",
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
 		rules: {
+			// Verifies `$ExpectType` assertions in the type tests
+			...expectTypeRecommended.rules,
 			// Allow `@ts-expect-error` comments in TypeScript test files
 			"@typescript-eslint/ban-ts-comment": 0,
 			"@typescript-eslint/no-unused-expressions": 0,
