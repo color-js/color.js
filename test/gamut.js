@@ -273,7 +273,7 @@ export default {
 				},
 				{
 					args: ["color(display-p3 0 1 1)"],
-					expect: "rgb(0% 76.098% 75.455%))",
+					expect: "rgb(0% 76.098% 75.455%)",
 				},
 				{
 					args: ["color(display-p3 1 0 1)"],
