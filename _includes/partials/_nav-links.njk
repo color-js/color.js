@@ -1,16 +1,34 @@
-<a href="{{ page | relative }}/get/">Get<span class="wide"> Color.js</span></a>
-<div class="menu">
+<a href="{{ page | relative }}/get/" data-nav-item="1">Get<span class="wide"> Color.js</span></a>
+<div class="menu" data-nav-item="2">
 	<a href="{{ page | relative }}/docs/">Docs</a>
 	<ul>
 		{% include "./_docs-nav.njk" %}
 	</ul>
 </div>
-<a href="{{ page | relative }}/api/">API</a>
-<a href="{{ page | relative }}/notebook/">Play!</a>
-<a href="https://apps.colorjs.io/">Demos</a>
-<a href="https://elements.colorjs.io/">Elements</a>
-<a href="{{ page | relative }}/test/" class="footer">Tests</a>
-<a href="https://github.com/LeaVerou/color.js">GitHub</a>
-<a href="https://discord.gg/K64FJBznq4">Discord</a>
-<a href="https://opencollective.com/color">♡&nbsp;Sponsor</a>
-<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer">File bug</a>
+<a href="{{ page | relative }}/api/" data-nav-item="3">API</a>
+<a href="{{ page | relative }}/notebook/" data-nav-item="4">Play!</a>
+<a href="https://apps.colorjs.io/" data-nav-item="5">Demos</a>
+<a href="https://elements.colorjs.io/" data-nav-item="6">Elements</a>
+<a href="{{ page | relative }}/test/" class="footer" data-nav-item="7">Tests</a>
+<a href="https://github.com/LeaVerou/color.js" data-nav-item="8">GitHub</a>
+<a href="https://discord.gg/K64FJBznq4" data-nav-item="9">Discord</a>
+<a href="https://opencollective.com/color" data-nav-item="10">♡&nbsp;Sponsor</a>
+<a href="https://github.com/LeaVerou/color.js/issues/new" class="footer" data-nav-item="11">File bug</a>
+<div class="hamburger-menu">
+	<button class="hamburger-button" aria-label="Menu">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48">
+			<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M7.95 11.95h32m-32 12h32m-32 12h32"/>
+		</svg>
+	</button>
+	<ul class="hamburger-list">
+		<li data-nav-item="1" hidden><a href="{{ page | relative }}/get/">Get Color.js</a></li>
+		<li data-nav-item="2" hidden><a href="{{ page | relative }}/docs/">Docs</a></li>
+		<li data-nav-item="3" hidden><a href="{{ page | relative }}/api/">API</a></li>
+		<li data-nav-item="4" hidden><a href="{{ page | relative }}/notebook/">Play!</a></li>
+		<li data-nav-item="5" hidden><a href="https://apps.colorjs.io/">Demos</a></li>
+		<li data-nav-item="6" hidden><a href="https://elements.colorjs.io/">Elements</a></li>
+		<li data-nav-item="8" hidden><a href="https://github.com/LeaVerou/color.js">GitHub</a></li>
+		<li data-nav-item="9" hidden><a href="https://discord.gg/K64FJBznq4">Discord</a></li>
+		<li data-nav-item="10" hidden><a href="https://opencollective.com/color">♡&nbsp;Sponsor</a></li>
+	</ul>
+</div>
