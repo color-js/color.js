@@ -149,6 +149,15 @@ const tests = {
 					args: "white",
 					expect: [null, 0, 100],
 				},
+				{
+					name: "Near-white oklch(100% 0 0) keeps a powerless hue",
+					description: `The conversion to sRGB leaves a tiny floating point error
+					(rgb(1.0000000000000007 0.9999999999999994 0.9999999999999999)),
+					so the hue must still be recognized as powerless (missing).
+					See https://github.com/color-js/color.js/issues/768`,
+					args: "oklch(100% 0 0)",
+					expect: [null, 0, 100],
+				},
 			],
 		},
 		{
