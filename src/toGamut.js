@@ -454,7 +454,8 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		mx = temp.coords[0];
 		max = /** @type {[number, number, number]} */ ([mx, mx, mx]);
 		space = lGamut;
-		mn = Object.values(space.coords)[0].range[0];
+		let linearCoord = Object.values(space.coords)[0];
+		mn = (linearCoord.range ?? linearCoord.refRange)[0];
 	}
 	let min = /** @type {[number, number, number]} */ ([mn, mn, mn]);
 	let rgbOrigin = to(oklchOrigin, space);
