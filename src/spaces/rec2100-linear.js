@@ -9,4 +9,21 @@ export default new RGBColorSpace({
 	name: "Linear REC.2100",
 	white: "D65",
 	M,
+	// Rec. 2100 is an HDR space: [0, 1] is the SDR range, but linear-light values
+	// above 1 (brighter than diffuse white) are valid. So, unlike SDR RGB spaces,
+	// we only provide a reference range (used for percentages), not a gamut range.
+	coords: {
+		r: {
+			refRange: [0, 1],
+			name: "Red",
+		},
+		g: {
+			refRange: [0, 1],
+			name: "Green",
+		},
+		b: {
+			refRange: [0, 1],
+			name: "Blue",
+		},
+	},
 });
