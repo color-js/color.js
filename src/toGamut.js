@@ -463,7 +463,9 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		// If this were performed within a perceptual space like CAM16, which has achromatics that do not align
 		// with the RGB achromatic line, projecting the color onto the RGB achromatic line may be preferable,
 		// but since OkLCh's achromatics align with all CSS RGB spaces, just set chroma to zero.
-		let anchor = to({ space: oklch, coords: [lightness, 0, hue] }, space).coords;
+		let anchor = to({ space: oklch, coords: [lightness, 0, hue] }, space).coords.map((coord, index) => {
+			return util.clamp(min[index], coord, max[index]);
+		});
 
 		// Calculate bounds to adjust the anchor closer to the gamut surface.
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
