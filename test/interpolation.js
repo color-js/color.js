@@ -204,6 +204,21 @@ export default {
 			],
 		},
 		{
+			name: "Powerless hue from conversion",
+			description: `Converting an achromatic color to a cylindrical polar space must produce a missing
+			(powerless) hue — even when floating point error leaves the color only nearly achromatic —
+			so that interpolation uses the other color's hue rather than a spurious one.
+			See <a href="https://github.com/color-js/color.js/issues/768">issue #768</a>.`,
+			data: { options: { space: "hsl" } },
+			tests: [
+				{
+					name: "color-mix(in hsl, oklch(100% 0 0), blue) keeps blue's hue",
+					args: ["oklch(100% 0 0)", "blue", 0.5],
+					expect: [240, 50, 75, 1],
+				},
+			],
+		},
+		{
 			name: "CSS Color 4 examples",
 			description: `Worked examples from
 			<a href="https://drafts.csswg.org/css-color-4/#interpolation-alpha">CSS Color 4 § 13.3</a>.

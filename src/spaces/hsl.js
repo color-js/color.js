@@ -1,6 +1,12 @@
 import ColorSpace from "../ColorSpace.js";
 import sRGB from "./srgb.js";
 
+// A hue angle is meaningless (powerless) for achromatic colors. Detecting them by
+// `max - min === 0` fails in practice because converting to sRGB accumulates floating
+// point error; e.g. `oklch(100% 0 0)` maps to rgb(1.0000000000000007 0.9999999999999994 0.9999999999999999),
+// whose max − min is ~1e-15 rather than 0. See https://github.com/color-js/color.js/issues/768
+const ε = 1e-7;
+
 export default new ColorSpace({
 	id: "hsl",
 	name: "HSL",
@@ -31,7 +37,7 @@ export default new ColorSpace({
 		let [h, s, l] = [null, 0, (min + max) / 2];
 		let d = max - min;
 
-		if (d !== 0) {
+		if (d > ε) {
 			s = l === 0 || l === 1 ? 0 : (max - l) / Math.min(l, 1 - l);
 
 			switch (max) {
