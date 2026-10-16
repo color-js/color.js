@@ -220,6 +220,48 @@ export default {
 			],
 		},
 		{
+			name: "Very Small Ray Cases, Ray Trace algorithm",
+			data: { toSpace: "srgb", method: "raytrace"},
+			tests: [
+				{
+					args: ["oklch(0.95 0.08189384451629673 151.5)"],
+					expect: "rgb(77.852% 100% 82.867%)",
+				},
+				{
+					args: ["oklch(0.9921875 0.03125 195.75)"],
+					expect: "rgb(95.902% 100% 99.93%)",
+				},
+				{
+					args: ["oklch(0.9999999999990905 0.4 105.5)"],
+					expect: "rgb(100% 100% 100%)",
+				},
+				{
+					args: ["oklch(0.0001220703125 0.4 19.75)"],
+					expect: "rgb(0% 0% 0%)",
+				},
+			],
+		},
+		{
+			name: "Very Small Ray Cases, Ray Trace algorithm (P3)",
+			data: { toSpace: "p3", method: "raytrace"},
+			tests: [
+				{
+					args: ["oklch(0.95 0.09041434578382133 152.5)"],
+					expect: "color(display-p3 0.80821 1 0.83573)",
+				},
+			],
+		},
+		{
+			name: "Very Small Ray Cases, Ray Trace algorithm (Rec. 2020)",
+			data: { toSpace: "rec2020", method: "raytrace"},
+			tests: [
+				{
+					args: ["oklch(0.95 0.10357579481449558 156.5)"],
+					expect: "color(rec2020 0.84019 1 0.85044)",
+				},
+			],
+		},
+		{
 			name: "P3 primaries to sRGB, LCH chroma Reduction",
 			data: { toSpace: "srgb", method: "lch.c" },
 			tests: [
