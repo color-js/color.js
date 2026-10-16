@@ -476,7 +476,7 @@ export function toGamutRayTrace (origin, { space } = {}) {
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
 		// 1e-12 for 64 bit unit types and 1e-5 for 32 bit unit types. Previously, 1e-6 was recommended
 		// on 32 bit systems, but it is likely safer to use 1e-5 as noise from other math functions on
-		// 32 bit systems, depending on impelmentation, make it hard to handle rays that are too small.
+		// 32 bit systems, depending on implementation, make it hard to handle rays that are too small.
 		const low = mn + 1e-12;
 		const high = mx - 1e-12;
 
