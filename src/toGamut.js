@@ -354,7 +354,7 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 		const bx = bmax[i];
 		direction.push(d);
 		// 64-bit uses a threshold of 1e-12
-        // 32-bit should use 1e-6
+		// 32-bit should use 1e-6
 		if (rayTooSmall && Math.abs(d) > 1e-12) {
 			rayTooSmall = false;
 		}
