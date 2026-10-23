@@ -52,10 +52,12 @@ declare class SpaceAccessors {
 	rec2100pq: SpaceAccessor;
 	srgb: SpaceAccessor;
 	srgb_linear: SpaceAccessor;
+	xyy: SpaceAccessor;
 	xyz: SpaceAccessor;
 	xyz_abs_d65: SpaceAccessor;
 	xyz_d50: SpaceAccessor;
 	xyz_d65: SpaceAccessor;
+	Y: number | null;
 	a: number | null;
 	az: number | null;
 	b: number | null;
