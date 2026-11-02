@@ -119,6 +119,24 @@ export default {
 			],
 		},
 		{
+			name: "Does not gamut map HDR colors in Linear Rec. 2100",
+			data: { toSpace: "rec2100-linear" },
+			tests: [
+				{
+					args: ["color(rec2100-linear 0.5039 2.389 0.0447)"],
+					expect: "color(rec2100-linear 0.5039 2.389 0.0447)",
+				},
+				{
+					args: ["color(rec2100-linear 10 10 10)"],
+					expect: "color(rec2100-linear 10 10 10)",
+				},
+				{
+					args: ["color(display-p3 0 1.5 0)"],
+					expect: "color(rec2100-linear 0.5039 2.3894 0.0447)",
+				},
+			],
+		},
+		{
 			name: "P3 primaries to sRGB, Ray Trace algorithm",
 			data: { toSpace: "srgb-linear", method: "raytrace" },
 			tests: [

@@ -101,5 +101,30 @@ export default {
 				},
 			],
 		},
+		{
+			name: "Linear Rec. 2100 (HDR space, no SDR upper bound)",
+			data: {
+				gamut: "rec2100-linear",
+			},
+			tests: [
+				{
+					args: "color(rec2100-linear 0.5 0.5 0.5)",
+					expect: true,
+				},
+				{
+					args: "color(rec2100-linear 0.5039 2.389 0.0447)",
+					expect: true,
+				},
+				{
+					args: "color(rec2100-linear 10 10 10)",
+					expect: true,
+				},
+				{
+					// Still SDR-limited
+					args: "color(rec2020-linear 0.5039 2.389 0.0447)",
+					expect: true,
+				},
+			],
+		},
 	],
 };
