@@ -344,6 +344,8 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 	let tfar = Infinity;
 	let tnear = -Infinity;
 	let direction = [];
+	let length = 0.0;
+	let magnitude = 0.0;
 
 	for (let i = 0; i < 3; i++) {
 		const a = start[i];
@@ -352,13 +354,13 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 		const bn = bmin[i];
 		const bx = bmax[i];
 		direction.push(d);
+		length = Math.max(length, Math.abs(d));
+		magnitude = Math.max(magnitude, Math.abs(a), Math.abs(b));
 
 		// Non parallel cases
-		// 1e-12 for 64 bit unit types and 1e-6 for 32 bit unit types
-		if (Math.abs(d) > 1e-12) {
-			const inv_d = 1 / d;
-			const t1 = (bn - a) * inv_d;
-			const t2 = (bx - a) * inv_d;
+		if (d !== 0) {
+			const t1 = (bn - a) / d;
+			const t2 = (bx - a) / d;
 			tnear = Math.max(Math.min(t1, t2), tnear);
 			tfar = Math.min(Math.max(t1, t2), tfar);
 		}
@@ -370,7 +372,9 @@ function raytrace_box (start, end, bmin = [0, 0, 0], bmax = [1, 1, 1]) {
 	}
 
 	// No hit
-	if (tnear > tfar || tfar < 0) {
+	// 64-bit uses a threshold of 1e-12
+	// 32-bit should use 1e-6
+	if (length <= magnitude * 1e-12 || tnear > tfar || tfar < 0) {
 		return [];
 	}
 
@@ -470,7 +474,9 @@ export function toGamutRayTrace (origin, { space } = {}) {
 
 		// Calculate bounds to adjust the anchor closer to the gamut surface.
 		// We don't want to make the ray too short, so offset some amount from the low and high range.
-		// 1e-12 for 64 bit unit types and 1e-6 for 32 bit unit types.
+		// 1e-12 for 64 bit unit types and 1e-5 for 32 bit unit types. Previously, 1e-6 was recommended
+		// on 32 bit systems, but it is likely safer to use 1e-5 as noise from other math functions on
+		// 32 bit systems, depending on implementation, make it hard to handle rays that are too small.
 		const low = mn + 1e-12;
 		const high = mx - 1e-12;
 
