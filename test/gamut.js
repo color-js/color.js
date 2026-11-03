@@ -240,8 +240,8 @@ export default {
 					expect: "rgb(0% 0% 0%)",
 				},
 				{
-				    args: ["oklch(0.0000951210968196392 0.41658416169229895 328.082845620811)"],
-				    expect: "rgb(0% 0% 0%)",
+					args: ["oklch(0.0000951210968196392 0.41658416169229895 328.082845620811)"],
+					expect: "rgb(0% 0% 0%)",
 				},
 			],
 		},
@@ -254,8 +254,8 @@ export default {
 					expect: "color(display-p3 0.80821 1 0.83573)",
 				},
 				{
-				        args: ["oklch(0.0001220703125 0.4 19.5)"],
-				        expect: "color(display-p3 0 0 0)",
+						args: ["oklch(0.0001220703125 0.4 19.5)"],
+						expect: "color(display-p3 0 0 0)",
 				},
 			],
 		},
@@ -268,8 +268,8 @@ export default {
 					expect: "color(rec2020 0.84019 1 0.85044)",
 				},
 				{
-				    args: ["oklch(0.0001220703125 0.4 17)"],
-				    expect: "color(rec2020 0 0 0)",
+					args: ["oklch(0.0001220703125 0.4 17)"],
+					expect: "color(rec2020 0 0 0)",
 				},
 			],
 		},
