@@ -103,7 +103,8 @@ export default class Format {
 		return Object.entries(this.space.coords).map(([id, coordMeta], i) => {
 			let arg = coords[i];
 
-			if (isNone(arg) || isNaN(arg)) {
+			// Number.isNaN, not isNaN: unparsed string args (e.g. "10px") must still be type-checked
+			if (isNone(arg) || Number.isNaN(arg)) {
 				// Nothing to do here
 				return arg;
 			}
