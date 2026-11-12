@@ -181,10 +181,10 @@ export const regex = {
 	// Need to list calc(NaN) explicitly as otherwise its ending paren would terminate the function call
 	function: /^([a-z]+)\(((?:calc\(NaN\)|.)+?)\)$/i,
 	number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
-	unitValue: RegExp(`(${Object.keys(units).join("|")})$`),
+	unitValue: RegExp(`(${Object.keys(units).join("|")})$`, "i"),
 
 	// NOTE The -+ are not just for prefix, but also for idents, and e+N notation!
-	singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/g,
+	singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/gi,
 };
 
 /**
@@ -195,7 +195,8 @@ export const regex = {
 export function parseArgument (rawArg) {
 	/** @type {Partial<ArgumentMeta>} */
 	let meta = {};
-	let unit = rawArg.match(regex.unitValue)?.[0];
+	// CSS units and keywords are ASCII case-insensitive
+	let unit = rawArg.match(regex.unitValue)?.[0]?.toLowerCase();
 	/** @type {string | number} */
 	let value = (meta.raw = rawArg);
 
@@ -213,7 +214,7 @@ export function parseArgument (rawArg) {
 		value = Number(value);
 		meta.type = "<number>";
 	}
-	else if (value === "none") {
+	else if (value.toLowerCase() === "none") {
 		value = null;
 	}
 	else if (value === "NaN" || value === "calc(NaN)") {

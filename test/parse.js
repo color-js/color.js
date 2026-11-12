@@ -539,6 +539,16 @@ const tests = {
 					expect: { spaceId: "hsl", coords: [180, 50, 50], alpha: 1 },
 				},
 				{
+					name: "hsl(), uppercase angle unit",
+					args: "hsl(0.5TURN 50% 50%)",
+					expect: { spaceId: "hsl", coords: [180, 50, 50], alpha: 1 },
+				},
+				{
+					name: "hsl(), uppercase none",
+					args: "hsl(NONE 50% 50% / None)",
+					expect: { spaceId: "hsl", coords: [null, 50, 50], alpha: null },
+				},
+				{
 					name: "hsl(), negative hue",
 					args: "hsl(-180, 50%, 50%)",
 					expect: { spaceId: "hsl", coords: [-180, 50, 50], alpha: 1 },
