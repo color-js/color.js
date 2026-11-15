@@ -13,7 +13,7 @@ import defaults from "./defaults.js";
 import * as angles from "./angles.js";
 import deltaE from "./deltaE.js";
 
-/** @import { ColorTypes, PlainColorObject, Ref } from "./types.js" */
+/** @import { ColorTypes, Coords, PlainColorObject, Ref } from "./types.js" */
 
 // Type re-exports
 /** @typedef {import("./types.js").MixOptions} MixOptions */
@@ -192,6 +192,18 @@ export function range (color1, color2, options = {}) {
 	let hueId = space.hueId;
 	let hueIndex = space.hueIndex;
 
+	// A missing component takes the other color's value. If both are missing, it stays missing.
+	// This must happen before hue fix-up, to properly calculate hue arcs between undefined and defined hues
+	// (see https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545),
+	// and before premultiplication, so that the carried value is premultiplied by its own color's alpha.
+	// See https://drafts.csswg.org/css-color-4/#interpolation
+	if (color1.coords.some((c, i) => isNone(c) !== isNone(color2.coords[i]))) {
+		[color1.coords, color2.coords] = [
+			/** @type {Coords} */ (color1.coords.map((c, i) => (isNone(c) ? color2.coords[i] : c))),
+			/** @type {Coords} */ (color2.coords.map((c, i) => (isNone(c) ? color1.coords[i] : c))),
+		];
+	}
+
 	// Handle hue interpolation
 	// See https://github.com/w3c/csswg-drafts/issues/4735#issuecomment-635741840
 	if (hueId) {
@@ -199,15 +211,6 @@ export function range (color1, color2, options = {}) {
 
 		let /** @type {Ref} */ hue = [space, hueId];
 		let [θ1, θ2] = [get(color1, hue), get(color2, hue)];
-		// Undefined hues must be evaluated before hue fix-up to properly
-		// calculate hue arcs between undefined and defined hues.
-		// See https://github.com/w3c/csswg-drafts/issues/9436#issuecomment-1746957545
-		if (isNone(θ1) && !isNone(θ2)) {
-			θ1 = θ2;
-		}
-		else if (isNone(θ2) && !isNone(θ1)) {
-			θ2 = θ1;
-		}
 		[θ1, θ2] = angles.adjust(arc, [θ1, θ2]);
 		set(color1, hue, θ1);
 		set(color2, hue, θ2);
