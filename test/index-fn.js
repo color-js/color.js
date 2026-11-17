@@ -4,6 +4,7 @@ let tests = await Promise.all(
 		"adapt",
 		"angles",
 		"construct",
+		"equals",
 		"delta",
 		"gamut",
 		"in_gamut",

@@ -1,6 +1,7 @@
 {
 	"parse": "Parsing",
 	"construct": "Object construction",
+	"equals": "Color equality",
 	"conversions": "Conversions",
 	"delta": "DeltaE",
 	"gamut": "Gamut mapping",
