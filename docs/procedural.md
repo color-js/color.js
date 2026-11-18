@@ -44,11 +44,11 @@ ColorSpace.register(LCH); // Used in toGamut and serialize
 const red = parse("red");
 
 // Directly creating object literal
-const p3_lime = {space: "p3", coords: [0, 1, 0]};
+const p3_lime = {spaceId: "p3", coords: [0, 1, 0], alpha: 1};
 
-const p3_lime_srgb = convert(p3_lime, "srgb");
-const lime_in_gamut = toGamut(p3_lime_srgb);
-const lime_str = serialize(p3_lime_srgb);
+const p3_lime_srgb = convert(p3_lime, "srgb"); // {space: {id: "srgb", …}, coords: [-0.5116, 1.01827, -0.31067], alpha: 1}
+const lime_in_gamut = toGamut(p3_lime_srgb);  // {space: {id: "srgb", …}, coords: [0, 0.98576, 0.15974], alpha: 1}
+const lime_str = serialize(p3_lime_srgb); // "rgb(0% 98.576% 15.974%)"
 ```
 
 ## More tips for performance-sensitive tasks
