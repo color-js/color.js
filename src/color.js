@@ -27,6 +27,7 @@ import {
 	set,
 	setAll,
 	display,
+	isValid,
 } from "./index-fn.js";
 
 import "./spaces/xyz-d50.js";
@@ -219,6 +220,7 @@ Color.defineFunctions({
 	toGamut,
 	distance,
 	deltas,
+	isValid,
 	toString: serialize,
 });
 
