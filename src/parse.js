@@ -102,9 +102,15 @@ export default function parse (str, options) {
 
 		if (env.parsed.lastAlpha) {
 			alpha = env.parsed.args.pop();
+			let alphaType = types.pop();
 
 			if (meta) {
-				meta.alphaType = types.pop();
+				meta.alphaType = alphaType;
+			}
+
+			if (typeof alpha === "string") {
+				// Unparsed argument, e.g. an unknown unit
+				throw new TypeError(`${alpha} not allowed for alpha in ${format.name}()`);
 			}
 		}
 

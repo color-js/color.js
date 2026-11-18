@@ -133,6 +133,16 @@ const tests = {
 					args: "rgb(10deg 10 10)",
 					throws: TypeError,
 				},
+				{
+					name: "unknown units not allowed in rgb()",
+					args: "rgb(10px 10 10)",
+					throws: TypeError,
+				},
+				{
+					name: "unknown units not allowed in rgb() alpha",
+					args: "rgb(10 10 10 / 5px)",
+					throws: TypeError,
+				},
 			],
 		},
 		{
