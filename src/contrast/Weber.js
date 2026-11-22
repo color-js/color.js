@@ -28,5 +28,10 @@ export default function contrastWeber (color1, color2) {
 		[Y1, Y2] = [Y2, Y1];
 	}
 
+	if (Y1 === 0) {
+		// Both luminances are 0: there is no difference, so no contrast
+		return 0;
+	}
+
 	return Y2 === 0 ? max : (Y1 - Y2) / Y2;
 }
