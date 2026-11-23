@@ -191,6 +191,48 @@ export default {
 			],
 		},
 		{
+			name: "Missing components with premultiplied alpha",
+			description: `A missing component takes the other color's value before premultiplication,
+			so it is premultiplied by its own color's alpha, not by the other color's.
+			If both colors are missing it, it stays missing.
+			See <a href="https://drafts.csswg.org/css-color-4/#interpolation">CSS Color 4 § 13</a>.
+			The color-mix() cases are from WPT css/css-color/parsing/color-computed-color-mix-function.html.`,
+			data: { options: { space: "srgb", premultiplied: true } },
+			tests: [
+				{
+					name: "rgb(none 0 0 / 0.5) and rgb(255 0 0)",
+					description: `The missing red becomes 1, so both colors are pure red,
+					and the midpoint must be too. It must not be 1 / 0.75 = 1.333.`,
+					args: ["rgb(none 0 0 / 0.5)", "rgb(255 0 0)", 0.5],
+					expect: [1, 0, 0, 0.75],
+				},
+				{
+					name: "color-mix(in lab, lab(10 20 30 / 25%) 0%, lab(50 none none / 0.5))",
+					data: { options: { space: "lab", premultiplied: true } },
+					args: ["lab(10 20 30 / 25%)", "lab(50 none none / 0.5)", 1],
+					expect: [50, 20, 30, 0.5],
+				},
+				{
+					name: "color-mix(in oklch, oklch(0.1 0.2 30deg / 25%) 0%, oklch(0.5 none none / 0.5))",
+					data: { options: { space: "oklch", premultiplied: true } },
+					args: ["oklch(0.1 0.2 30deg / 25%)", "oklch(0.5 none none / 0.5)", 1],
+					expect: [0.5, 0.2, 30, 0.5],
+				},
+				{
+					name: "color-mix(in hsl, hsl(30deg 40% 80% / 25%) 0%, hsl(90deg none none / 0.5))",
+					data: { options: { space: "hsl", premultiplied: true } },
+					args: ["hsl(30deg 40% 80% / 25%)", "hsl(90deg none none / 0.5)", 1],
+					expect: [90, 40, 80, 0.5],
+				},
+				{
+					name: "Missing in both colors: stays missing",
+					data: { options: { space: "lab", premultiplied: true } },
+					args: ["lab(50 none 30 / 0.25)", "lab(60 none 40 / 0.5)", 0.5],
+					expect: [56.6667, null, 36.6667, 0.375],
+				},
+			],
+		},
+		{
 			name: "Missing hue",
 			description: `A missing hue takes the other color's hue, so that the interpolation stays
 			on a single hue rather than sweeping towards 0deg.`,
