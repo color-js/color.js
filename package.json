@@ -78,6 +78,7 @@
 		"build:space-accessors": "node ./scripts/generate-space-accessor-types.js",
 		"build": "run-s build:apidocs build:html build:js build:ts build:js:legacy build:space-accessors",
 		"watch": "run-p watch:*",
+		"prepare": "npm run build",
 		"prepack": "npm run build",
 		"release": "release-it"
 	},
