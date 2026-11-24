@@ -257,6 +257,10 @@ export default {
 					expect: 50000,
 				},
 				{
+					args: ["#000", "#000"],
+					expect: 0,
+				},
+				{
 					args: ["#123", "#def"],
 					expect: 54.745740598838104,
 				},
