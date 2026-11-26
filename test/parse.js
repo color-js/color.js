@@ -11,6 +11,56 @@ const tests = {
 	run: parse,
 	tests: [
 		{
+			name: "Unexpected function argument separators (#614)",
+			throws: TypeError,
+			tests: [
+				{ arg: "color(--lchuv 86.8% 42.9)230)" },
+				{ arg: "color(--lchuv 86.8{[]}(#!42.9 230)" },
+				...[
+					"!",
+					"@",
+					"#",
+					"$",
+					"^",
+					"&",
+					"*",
+					"[",
+					"]",
+					"{",
+					"}",
+					"(",
+					")",
+					"=",
+					";",
+					":",
+				].map(separator => ({
+					arg: `rgb(0${separator} 0 0)`,
+				})),
+				{ arg: "rgb(0 0 0 /)" },
+			],
+		},
+		{
+			name: "Valid separators and numeric tokens",
+			tests: [
+				{
+					arg: "color(--lchuv 86.8% 42.9 230 / 50%)",
+					expect: { spaceId: "lchuv", coords: [86.8, 42.9, 230], alpha: 0.5 },
+				},
+				{
+					arg: "rgb(0, 127.5, 255, 0.5)",
+					expect: { spaceId: "srgb", coords: [0, 0.5, 1], alpha: 0.5 },
+				},
+				{
+					arg: "color(srgb +1e-1\t.2 3e-1 / none)",
+					expect: { spaceId: "srgb", coords: [0.1, 0.2, 0.3], alpha: null },
+				},
+				{
+					arg: "lch(50 20 calc(NaN) / .5)",
+					expect: { spaceId: "lch", coords: [50, 20, NaN], alpha: 0.5 },
+				},
+			],
+		},
+		{
 			name: "none values",
 			tests: [
 				{

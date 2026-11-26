@@ -266,6 +266,11 @@ export function parseFunction (str) {
 			return "";
 		});
 
+		// Argument matching must not silently discard unexpected punctuation.
+		if (/[^,\s]/.test(separators)) {
+			return;
+		}
+
 		return {
 			name,
 			args,
